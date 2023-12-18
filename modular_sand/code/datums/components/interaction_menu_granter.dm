@@ -68,7 +68,7 @@
 	if(length(interaction_panel_list))
 		for(ui in interaction_panel_list)
 			ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
+	if(!ui && length(interaction_panel_list) <= 10)
 		ui = new(user, src, "MobInteraction", "Interactions")
 		interaction_panel_list += WEAKREF(ui)
 		ui.open()
