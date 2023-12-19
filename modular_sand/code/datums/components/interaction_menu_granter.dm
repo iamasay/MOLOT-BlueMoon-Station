@@ -70,6 +70,7 @@
 		for(var/datum/weakref/ui_ref in interaction_panel_list)
 			ui_opened_panel = ui_ref.resolve()
 			SStgui.try_update_ui(user, src, ui_opened_panel)
+			sleep(5)
 			if(ui_opened_panel == null)
 				interaction_panel_list -= ui_ref
 	if(!ui && length(interaction_panel_list) <= 10)
