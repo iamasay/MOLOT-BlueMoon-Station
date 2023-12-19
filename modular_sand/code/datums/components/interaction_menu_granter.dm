@@ -23,6 +23,7 @@
 /datum/component/interaction_menu_granter
 	var/mob/living/target
 	var/list/interaction_panel_list = list()
+	var/datum/tgui/ui_opened_panel
 
 /datum/component/interaction_menu_granter/Initialize(...)
 	if(!ismob(parent))
@@ -65,12 +66,11 @@
 	return GLOB.never_state
 
 /datum/component/interaction_menu_granter/ui_interact(mob/user, datum/tgui/ui)
-	var/datum/tgui/ui_panel
 	if(length(interaction_panel_list))
 		for(var/datum/weakref/ui_ref in interaction_panel_list)
-			ui_panel = ui_ref.resolve()
-			SStgui.try_update_ui(user, src, ui_panel)
-			if(ui_panel.closing)
+			ui_opened_panel = ui_ref.resolve()
+			SStgui.try_update_ui(user, src, ui_opened_panel)
+			if(ui_opened_panel == null)
 				interaction_panel_list -= ui_ref
 	if(!ui && length(interaction_panel_list) <= 10)
 		ui = new(user, src, "MobInteraction", "Interactions")
