@@ -41,6 +41,10 @@
 	var/datum/tgui/parent_ui
 	/// Children of this UI
 	var/list/children = list()
+	//Bluemoon edit start
+	// Эта переменная нужна для корректного отображения разных персонажей на разных UI
+	var/mob/living/target
+	//Bluemoon edit end
 
 /**
  * public
