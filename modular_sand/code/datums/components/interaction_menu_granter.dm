@@ -22,6 +22,7 @@
 /// The menu itself, only var is target which is the mob you are interacting with
 /datum/component/interaction_menu_granter
 	var/mob/living/target
+	var/list/interaction_panel_list = list()
 
 /datum/component/interaction_menu_granter/Initialize(...)
 	if(!ismob(parent))
@@ -64,10 +65,13 @@
 	return GLOB.never_state
 
 /datum/component/interaction_menu_granter/ui_interact(mob/user, datum/tgui/ui)
-	var/list/interaction_panel_list = list()
+	var/datum/tgui/ui_panel
 	if(length(interaction_panel_list))
-		for(ui in interaction_panel_list)
-			ui = SStgui.try_update_ui(user, src, ui)
+		for(var/datum/weakref/ui_ref in interaction_panel_list)
+			ui_panel = ui_ref.resolve()
+			SStgui.try_update_ui(user, src, ui_panel)
+			if(ui_panel.closing)
+				interaction_panel_list -= ui_ref
 	if(!ui && length(interaction_panel_list) <= 10)
 		ui = new(user, src, "MobInteraction", "Interactions")
 		interaction_panel_list += WEAKREF(ui)
