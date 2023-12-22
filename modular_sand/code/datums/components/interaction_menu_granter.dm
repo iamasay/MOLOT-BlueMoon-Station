@@ -72,11 +72,12 @@
 				interaction_panel_list -= ui_ref
 				return
 			target = ui_opened_panel.target
-			ui = SStgui.try_update_ui(user, src, ui_opened_panel)
+			SStgui.try_update_ui(user, src, ui_opened_panel)
 			sleep(7)
-	if(!ui && length(interaction_panel_list) <= 10)
+	if(COMSIG_MOB_CANCEL_CLICKON && length(interaction_panel_list) <= 10)
 		ui = new(user, src, "MobInteraction", "Interactions")
 		ui.target = partner
+		target = partner
 		interaction_panel_list += WEAKREF(ui)
 		ui.open()
 
