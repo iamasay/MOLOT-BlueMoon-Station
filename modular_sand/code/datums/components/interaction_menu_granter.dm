@@ -65,19 +65,18 @@
 	return GLOB.never_state
 
 /datum/component/interaction_menu_granter/ui_interact(mob/user, mob/partner, datum/tgui/ui)
-	log_admin(partner)
 	if(length(interaction_panel_list))
 		for(var/datum/weakref/ui_ref in interaction_panel_list)
 			ui_opened_panel = ui_ref.resolve()
-			target = ui_opened_panel.target
-			SStgui.try_update_ui(user, src, ui_opened_panel)
-			sleep(7)
 			if(ui_opened_panel == null)
 				interaction_panel_list -= ui_ref
+				return
+			target = ui_opened_panel.target
+			ui = SStgui.try_update_ui(user, src, ui_opened_panel)
+			sleep(7)
 	if(!ui && length(interaction_panel_list) <= 10)
 		ui = new(user, src, "MobInteraction", "Interactions")
 		ui.target = partner
-		target = partner
 		interaction_panel_list += WEAKREF(ui)
 		ui.open()
 
