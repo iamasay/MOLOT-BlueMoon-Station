@@ -54,6 +54,7 @@
 	if(isobserver(clicked) && check_rights_for(clicker.client, R_SPAWN))
 		return FALSE
 	ui_interact(clicker, clicked)
+	to_chat(clicker, "в опен меню кликедом стал [clicked]")
 	return COMSIG_MOB_CANCEL_CLICKON
 
 /datum/component/interaction_menu_granter/ui_state(mob/user)
@@ -64,7 +65,8 @@
 		return GLOB.conscious_state
 	return GLOB.never_state
 
-/datum/component/interaction_menu_granter/ui_interact(mob/user, mob/partner, datum/tgui/ui)
+/datum/component/interaction_menu_granter/ui_interact(usr, mob/partner, datum/tgui/ui)
+	to_chat(usr, "Вызвался интеракт с партнером [partner] и вызвал этот интеракт [usr]")
 	if(length(interaction_panel_list))
 		for(var/datum/weakref/ui_ref in interaction_panel_list)
 			ui_opened_panel = ui_ref.resolve()
@@ -72,14 +74,18 @@
 				interaction_panel_list -= ui_ref
 				return
 			target = ui_opened_panel.target
-			SStgui.try_update_ui(user, src, ui_opened_panel)
+			to_chat(usr, "Переменная таргет стала равна [target]")
+			SStgui.try_update_ui(usr, src, ui_opened_panel)
+			to_chat(usr, "Пытаюсь обновить окно")
 			sleep(7)
-	if(COMSIG_MOB_CANCEL_CLICKON && length(interaction_panel_list) <= 10)
-		ui = new(user, src, "MobInteraction", "Interactions")
+	if(COMSIG_MOB_CTRLSHIFTCLICKON && length(interaction_panel_list) <= 10)
+		ui = new(usr, src, "MobInteraction", "Interactions")
 		ui.target = partner
+		to_chat(usr, "Приравниваю тарген панельки и самого компонента к [partner]")
 		target = partner
 		interaction_panel_list += WEAKREF(ui)
 		ui.open()
+		to_chat(usr, "Уишка открыта")
 
 /proc/pref_to_num(pref)
 	switch(pref)
