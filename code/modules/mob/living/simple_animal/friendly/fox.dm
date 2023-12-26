@@ -125,7 +125,6 @@
 	pass_flags = PASSTABLE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_REPTILE
 	turns_per_move = 10
-	stop_automated_movement = TRUE
 
 /mob/living/simple_animal/pet/fox/fennec
 	name = "Red"
