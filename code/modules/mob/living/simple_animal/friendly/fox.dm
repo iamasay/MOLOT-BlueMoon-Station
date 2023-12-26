@@ -101,6 +101,10 @@
 	turns_per_move = 10
 	stop_automated_movement = TRUE
 
+/mob/living/simple_animal/hostile/tegu/entertains_the_hostages
+	name = "Entertains-The-Hostages"
+	desc = "Безобидная ящерка синдиката, позволяющая одиноким заключенным не сойти с ума"
+	AIStatus = AI_OFF //harmless
 /mob/living/simple_animal/pet/fox/fennec
 	name = "Red"
 	desc = "It's a fennec!"
