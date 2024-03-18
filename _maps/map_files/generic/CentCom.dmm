@@ -18097,7 +18097,7 @@
 	pixel_y = 1
 	},
 /obj/item/storage/toolbox/inteq/cooler{
-	desc = "Neatly padded brown leather toolbox with shield logo on the lock. But on the reverse side, many little stickers saw the word Stolen.";
+	desc = "Neatly padded brown leather toolbox with shield logo on the lock. But on the reverse side, many little stickers saw the word \"Stolen"\.";
 	pixel_y = 13
 	},
 /turf/open/floor/plasteel/dark,
