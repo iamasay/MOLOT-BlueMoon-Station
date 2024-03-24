@@ -67,7 +67,7 @@
 		var/datum/ntnet/my_ntnet = SSnetworks.station_network
 		var/user = assembly.loc
 		var/mob/living/carbon/human/realuser = user //Интегралка может лежать на полу, но если она все же в руках игрока, то это позволит определить кто это
-		if(my_ntnet.check_relay_operation(2) & !net.blocked)//Если на станции отключен NTnet то и гост-рольки не смогут тыкать адвактиватором. Увы. Логичное объяснение - NTnet один с сервером на станции. Практическое объяснение - гострольки не должны через камеры бесоебить шлюзы на станции
+		if(my_ntnet.check_relay_operation(acting_object.z) & my_ntnet.check_relay_operation(assembly.z) & !net.blocked)//Если на станции отключен NTnet то и гост-рольки не смогут тыкать адвактиватором. Увы. Логичное объяснение - NTnet один с сервером на станции. Практическое объяснение - гострольки не должны через камеры бесоебить шлюзы на станции
 			if(acting_object.GetComponent(/datum/component/ntnet_interface)) //Шлюзы и стеклянные панели имеют NTnet интерфейс
 				if(!passkey) //Если пасскей не введен вовсе и взаимодействие происходит с шлюзом, то ничего не произойдет. Адвактиватор не отработает
 					return
