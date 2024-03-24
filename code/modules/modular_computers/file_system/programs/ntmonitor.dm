@@ -49,7 +49,14 @@
 				return
 			SSnetworks.station_network.toggle_function(text2num(params["id"]))
 			return TRUE
-
+		//BLUEMOON ADD Start
+		if("block_toggle_by_adress")
+			var/datum/component/ntnet_interface/adress = SSnetworks.station_network.connected_interfaces_by_id[(params["adress"])]
+			if(!adress.blocked)
+				adress.blocked = FALSE
+			else
+				adress.blocked = TRUE
+		//BLUEMOON ADD END
 /datum/computer_file/program/ntnetmonitor/ui_data(mob/user)
 	if(!SSnetworks.station_network)
 		return

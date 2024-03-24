@@ -83,19 +83,17 @@ export const NtosNetMonitor = (props, context) => {
                   onClick={() => act('toggle_function', { id: "4" })} />
               )} />
               <LabeledList.Item
-              label="Block by adress"
+              label="Block/Unblock by adress"
               const input
+              adress = ""
               buttons={(
                 <Button
                   icon={config_systemcontrol ? 'power-off' : 'times'}
-                  onClick={() => act('blocked_by_adress')} />
+                  onClick={() => act('block_toggle_by_adress', adress = input)} />
               )}/>
                 <TextArea
-                height="50px"
-                value={input}
-                onInput={(_, value) => {
-                  setInput(value.substring(0, 20));
-                }}
+                height="30px"
+                adress={input}
                 />
           </LabeledList>
         </Section>
