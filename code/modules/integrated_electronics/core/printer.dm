@@ -103,8 +103,12 @@
 
 	return ..()
 
-/obj/item/integrated_circuit_printer/attack_self(mob/user)
-	interact(user)
+/obj/item/integrated_circuit_printer/attack_self(mob/living/carbon/human/user)
+	var/user_job = user.mind.assigned_role
+	if(upgraded & user_job == "Robotist" || user_job == "Research Director" || user_job == "Scientist" || user.mind?.has_antag_datum(/datum/antagonist/ghost_role))
+		interact(user)
+	else
+		to_chat(user, "<span class='warning'>Улучшения сделали этот принтер сложным и непонятным для вас!")
 
 /obj/item/integrated_circuit_printer/interact(mob/user)
 	if(!(in_range(src, user) || issilicon(user)))
