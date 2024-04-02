@@ -311,7 +311,6 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 0)
 	resistance_flags = FLAMMABLE
 	merge_type = /obj/item/stack/sheet/mineral/wood
-	novariants = FALSE // BM Changes
 	material_type = /datum/material/wood
 	grind_results = list(/datum/reagent/cellulose = 20)
 	walltype = /turf/closed/wall/mineral/wood
@@ -631,6 +630,8 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 		return
 	var/turf/T = get_turf(user) //we may have moved. adjust as needed...
 	var/area/A = get_area(user)
+	if(A?.area_flags & CULTMAGIC_BYPASS) //Bypass code so areas that aren't on-station can still use cult magics.
+		return ..()
 	if((!is_station_level(T.z) && !is_mining_level(T.z)) || !(A?.area_flags & CULT_PERMITTED))
 		to_chat(user, "<span class='warning'>The veil is not weak enough here.</span>")
 		return FALSE

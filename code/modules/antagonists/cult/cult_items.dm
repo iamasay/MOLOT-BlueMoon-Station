@@ -250,7 +250,7 @@
 	phaseout = /obj/effect/temp_visual/dir_setting/cult/phase/out
 
 /datum/action/innate/dash/cult/IsAvailable(silent = FALSE)
-	if(iscultist(holder) && current_charges)
+	if(iscultist(owner) && current_charges)
 		return TRUE
 	else
 		return FALSE
@@ -687,7 +687,7 @@
 
 	var/mob/living/carbon/C = user
 	var/turf/mobloc = get_turf(C)
-	var/turf/destination = get_teleport_loc(mobloc,C,9,1,3,1,0,1)
+	var/turf/destination = get_teleport_loc(location = mobloc, target = C, distance = 9, density_check = TRUE, errorx = 3, errory = 1, eoffsety = 1)
 
 	if(destination)
 		uses--
