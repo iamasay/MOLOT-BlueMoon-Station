@@ -555,10 +555,6 @@
 /obj/structure/sign/poster/contraband/inteq/inteq_no_sex,
 /turf/closed/wall/r_wall,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
-"bB" = (
-/obj/structure/sign/poster/contraband/inteq/inteq_vulp,
-/turf/closed/wall/r_wall/syndicate,
-/area/ruin/space/has_grav/inteq_forgotten_ship)
 "bD" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
@@ -816,13 +812,6 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/bag/tray,
 /turf/open/floor/plasteel/dark,
-/area/ruin/space/has_grav/inteq_forgotten_ship)
-"cs" = (
-/obj/structure/sign/poster/contraband/syndicate_pistol{
-	icon_state = "poster_syndicate";
-	name = "poster"
-	},
-/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "ct" = (
 /obj/machinery/light,
@@ -1090,11 +1079,11 @@
 /obj/structure/closet/crate/secure/gear{
 	req_one_access_txt = "152"
 	},
-/obj/item/card/id/syndicate,
-/obj/item/card/id/syndicate,
-/obj/item/card/id/syndicate,
-/obj/item/card/id/syndicate,
-/obj/item/card/id/syndicate,
+/obj/item/card/id/inteq,
+/obj/item/card/id/inteq,
+/obj/item/card/id/inteq,
+/obj/item/card/id/inteq,
+/obj/item/card/id/inteq,
 /obj/effect/turf_decal/stripes{
 	dir = 1;
 	icon_state = "delivery_red"
@@ -1272,15 +1261,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "ff" = (
-/obj/item/stack/circuit_stack/full,
-/obj/structure/closet/crate/secure/gear{
-	req_one_access_txt = "152"
-	},
-/obj/item/stack/circuit_stack/full,
 /obj/effect/turf_decal/stripes{
 	dir = 1;
 	icon_state = "delivery_red"
 	},
+/obj/machinery/telecomms/relay/preset/ruskie,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_vault)
 "fg" = (
@@ -1460,15 +1445,7 @@
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
 	},
-/obj/structure/rack{
-	dir = 8
-	},
-/obj/item/gun/medbeam,
-/obj/item/gun/medbeam,
-/obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
+/obj/machinery/suit_storage_unit/syndicate/inteq,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "hk" = (
@@ -1793,6 +1770,9 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
+/obj/structure/sign/poster/contraband/inteq/inteq_sign{
+	pixel_y = 32
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "jw" = (
@@ -2102,10 +2082,10 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "mF" = (
-/obj/machinery/telecomms/relay/preset/ruskie,
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
 	},
+/obj/machinery/suit_storage_unit/syndicate/inteq,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "mK" = (
@@ -3762,6 +3742,9 @@
 /obj/item/ammo_box/magazine/ak12,
 /obj/item/ammo_box/magazine/ak12,
 /obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "EC" = (
@@ -4311,9 +4294,6 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "KG" = (
-/obj/structure/closet/crate/secure/gear{
-	req_one_access_txt = "152"
-	},
 /obj/item/stack/sheet/mineral/silver{
 	amount = 30
 	},
@@ -4882,7 +4862,7 @@
 /obj/machinery/cryopod{
 	dir = 4
 	},
-/obj/structure/sign/poster/contraband/vulp7{
+/obj/structure/sign/poster/contraband/inteq/inteq_recruitment{
 	pixel_y = 32
 	},
 /turf/open/floor/plasteel/dark,
@@ -4973,6 +4953,9 @@
 	},
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/structure/sign/poster/contraband/inteq/inteq_sign{
+	pixel_y = 32
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
@@ -5155,6 +5138,7 @@
 	dir = 8
 	},
 /obj/structure/table/reinforced,
+/obj/item/quickdeploy/barricade/plasteel,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "Uf" = (
@@ -5844,6 +5828,9 @@
 /obj/item/ammo_box/magazine/ak12,
 /obj/item/ammo_box/magazine/ak12,
 /obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
+/obj/item/ammo_box/magazine/ak12,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "ZV" = (
@@ -5870,9 +5857,12 @@
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
 	},
-/obj/item/ammo_box/magazine/ak12,
-/obj/item/ammo_box/magazine/ak12,
-/obj/item/ammo_box/magazine/ak12,
+/obj/item/gun/energy/lasercannon,
+/obj/item/gun/energy/lasercannon,
+/obj/item/gun/energy/lasercannon,
+/obj/item/gun/energy/lasercannon,
+/obj/item/gun/medbeam,
+/obj/item/gun/medbeam,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 
@@ -8597,7 +8587,7 @@ aa
 cz
 cD
 kG
-cs
+cD
 jm
 BE
 BE
@@ -9419,7 +9409,7 @@ aa
 aa
 aa
 aa
-bB
+th
 SC
 go
 bW

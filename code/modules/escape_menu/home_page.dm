@@ -20,10 +20,20 @@
 	)
 
 	page_holder.give_screen_object(
+		new /atom/movable/screen/escape_menu/home_button(
+			null,
+			src,
+			"Остановить Звуки",
+			/* offset = */ 2,
+			CALLBACK(src, PROC_REF(home_stop_sounds)),
+		)
+	)
+
+	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button/leave_body(
 			null,
 			src,
-			"Покинуть",
+			"Покинуть Тело",
 			/* offset = */ 3,
 			CALLBACK(src, PROC_REF(open_leave_body)),
 		)
@@ -34,6 +44,10 @@
 
 /datum/escape_menu/proc/home_open_settings()
 	client?.prefs.ShowChoices(client?.mob)
+	qdel(src)
+
+/datum/escape_menu/proc/home_stop_sounds()
+	client?.tgui_panel?.stop_music()
 	qdel(src)
 
 /atom/movable/screen/escape_menu/home_button
@@ -63,7 +77,7 @@
 
 	vis_contents += home_button_text
 
-	screen_loc = "NORTH:-[100 + (32 * offset)],WEST:110"
+	screen_loc = "NORTH:-[132 + (32 * offset)],WEST:110"
 	transform = transform.Scale(6, 1)
 
 /atom/movable/screen/escape_menu/home_button/Destroy()
@@ -117,9 +131,9 @@
 /atom/movable/screen/escape_menu/home_button_text/proc/update_text()
 	var/atom/movable/screen/escape_menu/home_button/escape_menu_loc = loc
 
-	maptext = MAPTEXT_VCR_OSD_MONO("<span style='font-size: 24px; color: [istype(escape_menu_loc) ? escape_menu_loc.text_color() : "white"]'>[button_text]</span>")
+	maptext = "<span style='font-size: 16px; color: [istype(escape_menu_loc) ? escape_menu_loc.text_color() : "white"]; font-family: \"Comic Sans MS\"'>[button_text]</span>"
 
-	if (hovered)
+	if (hovered && (!istype(escape_menu_loc) || escape_menu_loc.enabled()))
 		maptext = "<u>[maptext]</u>"
 
 /atom/movable/screen/escape_menu/home_button/leave_body

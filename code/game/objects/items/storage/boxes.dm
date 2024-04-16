@@ -237,7 +237,7 @@
 
 /obj/item/storage/box/ammo/m556
 	name = "box of M556 ammo"
-	ammo = /obj/item/ammo_box/magazine/m556
+	ammo = /obj/item/ammo_box/magazine/m556/ap
 
 /obj/item/storage/box/ammo/wt
 	name = "box of WT ammo"
@@ -245,7 +245,7 @@
 
 /obj/item/storage/box/ammo/holy
 	name = "some holy water"
-
+	ammo = /obj/item/reagent_containers/food/drinks/bottle/holywater
 
 /obj/item/storage/box/ammo/PopulateContents()
 	..()
