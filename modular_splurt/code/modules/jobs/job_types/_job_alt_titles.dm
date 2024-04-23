@@ -55,13 +55,12 @@
 /datum/job/hos/New()
 	var/list/extra_titles = list(
 		"Security Commander",
-		"Head of Slutcurity",
 		"Division Leader",
 		"Cerberus Leader",
 		"Syndicate Field Commander",
-		"Head of Studcurity",
-		"Big Iron",
-		"Commissar"
+		"AC Special Lieutenant",
+		"Head of Slutcurity",
+		"Head of Studcurity"
 	)
 	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
 		LAZYADD(extra_titles, "Head of Spookcurity")
@@ -424,6 +423,7 @@
 		"Civil Protection",
 		"Police Officer",
 		"SAARE Operative",
+		"AC Specialist",
 		"PCRC Operative",
 		"Syndicate Combatant",
 		"Gorlex Marauders Trainee",
@@ -449,6 +449,7 @@
 		"Dungeon Master",
 		"Brig Superintendent",
 		"Brig Overwatch",
+		"AC Sergeant",
 		"Slutcurity Captain",
 		"Voreden"
 	)

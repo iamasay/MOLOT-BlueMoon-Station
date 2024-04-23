@@ -235,7 +235,7 @@
 	var/charge_tick = 0
 	var/charge_delay = 16
 	var/implant_level = 0
-	actions_types = list(/datum/action/item_action/explosive_implant) ///datum/action/item_action/organ_action/use
+	actions_types = list(/datum/action/item_action/chem_implant) ///datum/action/item_action/organ_action/use
 	var/available_c = list()
 
 /obj/item/organ/cyberimp/chest/chem_implant/plus
@@ -280,6 +280,19 @@
 	key = /datum/reagent/medicine/charcoal
 	chemdesc = "Slowly heals intoxication."
 	quantity = 12
+
+/datum/chem_implant/bicaridine
+	chemname = "Bicaridine"
+	key = /datum/reagent/medicine/bicaridine
+	chemdesc = "Heals brute damage."
+	quantity = 8
+
+
+/datum/chem_implant/kelotane
+	chemname = "Kelotane"
+	key = /datum/reagent/medicine/kelotane
+	chemdesc = "Heals burn damage."
+	quantity = 8
 
 /datum/chem_implant/stimulative_agent
 	chemname = "Stimulants"
@@ -350,7 +363,7 @@
 		if("secreteChemicals")
 			for(var/data in subtypesof(/datum/chem_implant))
 				var/datum/chem_implant/C = new data
-				if(C.chemname == params["key"])
+				if(C.chemname == params["key"] && charge > 0)
 					to_chat(owner, "<span class='notice'>You inject [C.chemname] from your chemical sequncer implant into your bloodstream.</span>")
 					owner.reagents.add_reagent(C.key, C.quantity)
 					charge -= C.chemuse

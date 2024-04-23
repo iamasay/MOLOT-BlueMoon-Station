@@ -30,6 +30,7 @@
 	remove_from_dead_mob_list()
 	remove_from_alive_mob_list()
 	QDEL_LIST(mob_spell_list)
+	QDEL_LIST(actions)
 	GLOB.all_clockwork_mobs -= src
 	// remove_from_mob_suicide_list()
 	focus = null
@@ -799,8 +800,9 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 		return ghost
 
 /mob/proc/AddSpell(obj/effect/proc_holder/spell/S)
-	mob_spell_list += S
-	S.action.Grant(src)
+	if (S?.action)
+		mob_spell_list += S
+		S.action.Grant(src)
 
 /mob/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)
 	if(!spell)
