@@ -46,7 +46,6 @@
 
 	family_heirlooms = list(
 		/obj/item/gavelhammer,
-		/obj/item/storage/briefcase/lawyer/family,
 		/obj/item/book/manual/wiki/security_space_law
 	)
 
@@ -101,7 +100,7 @@
 	id = /obj/item/card/id/silver
 	ears = /obj/item/radio/headset/heads/ntr
 	gloves = /obj/item/clothing/gloves/color/black
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	glasses = /obj/item/clothing/glasses/hud/skills
 	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
@@ -120,7 +119,7 @@
 
 	implants = list(/obj/item/implant/mindshield)
 
-	accessory = /obj/item/clothing/accessory/permit/head
+	accessory = /obj/item/clothing/accessory/permit/special/representative
 
 /datum/outfit/job/ntr/syndicate
 	name = "Syndicate Representative"
@@ -130,7 +129,7 @@
 
 	ears = /obj/item/radio/headset/heads/ntr
 	gloves = /obj/item/clothing/gloves/combat
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	glasses = /obj/item/clothing/glasses/hud/skills
 	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
@@ -142,6 +141,8 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/syndie
 	box = /obj/item/storage/box/survival/syndie
 	pda_slot = ITEM_SLOT_BELT
+	accessory = /obj/item/clothing/accessory/permit/special/representative
+
 	backpack_contents = list(/obj/item/gun/energy/e_gun=1, /obj/item/stamp/law=1, /obj/item/syndicate_uplink=1)
 
 /datum/outfit/job/ntr/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
