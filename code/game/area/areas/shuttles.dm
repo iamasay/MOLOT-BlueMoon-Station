@@ -277,5 +277,8 @@
 /area/shuttle/tarkoff_driver
 	name = "Tarkoff Driver"
 
+/area/shuttle/nt_transport_pod
+	name = "NanoTrasen Pod"
+
 /area/shuttle/lf_haron
 	name = "Haron"
