@@ -75,6 +75,19 @@
 /obj/effect/spawner/structure/window/plastitanium,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
+"aw" = (
+/obj/machinery/door/airlock/grunge{
+	id_tag = "dorm3";
+	name = "Recreation";
+	req_one_access_txt = "152"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "ay" = (
 /obj/structure/curtain,
 /obj/structure/window/reinforced/tinted{
@@ -246,6 +259,23 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
+"bk" = (
+/obj/machinery/door/airlock/grunge{
+	id_tag = "dorm1";
+	name = "Recreation";
+	req_one_access_txt = "152"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "bm" = (
 /obj/machinery/power/port_gen/pacman/super{
 	anchored = 1
@@ -2822,7 +2852,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/space/basic,
+/turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "qq" = (
 /obj/machinery/door/poddoor/incinerator_syndicatelava_aux,
@@ -3025,6 +3055,19 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
+"rD" = (
+/obj/machinery/door/airlock/grunge{
+	id_tag = "dorm2";
+	name = "Recreation";
+	req_one_access_txt = "152"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "rG" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -3814,6 +3857,12 @@
 /obj/structure/fireplace,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 6
+	},
+/obj/machinery/button/door{
+	id = "dorm3";
+	normaldoorcontrol = 1;
+	pixel_x = -32;
+	specialfunctions = 4
 	},
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -4847,6 +4896,12 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/button/door{
+	id = "dorm1";
+	normaldoorcontrol = 1;
+	pixel_x = 32;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "CR" = (
@@ -5657,6 +5712,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
 	},
+/obj/machinery/button/door{
+	id = "dorm4";
+	normaldoorcontrol = 1;
+	pixel_x = -32;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "IO" = (
@@ -5945,6 +6006,12 @@
 /obj/structure/dresser,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
+	},
+/obj/machinery/button/door{
+	id = "dorm2";
+	normaldoorcontrol = 1;
+	pixel_x = -32;
+	specialfunctions = 4
 	},
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -6965,6 +7032,19 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
+"Rz" = (
+/obj/machinery/door/airlock/grunge{
+	id_tag = "dorm4";
+	name = "Recreation";
+	req_one_access_txt = "152"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "RM" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
@@ -10116,7 +10196,7 @@ FX
 FX
 qT
 qT
-LC
+bk
 qT
 qT
 qT
@@ -10268,7 +10348,7 @@ qT
 SH
 MX
 Bu
-Jx
+rD
 Qr
 gq
 xG
@@ -10568,7 +10648,7 @@ qT
 jx
 ZZ
 WU
-Jx
+aw
 GW
 qT
 qT
@@ -10868,7 +10948,7 @@ qT
 Db
 Cj
 Bu
-Jx
+Rz
 qi
 AG
 Ml
