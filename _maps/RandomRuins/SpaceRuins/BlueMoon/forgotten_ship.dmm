@@ -2350,6 +2350,20 @@
 "nU" = (
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"nV" = (
+/obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/item/paper/fluff/ruins/forgottenship/survivor,
+/turf/open/floor/plasteel/dark,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "nW" = (
 /obj/machinery/chem_heater{
 	pixel_x = 4
@@ -4375,6 +4389,7 @@
 /obj/structure/sign/flag/inteq{
 	pixel_y = 32
 	},
+/obj/item/paper/fluff/ruins/forgottenship/emergency,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_vault)
 "Al" = (
@@ -10626,7 +10641,7 @@ vk
 Nm
 qT
 uC
-qR
+nV
 Ca
 qT
 qT
