@@ -223,6 +223,18 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"be" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name{
+	pixel_y = 30
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "bj" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -429,17 +441,11 @@
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "cC" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 6;
-	height = 10;
-	id = "nt_transport_pod";
-	name = "Nanotrasen Pod";
-	roundstart_template = /datum/map_template/shuttle/ruin/nt_transport_pod;
-	width = 14
+/obj/machinery/atmospherics/components/unary/shuttle/heater{
+	dir = 4
 	},
-/turf/template_noop,
-/area/template_noop)
+/turf/closed/wall/mineral/titanium/nosmooth,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "cG" = (
 /obj/effect/mob_spawn/human/inteqspace{
 	dir = 4
@@ -1294,9 +1300,6 @@
 /obj/item/gun/medbeam,
 /obj/item/gun/medbeam,
 /obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
-/obj/item/gun/energy/lasercannon,
 /obj/effect/turf_decal/stripes{
 	dir = 1;
 	icon_state = "delivery_red"
@@ -1443,6 +1446,18 @@
 	},
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"iD" = (
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/gun/ballistic/automatic/wt550,
+/obj/item/ammo_box/magazine/wt550m9{
+	pixel_y = 12
+	},
+/obj/item/ammo_box/magazine/wt550m9{
+	pixel_y = 12
+	},
+/obj/item/clothing/suit/armor/hecu,
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "iH" = (
 /obj/structure/table/reinforced,
 /obj/item/toy/plush/nukeplushie,
@@ -1684,6 +1699,16 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
+"km" = (
+/obj/structure/chair/comfy/shuttle,
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
+"kn" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "ks" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -1902,6 +1927,12 @@
 "lO" = (
 /turf/open/floor/holofloor/asteroid,
 /area/ruin/unpowered/no_grav)
+"lP" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "lQ" = (
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /obj/machinery/power/emitter/prototype{
@@ -2076,6 +2107,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"mD" = (
+/obj/effect/mob_spawn/human/corpse/damaged,
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "mE" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -3567,6 +3602,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
+"vt" = (
+/obj/structure/rack/shelf,
+/obj/item/inducer/sci/combat,
+/obj/item/stock_parts/cell/bluespacereactor,
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "vu" = (
 /obj/effect/mob_spawn/human/inteqspace/captain{
 	dir = 4
@@ -3732,6 +3773,19 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
+"wR" = (
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
+"wT" = (
+/obj/machinery/computer/shuttle/nt_transport_pod{
+	dir = 8
+	},
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
+"wU" = (
+/obj/structure/window/shuttle/tinted,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "wV" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3{
 	dir = 4;
@@ -4395,6 +4449,12 @@
 /obj/structure/closet/crate/bin,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"AD" = (
+/obj/machinery/computer/camera_advanced/shuttle_docker/nt_transport_pod{
+	dir = 8
+	},
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "AG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/effect/decal/cleanable/dirt,
@@ -6668,6 +6728,9 @@
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"PU" = (
+/turf/closed/wall/mineral/titanium/nosmooth,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "PV" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Recreation";
@@ -7418,6 +7481,12 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
+"Vp" = (
+/obj/structure/shuttle/engine/propulsion/burst{
+	dir = 8
+	},
+/turf/template_noop,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "Vr" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -8026,6 +8095,11 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
+"Yy" = (
+/obj/structure/fans/tiny,
+/obj/machinery/door/airlock/shuttle,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "YC" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/condiment/saltshaker{
@@ -8043,6 +8117,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"YF" = (
+/obj/machinery/power/smes,
+/turf/open/floor/pod/light,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "YH" = (
 /obj/effect/turf_decal/tile/brown/anticorner{
 	dir = 4
@@ -10640,10 +10718,10 @@ Hy
 qT
 qT
 sz
-sz
-sz
-sz
-sz
+Vp
+Vp
+Vp
+Vp
 sz
 "}
 (32,1,1) = {"
@@ -10715,9 +10793,9 @@ Fj
 TJ
 qT
 sz
-sz
-sz
-sz
+cC
+cC
+cC
 cC
 sz
 "}
@@ -10789,12 +10867,12 @@ qT
 dU
 ay
 qT
-sz
-sz
-sz
-sz
-sz
-sz
+Vp
+PU
+kn
+kn
+PU
+Vp
 "}
 (34,1,1) = {"
 sz
@@ -10864,12 +10942,12 @@ qT
 qT
 qT
 qT
-sz
-sz
-sz
-sz
-sz
-sz
+PU
+PU
+be
+kn
+PU
+PU
 "}
 (35,1,1) = {"
 sz
@@ -10939,12 +11017,12 @@ mG
 mG
 PK
 lO
-sz
-sz
-sz
-sz
-sz
-sz
+PU
+YF
+lP
+wR
+iD
+PU
 "}
 (36,1,1) = {"
 sz
@@ -11014,12 +11092,12 @@ Rw
 rP
 za
 qv
-sz
-sz
-sz
-sz
-sz
-sz
+Yy
+wR
+wR
+wR
+iD
+PU
 "}
 (37,1,1) = {"
 sz
@@ -11089,12 +11167,12 @@ nw
 DC
 mG
 mG
-sz
-sz
-sz
-sz
-sz
-sz
+PU
+km
+mD
+wR
+vt
+PU
 "}
 (38,1,1) = {"
 sz
@@ -11164,12 +11242,12 @@ Td
 fM
 ld
 Li
-sz
-sz
-sz
-sz
-sz
-sz
+PU
+PU
+kn
+wR
+PU
+PU
 "}
 (39,1,1) = {"
 sz
@@ -11239,11 +11317,11 @@ Et
 ys
 OI
 Li
-sz
-sz
-sz
-sz
-sz
+oz
+wU
+AD
+wT
+wU
 sz
 "}
 (40,1,1) = {"
@@ -11314,11 +11392,11 @@ CJ
 BC
 GQ
 Li
-sz
-sz
-sz
-sz
-sz
+oz
+wU
+wU
+wU
+wU
 sz
 "}
 (41,1,1) = {"

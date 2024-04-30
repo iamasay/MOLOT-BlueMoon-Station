@@ -784,39 +784,6 @@
 	name = "Tarkov Driver Control Console (Computer Board)"
 	build_path = /obj/machinery/computer/shuttle/tarkon_driver
 
-//Шаттл НТ близь поста InteQ
-/datum/map_template/shuttle/ruin/nt_transport_pod
-	prefix = "_maps/shuttles/bluemoon/"
-	suffix = "nt_transport_pod"
-	name = "NanoTrasen Pod"
-
-/obj/machinery/computer/shuttle/nt_transport_pod
-	name = "NanoTrasen Pod Control"
-	desc = "Used to control the NanoTrasen Pod."
-	icon_screen = "syndishuttle"
-	icon_keyboard = "syndie_key"
-	light_color = LIGHT_COLOR_RED
-	circuit = /obj/item/circuitboard/computer/nt_transport_pod
-	shuttleId = "nt_transport_pod"
-	possible_destinations = "nt_transport_pod_custom"
-
-/obj/machinery/computer/camera_advanced/shuttle_docker/nt_transport_pod
-	name = "NanoTrasen Pod Navigation Computer"
-	desc = "The Navigation console for the NanoTrasen Pod."
-	icon_screen = "syndishuttle"
-	icon_keyboard = "syndie_key"
-	shuttleId = "nt_transport_pod"
-	lock_override = NONE
-	shuttlePortId = "nt_transport_pod_custom"
-	view_range = 5.5
-	x_offset = 7
-	y_offset = 1
-
-
-/obj/item/circuitboard/computer/nt_transport_pod
-	name = "NanoTrasen Pod Control Console (Computer Board)"
-	build_path = /obj/machinery/computer/shuttle/nt_transport_pod
-
 //Lifeweb Haron
 
 /datum/map_template/shuttle/ruin/lf_haron
