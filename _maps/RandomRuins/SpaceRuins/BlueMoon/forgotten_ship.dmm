@@ -3777,7 +3777,7 @@
 /turf/open/floor/pod/light,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "wT" = (
-/obj/machinery/computer/shuttle/nt_transport_pod{
+/obj/structure/salvage/computer{
 	dir = 8
 	},
 /turf/open/floor/pod/light,
@@ -4449,12 +4449,6 @@
 /obj/structure/closet/crate/bin,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
-"AD" = (
-/obj/machinery/computer/camera_advanced/shuttle_docker/nt_transport_pod{
-	dir = 8
-	},
-/turf/open/floor/pod/light,
-/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "AG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/effect/decal/cleanable/dirt,
@@ -11319,7 +11313,7 @@ OI
 Li
 oz
 wU
-AD
+wT
 wT
 wU
 sz
