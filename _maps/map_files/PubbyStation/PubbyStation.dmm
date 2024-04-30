@@ -9654,7 +9654,7 @@
 /obj/structure/rack,
 /obj/item/gun/energy/ionrifle,
 /obj/item/gun/energy/temperature/security,
-/obj/item/clothing/suit/armor/laserproof,
+/obj/item/clothing/suit/hooded/ablative,
 /obj/machinery/light{
 	dir = 8;
 	light_color = "#e8eaff"
@@ -15351,7 +15351,7 @@
 /area/cargo/sorting)
 "aNK" = (
 /obj/structure/table,
-/obj/item/destTagger,
+/obj/item/dest_tagger,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
