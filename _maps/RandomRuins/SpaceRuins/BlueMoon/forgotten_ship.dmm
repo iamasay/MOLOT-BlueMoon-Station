@@ -6641,25 +6641,6 @@
 /obj/effect/turf_decal/tile/brown/full,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
-"Ow" = (
-/obj/item/ammo_casing/c45{
-	pixel_x = -2;
-	pixel_y = -8
-	},
-/obj/item/ammo_casing/c45{
-	pixel_x = -2;
-	pixel_y = -8
-	},
-/obj/item/ammo_casing/c45{
-	pixel_x = 4;
-	pixel_y = 2
-	},
-/obj/item/ammo_casing/c45{
-	pixel_y = -12
-	},
-/obj/item/kitchen/knife/backstabber,
-/turf/open/floor/plasteel/dark,
-/area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "Oz" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
@@ -12285,7 +12266,7 @@ bY
 id
 sy
 zk
-Ow
+JZ
 Xw
 bY
 bY
