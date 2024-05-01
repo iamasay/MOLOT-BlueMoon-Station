@@ -472,7 +472,7 @@
 /obj/machinery/atmospherics/components/unary/shuttle/heater{
 	dir = 4
 	},
-/turf/closed/wall/mineral/titanium/nosmooth,
+/turf/closed/wall/mineral/titanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "cG" = (
 /obj/effect/mob_spawn/human/inteqspace{
@@ -6810,7 +6810,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "PU" = (
-/turf/closed/wall/mineral/titanium/nosmooth,
+/turf/closed/wall/mineral/titanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "PV" = (
 /obj/machinery/door/airlock/grunge{
