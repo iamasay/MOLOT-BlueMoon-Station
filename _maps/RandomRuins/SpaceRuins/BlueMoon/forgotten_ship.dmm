@@ -409,12 +409,6 @@
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
 "cc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = 24;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow,
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -1083,12 +1077,6 @@
 "gq" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
-	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = 24;
-	start_charge = 45
 	},
 /obj/structure/cable/yellow,
 /turf/open/floor/carpet/royalblack,
@@ -5473,12 +5461,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
 	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = 24;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow,
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -5725,13 +5707,6 @@
 /obj/structure/dresser,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
-	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = -11;
-	pixel_y = 32;
-	start_charge = 45
 	},
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
