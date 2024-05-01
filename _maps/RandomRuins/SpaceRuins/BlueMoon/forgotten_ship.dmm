@@ -5700,6 +5700,7 @@
 /obj/machinery/power/apc/syndicate{
 	dir = 4;
 	name = "InteQ Listening Post APC";
+	pixel_x = -11;
 	pixel_y = 32;
 	start_charge = 45
 	},
