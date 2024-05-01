@@ -391,6 +391,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 8
 	},
+/obj/item/ammo_casing/shotgun/buckshot,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "bY" = (
@@ -1231,6 +1232,7 @@
 	icon_state = "1-8"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_box/shotgun/loaded/buckshot,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "hu" = (
@@ -1748,6 +1750,7 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden,
+/obj/item/ammo_casing/shotgun/buckshot,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "kz" = (
@@ -1890,6 +1893,8 @@
 	dir = 1;
 	piping_layer = 3
 	},
+/obj/item/ammo_casing/shotgun/buckshot,
+/obj/item/ammo_casing/shotgun/buckshot,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "lq" = (
@@ -3385,6 +3390,7 @@
 	dir = 4;
 	icon_state = "manifold-2"
 	},
+/obj/item/gun/ballistic/shotgun,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "tu" = (
