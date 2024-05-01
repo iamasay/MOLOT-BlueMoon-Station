@@ -4170,6 +4170,16 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"yy" = (
+/obj/machinery/door/airlock/grunge{
+	name = "Recreation";
+	req_one_access_txt = "152"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "yA" = (
 /obj/structure/window/reinforced/tinted{
 	dir = 1
@@ -11507,7 +11517,7 @@ VY
 lV
 zf
 zf
-Ir
+yy
 fi
 vg
 ok
