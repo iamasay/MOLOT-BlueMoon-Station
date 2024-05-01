@@ -5028,6 +5028,7 @@
 	dir = 4;
 	pixel_x = -27
 	},
+/obj/machinery/mecha_part_fabricator/offstation,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
 "Dh" = (
@@ -7443,10 +7444,6 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
-"UH" = (
-/obj/machinery/mecha_part_fabricator/offstation,
-/turf/open/floor/mineral/plastitanium,
-/area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
 "UN" = (
 /obj/machinery/smartfridge/chemistry/preloaded,
 /turf/open/floor/plasteel/dark,
@@ -11445,7 +11442,7 @@ Be
 AX
 TG
 rn
-UH
+QN
 wF
 oW
 bn
