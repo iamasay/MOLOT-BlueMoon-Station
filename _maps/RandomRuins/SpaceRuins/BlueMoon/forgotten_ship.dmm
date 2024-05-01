@@ -1669,6 +1669,10 @@
 "jI" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/table/reinforced,
+/obj/machinery/fax{
+	fax_name = "Unknown Fax";
+	name = "KK-28 Fax Machine"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "jK" = (
