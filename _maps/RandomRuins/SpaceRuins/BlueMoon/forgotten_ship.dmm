@@ -953,6 +953,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 8
 	},
+/obj/machinery/power/apc/syndicate{
+	dir = 4;
+	name = "InteQ Listening Post APC";
+	pixel_x = -32;
+	start_charge = 45
+	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "fK" = (
@@ -3760,12 +3766,6 @@
 /turf/open/floor/circuit/green,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
 "wl" = (
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = 32;
-	start_charge = 45
-	},
 /obj/effect/mob_spawn/human/inteqspace{
 	dir = 4
 	},
@@ -4271,6 +4271,7 @@
 "ze" = (
 /obj/machinery/porta_turret/syndicate{
 	dir = 8;
+	faction = list("InteQ");
 	pixel_x = 31
 	},
 /turf/open/floor/holofloor/asteroid,
@@ -6872,6 +6873,7 @@
 "Qx" = (
 /obj/machinery/porta_turret/syndicate{
 	dir = 8;
+	faction = list("InteQ");
 	pixel_x = -30
 	},
 /turf/open/floor/holofloor/asteroid,
