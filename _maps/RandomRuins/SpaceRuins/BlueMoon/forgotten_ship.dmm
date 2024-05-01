@@ -4096,10 +4096,6 @@
 	name = "Recreation";
 	req_one_access_txt = "152"
 	},
-/obj/machinery/door/airlock/grunge{
-	name = "Recreation";
-	req_one_access_txt = "152"
-	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "yo" = (
