@@ -394,9 +394,6 @@
 /obj/item/ammo_casing/shotgun/buckshot,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
-"bY" = (
-/turf/closed/indestructible/syndicate,
-/area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "ca" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
@@ -621,11 +618,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "dH" = (
 /obj/machinery/atmospherics/pipe/simple/orange,
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "dL" = (
 /obj/structure/fans/tiny,
@@ -660,8 +657,14 @@
 /obj/structure/deployable_barricade/metal,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
+"dY" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
+/area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "ea" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
 "eg" = (
 /obj/machinery/recharge_station,
@@ -811,7 +814,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "fs" = (
 /obj/item/ammo_casing/c45{
@@ -944,12 +947,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 8
 	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = -32;
-	start_charge = 45
-	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "fK" = (
@@ -984,7 +981,7 @@
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "fQ" = (
 /obj/structure/sign/flag/inteq,
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "fR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -996,7 +993,7 @@
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_rnd)
 "fT" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "fV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -1063,14 +1060,14 @@
 	dir = 1;
 	icon_state = "delivery_red"
 	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = 32;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/syndicate{
+	dir = 1;
+	name = "InteQ Post APC";
+	pixel_y = 32;
+	start_charge = 35
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_vault)
@@ -2032,14 +2029,14 @@
 /area/ruin/space/has_grav/inteq_forgotten_ship)
 "mk" = (
 /obj/structure/closet/syndicate/inteq/personal,
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = 32;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
+	},
+/obj/machinery/power/apc/syndicate{
+	dir = 1;
+	name = "InteQ Post APC";
+	pixel_y = 32;
+	start_charge = 35
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -2164,7 +2161,7 @@
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "mG" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "mH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -2707,14 +2704,14 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "oY" = (
 /obj/machinery/portable_atmospherics/canister,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "pc" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bar)
 "pd" = (
 /obj/effect/turf_decal/tile/brown/half{
@@ -2936,9 +2933,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
-"qT" = (
-/turf/closed/indestructible/syndicate,
-/area/ruin/space/has_grav/inteq_forgotten_outpost)
 "qW" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Recreation";
@@ -3142,9 +3136,6 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
-	},
-/obj/machinery/power/apc/auto_name{
-	pixel_y = 29
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -3837,6 +3828,7 @@
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "wU" = (
 /obj/structure/window/shuttle/tinted,
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "wV" = (
@@ -4191,7 +4183,7 @@
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "yG" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_vault)
 "yH" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
@@ -4647,7 +4639,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "Bz" = (
 /mob/living/simple_animal/hostile/nanotrasen/ranged/assault,
@@ -4861,12 +4853,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-1"
 	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_x = 24;
-	start_charge = 45
-	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
@@ -5006,14 +4992,14 @@
 /obj/structure/chair/wood/normal{
 	dir = 8
 	},
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = 32;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/syndicate{
+	dir = 1;
+	name = "InteQ Post APC";
+	pixel_y = 32;
+	start_charge = 35
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
@@ -5305,12 +5291,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/power/apc/syndicate{
-	dir = 1;
-	name = "InteQ Post APC";
-	pixel_x = 32;
-	start_charge = 35
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
@@ -5606,7 +5586,7 @@
 /turf/open/floor/wood,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bar)
 "HZ" = (
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
 "Ia" = (
 /obj/effect/turf_decal/tile/brown/anticorner{
@@ -5674,7 +5654,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "Ir" = (
 /obj/machinery/door/airlock/grunge{
@@ -5687,7 +5667,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
 	},
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "IE" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -6038,7 +6018,7 @@
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "KP" = (
 /obj/structure/sign/warning/fire,
-/turf/closed/wall/r_wall/syndicate,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "KR" = (
 /obj/machinery/computer/med_data/syndie{
@@ -6194,14 +6174,14 @@
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "LN" = (
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = 32;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
+	},
+/obj/machinery/power/apc/syndicate{
+	dir = 1;
+	name = "InteQ Post APC";
+	pixel_y = 32;
+	start_charge = 35
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
@@ -6277,12 +6257,6 @@
 "LX" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/brown/fourcorners,
-/obj/machinery/power/apc/syndicate{
-	dir = 4;
-	name = "InteQ Listening Post APC";
-	pixel_y = -32;
-	start_charge = 45
-	},
 /obj/structure/cable/yellow,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
@@ -6744,9 +6718,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bar)
 "PC" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -8021,8 +7993,11 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name{
-	pixel_y = 29
+/obj/machinery/power/apc/syndicate{
+	dir = 1;
+	name = "InteQ Post APC";
+	pixel_y = 32;
+	start_charge = 35
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/powered/inteq_forgotten_medbay)
@@ -8183,6 +8158,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"YE" = (
+/obj/structure/shuttle/engine/propulsion/burst{
+	dir = 8;
+	pixel_x = 14
+	},
+/turf/template_noop,
+/area/ruin/space/has_grav/powered/inteq_forgotten_bridge)
 "YF" = (
 /obj/machinery/power/smes,
 /turf/open/floor/pod/light,
@@ -8379,6 +8361,9 @@
 /obj/effect/turf_decal/tile/brown/opposingcorners,
 /turf/open/floor/plasteel,
 /area/ruin/space/has_grav/powered/inteq_forgotten_bar)
+"Zx" = (
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
+/area/ruin/space/has_grav/powered/inteq_forgotten_atmos)
 "Zz" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndciate Dorm 2";
@@ -10244,7 +10229,7 @@ fT
 MJ
 qR
 VU
-qT
+fT
 KI
 yo
 Ml
@@ -10760,7 +10745,7 @@ UN
 fA
 HZ
 HZ
-FX
+HZ
 Hf
 QE
 WR
@@ -10927,12 +10912,12 @@ fT
 dU
 ay
 fT
-Vp
+YE
 PU
 kn
 kn
 PU
-Vp
+YE
 "}
 (34,1,1) = {"
 sz
@@ -11650,7 +11635,7 @@ YW
 YW
 fT
 fT
-qT
+fT
 ew
 fT
 fT
@@ -11811,7 +11796,7 @@ fV
 CB
 CN
 Hs
-jZ
+Zx
 IW
 Oq
 YX
@@ -11886,22 +11871,22 @@ GT
 yG
 TS
 oJ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
-jZ
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
+Zx
 WL
 lO
 Jc
@@ -11961,7 +11946,7 @@ pV
 cs
 FJ
 Xl
-jZ
+Zx
 wl
 Gf
 Im
@@ -11972,12 +11957,12 @@ SX
 Zb
 oY
 Cd
-jZ
+Zx
 Bl
 jZ
 JR
-jZ
-jZ
+Zx
+Zx
 KP
 Jc
 ye
@@ -12021,9 +12006,9 @@ xq
 Nr
 sz
 fT
-qT
-qT
-qT
+fT
+fT
+fT
 fT
 fT
 fT
@@ -12034,9 +12019,9 @@ aO
 hL
 ei
 yG
-bY
+Zx
 AS
-jZ
+Zx
 aH
 KT
 ks
@@ -12126,8 +12111,8 @@ fm
 XR
 dH
 LS
-jZ
-jZ
+Zx
+Zx
 KP
 ye
 sz
@@ -12177,7 +12162,7 @@ Jc
 ye
 ye
 Jc
-jZ
+Zx
 aL
 hD
 yk
@@ -12199,9 +12184,9 @@ hJ
 ZV
 dG
 Ix
-jZ
+Zx
 qq
-jZ
+Zx
 WP
 sz
 sz
@@ -12252,17 +12237,17 @@ Jc
 ye
 ye
 ye
-jZ
+Zx
 RN
 yX
-jZ
+Zx
 id
 sy
 zk
 JZ
 Xw
-jZ
-jZ
+Zx
+Zx
 dt
 Cl
 oX
@@ -12327,17 +12312,17 @@ Jc
 Jc
 Jc
 Jc
-jZ
+Zx
 aD
 Jz
-jZ
+Zx
 Fc
 JZ
-jZ
+Zx
 BV
 lx
-jZ
-jZ
+Zx
+Zx
 Wr
 Kn
 oX
@@ -12402,17 +12387,17 @@ lO
 Jc
 Jc
 Jc
-jZ
+Zx
 US
 CI
-jZ
+Zx
 Gu
 ne
-jZ
-jZ
-jZ
-jZ
-jZ
+Zx
+Zx
+Zx
+Zx
+Zx
 MI
 wV
 oX
@@ -12477,25 +12462,25 @@ sz
 lO
 lO
 Jc
-jZ
-jZ
-jZ
-jZ
+Zx
+Zx
+Zx
+Zx
 AL
 sk
-jZ
+Zx
 lO
 lO
 Jc
-jZ
-jZ
+Zx
+Zx
 jj
 Iq
-jZ
-jj
+Zx
+dY
 Iq
-jZ
-jj
+Zx
+dY
 Iq
 oX
 WL
@@ -12555,10 +12540,10 @@ lO
 Qx
 wX
 pw
-jZ
+Zx
 dt
 dt
-jZ
+Zx
 Jc
 Jc
 ye
