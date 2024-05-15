@@ -53,7 +53,7 @@
 	name = "\proper the NanoTrasen Representative headset"
 	desc = "The headset of the lead station's judge."
 	icon_state = "com_headset"
-	keyslot = new /obj/item/encryptionkey/heads/hos
+	keyslot = new /obj/item/encryptionkey/headset_ntr
 
 /obj/item/pda/heads/ntr
 	name = "NanoTrasen Representative PDA"
@@ -100,7 +100,7 @@
 	id = /obj/item/card/id/silver
 	ears = /obj/item/radio/headset/heads/ntr
 	gloves = /obj/item/clothing/gloves/color/black
-	glasses = /obj/item/clothing/glasses/hud/skills
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
@@ -129,7 +129,7 @@
 
 	ears = /obj/item/radio/headset/heads/ntr
 	gloves = /obj/item/clothing/gloves/combat
-	glasses = /obj/item/clothing/glasses/hud/skills
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
