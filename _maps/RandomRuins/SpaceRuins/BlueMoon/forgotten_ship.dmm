@@ -5936,7 +5936,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/button/door{
-	id = s;
+	id = "engroom";
 	name = "Room shutters control";
 	pixel_x = -30;
 	pixel_y = 3;
