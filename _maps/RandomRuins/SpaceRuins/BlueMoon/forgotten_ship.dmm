@@ -4150,7 +4150,7 @@
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "yB" = (
 /obj/machinery/door/poddoor/incinerator_syndicatelava_main{
-	id = s
+	id = "inteqpost_mainvent"
 	},
 /turf/open/floor/engine/vacuum,
 /area/ruin/space/has_grav/inteq_forgotten_atmos)
