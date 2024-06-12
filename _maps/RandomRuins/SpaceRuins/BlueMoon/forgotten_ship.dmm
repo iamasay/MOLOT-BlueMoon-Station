@@ -4150,7 +4150,7 @@
 /area/ruin/space/has_grav/inteq_forgotten_outpost)
 "yB" = (
 /obj/machinery/door/poddoor/incinerator_syndicatelava_main{
-	id = "inteqpost_mainvent"
+	id = s
 	},
 /turf/open/floor/engine/vacuum,
 /area/ruin/space/has_grav/inteq_forgotten_atmos)
@@ -4753,7 +4753,7 @@
 	pixel_x = 6;
 	pixel_y = -24;
 	req_access = list();
-	id = s
+	id = "inteqpost_mainvent"
 	},
 /obj/machinery/light/small{
 	dir = 8
@@ -7811,6 +7811,15 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/inteq_forgotten_ship)
+"WB" = (
+/obj/machinery/button/door/incinerator_vent_syndicatelava_main{
+	pixel_x = 6;
+	pixel_y = -24;
+	req_access = list();
+	id = "inteqpost_mainvent"
+	},
+/turf/open/floor/holofloor/asteroid,
+/area/ruin/unpowered/no_grav)
 "WC" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
@@ -11830,7 +11839,7 @@ ye
 Jc
 Jc
 lO
-lO
+WB
 Jc
 ye
 ye
