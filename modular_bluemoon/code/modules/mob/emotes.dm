@@ -329,6 +329,20 @@
 	sound = 'modular_bluemoon/sound/emotes/mrrps3.ogg'
 	emote_cooldown = 0.5 SECONDS
 
+/datum/emote/sound/human/girlymoan
+	key = "girlymoan"
+	key_third_person = "girlymoan"
+	message = "softly moans."
+	message_mime = "silently moans."
+	sound = 'modular_bluemoon/sound/emotes/softmoan6.ogg'
+	emote_type = EMOTE_AUDIBLE
+	emote_cooldown = 0.8 SECONDS
+	emote_pitch_variance = FALSE
+
+/datum/emote/sound/human/girlymoan/run_emote(mob/user, params)
+	sound = pick('modular_bluemoon/sound/emotes/softmoan1.ogg', 'modular_bluemoon/sound/emotes/softmoan2.ogg', 'modular_bluemoon/sound/emotes/softmoan3.ogg', 'modular_bluemoon/sound/emotes/softmoan4.ogg', 'modular_bluemoon/sound/emotes/softmoan5.ogg', 'modular_bluemoon/sound/emotes/softmoan6.ogg')
+	. = ..()
+
 /datum/emote/sound/human/squeal
 	key = "squeal"
 	key_third_person = "squeal"
