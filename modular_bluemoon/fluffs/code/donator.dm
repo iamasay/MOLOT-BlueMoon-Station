@@ -1461,3 +1461,10 @@
 	ckeywhitelist = list("earthphobia")
 	restricted_roles = list("Head of Security")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
+
+/datum/gear/donator/bm/sierra_iris_plushie
+	name = "I.R.I.S. plushie"
+	slot = ITEM_SLOT_POCKETS
+	path = /obj/item/toy/plush/bm/tiamat/sierra_iris_plushie
+	ckeywhitelist = list("sierraiv", "oroshimuraiori")
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
