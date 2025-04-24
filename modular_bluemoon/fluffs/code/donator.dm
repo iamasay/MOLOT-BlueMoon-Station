@@ -1412,20 +1412,27 @@
 	name = "MI13 infiltrator mask"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/clothing/mask/gas/syndicate/hahun_mask
-	ckeywhitelist = list("dolbajob", "enigma418")
+	ckeywhitelist = list("dolbajob", "enigma418", "silverfoxpaws")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
 /datum/gear/donator/bm/hahun_mask_2
 	name = "EIDOVOX Type-3 mask"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/clothing/mask/gas/syndicate/hahun_mask/eidovox
-	ckeywhitelist = list("dolbajob", "enigma418", "silverfoxpaws")
+	ckeywhitelist = list("dolbajob", "enigma418")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
 /datum/gear/donator/bm/hahun_cape
 	name = "MI13 cape"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/clothing/neck/tie/hahun_cape
+	ckeywhitelist = list("dolbajob", "enigma418")
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+
+/datum/gear/donator/bm/hahun_jukebox
+	name = "Irrelian Jukebox"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/modkit/hahun_jukebox
 	ckeywhitelist = list("dolbajob", "enigma418")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
