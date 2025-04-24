@@ -5,6 +5,9 @@
 	write_log_user = "sucked nipples"
 	write_log_target = "had their nipples sucked by"
 	interaction_sound = null
+	additional_details = list(
+		INTERACTION_MAY_CONTAIN_DRINK
+	)
 
 /datum/interaction/lewd/nipsuck/display_interaction(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/user_message
