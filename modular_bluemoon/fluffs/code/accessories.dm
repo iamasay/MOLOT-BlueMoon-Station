@@ -96,6 +96,26 @@
 
 ////////////////////////
 
+/obj/item/clothing/neck/tie/pedantcape
+	name = "Crovus Pendant"
+	desc = "Ravens in black with eyes so keen, steal pendants bright with silver sheen."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/neck.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/neck.dmi'
+	icon_state = "cp" //Сделано специально, человек попросил защиту от хамелионки.
+	item_state = "cp"
+	unique_reskin = list(
+		"Pedant" = list(
+			RESKIN_ICON_STATE = "pedant",
+			RESKIN_ITEM_STATE = "pedant"
+		),
+		"Cape" = list(
+			RESKIN_ICON_STATE = "cape",
+			RESKIN_ITEM_STATE = "cape"
+		)
+	)
+
+////////////////////////
+
 /obj/item/clothing/neck/tie/f_haori
 	name = "Flaming Haori"
 	desc = "A white haori with a flaming pattern on the end. It seems to radiate heat and energy."

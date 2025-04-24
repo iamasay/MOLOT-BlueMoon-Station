@@ -758,6 +758,20 @@
 	ckeywhitelist = list("oni3288", "ghos7ik", "discord980", "mihana964", "romontesque", "enigma418", "smol42", "notlikeluls",  "kladmenuwu", "alexsandoor", "scramblescream", "nai1ten", "devildeadspace", "zetneskov", "hazzi", "definitelynotnesuby", "silverfoxpaws", "pr1zrak", "earthphobia", "wafflemeow", "trora", "kosep", "urfdrf", "mikolaostavkin", "xaeshkavd", "deltarayx", "korinfellori", "troubleneko17th", "dimofon", "lichfail", "gisya", "dimakr")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
+/datum/gear/donator/bm/pedantcape
+	name = "Crovus Pendant"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/clothing/neck/tie/pedantcape
+	ckeywhitelist = list("smol42", "weirdbutton", "sage4o")
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+
+/datum/gear/donator/bm/tricorne
+	name = "Tricorne"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/clothing/head/tricorne
+	ckeywhitelist = list("smol42", "weirdbutton", "sage4o")
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+
 /datum/gear/donator/bm/oftok
 	name = "Officer token"
 	slot = ITEM_SLOT_BACKPACK
