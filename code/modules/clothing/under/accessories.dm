@@ -2,7 +2,7 @@
 	name = "Accessory"
 	desc = "Something has gone wrong!"
 	icon = 'icons/obj/clothing/accessories.dmi'
-	//skyrat edit
+	//sandstorm edit
 	mob_overlay_icon = 'icons/mob/clothing/accessories.dmi'
 	//
 	icon_state = "plasma"
@@ -13,62 +13,41 @@
 	var/above_suit = FALSE
 	var/minimize_when_attached = TRUE // TRUE if shown as a small icon in corner, FALSE if overlayed
 	var/datum/component/storage/detached_pockets
-	//skyrat edit
-	var/current_uniform = null
-	// BLUEMOON ADD START - изменение аксессуаров
-	// У некоторых акссессуаров теперь типо будет доступ. Костыль, да.
-	var/list/access = list()
-	// Для всех боевых аксессуаров, которые не должны стакать свои бонусы с кучей других боевых аксессуаров.
-	// Количество возможных боевых акссессуаров зависит от джампсьюта на персонаже, по умолчанию 3.
-	var/restricted_accessory = FALSE
-	// Максимальное количество аксессуаров этого вида, которые можно прицепить к джампсьюту. -1 означает отсутствие лимита.
-	var/max_stack = -1
-	// Родительский класс, все дочерние классы которого не могут стакаться друг с другом без ограничений
-	var/max_stack_path = null
-	// BLUEMOON ADD END
 
-/obj/item/clothing/accessory/proc/attach(obj/item/clothing/under/U, user)
+/obj/item/clothing/accessory/proc/attach(obj/item/clothing/under/uniform, user)
 	var/datum/component/storage/storage = GetComponent(/datum/component/storage)
 	if(storage)
-		if(SEND_SIGNAL(U, COMSIG_CONTAINS_STORAGE))
+		if(SEND_SIGNAL(uniform, COMSIG_CONTAINS_STORAGE))
 			return FALSE
-		U.TakeComponent(storage)
+		uniform.TakeComponent(storage)
 		detached_pockets = storage
-	//SKYRAT EDIT
-	U.attached_accessories |= src
-	force_unto(U)
-	current_uniform = U
-	//SKYRAT EDIT END
-	forceMove(U)
+	//SANDSTORM EDIT
+	LAZYADD(uniform.attached_accessories, src)
+	force_unto(uniform)
+	//SANDSTORM EDIT END
+	forceMove(uniform)
 
-	layer = NECK_LAYER
-	plane = FLOAT_PLANE
-
-	if (islist(U.armor) || isnull(U.armor)) 										// This proc can run before /obj/Initialize has run for U and src,
-		U.armor = getArmor(arglist(U.armor))	// we have to check that the armor list has been transformed into a datum before we try to call a proc on it
+	if (islist(uniform.armor) || isnull(uniform.armor)) 										// This proc can run before /obj/Initialize has run for uniform and src,
+		uniform.armor = getArmor(arglist(uniform.armor))	// we have to check that the armor list has been transformed into a datum before we try to call a proc on it
 																					// This is safe to do as /obj/Initialize only handles setting up the datum if actually needed.
 	if (islist(armor) || isnull(armor))
 		armor = getArmor(arglist(armor))
 
-	U.armor = U.armor.attachArmor(armor)
+	uniform.armor = uniform.armor.attachArmor(armor)
 
 	if(isliving(user))
-		on_uniform_equip(U, user)
+		on_uniform_equip(uniform, user)
 
 	return TRUE
 
-/obj/item/clothing/accessory/proc/detach(obj/item/clothing/under/U, user)
-	if(detached_pockets && detached_pockets.parent == U)
+/obj/item/clothing/accessory/proc/detach(obj/item/clothing/under/uniform, user)
+	if(detached_pockets && detached_pockets.parent == uniform)
 		TakeComponent(detached_pockets)
 
-	if(U.armor && armor)
-		U.armor = U.armor.detachArmor(armor)
-	//SANDSTORM EDIT
-	current_uniform = null
-	//SANDSTORM EDIT END
+	uniform.armor = uniform.armor.detachArmor(armor)
 
 	if(isliving(user))
-		on_uniform_dropped(U, user)
+		on_uniform_dropped(uniform, user)
 
 	if(minimize_when_attached)
 		transform *= 2
@@ -76,48 +55,36 @@
 		pixel_y = 0
 	layer = initial(layer)
 	plane = initial(plane)
-	U.cut_overlays()
-	U.attached_accessories -= src
-	U.accessory_overlays = list()
-	if(length(U.attached_accessories))
-		U.accessory_overlays = list(mutable_appearance('icons/mob/clothing/accessories.dmi', "blank"))
-		for(var/obj/item/clothing/accessory/attached_accessory in U.attached_accessories)
-			attached_accessory.force_unto(U)
-			var/datum/element/polychromic/polychromic = LAZYACCESS(attached_accessory.comp_lookup, "item_worn_overlays")
-			if(!polychromic)
-				var/mutable_appearance/accessory_overlay = mutable_appearance(attached_accessory.mob_overlay_icon, attached_accessory.item_state || attached_accessory.icon_state, -UNIFORM_LAYER)
-				accessory_overlay.alpha = attached_accessory.alpha
-				accessory_overlay.color = attached_accessory.color
-				U.accessory_overlays += accessory_overlay
-			else
-				polychromic.apply_worn_overlays(attached_accessory, FALSE, attached_accessory.mob_overlay_icon, attached_accessory.item_state || attached_accessory.icon_state, NONE, U.accessory_overlays)
+	uniform.cut_overlays()
+	LAZYREMOVE(uniform.attached_accessories, src)
+	for(var/obj/item/clothing/accessory/attached_accessory as anything in uniform.attached_accessories)
+		uniform.add_overlay(attached_accessory)
 
 //SANDSTORM EDIT
-/obj/item/clothing/accessory/proc/force_unto(obj/item/clothing/under/U)
+/obj/item/clothing/accessory/proc/force_unto(obj/item/clothing/under/uniform)
 	layer = FLOAT_LAYER
 	plane = FLOAT_PLANE
 	if(minimize_when_attached)
-		if(current_uniform != U)
-			transform *= 0.5	//halve the size so it doesn't overpower the under
-			pixel_x += 8
-			pixel_y -= 8
-		if(length(U.attached_accessories) > 1)
-			if(length(U.attached_accessories) <= 3 && !current_uniform)
-				pixel_y += 8 * (length(U.attached_accessories) - 1)
-			else if((length(U.attached_accessories) > 3) && (length(U.attached_accessories) <= 6) && !current_uniform)
-				pixel_x -= 8
-				pixel_y += 8 * (length(U.attached_accessories) - 4)
-			else if((length(U.attached_accessories) > 6) && (length(U.attached_accessories) <= 9) && !current_uniform)
-				pixel_x -= 16
-				pixel_y += 8 * (length(U.attached_accessories) - 7)
-			else
-				if(current_uniform != U)
+		transform *= 0.5	//halve the size so it doesn't overpower the under
+		pixel_x += 8
+		pixel_y -= 8
+		if(length(uniform.attached_accessories) > 1)
+			switch(LAZYLEN(uniform.attached_accessories))
+				if(2 to 3)
+					pixel_y += 8 * (length(uniform.attached_accessories) - 1)
+				if(4 to 6)
+					pixel_x -= 8
+					pixel_y += 8 * (length(uniform.attached_accessories) - 4)
+				if(7 to 9)
+					pixel_x -= 16
+					pixel_y += 8 * (length(uniform.attached_accessories) - 7)
+				else
 					//we ran out of space for accessories, so we just throw shit at the wall
 					pixel_x = 0
 					pixel_y = 0
 					pixel_x += rand(-16, 16)
 					pixel_y += rand(-16, 16)
-	U.add_overlay(src)
+	uniform.add_overlay(src)
 //SANDSTORM EDIT END
 
 /obj/item/clothing/accessory/proc/on_uniform_equip(obj/item/clothing/under/U, user)
@@ -136,9 +103,9 @@
 
 /obj/item/clothing/accessory/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>\The [src] can be attached to [istype(src, /obj/item/clothing/accessory/ring) ? "gloves" : "a uniform"]. Alt-click to remove it once attached.</span>"
+	. += span_notice("\The [src] can be attached to [istype(src, /obj/item/clothing/accessory/ring) ? "gloves" : "a uniform"]. <b>Alt-click</b> to remove it once attached.")
 	if(initial(above_suit))
-		. += "<span class='notice'>\The [src] can be worn above or below your suit. Ctrl-click to toggle.</span>"
+		. += span_notice("\The [src] can be worn above or below your suit. <b>Ctrl-click</b> to toggle.")
 
 //////////////
 //Waistcoats//
@@ -367,7 +334,7 @@
 				delay = 0
 			else
 				user.visible_message("[user] is trying to pin [src] on [M]'s chest.", \
-									"<span class='notice'>You try to pin [src] on [M]'s chest.</span>")
+									 "<span class='notice'>You try to pin [src] on [M]'s chest.</span>")
 			var/input
 			if(!commended && user != M)
 				input = stripped_input(user,"Please input a reason for this commendation, it will be recorded by Nanotrasen.", ,"", 140)
@@ -377,7 +344,7 @@
 						to_chat(user, "<span class='notice'>You attach [src] to [U].</span>")
 					else
 						user.visible_message("[user] pins \the [src] on [M]'s chest.", \
-											"<span class='notice'>You pin \the [src] on [M]'s chest.</span>")
+											 "<span class='notice'>You pin \the [src] on [M]'s chest.</span>")
 						if(input)
 							SSblackbox.record_feedback("associative", "commendation", 1, list("commender" = "[user.real_name]", "commendee" = "[M.real_name]", "medal" = "[src]", "reason" = input))
 							GLOB.commendations += "[user.real_name] awarded <b>[M.real_name]</b> the <span class='medaltext'>[name]</span>! \n- [input]"
@@ -567,7 +534,7 @@
 /obj/item/clothing/accessory/lawyers_badge/attack_self(mob/user)
 	if(prob(1))
 		user.say("The testimony contradicts the evidence!", forced = "attorney's badge")
-	user.visible_message("[user] shows [user.ru_ego()] attorney's badge.", "<span class='notice'>You show your attorney's badge.</span>")
+	user.visible_message("[user] shows [user.p_their()] attorney's badge.", "<span class='notice'>You show your attorney's badge.</span>")
 
 /obj/item/clothing/accessory/lawyers_badge/on_uniform_equip(obj/item/clothing/under/U, user)
 	var/mob/living/L = user
@@ -588,7 +555,6 @@
 	desc = "Can protect your clothing from ink stains, but you'll look like a nerd if you're using one."
 	icon_state = "pocketprotector"
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/pocketprotector
-	max_stack = 3 // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/pocketprotector/full/Initialize(mapload)
 	. = ..()
@@ -610,7 +576,6 @@
 	desc = "A hunter's talisman, some say the old gods smile on those who wear it."
 	icon_state = "talisman"
 	armor = list(MELEE = 5, BULLET = 5, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 20, RAD = 5, FIRE = 0, ACID = 25)
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece
 	name = "skull codpiece"
@@ -618,7 +583,6 @@
 	icon_state = "skull"
 	above_suit = TRUE
 	armor = list(MELEE = 5, BULLET = 5, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 20, RAD = 5, FIRE = 0, ACID = 25)
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece/fake
 	name = "false codpiece"
@@ -626,7 +590,6 @@
 	icon_state = "skull"
 	above_suit = TRUE
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /////////////////////
 //Syndie Accessories//
@@ -638,7 +601,6 @@
 	icon_state = "padding"
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 5, BIO = 0, RAD = 0, FIRE = -20, ACID = 45) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY //hidden from indiscrete mob examines.
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/kevlar
 	name = "kevlar padding"
@@ -646,7 +608,6 @@
 	icon_state = "padding"
 	armor = list(MELEE = 0, BULLET = 10, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 25) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/plastics
 	name = "ablative padding"
@@ -654,7 +615,6 @@
 	icon_state = "plastics"
 	armor = list(MELEE = 5, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 0, BIO = 0, RAD = 0, FIRE = 20, ACID = -40) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
-	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 //necklace
 /obj/item/clothing/accessory/necklace
@@ -683,6 +643,4 @@
 
 /obj/item/clothing/accessory/pride/reskin_obj(mob/M)
 	. = ..()
-	if(!.)
-		return
 	name = "[current_skin] pin"
