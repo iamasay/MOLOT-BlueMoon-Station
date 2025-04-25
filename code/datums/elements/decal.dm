@@ -12,15 +12,11 @@
 	 *  such collision by forcing a non-collision.
 	 */
 	var/rotated
-	// BLUEMOON EDIT
-	var/initial_dir // Stores the initial direction of the decal
 
 /datum/element/decal/Attach(atom/target, _icon, _icon_state, _dir, _cleanable=CLEAN_GOD, _color, _layer=TURF_LAYER, _description, _alpha=255, _rotated=FALSE)
 	. = ..()
 	if(!isatom(target) || (pic ? FALSE : !generate_appearance(_icon, _icon_state, _dir, _layer, _color, _alpha, target)))
 		return ELEMENT_INCOMPATIBLE
-	// BLUEMOON EDIT
-	initial_dir = _dir // Store the initial direction
 	description = _description
 	cleanable = _cleanable
 	rotated = _rotated
@@ -67,9 +63,6 @@
 
 /datum/element/decal/proc/apply_overlay(atom/source, list/overlay_list)
 	SIGNAL_HANDLER
-
-	// BLUEMOON EDIT
-	pic.dir = initial_dir // Use the initial direction instead of the turf's direction
 
 	overlay_list += pic
 
