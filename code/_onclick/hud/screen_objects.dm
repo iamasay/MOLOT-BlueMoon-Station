@@ -39,15 +39,14 @@
 	/// Generally we don't want default Click stuff, which results in bugs like using Telekinesis on a screen element
 	/// or trying to point your gun at your screen.
 	var/default_click = FALSE
+	/// If FALSE, this will not be cleared when calling /client/clear_screen()
+	var/clear_with_screen = TRUE
 
 /atom/movable/screen/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	if(isnull(hud_owner)) //some screens set their hud owners on /new, this prevents overriding them with null post atoms init
 		return
 	set_new_hud(hud_owner)
-
-	/// If FALSE, this will not be cleared when calling /client/clear_screen()
-	var/clear_with_screen = TRUE
 
 /atom/movable/screen/Destroy()
 	master = null

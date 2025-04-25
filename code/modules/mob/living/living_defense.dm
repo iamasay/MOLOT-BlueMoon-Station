@@ -137,7 +137,6 @@
 		return ..()
 
 	var/obj/item/thrown_item = AM
-	var/zone = ran_zone(BODY_ZONE_CHEST, 65)//Hits a random part of the body, geared towards the chest
 	if(thrown_item.thrownby == WEAKREF(src)) //No throwing stuff at yourself to trigger hit reactions
 		return ..()
 

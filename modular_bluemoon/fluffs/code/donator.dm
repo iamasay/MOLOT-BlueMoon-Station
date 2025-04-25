@@ -761,7 +761,7 @@
 /datum/gear/donator/bm/pedantcape
 	name = "Corvus Pendant"
 	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/clothing/neck/tie/pedantcape
+	path = /obj/item/clothing/neck/tie/pendantcape
 	ckeywhitelist = list("smol42", "weirdbutton", "sage4or")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
