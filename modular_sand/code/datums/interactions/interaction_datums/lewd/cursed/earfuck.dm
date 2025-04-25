@@ -8,7 +8,7 @@
 	write_log_target = "had their ear fucked by"
 	additional_details = list(
 		list(
-			"info" = "With the preference enabled causes slight bleeding, ear and brain damage",
+			"info" = "При включенном предпочтении вызывает легкое кровотечение, повреждение ушей и мозга",
 			"icon" = "ear-deaf",
 			"color" = "white"
 		)

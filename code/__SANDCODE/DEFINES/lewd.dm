@@ -104,19 +104,19 @@ GLOBAL_LIST_INIT(interaction_speeds, list(
 /// Copy-paste prevention for additional details
 /// Fills containers
 #define INTERACTION_FILLS_CONTAINERS list( \
-	"info" = "You can fill a container if you have it in your active hand or are pulling it", \
+	"info" = "Вы можете наполнить контейнер, если держите его в активной руке или тянете за собой", \
 	"icon" = "flask", \
 	"color" = "white" \
 	)
 /// Can drink from
 #define INTERACTION_MAY_CONTAIN_DRINK list( \
-	"info" = "May contain reagents", \
+	"info" = "Может содержать реагенты", \
 	"icon" = "cow", \
 	"color" = "white" \
 )
 /// Causes pregnancies
 #define INTERACTION_MAY_CAUSE_PREGNANCY list( \
-	"info" = "May cause pregnancies", \
+	"info" = "Может вызвать беременность", \
 	"icon" = "person-pregnant", \
 	"color" = "white" \
 )

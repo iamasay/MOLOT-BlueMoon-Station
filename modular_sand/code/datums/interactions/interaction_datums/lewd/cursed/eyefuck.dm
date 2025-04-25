@@ -8,7 +8,7 @@
 	write_log_target = "had their eye fucked by"
 	additional_details = list(
 		list(
-			"info" = "With the preference enabled causes slight bleeding, eye and brain damage",
+			"info" = "При включенном предпочтении вызывает легкое кровотечение, повреждение глаз и мозга",
 			"icon" = "eye",
 			"color" = "white"
 		)
