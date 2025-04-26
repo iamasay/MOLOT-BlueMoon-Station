@@ -261,3 +261,13 @@
 	item_state = "hahun_gloves"
 
 ////////////////////////
+
+/obj/item/storage/belt/military/srt_chesrig
+	name = "SRT Bluerock chest-rig"
+	desc = "A custom-made chest rig for wearing on top of body armor in CQC operations. Sturdy and versatile, it features both MOLLE and ALICE attachment systems. Seems like it already has old-fashioned holster attached to it."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/accessories.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/accessories.dmi'
+	icon_state = "srt_chestrig"
+	item_state = "srt_chestrig"
+
+////////////////////////
