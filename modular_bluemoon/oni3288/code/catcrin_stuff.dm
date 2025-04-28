@@ -278,6 +278,18 @@
 	product = /obj/item/clothing/suit/space/hardsuit/security/mark46_sec
 	fromitem = list(/obj/item/clothing/suit/space/hardsuit/security)
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// Слот шеи.
+
+/obj/item/clothing/neck/tie/maskchalat
+	name = "Catcrin maskhalat"
+	desc = "A disguise used in the regular Catcrin army. It is painted in different colors to disguise itself in different areas and locations, as well as to hide things worn underneath."
+	icon = 'modular_bluemoon/oni3288/icons/mob/icons/neck.dmi'
+	mob_overlay_icon = 'modular_bluemoon/oni3288/icons/mob/clothing/neck.dmi'
+	icon_state = "maskchalat"
+	item_state = "maskchalat"
+	flags_inv = HIDEHAIR
+	alternate_worn_layer = ABOVE_HEAD_LAYER
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////Длинноствол.
 
 /obj/item/gun/energy/e_gun/hos/karabiner_m13
@@ -741,6 +753,12 @@
 	ckeywhitelist = list("oni3288", "discord980", "mihana964", "romontesque", "enigma418", "smol42", "notlikeluls",  "kladmenuwu", "alexsandoor", "scramblescream", "nai1ten", "devildeadspace", "zetneskov", "hazzi", "definitelynotnesuby", "silverfoxpaws", "pr1zrak", "earthphobia", "wafflemeow", "trora", "kosep", "urfdrf", "mikolaostavkin", "xaeshkavd", "deltarayx", "korinfellori", "troubleneko17th", "dimofon", "lichfail", "gisya", "dimakr", "cupteazee", "nopeingeneer")
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
+/datum/gear/donator/bm/maskchalat
+	name = "Catcrin Maskhalat"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/clothing/neck/tie/maskchalat
+	ckeywhitelist = list("oni3288", "discord980", "mihana964", "romontesque", "enigma418", "smol42", "notlikeluls",  "kladmenuwu", "alexsandoor", "scramblescream", "nai1ten", "devildeadspace", "zetneskov", "hazzi", "definitelynotnesuby", "silverfoxpaws", "pr1zrak", "earthphobia", "wafflemeow", "trora", "kosep", "urfdrf", "mikolaostavkin", "xaeshkavd", "deltarayx", "korinfellori", "troubleneko17th", "dimofon", "lichfail", "gisya", "dimakr", "cupteazee", "nopeingeneer")
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
 //////////////////// ДАТУМы для личных кастомных Кеткринских вещей.
 
