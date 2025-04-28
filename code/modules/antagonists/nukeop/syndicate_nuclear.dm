@@ -180,7 +180,7 @@
 	to_chat(owner, "<B>If you feel you are not up to this task, give your ID to another operative.</B>")
 	to_chat(owner, "<B>In your hand you will find a special item capable of triggering a greater challenge for your team. Examine it carefully and consult with your fellow operatives before activating it.</B>")
 	owner.announce_objectives()
-	priority_announce("Внимание экипажу станции, боевым крейсером триглава была перехвачена входящая передача, свидетельствующая о враждебной деятельности, направленной на ядерный саботаж. Командованием флота было принято решение выслать на ваш объект специальный отряд противодействия ядерным угрозам, состоящий из подготовленных оперативников отделения [title].", "Крейсер [title] ССО Синдиката")
+	priority_announce("Внимание экипажу станции, боевым крейсером триглава была перехвачена входящая передача, свидетельствующая о враждебной деятельности, направленной на ядерный саботаж. Командованием флота было принято решение выслать на ваш объект специальный отряд противодействия ядерным угрозам, состоящий из подготовленных оперативников отделения [title].", "Крейсер [title] ССО Синдиката", 'sound/misc/announce_syndi.ogg')
 	addtimer(CALLBACK(src, PROC_REF(nuketeam_name_assign)), 1)
 
 /datum/antagonist/syndicate_op/leader/proc/nuketeam_name_assign()
