@@ -270,4 +270,24 @@
 	icon_state = "srt_chestrig"
 	item_state = "srt_chestrig"
 
-////////////////////////
+//////////////////////// БАНЕРЫ
+
+/obj/item/banner/irellia
+	name = "Banner of the Irellia"
+	icon = 'modular_bluemoon/fluffs/icons/obj/accessories.dmi'
+	icon_state = "banner-irellia"
+	desc = "Banner of the Irellia"
+
+/obj/item/banner/rohai
+	name = "Banner of the Rohai empire"
+	icon = 'modular_bluemoon/fluffs/icons/obj/accessories.dmi'
+	icon_state = "banner-rohai"
+	desc = "Banner of the Rohai empire"
+
+/obj/item/banner/norn
+	name = "Banner of kingdom Norn"
+	icon = 'modular_bluemoon/fluffs/icons/obj/accessories.dmi'
+	icon_state = "banner-norn"
+	desc = "Banner of kingdom Norn"
+
+//////////////////////// БАНЕРЫ

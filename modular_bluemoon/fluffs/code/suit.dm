@@ -161,6 +161,25 @@
 	body_parts_covered = CHEST
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
+/obj/item/clothing/suit/armor/rohai_armor
+	name = "Rohai Infantry Armor"
+	desc = "Standard protective set of infantryman of the Rohai Empire, made of polymers, usually tightly adjusted to its owner. On both shoulder pads you can see a symbol with two knives."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/suit.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/suit.dmi'
+	icon_state = "rohai_armor"
+	item_state = "rohai_armor"
+	blood_overlay_type = "armor"
+	body_parts_covered = CHEST
+	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
+
+/obj/item/clothing/head/helmet/sec/rohai_helmet
+	name = "Rohai Infantry helmet"
+	desc = "The standard helmet of the Rohai Empire is made of polymer materials and has space for additional modules."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head32x48.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/acrador_helmet_32x48.dmi'
+	icon_state = "rohai_helmet"
+	item_state = "rohai_helmet"
+
 /obj/item/clothing/suit/armor/rsa12
 	name = "R-SA-12"
 	desc = "The saboteur's lightweight armor is designed to provide sufficient protection while maintaining a high degree of freedom of movement and stealth, which is important for missions involving subversion, espionage, or stealthy infiltration. Once owned by the Asmalgan Church, but now bears the Rohai emblem on the chest."
