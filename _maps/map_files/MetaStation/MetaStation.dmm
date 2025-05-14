@@ -71547,8 +71547,7 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
 	dir = 1
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/space,
+/turf/open/floor/plating/airless,
 /area/engineering/atmos)
 "oCy" = (
 /obj/effect/spawner/structure/window/reinforced,
