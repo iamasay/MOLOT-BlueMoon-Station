@@ -357,7 +357,9 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
 "bC" = (
-/obj/machinery/aug_manipulator,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
 "bD" = (
@@ -1653,14 +1655,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
-"jw" = (
-/obj/machinery/autolathe,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4;
-	layer = 3
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
 "jx" = (
 /obj/effect/turf_decal/tile/brown/fourcorners,
 /obj/machinery/vending/inteq_vendomat,
@@ -1813,7 +1807,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_outpost)
 "km" = (
-/obj/item/gun/ballistic/automatic/m2a1,
 /obj/item/slimepotion/slime/sentience,
 /obj/structure/table/reinforced,
 /turf/open/floor/padded,
@@ -2268,12 +2261,9 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_bar)
 "mB" = (
-/obj/machinery/porta_turret/inteq{
-	pixel_y = 32
-	},
-/obj/structure/emergency_shield/sanguine,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/aug_manipulator,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
 "mC" = (
 /obj/machinery/light{
 	dir = 1
@@ -2947,7 +2937,6 @@
 	desc = "Use to build new structures in the wastes.";
 	name = "outpost blueprints"
 	},
-/obj/item/card/emag,
 /obj/item/storage/box/firingpins/syndicate,
 /obj/effect/turf_decal/stripes{
 	dir = 1;
@@ -3879,9 +3868,9 @@
 /turf/open/floor/padded,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_inspection)
 "uX" = (
-/obj/structure/emergency_shield/sanguine,
-/turf/open/floor/holofloor/asteroid,
-/area/space/nearstation)
+/obj/structure/sign/warning/fire,
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
+/area/ruin/space/has_grav/bluemoon/inteq_forgotten_atmos)
 "uZ" = (
 /obj/structure/table,
 /obj/item/book/manual/chef_recipes,
@@ -4495,7 +4484,6 @@
 /turf/closed/wall/r_wall/syndicate/nodiagonal,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_vault)
 "xT" = (
-/obj/structure/emergency_shield/sanguine,
 /turf/open/space/basic,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_atmos)
 "xU" = (
@@ -6124,7 +6112,6 @@
 /turf/closed/indestructible/syndicate,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_medbay)
 "GI" = (
-/obj/structure/emergency_shield/sanguine,
 /turf/open/floor/holofloor/asteroid,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_atmos)
 "GK" = (
@@ -6156,12 +6143,9 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_bridge)
 "GT" = (
-/obj/machinery/porta_turret/inteq{
-	pixel_y = 32
-	},
-/obj/structure/emergency_shield/sanguine,
-/turf/open/floor/holofloor/asteroid,
-/area/space/nearstation)
+/obj/machinery/autolathe,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/bluemoon/inteq_forgotten_rnd)
 "GV" = (
 /obj/effect/turf_decal/tile/brown/half{
 	dir = 8
@@ -7495,7 +7479,6 @@
 /obj/machinery/porta_turret/inteq{
 	pixel_y = 32
 	},
-/obj/structure/emergency_shield/sanguine,
 /turf/open/space/basic,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_atmos)
 "NL" = (
@@ -11363,7 +11346,7 @@ tS
 dc
 Ql
 tS
-oz
+Os
 Os
 Os
 sz
@@ -11528,7 +11511,7 @@ Ml
 vw
 KI
 kw
-oz
+Os
 Os
 Os
 sz
@@ -12021,7 +12004,7 @@ Pl
 Pl
 KI
 kw
-oz
+Os
 Os
 Os
 sz
@@ -12349,7 +12332,7 @@ tS
 tS
 tS
 tS
-oz
+Os
 sz
 sz
 sz
@@ -12428,10 +12411,10 @@ Jh
 Jh
 Jh
 Jh
+mB
+GT
 Jh
-Jh
-Jh
-Os
+oz
 sz
 sz
 sz
@@ -12510,7 +12493,7 @@ vQ
 mp
 Cn
 hd
-Cn
+bC
 bC
 Jh
 Os
@@ -12593,9 +12576,9 @@ Be
 UB
 My
 My
-jw
+My
 Jh
-oz
+Os
 sz
 sz
 sz
@@ -13989,8 +13972,8 @@ lK
 lK
 lK
 lK
-GT
-uX
+OK
+cq
 Os
 Os
 sz
@@ -14072,8 +14055,8 @@ HA
 JR
 lK
 lK
-lK
-mB
+uX
+Os
 Os
 sz
 sz
@@ -14236,8 +14219,8 @@ SW
 LS
 lK
 lK
-lK
-NJ
+uX
+xT
 Os
 Os
 sz
