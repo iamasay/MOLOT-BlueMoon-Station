@@ -1004,8 +1004,8 @@ SPLURT теперь обрабатывают все это дело в /mob/livi
 	message = "<span class='lewd'>\The <b>[src]</b> [pick(hell)]</span>"
 	visible_message(message, ignored_mobs = get_unconsenting(unholy = TRUE))
 	playlewdinteractionsound(loc, 'modular_sand/sound/interactions/swallow.ogg', 70, 1, -1, ignored_mobs = get_unconsenting(unholy = TRUE))
-	playlewdinteractionsound(target.loc, pick('modular_sand/sound/interactions/crapjob.ogg',
-									'modular_sand/sound/interactions/crapjob1.ogg'), 90, 1, -1, ignored_mobs = get_unconsenting(unholy = TRUE))
+	playlewdinteractionsound(target.loc, pick('modular_bluemoon/sound/interactions/crapjob.ogg',
+									'modular_bluemoon/sound/interactions/crapjob1.ogg'), 90, 1, -1, ignored_mobs = get_unconsenting(unholy = TRUE))
 	target.handle_post_sex(NORMAL_LUST, null, src, ORGAN_SLOT_ANUS)
 
 /mob/living/proc/piss_over(mob/living/target)

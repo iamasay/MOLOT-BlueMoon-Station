@@ -173,8 +173,8 @@
 		target.visible_message("<span class='lewd'>\ [pick(GLOB.breast_nouns)] <b>[target]</b> забавно хонкают!</span>")
 
 	playlewdinteractionsound(target, pick('sound/items/bikehorn.ogg',
-						'modular_sand/sound/interactions/fuckClown.ogg',
-						'modular_sand/sound/interactions/fuckClown1.ogg'), 70, 1, -1)
+						'modular_bluemoon/sound/interactions/fuckClown.ogg',
+						'modular_bluemoon/sound/interactions/fuckClown1.ogg'), 70, 1, -1)
 
 /datum/interaction/lewd/mount/display_interaction(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!HAS_TRAIT(user, TRAIT_LEWD_JOB))

@@ -15,7 +15,7 @@
 	description = "Подбодрить посвистыванием!"
 	required_from_user = INTERACTION_REQUIRE_MOUTH
 	simple_message = "USER подбадривает TARGET радостным посвистыванием!"
-	interaction_sound = 'modular_bluemoon\sound\emotes\svist.ogg'
+	interaction_sound = 'modular_bluemoon/sound/emotes/svist.ogg'
 	max_distance = 25
 	interaction_flags = NONE
 
