@@ -129,7 +129,7 @@
 		current = mob_override
 	GLOB.all_clockwork_mobs += current
 	current.faction |= "ratvar"
-	current.grant_language(/datum/language/ratvar, TRUE, TRUE, LANGUAGE_CLOCKIE)
+	current.grant_language(/datum/language/ratvar, source = LANGUAGE_CLOCKIE)
 	current.update_action_buttons_icon() //because a few clockcult things are action buttons and we may be wearing/holding them for whatever reason, we need to update buttons
 	if(issilicon(current))
 		var/mob/living/silicon/S = current
@@ -173,7 +173,7 @@
 	current.throw_alert("clockinfo", /atom/movable/screen/alert/clockwork/infodump)
 	var/obj/structure/destructible/clockwork/massive/celestial_gateway/G = GLOB.ark_of_the_clockwork_justiciar
 	if(G && G.active && ishuman(current))
-		current.add_overlay(mutable_appearance('icons/effects/genetics.dmi', "servitude", -ANTAG_LAYER))
+		current.add_overlay(mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER))
 
 /datum/antagonist/clockcult/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/current = owner.current

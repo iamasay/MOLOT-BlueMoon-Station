@@ -16,9 +16,9 @@
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
 	lefthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_l.dmi'
 	righthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_r.dmi'
-	desc = "Элегантный ящик с инструментами. Ярко оранжевая полоса проходит вдоль стыка крышки, а в центре виднеется галографическая наклейка в виде жёлтого щита."
-	force = 18
-	throwforce = 20
+	desc = "Элегантный ящик с инструментами. Ярко оранжевая полоса проходит вдоль стыка крышки, а в центре виднеется голографическая наклейка в виде жёлтого щита."
+	force = 15
+	throwforce = 18
 ///Чехол гитары
 /obj/item/storage/backpack/guitarbag
 	name = "Guitar bag"
@@ -45,24 +45,29 @@
 
 /obj/item/crowbar/brown
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
+	desc = "A small brown crowbar that seems to have extra sharped edges."
 	icon_state = "crowbar_brown"
 	force = 8
+	toolspeed = 0.9
 
 /obj/item/wirecutters/brown
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
+	desc = "Pair of brown wirecutters with fairly sharp blades."
 	icon_state = "cutters"
 	random_color = FALSE
+	force = 9
+	toolspeed = 0.9
 
 ///шуруповёрт
 /obj/item/screwdriver/power/inteq
 	name = "Brown hand Drill"
-	desc = "Карманный электро инструмент. Теперь в элегантной обёртке. Установлена насадка крестовой отвётки."
+	desc = "Карманный электроинструмент. Теперь в элегантной обёртке. Установлена насадка крестовой отвёртки."
 	icon_state = "drill_inteq_screw"
 	item_state = "drill"
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
 	lefthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_l.dmi'
 	righthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_r.dmi'
-	force = 20
+	force = 11
 	toolspeed = 0.30
 
 /obj/item/wrench/power/inteq/attack_self(mob/user)
@@ -74,7 +79,7 @@
 ///гайковёрт
 /obj/item/wrench/power/inteq
 	name = "Brown hand drill"
-	desc = "Карманный электро инструмент. Теперь в элегантной обёртке. Установлена насадка с шестигранником."
+	desc = "Карманный электроинструмент. Теперь в элегантной обёртке. Установлена насадка с шестигранником."
 	icon_state = "drill_inteq_bolt"
 	item_state = "drill"
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
@@ -108,7 +113,7 @@
 ///кусачки
 /obj/item/wirecutters/power/inteq
 	name = "jaws of life"
-	desc = "Карманный пневматический инструмент. Нет, мы не украли контейнер клешней с транспортника НТ и просто перекрасили его. Устанановлена насадка кусачек."
+	desc = "Карманный пневматический инструмент. Нет, мы не украли контейнер клешней с транспортника НТ и просто перекрасили его. Установлена насадка кусачек."
 	icon_state = "jaws_inteq_cutter"
 	item_state = "jawsoflife"
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
@@ -191,7 +196,7 @@
 	stage2	= list("<span class='danger'>Ваша кожа чернеет и болит так, словно её сдирают заживо.</span>")
 	stage3	= list("<span class='danger'>Твой позвоночник воет от боли словно его пытаются растянуть на дыбе</span>", "<span class='danger'>похоже ты становишься выше.</span>")
 	stage4	= list("<span class='danger'>Что то разрывает твою кожу на спине.</span>")
-	stage5	= list("<span class='danger'>Трансформация завершается. Паразиты глубоко укоренились в теле и теперь не отделимы от него. Вы чувствуете невероятную боль, получив взамен новые возможности.<br><br>Используй Shift+Click, что бы принять вид обьекта или существа.<br>Alt+Click по вентиляции или скраберу, что бы залезть в систему труб.<br>Поедай трупы или используй медицинские нитки для востановления здоровья.<br>Ты можешь выдержать много физических повреждений, но огонь и лазеры для тебя смертельно опасны.</span>")
+	stage5	= list("<span class='danger'>Трансформация завершается. Паразиты глубоко укоренились в теле и теперь не отделимы от него. Вы чувствуете невероятную боль, получив взамен новые возможности.<br><br>Используй Shift+Click, что бы принять вид объекта или существа.<br>Alt+Click по вентиляции или скраберу, что бы залезть в систему труб.<br>Поедай трупы или используй медицинские нитки для восстановления здоровья.<br>Ты можешь выдержать много физических повреждений, но огонь и лазеры для тебя смертельно опасны.</span>")
 	new_form = /mob/living/simple_animal/hostile/morph/sandman
 	infectable_biotypes = MOB_ORGANIC|MOB_MINERAL|MOB_UNDEAD
 //Автохирург
@@ -206,7 +211,7 @@
 //Секретные документы
 /obj/item/documents/inteq
 	name = "orange secret documents"
-	desc = "\"Совершенно Секретно\". Документы, содержащие разрозненые координаты, имена, наборы шифров и схем. Эти документы заверены оранжевой сургучной печатью."
+	desc = "\"Совершенно Секретно\". Документы, содержащие разрозненные координаты, имена, наборы шифров и схем. Эти документы заверены оранжевой сургучной печатью."
 	icon_state = "docs_orange"
 
 /obj/item/folder/inteq
@@ -221,7 +226,7 @@
 //маяк выбора оружия для FTU
 /obj/item/choice_beacon/ftu
 	name = "FTU sec kit"
-	desc = "Маяк для выбора снаряжения охраниками торговых кораблей"
+	desc = "Маяк для выбора снаряжения охранниками торговых кораблей"
 
 /obj/item/choice_beacon/ftu/generate_display_names()
 	var/static/list/ftu_item_list
@@ -247,10 +252,10 @@
 			ftu_item_list[initial(A.name)] = A
 	return ftu_item_list
 
-//Энергетический балистический щит
+//Энергетический щит
 /obj/item/shield/inteq_energy
-	name = "Еnergy ballistic shield"
-	desc = "A shield that reflects almost all ballistic projectiles, but is useless against energy attacks. It can be retracted, expanded, and stored anywhere."
+	name = "Old energy shield"
+	desc = "Устаревшая на несколько поколений модель энергетического щита. Использует механические ограничители силового поля и эргономика немного страдает, но всё ещё является желанным элементом экипировки."
 	icon = 'modular_bluemoon/Ren/Icons/Obj/misc.dmi'
 	lefthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_l.dmi'
 	righthand_file = 'modular_bluemoon/Ren/Icons/Mob/inhand_r.dmi'
@@ -302,15 +307,173 @@
 		to_chat(user, "<span class='notice'>[src] can now be concealed.</span>")
 	add_fingerprint(user)
 
-//--------------------------------------------------------------------------------[Ящики карго]------------------------------------------------------------------
-/datum/supply_pack/goody/guitarbag
-	name = "Guitar bag"
-	desc = "Гитара вместе с чехлом. Очень быстро окупит вложеные в неё кредиты."
-	cost = 500
-	contains = list(/obj/item/storage/backpack/guitarbag/loaded)
+//---------------------------------------------------------------------------------------------------------------------------------
+/obj/item/robot_module/inteq_builder
+	name = "InteQ Engineering"
+	has_snowflake_deadsprite = TRUE
+	basic_modules = list(
+		/obj/item/pickaxe/drill/jackhammer/angle_grinder,
+		/obj/item/assembly/flash/cyborg,
+		/obj/item/construction/rcd/borg, //----------------
+		/obj/item/pipe_dispenser,
+		/obj/item/weldingtool/largetank/cyborg,
+		/obj/item/screwdriver/cyborg,
+		/obj/item/wrench/cyborg,
+		/obj/item/crowbar/cyborg,
+		/obj/item/wirecutters/cyborg,
+		/obj/item/multitool/cyborg,
+		/obj/item/storage/part_replacer/cyborg,
+		/obj/item/holosign_creator/combifan,
+		/obj/item/gripper,
+		/obj/item/lightreplacer/cyborg,
+		/obj/item/assembly/signaler/cyborg,
+		/obj/item/areaeditor/blueprints/cyborg,
+		/obj/item/electroadaptive_pseudocircuit,
+		/obj/item/stack/sheet/metal/cyborg,
+		/obj/item/stack/sheet/glass/cyborg,
+		/obj/item/stack/sheet/rglass/cyborg,
+		/obj/item/stack/rods/cyborg,
+		/obj/item/stack/tile/plasteel/cyborg,
+		/obj/item/screwdriver/power/inteq,
+		/obj/item/stack/cable_coil/cyborg,
+		/obj/item/cyborg_inducer)
+	emag_modules = list(/obj/item/borg/stun)
+	ratvar_modules = list(
+		/obj/item/clockwork/slab/cyborg/engineer,
+		/obj/item/clockwork/replica_fabricator/cyborg)
+	cyborg_base_icon = "mekainteq"
+	cyborg_icon_override = 'modular_bluemoon/Ren/Icons/Mob/robot.dmi'
+	hasrest = TRUE
+	magpulsing = TRUE
+	hat_offset = -4
 
-/datum/supply_pack/goody/cloak
-	name = "Cloak of true miner"
-	desc = "Красный плащ с чёрным силуэтом черепа в очках. Ходят слухи, что он принадлежал величайшему шахтёру, чей бур мог пронзить небеса. А теперь это ещё один символ победившего капитализма."
-	cost = 3000
-	contains = list(/obj/item/clothing/neck/cloak/miner)
+/mob/living/silicon/robot/modules/inteq/builder
+	icon_state = "mekainteq"
+	playstyle_string = "<span class='big bold'>Вы - Строительный Киборг ИнтеКью!</span><br>\
+						<b>Вы вооружены надежными инженерными средствами, которые помогут вам выполнить задание: помочь союзным оперативникам. \
+						Ваш Маркер Назначения позволит Вам скрытно перемещаться по сети утилизации по всей станции. \
+						Ваш сварочный аппарат позволит Вам ремонтировать экзокостюмы оперативников, а также себя и своих товарищей-киборгов. \
+						Ваш Киборг-Проектор Хамелеон позволит вам принять облик и зарегистрированное имя инженерного борга Nanotrasen и проводить тайные операции на Космических Станциях. \
+						Имейте в виду, что почти любой физический контакт или случайное повреждение нарушит ваш камуфляж! \
+						<i>Помогите оперативникам любой ценой!!!</i></b>"
+	set_module = /obj/item/robot_module/inteq_builder
+//---------------------------------------------------------------------------[ловушки]------------------------------------------------------------------------
+//колючая проволока
+/obj/structure/oldtrap
+	name = "old trap"
+	desc = "Ты не должен этого видеть"
+	icon = 'modular_bluemoon/Ren/Icons/Obj/misc.dmi'
+	icon_state = "razor"
+	anchored = TRUE
+	density = FALSE
+
+/obj/structure/oldtrap/razor_wire
+	name = "Razor wire"
+	desc = "Она и правда колючая."
+	max_integrity = 100
+	var/base = /obj/item/stack/sheet/mineral/wood
+	var/damage = 10
+
+/obj/structure/oldtrap/razor_wire/industrial
+	icon_state = "razor_industrial"
+	max_integrity = 400
+	base = /obj/item/stack/sheet/plasteel
+	damage = 20
+
+/obj/structure/oldtrap/razor_wire/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(istype(mover, /mob/living/silicon/robot))
+		return TRUE
+	if(istype(mover, /obj/item/projectile))
+		return TRUE
+	if(prob(50))
+		to_chat(mover, "<span class='danger'>Ты цепляешься за колючую проволоку, застревая в ней.</span>")
+		return FALSE
+
+/obj/structure/oldtrap/razor_wire/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/caltrop, 5, damage, 50, CALTROP_BYPASS_SHOES)
+
+/obj/structure/oldtrap/razor_wire/deconstruct(disassembled = TRUE)
+	if(!loc)
+		return
+	if(!(flags_1&NODECONSTRUCT_1))
+		var/amount = rand(1,10)
+		var/obj/R = new /obj/item/stack/rods(drop_location(), amount)
+		var/obj/D = new base(drop_location(), 5)
+		transfer_fingerprints_to(R,D)
+		qdel(src)
+	..()
+
+/obj/structure/oldtrap/razor_wire/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/wirecutters))
+		to_chat(user, "<span class='notice'>Ты разрезаешь колючую проволоку с помощью [I].</span>")
+		if(I.use_tool(src, user, 8 SECONDS, volume=50))
+			deconstruct()
+	if(istype(I, /obj/item/wrench))
+		if(anchored == TRUE)
+			to_chat(user, "<span class='notice'>Ты откручиваешь основание колючей проволоки с помощью [I].</span>")
+		else
+			to_chat(user, "<span class='notice'>Ты закручиваешь основание колючей проволоки с помощью [I].</span>")
+		if(I.use_tool(src, user, 20 SECONDS, volume=50))
+			anchored = !anchored
+	else
+		..()
+//Шипы
+/obj/structure/oldtrap/floor_spike
+	name = "Strange floor"
+	desc = "Я бы на него не наступал."
+	icon_state = "spike_trap"
+	max_integrity = 200
+	var/screwd = 0
+
+/obj/structure/oldtrap/floor_spike/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/caltrop, 25, 30, 100, CALTROP_BYPASS_SHOES)
+
+/obj/structure/oldtrap/floor_spike/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(istype(mover, /mob/living))
+		mover.visible_message("<span class='danger'>Ловушка активируется, выбрасывая свои шипы вверх!</span>", "<span class='danger'>Ты активируешь ловушку, заставляя шипы устремиться вверх!</span>")
+		icon_state = "spike_trap-2"
+		update_icon()
+
+/obj/structure/oldtrap/floor_spike/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/screwdriver))
+		if(screwd == 0)
+			to_chat(user, "<span class='notice'>Ты раскручиваешь винты креплений ловушки с шипами [I].</span>")
+			if(I.use_tool(src, user, 16 SECONDS, volume=50))
+				screwd = !screwd
+		else
+			to_chat(user, "<span class='notice'>Ты закручиваешь винты креплений ловушки с шипами [I].</span>")
+			if(I.use_tool(src, user, 16 SECONDS, volume=50))
+				screwd = !screwd
+	if(istype(I, /obj/item/crowbar))
+		if(screwd == 1)
+			to_chat(user, "<span class='notice'>Ты приподнимаешь пластину, удерживающую пружины ловушки.</span>")
+			if(I.use_tool(src, user, 30 SECONDS, volume=50))
+				deconstruct()
+	else
+		. = ..()
+
+/obj/structure/oldtrap/floor_spike/deconstruct(disassembled = TRUE)
+	if(!loc)
+		return
+	if(!(flags_1&NODECONSTRUCT_1))
+		var/amount = rand(1,5)
+		var/obj/R = new /obj/item/stack/sheet/plasteel(drop_location(), amount)
+		var/obj/D = new /obj/item/stake/hardened/silver(drop_location(), 3)
+		transfer_fingerprints_to(R,D)
+		qdel(src)
+	..()
+
+/obj/structure/billboard/fishstore
+	name = "Billboard"
+	desc = "An advertisement for a fishing store."
+	icon = 'modular_bluemoon/Ren/Icons/Obj/billboard.dmi'
+	icon_state = "billboard_fishstore"
+	max_integrity = 1000
+	bound_width = 96
+	bound_height = 64
+	density = TRUE
+	anchored = TRUE

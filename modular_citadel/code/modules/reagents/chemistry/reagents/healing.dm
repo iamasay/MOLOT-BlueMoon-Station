@@ -121,7 +121,6 @@
 				borrowed_health += (preheal_brute - C.getBruteLoss()) + (preheal_burn - C.getFireLoss()) + (preheal_tox - C.getToxLoss()) + ((preheal_oxy - C.getOxyLoss()) / 2)	//Ironically this means that while slimes get damaged by the toxheal, it will reduce borrowed health and longterm effects. Funky!
 				C.updatehealth()
 				if(data["grown_volume"] > 135 && ((C.health + C.oxyloss)>=80))
-					var/tplus = world.time - M.timeofdeath
 					if(C.can_revive(ignore_timelimit = TRUE, maximum_brute_dam = MAX_REVIVE_BRUTE_DAMAGE / 2, maximum_fire_dam = MAX_REVIVE_FIRE_DAMAGE / 2, ignore_heart = TRUE) && C.revive())
 						C.grab_ghost()
 						C.emote("gasp")
@@ -129,11 +128,10 @@
 						if(borrowed_health < 100)
 							borrowed_health = 100
 						log_combat(C, C, "revived", src)
-						var/list/policies = CONFIG_GET(keyed_list/policy)
-						var/policy = policies[POLICYCONFIG_ON_DEFIB_LATE]	//Always causes memory loss due to the nature of synthtissue
-						if(policy)
-							to_chat(C, policy)
-						C.log_message("revived using synthtissue, [tplus] deciseconds from time of death, considered late revival due to usage of synthtissue.", LOG_GAME)
+						// BLUEMOON EDIT START - изменение памяти после смерти
+						C.mind?.forget_death(DEATH_FORGETFULNESS_REASON_SYNTHTISSUE)
+						C.mind?.revival_handle_memory("synthtissue")
+						// BLUEMOON EDIT END
 			else
 				var/preheal_brute = C.getBruteLoss()
 				var/preheal_burn = C.getFireLoss()
@@ -232,6 +230,7 @@
 	pH = 8
 	taste_description = "chalky metal"
 	color = "#FFDADA"
+	chemical_flags = REAGENT_ALL_PROCESS
 	metabolization_rate = 8 * REAGENTS_METABOLISM //Metabolizes fast but heals a lot! Lasts far longer if more pure.
 	value = REAGENT_VALUE_RARE //Relatively hard to make now, might be fine with VERY_RARE instead depending on feedback.
 

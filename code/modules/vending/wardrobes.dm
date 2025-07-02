@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\wardrobes.dm'
 /obj/item/vending_refill/wardrobe
 	icon_state = "refill_clothes"
 
@@ -176,11 +177,12 @@
 	vend_reply = "Спасибо за использование AtmosDrobe!"
 	products = list(/obj/item/clothing/accessory/pocketprotector = 3,
 					/obj/item/clothing/head/beret/atmos = 3,
-					/obj/item/storage/backpack/industrial = 3,
-					/obj/item/storage/backpack/satchel/eng = 3,
-					/obj/item/storage/backpack/duffelbag/engineering = 3,
+					/obj/item/storage/backpack/atmospheric = 3,
+					/obj/item/storage/backpack/satchel/atmospheric = 3,
+					/obj/item/storage/backpack/duffelbag/atmospheric = 3,
 					/obj/item/clothing/head/hardhat/weldhat/dblue = 3,
 					/obj/item/clothing/suit/hooded/wintercoat/engineering/atmos = 3,
+					/obj/item/toy/plush/bm/atmosian = 1,
 					/obj/item/clothing/under/rank/engineering/atmospheric_technician = 5,
 					/obj/item/clothing/under/rank/engineering/atmospheric_technician/skirt = 5,
 					/obj/item/clothing/shoes/sneakers/black = 5)
@@ -227,11 +229,15 @@
 	name = "RoboDrobe"
 	desc = "A vending machine designed to dispense clothing known only to roboticists."
 	icon_state = "robodrobe"
-	product_slogans = "Ты превращаешь меня в TRUE, используй определения!;1000011110010000110000100010000101000100110010000010000110101100001100011000011000010000111011"
+	product_slogans = "Ты превращаешь меня в TRUE, используй определения!;11010000 10111100 11010000 10110000 11010001 10000010 11010001 10001100 100000 11010000 10110101 11010000 10110001 11010000 10110000 11010000 10111011"
 	vend_reply = "Спасибо за использование RoboDrobe!"
 	products = list(/obj/item/clothing/glasses/hud/diagnostic = 3,
 					/obj/item/stack/medical/nanogel = 5,
-					/obj/item/reagent_containers/blood/oilblood = 5, // BLUEMOON ADD - гидравлическая жидкость для синтетиков,
+					// BLUEMOON ADD START - гидравлическая жидкость для синтетиков в двух вариациях, систем клинер
+					/obj/item/reagent_containers/blood/oilblood = 5,
+					/obj/item/reagent_containers/glass/bottle/synthblood_deluxe = 1,
+					/obj/item/reagent_containers/glass/bottle/system_cleaner = 4,
+					// BLUEMOON ADD END
 					/obj/item/clothing/head/beret/robo = 3,
 					/obj/item/clothing/under/rank/rnd/roboticist = 3,
 					/obj/item/clothing/under/rank/rnd/roboticist/sleek = 3,
@@ -409,6 +415,7 @@
 					/obj/item/storage/belt/janitor = 2,
 					/obj/item/screwdriver = 2,
 					/obj/item/clothing/mask/balaclava/breath/redscarf/purplescarf = 2,
+					/obj/item/t_scanner/dirt_scanner = 2,
 					/obj/item/stack/cable_coil/random = 4)
 	refill_canister = /obj/item/vending_refill/wardrobe/jani_wardrobe
 	default_price = PRICE_CHEAP
@@ -472,6 +479,7 @@
 					/obj/item/clothing/head/pharaoh = 2,
 					/obj/item/clothing/neck/tie/cross = 7,
 					/obj/item/storage/fancy/candle_box = 3,
+					/obj/item/aspergillum = 3, // BLUEMOON ADD - инструмент для окропления святой водой
 					/obj/item/toy/plush/plushvar = 1, // BLUEMOON ADD - перенесено из категории примиума,
 					/obj/item/toy/plush/narplush = 1, // BLUEMOON ADD - перенесено из категории примиума,
 					/obj/item/clothing/head/clownmitre = 3, //BlueMoon changes,
@@ -495,6 +503,9 @@
 	refill_canister = /obj/item/vending_refill/wardrobe/chap_wardrobe
 	extra_price = PRICE_ALMOST_ONE_GRAND * 1.1
 	payment_department = ACCOUNT_SRV
+	vending_sound = 'sound/effects/pray.ogg' // BLUEMOON EDIT - особый звук для вендомата священника
+	vending_sound_vary = FALSE // BLUEMOON EDIT - особый звук для вендомата священника
+
 /obj/item/vending_refill/wardrobe/chap_wardrobe
 	machine_name = "DeusVend"
 
@@ -779,7 +790,7 @@
 		/obj/item/clothing/head/maid/syndicate/civil = 5,
 		/obj/item/clothing/head/helmet/swat/ds/civil = 5,
 		/obj/item/clothing/head/hats/warden/syndicate/civil = 5,
-		/obj/item/card/id/syndicate/one_access_copy = 5
+		/obj/item/card/id/callsign = 5
 	)
 	refill_canister = /obj/item/vending_refill/wardrobe/syndie_wardrobe/civil
 	light_color = COLOR_MOSTLY_PURE_RED
@@ -787,3 +798,4 @@
 /obj/item/vending_refill/wardrobe/syndie_wardrobe/civil
 	machine_name = "Civilian SynDrobe"
 	icon_state = "refill_donksoft"
+*/

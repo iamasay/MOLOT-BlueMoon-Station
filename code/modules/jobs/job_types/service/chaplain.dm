@@ -38,6 +38,7 @@
 	. = ..()
 	if(H.mind)
 		H.mind.isholy = TRUE
+		ADD_TRAIT(H.mind, TRAIT_ANTIMAGIC_NO_SELFBLOCK, JOB_TRAIT) // BLUEMOON ADD trait system
 
 	var/obj/item/storage/book/bible/booze/B = new
 
@@ -119,7 +120,7 @@
 		if("weeaboo","kawaii")
 			B.name = pick("Fanfiction Compendium","Japanese for Dummies","The Manganomicon","Establishing Your O.T.P")
 		else
-			B.name = "The Holy Book of [new_religion]"
+			B.name = "[new_religion]"
 
 	GLOB.religion = new_religion
 	GLOB.bible_name = B.name

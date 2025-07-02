@@ -107,21 +107,25 @@
 	w_class = WEIGHT_CLASS_BULKY
 	burst_size = 2
 	burst_shot_delay = 1
+	fire_delay = 2.5 //BLUEMOON ADD Снижаем скорострельность втшки в автоматическом режиме (Новый ребеланс, смена 3 на 2.5)
 	can_bayonet = TRUE
 	knife_x_offset = 25
 	knife_y_offset = 12
 	automatic_burst_overlay = FALSE
 
-/obj/item/gun/ballistic/automatic/wt550/Initialize(mapload)
-	..()
-	AddComponent(/datum/component/automatic_fire, 0.3 SECONDS)
-
 /obj/item/gun/ballistic/automatic/wt550/afterattack()
 	. = ..()
 	empty_alarm()
 
+// BLUEMOON ADD START enabling unused nomag sprite
+/obj/item/gun/ballistic/automatic/wt550/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/update_icon_updates_onmob)
+// BLUEMOON ADD END
+
 /obj/item/gun/ballistic/automatic/wt550/update_icon_state()
 	icon_state = "wt550[magazine ? "-[CEILING(((get_ammo(FALSE) / magazine.max_ammo) * 20) /4, 1)*4]" : "-0"]" //Sprites only support up to 20.
+	item_state = "wt550[magazine ? "" : "e"]" // BLUEMOON ADD enabling unused nomag sprite
 
 /obj/item/gun/ballistic/automatic/mini_uzi
 	name = "\improper Type U3 Uzi"
@@ -404,7 +408,7 @@
 	name = "Surplus Rifle"
 	desc = "One of countless obsolete ballistic rifles that still sees use as a cheap deterrent. Uses 10mm ammo and its bulky frame prevents one-hand firing."
 	icon_state = "surplus"
-	item_state = "moistnugget"
+	item_state = "sks"
 	fire_sound = 'sound/weapons/rifleshot.ogg'
 	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/m10mm/rifle
@@ -452,16 +456,12 @@
 	automatic_burst_overlay = FALSE
 	w_class = WEIGHT_CLASS_BULKY
 	weapon_weight = WEAPON_HEAVY
-	fire_delay = 2
+	fire_delay = 3 // BLUEMOON CHANGE Снижаем скорострельность лазгана в автоматическом режиме
 	can_suppress = FALSE
 	burst_size = 1
 	actions_types = list()
 	fire_sound = 'sound/weapons/lasgun.ogg'
 	casing_ejector = FALSE
-
-/obj/item/gun/ballistic/automatic/laser/lasgun/Initialize(mapload)
-	..()
-	AddComponent(/datum/component/automatic_fire, 0.3 SECONDS)
 
 /obj/item/gun/ballistic/automatic/laser/lasgun/update_icon_state()
 	icon_state = "boarding"

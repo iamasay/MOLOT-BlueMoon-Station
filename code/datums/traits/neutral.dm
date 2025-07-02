@@ -14,6 +14,7 @@
 	name = "Сноб"
 	desc = "Вас волнуют вещи утонченные, если комната выглядит некрасиво, она просто не стоит того, верно?"
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>Вы считаете, что знаете, как должны выглядеть вещи.</span>"
 	lose_text = "<span class='notice'>Кого вообще волнует декор?</span>"
 	medical_record_text = "Пациент ведёт себя напыщенно."
@@ -23,6 +24,7 @@
 	name = "Пристрастие к Ананасам"
 	desc = "Вы обожаете плоды ананасового дерева. Вы никак не можете прекратить наслаждаться этим сладким вкусом!"
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>У вас появляется сильное желание вкусить мякоти ананаса.</span>"
 	lose_text = "<span class='notice'>По всей видимости, ваше отношение к ананасам возвращается к нейтральному.</span>"
 	medical_record_text = "У пациента проявляется патологическая любовь к ананасам."
@@ -42,6 +44,7 @@
 	name = "Неприязнь к Ананасам"
 	desc = "Вы испытываете сильнейшее отвращение к плодам ананасового дерева. Серьёзно, кому они нравятся? И какой безумец посмел положить их на пиццу!?"
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>Вы задумываетесь над тем, какому идиоту вообще могут понравиться ананасы...</span>"
 	lose_text = "<span class='notice'>По всей видимости, ваше отношение к ананасам возвращается к нейтральному.</span>"
 	medical_record_text = "Пациент прав в своей нелюбви к ананасам."
@@ -61,6 +64,7 @@
 	name = "Извращенные Вкусы"
 	desc = "Вам не нравится то, что нравится большинству и наоборот."
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>Появляется желание съесть чего-нибудь странного.</span>"
 	lose_text = "<span class='notice'>Вам снова нравится есть типичную пищу.</span>"
 	medical_record_text = "Пациент демонстрирует атипичные предпочтения в пище."
@@ -102,6 +106,7 @@
 	desc = "Вас возбуждает боль."
 	value = 0
 	mob_trait = TRAIT_MASO
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>Вы хотите, чтобы вам причинили боль.</span>"
 	lose_text = "<span class='notice'>Боль больше не так заводит.</span>"
 
@@ -110,6 +115,7 @@
 	desc = "Вы быстрее возбуждаетесь."
 	value = 0
 	mob_trait = TRAIT_NYMPHO
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>У вас зудит в промежности.</span>"
 	lose_text = "<span class='notice'>Вы более не чувствуете того приятного жжения.</span>"
 
@@ -127,6 +133,7 @@
 	name = "Матёрый Волк"
 	desc = "Вы прошли долгий путь и пережили больше, чем остальные. Вы страдаете от жутких шрамов. Какова бы ни была причина, вы отказались от их удаления или аугментации."
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>Ваше тело видало лучшие дни.</span>"
 	lose_text = "<span class='notice'>Грехи можно смыть, но шрамы останутся...</span>"
 	medical_record_text = "Пациент выразил отказ от удаления многочисленных шрамов."
@@ -143,11 +150,10 @@
 	name = "Мусорный бак"
 	desc = "Вы можете есть мусор."
 	value = 0
+	flavor_quirk = TRUE
 	gain_text = "<span class='notice'>В голову приходит мысль пожевать банку из-под содовой.</span>"
 	lose_text = "<span class='notice'>Вы больше не хотите есть мусор.</span>"
 	mob_trait = TRAIT_TRASHCAN
-
-// Moved Colorist quirk to a loadout item
 
 /datum/quirk/salt_sensitive
 	name = "Чувствительность к Натрию"
@@ -169,6 +175,7 @@
 	name = "Фотограф"
 	desc = "Вы знаете как пользоваться фотоаппаратом, сокращая время между фотографией."
 	value = 0
+	flavor_quirk = TRUE
 	mob_trait = TRAIT_PHOTOGRAPHER
 	gain_text = "<span class='notice'>Вы знаете всё о фотографиях.</span>"
 	lose_text = "<span class='danger'>Вы забываете, как работают фотокамеры.</span>"
@@ -188,30 +195,186 @@
 	H.equip_to_slot(camera, ITEM_SLOT_BACKPACK) //SPLURT Edit
 	H.regenerate_icons()
 
-/datum/quirk/steel_ass
-	name = "Стальные Булки"
-	desc = "Вы ни разу не пропускали день ягодиц. У вас полный иммунитет ко всем формам ударов по заднице, и любой, кто попытается наградить вас шлепком, как правило, получит перелом кисти."
+// HYPERSTATION TRAITS
+
+/datum/quirk/milk_plus
+	name = "Сверхпродуктивная Грудь"
+	desc = "Ваша грудь производит и вмещает больше, чем обычно."
 	value = 0
-	mob_trait = TRAIT_STEEL_ASS
-	gain_text = span_notice("Ваш зад может составить конкуренцию големскому.")
-	lose_text = span_notice("Ваш зад ощущается более мягким и уязвимым к шлепкам.")
+	flavor_quirk = TRUE
+	gain_text = span_notice("Вы чувствуете давление в груди.")
+	lose_text = span_notice("Вы чувствуете, что ваша грудь стала легче.")
+	medical_record_text = "Грудь пациента демонстрируют высокую продуктивность."
+	var/increasedcum
 
-/datum/quirk/jiggly_ass
-	name = "Булки Грома"
-	desc = "Твоя задница, растягивающая штаны, настолько же приятна, насколько трудно удержать равновесие, когда ее шлепают!"
+/datum/quirk/milk_plus/add()
+	var/mob/living/carbon/M = quirk_holder
+	if(M.getorganslot(ORGAN_SLOT_BREASTS))
+		var/obj/item/organ/genital/breasts/T = M.getorganslot(ORGAN_SLOT_BREASTS)
+		T.fluid_mult += 0.5 //Base is 1
+		T.fluid_max_volume *= 1.75 //Fixes this.
+
+/datum/quirk/milk_plus/remove()
+	var/mob/living/carbon/M = quirk_holder
+	if(!M)
+		return
+	if(quirk_holder.getorganslot(ORGAN_SLOT_BREASTS))
+		var/obj/item/organ/genital/breasts/T = M.getorganslot(ORGAN_SLOT_BREASTS)
+		T.fluid_mult -= 0.5 //Base is 1
+		T.fluid_max_volume *= 0.25 //Base is 50
+
+/datum/quirk/milk_plus/on_process()
+	var/mob/living/carbon/M = quirk_holder //If you get balls later, then this will still proc
+	if(M.getorganslot(ORGAN_SLOT_BREASTS))
+		var/obj/item/organ/genital/breasts/T = M.getorganslot(ORGAN_SLOT_BREASTS)
+		if(!increasedcum)
+			T.fluid_mult = 1.5 //Base is 0.133
+			T.fluid_max_volume *= 1.75
+			increasedcum = TRUE
+
+/datum/quirk/kartavii
+	name = "Картавый"
+	desc = "Вы не знаете, как проговаривать букву \"Р\"."
 	value = 0
-	mob_trait = TRAIT_JIGGLY_ASS
-	gain_text = span_notice("Ваш зад кажется очень удобным для шлепков.")
-	lose_text = span_notice("Ваша задница снова чувствует себя нормально.")
+	mob_trait = TRAIT_KARTAVII
+	flavor_quirk = TRUE
+	gain_text = span_notice("Забываю как проговаривать букву \"Р\".")
+	lose_text = span_danger("Вспоминаю как проговаривать букву \"Р\".")
+	medical_record_text = "Пациент не может проговаривать букву \"Р\"."
 
-/datum/quirk/jiggly_ass/add()
-	// Add examine text
-	RegisterSignal(quirk_holder, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine_holder))
+proc/kartavo(message)
+	var/num = rand(1, 3)
+	switch(prob(75) && num)
+		if(1)
+			message = replacetextEx(message, "р", "г'")
+			message = replacetextEx(message, "Р", "Г'")
+		if(2)
+			message = replacetextEx(message, "р", "гх")
+			message = replacetextEx(message, "Р", "Гх")
+		if(3)
+			message = replacetextEx(message, "р", "гъ")
+			message = replacetextEx(message, "Р", "Гъ")
 
-/datum/quirk/jiggly_ass/remove()
+	return message
+
+/datum/quirk/asiat
+	name = "Азиат"
+	desc = "Долгое время работы в рисовых полях и жара палящего сверху солнца даровала вам этот прекрасный акцент."
+	value = 0
+	mob_trait = TRAIT_ASIAT
+	flavor_quirk = TRUE
+	gain_text = span_notice("Чиньг-чоньг!.")
+	lose_text = span_danger("Аниме говно.")
+	medical_record_text = "Пациент - азиат."
+
+proc/asiatish(message)
+	message = replacetext_char(message, "ра", "ля")
+	message = replacetext_char(message, "ла", "ля")
+	message = replacetext_char(message, "ло", "льо")
+	message = replacetext_char(message, "да", "тя")
+	message = replacetext_char(message, "бо", "по")
+	message = replacetext_char(message, "за", "ся")
+	message = replacetext_char(message, "чу", "сю")
+	message = replacetext_char(message, "та", "тя")
+	message = replacetext_char(message, "же", "се")
+	message = replacetext_char(message, "хо", "ха")
+	message = replacetext_char(message, "гд", "кт")
+	message = replacetextEx(message, "д", "т")
+	message = replacetextEx(message, "ч", "с")
+	message = replacetextEx(message, "з", "с")
+	message = replacetextEx(message, "р", "л")
+	message = replacetextEx(message, "ы", "и")
+	message = replacetextEx(message, "Д", "т")
+	message = replacetextEx(message, "Ч", "с")
+	message = replacetextEx(message, "З", "с")
+	message = replacetextEx(message, "Р", "л")
+	message = replacetextEx(message, "Ы", "и")
+
+	return message
+
+/datum/quirk/ukraine
+	name = "Украиновый"
+	desc = "Похоже, вы изучили новый язык и вы не замечаете в этом ничего необычного."
+	value = 0
+	flavor_quirk = TRUE
+	mob_trait = TRAIT_UKRAINE
+	gain_text = span_notice("А що такое?")
+	lose_text = span_danger("А что такое?")
+	medical_record_text = "Пациент испытывает любовь к синим и жёлтым цветам."
+
+/proc/ukraine(message)
+	message = replacetextEx_char(message, "РНД", "наукове суспільство")
+	message = replacetextEx_char(message, "добро пожаловать", "ласкаво просимо")
+	message = replacetextEx_char(message, "зачем", "навіщо")
+	message = replacetextEx_char(message, "победа", "перемога")
+	message = replacetextEx_char(message, "это", "це")
+	message = replacetextEx_char(message, "почему", "чому")
+	message = replacetextEx_char(message, "хлеб", "хліб")
+	message = replacetextEx_char(message, "фонарик", "ліхтарик")
+	message = replacetextEx_char(message, "СБ", "охорона")
+	message = replacetextEx_char(message, "лук", "цибуля")
+	message = replacetextEx_char(message, "хорошо", "гарно")
+	message = replacetextEx_char(message, "звезда", "зірка")
+	message = replacetextEx_char(message, "арбуз", "кавун")
+	message = replacetextEx_char(message, "сука", "курва")
+	message = replacetextEx_char(message, "бред", "маячня")
+	message = replacetextEx_char(message, "мне", "мені")
+	message = replacetextEx_char(message, "сигареты", "цигарки")
+	message = replacetextEx_char(message, "сигарета", "цигарка")
+	message = replacetextEx_char(message, "или", "чи")
+	message = replacetextEx_char(message, "кто", "хто")
+	message = replacetextEx_char(message, "пофиг", "байдуже")
+	message = replacetextEx_char(message, "добрый день", "доброго дня")
+	message = replacetextEx_char(message, "привет", "здоровенькі були")
+	message = replacetextEx_char(message, "блять", "дідько")
+	message = replacetextEx_char(message, "блядь", "дідько")
+	message = replacetextEx_char(message, "ХОС", "дільничий")
+	message = replacetextEx_char(message, "водка", "горілка")
+	message = replacetextEx_char(message, "что", "шо")
+	message = replacetextEx_char(message, "КМ", "комірник")
+	message = replacetextEx_char(message, "СМО", "головний ліпило")
+	message = replacetextEx_char(message, "ГСБ", "дільничий")
+	message = replacetextEx_char(message, "маг", "чаклун")
+	message = replacetextEx_char(message, "лоза", "бур'ян")
+	message = replacetextEx_char(message, "культ", "нехристь")
+	message = replacetextEx_char(message, "мостик", "майдан")
+	message = replacetextEx_char(message, "ученый", "вчений")
+	message = replacetextEx_char(message, "инженер", "слюсар")
+	message = replacetextEx_char(message, "капитан", "гетьман")
+	message = replacetextEx_char(message, "предатель", "зрадник")
+	message = replacetextEx_char(message, "генокрад", "москаль")
+	message = replacetextEx_char(message, "зажигалка", "спалахуйка")
+	message = replacetextEx_char(message, "зеркало", "пикогляд")
+	message = replacetextEx_char(message, "презерватив", "нацюцюрник")
+	message = replacetextEx_char(message, "пизда", "піхва")
+	message = replacetextEx_char(message, "хуй", "прутень")
+	message = replacetextEx_char(message, "врач", "лікар")
+	message = replacetextEx_char(message, "бармен", "наливайко")
+	message = replacetextEx_char(message, "повар", "кухар")
+	message = replacetextEx_char(message, "ы", "и")
+	message = replacetextEx_char(message, "и", "і")
+	message = replacetextEx_char(message, "ъ", "ї")
+
+	return message
+
+/datum/quirk/russian
+	name = "Русский дух"
+	desc = "Вы были благословлены высшими силами или каким-то иным образом наделены святой энергией. С вами Бог!"
+	value = 0
+	mob_trait = TRAIT_RUSSIAN
+	flavor_quirk = TRUE
+	gain_text = span_notice("Вы чувствуете, как Бог следит за вами!")
+	lose_text = span_notice("Вы чувствуете, как угасает ваша вера в Бога...")
+	medical_record_text = "У пациента обнаружен Ангел-Хранитель."
+
+/datum/quirk/russian/add()
+	// Add examine text.
+	RegisterSignal(quirk_holder, COMSIG_PARENT_EXAMINE, PROC_REF(quirk_examine_russian))
+
+/datum/quirk/russian/remove()
 	// Remove examine text
 	UnregisterSignal(quirk_holder, COMSIG_PARENT_EXAMINE)
 
-// Quirk examine text
-/datum/quirk/jiggly_ass/proc/on_examine_holder(atom/examine_target, mob/living/carbon/human/examiner, list/examine_list)
-	examine_list += span_lewd("[quirk_holder.ru_ego(TRUE)] заднице не помешает крепкий шлепок.")
+// Quirk examine text.
+/datum/quirk/russian/proc/quirk_examine_russian(atom/examine_target, mob/living/carbon/human/examiner, list/examine_list)
+	examine_list += "[quirk_holder.ru_who(TRUE)] излучает русский дух..."

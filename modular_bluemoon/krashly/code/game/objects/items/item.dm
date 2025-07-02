@@ -94,7 +94,6 @@
 	icon_state = "full"
 	item_flag = /obj/item/sign/flag/inteq
 	var/datum/proximity_monitor/advanced/demoraliser/demotivator
-	var/next_scare = 0
 
 /obj/structure/sign/flag/inteq/Initialize(mapload)
 	demotivator = new(src, 7, TRUE)
@@ -102,53 +101,14 @@
 	return ..()
 
 /obj/structure/sign/flag/inteq/process()
-
+	if(world.time < demotivator.next_scare)
+		return
+	var/scared_someone = FALSE
 	for(var/mob/living/viewer in view(5, src))
-		if(world.time > next_scare)
-			next_scare = world.time + 120
-			pugach(viewer)
-
-/obj/structure/sign/flag/inteq/proc/pugach(mob/living/viewer)
-	var/message = pick("spooks you to the bone", "shakes you up", "terrifies you", "sends you into a panic", "sends chills down your spine")
-	if (viewer.stat != CONSCIOUS)
-		return
-	if(viewer.is_blind())
-		return
-	if(!ishuman(viewer))
-		return
-	if(HAS_TRAIT(viewer, TRAIT_FEARLESS))
-		return
-	if(IS_INTEQ(viewer))
-		return
-	if(viewer.mind && (viewer.mind?.antag_datums)) // все антажки
-		return
-	else
-		to_chat(viewer, "<span class='userdanger'>Seeing propagand of Inteq [message]!</span>")
-		var/reaction = rand(1,5)
-		switch(reaction)
-			if(1)
-				to_chat(viewer, "<span class='warning'>You are paralyzed with fear!</span>")
-				viewer.Stun(70)
-				viewer.Jitter(8)
-			if(2)
-				viewer.emote("scream")
-				viewer.Jitter(5)
-				viewer.say("AAAAH!!", forced = "phobia")
-				viewer.pointed(src)
-			if(3)
-				viewer.emote("realagony")
-				viewer.Jitter(5)
-				viewer.say("AAAAH!!", forced = "phobia")
-				viewer.pointed(src)
-			if(4)
-				viewer.emote("chill")
-				viewer.Jitter(5)
-				viewer.pointed(src)
-			if(5)
-				viewer.dizziness += 10
-				viewer.confused += 10
-				viewer.Jitter(10)
-				viewer.stuttering += 10
+		demotivator.pugach(viewer)
+		scared_someone = TRUE
+	if(scared_someone)
+		demotivator.next_scare = world.time + 120
 
 
 /obj/structure/sign/flag/inteq/Destroy()
@@ -163,10 +123,17 @@
 	icon_state = "mini"
 	sign_path = /obj/structure/sign/flag/inteq
 
-/obj/item/poster/random_inteq
-	name = "random InteQ poster"
-	poster_type = /obj/structure/sign/poster/contraband/inteq/random
-	icon_state = "rolled_contraband"
+/obj/item/sign/flag/inteq/afterattack(atom/target, mob/user, proximity)
+	if(!iswallturf(target) || !proximity)
+		return ..()
+	if(!ishuman(user))
+		return FALSE
+	var/mob/living/carbon/human/placer = user
+	if(!IS_INTEQ(placer) && !placer.mind?.antag_datums)
+		to_chat(placer, span_warning("Вы разворачиваете флаг, и тут замечаете, что это пропаганда InteQ! Ну его, от греха подальше!"))
+		placer.drop_all_held_items()
+		return
+	. = ..()
 
 /obj/item/storage/box/inteq_box/posters
 	name = "InteQ Posters Box"
@@ -180,137 +147,6 @@
 	new	/obj/item/poster/random_inteq(src)
 	new	/obj/item/poster/random_inteq(src)
 	new	/obj/item/poster/random_inteq(src)
-
-///////
-
-/obj/structure/sign/poster/contraband/inteq
-	var/datum/proximity_monitor/advanced/demoraliser/demotivator
-	var/next_scare = 0
-
-/obj/structure/sign/poster/contraband/inteq/Initialize(mapload)
-	demotivator = new(src, 7, TRUE)
-	START_PROCESSING(SSobj,src)
-	return ..()
-
-/obj/structure/sign/poster/contraband/inteq/process()
-	for(var/mob/living/viewer in view(5, src))
-		if(world.time > next_scare)
-			next_scare = world.time + 120
-			pugach(viewer)
-
-/obj/structure/sign/poster/contraband/inteq/proc/pugach(mob/living/viewer)
-	var/message = pick("spooks you to the bone", "shakes you up", "terrifies you", "sends you into a panic", "sends chills down your spine")
-	if (viewer.stat != CONSCIOUS)
-		return
-	if(viewer.is_blind())
-		return
-	if(!ishuman(viewer))
-		return
-	if(HAS_TRAIT(viewer, TRAIT_FEARLESS))
-		return
-	if(IS_INTEQ(viewer))
-		return
-	if(viewer.mind && (viewer.mind?.antag_datums)) // все антажки
-		return
-	else if(HAS_TRAIT(viewer, TRAIT_MINDSHIELD))
-		viewer.emote("chill")
-		viewer.Jitter(5)
-		viewer.pointed(src)
-	else
-		to_chat(viewer, "<span class='userdanger'>Seeing propagand of Inteq [message]!</span>")
-		var/reaction = rand(1,5)
-		switch(reaction)
-			if(1)
-				to_chat(viewer, "<span class='warning'>You are paralyzed with fear!</span>")
-				viewer.Stun(70)
-				viewer.Jitter(8)
-			if(2)
-				viewer.emote("scream")
-				viewer.Jitter(5)
-				viewer.say("AAAAH!!", forced = "phobia")
-				viewer.pointed(src)
-			if(3)
-				viewer.emote("realagony")
-				viewer.Jitter(5)
-				viewer.say("AAAAH!!", forced = "phobia")
-				viewer.pointed(src)
-			if(4)
-				viewer.emote("chill")
-				viewer.Jitter(5)
-				viewer.pointed(src)
-			if(5)
-				viewer.dizziness += 10
-				viewer.confused += 10
-				viewer.Jitter(10)
-				viewer.stuttering += 10
-
-//////
-
-
-/obj/structure/sign/poster/contraband/inteq/attackby(obj/item/tool, mob/user, params)
-	if (tool.tool_behaviour == TOOL_WIRECUTTER)
-		QDEL_NULL(demotivator)
-	return ..()
-
-/obj/structure/sign/poster/contraband/inteq/Destroy()
-	QDEL_NULL(demotivator)
-	return ..()
-
-/obj/structure/sign/poster/contraband/inteq/on_attack_hand(mob/living/carbon/human/user)
-	if(istype(user) && user.dna.check_mutation(TK))
-		to_chat(user, "<span class='notice'>You telekinetically remove the [src].</span>")
-	else if(user.gloves)
-		if(istype(user.gloves,/obj/item/clothing/gloves/tackler))
-			to_chat(user, "<span class='warning'>Вы срываете [src], но лезвия на обороте режут вам руку!</span>")
-			user.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-	else
-		to_chat(user, "<span class='warning'>Вы пытаетесь сорвать [src], но лезвия на обороте режут вам руку и мешают поддеть [src]!</span>")
-		to_chat(user, "<span class='warning'>Нужны кусачки!</span>")
-		user.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-		return
-	.=..()
-///////
-/obj/structure/sign/poster/contraband/inteq/random
-	name = "random contraband poster"
-	icon_state = "random_contraband"
-	never_random = TRUE
-	random_basetype = /obj/structure/sign/poster/contraband/inteq
-
-/obj/structure/sign/poster/contraband/inteq/inteq_recruitment
-	name = "InteQ Recruitment"
-	desc = "Увидь Галактику! Заработай денег! Вступай сегодня!"
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq"
-
-/obj/structure/sign/poster/contraband/inteq/inteq_sign
-	name = "InteQ poster"
-	desc = "Частная Военная Компания, занимающаяся обороной частных предприятий и выполнением заказов. В данный момент они хотят уничтожить Пакт между НТ и Синдикатом..."
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq_baza"
-
-/obj/structure/sign/poster/contraband/inteq/inteq_better_dead
-	name = "Better Dead!"
-	desc = "Сокрушим врагов!"
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq_better_dead"
-
-/obj/structure/sign/poster/contraband/inteq/inteq_no_peace
-	name = "No peace!"
-	desc = "Не имей сто друзей, а имей сто рублей, Вступай в ЧВК 'InteQ'!"
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq_no_love"
-
-/obj/structure/sign/poster/contraband/inteq/inteq_no_sex
-	name = "No SEX"
-	desc = "Хватит дрочить, вступай в ЧВК 'InteQ'!"
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq_no_sex"
-
-/obj/structure/sign/poster/contraband/inteq/inteq_vulp
-	name = "InteQ Recruitment"
-	desc = "Коричневый постер. На нём написано: 'Даже если ты дрочишь на вульп, вступай в ЧВК 'InteQ'. Сокрушим врагов вместе!'."
-	icon = 'modular_bluemoon/krashly/icons/obj/poster.dmi'
-	icon_state = "poster_inteq_vulp"
 
 /obj/item/storage/box/inteq_box
 	name = "brown box"
@@ -382,37 +218,13 @@
 	icon_state = "toy_ares"
 	max_combat_health = 7 //350 integrity
 
-
-// Лодаут
-
+/// Лодаут
 /datum/gear/accessory/hand_mirror
 	name = "A hand mirror"
 	path = /obj/item/hand_mirror
 	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
 
-/datum/gear/neck/windy_scarf
-	name = "A windy scarf"
-	path = /obj/item/clothing/neck/windy_scarf
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
-/datum/gear/head/bow
-	name = "A polychromic bow"
-	path = /obj/item/toy/fluff/bant
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
 /////// Заказ Алхимика. ///////
-// Общие шмотки в лодаут:
-
-/datum/gear/mask/pipe
-	name = "Smoking Pipe"
-	path = /obj/item/clothing/mask/cigarette/pipe
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
-/datum/gear/head/rose
-	name = "Rose"
-	path = /obj/item/grown/rose
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
 // Рескин шмоток:
 
 /obj/item/paper/book_alch
@@ -444,28 +256,12 @@
 	throwforce = 2
 
 /obj/item/storage/wallet/cat_alch
-	name = "Alchemist's Neko Wallet"
+	name = "Neko Wallet"
 	desc = "Этот кот просит денег."
 	icon = 'modular_bluemoon/krashly/icons/obj/alchemist.dmi'
-	icon_state = "maneki-neko"
+	icon_state = "wallet"
 
 // Шмотки в конкретный лодаут по Кею.
-
-/datum/gear/donator/bm/book_alch
-	name = "Alchemist's Book"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/paper/book_alch
-	ckeywhitelist = list("trollandrew")
-	subcategory = LOADOUT_SUBCATEGORIES_DON02
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
-/datum/gear/donator/bm/cat_alch
-	name = "Neko Wallet"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/storage/wallet/cat_alch
-	ckeywhitelist = list("trollandrew")
-	subcategory = LOADOUT_SUBCATEGORIES_DON02
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
 
 /datum/gear/donator/bm/vape
 	name = "Vape"
@@ -503,14 +299,3 @@
 	name = "Coconut Bong"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/bong/coconut
-	ckeywhitelist = list("trollandrew")
-	subcategory = LOADOUT_SUBCATEGORIES_DON02
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
-/datum/gear/donator/bm/armyknife
-	name = "Army Knife"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/armyknife
-	ckeywhitelist = list("trollandrew")
-	subcategory = LOADOUT_SUBCATEGORIES_DON02
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION

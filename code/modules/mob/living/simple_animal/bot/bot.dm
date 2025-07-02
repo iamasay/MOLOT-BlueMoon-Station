@@ -243,7 +243,7 @@
 
 /mob/living/simple_animal/bot/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
-	if(. && prob(10))
+	if(. && amount > 0 && prob(10))
 		new oil_spill_type(loc)
 
 /mob/living/simple_animal/bot/updatehealth()
@@ -945,7 +945,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	. = ..()
 	bot_reset()
 
-/mob/living/simple_animal/bot/revive(full_heal = 0, admin_revive = 0)
+/mob/living/simple_animal/bot/revive(full_heal = 0, admin_revive = 0, excess_healing = 0)
 	if(..())
 		update_icon()
 		. = 1

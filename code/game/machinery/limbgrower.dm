@@ -306,7 +306,7 @@
 				var/obj/item/organ/genital/penis/penis = new(loc)
 				if(features["has_cock"])
 					penis.shape = features["cock_shape"]
-					penis.length = features["cock_shape"]
+					penis.length = features["cock_length"]
 					penis.diameter_ratio = features["cock_diameter_ratio"]
 					penis.color = sanitize_hexcolor(features["cock_color"], 6, TRUE)
 					penis.update()
@@ -383,8 +383,10 @@
 	C.med_hud_set_health()
 	C.underwear = "Nude"
 	C.undershirt = "Nude"
+	/*
 	C.saved_underwear = ""
 	C.saved_undershirt = ""
+	*/
 
 	// Just enough to start reviving them, I hope
 	C.blood_volume = BLOOD_VOLUME_SURVIVE

@@ -69,6 +69,7 @@ All ShuttleMove procs go here
 /turf/proc/afterShuttleMove(turf/oldT, rotation)
 	//Dealing with the turf we left behind
 	oldT.TransferComponents(src)
+	SEND_SIGNAL(oldT, COMSIG_TURF_AFTER_SHUTTLE_MOVE, src) //Mostly for decals
 	var/shuttle_boundary = baseturfs.Find(/turf/baseturf_skipover/shuttle)
 	if(shuttle_boundary)
 		oldT.ScrapeAway(baseturfs.len - shuttle_boundary + 1)
@@ -318,7 +319,7 @@ All ShuttleMove procs go here
 	if(buckled)
 		return
 	// BLUEMOON ADD START - Персонажи с размером более 150% не падают на пол
-	if(get_size(src) >= 1.5 && !HAS_TRAIT(src, TRAIT_BLUEMOON_LIGHT))
+	if(get_size(src) >= 1.5 && src.mob_weight > MOB_WEIGHT_LIGHT)
 		to_chat(src, span_notice("Вас тряхнуло, но вы устояли на ногах благодаря своему размеру."))
 		Stun(movement_force["KNOCKDOWN"])
 		return
@@ -393,7 +394,7 @@ All ShuttleMove procs go here
 	. = ..()
 
 /obj/docking_port/stationary/public_mining_dock/onShuttleMove(turf/newT, turf/oldT, list/movement_force, move_dir, obj/docking_port/stationary/old_dock, obj/docking_port/mobile/moving_dock)
-	id = "mining_public" //It will not move with the base, but will become enabled as a docking point.
+	shuttle_id = "mining_public" //It will not move with the base, but will become enabled as a docking point.
 
 /obj/effect/abstract/proximity_checker/onShuttleMove(turf/newT, turf/oldT, list/movement_force, move_dir, obj/docking_port/stationary/old_dock, obj/docking_port/mobile/moving_dock)
 	//timer so it only happens once

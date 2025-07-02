@@ -337,6 +337,15 @@
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
+/datum/design/Dirtscanner
+	name = "Dirt Scanner (Sniffer)"
+	id = "dirtscanner"
+	build_type = AUTOLATHE | PROTOLATHE
+	materials = list(/datum/material/iron = 150)
+	build_path = /obj/item/t_scanner/dirt_scanner
+	category = list("initial", "Equipment", "Misc")
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
+
 /datum/design/advbroom
 	name = "Advanced Broom"
 	desc = "Новейшая разработка отдела РнД. Позволяет вам эффективно подметать мусор, не вставая с кресла.."
@@ -388,12 +397,22 @@
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
 /datum/design/buffer
-	name = "Floor Buffer Upgrade"
+	name = "(janicart) Floor Buffer Upgrade"
 	desc = "A floor buffer that can be attached to vehicular janicarts."
 	id = "buffer"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 3000, /datum/material/glass = 200)
-	build_path = /obj/item/janiupgrade
+	build_path = /obj/item/janicart_upgrade/buffer
+	category = list("Equipment")
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
+
+/datum/design/vacuum
+	name = "(janicart) Vacuum upgrade"
+	desc = "A vacuum that can be attached to vehicular janicarts."
+	id = "vacuum"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 3000, /datum/material/glass = 200)
+	build_path = /obj/item/janicart_upgrade/vacuum
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 

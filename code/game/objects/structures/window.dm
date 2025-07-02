@@ -38,6 +38,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	var/hitsound = 'sound/effects/Glasshit.ogg'
 	rad_insulation = RAD_VERY_LIGHT_INSULATION
 	rad_flags = RAD_PROTECT_CONTENTS
+	obj_flags = CAN_BE_HIT | BLOCKS_CONSTRUCTION_DIR | IGNORE_DENSITY //BLUEMOON ADD
 	flags_1 = ON_BORDER_1|DEFAULT_RICOCHET_1
 	flags_ricochet =  RICOCHET_HARD
 	ricochet_chance_mod = 0.4
@@ -209,6 +210,12 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	if(user.a_intent == INTENT_HARM)
 		user.visible_message(span_warning("[user] долбится об [src]!"))
 		balloon_alert_to_viewers("СТУК!!!")
+		take_damage(20, BRUTE, MELEE, 0)
+		var/mob/living/carbon/human/pro_user = user
+		if(user.active_hand_index == 1)
+			pro_user.apply_damage(10, BRUTE, BODY_ZONE_L_ARM, wound_bonus = 15)
+		else
+			pro_user.apply_damage(10, BRUTE, BODY_ZONE_R_ARM, wound_bonus = 15)
 		playsound(src, 'sound/effects/Glassknock.ogg', 100, 1)
 	else if(user.a_intent != INTENT_HARM)
 		user.visible_message("[user] стучится в [src].")
@@ -709,6 +716,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	max_integrity = 50
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
+	obj_flags = CAN_BE_HIT //BLUEMOON ADD
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(
 		/turf/closed/wall,

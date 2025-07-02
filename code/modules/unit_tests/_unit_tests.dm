@@ -93,7 +93,10 @@
 // #include "holidays.dm"
 // #include "hydroponics_harvest.dm"
 // #include "keybinding_init.dm"
+// #include "language_transfer.dm"
 #include "machine_disassembly.dm"
+#include "mapload_space_verification.dm"	// BLUEMOON EDIT: Invalid Space Turfs
+#include "mapping.dm"						// BLUEMOON EDIT: Invalid Space Turfs
 #include "medical_wounds.dm"
 #include "merge_type.dm"
 // #include "metabolizing.dm"
@@ -135,6 +138,9 @@
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"
 #endif
+
+/// BLUEMOON TESTS
+#include "bad_defines_defined.dm"
 
 #undef TEST_ASSERT
 #undef TEST_ASSERT_EQUAL

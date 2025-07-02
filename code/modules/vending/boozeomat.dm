@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\boozeomat.dm'
 /obj/machinery/vending/boozeomat
 	name = "\improper Booze-O-Mat"
 	desc = "A technological marvel, supposedly able to mix just the mixture you'd like to drink the moment you ask for one."
@@ -36,7 +37,8 @@
 					/obj/item/reagent_containers/food/drinks/soda_cans/sol_dry = 8,
 					/obj/item/reagent_containers/food/drinks/ice = 10,
 					/obj/item/reagent_containers/food/drinks/flask = 3,
-					/obj/item/reagent_containers/food/drinks/beer = 6
+					/obj/item/reagent_containers/food/drinks/beer = 6,
+					/obj/item/reagent_containers/food/drinks/kvass = 5 // BLUEMOON ADDED - kvass
 				)
 	contraband = list(/obj/item/reagent_containers/food/drinks/mug/tea = 12,
 					/obj/item/reagent_containers/food/drinks/bottle/fernet = 5)
@@ -87,3 +89,4 @@
 /obj/item/vending_refill/boozeomat
 	machine_name = "Booze-O-Mat"
 	icon_state = "refill_booze"
+*/

@@ -109,6 +109,83 @@
 	lefthand_file = 'modular_bluemoon/krashly/icons/mob/inhands/weapons/lefthand.dmi'
 	righthand_file = 'modular_bluemoon/krashly/icons/mob/inhands/weapons/righthand.dmi'
 
+/obj/item/toy/crayon/atam
+	name = "\improper Atam"
+	desc = "Ритуальный кинжал, сделанный из странного сплава железа и серебра. Обычно используется для оккультных ритуалов, но дожил до наших дней, и сейчас находится в твоём поле зрения. Рукоять подозрительно тяжёлая и на ней выгравированна слегка затёртая фраза, которая читается как 'О Калфу!' и цифра 3. Клинок слишком тупой, что бы кого то им поранить, и слишком острый, что бы не пораниться самому."
+	icon = 'modular_bluemoon/krashly/icons/obj/weapons/weapons.dmi'
+	icon_state = "knife"
+	item_state = "switchblade_ext"
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	w_class = WEIGHT_CLASS_NORMAL
+
+	reagent_contents = list(/datum/reagent/blood = 1)
+
+	attack_verb = list("attacked")
+	grind_results = list()
+	paint_color = "#a10e0e"
+
+	charges = -1
+
+	edible = FALSE
+
+	pre_noise = TRUE
+	post_noise = TRUE
+
+	pre_noise_sound = 'sound/items/sheath.ogg'
+	post_noise_sound = 'sound/weapons/slice.ogg'
+
+// Chaplain
+/obj/item/nullrod/hadar_red
+	name = "Carnagecarver"
+	desc = "A legendary relic of a devoted servant of his faith. It is a huge, bright red blade from which tongues of red flame emanate. It is ideal for exterminating heretics and all dark lords."
+	icon_state = "hadar_sword1"
+	item_state = "hadar_sword1"
+	icon = 'modular_bluemoon/krashly/icons/obj/weapons/tall.dmi'
+	lefthand_file = 'modular_bluemoon/krashly/icons/mob/inhands/weapons/tall/lefthand.dmi'
+	righthand_file = 'modular_bluemoon/krashly/icons/mob/inhands/weapons/tall/righthand.dmi'
+	mob_overlay_icon = 'modular_bluemoon/krashly/icons/mob/item_back/tall.dmi'
+	w_class = WEIGHT_CLASS_HUGE
+	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
+	block_chance = 30
+	sharpness = SHARP_EDGED
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	base_pixel_x = -16
+
+/obj/item/nullrod/hadar_red/ComponentInitialize() // Попросили чтобы занимал обе руки.
+	. = ..()
+	AddComponent(/datum/component/two_handed, require_twohands = TRUE)
+
+/obj/item/nullrod/hadar_red/add_blood_overlay() // Меч слишком большой для старой иконки крови на предметах, моя новая иконка фиксит красную половину меча.
+	if(!blood_DNA.len)
+		return
+	if(initial(icon) && initial(icon_state))
+		blood_splatter_icon = icon(initial(icon), initial(icon_state), , 1)
+		blood_splatter_icon.Blend("#fff", ICON_ADD)
+		blood_splatter_icon.Blend(icon('modular_bluemoon/krashly/icons/obj/weapons/tall.dmi', "item_blood"), ICON_MULTIPLY)
+		blood_splatter_icon.Blend(blood_DNA_to_color(), ICON_MULTIPLY)
+		add_overlay(blood_splatter_icon)
+
+/obj/item/nullrod/hadar_red/blue_one
+	name = "Fatebreather"
+	desc = "A legendary relic of a devoted servant of his faith. It is a huge sky-blue blade from which tongues of blue flame emanate. It is ideal for protecting yourself and those following your path."
+	icon_state = "hadar_sword2"
+	item_state = "hadar_sword2"
+
+// Misc
+/obj/item/toy/crayon/atam/draw_on(atom/target, mob/living/carbon/human/user, proximity, params)
+	. = ..()
+	if(user.blood_volume)
+		user.apply_damage(0.5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		user.bleed(10)
+		transfer_mob_blood_dna(user)
+		user.do_attack_animation(user)
+		user.visible_message("<span class='warning'>[user] [user.blood_volume ? "cuts open [user.ru_ego()] arm and begins writing in [user.ru_ego()] own blood":"begins sketching out a strange design"]!</span>", \
+					"<span class='cult'>You [user.blood_volume ? "slice open your arm and ":""]begin drawing a sigil.</span>")
+	else
+		to_chat(user, "<span class='warning'>You don't have blood!")
+		return
+
 //Ballistic
 
 /obj/item/gun/ballistic/automatic/ak12
@@ -181,17 +258,6 @@
 	name = "\improper Pink AK-12 magazine"
 	icon_state = "akr12_mag"
 	item_state = "akr12_mag"
-
-/datum/supply_pack/security/armory/ak12r
-	name = "Pink AK-12 Rifle Crate"
-	desc = "Contains one high-powered, fully automatic rifle, and three mags. Requires Armory access to open."
-	cost = 35000
-	contains = list(/obj/item/gun/ballistic/automatic/ak12/r,
-					/obj/item/ammo_box/magazine/ak12/r,
-					/obj/item/ammo_box/magazine/ak12/r,
-					/obj/item/ammo_box/magazine/ak12/r)
-	crate_name = "pink ak12 rifle crate"
-
 
 /obj/item/gun/ballistic/revolver/inteq
 	icon_state = "revolver_inteq"

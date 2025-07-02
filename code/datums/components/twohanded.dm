@@ -46,6 +46,9 @@
 	src.icon_wielded = icon_wielded
 
 // Inherit the new values passed to the component
+#define ISWIELDED(O) (SEND_SIGNAL(O, COMSIG_ITEM_CHECK_WIELDED) & COMPONENT_IS_WIELDED)
+
+// Inherit the new values passed to the component
 /datum/component/two_handed/InheritComponent(datum/component/two_handed/new_comp, original, require_twohands, wieldsound, unwieldsound, \
 											force_multiplier, force_wielded, force_unwielded, icon_wielded)
 	if(!original)
@@ -76,6 +79,7 @@
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_ICON, PROC_REF(on_update_icon))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(parent, COMSIG_ITEM_SHARPEN_ACT, PROC_REF(on_sharpen))
+	RegisterSignal(parent, COMSIG_ITEM_CHECK_WIELDED, PROC_REF(get_wielded))
 
 // Remove all siginals registered to the parent item
 /datum/component/two_handed/UnregisterFromParent()
@@ -85,7 +89,8 @@
 								COMSIG_ITEM_ATTACK,
 								COMSIG_ATOM_UPDATE_ICON,
 								COMSIG_MOVABLE_MOVED,
-								COMSIG_ITEM_SHARPEN_ACT))
+								COMSIG_ITEM_SHARPEN_ACT,
+								COMSIG_ITEM_CHECK_WIELDED))
 
 /// Triggered on equip of the item containing the component
 /datum/component/two_handed/proc/on_equip(datum/source, mob/user, slot)
@@ -205,14 +210,21 @@
 
 	// Update icons
 	parent_item.update_icon()
-	if(user.get_item_by_slot(ITEM_SLOT_BACK) == parent)
+	if(user.get_item_by_slot(ITEM_SLOT_BACK) == parent_item) // Bluemoon Edit-Fix || if(user.get_item_by_slot(ITEM_SLOT_BACK) == parent)
 		user.update_inv_back()
-	else
-		user.update_inv_hands()
+
+	// Bluemoon Addition - Start || Доп. проверка
+	if(user.get_item_by_slot(ITEM_SLOT_BELT) == parent_item)
+		user.update_inv_belt()
+	// Bluemoon Addition - End
+
+	user.update_inv_hands() // Bluemoon Edit-Fix || Вынес, чтобы обновляло всегда.
 
 	// if the item requires two handed drop the item on unwield
-	if(require_twohands)
-		user.dropItemToGround(parent, force=TRUE)
+	/* // Bluemoon Removed - Start // Нахуя оно надо? Автор, ты еблан? Это буквально руин на ровном месте, который иначе никак не используется.
+	// if(require_twohands)
+	// 	user.dropItemToGround(parent, force=TRUE)
+	*/ // Bluemoon Removed - End
 
 	// Show message if requested
 	if(show_message)
@@ -230,7 +242,8 @@
 	// Remove the object in the offhand
 	if(offhand_item)
 		UnregisterSignal(offhand_item, COMSIG_ITEM_DROPPED)
-		qdel(offhand_item)
+		if(!QDELETED(offhand_item))
+			qdel(offhand_item)
 	// Clear any old refrence to an item that should be gone now
 	offhand_item = null
 
@@ -290,6 +303,15 @@
 		return COMPONENT_BLOCK_SHARPEN_MAXED
 	sharpened_increase = min(amount, (max_amount - wielded_val))
 	return COMPONENT_BLOCK_SHARPEN_APPLIED
+
+/datum/component/two_handed/proc/get_wielded(obj/item/source)
+	SIGNAL_HANDLER
+
+	if(wielded)
+		return COMPONENT_IS_WIELDED
+	else
+		return 0
+
 
 /**
  * The offhand dummy item for two handed items

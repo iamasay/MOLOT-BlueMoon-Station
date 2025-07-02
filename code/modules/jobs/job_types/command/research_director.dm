@@ -18,6 +18,7 @@
 	considered_combat_role = TRUE
 
 	outfit = /datum/outfit/job/rd
+	departments = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_COMMAND
 	plasma_outfit = /datum/outfit/plasmaman/rd
 
 	access = list(ACCESS_RD, ACCESS_HEADS, ACCESS_TOX, ACCESS_GENETICS, ACCESS_MORGUE,
@@ -35,12 +36,19 @@
 	bounty_types = CIV_JOB_SCI
 
 	display_order = JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR
-	starting_modifiers = list(/datum/skill_modifier/job/level/wiring)
+	starting_modifiers = list(/datum/skill_modifier/job/level/wiring/basic) //BLUEMOON CHANGE job/level to basic
+	mind_traits = list(TRAIT_KNOW_CYBORG_WIRES, TRAIT_MECHA_EXPERT) //BLUEMOON ADD use #define TRAIT system
 	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/bluemoon_criminal)
 	threat = 5
 
 	family_heirlooms = list(
 		/obj/item/toy/plush/slimeplushie
+	)
+
+	mail_goodies = list(
+		/obj/item/storage/box/monkeycubes = 30,
+		/obj/item/circuitboard/machine/sleeper/party = 3,
+		/obj/item/borg/upgrade/ai = 2
 	)
 
 /datum/outfit/job/rd
@@ -52,10 +60,10 @@
 	ears = /obj/item/radio/headset/heads/rd
 	uniform = /obj/item/clothing/under/rank/rnd/research_director
 	shoes = /obj/item/clothing/shoes/sneakers/brown
-	suit = /obj/item/clothing/suit/toggle/labcoat
+	suit = /obj/item/clothing/suit/toggle/labcoat/rd
 	l_hand = /obj/item/clipboard
 	l_pocket = /obj/item/laser_pointer
-	backpack_contents = list( /obj/item/modular_computer/tablet/preset/advanced=1)
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced=1)
 	accessory = /obj/item/clothing/accessory/permit/special/research_director
 
 	backpack = /obj/item/storage/backpack/science

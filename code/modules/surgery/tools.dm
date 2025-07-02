@@ -353,6 +353,11 @@
 	icon_state = "surgical_drapes"
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb = list("slapped")
+	// BLUEMOON ADDITION AHEAD custom states IN HANDS
+	item_state = "surgical_drapes"
+	lefthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_lefthand.dmi'
+	righthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_righthand.dmi'
+	// BLUEMOON ADDITION END
 
 /obj/item/surgical_drapes/Initialize(mapload)
 	. = ..()
@@ -372,6 +377,13 @@
 	name = "smart surgical drapes"
 	desc = "A smart set of drapes with wireless synchronization to the station's research networks, with an integrated display allowing users to execute advanced surgeries without the aid of an operating computer."
 	var/datum/techweb/linked_techweb
+	// BLUEMOON ADDITION AHEAD custom states IN HANDS + ICON
+	icon_state = "surgical_drapes_adv"
+	item_state = "surgical_drapes_adv"
+	icon = 'modular_bluemoon/icons/obj/surgery.dmi'
+	lefthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_lefthand.dmi'
+	righthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_righthand.dmi'
+	// BLUEMOON ADDITION END
 
 /obj/item/surgical_drapes/advanced/Initialize(mapload)
 	. = ..()
@@ -494,3 +506,30 @@
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "bone setter_bone"
 	toolspeed = 0.85
+
+/obj/item/robotic_processor
+	name = "\improper Robotic Processor"
+	desc = "A device for scanning and initiating new synthetic parts to help fix problems even for unqualified personnel."
+	icon = 'icons/obj/device.dmi'
+	icon_state = "roboscan"
+	item_flags = NOBLUDGEON | SURGICAL_TOOL
+	slot_flags = ITEM_SLOT_BELT
+	var/const/tmp_qualification = QUALIFIED_ROBOTIC_MAINTER
+	var/list/already_notified = list()         // для pickup
+	var/list/dropped_notified = list()         // для dropped
+
+/obj/item/robotic_processor/pickup(mob/user)
+	. = ..()
+	if(user?.mind && !HAS_TRAIT(user.mind, tmp_qualification))
+		ADD_TRAIT(user.mind, tmp_qualification, src)
+		if(!(user.mind in already_notified))
+			to_chat(user, "<span class='notice' style='font-size:125%'>С помощью [src] вы теперь можете обслуживать синтетиков со сложным техобслуживанием.</span>")
+			already_notified += user.mind
+
+/obj/item/robotic_processor/dropped(mob/user)
+	. = ..()
+	if(user?.mind && HAS_TRAIT(user.mind, tmp_qualification))
+		REMOVE_TRAIT(user.mind, tmp_qualification, src)
+		if(!(user.mind in dropped_notified))
+			to_chat(user, "<span class='warning' style='font-size:125%'>Без [src] вы больше не можете обслуживать синтетиков со сложным техобслуживанием.</span>")
+			dropped_notified += user.mind

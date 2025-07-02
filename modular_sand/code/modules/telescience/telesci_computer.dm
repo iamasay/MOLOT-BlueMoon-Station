@@ -220,7 +220,7 @@
 		spawn(round(proj_data.time) * 10) // in seconds
 			if(!telepad)
 				return
-			if(telepad.stat & NOPOWER)
+			if(telepad.machine_stat & NOPOWER)
 				return
 			teleporting = 0
 			teleport_cooldown = world.time + (power * 2)
@@ -309,7 +309,7 @@
 		telefail()
 		temp_msg = list("ERROR!", "Elevation is less than 1 or greater than 90.")
 		return
-	if(z_co == 1 /*Centcom*/ || z_co < 1 || z_co > 13 /*Space max*/)
+	if(z_co == 1 /*Centcom*/ || z_co < 5 || z_co > 15 /*Space max*/)
 		telefail()
 		temp_msg = list("ERROR!", "Sector is outside known time and space!")
 		return

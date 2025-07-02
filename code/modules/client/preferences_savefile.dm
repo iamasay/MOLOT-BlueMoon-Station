@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	59
+#define SAVEFILE_VERSION_MAX	59.2
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -390,6 +390,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 58)
 		S["screentip_images"] = TRUE // This was meant to default active, i'm so sorry. Turn it off if you must.
 
+	if(current_version < 59.2) //BLUEMOON ADD Удаление квирков веса и перевод их в отдельную переменную
+		var/list/quirks = S["all_quirks"]
+		if(quirks.Find("Лёгкий"))
+			all_quirks.Remove("Лёгкий")
+			S["body_weight"] = NAME_WEIGHT_LIGHT
+		else if(quirks.Find("Тяжёлый"))
+			all_quirks.Remove("Тяжёлый")
+			S["body_weight"] = NAME_WEIGHT_HEAVY
+		else if(quirks.Find("Сверхтяжёлый"))
+			all_quirks.Remove("Сверхтяжёлый")
+			S["body_weight"] = NAME_WEIGHT_HEAVY_SUPER
+
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
 		return
@@ -599,7 +611,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		max_save_slots = old_max_save_slots
 		save_preferences(TRUE)
 
-	return TRUE
+	return S
 
 /datum/preferences/proc/verify_keybindings_valid()
 	// Sanitize the actual keybinds to make sure they exist.
@@ -725,7 +737,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(parent && !silent)
 		to_chat(parent, span_notice("Saved preferences!"))
 
-	return TRUE
+	return S
 
 /datum/preferences/proc/queue_save_pref(save_in, silent)
 	if(parent && !silent)
@@ -948,6 +960,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["headshot1"] 							>> features["headshot_link1"] //BLUEMOON edit
 	S["headshot2"] 							>> features["headshot_link2"] //BLUEMOON edit
 	S["shriek_type"] 						>> shriek_type // BLUEMOON ADD - выбор вида крика для квирка
+	S["summon_nickname"] 					>> summon_nickname // BLUEMOON ADD - выбор прозвища для призываемого
 	S["feature_hardsuit_with_tail"] 		>> features["hardsuit_with_tail"]
 	S["persistent_scars"] 					>> persistent_scars
 	S["scars1"] 							>> scars_list["1"]
@@ -1139,8 +1152,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(json_from_file)
 			belly_prefs = json_from_file["belly_prefs"]
 
+	S["alt_titles_preferences"] 		>> alt_titles_preferences
 	//gear loadout
-	if(S["loadout"])
+	if(istext(S["loadout"]))
 		loadout_data = safe_json_decode(S["loadout"])
 		var/list/sanitize_current_slot = loadout_data["SAVE_[loadout_slot]"]
 		if(LAZYLEN(sanitize_current_slot))
@@ -1168,6 +1182,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			loadout_data["SAVE_[loadout_slot]"] = list()
 	else
 		loadout_data = list()
+
+	//let's remember their last used slot, i'm sure "oops i brought the wrong stuff" will be an issue now
+	S["loadout_slot"] >> loadout_slot
+
 	//try to fix any outdated data if necessary
 	//preference updating will handle saving the updated data for us.
 	if(needs_update >= 0)
@@ -1409,13 +1427,22 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["pregnancy_breast_growth"] >> pregnancy_breast_growth
 	//SPLURT EDIT END
 
+	loadout_slot = sanitize_num_clamp(loadout_slot, 1, MAXIMUM_LOADOUT_SAVES, 1, TRUE)
+
+	alt_titles_preferences = SANITIZE_LIST(alt_titles_preferences)
+	if(SSjob)
+		for(var/datum/job/job in SSjob.occupations)
+			if(alt_titles_preferences[job.title])
+				if(!(alt_titles_preferences[job.title] in job.alt_titles))
+					alt_titles_preferences.Remove(job.title)
+
 	cit_character_pref_load(S)
 
 	splurt_character_pref_load(S)
 
 	bluemoon_character_pref_load(S)
 
-	return TRUE
+	return S
 
 /datum/preferences/proc/save_character(bypass_cooldown = FALSE, silent = FALSE, export = FALSE)
 	if(!path)
@@ -1450,7 +1477,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["hair_color"]							, hair_color)
 	WRITE_FILE(S["facial_hair_color"]					, facial_hair_color)
 	WRITE_FILE(S["eye_type"]							, eye_type)
-	WRITE_FILE(S["shriek_type"]							, shriek_type) // BLUEMOON AD
+	WRITE_FILE(S["shriek_type"]							, shriek_type) // BLUEMOON ADD
+	WRITE_FILE(S["summon_nickname"]						, summon_nickname) // BLUEMOON ADD
 	WRITE_FILE(S["feature_hardsuit_with_tail"]			, features["hardsuit_with_tail"])
 	WRITE_FILE(S["left_eye_color"]						, left_eye_color)
 	WRITE_FILE(S["right_eye_color"]						, right_eye_color)
@@ -1586,6 +1614,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_neckfire"], features["neckfire"])
 	WRITE_FILE(S["feature_neckfire_color"], features["neckfire_color"])
 
+	WRITE_FILE(S["alt_titles_preferences"], alt_titles_preferences)
+
 	WRITE_FILE(S["feature_ooc_notes"], features["ooc_notes"])
 
 	WRITE_FILE(S["feature_color_scheme"], features["color_scheme"])
@@ -1670,10 +1700,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//SPLURT EDIT END
 
 	//gear loadout
-	if(length(loadout_data))
+	if(islist(loadout_data))
 		S["loadout"] << safe_json_encode(loadout_data)
 	else
 		S["loadout"] << safe_json_encode(list())
+	WRITE_FILE(S["loadout_slot"], loadout_slot)
 
 	if(length(tcg_cards))
 		S["tcg_cards"] << safe_json_encode(tcg_cards)

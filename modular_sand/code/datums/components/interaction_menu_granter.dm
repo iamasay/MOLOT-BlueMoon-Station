@@ -15,14 +15,32 @@
 		return
 	menu.open_menu(usr, src)
 
-#define INTERACTION_NORMAL 0
-#define INTERACTION_LEWD 1
-#define INTERACTION_EXTREME 2
 #define INTERACTION_UNHOLY 3 //SPLURT Edit
 
 /// The menu itself, only var is target which is the mob you are interacting with
 /datum/component/interaction_menu_granter
 	var/mob/living/target
+	var/mob/living/auto_interaction_target
+	var/datum/interaction/currently_active_interaction
+	var/next_interaction_time
+	var/auto_interaction_pace = 1 SECONDS
+
+/datum/component/interaction_menu_granter/process(delta_time)
+	if(!currently_active_interaction)
+		auto_interaction_target = null
+		currently_active_interaction = null
+		return PROCESS_KILL
+	if(QDELETED(auto_interaction_target))
+		auto_interaction_target = null
+		currently_active_interaction = null
+		return PROCESS_KILL
+	if(world.time <= next_interaction_time)
+		return
+	next_interaction_time = world.time + auto_interaction_pace
+	if(!currently_active_interaction.do_action(parent, auto_interaction_target, apply_cooldown = FALSE))
+		auto_interaction_target = null
+		currently_active_interaction = null
+		return PROCESS_KILL
 
 /datum/component/interaction_menu_granter/Initialize(...)
 	if(!ismob(parent))
@@ -30,24 +48,29 @@
 	var/mob/parent_mob = parent
 	if(!parent_mob.client)
 		return COMPONENT_INCOMPATIBLE
-	. = ..()
+	return ..()
 
 /datum/component/interaction_menu_granter/RegisterWithParent()
 	. = ..()
 	RegisterSignal(parent, COMSIG_MOB_CTRLSHIFTCLICKON, PROC_REF(open_menu))
 
 /datum/component/interaction_menu_granter/Destroy(force, ...)
-	target = null
-	. = ..()
+	STOP_PROCESSING(SSinteractions, src)
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+		target = null
+	auto_interaction_target = null
+	currently_active_interaction = null
+	return ..()
 
 /datum/component/interaction_menu_granter/UnregisterFromParent()
 	UnregisterSignal(parent, COMSIG_MOB_CTRLSHIFTCLICKON)
-	if(target)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	. = ..()
+	return ..()
 
 /// The one interacting is clicker, the interacted is clicked.
-/datum/component/interaction_menu_granter/proc/open_menu(mob/clicker, mob/clicked)
+/datum/component/interaction_menu_granter/proc/open_menu(mob/living/clicker, mob/living/clicked)
+	if(!isliving(clicker))
+		return
 	// COMSIG_MOB_CTRLSHIFTCLICKON accepts `atom`s, prevent it
 	if(!istype(clicked))
 		return FALSE
@@ -68,7 +91,7 @@
 	target = null
 	SStgui.close_user_uis(parent, src)
 
-/datum/component/interaction_menu_granter/ui_state(mob/user)
+/datum/component/interaction_menu_granter/ui_state(mob/living/user)
 	// Funny admin, don't you dare be the extra funny now.
 	if(user.client.holder && !user.client.holder.deadmined)
 		return GLOB.always_state
@@ -76,7 +99,7 @@
 		return GLOB.conscious_state
 	return GLOB.never_state
 
-/datum/component/interaction_menu_granter/ui_interact(mob/user, datum/tgui/ui)
+/datum/component/interaction_menu_granter/ui_interact(mob/living/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "MobInteraction", "Interactions")
@@ -91,13 +114,14 @@
 		else
 			return 0
 
-/datum/component/interaction_menu_granter/ui_data(mob/user)
+/datum/component/interaction_menu_granter/ui_data(mob/living/user)
 	. = ..()
 	//Getting player
 	var/mob/living/self = parent
 	//Getting info
-	.["isTargetSelf"] = target == self
-	.["interactingWith"] = target != self ? "Взаимодействовать с \the [target]..." : "Взаимодействовать с собой..."
+	.["isTargetSelf"] = target == self // Why all of these?
+	.["user"] = self // Because people may have the same name
+	.["target"] = target // target == self can distinguish
 	.["selfAttributes"] = self.list_interaction_attributes(self)
 	.["lust"] = self.get_lust()
 	.["maxLust"] = self.get_lust_tolerance() * 3
@@ -113,6 +137,10 @@
 		required_from_user |= INTERACTION_REQUIRE_TOPLESS
 	if(self.is_bottomless())
 		required_from_user |= INTERACTION_REQUIRE_BOTTOMLESS
+	// BLUEMOON ADD
+	if(self.has_tail())
+		required_from_user |= INTERACTION_REQUIRE_TAIL
+	// BLUEMOON ADD
 	.["required_from_user"] = required_from_user
 
 	var/required_from_user_exposed = NONE
@@ -255,6 +283,10 @@
 			required_from_target |= INTERACTION_REQUIRE_TOPLESS
 		if(target.is_bottomless())
 			required_from_target |= INTERACTION_REQUIRE_BOTTOMLESS
+		// BLUEMOON ADD
+		if(target.has_tail())
+			required_from_target |= INTERACTION_REQUIRE_TAIL
+		// BLUEMOON ADD
 		.["required_from_target"] = required_from_target
 
 		var/required_from_target_exposed = NONE
@@ -365,6 +397,10 @@
 			if(istype(C.handcuffed, /obj/item/restraints/bondage_rope) || istype(C.legcuffed, /obj/item/restraints/bondage_rope))
 				.["theyHaveBondage"] = TRUE
 		//SPLURT EDIT END
+	.["auto_interaction_pace"] = auto_interaction_pace
+	.["is_auto_target_self"] = auto_interaction_target == self
+	.["auto_interaction_target"] = auto_interaction_target
+	.["currently_active_interaction"] = currently_active_interaction?.type
 
 	//Get their genitals
 	var/list/genitals = list()
@@ -415,46 +451,55 @@
 
 	var/datum/preferences/prefs = self?.client.prefs
 	if(prefs)
+	//Lust stuff, appears at the very top
+		.["use_arousal_multiplier"] = 	prefs.use_arousal_multiplier
+		.["arousal_multiplier"] =		prefs.arousal_multiplier
+		.["use_moaning_multiplier"] = 	prefs.use_moaning_multiplier
+		.["moaning_multiplier"] = 		prefs.moaning_multiplier
+
+	//Let's get their favorites!
+		.["favorite_interactions"] = 	SANITIZE_LIST(prefs.favorite_interactions)
+
 	//Getting char prefs
-		.["erp_pref"] = 			pref_to_num(prefs.erppref)
-		.["noncon_pref"] = 			pref_to_num(prefs.nonconpref)
-		.["vore_pref"] = 			pref_to_num(prefs.vorepref)
-		.["mobsex_pref"] = 			pref_to_num(prefs.mobsexpref)	//Hentai
-		.["hornyantags_pref"] = 			pref_to_num(prefs.hornyantagspref)	//Hentai
-		.["extreme_pref"] = 		pref_to_num(prefs.extremepref)
-		.["extreme_harm"] = 		pref_to_num(prefs.extremeharm)
-		.["unholy_pref"] =		pref_to_num(prefs.unholypref)
+		.["erp_pref"] = 				pref_to_num(prefs.erppref)
+		.["noncon_pref"] = 				pref_to_num(prefs.nonconpref)
+		.["vore_pref"] = 				pref_to_num(prefs.vorepref)
+		.["mobsex_pref"] = 				pref_to_num(prefs.mobsexpref)	//Hentai
+		.["hornyantags_pref"] = 		pref_to_num(prefs.hornyantagspref)	//Hentai
+		.["extreme_pref"] = 			pref_to_num(prefs.extremepref)
+		.["extreme_harm"] = 			pref_to_num(prefs.extremeharm)
+		.["unholy_pref"] =				pref_to_num(prefs.unholypref)
 
 	//Getting preferences
-		.["verb_consent"] = 		!!CHECK_BITFIELD(prefs.toggles, VERB_CONSENT)
-		.["lewd_verb_sounds"] = 	!CHECK_BITFIELD(prefs.toggles, LEWD_VERB_SOUNDS)
-		.["arousable"] = 			prefs.arousable
-		.["genital_examine"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, GENITAL_EXAMINE)
-		.["vore_examine"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, VORE_EXAMINE)
-		.["medihound_sleeper"] =	!!CHECK_BITFIELD(prefs.cit_toggles, MEDIHOUND_SLEEPER)
-		.["eating_noises"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, EATING_NOISES)
-		.["digestion_noises"] =		!!CHECK_BITFIELD(prefs.cit_toggles, DIGESTION_NOISES)
-		.["trash_forcefeed"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, TRASH_FORCEFEED)
-		.["forced_fem"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, FORCED_FEM)
-		.["forced_masc"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, FORCED_MASC)
-		.["hypno"] = 				!!CHECK_BITFIELD(prefs.cit_toggles, HYPNO)
-		.["bimbofication"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, BIMBOFICATION)
-		.["breast_enlargement"] = 	!!CHECK_BITFIELD(prefs.cit_toggles, BREAST_ENLARGEMENT)
-		.["penis_enlargement"] =	!!CHECK_BITFIELD(prefs.cit_toggles, PENIS_ENLARGEMENT)
-		.["butt_enlargement"] =		!!CHECK_BITFIELD(prefs.cit_toggles, BUTT_ENLARGEMENT)
-		.["belly_inflation"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, BELLY_INFLATION)
-		.["never_hypno"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NEVER_HYPNO)
-		.["no_aphro"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NO_APHRO)
-		.["no_ass_slap"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NO_ASS_SLAP)
-		.["no_auto_wag"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NO_AUTO_WAG)
-		.["no_disco_dance"] = 		!CHECK_BITFIELD(prefs.cit_toggles, NO_DISCO_DANCE)
-		.["chastity_pref"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, CHASTITY)
-		.["stimulation_pref"] = 	!!CHECK_BITFIELD(prefs.cit_toggles, STIMULATION)
-		.["edging_pref"] =			!!CHECK_BITFIELD(prefs.cit_toggles, EDGING)
-		.["cum_onto_pref"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, CUM_ONTO)
-		.["sex_jitter"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, SEX_JITTER)	//By Gardelin0
+		.["verb_consent"] = 			!!CHECK_BITFIELD(prefs.toggles, VERB_CONSENT)
+		.["lewd_verb_sounds"] = 		!!CHECK_BITFIELD(prefs.toggles, LEWD_VERB_SOUNDS)
+		.["arousable"] = 				prefs.arousable
+		.["genital_examine"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, GENITAL_EXAMINE)
+		.["vore_examine"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, VORE_EXAMINE)
+		.["medihound_sleeper"] =		!!CHECK_BITFIELD(prefs.cit_toggles, MEDIHOUND_SLEEPER)
+		.["eating_noises"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, EATING_NOISES)
+		.["digestion_noises"] =			!!CHECK_BITFIELD(prefs.cit_toggles, DIGESTION_NOISES)
+		.["trash_forcefeed"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, TRASH_FORCEFEED)
+		.["forced_fem"] = 				!!CHECK_BITFIELD(prefs.cit_toggles, FORCED_FEM)
+		.["forced_masc"] = 				!!CHECK_BITFIELD(prefs.cit_toggles, FORCED_MASC)
+		.["hypno"] = 					!!CHECK_BITFIELD(prefs.cit_toggles, HYPNO)
+		.["bimbofication"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, BIMBOFICATION)
+		.["breast_enlargement"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, BREAST_ENLARGEMENT)
+		.["penis_enlargement"] =		!!CHECK_BITFIELD(prefs.cit_toggles, PENIS_ENLARGEMENT)
+		.["butt_enlargement"] =			!!CHECK_BITFIELD(prefs.cit_toggles, BUTT_ENLARGEMENT)
+		.["belly_inflation"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, BELLY_INFLATION)
+		.["never_hypno"] = 				!CHECK_BITFIELD(prefs.cit_toggles, NEVER_HYPNO)
+		.["no_aphro"] = 				!CHECK_BITFIELD(prefs.cit_toggles, NO_APHRO)
+		.["no_ass_slap"] = 				!CHECK_BITFIELD(prefs.cit_toggles, NO_ASS_SLAP)
+		.["no_auto_wag"] = 				!CHECK_BITFIELD(prefs.cit_toggles, NO_AUTO_WAG)
+		.["chastity_pref"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, CHASTITY)
+		.["stimulation_pref"] = 		!!CHECK_BITFIELD(prefs.cit_toggles, STIMULATION)
+		.["edging_pref"] =				!!CHECK_BITFIELD(prefs.cit_toggles, EDGING)
+		.["cum_onto_pref"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, CUM_ONTO)
+		.["sex_jitter"] = 				!!CHECK_BITFIELD(prefs.cit_toggles, SEX_JITTER)	//By Gardelin0
+		.["no_disco_dance"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NO_DISCO_DANCE) //By SmiLeY
 
-/datum/component/interaction_menu_granter/ui_static_data(mob/user)
+/datum/component/interaction_menu_granter/ui_static_data(mob/living/user)
 	. = ..()
 	//Getting interactions
 	var/list/sent_interactions = list()
@@ -494,6 +539,7 @@
 		interaction["additionalDetails"] = I.additional_details
 		sent_interactions += list(interaction)
 	.["interactions"] = sent_interactions
+	.["interaction_speeds"] = GLOB.interaction_speeds
 
 /proc/num_to_pref(num)
 	switch(num)
@@ -511,10 +557,41 @@
 	switch(action)
 		if("interact")
 			var/datum/interaction/o = SSinteractions.interactions[params["interaction"]]
-			if(o)
-				o.do_action(parent_mob, target)
+			if(!o)
+				return FALSE
+			if(o == currently_active_interaction)
+				to_chat(parent_mob, span_notice("Включена автоматическая интеракция."))
 				return TRUE
-			return FALSE
+			o.do_action(parent_mob, target)
+			return TRUE
+		if("interaction_pace")
+			var/speed = params["speed"]
+			if(!(speed in GLOB.interaction_speeds))
+				return FALSE
+			src.auto_interaction_pace = speed
+			return TRUE
+		if("toggle_auto_interaction")
+			var/datum/interaction/o = SSinteractions.interactions[params["interaction"]]
+			if(!o || (currently_active_interaction == o) && (auto_interaction_target == target))
+				auto_interaction_target = null
+				currently_active_interaction = null
+				STOP_PROCESSING(SSinteractions, src)
+			else
+				auto_interaction_target = target
+				currently_active_interaction = o
+				START_PROCESSING(SSinteractions, src)
+			return TRUE
+		if("favorite")
+			var/datum/interaction/interaction = SSinteractions.interactions[params["interaction"]]
+			if(!interaction)
+				return FALSE
+			var/datum/preferences/prefs = parent_mob.client.prefs
+			if(interaction.type in prefs.favorite_interactions)
+				LAZYREMOVE(prefs.favorite_interactions, interaction.type)
+			else
+				LAZYADD(prefs.favorite_interactions, interaction.type)
+			prefs.save_preferences()
+			return TRUE
 		if("genital")
 			var/mob/living/carbon/self = parent_mob
 			if("visibility" in params)
@@ -538,7 +615,7 @@
 					to_chat(self, span_userlove("[genital.aroused_state ? genital.arousal_verb : genital.unarousal_verb]."))
 					. = TRUE
 				else
-					to_chat(self, span_userlove("You can't make that genital [genital.aroused_state ? "unaroused" : "aroused"]!"))
+					to_chat(self, span_userlove("Ты не можешь [genital.aroused_state ? "сбросить возбуждение" : "возбудиться"]!"))
 					. = FALSE
 				genital.update_appearance()
 				if(ishuman(self))
@@ -614,6 +691,15 @@
 		if("pref")
 			var/datum/preferences/prefs = parent_mob.client.prefs
 			switch(params["pref"])
+				if("use_arousal_multiplier")
+					prefs.use_arousal_multiplier = !prefs.use_arousal_multiplier
+				if("arousal_multiplier")
+					prefs.arousal_multiplier = params["amount"]
+				if("use_moaning_multiplier")
+					prefs.use_moaning_multiplier = !prefs.use_moaning_multiplier
+				if("moaning_multiplier")
+					prefs.moaning_multiplier = params["amount"]
+
 				if("verb_consent")
 					TOGGLE_BITFIELD(prefs.toggles, VERB_CONSENT)
 				if("lewd_verb_sounds")
@@ -674,8 +760,23 @@
 					return FALSE
 			prefs.save_preferences()
 			return TRUE
+		if("genitals_menu")
+			switch(params["who"])
+				if("user")
+					if(iscarbon(parent_mob))
+						var/mob/living/carbon/C = parent_mob
+						C.genital_menu()
+						return TRUE
+					else
+						to_chat(parent_mob, span_warning("Unavailable for this mob."))
+						return FALSE
+				if("target")
+					if(iscarbon(target))
+						var/mob/living/carbon/C = target
+						C.genital_menu()
+						return TRUE
+					else
+						to_chat(parent_mob, span_warning("Unavailable for this mob."))
+						return FALSE
 
-#undef INTERACTION_NORMAL
-#undef INTERACTION_LEWD
-#undef INTERACTION_EXTREME
 #undef INTERACTION_UNHOLY //SPLURT Edit

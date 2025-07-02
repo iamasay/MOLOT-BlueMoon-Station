@@ -49,7 +49,7 @@
 	dispose_rendering()
 	qdel(hud_used)
 	QDEL_LIST(client_colours)
-	ghostize(can_reenter_corpse = FALSE) //False, since we're deleting it currently
+	ghostize()
 	if(mind?.current == src) //Let's just be safe yeah? This will occasionally be cleared, but not always. Can't do it with ghostize without changing behavior
 		mind.set_current(null)
 	// if(mock_client)
@@ -376,7 +376,7 @@
 	else
 		result = A.examine(src) // if a tree is examined but no client is there to see it, did the tree ever really exist?
 
-	if(result.len)
+	if(result && result.len) // BLUEMOON EDIT - sanity check
 		for(var/i = 1, i <= result.len, i++)
 			if(!findtext(result[i], "<hr>"))
 				result[i] += "\n"
@@ -570,7 +570,7 @@
 				client.prefs.chat_toggles ^= CHAT_OOC
 			if (!(client.prefs.chat_toggles & CHAT_OOC) && isdead(new_mob))
 				client.prefs.chat_toggles ^= CHAT_OOC
-	new_mob.ckey = ckey
+	new_mob.key = key
 	if(send_signal)
 		SEND_SIGNAL(src, COMSIG_MOB_KEY_CHANGE, new_mob, src)
 	//splurt changeh
@@ -1097,12 +1097,11 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 	//Do not do parent's actions, as we *usually* do this differently.
 	fully_replace_character_name(real_name, new_name)
 
-/mob/verb/open_language_menu()
+/mob/verb/open_language_menu_verb()
 	set name = "Open Language Menu"
 	set category = "IC"
 
-	var/datum/language_holder/H = get_language_holder()
-	H.open_language_menu(usr)
+	get_language_holder().open_language_menu(usr)
 
 ///Adjust the nutrition of a mob
 /mob/proc/adjust_nutrition(change, max = INFINITY) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
@@ -1115,7 +1114,7 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 /mob/setMovetype(newval)
 	. = ..()
 	// BLUEMOON ADD START - для корректного обновления скорости у парящих сверхтяжёлых персонажей
-	if(HAS_TRAIT(src, TRAIT_BLUEMOON_HEAVY_SUPER))
+	if(src.mob_weight > MOB_WEIGHT_HEAVY)
 		update_config_movespeed()
 	// BLUEMOON ADD END
 	update_movespeed(FALSE)

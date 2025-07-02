@@ -103,7 +103,7 @@
 	if(cached_fluid)
 		sender.set_fluid_id(cached_fluid)
 
-/mob/living/carbon/human/mob_fill_container(obj/item/organ/genital/G, obj/item/reagent_containers/container, mb_time, obj/item/milking_machine/M)
+/mob/living/carbon/human/mob_fill_container(obj/item/organ/genital/G, obj/item/reagent_containers/container, mb_time, obj/item/sucking_machine/M)
 	if(!M)
 		return ..()
 
@@ -115,7 +115,7 @@
 		visible_message("<span class='love'>You hear a strong suction sound coming from the [M.name] on [src]'s [G.name].</span>", \
 							"<span class='userlove'>The [M.name] pumps faster, trying to get you over the edge.</span>", \
 							"<span class='userlove'>Something vacuums your [G.name] with a quiet but powerfull vrrrr.</span>")
-		if(!do_after(src, mb_time, target = src) || !in_range(src, container) || !G.climaxable(src, TRUE))
+		if(!do_after(src, mb_time, target = src, timed_action_flags = (IGNORE_HELD_ITEM|IGNORE_INCAPACITATED)) || !in_range(src, container) || !G.climaxable(src, TRUE))
 			return
 	visible_message("<span class='love'>[src] twitches as [ru_ego()] [main_fluid] trickles into <b>[container]</b>.</span>", \
 								"<span class='userlove'>[M] sucks out all the [main_fluid] you had been saving up into <b>[container]</b>.</span>", \
@@ -154,6 +154,10 @@
 
 /atom/proc/wash_cum()
 	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_normal"))
+	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_normal_1"))
+	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_normal_2"))
+	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_normal_3"))
+	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_normal_4"))
 	cut_overlay(mutable_appearance('modular_splurt/icons/effects/cumoverlay.dmi', "cum_large"))
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src

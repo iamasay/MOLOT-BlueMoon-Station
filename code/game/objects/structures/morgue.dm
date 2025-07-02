@@ -109,6 +109,9 @@ GLOBAL_LIST_EMPTY(bodycontainers) //Let them act as spawnpoints for revenants an
 	user.visible_message(null, \
 		"<span class='notice'>You lean on the back of [src] and start pushing the tray open... (this will take about [DisplayTimeText(breakout_time)].)</span>", \
 		"<span class='italics'>You hear a metallic creaking from [src].</span>")
+	if(INTERACTING_WITH(user, src))
+		to_chat(user, span_warning("You're already interacting with [src]!"))
+		return
 	if(do_after(user,(breakout_time), target = src))
 		if(!user || user.stat != CONSCIOUS || user.loc != src )
 			return
@@ -260,6 +263,20 @@ GLOBAL_LIST_EMPTY(crematoriums)
 			if (M.stat != DEAD)
 				if(!HAS_TRAIT(M, TRAIT_ROBOTIC_ORGANISM)) // BLUEMOON ADD - роботы не кричат от боли
 					M.emote("scream")
+			// BLUEMOON ADDITION AHEAD changeling scream when cremated
+			if (M.mind.has_antag_datum(/datum/antagonist/changeling))
+				switch(rand(0,2))
+					if(0)
+						playsound(loc, 'modular_bluemoon/sound/creatures/changeling/changeling_cremation1.ogg', 100, 0.1, ignore_walls = TRUE)
+					if(1)
+						playsound(loc, 'modular_bluemoon/sound/creatures/changeling/changeling_cremation2.ogg', 100, 0.1, ignore_walls = TRUE)
+					if(2)
+						playsound(loc, 'modular_bluemoon/sound/creatures/changeling/changeling_cremation3.ogg', 100, 0.1, ignore_walls = TRUE)
+				visible_message("<font color='red' size='5'><b>You shiver from this unnatural scream</b></font>")
+				for(var/mob/living/Living in view(5, get_turf(M))) // effects on nearby mobs
+					if(!HAS_TRAIT(Living, TRAIT_ROBOTIC_ORGANISM)) // robots unaffected
+						Living.jitteriness += rand(3, 5) // organics will shiver from it
+			// BLUEMOON ADDITION END
 			if(user)
 				log_combat(user, M, "cremated")
 			else

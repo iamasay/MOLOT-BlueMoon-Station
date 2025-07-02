@@ -183,9 +183,12 @@
 	desc = "Sometimes things are too much to hide."
 	icon = 'icons/obj/custom.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	anthro_mob_worn_overlay = 'icons/mob/clothing/mask_muzzled.dmi'
 	icon_state = "hheart"
 	item_state = "hheart"
+	clothing_flags = ALLOWINTERNALS
 	flags_inv = HIDEFACE|HIDEFACIALHAIR
+	mutantrace_variation = STYLE_MUZZLE
 
 /obj/item/clothing/suit/trenchcoat/green
 	name = "Reece's Great Coat"
@@ -209,15 +212,18 @@
 	desc = "Smells like reactor four."
 	icon = 'icons/obj/custom.dmi'
 	item_state = "stalker"
-	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	mob_overlay_icon = 'icons/mob/clothing/mask.dmi'
+	anthro_mob_worn_overlay = 'icons/mob/clothing/mask_muzzled.dmi'
 	icon_state = "stalker"
+	alternate_screams = RUSSIAN_SCREAMS
 
 /obj/item/clothing/mask/gas/military
 	name = "Military Gas Mask"
 	desc = "A rare PMC gas mask, one of the very expensive kinds. The inside looks comfortable to wear for a while. The blood red eyes however seem to stare back at you. Creepy."
 	icon = 'icons/obj/custom.dmi'
+	anthro_mob_worn_overlay = 'icons/mob/clothing/mask_muzzled.dmi'
 	item_state = "mgas"
-	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	mob_overlay_icon = 'icons/mob/clothing/mask.dmi'
 	icon_state = "mgas"
 
 /obj/item/reagent_containers/food/drinks/flask/steel
@@ -304,7 +310,9 @@
 /obj/item/clothing/head/paperhat
 	name = "paperhat"
 	desc = "A piece of paper folded into neat little hat."
+	icon = 'icons/obj/clothing/hats.dmi'
 	icon_state = "paperhat"
+	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
 	item_state = "paperhat"
 
 /obj/item/clothing/suit/toggle/labcoat/mad/techcoat
@@ -342,14 +350,15 @@
 	icon_state = "flagcape"
 	item_state = "flagcape"
 
-/obj/item/clothing/shoes/lucky
+/obj/item/clothing/shoes/jackboots/lucky
 	name = "Lucky Jackboots"
 	icon = 'icons/obj/custom.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	anthro_mob_worn_overlay ='icons/mob/clothing/feet_digi.dmi'
 	desc = "Comfy Lucky Jackboots with the word Luck on them."
 	item_state = "luckyjack"
 	icon_state = "luckyjack"
-	mutantrace_variation = NONE
+
 
 /obj/item/clothing/under/custom/lunasune
 	name = "Divine Robes"
@@ -358,6 +367,7 @@
 	desc = "Heavenly robes of the kitsune Luna Pumpkin,you can feel radiance coming from them."
 	item_state = "Divine_robes"
 	icon_state = "Divine_robes"
+	fitted = FEMALE_UNIFORM_TOP
 	mutantrace_variation = STYLE_DIGITIGRADE|USE_TAUR_CLIP_MASK|STYLE_NO_ANTHRO_ICON
 
 /obj/item/clothing/under/custom/leoskimpy
@@ -438,7 +448,8 @@
 	alternate_screams = RUSSIAN_SCREAMS
 	icon = 'icons/obj/custom.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
-	mutantrace_variation = NONE
+	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/uniforms_digi.dmi' // BLUEMOON ADD custom icons for anthro
+	mutantrace_variation = STYLE_DIGITIGRADE // BLUEMOON ADD enabling icons for anthro
 
 /obj/item/clothing/gloves/longblackgloves
 	name = "Luna's Gauntlets"
@@ -528,16 +539,16 @@
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
 	mutantrace_variation = NONE
 
-/obj/item/toy/plush/mammal/dog/fritz
-	icon = 'icons/obj/custom.dmi'
-	icon_state = "fritz"
-	attack_verb = list("barked", "boofed", "shotgun'd")
-	obj_flags = UNIQUE_RENAME
-	unique_reskin = list(
-		"Goodboye" = list("icon_state" = "fritz"),
-		"Badboye" = list("icon_state" = "fritz_bad")
-	)
-	mutantrace_variation = NONE
+//obj/item/toy/plush/mammal/dog/fritz
+//	icon = 'icons/obj/custom.dmi'
+//	icon_state = "fritz"
+//	attack_verb = list("barked", "boofed", "shotgun'd")
+//	obj_flags = UNIQUE_RENAME
+//	unique_reskin = list(
+//		"Goodboye" = list("icon_state" = "fritz"),
+//		"Badboye" = list("icon_state" = "fritz_bad")
+//	)
+//	mutantrace_variation = NONE   //Нету у нас этого в спрайтах
 
 /obj/item/clothing/neck/cloak/polychromic/polyce
 	name = "polychromic embroidered cloak"
@@ -552,6 +563,7 @@
 	item_state = "atmos_skirt"
 	icon = 'icons/obj/custom.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	fitted = FEMALE_UNIFORM_TOP
 
 /obj/item/clothing/head/halo
 	name = "transdimensional halo"
@@ -594,6 +606,7 @@
 	icon = 'icons/obj/custom.dmi'
 	item_state = "mmask"
 	mob_overlay_icon = 'icons/mob/clothing/custom_w.dmi'
+	anthro_mob_worn_overlay = 'icons/mob/clothing/mask_muzzled.dmi'
 	icon_state = "mmask"
 
 /obj/item/clothing/under/smaiden
@@ -659,3 +672,14 @@
 	for(var/i in 1 to 20)
 		new /obj/item/coin/green(src)
 
+//Bluemood ADD
+
+/obj/item/clothing/head/assu_helmet/bp_helmet
+	name = "Old bullet proof helmet"
+	desc = "Old version style BP helmet. That helmet without armor plates soo without em that simple cool styled helmet"
+	icon_state = "epic_bp_helmet"
+	icon = 'icons/obj/clothing/hats.dmi'
+	mutantrace_variation = STYLE_MUZZLE
+	flags_inv = HIDEEARS | HIDESNOUT | HIDEHAIR
+
+//Bluemood End

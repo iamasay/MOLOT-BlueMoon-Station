@@ -27,7 +27,7 @@
 
 /mob/dead/new_player/Initialize(mapload)
 	if(client && SSticker.state == GAME_STATE_STARTUP)
-		var/atom/movable/screen/splash/S = new(client, TRUE, TRUE)
+		var/atom/movable/screen/splash/S = new(null, null, client, TRUE)
 		S.Fade(TRUE)
 
 	if(length(GLOB.newplayer_start))
@@ -96,11 +96,11 @@
 			message_admins("Blocked [src] from new player panel because age gate could not access player database flags.")
 			return FALSE
 
-		if(client.prefs.db_flags & DB_FLAG_AGE_CONFIRMATION_COMPLETE) //completed? Skip
-			return TRUE
-
 		if(!client)
 			return FALSE
+
+		if(client.prefs.db_flags & DB_FLAG_AGE_CONFIRMATION_COMPLETE) //completed? Skip
+			return TRUE
 
 		var/age_verification = age_gate()
 		//ban them and kick them
@@ -498,7 +498,7 @@
 	if(job && !job.override_latejoin_spawn(character))
 		SSjob.SendToLateJoin(character)
 		if(!arrivals_docked)
-			var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
+			var/atom/movable/screen/splash/Spl = new(null, character, character.client, TRUE)
 			Spl.Fade(TRUE)
 			character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
 
@@ -546,6 +546,7 @@
 
 	if(humanc && CONFIG_GET(flag/roundstart_traits))
 		SSquirks.AssignQuirks(humanc, humanc.client, TRUE, FALSE, job, FALSE)
+		GLOB.data_core.notes_traits_modify(humanc)
 	//sandstorm change
 	if(humanc)
 		SSlanguage.AssignLanguage(humanc, humanc.client, TRUE, FALSE, job, FALSE)
@@ -626,15 +627,14 @@
 				var/command_bold = ""
 				if(job in GLOB.command_positions)
 					command_bold = " command"
-				//Sandstorm changes
-				var/jobline = "[job_datum.title]"
 				if(job_datum in SSjob.prioritized_jobs)
-					jobline = "<span class='priority'>[jobline]</span>"
-				if(client && client.prefs && client.prefs.alt_titles_preferences[job_datum.title])
-					jobline = "[jobline]<br><span style='color:#BBBBBB; font-style: italic;'>(as [client.prefs.alt_titles_preferences[job_datum.title]])</span>"
-				jobline = "<a class='job[command_bold]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[jobline] ([num_positions_current]/[num_positions_total])</a>"
-				dept_dat += jobline
-				//End of Sandstorm changes
+					dept_dat += "<a class='job[command_bold]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'><span class='priority'>[job_datum.title] ([num_positions_current]/[num_positions_total])</span>"
+				else
+					dept_dat += "<a class='job[command_bold]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[job_datum.title] ([num_positions_current]/[num_positions_total])"
+				if(client && client.prefs && client?.prefs?.alt_titles_preferences[job_datum.title])
+					dept_dat += "<br><span style='color:#BBBBBB; font-style: italic;'>as [client?.prefs?.alt_titles_preferences[job_datum.title]]</span>"
+				dept_dat += "</a>"
+
 		if(!dept_dat.len)
 			dept_dat += "<span class='nopositions'>No positions open.</span>"
 		dat += jointext(dept_dat, "")

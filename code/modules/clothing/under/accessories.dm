@@ -15,8 +15,17 @@
 	var/datum/component/storage/detached_pockets
 	//skyrat edit
 	var/current_uniform = null
-	var/list/access = list() // BLUEMOON EDIT - у некоторых акссессуаров теперь типо будет доступ. Костыль, да.
-	//
+	// BLUEMOON ADD START - изменение аксессуаров
+	// У некоторых акссессуаров теперь типо будет доступ. Костыль, да.
+	var/list/access = list()
+	// Для всех боевых аксессуаров, которые не должны стакать свои бонусы с кучей других боевых аксессуаров.
+	// Количество возможных боевых акссессуаров зависит от джампсьюта на персонаже, по умолчанию 3.
+	var/restricted_accessory = FALSE
+	// Максимальное количество аксессуаров этого вида, которые можно прицепить к джампсьюту. -1 означает отсутствие лимита.
+	var/max_stack = -1
+	// Родительский класс, все дочерние классы которого не могут стакаться друг с другом без ограничений
+	var/max_stack_path = null
+	// BLUEMOON ADD END
 
 /obj/item/clothing/accessory/proc/attach(obj/item/clothing/under/U, user)
 	var/datum/component/storage/storage = GetComponent(/datum/component/storage)
@@ -536,16 +545,6 @@
 	desc = "An armband, worn by the station's security forces to display which department they're assigned to. This one is white and blue."
 	icon_state = "medblueband"
 
-/obj/item/clothing/accessory/armband/hcaarmband
-	name = "HCA Armband"
-	desc = "A black and white armband depicting two swords crossed around the fascia within wreaths representing prosperity. This flag refers to the political party of the Human Commonwealth."
-	icon_state = "hcaarmbanditem"
-	item_state = "hcaarmbanditem"
-	icon = 'modular_bluemoon/rakeideas/hca/icons/hcaarmbanditem.dmi'
-	mob_overlay_icon = 'modular_bluemoon/rakeideas/hca/icons/hcaarmbandchar.dmi'
-	strip_delay = 60
-	dog_fashion = null
-
 /obj/item/clothing/accessory/armband/sfparmband
 	name = "SFP Department Armpatch"
 	desc = "Armpatch one of superior forces of Federal Agencies on territory of SolGov. This one belongs to Agent."
@@ -568,7 +567,7 @@
 /obj/item/clothing/accessory/lawyers_badge/attack_self(mob/user)
 	if(prob(1))
 		user.say("The testimony contradicts the evidence!", forced = "attorney's badge")
-	user.visible_message("[user] shows [user.ru_ego()] attorney's badge.", "<span class='notice'>You show your attorney's badge.</span>")
+	user.visible_message("[user] shows [user.p_their()] attorney's badge.", "<span class='notice'>You show your attorney's badge.</span>")
 
 /obj/item/clothing/accessory/lawyers_badge/on_uniform_equip(obj/item/clothing/under/U, user)
 	var/mob/living/L = user
@@ -589,6 +588,7 @@
 	desc = "Can protect your clothing from ink stains, but you'll look like a nerd if you're using one."
 	icon_state = "pocketprotector"
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/pocketprotector
+	max_stack = 3 // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/pocketprotector/full/Initialize(mapload)
 	. = ..()
@@ -610,6 +610,7 @@
 	desc = "A hunter's talisman, some say the old gods smile on those who wear it."
 	icon_state = "talisman"
 	armor = list(MELEE = 5, BULLET = 5, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 20, RAD = 5, FIRE = 0, ACID = 25)
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece
 	name = "skull codpiece"
@@ -617,6 +618,7 @@
 	icon_state = "skull"
 	above_suit = TRUE
 	armor = list(MELEE = 5, BULLET = 5, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 20, RAD = 5, FIRE = 0, ACID = 25)
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece/fake
 	name = "false codpiece"
@@ -624,6 +626,7 @@
 	icon_state = "skull"
 	above_suit = TRUE
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /////////////////////
 //Syndie Accessories//
@@ -635,6 +638,7 @@
 	icon_state = "padding"
 	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 5, BIO = 0, RAD = 0, FIRE = -20, ACID = 45) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY //hidden from indiscrete mob examines.
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/kevlar
 	name = "kevlar padding"
@@ -642,6 +646,7 @@
 	icon_state = "padding"
 	armor = list(MELEE = 0, BULLET = 10, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 25) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/plastics
 	name = "ablative padding"
@@ -649,6 +654,7 @@
 	icon_state = "plastics"
 	armor = list(MELEE = 5, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 0, BIO = 0, RAD = 0, FIRE = 20, ACID = -40) // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
+	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 //necklace
 /obj/item/clothing/accessory/necklace
@@ -677,6 +683,4 @@
 
 /obj/item/clothing/accessory/pride/reskin_obj(mob/M)
 	. = ..()
-	if(!.)
-		return
 	name = "[current_skin] pin"

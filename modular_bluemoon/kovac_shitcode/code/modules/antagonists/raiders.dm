@@ -91,6 +91,7 @@
 	short_desc = "You are an InteQ raider."
 	flavour_text = "Капитан станции отказался платить в ответ на требование наёмников InteQ. Атакуйте её: похищайте ресурсы, берите заложников. Избегайте ненужных жертв. Не забывайте следить за своим корабль."
 	assignedrole = "InteQ Raider"
+	category = "midround"
 
 /obj/effect/mob_spawn/human/raider/vanguard
 	outfit = /datum/outfit/inteq_raider/vanguard
@@ -127,7 +128,7 @@
 
 /obj/effect/mob_spawn/human/raider/special(mob/living/new_spawn)
 	new_spawn.mind.add_antag_datum(/datum/antagonist/raiders)
-	new_spawn.grant_language(/datum/language/old_codes, TRUE, TRUE, LANGUAGE_MIND)
+	new_spawn.grant_language(/datum/language/old_codes, source = LANGUAGE_MIND)
 
 /obj/effect/mob_spawn/human/raider/Destroy()
 	new/obj/structure/showcase/machinery/oldpod/used(drop_location())
@@ -212,7 +213,7 @@
 	shuttleId = "inteq_collosus"
 	lock_override = NONE
 	shuttlePortId = "inteq_collosus_custom"
-	jumpto_ports = list("whiteship_away" = 1, "whiteship_home" = 1)
+	jump_to_ports = list("whiteship_away" = 1, "whiteship_home" = 1)
 	view_range = 14
 	x_offset = -7
 	y_offset = -7

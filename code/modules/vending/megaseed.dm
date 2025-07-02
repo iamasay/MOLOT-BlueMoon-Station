@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\megaseed.dm'
 /obj/machinery/vending/hydroseeds
 	name = "\improper MegaSeed Servitor"
 	desc = "When you need seeds fast!"
@@ -36,6 +37,7 @@
 					/obj/item/seeds/pumpkin = 3,
 					/obj/item/seeds/replicapod = 3,
 					/obj/item/seeds/wheat/rice = 3,
+					/obj/item/seeds/rose = 3,
 					/obj/item/seeds/soya = 3,
 					/obj/item/seeds/sugarcane = 3,
 					/obj/item/seeds/sunflower = 3,
@@ -65,3 +67,4 @@
 /obj/item/vending_refill/hydroseeds
 	machine_name = "MegaSeed Servitor"
 	icon_state = "refill_plant"
+*/

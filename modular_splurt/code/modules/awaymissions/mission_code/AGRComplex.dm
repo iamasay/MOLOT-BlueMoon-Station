@@ -65,6 +65,12 @@
 /area/awaymission/complex/mainfacility
 	name = "Primary Complex"
 	icon_state = "awaycontent12"
+	sub_areas = list(/area/awaymission/complex/shower)
+
+/area/awaymission/complex/shower
+	icon = 'icons/turf/areas.dmi'
+	icon_state = "shower"
+	name = "Shower"
 
 /area/awaymission/complex/logistics
 	name = "Logistics Department"
@@ -337,7 +343,7 @@
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	aggro_vision_range = 9
 	turns_per_move = 5
-	gold_core_spawnable = HOSTILE_SPAWN
+//	gold_core_spawnable = HOSTILE_SPAWN // BLUEMOON REMOVAL
 	faction = null
 	footstep_type = FOOTSTEP_MOB_SHOE
 	weather_immunities = list("ash")
@@ -1085,7 +1091,7 @@
 	armed = FALSE
 	trap_damage = 40
 
-/obj/item/restraints/legcuffs/beartrap/Crossed(AM as mob|obj)
+/obj/item/restraints/legcuffs/beartrap/crystalwire/Crossed(AM as mob|obj)
 	if(armed && isturf(src.loc))
 		if(isliving(AM))
 			var/mob/living/L = AM
@@ -1391,6 +1397,7 @@
 	roundstart = FALSE
 	death = FALSE
 	random = TRUE
+	loadout_enabled = TRUE
 	mob_species = /datum/species/human
 	short_desc = "Вы были сотрудником горнодобывающего предприятия Nanotrasen, но оказались обращены Культом Ратвара."
 	flavour_text = "Прошло несколько месяцев с тех пор, как осела пыль. \
@@ -1398,7 +1405,9 @@
 	из-за еретиков, которые пытались украсть то, что принадлежит вам по праву. Этот застой не может длиться вечно, \
 	будь то ваша рука или другая. Кто-то попытается вернуть себе то, что осталось от этого комплекса. С наступлением холодов мысль о том, чтобы пожертвовать этими реликвиями,\
 	кажется все более и более привлекательной..."
-	important_info = "Bы Малый Антагонист. Не покидайте Гейт. Не враждуйте с персонажами других игроков в Гейте по факту их существования."
+	important_info = "Bы Крупный Антагонист своей локации. Учитывайте режим игры перед тем, как покидать Гейт. В Эксту и Динамик Лайт \
+	вы на станции около-мирняковый антагонист с направленностью на социальную игру. В прочие режимы игры Гейт вы можете покинуть только в том случае, \
+	если на станции появились коллеги по оккультизму."
 	uniform = /obj/item/clothing/under/rank/civilian/util
 	shoes = /obj/item/clothing/shoes/laceup
 	id = /obj/item/card/id/away/mountain
@@ -1425,6 +1434,7 @@
 	roundstart = FALSE
 	death = FALSE
 	random = TRUE
+	loadout_enabled = TRUE
 	mob_species = /datum/species/human
 	short_desc = "Вы были сотрудником горнодобывающего предприятия Nanotrasen, но оказались обращены Культом Нар'Си."
 	flavour_text = "Прошло несколько месяцев с тех пор, как осела пыль. \
@@ -1432,7 +1442,9 @@
 	из-за еретиков, которые пытались украсть то, что принадлежит вам по праву. Этот застой не может длиться вечно, \
 	будь то ваша рука или другая. Кто-то попытается вернуть себе то, что осталось от этого комплекса. С наступлением холодов мысль о том, чтобы пожертвовать этими реликвиями,\
 	кажется все более и более привлекательной..."
-	important_info = "Bы Малый Антагонист. Не покидайте Гейт. Не враждуйте с персонажами других игроков в Гейте по факту их существования. Защитите особые предметы на своей Базе."
+	important_info = "Bы Крупный Антагонист своей локации. Учитывайте режим игры перед тем, как покидать Гейт. В Эксту и Динамик Лайт \
+	вы на станции около-мирняковый антагонист с направленностью на социальную игру. В прочие режимы игры Гейт вы можете покинуть только в том случае, \
+	если на станции появились коллеги по оккультизму."
 	uniform = /obj/item/clothing/under/rank/civilian/util
 	shoes = /obj/item/clothing/shoes/laceup
 	id = /obj/item/card/id/away/mountain

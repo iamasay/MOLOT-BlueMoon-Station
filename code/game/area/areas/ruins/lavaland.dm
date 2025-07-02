@@ -71,9 +71,22 @@
 
 /area/ruin/lavaland/unpowered/deepspaceone/main
 	name = "DS-1 'Dune' | Primary Hallway"
+	sub_areas = list(/area/ruin/lavaland/unpowered/deepspaceone/main_shower)
+
+/area/ruin/lavaland/unpowered/deepspaceone/main_shower
+	icon = 'icons/turf/areas.dmi'
+	icon_state = "shower"
+	name = "DS-1 'Dune' | Shower Room"
+	valid_to_shower = TRUE
 
 /area/ruin/lavaland/unpowered/deepspaceone/cargo
 	name = "DS-1 'Dune' | Cargo Bay"
+
+/area/ruin/lavaland/unpowered/deepspaceone/comms_officer_shower
+	icon = 'icons/turf/areas.dmi'
+	icon_state = "shower"
+	name = "DS-1 'Dune' | Comm Shower Room"
+	valid_to_shower = TRUE
 
 /area/ruin/lavaland/unpowered/deepspaceone/chemistry
 	name = "DS-1 'Dune' | Chemistry"
@@ -93,6 +106,27 @@
 /area/ruin/lavaland/unpowered/deepspaceone/circuits
 	name = "DS-1 'Dune' | Circuit Lab"
 
+/area/ruin/lavaland/unpowered/deepspaceone/security
+	name = "DS-1 'Dune' | Security"
+
+/area/ruin/lavaland/unpowered/deepspaceone/armory
+	name = "DS-1 'Dune' | Armory"
+
+/area/ruin/lavaland/unpowered/deepspaceone/comms_officer
+	name = "DS-1 'Dune' | Communication Officer"
+	sub_areas = list(/area/ruin/lavaland/unpowered/deepspaceone/comms_officer_shower)
+
+/area/ruin/lavaland/unpowered/deepspaceone/reactor
+	name = "DS-1 'Dune' | Reactor"
+
+/area/ruin/lavaland/unpowered/deepspaceone/virology
+	name = "DS-1 'Dune' | Virology"
+
+/area/ruin/lavaland/unpowered/deepspaceone/general_staff
+	name = "DS-1 'Dune' | General Staff Quarters"
+
+/area/ruin/lavaland/unpowered/deepspaceone/chemistry
+	name = "DS-1 'Dune' | General Chemistry"
 
 //Xeno Nest
 
@@ -107,6 +141,6 @@
 /area/ruin/lavaland/unpowered/ash_walkers
 	icon_state = "red"
 
-/area/ruin/unpowered/russianbunker
+/area/ruin/space/has_grav/russianbunker
 	name = "Russian Bunker"
 	area_flags = NOTELEPORT

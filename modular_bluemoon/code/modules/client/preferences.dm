@@ -1,3 +1,7 @@
+/datum/preferences
+	var/body_weight = NAME_WEIGHT_NORMAL
+	var/normalized_size = RESIZE_NORMAL
+
 #define ACTION_HEADSHOT_LINK_NOOP 0
 #define ACTION_HEADSHOT_LINK_REMOVE -1
 
@@ -65,3 +69,25 @@
 
 #undef ACTION_HEADSHOT_LINK_NOOP
 #undef ACTION_HEADSHOT_LINK_REMOVE
+
+/datum/preferences/proc/mob_size_name_to_num(body_weight_name)
+	switch(body_weight_name)
+		if(NAME_WEIGHT_LIGHT)
+			return MOB_WEIGHT_LIGHT
+		if(NAME_WEIGHT_NORMAL)
+			return MOB_WEIGHT_NORMAL
+		if(NAME_WEIGHT_HEAVY)
+			return MOB_WEIGHT_HEAVY
+		if(NAME_WEIGHT_HEAVY_SUPER)
+			return MOB_WEIGHT_HEAVY_SUPER
+		else
+			return MOB_WEIGHT_NORMAL
+
+/datum/preferences/proc/mob_size_name_to_quirk_cost(body_weight_name)
+	switch(body_weight_name)
+		if(NAME_WEIGHT_HEAVY)
+			return 1
+		if(NAME_WEIGHT_HEAVY_SUPER)
+			return 2
+		else
+			return 0

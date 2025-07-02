@@ -108,6 +108,11 @@
 	set category = "Эмоции.1: Специальные Действия"
 	emote("lick")
 
+/mob/living/verb/emote_laugh_soft()
+	set name = "> Тихо смеяться "
+	set category = "Эмоции.2: Звуковые Действия"
+	emote("laugh_soft")
+
 /mob/living/verb/emote_laugh1()
 	set name = "> Смеяться 1 "
 	set category = "Эмоции.2: Звуковые Действия"
@@ -662,3 +667,8 @@
 	set name = "< Отрицательный сигнал >"
 	set category = "Эмоции.2: Звуковые Действия"
 	emote("negative")
+
+/mob/living/verb/emote_owl()
+	set name = "< Ухухать как сова >"
+	set category = "Эмоции.2: Звуковые Действия"
+	emote("owl")

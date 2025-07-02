@@ -23,7 +23,12 @@
 		var/obj/item/clothing/neck/petcollar/collar = wear_neck
 		if(collar.tagname)
 			collar_tagname = " \[[collar.tagname]\]"
-	. = list("<span class='info'>Это - <EM>[!obscure_name ? name : "Неизвестный"][collar_tagname]</EM>!")
+	var/id_card_callsign_name = ""
+	if(istype(wear_id?.GetID(), /obj/item/card/id/callsign))
+		var/obj/item/card/id/callsign/callsign_id = wear_id?.GetID()
+		if(callsign_id.callsign)
+			id_card_callsign_name = " \[[callsign_id.callsign]\]"
+	. = list("<span class='info'>Это - <EM>[!obscure_name ? name : "Неизвестный"][collar_tagname][id_card_callsign_name]</EM>!")
 	if(skipface || get_visible_name() == "Unknown")
 		. += "Вы не можете разобрать, к какому виду относится находящееся перед вами существо."
 	else
@@ -74,7 +79,6 @@
 					accessory_msg += mentioned_accessory.get_examine_string(user)
 				// BLUEMOON EDIT END
 			. += "[t_on] одет[t_a] в [w_uniform.get_examine_string(user)][accessory_msg]."
-
 	//head
 	if(head && !(head.obj_flags & EXAMINE_SKIP))
 		. += "[t_on] одет[t_a] в [head.get_examine_string(user)]."
@@ -98,7 +102,20 @@
 
 	//gloves
 	if(gloves && !(ITEM_SLOT_GLOVES in obscured))
-		. += "[t_on] одет[t_a] в [gloves.get_examine_string(user)]."
+		//accessory
+		var/accessory_msg
+		if(istype(gloves, /obj/item/clothing/gloves))
+			var/obj/item/clothing/gloves/worn_thing = gloves
+			if(!CHECK_BITFIELD(worn_thing.flags_inv, HIDEACCESSORY))
+				var/list/accessory_preparation
+				for(var/obj/item/clothing/accessory/ring/attached_accessory as anything in worn_thing.attached_accessories)
+					if(CHECK_BITFIELD(attached_accessory.flags_inv, HIDEACCESSORY))
+						continue
+					LAZYADD(accessory_preparation, "[icon2html(attached_accessory, user)] [attached_accessory]")
+				if(length(accessory_preparation))
+					accessory_msg = " c [english_list(accessory_preparation)] на кончиках пальцев"
+
+		. += "[t_on] одет[t_a] в [gloves.get_examine_string(user)][accessory_msg]."
 	else if(length(blood_DNA))
 		var/hand_number = get_num_arms(FALSE)
 		if(hand_number)
@@ -155,14 +172,7 @@
 	if (length(status_examines))
 		. += status_examines
 	//Approximate character height based on current sprite scale
-	var/dispSize = round(12*get_size(src)) // gets the character's sprite size percent and converts it to the nearest half foot
-	if(dispSize % 2) // returns 1 or 0. 1 meaning the height is not exact and the code below will execute, 0 meaning the height is exact and the else will trigger.
-		dispSize = dispSize - 1 //makes it even
-		dispSize = dispSize / 2 //rounds it out
-		. += "[t_on], кажется, чуть выше или около [dispSize] футов в высоту."
-	else
-		dispSize = dispSize / 2
-		. += "[t_on], кажется, около [dispSize] футов в высоту."
+	. += "[t_on], кажется, около [round(180*get_size(src))] сантиметров в высоту."
 	if(has_status_effect(/datum/status_effect/pregnancy))
 		. += "<b>[t_on] имеет выступающую часть на уровне живота. Кажется, это беременность.\n</b>"
 	//CIT CHANGES START HERE - adds genital details to examine text
@@ -205,17 +215,19 @@
 
 	var/list/msg = list()
 
+/* BLUEMOON - mechanical_erp_verbs_examine - REMOVAL START
 	if(client && client.prefs)
 		if(client.prefs.toggles & VERB_CONSENT)
 			. += "<b>Игрок разрешил непристойные действия по отношению к его персонажу.</b>"
 		else
 			. += "<b>Игрок НЕ разрешил непристойные действия по отношению к его персонажу.</b>"
-
+BLUEMOON - mechanical_erp_verbs_examine - REMOVAL END*/
 	//SPLURT edit
 	for(var/obj/item/organ/genital/G in internal_organs)
 		if(istype(G) && G.is_exposed())
 			if(CHECK_BITFIELD(G.genital_flags, GENITAL_CHASTENED))
-				. += "[t_on] носит БДСМ-клетку. БДСМ-клетка покрывает [G.name]."
+				var/obj/item/genital_equipment/chastity_cage/cage = locate(/obj/item/genital_equipment/chastity_cage) in G.contents
+				. += span_lewd("[t_on] носит <b>[cage?.name || "БДСМ-клетку"]</b>. БДСМ-клетка покрывает [G.name].")
 	//
 	if(covered_in_cum)
 		. += "<span style='color:["#FFFFFF"]';>[t_on] измазан[t_a] свежими половыми выделениями...</span>\n" //"Вы чувствуете, как от [t_ego] тела пахнет <b>'<span style='color:[cummies.color]';>[cummies.name]</span>'</b>..."
@@ -542,7 +554,7 @@
 	if (length(msg))
 		. += span_warning("[msg.Join("")]")
 
-	var/traitstring = get_trait_string()
+	var/traitstring
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/obj/item/organ/cyberimp/eyes/hud/CIH = H.getorgan(/obj/item/organ/cyberimp/eyes/hud)
@@ -568,6 +580,7 @@
 					R = find_record("name", perpname, GLOB.data_core.medical)
 					if(R)
 						. += "<a href='?src=[REF(src)];hud=m;evaluation=1'>\[Medical evaluation\]</a>"
+					traitstring = get_trait_string(FALSE, TRUE)
 					if(traitstring)
 						. += "<span class='info'>Обнаружены Особенности:\n[traitstring]</span>"
 
@@ -587,14 +600,15 @@
 							"<a href='?src=[REF(src)];hud=s;add_crime=1'>\[Add crime\]</a>",
 							"<a href='?src=[REF(src)];hud=s;view_comment=1'>\[View comment log\]</a>",
 							"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
-	else if(isobserver(user) && traitstring)
-		. += "<span class='info'><b>Особенности:</b> [traitstring]</span>"
+	else if(isobserver(user))
+		traitstring = get_trait_string(FALSE)
+		if(traitstring)
+			. += "<span class='info'><b>Особенности:</b> [traitstring]</span>"
 
 	if(LAZYLEN(.) > 2) //Want this to appear after species text
 		.[2] += "<hr>"
 
-	if(!(ITEM_SLOT_EYES in obscured))
-		. += span_boldnotice("Профиль персонажа: <a href='?src=\ref[src];character_profile=1'>\[Осмотреть\]</a>")
+	. += span_boldnotice("Профиль персонажа: <a href='?src=\ref[src];character_profile=1'>\[Осмотреть\]</a>")
 
 	if(activity)
 		. += "Деятельность: [activity]"

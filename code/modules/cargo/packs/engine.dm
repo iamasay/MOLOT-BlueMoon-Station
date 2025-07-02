@@ -108,6 +108,13 @@
 	contains = list(/obj/machinery/the_singularitygen)
 	crate_name = "singularity generator crate"
 
+/datum/supply_pack/engine/sing_buster
+	name = "Singularity Buster Kit Crate"
+	desc = "Ключ к раскрытию слабости Лорда Сингулятора. Навыки владения в комплект не входят."
+	cost = 6000
+	contains = list(/obj/item/storage/lockbox/anti_singulo)
+	crate_name = "Singularity Buster Kit Crate"
+
 /datum/supply_pack/engine/solar
 	name = "Solar Panel Crate"
 	desc = "Вступите в Greenpeace с этим набором. Содержит двадцать одну солнечную панель, печатную плату управления солнечными панелями и трекер. Если у вас есть какие-либо вопросы, пожалуйста, ознакомьтесь с прилагаемой инструкцией."
@@ -174,7 +181,7 @@
 	contains = list(/obj/item/fuel_rod,
 					/obj/item/fuel_rod)
 	crate_name = "Uranium-235 Fuel Rod crate"
-	crate_type = /obj/structure/closet/crate/secure/engineering
+	crate_type = /obj/structure/closet/crate/secure/radiation // BLUEMOON CHANGE fix of the contamination shit after arrival
 	dangerous = TRUE
 
 /datum/supply_pack/engine/bananium_fuel_rod
@@ -185,7 +192,7 @@
 	contains = list(/obj/item/fuel_rod/material/bananium,
 					/obj/item/fuel_rod/material/bananium)
 	crate_name = "Bluespace Crystal Fuel Rod crate"
-	crate_type = /obj/structure/closet/crate/secure/engineering
+	crate_type = /obj/structure/closet/crate/secure/radiation // BLUEMOON CHANGE fix of the contamination shit after arrival
 	dangerous = TRUE
 	contraband = TRUE
 

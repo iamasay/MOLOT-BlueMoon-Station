@@ -98,6 +98,12 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 		return ..(freq, level)
 	return FALSE
 
+/obj/item/radio/headset/MouseDrop(mob/over, src_location, over_location)
+	var/mob/headset_user = usr
+	if((headset_user == over) && headset_user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
+		return attack_self(headset_user)
+	return ..()
+
 /obj/item/radio/headset/syndicate //disguised to look like a normal headset for stealth ops
 
 /obj/item/radio/headset/syndicate/alt //undisguised bowman with flash protection
@@ -173,9 +179,16 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 /obj/item/radio/headset/headset_law
 	name = "law radio headset"
 	desc = "This is used by your local budget lawyer."
-	icon = 'modular_bluemoon/Fink/icons/clothing/radio.dmi'
+	icon = 'modular_bluemoon/icons/obj/radio.dmi'
 	icon_state = "law_headset"
 	keyslot = new /obj/item/encryptionkey/headset_law
+
+/obj/item/radio/headset/headset_law/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/law
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
 
 /obj/item/radio/headset/headset_eng
 	name = "engineering radio headset"
@@ -216,6 +229,15 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/captain
 
+/obj/item/radio/headset/heads/captain/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/cap
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
+
+
+
 /obj/item/radio/headset/heads/captain/alt
 	name = "\proper the captain's bowman headset"
 	desc = "The headset of the boss. Protects ears from flashbangs."
@@ -229,11 +251,25 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/rd
 
+/obj/item/radio/headset/heads/rd/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/rd
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
+
 /obj/item/radio/headset/heads/hos
 	name = "\proper the head of security's headset"
 	desc = "The headset of the man in charge of keeping order and protecting the station."
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/hos
+
+/obj/item/radio/headset/heads/hos/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/law
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
 
 /obj/item/radio/headset/heads/hos/alt
 	name = "\proper the head of security's bowman headset"
@@ -248,11 +284,25 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/ce
 
+/obj/item/radio/headset/heads/ce/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/ce
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
+
 /obj/item/radio/headset/heads/cmo
 	name = "\proper the chief medical officer's headset"
 	desc = "The headset of the highly trained medical chief."
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/cmo
+
+/obj/item/radio/headset/heads/cmo/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/cmo
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
 
 /obj/item/radio/headset/heads/hop
 	name = "\proper the head of personnel's headset"
@@ -265,6 +315,13 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	desc = "The headset of the king (or queen) of paperwork."
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/qm
+
+/obj/item/radio/headset/heads/qm/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/qm
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
 
 /obj/item/radio/headset/headset_cargo
 	name = "supply radio headset"
@@ -292,6 +349,13 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	command = TRUE
 	commandspan = SPAN_CLOWN
 
+/obj/item/radio/headset/headset_clown/equipped(mob/user, slot)
+	..()
+	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/clown
+	else
+		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
+
 /obj/item/radio/headset/headset_cent
 	name = "\improper CentCom headset"
 	desc = "A headset used by the upper echelons of Nanotrasen."
@@ -311,7 +375,6 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	desc = "A headset especially for emergency response personnel. Protects ears from flashbangs."
 	icon_state = "cent_headset_alt"
 	item_state = "cent_headset_alt"
-	keyslot = null
 	bowman = TRUE
 
 /obj/item/radio/headset/silicon/pai

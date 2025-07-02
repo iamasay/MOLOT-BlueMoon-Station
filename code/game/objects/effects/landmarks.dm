@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(chosen_station_templates)
+
 /obj/effect/landmark
 	name = "landmark"
 	icon = 'icons/effects/landmarks_static.dmi'
@@ -232,8 +234,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "department_sec"
 	icon_state = "Security Officer"
 
-/obj/effect/landmark/start/depsec/New()
-	..()
+/obj/effect/landmark/start/depsec/Initialize(mapload)
+	. = ..()
 	GLOB.department_security_spawns += src
 
 /obj/effect/landmark/start/depsec/Destroy()
@@ -258,7 +260,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "wiznerd_spawn"
 
 /obj/effect/landmark/start/wizard/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.wizardstart += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -268,7 +270,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "snukeop_spawn"
 
 /obj/effect/landmark/start/nukeop/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.nukeop_start += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -278,7 +280,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "snukeop_leader_spawn"
 
 /obj/effect/landmark/start/nukeop_leader/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.nukeop_leader_start += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -310,7 +312,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	name = "New Player"
 
 /obj/effect/landmark/start/new_player/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.newplayer_start += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -340,7 +342,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	name = "JoinLate"
 
 /obj/effect/landmark/latejoin/Initialize(mapload)
-	..()
+	. = ..()
 	SSjob.latejoin_trackers += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -365,7 +367,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "xeno_spawn"
 
 /obj/effect/landmark/xeno_spawn/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.xeno_spawn += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -375,7 +377,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "blob_start"
 
 /obj/effect/landmark/blobstart/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.blobstart += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -384,7 +386,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "secequipment"
 
 /obj/effect/landmark/secequipment/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.secequipment += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -393,7 +395,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "prisonwarp"
 
 /obj/effect/landmark/prisonwarp/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.prisonwarp += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -402,7 +404,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "ert_spawn"
 
 /obj/effect/landmark/ert_spawn/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.emergencyresponseteamspawn += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -415,7 +417,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "holding_facility"
 
 /obj/effect/landmark/holding_facility/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.holdingfacility += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -424,7 +426,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "tdome_observer"
 
 /obj/effect/landmark/thunderdome/observe/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.tdomeobserve += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -433,7 +435,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "tdome_t1"
 
 /obj/effect/landmark/thunderdome/one/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.tdome1	+= get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -442,7 +444,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "tdome_t2"
 
 /obj/effect/landmark/thunderdome/two/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.tdome2 += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -451,7 +453,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "tdome_admin"
 
 /obj/effect/landmark/thunderdome/admin/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.tdomeadmin += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -462,7 +464,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	layer = MOB_LAYER
 
 /obj/effect/landmark/servant_of_ratvar/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.servant_spawns += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -472,7 +474,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "city_of_cogs"
 
 /obj/effect/landmark/city_of_cogs/Initialize(mapload)
-	..()
+	. = ..()
 	GLOB.city_of_cogs_spawns += get_turf(src)
 	return INITIALIZE_HINT_QDEL
 
@@ -484,7 +486,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 
 
 /obj/effect/landmark/event_spawn/New()
-	..()
+	. = ..()
 	GLOB.generic_event_spawns += src
 
 /obj/effect/landmark/event_spawn/Destroy()
@@ -494,9 +496,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 /obj/effect/landmark/ruin
 	var/datum/map_template/ruin/ruin_template
 
-/obj/effect/landmark/ruin/New(loc, my_ruin_template)
+/obj/effect/landmark/ruin/Initialize(mapload, my_ruin_template)
+	. = ..()
 	name = "ruin_[GLOB.ruin_landmarks.len + 1]"
-	..(loc)
 	ruin_template = my_ruin_template
 	GLOB.ruin_landmarks |= src
 
@@ -507,12 +509,15 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 
 //------Station Rooms Landmarks------------//
 /obj/effect/landmark/stationroom
-	var/list/templates = list()
+	var/list/template_names = list()
+	/// Whether or not we can choose templates that have already been chosen
+	var/unique = FALSE
+	var/late_load = FALSE
 	layer = BULLET_HOLE_LAYER
 	plane = ABOVE_WALL_PLANE
 
-/obj/effect/landmark/stationroom/New()
-	..()
+/obj/effect/landmark/stationroom/Initialize(mapload)
+	. = ..()
 	GLOB.stationroom_landmarks += src
 
 /obj/effect/landmark/stationroom/Destroy()
@@ -525,38 +530,52 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	if(!T)
 		return FALSE
 	if(!template_name)
-		for(var/t in templates)
+		for(var/t in template_names)
 			if(!SSmapping.station_room_templates[t])
-				log_world("Station room spawner placed at ([T.x], [T.y], [T.z]) has invalid ruin name of \"[t]\" in its list")
-				templates -= t
-		template_name = pickweight(templates, 0)
+				stack_trace("Station room spawner placed at ([T.x], [T.y], [T.z]) has invalid ruin name of \"[t]\" in its list")
+				template_names -= t
+		template_name = choose()
 	if(!template_name)
 		GLOB.stationroom_landmarks -= src
 		qdel(src)
 		return FALSE
+	GLOB.chosen_station_templates += template_name
 	var/datum/map_template/template = SSmapping.station_room_templates[template_name]
 	if(!template)
 		return FALSE
-	testing("Room \"[template_name]\" placed at ([T.x], [T.y], [T.z])")
-	template.load(T, centered = FALSE, orientation = dir, rotate_placement_to_orientation = TRUE)
+	testing("Ruin \"[template_name]\" placed at ([T.x], [T.y], [T.z])")
+	template.load(T, centered = FALSE)
 	template.loaded++
 	GLOB.stationroom_landmarks -= src
 	qdel(src)
 	return TRUE
 
+// Proc to allow you to add conditions for choosing templates, instead of just randomly picking from the template list.
+// Examples where this would be useful, would be choosing certain templates depending on conditions such as holidays,
+// Or co-dependent templates, such as having a template for the core and one for the satelite, and swapping AI and comms.git
+/obj/effect/landmark/stationroom/proc/choose()
+	if(unique)
+		var/list/current_templates = template_names
+		for(var/i in GLOB.chosen_station_templates)
+			template_names -= i
+		if(!template_names.len)
+			stack_trace("Station room spawner (type: [type]) has run out of ruins, unique will be ignored")
+			template_names = current_templates
+	return pickweight(template_names)
+
 // The landmark for the Engine on Box
 
 /obj/effect/landmark/stationroom/box/engine
-	templates = list("Engine SM" = 3, "Engine Singulo" = 3, "Engine Tesla" = 3)
+	template_names = list("Engine SM" = 3, "Engine Singulo" = 3, "Engine Tesla" = 3)
 	icon = 'icons/rooms/box/engine.dmi'
 
-/obj/effect/landmark/stationroom/box/engine/New()
+/obj/effect/landmark/stationroom/box/engine/Initialize(mapload)
 	. = ..()
-	templates = CONFIG_GET(keyed_list/box_random_engine)
+	template_names = CONFIG_GET(keyed_list/box_random_engine)
 
 // Landmark for the mining station
 /obj/effect/landmark/stationroom/lavaland/station
-	templates = list("Public Mining Base" = 3)
+	template_names = list("Public Mining Base" = 3)
 	icon = 'icons/rooms/Lavaland/Mining.dmi'
 
 // handled in portals.dm, id connected to one-way portal
@@ -631,3 +650,54 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 		joining_mob.forceMove(closet)
 		return
 	return ..() //Call parent as fallback
+
+/obj/effect/landmark/stationroom/maint/
+	unique = TRUE
+
+/obj/effect/landmark/stationroom/maint/threexthree
+	template_names = list("Maint 2storage", "Maint 9storage", "Maint airstation", "Maint biohazard", "Maint boxbedroom", "Maint boxchemcloset", "Maint boxclutter2", "Maint boxclutter3", "Maint boxclutter4", "Maint boxclutter5", "Maint boxclutter6", "Maint boxclutter8",
+	"Maint boxwindow", "Maint bubblegumaltar", "Maint deltajanniecloset", "Maint deltaorgantrade", "Maint donutcapgun", "Maint dronehole", "Maint gibs", "Maint hazmat", "Maint hobohut", "Maint hullbreach", "Maint kilolustymaid", "Maint kilomechcharger", "Maint kilotheatre",
+	"Maint medicloset", "Maint memorial", "Maint metaclutter2", "Maint metaclutter4", "Maint metagamergear", "Maint owloffice", "Maint plasma", "Maint pubbyartism", "Maint pubbyclutter1", "Maint pubbyclutter2", "Maint pubbyclutter3", "Maint radspill", "Maint shrine", "Maint singularity",
+	"Maint tanning", "Maint tranquility", "Maint wash", "Maint command", "Maint dummy", "Maint spaceart", "Maint containmentcell", "Maint naughtyroom", "Maint vendoraccident", "Maint donut", "Maint lair" = 0.25, "Maint lair2" = 0.25, "Maint lair3" = 0.25, "Maint lair4" = 0.25)
+
+/obj/effect/landmark/stationroom/maint/threexfive
+	template_names = list("Maint airlockstorage", "Maint boxclutter7", "Maint boxkitchen", "Maint boxmaintfreezers", "Maint canisterroom", "Maint checkpoint", "Maint hank", "Maint junkcloset", "Maint kilomobden", "Maint laststand", "Maint monky", "Maint onioncult", "Maint pubbyclutter5",
+	"Maint pubbyclutter6", "Maint pubbyrobotics", "Maint ripleywreck", "Maint churchroach", "Maint mirror", "Maint chromosomes", "Maint clutter", "Maint dissection", "Maint emergencyoxy", "Maint oreboxes", "Maint gaxbotany")
+
+/obj/effect/landmark/stationroom/maint/fivexthree
+	template_names = list("Maint boxclutter1", "Maint breach", "Maint cloner", "Maint deltaclutter2", "Maint deltaclutter3", "Maint incompletefloor", "Maint kiloclutter1", "Maint metaclutter1", "Maint metaclutter3", "Maint minibreakroom", "Maint nastytrap", "Maint pills", "Maint pubbybedroom",
+	"Maint pubbyclutter4", "Maint pubbyclutter7", "Maint pubbykitchen", "Maint storeroom", "Maint yogsmaintdet", "Maint yogsmaintrpg", "Maint waitingroom", "Maint podmin", "Maint highqualitysurgery", "Maint chestburst", "Maint gloveroom", "Maint magicroom", "Maint spareparts", "Maint smallfish", "Maint ghostlibrary")
+
+/obj/effect/landmark/stationroom/maint/fivexfour
+	template_names = list("Maint blasted", "Maint boxbar", "Maint boxdinner", "Maint boxsurgery", "Maint comproom", "Maint deltabar", "Maint deltadetective", "Maint deltadressing", "Maint deltaEVA", "Maint deltagamble", "Maint deltalounge", "Maint deltasurgery", "Maint firemanroom", "Maint icicle",
+	"Maint kilohauntedlibrary", "Maint kilosurgery", "Maint medusa", "Maint metakitchen", "Maint metamedical", "Maint metarobotics", "Maint metatheatre", "Maint pubbysurgery", "Maint tinybarbershop", "Maint laundromat", "Maint pass", "Maint boxclutter", "Maint posterstore", "Maint shoestore", "Maint nanitechamber", "Maint oldcryoroom")
+
+/obj/effect/landmark/stationroom/maint/tenxfive
+	template_names = list("Maint barbershop", "Maint deltaarcade", "Maint deltabotnis", "Maint deltacafeteria", "Maint deltaclutter1", "Maint deltarobotics", "Maint factory", "Maint maintmedical", "Maint meetingroom", "Maint phage", "Maint skidrow", "Maint transit", "Maint ballpit", "Maint commie", "Maint firingrange", "Maint clothingstore",
+	"Maint butchersden", "Maint courtroom", "Maint gaschamber", "Maint oldaichamber", "Maint radiationtherapy", "Maint ratburger", "Maint tank_heaven", "Maint bamboo", "Maint medicalmaint")
+
+/obj/effect/landmark/stationroom/maint/tenxten
+	template_names = list("Maint aquarium", "Maint bigconstruction", "Maint bigtheatre", "Maint deltalibrary", "Maint graffitiroom", "Maint junction", "Maint podrepairbay", "Maint pubbybar", "Maint roosterdome", "Maint sanitarium", "Maint snakefighter", "Maint vault", "Maint ward", "Maint assaultpod", "Maint maze", "Maint maze2", "Maint boxfactory",
+	"Maint sixsectorsdown", "Maint advbotany", "Maint beach", "Maint botany_apiary", "Maint gamercave", "Maint ladytesla_altar", "Maint olddiner", "Maint smallmagician", "Maint fourshops", "Maint fishinghole", "Maint fakewalls", "Maint wizard", "Maint halloween")
+
+// Landmark for this gostrole station
+/obj/effect/landmark/stationroom/space/forgottenship
+	template_names = list("SCSBC-14" = 3)
+	icon = 'icons/rooms/Lavaland/Mining.dmi'
+	late_load = TRUE
+
+/obj/effect/landmark/stationroom/space/forgottenship/load()
+	if(GLOB.master_mode == "Extended")
+		template_names = list("SCSBC-13" = 3)
+	else
+		template_names = list("SCSBC-12" = 3)
+	. = ..()
+
+/obj/effect/landmark/stationroom/maint/smexi1
+	template_names = list("Icemaint Center Boring", "Icemaint Center Danger", "Icemaint Center Frosty")
+
+/obj/effect/landmark/stationroom/maint/smexi2
+	template_names = list("Icemaint West Boring")
+
+/obj/effect/landmark/stationroom/maint/smexi3
+	template_names = list("Icemaint East Boring", "Icemaint East Danger", "Icemaint East Knotways", "Icemaint East Icering", "Icemaint East Maze")

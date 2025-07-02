@@ -63,11 +63,3 @@
 	new /obj/item/clothing/gloves/fancy_maid_arm_covers(src)
 	new /obj/item/clothing/neck/fancy_maid_neck_cover(src)
 	new /obj/item/clothing/head/fancy_maid_headband(src)
-
-/datum/gear/backpack/fancy_maid_kit
-	name = "fancy maid kit"
-	path = /obj/item/storage/box/fancy_maid_kit
-
-/obj/machinery/vending/autodrobe/Initialize(mapload)
-	products += list(/obj/item/storage/box/fancy_maid_kit = 3)
-	. = ..()

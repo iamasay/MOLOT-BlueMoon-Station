@@ -126,7 +126,7 @@
 	desc = "The right arm of the Free Trade Union "
 	icon = 'modular_splurt/icons/obj/guns/projectile.dmi'
 	icon_state = "fnfal"
-	item_state = "moistnugget"
+	item_state = "fnfal"
 	fire_sound = 'sound/weapons/rifleshot.ogg'
 	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/fal
@@ -136,6 +136,7 @@
 	slot_flags = ITEM_SLOT_BACK
 	automatic_burst_overlay = FALSE
 	spread = 8 //You are shooting a full power catraige from a light automatic rifle, what do you expect?
+	can_suppress = FALSE // BLUEMOON ADD fixing the sprite
 
 /obj/item/gun/ballistic/automatic/fal/nomag
 	spawnwithmagazine = FALSE

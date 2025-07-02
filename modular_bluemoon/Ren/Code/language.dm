@@ -1,7 +1,7 @@
 /datum/language/old_codes
 	name = "Old fast codes"
-	desc = "Old military codes used on Earth hundreds of years ago. Now they are almost forgotten and replaced by more advanced referral systems, but someone still uses them"
-	key = "e"
+	desc = "Old military codes used on Earth hundreds of years ago. Now they are almost forgotten and replaced by more advanced referral systems, but someone still uses them. (Используйте русскую букву для префикса)"
+	key = "е"
 	flags = LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
 	space_chance = 100
 	icon_state = "inteq"
@@ -33,7 +33,7 @@
 		return
 
 	to_chat(user, "<span class='boldannounce'>You start skimming through [src], and suddenly your mind is filled with codewords and responses.</span>")
-	user.grant_language(/datum/language/old_codes, TRUE, TRUE, LANGUAGE_MIND)
+	user.grant_language(/datum/language/old_codes, source = LANGUAGE_MIND)
 
 	use_charge(user)
 
@@ -52,7 +52,7 @@
 		M.visible_message("<span class='danger'>[user] beats [M] over the head with [src]!</span>", "<span class='userdanger'>[user] beats you over the head with [src]!</span>", "<span class='italics'>You hear smacking.</span>")
 	else
 		M.visible_message("<span class='notice'>[user] teaches [M] by beating [M.ru_na()] over the head with [src]!</span>", "<span class='boldnotice'>As [user] hits you with [src], codewords and responses flow through your mind.</span>", "<span class='italics'>You hear smacking.</span>")
-		M.grant_language(/datum/language/old_codes, TRUE, TRUE, LANGUAGE_MIND)
+		M.grant_language(/datum/language/old_codes, source = LANGUAGE_MIND)
 		use_charge(user)
 
 /obj/item/fastcodes_guide/proc/use_charge(mob/user)

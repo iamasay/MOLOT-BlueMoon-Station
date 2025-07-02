@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\magivend.dm'
 /obj/machinery/vending/magivend
 	name = "\improper MagiVend"
 	desc = "A magic vending machine."
@@ -19,3 +20,4 @@
 	extra_price = PRICE_ABOVE_EXPENSIVE
 	payment_department = ACCOUNT_SRV
 	light_mask = "magivend-light-mask"
+*/

@@ -22,6 +22,11 @@
 	..()
 	icon_state = "enforcer-[round(ammo_count())]"
 
+/obj/item/ammo_box/magazine/e45/empty
+	name = "Enforcer magazine"
+	desc = "A Mk. 58 magazine."
+	start_empty = 1
+
 /obj/item/ammo_box/magazine/e45/lethal
 	name = "Enforcer magazine (.45 Lethal)"
 	desc = "A Mk. 58 magazine. Loaded with lethal rounds."

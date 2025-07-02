@@ -155,7 +155,7 @@
 			return TRUE
 
 	// BLUEMOON ADDITION AHEAD - нельзя поменяться местами со сверхтяжёлым персонажем
-	if(HAS_TRAIT(M, TRAIT_BLUEMOON_HEAVY_SUPER))
+	if(M.mob_weight > MOB_WEIGHT_HEAVY)
 		return TRUE
 	// BLUEMOON ADDITION END
 
@@ -314,8 +314,14 @@
 /mob/living/carbon/human/has_tail()
 	if(!dna || !dna.species)
 		return ..()
-	var/list/L = dna.species.mutant_bodyparts		// caches list because i refuse to type it out and because performance
-	return (L["mam_tail"] && (L["mam_tail"] != "None")) || (L["tail_human"] && (L["tail_human"] != "None")) || (L["tail_lizard"] && (L["tail_lizard"] != "None"))
+	// BLUEMOON CHANGE учитываем хвосты наг и features вместа species
+	var/list/F = dna.features // Фичурсы в которых хранятся настоящие хвосты персонажа
+	var/list/M = dna.species.mutant_bodyparts // Мутант_бодипарты в которых хранится какой хвост из фичурсов мы используем
+	for(var/tail in list("mam_tail", "tail_human", "tail_lizard", "taur", "xenotail"))
+		if(M[tail] && F[tail] && (F[tail] != "None")) // простите, я специально
+			return TRUE
+	return	FALSE
+	// BLUEMOON CHANGE END
 
 /mob/living/start_pulling(atom/movable/AM, state, force = pull_force, supress_message = FALSE)
 	if(!AM || !src)
@@ -360,8 +366,8 @@
 				M.show_message("<span class='warning'>[src] has entwined [ru_ego()] tail with yours, pulling you along!</span>", MSG_VISUAL, "<span class='warning'>You feel <b>something</b> coiling around your tail, pulling you along!</span>")
 
 			else // BLUEMOON CHANGES
-				visible_message("<span class='warning'>[src] has grabbed [M][(zone_selected == "l_arm" || zone_selected == "r_arm")? " by [M.ru_ego()] hands":" passively"]! [HAS_TRAIT(AM, TRAIT_BLUEMOON_HEAVY) || HAS_TRAIT(AM, TRAIT_BLUEMOON_HEAVY_SUPER) ? "Looks heavy." : ""]</span>",
-					"<span class='warning'>You have grabbed [M][(zone_selected == "l_arm" || zone_selected == "r_arm")? " by [M.ru_ego()] hands":" passively"]! [HAS_TRAIT(AM, TRAIT_BLUEMOON_HEAVY) || HAS_TRAIT(AM, TRAIT_BLUEMOON_HEAVY_SUPER) ? "It is hard to pull heavy weight!" : ""]</span>", target = M,
+				visible_message("<span class='warning'>[src] has grabbed [M][(zone_selected == "l_arm" || zone_selected == "r_arm")? " by [M.ru_ego()] hands":" passively"]! [M.mob_weight > MOB_WEIGHT_NORMAL ? "Looks heavy." : ""]</span>",
+					"<span class='warning'>You have grabbed [M][(zone_selected == "l_arm" || zone_selected == "r_arm")? " by [M.ru_ego()] hands":" passively"]! [M.mob_weight > MOB_WEIGHT_NORMAL ? "It is hard to pull heavy weight!" : ""]</span>", target = M,
 					target_message = "<span class='warning'>[src] has grabbed you[(zone_selected == "l_arm" || zone_selected == "r_arm")? " by your hands":" passively"]!</span>")
 		if(!iscarbon(src))
 			M.LAssailant = null
@@ -483,6 +489,7 @@
 		adjustOxyLoss(health - HEALTH_THRESHOLD_DEAD)
 		updatehealth()
 		to_chat(src, "<span class='notice'>You have given up life and succumbed to death.</span>")
+		visible_message(span_boldnotice("Кажется, [src] [gender == MALE ? "сдался" : "сдалась"].")) // BLUEMOON - SUCCUMB_MESSAGE - ADD
 		death()
 
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = FALSE, check_immobilized = FALSE, ignore_stasis = FALSE)
@@ -549,38 +556,6 @@
 	else
 		if(alert(src, "You sure you want to sleep for a while?", "Sleep", "Yes", "No") == "Yes")
 			SetSleeping(400) //Short nap
-
-//SET_ACTIVITY START
-/mob/living/verb/set_activity()
-	set name = "Деятельность"
-	set desc = "Описывает то, что вы сейчас делаете."
-	set category = "IC"
-
-	if(activity)
-		activity = ""
-		to_chat(src, "<span class='notice'>Деятельность сброшена.</span>")
-		return
-	if(stat == CONSCIOUS)
-		display_typing_indicator()
-		activity = stripped_input(src, "Здесь можно описать продолжительную (долго длящуюся) деятельность, которая будет отображаться столько, сколько тебе нужно.", "Опиши свою деятельность", "", MAX_MESSAGE_LEN)
-		clear_typing_indicator()
-		if(activity)
-			activity = capitalize(activity)
-			return me_verb(activity)
-	else
-		to_chat(src, "<span class='warning'>Недоступно в твоем нынешнем состоянии.</span>")
-
-/mob/living/update_stat()
-	if(stat != CONSCIOUS)
-		activity = ""
-
-/mob/living/get_tooltip_data()
-	if(activity)
-		. = list()
-		. += activity
-
-//SET_ACTIVITY END
-
 
 /mob/proc/get_contents()
 
@@ -674,8 +649,12 @@
 		clear_fullscreen("brute")
 
 //Proc used to resuscitate a mob, for full_heal see fully_heal()
-/mob/living/proc/revive(full_heal = FALSE, admin_revive = FALSE)
+/mob/living/proc/revive(full_heal = FALSE, admin_revive = FALSE, excess_healing = 0)
 	SEND_SIGNAL(src, COMSIG_LIVING_REVIVE, full_heal, admin_revive)
+	if(excess_healing)
+		adjustOxyLoss(-excess_healing, updating_health = FALSE)
+		adjustToxLoss(-excess_healing, updating_health = FALSE, forced = TRUE) //slime friendly
+		updatehealth()
 	if(full_heal)
 		fully_heal(admin_revive)
 	if(stat == DEAD && can_be_revived()) //in some cases you can't revive (e.g. no brain)
@@ -690,7 +669,10 @@
 		update_sight()
 		clear_alert("not_enough_oxy")
 		reload_fullscreen()
-		. = 1
+		. = TRUE
+		if(excess_healing)
+			INVOKE_ASYNC(src, PROC_REF(emote), "gasp")
+			log_combat(src, src, "revived")
 		if(mind)
 			for(var/S in mind.spell_list)
 				var/obj/effect/proc_holder/spell/spell = S
@@ -1075,9 +1057,11 @@
 
 /mob/living/singularity_pull(S, current_size)
 	..()
-	if(current_size >= STAGE_SIX)
+	if(move_resist == INFINITY)
+		return
+	if(current_size >= STAGE_FIVE) //your puny magboots/wings/whatever will not save you against five level singularity
 		throw_at(S, 14, 3, src, TRUE)
-	else
+	else if(!src.mob_negates_gravity())
 		step_towards(src,S)
 
 /mob/living/proc/do_jitter_animation(jitteriness)
@@ -1192,7 +1176,7 @@
 		return TRUE
 	return FALSE
 
-/mob/living/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+/mob/living/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force, quickstart = TRUE)
 	stop_pulling()
 	. = ..()
 
@@ -1389,10 +1373,13 @@
 			return FALSE
 		if(NAMEOF(src, resize))
 			update_size(var_value)
-			return FALSE
+			return TRUE
 		if(NAMEOF(src, size_multiplier))
 			update_size(var_value)
-			return FALSE
+			return TRUE
+		if(NAMEOF(src, mob_weight)) //BLUEMOON ADD
+			update_weight(var_value) //BLUEMOON ADD END
+			return TRUE
 	. = ..()
 	switch(var_name)
 		if(NAMEOF(src, eye_blind))
@@ -1460,3 +1447,22 @@
 			STAMINA:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=stamina' id='stamina'>[getStaminaLoss()]</a>
 		</font>
 	"}
+
+/**
+ * Called by strange_reagent, with the amount of healing the strange reagent is doing
+ * It uses the healing amount on brute/fire damage, and then uses the excess healing for revive
+ */
+/mob/living/proc/do_strange_reagent_revival(healing_amount)
+	var/brute_loss = getBruteLoss()
+	if(brute_loss)
+		var/brute_healing = min(healing_amount * 0.5, brute_loss) // 50% of the healing goes to brute
+		setBruteLoss(round(brute_loss - brute_healing, DAMAGE_PRECISION), updating_health=FALSE, forced=TRUE)
+		healing_amount = max(0, healing_amount - brute_healing)
+
+	var/fire_loss = getFireLoss()
+	if(fire_loss && healing_amount)
+		var/fire_healing = min(healing_amount, fire_loss) // rest of the healing goes to fire
+		setFireLoss(round(fire_loss - fire_healing, DAMAGE_PRECISION), updating_health=TRUE, forced=TRUE)
+		healing_amount = max(0, healing_amount - fire_healing)
+
+	revive(FALSE, FALSE, excess_healing=max(healing_amount, 0)) // and any excess healing is passed along

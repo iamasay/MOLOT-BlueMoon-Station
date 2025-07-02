@@ -1,6 +1,6 @@
 /datum/export/stack
 	unit_name = "sheet"
-	k_elasticity = 0
+	k_elasticity = 1/200 //BLUEMOON CHANGE
 
 /datum/export/stack/get_amount(obj/O)
 	var/obj/item/stack/S = O
@@ -60,7 +60,7 @@
 	export_types = list(/obj/item/stack/sheet/animalhide/xeno)
 
 /datum/export/stack/licenseplate
-	cost = 250
+	cost = 50
 	unit_name = "license plate"
 	export_types = list(/obj/item/stack/license_plates/filled)
 

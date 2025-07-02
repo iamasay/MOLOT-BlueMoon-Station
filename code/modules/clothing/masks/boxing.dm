@@ -16,6 +16,16 @@
 	name = "Breathaclava"
 	clothing_flags = ALLOWINTERNALS
 
+//Bluemoon donator add
+
+/obj/item/clothing/mask/balaclava/breath/goal
+	name = "Goal mask"
+	desc = "Mask that looks like a weird bear."
+	icon_state = "goal"
+	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
+
+//Bluemoon donator add end
+
 /obj/item/clothing/mask/infiltrator
 	name = "Insidious Balaclava"
 	desc = "An incredibly suspicious balaclava made with Syndicate nanofibers to absorb impacts slightly while obfuscating the voice and face using a garbled vocoder."
@@ -43,7 +53,7 @@
 
 /obj/item/clothing/mask/luchador/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
-	if(message[1] != "*")
+	if(message[1] != "*" && message[1] != "!")
 		message = replacetext(message, "captain", "CAPITÁN")
 		message = replacetext(message, "station", "ESTACIÓN")
 		message = replacetext(message, "sir", "SEÑOR")

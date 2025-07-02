@@ -52,6 +52,15 @@
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stack/sheet/glass = 1)
 
+/obj/item/circuitboard/machine/autolathe_makeshift
+	name = "Makeshift autolathe (Machine Board)"
+	icon_state = "generic"
+	build_path = /obj/machinery/autolathe/makeshift
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 3,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1)
+
 /obj/item/circuitboard/machine/autolathe/secure
 	name = "Secure Autolathe (Machine Board)"
 	build_path = /obj/machinery/autolathe/secure
@@ -644,6 +653,7 @@
 		/obj/machinery/vending/robotics = "Robotech Deluxe",
 		/obj/machinery/vending/engineering = "Robco Tool Maker",
 		/obj/machinery/vending/sovietsoda = "BODA",
+		/obj/machinery/vending/sovietsoda/waterfuck = "VODA BLYAT",
 		/obj/machinery/vending/security = "SecTech",
 		/obj/machinery/vending/modularpc = "Deluxe Silicate Selections",
 		/obj/machinery/vending/custom = "Custom Vendor")

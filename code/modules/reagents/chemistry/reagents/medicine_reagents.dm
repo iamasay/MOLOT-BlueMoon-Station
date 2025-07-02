@@ -168,7 +168,7 @@
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/carbon/M)
 	var/power = -0.00003 * (M.bodytemperature ** 2) + 3
-	if(M.bodytemperature < T0C)
+	if(M.bodytemperature < T0C && M.IsSleeping()) // BLUEMOON ADD now target is required to be asleep for healing process
 		M.adjustOxyLoss(-4 * power, 0)
 		M.adjustBruteLoss(-2 * power, 0)
 		M.adjustFireLoss(-2 * power, 0)
@@ -995,70 +995,127 @@
 	description = "A miracle drug capable of bringing the dead back to life. Only functions when applied by patch or spray, if the target has less than 100 brute and burn damage (independent of one another) and hasn't been husked. Causes slight damage to the living."
 	reagent_state = LIQUID
 	color = "#A0E85E"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 1.25 * REAGENTS_METABOLISM
 //	chemical_flags = REAGENT_ALL_PROCESS (BLUEMOON REMOVAL - роботы не должны получать эффекты реагента)
 	taste_description = "magnets"
-	pH = 0
+	pH = 0.5
 	value = REAGENT_VALUE_RARE
+	/// The amount of damage a single unit of this will heal
+	var/healing_per_reagent_unit = 5
+	/// The ratio of the excess reagent used to contribute to excess healing
+	var/excess_healing_ratio = 0.8
+	/// Do we instantly revive
+	var/instant = FALSE
+	/// The maximum amount of damage we can revive from, as a ratio of max health
+	var/max_revive_damage_ratio = 2
+
+/datum/reagent/medicine/strange_reagent/instant
+	name = "Stranger Reagent"
+	instant = TRUE
+	chemical_flags = NONE
+
+/datum/reagent/medicine/strange_reagent/New()
+	. = ..()
+	description = replacetext(description, "%MAXHEALTHRATIO%", "[max_revive_damage_ratio * 100]%")
+	if(instant)
+		description += " It appears to be pulsing with a warm pink light."
 
 // FEED ME SEYMOUR
-/datum/reagent/medicine/strange_reagent/on_hydroponics_apply(obj/item/seeds/myseed, datum/reagents/chems, obj/machinery/hydroponics/mytray, mob/user)
+/datum/reagent/medicine/strange_reagent/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
+	mytray.spawnplant()
+
+/// Calculates the amount of reagent to at a bare minimum make the target not dead
+/datum/reagent/medicine/strange_reagent/proc/calculate_amount_needed_to_revive(mob/living/benefactor)
+	var/their_health = benefactor.getMaxHealth() - (benefactor.getBruteLoss() + benefactor.getFireLoss())
+	if(their_health > 0)
+		return 1
+
+	return round(-their_health / healing_per_reagent_unit, DAMAGE_PRECISION)
+
+/// Calculates the amount of reagent that will be needed to both revive and full heal the target. Looks at healing_per_reagent_unit and excess_healing_ratio
+/datum/reagent/medicine/strange_reagent/proc/calculate_amount_needed_to_full_heal(mob/living/benefactor)
+	var/their_health = benefactor.getBruteLoss() + benefactor.getFireLoss()
+	var/max_health = benefactor.getMaxHealth()
+	if(their_health >= max_health)
+		return 1
+
+	var/amount_needed_to_revive = calculate_amount_needed_to_revive(benefactor)
+	var/expected_amount_to_full_heal = round(max_health / healing_per_reagent_unit, DAMAGE_PRECISION) / excess_healing_ratio
+	return amount_needed_to_revive + expected_amount_to_full_heal
+
+/datum/reagent/medicine/strange_reagent/reaction_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)
+	if(exposed_mob.stat != DEAD || !(exposed_mob.mob_biotypes & MOB_ORGANIC))
+		return ..()
+
+	if(exposed_mob.suiciding) //they are never coming back
+		exposed_mob.visible_message(span_warning("Тело [exposed_mob] не реагирует..."))
+		return
+
+	if(iscarbon(exposed_mob) && !(methods & INGEST)) //simplemobs can still be splashed
+		return ..()
+
+	if(HAS_TRAIT(exposed_mob, TRAIT_HUSK))
+		exposed_mob.visible_message(span_warning("Тело [exposed_mob] выпустило кучу дыма..."))
+		var/datum/effect_system/smoke_spread/bad/smoke = new
+		smoke.set_up(8, exposed_mob.loc)
+		smoke.start()
+		return
+
+	if((exposed_mob.getBruteLoss() + exposed_mob.getFireLoss()) > (exposed_mob.getMaxHealth() * max_revive_damage_ratio))
+		if(IS_CHANGELING(exposed_mob) || iszombie(exposed_mob))
+			return
+		var/num = rand(0, 1)
+		switch(num)
+			if(0)
+				addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, do_jitter_animation), 1 SECONDS), 4 SECONDS)
+				addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, gib), FALSE, TRUE, TRUE), 2 SECONDS)
+			if(1)
+				addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, do_jitter_animation), 1 SECONDS), 4 SECONDS)
+				addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living/carbon/human, cluwneify)), 2 SECONDS)
+		return
+
+	var/needed_to_revive = calculate_amount_needed_to_revive(exposed_mob)
+	if(reac_volume < needed_to_revive)
+		exposed_mob.visible_message(span_warning("Тело [exposed_mob] немного конвульсирует, а затем снова замирает.."))
+		exposed_mob.do_jitter_animation(10)
+		return
+
+	exposed_mob.visible_message(span_warning("Тело [exposed_mob] начинает дёргаться!"))
+	exposed_mob.notify_ghost_cloning(source = exposed_mob)
+	exposed_mob.do_jitter_animation(10)
+
+	// we factor in healing needed when determing if we do anything
+	var/healing = needed_to_revive * healing_per_reagent_unit
+	// but excessive healing is penalized, to reward doctors who use the perfect amount
+	reac_volume -= needed_to_revive
+	healing += (reac_volume * healing_per_reagent_unit) * excess_healing_ratio
+
+	// during unit tests, we want it to happen immediately
+	if(instant)
+		exposed_mob.do_strange_reagent_revival(healing)
+	else
+		// jitter immediately, after four seconds, and after eight seconds
+		addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, do_jitter_animation), 1 SECONDS), 4 SECONDS)
+		addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, do_strange_reagent_revival), healing), 7 SECONDS)
+		addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, do_jitter_animation), 1 SECONDS), 8 SECONDS)
+
+	if(exposed_mob.revive())
+		exposed_mob.grab_ghost()
+		// BLUEMOON EDIT START - изменение памяти после смерти
+		exposed_mob.mind?.forget_death(DEATH_FORGETFULNESS_REASON_STRANGE_REAGENT)
+		exposed_mob.mind?.revival_handle_memory("strange reagent")
+		// BLUEMOON EDIT END
+
+	return ..()
+
+/datum/reagent/medicine/strange_reagent/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	. = ..()
-	if(chems.has_reagent(type, 1))
-		mytray.spawnplant()
 
-/datum/reagent/medicine/strange_reagent/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
-	if(M.stat == DEAD)
-		if(M.suiciding || M.hellbound) //they are never coming back
-			M.visible_message("<span class='warning'>[M]'s body does not react...</span>")
-			return ..()
-		if(M.getBruteLoss() >= 100 || M.getFireLoss() >= 100 || HAS_TRAIT(M, TRAIT_HUSK)) //body is too damaged to be revived
-			M.visible_message("<span class='warning'>[M]'s body convulses a bit, and then falls still once more.</span>")
-			M.do_jitter_animation(10)
-			return ..()
-		else
-			M.visible_message("<span class='warning'>[M]'s body starts convulsing!</span>")
-			M.notify_ghost_cloning(source = M)
-			M.do_jitter_animation(10)
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 10), 40) //jitter immediately, then again after 4 and 8 seconds
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 10), 80)
+	var/damage_at_random = rand(0, 250)/100 //0 to 2.5
+	var/need_mob_update
+	need_mob_update = affected_mob.adjustBruteLoss(damage_at_random * REM * seconds_per_tick, updating_health = FALSE)
+	need_mob_update += affected_mob.adjustFireLoss(damage_at_random * REM * seconds_per_tick, updating_health = FALSE)
 
-			spawn(100) //so the ghost has time to re-enter
-				if(iscarbon(M))
-					var/mob/living/carbon/C = M
-					if(!(C.dna && C.dna.species && (NOBLOOD in C.dna.species.species_traits)))
-						C.blood_volume = max(C.blood_volume, BLOOD_VOLUME_BAD*C.blood_ratio) //so you don't instantly re-die from a lack of blood. You'll still need help if you had none though.
-					var/obj/item/organ/heart/H = C.getorganslot(ORGAN_SLOT_HEART)
-					if(H && H.organ_flags & ORGAN_FAILING)
-						H.applyOrganDamage(-15)
-					for(var/obj/item/organ/O as anything in C.internal_organs)
-						if(O.organ_flags & ORGAN_FAILING)
-							O.applyOrganDamage(-5)
-
-				M.adjustOxyLoss(-20, 0)
-				M.adjustToxLoss(-20, 0)
-				M.updatehealth()
-				if(iscarbon(M))
-					var/mob/living/carbon/C = M
-					if(!C.can_revive(ignore_timelimit = TRUE, maximum_brute_dam = 100, maximum_fire_dam = 100, ignore_heart = TRUE))
-						return
-				var/tplus = world.time - M.timeofdeath
-				if(M.revive())
-					M.grab_ghost()
-					M.emote("gasp")
-					log_combat(M, M, "revived", src)
-					var/list/policies = CONFIG_GET(keyed_list/policy)
-					var/policy = policies[POLICYCONFIG_ON_DEFIB_LATE]	//Always causes memory loss due to the nature of strange reagent.
-					if(policy)
-						to_chat(M, policy)
-					M.log_message("revived using strange reagent, [tplus] deciseconds from time of death, considered late revival due to usage of strange reagent.", LOG_GAME)
-	..()
-
-
-/datum/reagent/medicine/strange_reagent/on_mob_life(mob/living/carbon/M)
-	M.adjustBruteLoss(0.5*REM, 0)
-	M.adjustFireLoss(0.5*REM, 0)
-	..()
 	. = 1
 
 /datum/reagent/medicine/mannitol
@@ -1802,29 +1859,40 @@
 	clot_coeff_per_wound = 0.8
 
 //Sloowly heals system corruption in robotic organisms. Causes mild toxins damage in nonrobots.
+// BLUEMOON EDITED - усилен эффект, добавлено оповещение о передозировке, увеличен порог передозировки
 /datum/reagent/medicine/system_cleaner
 	name = "System Cleaner"
 	description = "A reagent with special properties causing it to slowly reduce corruption in robots. Mildly toxic for organics."
 	reagent_state = LIQUID
 	color = "#D7C9C6"
-	metabolization_rate = 0.2 * REAGENTS_METABOLISM
+	metabolization_rate = 3 * REAGENTS_METABOLISM
 	chemical_flags = REAGENT_ALL_PROCESS
-	overdose_threshold = 30
+	overdose_threshold = 50
 
 /datum/reagent/medicine/system_cleaner/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(HAS_TRAIT(M, TRAIT_ROBOTIC_ORGANISM))
-		M.adjustToxLoss(-0.4*REM, toxins_type = TOX_SYSCORRUPT)
+		M.adjustToxLoss(-0.8 * 2 * REM, toxins_type = TOX_SYSCORRUPT)
 	else
-		M.adjustToxLoss(0.5*REM)
+		M.adjustToxLoss(0.5 * 2 * REM)
 	. = 1
+
+/datum/reagent/medicine/system_cleaner/overdose_start(mob/living/M)
+	. = ..()
+	if(istype(M, /mob/living/carbon/human) && isrobotic(M))
+		var/mob/living/carbon/human/H = M
+		to_chat(H, span_boldwarning("Ош$бка систе%ммы обраббббботкI реаг^нтов - отк*люччение модулR очист%ки..."))
+		H.Dizzy(20)
+		H.emote("buzz")
 
 /datum/reagent/medicine/system_cleaner/overdose_process(mob/living/carbon/M)
 	. = ..()
 	if(HAS_TRAIT(M, TRAIT_ROBOTIC_ORGANISM))
-		M.adjustToxLoss(0.8*REM, toxins_type = TOX_SYSCORRUPT) //inverts its positive effect on overdose, for organics it's just more toxic
+		if(current_cycle % 10 == 0)
+			to_chat(M, span_warning("П&вреждение ддр%йверов оч$стки - обрат}тесь к сист#мному админист@ратору..."))
+		M.adjustToxLoss(1.6 * 2 * REM, toxins_type = TOX_SYSCORRUPT) //inverts its positive effect on overdose, for organics it's just more toxic
 	else
-		M.adjustToxLoss(0.5*REM)
+		M.adjustToxLoss(0.5 * 2 * REM)
 	. = 1
 
 /datum/reagent/medicine/limb_regrowth

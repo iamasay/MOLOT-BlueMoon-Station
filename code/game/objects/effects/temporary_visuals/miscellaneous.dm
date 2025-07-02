@@ -543,6 +543,19 @@
 	icon_state = "from_puddle"
 	duration = 7
 
+/obj/effect/temp_visual/slime_puddle_alt
+	icon = 'icons/mob/mob.dmi'
+	duration = 12
+	icon_state = "to_puddle_alt"
+
+/obj/effect/temp_visual/slime_puddle/reverse_alt
+	icon_state = "from_puddle_alt"
+	duration = 7
+
 /obj/effect/temp_visual/gib_animation
 	icon = 'icons/mob/mob.dmi'
 	duration = 15
+
+/obj/effect/temp_visual/impact_effect/neurotoxin
+	icon_state = "impact_spit"
+	color = "#5BDD04"

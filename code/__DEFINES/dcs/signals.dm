@@ -230,6 +230,8 @@
 #define COMSIG_TURF_MULTIZ_DEL "turf_multiz_del"
 ///from base of turf/multiz_turf_new: (turf/source, direction)
 #define COMSIG_TURF_MULTIZ_NEW "turf_multiz_new"
+/// from base of turf/proc/afterShuttleMove: (turf/new_turf)
+#define COMSIG_TURF_AFTER_SHUTTLE_MOVE "turf_after_shuttle_move"
 
 // /atom/movable signals
 #define COMSIG_MOVABLE_PRE_MOVE "movable_pre_move"					///from base of atom/movable/Moved(): (/atom)
@@ -506,6 +508,8 @@
 	#define COMPONENT_BLOCK_SHARPEN_BLOCKED 2
 	#define COMPONENT_BLOCK_SHARPEN_ALREADY 4
 	#define COMPONENT_BLOCK_SHARPEN_MAXED 8
+#define COMSIG_ITEM_CHECK_WIELDED "item_check_wielded"  // used to check if the item is wielded for special effects
+	#define COMPONENT_IS_WIELDED 1
 #define COMSIG_ITEM_MICROWAVE_ACT "microwave_act"               //called on item when microwaved (): (obj/machinery/microwave/M)
 /// Return on success - that is, a microwaved item was produced
 #define COMPONENT_MICROWAVE_SUCCESS (1<<0)
@@ -618,11 +622,11 @@
 #define COMSIG_LIVING_PREDEATH "living_predeath"
 
 /*******Component Specific Signals*******/
-//Janitor
+/* Janitor BLUEMOON OVERRIDE для и компановки перенесено в code\__DEFINES\dcs\signals\signals_janitor.dm
 #define COMSIG_TURF_IS_WET "check_turf_wet"							//(): Returns bitflags of wet values.
 #define COMSIG_TURF_MAKE_DRY "make_turf_try"						//(max_strength, immediate, duration_decrease = INFINITY): Returns bool.
 #define COMSIG_COMPONENT_CLEAN_ACT "clean_act"					//called on an object to clean it of cleanables. Usualy with soap: (num/strength)
-
+*/
 //Food
 #define COMSIG_FOOD_EATEN "food_eaten"		//from base of obj/item/reagent_containers/food/snacks/attack(): (mob/living/eater, mob/feeder)
 
@@ -823,3 +827,18 @@
 #define COMSIG_ALARM_TRIGGERED "comsig_alarm_triggered"
 ///Send when an alarm source is cleared (alarm_type, area/source_area)
 #define COMSIG_ALARM_CLEARED "comsig_alarm_clear"
+
+/// Admin helps
+/// From /datum/admin_help/RemoveActive().
+/// Fired when an adminhelp is made inactive either due to closing or resolving.
+#define COMSIG_ADMIN_HELP_MADE_INACTIVE "admin_help_made_inactive"
+
+/// Called when the player replies. From /client/proc/cmd_admin_pm().
+#define COMSIG_ADMIN_HELP_REPLIED "admin_help_replied"
+
+///from /datum/element/jump when a jump has started and ended
+#define COMSIG_ELEMENT_JUMP_STARTED "element_jump_started"
+#define COMSIG_ELEMENT_JUMP_ENDED "element_jump_ended"
+#define COMSIG_KB_LIVING_JUMP "keybind_jump"
+#define COMSIG_TURF_JUMP_ENDED_HERE "turf_jump_ended_here"      //from datum/element/jump/end_jump(): (jumper)
+#define COMSIG_KB_ACTIVATED (1<<0)

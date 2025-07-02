@@ -57,6 +57,9 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Faction
 	"е" = RADIO_CHANNEL_SYNDICATE,
 	"н" = RADIO_CHANNEL_CENTCOM,
+	// Ghostrole
+	"й" = RADIO_CHANNEL_DS1,
+	"ц" = RADIO_CHANNEL_DS2,
 
 	// Admin
 	"з" = MODE_ADMIN,
@@ -202,7 +205,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	else
 		src.log_talk(message, LOG_SAY, forced_by=forced)
 
-	message = treat_message(message) // unfortunately we still need this
+	if(message[1] != "!")
+		message = treat_message(message) // unfortunately we still need this
 	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
 	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
 		message = uppertext(message)
@@ -454,17 +458,26 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(HAS_TRAIT(src, TRAIT_KARTAVII))
 		message = kartavo(message)
 
+	// BLUEMOON EDIT START - теперь синтетики заикаются более с%инт$тич!ески
 	if(derpspeech)
-		message = derpspeech(message, stuttering)
+		if (isrobotic(src))
+			message = machine_slur(message, FALSE, stuttering)
+		else
+			message = derpspeech(message, stuttering)
 
 	if(stuttering)
-		message = stutter(message)
+		if (isrobotic(src))
+			message = machine_slur(message, FALSE, 30)
+		else
+			message = stutter(message)
 
 	if(slurring)
 		if (isrobotic(src))
-			message = Gibberish(message, FALSE, round(slurring / 2)) // BLUEMOON ADD - теперь синтетики заикаются более с%инт$тич!ески
+			var/replace_characters = (slurring > 65)
+			message = machine_slur(message, replace_characters, slurring * 1.5)
 		else
 			message = slur(message,slurring)
+	// BLUEMOON EDIT END
 
 	if(cultslurring)
 		message = cultslur(message)
@@ -528,8 +541,3 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		// End of Skyrat edits
 /mob/living/whisper(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	say("#[message]", bubble_type, spans, sanitize, language, ignore_spam, forced)
-
-/mob/living/get_language_holder(get_minds = TRUE)
-	if(get_minds && mind)
-		return mind.get_language_holder()
-	. = ..()

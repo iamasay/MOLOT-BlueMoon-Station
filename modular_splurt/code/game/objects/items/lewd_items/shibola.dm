@@ -19,6 +19,9 @@
 			payload = C
 			to_chat(user, "<span class='notice'>You tangle the [src] around [C]</span>")
 	else if(istype(I,/obj/item/restraints/bondage_rope))
+		if(GLOB.round_type != ROUNDTYPE_EXTENDED)
+			to_chat(user, "<span class='warning'>Today is not the best day to do it.</span>")
+			return
 		var/obj/item/restraints/bondage_rope/R = I
 		if(payload)
 			to_chat(user, "<span class='warning'>[src] already has something in it!</span>")
@@ -34,7 +37,7 @@
 	else
 		return ..()
 
-/obj/item/shibola/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
+/obj/item/shibola/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, quickstart = TRUE)
 	if(!..())
 		return
 	playsound(src.loc,'sound/weapons/bolathrow.ogg', 75, 1)

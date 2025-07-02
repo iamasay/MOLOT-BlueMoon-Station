@@ -41,9 +41,9 @@
 	name = "Syndicate Listening Post"
 	icon_state = "yellow"
 	has_gravity = STANDARD_GRAVITY
-
+/*
 /obj/effect/mob_spawn/human/space/syndicate/special(mob/living/new_spawn)
-	new_spawn.grant_language(/datum/language/codespeak, TRUE, TRUE, LANGUAGE_MIND)
+	new_spawn.grant_language(/datum/language/codespeak, source = LANGUAGE_MIND)
 
 /obj/effect/mob_spawn/human/space/syndicate/comms
 	name = "Syndicate Comms Agent"
@@ -71,11 +71,11 @@
 	l_pocket = /obj/item/melee/transforming/energy/sword/saber
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
 	id = /obj/item/card/id/syndicate/anyone
-	implants = list(/obj/item/implant/weapons_auth)
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor)
 
 /datum/outfit/syndicate_empty/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	H.faction |= ROLE_SYNDICATE
-
+*/
 /area/ruin/space/ruinsolars
 	name = "Solar Array"
 	dynamic_lighting = DYNAMIC_LIGHTING_IFSTARLIGHT

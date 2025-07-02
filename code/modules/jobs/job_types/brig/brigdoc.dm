@@ -14,7 +14,7 @@
 	exp_type = EXP_TYPE_MEDICAL
 	considered_combat_role = TRUE
 	exp_type_department = EXP_TYPE_MEDICAL
-	alt_titles = list("Security Doctor", "Security Medic", "Brig Doctor", "Brig EMT", "Security Physician", "Security EMT", "Slutcurity Nurse", "Fucking Slave", "Well-Trained Girl", "Well-Trained Boy", "Trauma Team", "Security Corpsman", "AC Combat Medic", "Field Medic of Interdyne", "Syndicate Field Medic", "Syndicate Corpsman")
+	alt_titles = list("NT Safeguard Physician", "Syndicate Field Medic", "Security Doctor", "Security Medic", "Brig Doctor", "Brig EMT", "Security Physician", "Security EMT", "Slutcurity Nurse", "Fucking Slave", "Well-Trained Girl", "Well-Trained Boy", "Trauma Team", "Security Corpsman", "AC Combat Medic", "Field Medic of Interdyne", "Syndicate Corpsman")
 
 
 	outfit = /datum/outfit/job/brigdoc
@@ -25,7 +25,7 @@
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 
-	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM, TRAIT_KNOW_MED_SURGERY_T2) //BLUEMOON EDIT added surgery trait
 
 	display_order = JOB_DISPLAY_ORDER_BRIG_PHYSICIAN
 	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/blindness, /datum/quirk/monophobia, /datum/quirk/bluemoon_criminal)
@@ -47,6 +47,7 @@
 		/obj/item/storage/firstaid/regular,
 		/obj/item/sensor_device_security,
 		/obj/item/melee/classic_baton/telescopic,
+		/obj/item/choice_beacon/copgun, //BLUEMOON ADD
 		/obj/item/clothing/accessory/permit/special/security = 1)
 
 	backpack = /obj/item/storage/backpack/security
@@ -71,8 +72,13 @@
 	shoes = /obj/item/clothing/shoes/jackboots/tall_default
 	l_pocket = /obj/item/reagent_containers/spray/pepper
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/storage/hypospraykit/regular, /obj/item/storage/firstaid/regular, /obj/item/melee/classic_baton/telescopic, /obj/item/syndicate_uplink_high=1, /obj/item/clothing/accessory/permit/special/security = 1)
-
+	backpack_contents = list(/obj/item/storage/hypospraykit/regular,
+							/obj/item/storage/firstaid/regular,
+							/obj/item/melee/classic_baton/telescopic,
+							/obj/item/sensor_device_security,
+							/obj/item/choice_beacon/copgun,
+							/obj/item/syndicate_uplink_high=1,
+							/obj/item/clothing/accessory/permit/special/security = 1)
 	backpack = /obj/item/storage/backpack/duffelbag/syndie/med
 	satchel = /obj/item/storage/backpack/duffelbag/syndie/med
 	duffelbag = /obj/item/storage/backpack/duffelbag/syndie/med

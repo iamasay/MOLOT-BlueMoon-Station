@@ -286,7 +286,7 @@
 	dir = 4;
 	dwidth = 6;
 	height = 7;
-	id = "caravansyndicate3_listeningpost";
+shuttle_id = "caravansyndicate3_listeningpost";
 	name = "Syndicate Listening Post";
 	width = 15
 	},
@@ -294,7 +294,7 @@
 	dir = 4;
 	dwidth = 4;
 	height = 5;
-	id = "caravansyndicate1_listeningpost";
+shuttle_id = "caravansyndicate1_listeningpost";
 	name = "Syndicate Listening Post";
 	width = 9
 	},
@@ -345,7 +345,7 @@
 	pixel_x = 5;
 	pixel_y = 5
 	},
-/obj/effect/mob_spawn/human/space/syndicate/comms{
+/obj/effect/mob_spawn/human/ds2/syndicate_command/comms{
 	dir = 8
 	},
 /turf/open/floor/plasteel/grimy,

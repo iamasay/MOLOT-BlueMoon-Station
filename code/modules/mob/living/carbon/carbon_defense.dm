@@ -224,10 +224,22 @@
 		//EMPs fuck robots over. Up to ~11.5 corruption per EMP if hit by the full power. They also get up to 15 burn damage per EMP (up to 2.5 per limb), plus short hardstun
 		//Though, note that the burn damage is linear, while corruption is logarythmical, which means at lower severities you still get corruption, but far less burn / stun
 		//Note than as compensation, they only take half the limb burn damage someone fully augmented would take, which would be up to 30 burn.
+
+		// BLUEMOON ADD - кулдаун по получению ЕМП у синтетиков
+		to_chat(src, span_boldwarning("Обнаружен ЭМИ - система переведена в режим повышенной защиты компонентов на 7 секунд."))
+		AddElement(/datum/element/empprotection, EMP_PROTECT_CONTENTS)
+		addtimer(CALLBACK(src, PROC_REF(rollback_emp_protection)), 7 SECONDS)
+
 		adjustToxLoss(round(log(severity)*2.5, 0.1), toxins_type = TOX_SYSCORRUPT)
 	for(var/X in internal_organs)
 		var/obj/item/organ/O = X
 		O.emp_act(severity)
+
+/mob/living/carbon/proc/rollback_emp_protection()
+	if(QDELETED(src))
+		return
+	RemoveElement(/datum/element/empprotection, EMP_PROTECT_CONTENTS)
+	to_chat(src, span_boldwarning("Система повышенной защиты от ЭМИ отключена."))
 
 ///Adds to the parent by also adding functionality to propagate shocks through pulling and doing some fluff effects.
 /mob/living/carbon/electrocute_act(shock_damage, source, siemens_coeff = 1, flags = NONE)
@@ -290,9 +302,9 @@
 				to_chat(M, "<span class='warning'>Для этого вам для начала нужно отстегнуть <b>[src]</b>!")
 				return
 			// BLUEMON ADD START - проверка для сверхтяжёлых персонажей
-			if(HAS_TRAIT(src, TRAIT_BLUEMOON_HEAVY_SUPER))
+			if(src.mob_weight > MOB_WEIGHT_HEAVY)
 				var/can_shake = FALSE
-				if(HAS_TRAIT(M, TRAIT_BLUEMOON_HEAVY_SUPER)) // другие сверхтяжёлые персонажи могут поднимать
+				if(M.mob_weight > MOB_WEIGHT_HEAVY) // другие сверхтяжёлые персонажи могут поднимать
 					can_shake = TRUE
 				if(ishuman(M))
 					var/mob/living/carbon/human/user = M
@@ -316,6 +328,14 @@
 							"<span class='notice'>Вы трясёте <b>[src]</b> в попытке поднять [ru_ego()] на ноги!</span>", target = src,
 							target_message = "<span class='notice'><b>[M]</b> трясёт тебя в однозначной попытке поднять!</span>")
 
+		else if(M.zone_selected == BODY_ZONE_PRECISE_GROIN) // BLUEMOON ADD — Дергать за хвосты.
+			if(src.dna.features["mam_tail"] != "None")
+				M.visible_message( \
+					"<span class='warning'><b>[M]</b> дёргает хвост <b>[src]</b>!</span>", \
+					"<span class='warning'>Ты дёргаешь <b>[src]</b> за хвост!</span>", target = src,
+					target_message = "<span class='warning'><b>[M]</b> дёргает тебя за хвост!</span>")
+				sound_to_play = SOUND_PAT
+
 		else if(M.zone_selected == BODY_ZONE_PRECISE_MOUTH) // I ADDED BOOP-EH-DEH-NOSEH - Jon
 			// BLUEMOON ADD START
 			var/mob/living/carbon/human/H = src
@@ -333,7 +353,7 @@
 					"<span class='warning'>Вы бупаете <b>[H]</b> в нос! Кажется, [ru_ego()] глаза презрительно смещаются в вашу сторону...</span>")
 				sound_to_play = SOUND_BOOP // BLUEMOON EDIT - было playsound(src, 'sound/items/Nose_boop.ogg', 50, 0)
 				H.add_lust(-5) //Why are you touching me?
-				if(prob(20))
+				if(prob(20) && !HAS_TRAIT(H, TRAIT_PACIFISM) && !HAS_TRAIT(M, TRAIT_PACIFISM))
 					M.visible_message("<span class='warning'><b>[H]</b> быстро выкручивает руку <b>[M]</b>!</span>", \
 						"<span class='boldwarning'>Твоя рука выкручивается в хватке <b>[H]</b>! Может, тебе следовало понять тот явственный намек...</span>")
 					// playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1) // BLUEMOON REMOVAL - звук проигрывается в конце
@@ -365,7 +385,8 @@
 					H.remove_quirk(/datum/quirk/headpat_hater)
 				if(!H.has_quirk(/datum/quirk/headpat_slut))
 					H.add_quirk(/datum/quirk/headpat_slut)
-				SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "dom_trained", /datum/mood_event/dominant/good_boy)
+				// BLUEMOON EDITED - I want to kill the guy behind it
+				SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, QMOOD_WELL_TRAINED, /datum/mood_event/dominant/good_boy)
 
 			// BLUEMOON ADD START - Если персонажи слишком сильно различаются в росте, гладить по голове не получится
 			if(COMPARE_SIZES(src, M) >= 1.75)
@@ -379,7 +400,7 @@
 				M.visible_message("<span class='warning'><b>[H]</b> резко осматривается на <b>[M]</b>, когда [ru_ego()] гладят по голове! Кажется, [ru_who()] раздражен[ru_a()]...</span>", \
 					"<span class='warning'>Вы гладите <b>[H]</b> по голове! Кажется, [ru_ego()] глаза презрительно смещаются в вашу сторону...</span>")
 				H.add_lust(-5) //Why are you touching me?
-				if(prob(20)) // BLUEMOON EDIT - было 5%
+				if(prob(20) && !HAS_TRAIT(H, TRAIT_PACIFISM) && !HAS_TRAIT(M, TRAIT_PACIFISM)) // BLUEMOON EDIT - было 5%
 					M.visible_message("<span class='warning'><b>[H]</b> быстро выкручивает руку <b>[M]</b>!</span>", \
 						"<span class='boldwarning'>Твоя рука выкручивается в хватке <b>[H]</b>! Может, тебе следовало понять тот явственный намек...</span>")
 					// playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1) // BLUEMOON REMOVAL - звук проигрывается в конце
@@ -391,6 +412,29 @@
 					M.apply_damage(5, BRUTE, hand)
 					M.Knockdown(60)//STOP TOUCHING ME! For those spam head pat individuals
 					friendly_check = FALSE
+
+			//BLUTEMOON ADD START (TRAIT_SPIKY)
+
+			else if(HAS_TRAIT(H, TRAIT_SPIKY))
+				if(M.gloves) // поглады в перчатках не наносят урон, но сообщение чуть-чуть отличается
+					M.visible_message("<span class='notice'><b>[M]</b> похлопывает <b>[src]</b> по колючей голове рукой в перчатке!</span>", \
+								"<span class='notice'>Ты гладишь <b>[src]</b> по голове, не боясь уколоться!</span>", target = src,
+								target_message = "<span class='boldnotice'><b>[M]</b> гладит вас по голове, чтобы вы почувствовали себя лучше!</span>")
+					SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "headpat", /datum/mood_event/headpat)
+					return
+				else
+					M.visible_message("<span class='notice'><b>[M]</b> похлопывает <b>[src]</b> по колючей голове!</span>", \
+								"<span class='notice'>Ты гладишь <b>[src]</b> по голове, рискуя пораниться!</span>", target = src,
+								target_message = "<span class='boldnotice'><b>[M]</b> гладит вас по голове, чтобы вы почувствовали себя лучше!</span>")
+					if(prob(50))
+						M.visible_message("<span class='warning'><b>[M]</b> отдергивает руку от игл на голове <b>[H]</b>!</span>", \
+							"<span class='boldwarning'>Ай! Иглы на голове <b>[H]</b> впиваются в твою руку!</span>")
+						var/hand = pick(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND)
+						M.apply_damage(7, STAMINA, hand)
+						M.apply_damage(3, BRUTE, hand)
+						friendly_check = TRUE // колючим все ещё могут нравиться поглады
+
+			//BLUTEMOON ADD END (TRAIT_SPIKY)
 
 			else
 				friendly_check = TRUE
@@ -417,6 +461,7 @@
 					var/static/list/many_tails = list("tail_human", "tail_lizard", "mam_tail")
 					for(var/T in many_tails)
 						if(S.mutant_bodyparts[T] && dna.features[T] != "None")
+							nextsoundemote = world.time - 10
 							emote("wag")
 
 		else if(check_zone(M.zone_selected) == BODY_ZONE_R_ARM || check_zone(M.zone_selected) == BODY_ZONE_L_ARM)
@@ -431,13 +476,30 @@
 					"<span class='notice'>Ты пожимаешь руку <b>[src]</b>.</span>", target = src,
 					target_message = "<span class='notice'><b>[M]</b> пожимает твою руку.</span>")
 
+			//BLUTEMOON ADD START (TRAIT_SPIKY)
+
 		else
-			M.visible_message("<span class='notice'><b>[M]</b> обнимает <b>[src]</b>!</span>", \
-						"<span class='notice'>Ты обнимаешь <b>[src]</b>!</span>", target = src,\
-						target_message = "<span class='notice'><b>[M]</b> обнимает тебя!</span>")
-			SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "hug", /datum/mood_event/hug)
-			M.client?.plug13.send_emote(PLUG13_EMOTE_BASIC, PLUG13_STRENGTH_LOW_PLUS, PLUG13_DURATION_TINY)
-			friendly_check = TRUE
+			var/mob/living/carbon/human/H = src
+			if(HAS_TRAIT(H, TRAIT_SPIKY))
+				M.visible_message("<span class='notice'><b>[M]</b> обнимает <b>[H]</b>!</span>", \
+					"<span class='notice'>Ты пытаешься обнять <b>[H]</b>, избегая иголок!</span>", \
+					target_message = "<span class='notice'><b>[M]</b> обнимает тебя!</span>")
+				if(prob(50))
+					M.visible_message("<span class='warning'><b>[M]</b> колется об иглы на теле <b>[H]</b>!</span>", \
+					"<span class='boldwarning'>Иглы <b>[H]</b> впиваются тебе в тело!</span>")
+					M.apply_damage(10, STAMINA)
+					M.apply_damage(4, BRUTE)
+					friendly_check = TRUE // колючим все ещё могут нравиться поглады
+
+			//BLUTEMOON ADD END (TRAIT_SPIKY)
+
+			else // к 5 строчкам ниже добавлен ещё один ТАБ, чтобы выполнялось if else для TRAIT_SPIKY
+				M.visible_message("<span class='notice'><b>[M]</b> обнимает <b>[src]</b>!</span>", \
+							"<span class='notice'>Ты обнимаешь <b>[src]</b>!</span>", target = src,\
+							target_message = "<span class='notice'><b>[M]</b> обнимает тебя!</span>")
+				SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "hug", /datum/mood_event/hug)
+				M.client?.plug13.send_emote(PLUG13_EMOTE_BASIC, PLUG13_STRENGTH_LOW_PLUS, PLUG13_DURATION_TINY)
+				friendly_check = TRUE
 
 		if(friendly_check && (HAS_TRAIT(M, TRAIT_FRIENDLY) || HAS_TRAIT(src, TRAIT_FRIENDLY)))
 			var/datum/component/mood/mood = M.GetComponent(/datum/component/mood)

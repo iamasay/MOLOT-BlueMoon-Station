@@ -556,7 +556,7 @@
 			if(S.amount < S.max_amount)
 				sheets += S
 
-		if(sheets.len > 0)
+		if(length(sheets))
 			var/obj/item/stack/sheet/S = pick(sheets)
 			S.add(1) // Dare var edit directly again and i'll strangle you.
 			to_chat(owner, "<span class='notice'>[linked_extract] adds a layer of slime to [S], which metamorphosizes into another sheet of material!</span>")
@@ -591,6 +591,7 @@
 /obj/item/hothands
 	name = "burning fingertips"
 	desc = "You shouldn't see this."
+	item_flags = ABSTRACT
 
 /obj/item/hothands/get_temperature()
 	return 290 //Below what's required to ignite plasma.
@@ -599,11 +600,11 @@
 	id = "stabilizeddarkpurple"
 	colour = "dark purple"
 	var/obj/item/hothands/fire
-	examine_text = "<span class='notice'>Their fingertips burn brightly!</span>"
+	examine_text = span_notice("Their fingertips burn brightly!")
 
 /datum/status_effect/stabilized/darkpurple/on_apply()
 	ADD_TRAIT(owner, TRAIT_RESISTHEATHANDS, "slimestatus")
-	fire = new(owner)
+	fire = new()
 	return ..()
 
 /datum/status_effect/stabilized/darkpurple/tick()
@@ -611,7 +612,7 @@
 	if(item)
 		var/obj/item/reagent_containers/food/snacks/F = item
 		if(istype(F) && F.cooked_type)
-			to_chat(owner, "<span class='warning'>[linked_extract] flares up brightly, and your hands alone are enough cook [F]!</span>")
+			to_chat(owner, span_warning("[linked_extract] flares up brightly, and your hands alone are enough cook [F]!"))
 			F.microwave_act()
 		else
 			item.attackby(fire, owner)
@@ -959,7 +960,7 @@
 /datum/status_effect/stabilized/lightpink/tick()
 	// BLUEMOON ADD START - умное изменение ускорения на основании размера персонажа
 	var/owner_size = get_size(owner)
-	if(HAS_TRAIT(owner, TRAIT_BLUEMOON_LIGHT) && owner_size > 1) //лёгкие большие персонажи считаются как при размере 1
+	if(owner.mob_weight < MOB_WEIGHT_NORMAL && owner_size > 1) //лёгкие большие персонажи считаются как при размере 1
 		owner_size = 1
 	if(owner_size > 1)
 		owner.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/status_effect/slime/light_pink, multiplicative_slowdown = -2*(1/owner_size)**2) // Спасибо Максималу за формулу
@@ -994,7 +995,6 @@
 		familiar.copy_languages(owner, LANGUAGE_MASTER)
 		if(linked.saved_mind)
 			linked.saved_mind.transfer_to(familiar)
-			familiar.update_atom_languages()
 			familiar.ckey = linked.saved_mind.key
 	else
 		if(familiar.mind)

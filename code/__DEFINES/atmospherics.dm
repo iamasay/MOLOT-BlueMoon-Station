@@ -274,7 +274,7 @@ GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
 #define INCINERATOR_ATMOS_AIRLOCK_INTERIOR 		"atmos_incinerator_airlock_interior"
 #define INCINERATOR_ATMOS_AIRLOCK_EXTERIOR 		"atmos_incinerator_airlock_exterior"
 
-//Syndicate lavaland base incinerator (lavaland_surface_syndicate_base1.dmm)
+//Syndicate lavaland base incinerator (Lavaland.dmm)
 #define INCINERATOR_SYNDICATELAVA_IGNITER 				"syndicatelava_igniter"
 #define INCINERATOR_SYNDICATELAVA_MAINVENT 				"syndicatelava_mainvent"
 #define INCINERATOR_SYNDICATELAVA_AUXVENT 				"syndicatelava_auxvent"
@@ -383,3 +383,6 @@ GLOBAL_LIST_INIT(pipe_paint_colors, list(
 		"violet" = rgb(64,0,128),
 		"yellow" = rgb(255,198,0)
 ))
+
+#define AIR_REF_PLANETARY_TURF (1<<0) //SIMULATION_DIFFUSE 0b1
+#define AIR_REF_OPEN_TURF (1<<1) //SIMULATION_ALL 0b10

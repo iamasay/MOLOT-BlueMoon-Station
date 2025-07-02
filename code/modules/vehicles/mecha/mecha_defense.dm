@@ -311,6 +311,12 @@
 			return
 		user.visible_message("<span class='notice'>[user] repairs some damage to [name].</span>", "<span class='notice'>You repair some damage to [src].</span>")
 		obj_integrity += min(10, max_integrity-obj_integrity)
+		// BLUEMOON ADDITION AHEAD balancing instarepair abuse
+		if(HAS_TRAIT(user.mind, TRAIT_MECHA_EXPERT))
+			user.DelayNextAction(10)
+		else
+			user.DelayNextAction(20)
+		// BLUEMOON ADDITION END
 		if(obj_integrity == max_integrity)
 			to_chat(user, "<span class='notice'>It looks to be fully repaired now.</span>")
 		return
@@ -362,33 +368,3 @@
 			else if(damtype == TOX)
 				visual_effect_icon = ATTACK_EFFECT_MECHTOXIN
 	..()
-
-/obj/vehicle/sealed/mecha/obj_destruction()
-	if(wreckage)
-		var/mob/living/silicon/ai/AI
-		for(var/crew in occupants)
-			if(isAI(crew))
-				if(AI)
-					var/mob/living/silicon/ai/unlucky_ais = crew
-					unlucky_ais.gib()
-					continue
-				AI = crew
-		var/obj/structure/mecha_wreckage/WR = new wreckage(loc, AI)
-		for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
-			if(E.salvageable && prob(30))
-				WR.crowbar_salvage += E
-				E.detach(WR) //detaches from src into WR
-				E.equip_ready = 1
-			else
-				E.detach(loc)
-				qdel(E)
-		if(cell)
-			WR.crowbar_salvage += cell
-			cell.forceMove(WR)
-			cell.charge = rand(0, cell.charge)
-			cell = null
-		if(internal_tank)
-			WR.crowbar_salvage += internal_tank
-			internal_tank.forceMove(WR)
-			cell = null
-	. = ..()

@@ -1,6 +1,6 @@
 #define TESHARI_TEMP_OFFSET -30 // K, added to comfort/damage limit etc
-#define TESHARI_BURNMOD 1.25 // They take more damage from practically everything
-#define TESHARI_BRUTEMOD 1.2
+#define TESHARI_BURNMOD 1 // They take more damage from practically everything
+#define TESHARI_BRUTEMOD 1
 #define TESHARI_HEATMOD 1.3
 #define TESHARI_COLDMOD 0.67 // Except cold.
 
@@ -50,71 +50,71 @@
 	multiplicative_slowdown = -0.2
 
 /datum/emote/sound/teshari
-	mob_type_allowed_typecache = list(/mob/living/carbon/human)
+	mob_type_allowed_typecache = list(/mob/living/)
 	emote_type = EMOTE_AUDIBLE
 
 /datum/language_holder/teshari
 	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-								/datum/language/schechi = list(LANGUAGE_ATOM))
+								/datum/language/modular_splurt/avian = list(LANGUAGE_ATOM))
 	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-							/datum/language/schechi = list(LANGUAGE_ATOM))
+							/datum/language/modular_splurt/avian = list(LANGUAGE_ATOM))
 
 /datum/language/schechi
 
-/datum/emote/living/audio/teshari/teshsqueak
+/datum/emote/sound/teshari/teshsqueak
 	key = "surprised"
 	key_third_person = "surprised"
 	message = "chirps in surprise!"
 	message_mime = "lets out an <b>inaudible</b> chirp!"
-	emote_sound = 'modular_splurt/sound/voice/teshsqueak.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
+	sound = 'modular_splurt/sound/voice/teshsqueak.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
 	emote_cooldown = 2.1 SECONDS
 
-/datum/emote/living/audio/teshari/teshsqueak/run_emote(mob/user, params)
+/datum/emote/sound/teshari/teshsqueak/run_emote(mob/user, params)
 	var/datum/dna/D = user.has_dna()
 	if(D.species.name != "Teshari")
 		return
 	// Return normally
 	. = ..()
 
-/datum/emote/living/audio/teshari/teshchirp
+/datum/emote/sound/teshari/teshchirp
 	key = "tchirp"
 	key_third_person = "tchirp"
 	message = "chirps!"
 	message_mime = "lets out an <b>inaudible</b> chirp!"
-	emote_sound = 'modular_splurt/sound/voice/teshchirp.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
+	sound = 'modular_splurt/sound/voice/teshchirp.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
 	emote_cooldown = 2.1 SECONDS
 
-/datum/emote/living/audio/teshari/teshchirp/run_emote(mob/user, params)
+/datum/emote/sound/teshari/teshchirp/run_emote(mob/user, params)
 	var/datum/dna/D = user.has_dna()
 	if(D.species.name != "Teshari")
 		return
 	// Return normally
 	. = ..()
 
-/datum/emote/living/audio/teshari/trill
+/datum/emote/sound/teshari/trill
 	key = "trill"
 	key_third_person = "trill"
 	message = "trills!"
 	message_mime = "lets out an <b>inaudible</b> chirp!"
-	emote_sound = 'modular_splurt/sound/voice/teshtrill.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
+	sound = 'modular_splurt/sound/voice/teshtrill.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
 	emote_cooldown = 2.1 SECONDS
 
-/datum/emote/living/audio/teshari/trill/run_emote(mob/user, params)
+/datum/emote/sound/teshari/trill/run_emote(mob/user, params)
 	var/datum/dna/D = user.has_dna()
 	if(D.species.name != "Teshari")
 		return
 	// Return normally
 	. = ..()
 
-/datum/emote/living/audio/teshari/teshscream
+/datum/emote/sound/teshari/teshscream
 	key = "teshscream"
 	key_third_person = "teshscream"
 	message = "screams!"
 	message_mime = "lets out an <b>inaudible</b> screams!"
-	emote_sound = 'modular_splurt/sound/voice/teshscream.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
+	sound = 'modular_splurt/sound/voice/teshscream.ogg' // Copyright CC BY 3.0 InspectorJ (freesound.org) for the source audio.
 	emote_cooldown = 2.1 SECONDS
 
-/datum/emote/living/audio/teshari/teshscream/run_emote(mob/user, params)
+/datum/emote/sound/teshari/teshscream/run_emote(mob/user, params)
 	var/datum/dna/D = user.has_dna()
 	if(D.species.name != "Teshari")
 		return
@@ -151,43 +151,66 @@
 	set category = "Abilities"
 
 	if(incapacitated())
-		to_chat(src, "<span class='warning'>You need to recover before you can use this ability.</span>")
+		to_chat(src, "<span class='warning'>Вам нужно востановить силы чтобы снова слушать.</span>")
 		return
+
 	if(world.time < next_sonar_ping)
-		to_chat(src, "<span class='warning'>You need another moment to focus.</span>")
+		to_chat(src, "<span class='warning'>Вам нужно время сфокусироватся.</span>")
 		return
+
 	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
-	if(ears.deaf > 0)
-		to_chat(src, "<span class='warning'>You are for all intents and purposes currently deaf!</span>")
+	if(ears && ears.deaf > 0)
+		to_chat(src, "<span class='warning'>Вы оглохли достаточно сильно или вовсе чтобы ловить шум</span>")
 		return
+
 	next_sonar_ping += 10 SECONDS
+
+	to_chat(src, "<span class='notice'>Вы останавливаетесь чтобы прислушатся к окружению...</span>")
+
+	// Включаем временно термальное зрение
+	ADD_TRAIT(src, TRAIT_THERMAL_VISION, GENETIC_MUTATION)
+	src.update_sight()
+
+	// Через 1 секунды отключаем
+	spawn(10)
+		REMOVE_TRAIT(src, TRAIT_THERMAL_VISION, GENETIC_MUTATION)
+		src.update_sight()
+
 	var/heard_something = FALSE
-	to_chat(src, "<span class='notice'>You take a moment to listen in to your environment...</span>")
-	for(var/mob/living/L in range(client.view, src))
-		var/turf/T = get_turf(L)
-		if(!T || L == src || L.stat == DEAD)
+	var/client/C = src.client
+	if(!C)
+		return
+
+	for(var/mob/living/L in range(7, src)) // радиус 7 тайлов вокруг
+		if(L == src || L.stat == DEAD)
 			continue
-		heard_something = TRUE
+
 		var/feedback = list()
-		feedback += "<span class='notice'>There are noises of movement "
+		feedback += "<span class='notice'>Вы слышите шаги "
+
 		var/direction = get_dir(src, L)
 		if(direction)
-			feedback += "towards the [dir2text(direction)], "
+			feedback += "в стороне [dir2text(direction)], "
 			switch(get_dist(src, L) / 7)
 				if(0 to 0.2)
-					feedback += "very close by."
+					feedback += "Очень близко."
 				if(0.2 to 0.4)
-					feedback += "close by."
+					feedback += "Близко."
 				if(0.4 to 0.6)
-					feedback += "some distance away."
+					feedback += "Недалеко."
 				if(0.6 to 0.8)
-					feedback += "further away."
+					feedback += "Далеко."
 				else
-					feedback += "far away."
-		else // No need to check distance if they're standing right on-top of us
-			feedback += "right on top of you."
+					feedback += "Еле слышно."
+		else
+			feedback += "Под тобой."
+
 		feedback += "</span>"
-		to_chat(src,jointext(feedback,null))
+		to_chat(src, jointext(feedback, null))
+
+		heard_something = TRUE
+
 	if(!heard_something)
-		to_chat(src, "<span class='notice'>You hear no movement but your own.</span>")
+		to_chat(src, "<span class='notice'>Вы ничего не слышите кроме как себя.</span>")
+
 

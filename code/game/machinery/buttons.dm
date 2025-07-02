@@ -14,6 +14,7 @@
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
 /obj/machinery/button/Initialize(mapload, ndir = 0, built = 0)
 	if(istext(id) && mapload && id[1] == "!")
@@ -50,7 +51,7 @@
 	. = ..()
 	if(panel_open)
 		icon_state = "button-open"
-	else if(stat & (NOPOWER|BROKEN))
+	else if(machine_stat & (NOPOWER|BROKEN))
 		icon_state = "[skin]-p"
 	else
 		icon_state = skin
@@ -173,7 +174,7 @@
 			to_chat(user, "<span class='notice'>You change the button frame's front panel.</span>")
 		return
 
-	if((stat & (NOPOWER|BROKEN)))
+	if((machine_stat & (NOPOWER|BROKEN)))
 		return
 
 	if(device && device.next_activate > world.time)

@@ -19,6 +19,11 @@
 	if(!istype(new_owner) || !(istype(add_or_merge) && add_or_merge.total_volume > 0))
 		qdel(src)
 		return
+	//BLUEMOON ADD START
+	if(new_owner.reagents.get_reagent(/datum/reagent/medicine/spermatex))
+		qdel(src)
+		return
+	//BLUEMOON ADD END
 	if(isnull(contents))
 		contents = new(300, NO_REACT)
 	if(istype(hole, /obj/item/organ/genital/anus))
@@ -124,13 +129,13 @@
 /atom/movable/screen/alert/status_effect/dripping_cum
 	name = "Dripping Cum"
 	desc = "Your last affairs left you dripping someone's seed."
-	icon = 'modular_sand/icons/mob/screen_alert.dmi'
+	icon = 'modular_sand/icons/hud/screen_alert.dmi'
 	icon_state = "dripping_cum"
 
 /atom/movable/screen/alert/status_effect/dripping_cum/MouseEntered(location,control,params)
 	desc = initial(desc)
 	var/datum/status_effect/dripping_cum/dripping_cum = attached_effect
-	desc += "<br>You feel like there is about [round(dripping_cum.contents.total_volume, 25)] units inside you. Or even more..."
+	desc += "<br>You feel like there is about [dripping_cum.contents.total_volume] units inside you. Or even more..."
 	if(!dripping_cum.can_drip())
 		desc += "<br>For some reason such as your hole being covered, you are no longer dripping and this amount is not decreasing."
 	..()

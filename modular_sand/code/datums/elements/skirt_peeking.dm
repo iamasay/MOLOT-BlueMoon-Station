@@ -13,6 +13,7 @@
 	var/mob/living/living_peeker = peeker
 	var/obj/item/clothing/under/worn_uniform = peeked.get_item_by_slot(ITEM_SLOT_ICLOTHING)
 
+
 	// Unfortunately, you can't see it
 	var/obj/item/clothing/suit/outer_clothing = peeked.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 	if(outer_clothing && CHECK_MULTIPLE_BITFIELDS(outer_clothing.body_parts_covered, CHEST | GROIN | LEGS | FEET))
@@ -29,6 +30,9 @@
 			// And are you under us while we're standing up?
 			if(!(CHECK_BITFIELD(living_peeker.mobility_flags, MOBILITY_STAND)) && (CHECK_BITFIELD(peeked.mobility_flags, MOBILITY_STAND)) && (peeked.loc == living_peeker.loc))
 				return TRUE
+			if((peeked.dir == living_peeker.dir) && (peeked.loc > living_peeker.loc))
+				if(peeked in view(2, peeker.client))
+					return TRUE
 			// Do you happen to be small enough to easily look under us?
 			if(COMPARE_SIZES(peeked, peeker) >= 2)
 				return TRUE
@@ -43,8 +47,12 @@
 	return FALSE
 
 /datum/element/skirt_peeking/proc/on_examine(mob/living/carbon/human/peeked, mob/peeker, list/examine_list)
-	if(can_skirt_peek(peeked, peeker))
-		examine_list += span_purple("[peeked.ru_who(TRUE)] одет[peeked.ru_a()] в юбку! Наверное, под неё можно <b>подсмотреть</b>...")
+	var/obj/item/clothing/suit/outer_clothing = peeked.get_item_by_slot(ITEM_SLOT_OCLOTHING)
+	if(!(outer_clothing && CHECK_MULTIPLE_BITFIELDS(outer_clothing.body_parts_covered, CHEST | GROIN | LEGS | FEET)))
+		// Valid clothing section
+		var/obj/item/clothing/under/worn_uniform = peeked.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+		if(worn_uniform && is_type_in_typecache(worn_uniform.type, GLOB.skirt_peekable))
+			examine_list += span_purple("[peeked.ru_who(TRUE)] одет[peeked.ru_a()] в юбку! Наверное, под неё можно <b>подсмотреть</b>...")
 
 /datum/element/skirt_peeking/proc/on_closer_look(mob/living/carbon/human/peeked, mob/peeker, list/examine_content)
 	if(can_skirt_peek(peeked, peeker))
@@ -122,5 +130,6 @@
 		!peeker.is_eyes_covered(FALSE) && !(eye_blocker && eye_blocker.tint > 0) && \
 		!(peeker.invisibility > peeked.invisibility) && !(peeker.alpha <= 30)))
 		return
-	to_chat(peeked, span_warning("[peeker] подсматривает под твою [worn_uniform.name]!"))
-	to_chat(peeker, span_warning("[peeked] замечает, как ты подсматриваешь под [peeked.ru_ego()] [worn_uniform.name]!"))
+	if(peeker in view(1, peeked.client))
+		to_chat(peeked, span_warning("[peeker] подсматривает под твою [worn_uniform.name]!"))
+		to_chat(peeker, span_warning("[peeked] замечает, как ты подсматриваешь под [peeked.ru_ego()] [worn_uniform.name]!"))

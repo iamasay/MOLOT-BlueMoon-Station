@@ -10,7 +10,7 @@
 	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/obj_sol.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol_digi.dmi'
-	//mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
+	unique_reskin = list()
 
 /obj/item/clothing/under/rank/security/officer/formal/sol/armorless
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0,  WOUND = 0)
@@ -23,7 +23,7 @@
 	can_adjust = FALSE
 	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/obj_sol.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
-	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
+	anthro_mob_worn_overlay = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol_digi.dmi'
 	unique_reskin = list(
 		"Military" = list("icon_state" = "solfed"),
 	)
@@ -36,8 +36,7 @@
 	can_adjust = FALSE
 	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/obj_sol.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
-	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-
+	anthro_mob_worn_overlay = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol_digi.dmi'
 
 /// Suits
 
@@ -206,71 +205,6 @@
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/sol/adv
 	armor = list(MELEE = 75, BULLET = 75, LASER = 75, ENERGY = 75, BOMB = 100, BIO = 100, RAD = 100, FIRE = 100, ACID = 100, WOUND = 75)
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//// Posters and stuff
-
-/obj/item/poster/sol
-	name = "random SolFed poster"
-	desc = "A solarian based poster, made with natural paper! It comes with adhesive backing, for easy pinning to any vertical surface."
-	poster_type = /obj/structure/sign/poster/solgov/random
-	icon_state = "rolled_legit"
-
-/obj/structure/sign/poster/solgov
-	poster_item_name = "solfed poster"
-	poster_item_desc = "A solarian based poster, made with natural paper! It comes with adhesive backing, for easy pinning to any vertical surface."
-	poster_item_icon_state = "rolled_legit"
-	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/sol_misc.dmi'
-
-/obj/structure/sign/poster/solgov/random
-	name = "random solfed poster"
-	icon_state = "random_solgov"
-	never_random = TRUE
-	random_basetype = /obj/structure/sign/poster/solgov
-	//random_type = POSTER_SUBTYPES
-
-/obj/structure/sign/poster/solgov/solgov_logo
-	name = "SolFed"
-	desc = "The seal of The Most Serene Solar and Intersolar Confederation, or more boringly known as SolFed. \"The State is a sapling: Waters of change may drown it, and rays of fear may wither it, but well-tended it will one day bear fruit.\""
-	icon_state = "poster-solgov"
-
-/obj/structure/sign/poster/solgov/terra
-	name = "Terra"
-	desc = "Terra, or Earth as it's called by inhabitants, the third planet in the Sol system. Home to the only life as humans knew it, until contact with the outside universe. This poster in particular is trying to attract tourists to Terra, listing attractions like the Grand Orrery and Neue Waldstätte."
-	icon_state = "poster-solgov-terra"
-
-/obj/structure/sign/poster/solgov/ares
-	name = "Ares"
-	desc = "Ares, fourth planet in the Sol system. While evidence suggests that Aphrodite and Ares may have once had life, Terra was the only one that kept it. This poster in particular is trying to attract tourists to Ares, listing attractions like skiing resorts and ancient robot exhibits."
-	icon_state = "poster-solgov-ares"
-
-/obj/structure/sign/poster/solgov/luna
-	name = "Luna"
-	desc = "Luna, the only moon of Terra. Culturally significant to the Solarians historically as a symbol of time, harvest, and new frontiers. This poster in particular is trying to attract tourists to Luna, listing attractions like the massive spaceport and white flags scattered across the surface, a relic from ages past."
-	icon_state = "poster-solgov-luna"
-
-/obj/structure/sign/poster/solgov/recyle
-	name = "Recycle"
-	desc = "A popular poster reminding the reader to recycle to keep the planet and ships clean!"
-	icon_state = "poster-solgov-recycle"
-
-/obj/structure/sign/poster/solgov/paperwork
-	name = "Paperwork"
-	desc = "A poster reminding civil servants that it is their duty to keep detailed records."
-	icon_state = "poster-solgov-paperwork"
-
-/obj/structure/sign/poster/solgov/solgov_enlist //much better.
-	name = "Enlist"
-	desc = "Enlist to be a part of the SolGov Exploration Forces!"
-	icon_state = "poster_solgov_enlist_legit"
-
-/obj/structure/sign/poster/solgov/solgov_nof
-	name = "Remember"
-	desc = "If humanity don't end wars, wars will end us."
-	icon_state = "poster-solgov-nof"
-
-////////////////////////////////////////////////////////////////////
-
 /// Outfits (ERT military suits were stored in ert.dm)
 
 /datum/outfit/sol_diplomacy
@@ -289,7 +223,7 @@
 	r_hand = /obj/item/storage/briefcase/lawyer
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/poster/sol=5)
 
-	//implants = list(/obj/item/implant/mindshield)
+	implants = list(/obj/item/implant/anchor)
 
 /datum/outfit/sol_diplomacy/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	..()
@@ -303,13 +237,22 @@
 
 	H.grant_language(/datum/language/modular_sand/solcommon, TRUE, TRUE)
 
-	var/obj/item/card/id/sol/W = H.wear_id
+	var/obj/item/card/id/sol_citizen/W = H.wear_id
 	W.registered_name = H.real_name
+	W.access = get_all_inteq_access()
 	W.update_label(W.registered_name)
 
 /datum/outfit/sol_diplomacy/slut
 	name = "SolFed Secretary?"
+	uniform = /obj/item/clothing/under/rank/security/officer/formal/sol
 	suit = /obj/item/clothing/suit/sol_dress
+
+/datum/outfit/sol_diplomacy/secret_service
+	name = "SolFed Secret Service"
+	uniform = /obj/item/clothing/under/rank/security/officer/solfed_military
+	suit = /obj/item/clothing/suit/armor/vest/agent
+
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/gun/energy/disabler=1)
 
 /datum/outfit/sol_diplomacy/consul
 	name = "SolFed Consul"
@@ -336,4 +279,4 @@
 	suit = /obj/item/clothing/suit/armor/vest/warden/sol_robe
 	neck = /obj/item/clothing/neck/cloak/cloak
 	r_hand = /obj/item/gun/energy/laser/captain
-	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/poster/sol=5)
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/gun/energy/disabler=1)

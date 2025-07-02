@@ -124,37 +124,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/datum/gear/mask/surgical
-	name = "Surgical Mask"
-	path = /obj/item/clothing/mask/surgical
-	cost = 2
-
-/datum/gear/mask/redscarf
-	name = "Red Facescarf"
-	path = /obj/item/clothing/mask/balaclava/breath/redscarf
-	cost = 2
-
-/datum/gear/mask/bluescarf
-	name = "Blue Facescarf"
-	path = /obj/item/clothing/mask/balaclava/breath/redscarf/bluescarf
-	cost = 2
-
-/datum/gear/mask/purplescarf
-	name = "Purple Facescarf"
-	path = /obj/item/clothing/mask/balaclava/breath/redscarf/purplescarf
-	cost = 2
-
-/datum/gear/mask/yellowscarf
-	name = "Yellow Facescarf"
-	path = /obj/item/clothing/mask/balaclava/breath/redscarf/yellowscarf
-	cost = 2
-
-/datum/gear/mask/greenscarf
-	name = "Green Facescarf"
-	path = /obj/item/clothing/mask/balaclava/breath/redscarf/greenscarf
-	cost = 2
-
-
 //// Vox suits and weapons (tau ceti). Sprites by deadmodo and coiscin /////////////////////
 
 // Base
@@ -542,6 +511,7 @@
 	maxHealth = 250
 	health = 250
 	gender = MALE
+	speak = list("*meow", "*meow2", "*meow3", "*meow4", "*meow5", "*meow6", "*mrrp", "*mrrp3", "*purr", "*oink1")
 	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
 
 /mob/living/simple_animal/pet/cat/alta
@@ -553,6 +523,7 @@
 	held_icon = "alta"
 	unique_pet = TRUE
 	gender = FEMALE
+	speak = list("*meow", "*meow2", "*meow3", "*meow4", "*meow5", "*meow6", "*mrrp", "*mrrp3", "*purr")
 	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
 
 /mob/living/simple_animal/pet/cat/space/alta
@@ -564,7 +535,16 @@
 	held_icon = "spacealta"
 	unique_pet = TRUE
 	gender = FEMALE
+	speak = list("*meow", "*meow2", "*meow3", "*meow4", "*meow5", "*meow6", "*mrrp", "*mrrp3", "*purr")
 	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
+
+/mob/living/simple_animal/pet/cat/space/alta/Initialize(mapload)
+	. = ..()
+	if((NEW_YEAR || CHRISTMAS || FESTIVE_SEASON) in SSevents.holidays)
+		icon_state = "spacealta_santa"
+		icon_living = "spacealta_santa"
+		icon_dead = "spacealta_dead_santa"
+		held_icon = "spacealta_santa"
 
 /mob/living/simple_animal/pet/dog/corgi/Lisa/ada
 	name = "Ada"
@@ -579,6 +559,32 @@
 	held_icon = "ada"
 	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
 
+/mob/living/simple_animal/pet/dog/juda
+	name = "Juda"
+	desc = "Adorable shark that moves its paws funny and resembles a banana."
+	icon_state = "juda"
+	icon_living = "juda"
+	icon_dead = "juda_dead"
+	held_icon = "juda"
+	unique_pet = TRUE
+	gender = MALE
+	speak = list("*growl", "*rawr2")
+	emote_see = list("Булькает", "Булькает гениально", "Надувает пузырь", "Крутится вокруг себя")
+	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
+
+/mob/living/simple_animal/pet/dog/corgi/Lisa/zlatchek
+	name = "Zlat"
+	real_name = "Zlat"
+	gender = MALE
+	desc = "A happy coyote, in a green officer's cap with the name Zlat written on the back."
+	gold_core_spawnable = NO_SPAWN
+	unique_pet = TRUE
+	icon_state = "zlat"
+	icon_living = "zlat"
+	icon_dead = "zlat_dead"
+	held_icon = "ada"
+	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
+
 /mob/living/simple_animal/pet/fox/emma
 	name = "Emma"
 	icon_state = "emma"
@@ -589,55 +595,22 @@
 	gender = FEMALE
 	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
 
-///////////////
-
-/obj/item/toy/plush/nukeplushie/who
-	name = "security officer plushie"
-	desc = "A stuffed toy that resembles a Nanotrasen operative. He smells like burnt cotton."
-	icon_state = "who"
-	item_state = "who"
-	icon = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps.dmi'
-	lefthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_l.dmi'
-	righthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_r.dmi'
-	squeak_override = list('modular_bluemoon/kovac_shitcode/sound/vulps/plush_1.ogg' = 9, 'modular_bluemoon/kovac_shitcode/sound/vulps/plush_2.ogg' = 1)
-
-/obj/item/toy/plush/deer/qm
-	name = "supply chief plushie"
-	desc = "A stuffed toy that resembles a Cargonia Chief. Looks like a fallen economy."
-	icon_state = "qm"
-	item_state = "qm"
-	icon = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps.dmi'
-	lefthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_l.dmi'
-	righthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_r.dmi'
-
-/obj/item/toy/plush/sergal/judas
-	name = "yellow shark plushie"
-	desc = "An adorable stuffed plushie that resembles a yellow security shark."
-	icon_state = "judas"
-	item_state = "judas"
-	squeak_override = list('modular_splurt/sound/voice/barks/undertale/voice_alphys.ogg' = 9)
-	icon = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps.dmi'
-	lefthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_l.dmi'
-	righthand_file = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps_r.dmi'
-
-/obj/item/toy/plush/nukeplushie/omega
-	name = "Omega plushie"
-	desc = "This plushie really has an empty noggin and zero thoughts about commiting something especially cruel."
-	icon_state = "omega"
-	item_state = "omega"
-	icon = 'modular_bluemoon/kovac_shitcode/icons/vulps/vulps.dmi'
-	squeak_override = list('modular_bluemoon/kovac_shitcode/sound/vulps/ooh.ogg' = 9)
-
-/obj/item/toy/plush/sergal/judas/vance
-	name = "Vance plushie"
-	desc = "A plush rodent, she smells like cheese and xenobiology!"
-	icon_state = "vance"
-	item_state = "vance"
-	squeak_override = list('sound/items/toysqueak1.ogg' = 3, 'sound/items/toysqueak2.ogg' = 3, 'sound/items/toysqueak3.ogg' = 3)
-
+/mob/living/simple_animal/pet/cat/jruttie
+	name = "Jruttie"
+	desc = "A grey magical cat, full of funnies."
+	icon_state = "jruttie"
+	icon_living = "jruttie"
+	icon_dead = "jruttie_dead"
+	held_icon = "jruttie"
+	unique_pet = TRUE
+	gender = FEMALE
+	speak = list("*meow3", "*meow4", "*meow5", "*mrrp", "*mrrp3", "*purr", "*mew")
+	icon = 'modular_bluemoon/kovac_shitcode/icons/animals.dmi'
+	vocal_bark_id = "meow"
+	speak_chance = 10
+	loot = list(/obj/item/clothing/head/wizard/fake = 1)
 
 ///////////////////
-
 
 /obj/item/storage/backpack/ert_commander
 	name = "Tactical Backpack"

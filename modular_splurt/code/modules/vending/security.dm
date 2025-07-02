@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\security.dm'
 /obj/machinery/vending/security/Initialize()
 	var/list/extra_products = list(
 		/obj/item/ammo_box/magazine/e45/taser = 10,
@@ -33,7 +34,7 @@
 	)
 	LAZYREMOVE(premium, rem_premium)
 	. = ..()
-
+// BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\wardrobes.dm'
 /obj/machinery/vending/wardrobe/sec_wardrobe/Initialize()
 	var/list/extra_products = list(
 		/obj/item/clothing/head/beret/sec/peacekeeper/cap = 5,
@@ -49,9 +50,9 @@
 		/obj/item/clothing/under/rank/security/stripper = 5,
 		/obj/item/clothing/suit/hooded/corpus/s = 5,
 		/obj/item/clothing/head/utilcover = 5,
-		/obj/item/clothing/under/utility/green = 5,
-		/obj/item/clothing/under/utility/navy = 5,
-		/obj/item/clothing/under/utility/tan = 5
+		/obj/item/clothing/under/bm/utility = 5,
+		/obj/item/clothing/under/bm/utility/navy = 5,
+		/obj/item/clothing/under/bm/utility/tan = 5
 	)
 	var/list/extra_premium = list(
 		/obj/item/clothing/gloves/latexsleeves/security = 5,
@@ -64,6 +65,7 @@
 	LAZYADD(products, extra_products)
 	LAZYADD(premium, extra_premium)
 	. = ..()
+*/
 
 /obj/structure/closet/secure_closet/brigdoc
 	name = "brig physician's locker"
@@ -80,7 +82,7 @@
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/clothing/gloves/color/latex/nitrile(src)
 	new /obj/item/clothing/head/brigdoc(src)
-	new /obj/item/defibrillator(src)
+	new /obj/item/defibrillator/loaded(src) //BLUEMOOB Change - поменял на заряженный ибо батареек у БМов нет
 	new /obj/item/storage/belt/medical(src)
 	new /obj/item/pinpointer/crew(src)
 	new /obj/item/clothing/suit/brigdoc(src)
@@ -88,6 +90,7 @@
 	new /obj/item/clothing/suit/armor/brigdoc/labcoat(src)
 	new /obj/item/mod/module/clamp(src) //BLUEMOOB ADDITION - для перемещения сверхтяжёлых персонажей
 	new /obj/item/reagent_containers/glass/bottle/morphine(src) // BLUEMOON ADD - для операций
+	new /obj/item/roller/heavy(src) // BLUEMOON - HEAVY_QUIRKS - ADD - каталка для сверхтяжей
 
 /obj/structure/closet/secure_closet/blueshield
 	name = "blueshield's locker"
@@ -134,7 +137,7 @@
 /obj/structure/closet/secure_closet/mopp
 	name = "advance MOPP locker"
 	req_access = list(ACCESS_CENT_GENERAL)
-	icon_state = "goodies"
+	icon_state = "secure"
 
 /obj/structure/closet/secure_closet/mopp/PopulateContents()
 	..()
@@ -150,7 +153,7 @@
 /obj/structure/closet/secure_closet/commandmopp
 	name = "advance MOPP locker 'Commander'"
 	req_access = list(ACCESS_CENT_GENERAL)
-	icon_state = "goodies"
+	icon_state = "secure"
 
 /obj/structure/closet/secure_closet/commandmopp/PopulateContents()
 	..()
@@ -166,7 +169,7 @@
 /obj/structure/closet/secure_closet/secmopp
 	name = "advance MOPP locker 'secuirity'"
 	req_access = list(ACCESS_CENT_GENERAL)
-	icon_state = "goodies"
+	icon_state = "secure"
 
 /obj/structure/closet/secure_closet/secmopp/PopulateContents()
 	..()
@@ -182,7 +185,7 @@
 /obj/structure/closet/secure_closet/medmopp
 	name = "advance MOPP locker 'medical'"
 	req_access = list(ACCESS_CENT_GENERAL)
-	icon_state = "goodies"
+	icon_state = "secure"
 
 /obj/structure/closet/secure_closet/medmopp/PopulateContents()
 	..()
@@ -198,7 +201,7 @@
 /obj/structure/closet/secure_closet/engimopp
 	name = "advance MOPP locker 'engineering'"
 	req_access = list(ACCESS_CENT_GENERAL)
-	icon_state = "goodies"
+	icon_state = "secure"
 
 /obj/structure/closet/secure_closet/engimopp/PopulateContents()
 	..()
@@ -230,6 +233,7 @@
 	new /obj/item/autosurgeon/breathing_tube(src)
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/shield/riot/tele(src)
+	new /obj/item/storage/belt/military(src) //BLUEMOON add
 	new /obj/item/storage/belt/security/full(src)
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/pinpointer/nuke(src)
@@ -248,12 +252,6 @@
 
 /obj/structure/closet/secure_closet/ntr/PopulateContents()
 	..()
-	new /obj/item/clothing/neck/cloak/nanotrasen_representative(src)
-	new /obj/item/clothing/neck/cloak/syndiecap(src)
-	new /obj/item/clothing/under/rank/centcom/officer_alt(src)
-	new /obj/item/clothing/under/syndicate(src)
-	new /obj/item/clothing/head/beret/sec/ntr_beret(src)
-	new /obj/item/clothing/head/HoS/beret/syndicate(src)
 	new /obj/item/megaphone/sec(src)
 	new /obj/item/radio/headset/heads/ntr(src)
 	new /obj/item/stamp/syndicate(src)
@@ -266,3 +264,4 @@
 	new /obj/item/folder(src)
 	new /obj/item/folder(src)
 	new /obj/item/folder(src)
+	new /obj/item/storage/garment_case/ntr(src) //BLUEMOON add

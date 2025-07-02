@@ -130,7 +130,7 @@
 	else
 		. += span_notice("\The [src] is empty.")
 
-	if(!(stat & (NOPOWER|BROKEN)))
+	if(!(machine_stat & (NOPOWER|BROKEN)))
 		. += "[span_notice("The status display reads:")]\n"+\
 		"[span_notice("- Capacity: <b>[max_n_of_items]</b> items.")]\n"+\
 		span_notice("- Cook time reduced by <b>[(efficiency - 1) * 25]%</b>.")
@@ -163,25 +163,25 @@
 		//BLUEMOON FIX
 		if(ingredient_count > 90)// don't fuck around with byond overlays for too long, or byond overlays fuck you around.
 			break
+
+		if(ingredient.icon && ingredient.icon_state)
+			var/image/ingredient_overlay = image(ingredient, src)
+
+			var/icon/ingredient_icon = icon(ingredient.icon, ingredient.icon_state)
+
+			ingredient_overlay.transform = ingredient_overlay.transform.Scale(
+				MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Width(),
+				MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Height(),
+			)
+
+			ingredient_overlay.pixel_y = -4
+			ingredient_overlay.layer = FLOAT_LAYER
+			ingredient_overlay.plane = FLOAT_PLANE
+			ingredient_overlay.blend_mode = BLEND_INSET_OVERLAY
+			ingredient_overlay.pixel_x = ingredient_shifts[(ingredient_count % ingredient_shifts.len) + 1]
+			. += ingredient_overlay
 		//BLUEMOON FIX
-		var/image/ingredient_overlay = image(ingredient, src)
-
-		var/icon/ingredient_icon = icon(ingredient.icon, ingredient.icon_state)
-
-		ingredient_overlay.transform = ingredient_overlay.transform.Scale(
-			MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Width(),
-			MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Height(),
-		)
-
-		ingredient_overlay.pixel_y = -4
-		ingredient_overlay.layer = FLOAT_LAYER
-		ingredient_overlay.plane = FLOAT_PLANE
-		ingredient_overlay.blend_mode = BLEND_INSET_OVERLAY
-		ingredient_overlay.pixel_x = ingredient_shifts[(ingredient_count % ingredient_shifts.len) + 1]
-
 		ingredient_count += 1
-
-		. += ingredient_overlay
 
 	var/border_icon_state
 	var/door_icon_state
@@ -347,7 +347,7 @@
 
 	if(operating || panel_open || !anchored || !user.canUseTopic(src, !issilicon(user)))
 		return
-	if(isAI(user) && (stat & NOPOWER))
+	if(isAI(user) && (machine_stat & NOPOWER))
 		return
 
 	if(!length(ingredients))
@@ -362,7 +362,7 @@
 	// post choice verification
 	if(operating || panel_open || !anchored || !user.canUseTopic(src, !issilicon(user)))
 		return
-	if(isAI(user) && (stat & NOPOWER))
+	if(isAI(user) && (machine_stat & NOPOWER))
 		return
 
 	usr.set_machine(src)
@@ -383,7 +383,7 @@
 
 
 /obj/machinery/microwave/proc/cook(mob/cooker)
-	if(stat & (NOPOWER|BROKEN))
+	if(machine_stat & (NOPOWER|BROKEN))
 		return
 	if(operating || broken > 0 || panel_open || !anchored || dirty >= MAX_MICROWAVE_DIRTINESS)
 		return
@@ -443,7 +443,7 @@
 	loop(MICROWAVE_MUCK, 4)
 
 /obj/machinery/microwave/proc/loop(type, time, wait = max(12 - 2 * efficiency, 2), mob/cooker) // standard wait is 10
-	if((stat & BROKEN) && type == MICROWAVE_PRE)
+	if((machine_stat & BROKEN) && type == MICROWAVE_PRE)
 		pre_fail()
 		return
 
@@ -462,7 +462,7 @@
 
 /obj/machinery/microwave/power_change()
 	. = ..()
-	if((stat & NOPOWER) && operating)
+	if((machine_stat & NOPOWER) && operating)
 		pre_fail()
 		eject()
 

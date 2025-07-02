@@ -172,6 +172,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.silent = TRUE
 
+/* BLUEMOON COMMENTING OUT using own tools in modular_bluemoon\code\game\objects\items\storage\toolbox.dm
 /obj/item/storage/toolbox/syndicate/PopulateContents()
 	new /obj/item/screwdriver/nuke(src)
 	new /obj/item/wrench/combat(src)
@@ -180,6 +181,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	new /obj/item/wirecutters(src, "red")
 	new /obj/item/multitool(src)
 	new /obj/item/clothing/gloves/tackler/combat/insulated(src)
+*/
 
 /obj/item/storage/toolbox/drone
 	name = "mechanical toolbox"
@@ -303,6 +305,8 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	desc = "Bearing the emblem of the Syndicate, this case contains a full infiltrator stealth suit, and has enough room to fit weaponry if necessary while being quite the heavy bludgeoning implement when in a pinch."
 	icon_state = "infiltrator_case"
 	item_state = "infiltrator_case"
+	lefthand_file = 'icons/mob/inhands/equipment/case_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/case_righthand.dmi'
 	force = 12
 	throwforce = 16
 	w_class = WEIGHT_CLASS_NORMAL

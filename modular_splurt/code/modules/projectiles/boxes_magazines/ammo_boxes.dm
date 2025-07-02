@@ -6,8 +6,8 @@
 	name = "ammo box (.45 Long Rubber)"
 	desc = "Brought to you at great expense,this box contains .45 Long Rubber cartridges."
 	ammo_type = /obj/item/ammo_casing/g45l
-	icon_state = "45lbox"
-	icon = 'modular_splurt/icons/obj/ammo.dmi'
+//	icon_state = "45lbox" // BLUEMOON COMMENTING OUT: using custom states
+//	icon = 'modular_splurt/icons/obj/ammo.dmi' // BLUEMOON COMMENTING OUT: using custom states modular_bluemoon\code\modules\projectiles\boxes_magazines\ammo_boxes.dm
 	max_ammo = 24
 
 /obj/item/ammo_box/g45l/lethal
@@ -17,7 +17,7 @@
 
 /obj/item/ammo_box/c45
 	name = "ammo box (.45 Rubber)"
-	icon = 'modular_splurt/icons/obj/ammo.dmi'
+//	icon = 'modular_splurt/icons/obj/ammo.dmi' // BLUEMOON COMMENTING OUT: using custom states modular_bluemoon\code\modules\projectiles\boxes_magazines\ammo_boxes.dm modular_splurt/icons/obj/ammo.dmi
 
 /obj/item/ammo_box/c45/taser
 	name = "ammo box (.45 Taser)"
@@ -64,6 +64,10 @@
 	icon = 'modular_splurt/icons/obj/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/c22lr
 	max_ammo = 24
+
+/obj/item/ammo_box/c22lr/rubber
+	name = "ammo box (.22 Rubber)"
+	ammo_type = /obj/item/ammo_casing/c22lr/rubber
 
 /obj/item/ammo_box/c9mm/rubber
 	name = "ammo box (9mm Rubber)"

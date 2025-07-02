@@ -56,13 +56,13 @@
 	msg += "<span class='notice'>Ментальное состояние: </span>" //Long term
 	switch(sanity)
 		if(SANITY_GREAT to INFINITY)
-			msg += "<span class='nicegreen'>Мой разум - словно чистеший храм!<span>\n"
+			msg += "<span class='nicegreen'>Мой разум - словно чистейший храм!<span>\n"
 		if(SANITY_NEUTRAL to SANITY_GREAT)
 			msg += "<span class='nicegreen'>Чувствую себя отлично!<span>\n"
 		if(SANITY_DISTURBED to SANITY_NEUTRAL)
 			msg += "<span class='nicegreen'>В последнее время чувствую себя нормально.<span>\n"
 		if(SANITY_UNSTABLE to SANITY_DISTURBED)
-			msg += "<span class='warning'>Чувствую себя растроенно...</span>\n"
+			msg += "<span class='warning'>Чувствую себя расстроенно...</span>\n"
 		if(SANITY_CRAZY to SANITY_UNSTABLE)
 			msg += "<span class='boldwarning'>У меня крыша едет!!</span>\n"
 		if(SANITY_INSANE to SANITY_CRAZY)
@@ -313,12 +313,12 @@
 /datum/component/mood/proc/modify_hud(datum/source)
 	var/mob/living/owner = parent
 	var/datum/hud/hud = owner.hud_used
-	screen_obj = new
-	screen_obj_sanity = new // Sandstorm sanity
+	screen_obj = new(null, hud)
+	screen_obj_sanity = new(null, hud)
 	hud.infodisplay += screen_obj
 	hud.infodisplay += screen_obj_sanity // Sandstorm sanity
 	RegisterSignal(hud, COMSIG_PARENT_QDELETING, PROC_REF(unmodify_hud))
-	RegisterSignal(screen_obj, COMSIG_CLICK, PROC_REF(hud_click))
+	RegisterSignal(screen_obj, COMSIG_SCREEN_ELEMENT_CLICK, PROC_REF(hud_click))
 
 /datum/component/mood/proc/unmodify_hud(datum/source)
 	if(!screen_obj || !parent)

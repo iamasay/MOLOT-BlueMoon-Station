@@ -93,6 +93,7 @@
 	short_desc = "You are a Vox Scavenger."
 	flavour_text = "Самое время поживиться чем-то полезным на просторах космической станции. Не начинайте конфликтов первыми и избегайте их: ваша философия не допускает напрасной потери жизней с обеих сторон. Кроме того, никто из воксов не должен оказаться за бортом."
 	assignedrole = "Vox Scavenger"
+	category = "midround"
 
 /obj/effect/mob_spawn/human/vox_scavenger/special(mob/living/new_spawn)
 	new_spawn.fully_replace_character_name(new_spawn.real_name,generate_scavenger_name())
@@ -171,7 +172,7 @@
 	shuttleId = "vox_raiders"
 	lock_override = NONE
 	shuttlePortId = "vox_raiders_custom"
-	jumpto_ports = list("whiteship_away" = 1, "whiteship_home" = 1)
+	jump_to_ports = list("whiteship_away" = 1, "whiteship_home" = 1)
 	view_range = 7
 	x_offset = 0
 	y_offset = 0

@@ -29,6 +29,7 @@
 	2. Ensure that this location is fit for invasion at a later date; do not perform actions that would render it dangerous or inhospitable.
 	3. Biological resources will be harvested at a later date; do not harm them.
 	"}
+	category = "midround"
 
 /obj/effect/mob_spawn/swarmer/Initialize(mapload)
 	. = ..()
@@ -633,6 +634,7 @@
 	light_color = LIGHT_COLOR_CYAN
 	max_integrity = 30
 	anchored = TRUE
+	density = TRUE
 	var/lon_range = 1
 
 /obj/structure/swarmer/Initialize(mapload)

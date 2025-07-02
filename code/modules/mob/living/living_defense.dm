@@ -2,6 +2,15 @@
 /mob/living/proc/run_armor_check(def_zone = null, attack_flag = MELEE, absorb_text = "Your armor absorbs the blow!", soften_text = "Your armor softens the blow!", armour_penetration, penetrated_text = "Your armor was penetrated!", silent=FALSE)
 	var/armor = getarmor(def_zone, attack_flag)
 
+	// BLUEMOON ADD START - characters_size_changes - броня хуже работает на персонажей большого размера
+	var/user_size_armor_reduction = get_size(src)
+	if(user_size_armor_reduction > 1)
+		if(attack_flag in list(MELEE, BULLET, LASER)) // было бы смешно, если бы защита от размера не работала бы от радиации, потому что вы порвали рад костюм . . .
+			if(!HAS_TRAIT(src, TRAIT_BLUEMOON_DEVOURER) && mob_weight > MOB_WEIGHT_LIGHT) // у пожирателей и лёгких уже дебаф к ХП, для них исключение
+				user_size_armor_reduction = min(user_size_armor_reduction, 1.75) // Смайли сказал, что убирать всю броню слишком жёстко, потому работает 25% от изначальной брони, если размер более 175%
+				armor = armor * (2 - user_size_armor_reduction) // За каждый % увеличения размера, броня работает на % хуже. Вплоть до того, что персонажи с размером +175% получают только 25% брони. Сделано для компенсации факта, что от увеличения размера уже повышается ХП, которое сродни наличию брони
+	// BLUEMOON ADD END
+
 	if(silent)
 		return max(0, armor - armour_penetration)
 
@@ -87,7 +96,7 @@
 	var/armor = run_armor_check(def_zone, P.flag, null, null, P.armour_penetration, null)
 
 	// BLUEMOON ADD START - больших и тяжёлых существ проблематично нормально оглушить
-	if(HAS_TRAIT(src, TRAIT_BLUEMOON_HEAVY_SUPER))
+	if(src.mob_weight > MOB_WEIGHT_HEAVY)
 		if(P.damage_type == STAMINA)
 			totaldamage *= 0.75
 	// BLUEMOON ADD END
@@ -114,22 +123,24 @@
 				return FALSE
 
 /mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)
+	var/zone = ran_zone(BODY_ZONE_CHEST, 65)//Hits a random part of the body, geared towards the chest
 	if(!isitem(AM))
 		// Filled with made up numbers for non-items.
-		if(mob_run_block(AM, 30, "\the [AM.name]", ATTACK_TYPE_THROWN, 0, throwingdatum?.thrower, throwingdatum?.thrower?.zone_selected, list()))
+		if(mob_run_block(AM, 30, "\the [AM.name]", ATTACK_TYPE_THROWN, 0, throwingdatum?.thrower, throwingdatum?.thrower?.zone_selected, list()) & BLOCK_SUCCESS)
 			hitpush = FALSE
 			skipcatch = TRUE
 			blocked = TRUE
+			return TRUE
 		else
 			playsound(loc, 'sound/weapons/genhit.ogg', 50, TRUE, -1) //Item sounds are handled in the item itself
+		log_combat(AM, src, "hit ")
 		return ..()
 
 	var/obj/item/thrown_item = AM
-	var/zone = ran_zone(BODY_ZONE_CHEST, 65)//Hits a random part of the body, geared towards the chest
 	if(thrown_item.thrownby == WEAKREF(src)) //No throwing stuff at yourself to trigger hit reactions
 		return ..()
 
-	if(throwingdatum.thrower)
+	if(throwingdatum?.thrower)
 		if(mob_run_block(AM, thrown_item.throwforce, "\the [thrown_item.name]", ATTACK_TYPE_THROWN, 0, throwingdatum.thrower, throwingdatum.thrower.zone_selected, list()))
 			hitpush = FALSE
 			skipcatch = TRUE
@@ -140,17 +151,20 @@
 			skipcatch = TRUE
 			blocked = TRUE
 
+	// zone moved up because things need it early while checking it from the thrower is unnecessary
 	var/nosell_hit = SEND_SIGNAL(thrown_item, COMSIG_MOVABLE_IMPACT_ZONE, src, zone, throwingdatum, blocked, FALSE)
 	if(nosell_hit)
 		skipcatch = TRUE
 		hitpush = FALSE
 
 	if(blocked)
-		return TRUE
+		return BLOCK_SUCCESS
 
 	var/mob/thrown_by = thrown_item.thrownby?.resolve()
 	if(thrown_by)
 		log_combat(thrown_by, src, "threw and hit", thrown_item)
+	else
+		log_combat(thrown_item, src, "hit ")
 	if(nosell_hit)
 		return ..()
 	visible_message(span_danger("[src] is hit by [thrown_item]!"), \
@@ -477,14 +491,14 @@
 		if(src && reagents)
 			reagents.add_reagent(/datum/reagent/toxin/heparin, 5)
 		return FALSE
-	if(GLOB.cult_narsie && GLOB.cult_narsie.souls_needed[src])
-		GLOB.cult_narsie.souls_needed -= src
-		GLOB.cult_narsie.souls += 1
-		if((GLOB.cult_narsie.souls == GLOB.cult_narsie.soul_goal) && (GLOB.cult_narsie.resolved == FALSE))
-			GLOB.cult_narsie.resolved = TRUE
-			sound_to_playing_players('sound/machines/alarm.ogg')
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper), CULT_VICTORY_MASS_CONVERSION), 120)
-			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)), 270)
+	// if(GLOB.cult_narsie && GLOB.cult_narsie.souls_needed[src])
+	// 	GLOB.cult_narsie.souls_needed -= src
+	// 	GLOB.cult_narsie.souls += 1
+	// 	if((GLOB.cult_narsie.souls == GLOB.cult_narsie.soul_goal) && (GLOB.cult_narsie.resolved == FALSE))
+	// 		GLOB.cult_narsie.resolved = TRUE
+	// 		sound_to_playing_players('sound/machines/alarm.ogg')
+	// 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper), CULT_VICTORY_MASS_CONVERSION), 120)
+	// 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)), 270)
 	if(client)
 		makeNewConstruct(/mob/living/simple_animal/hostile/construct/harvester, src, cultoverride = TRUE)
 	else

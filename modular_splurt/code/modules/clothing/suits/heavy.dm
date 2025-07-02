@@ -80,7 +80,6 @@
 	desc = "Mission Oriented Protective Posture. A suit design for harsh combat conditions short of no atmosphere. This is an advance version for Non-ERT Central Command Staff."
 	slowdown = 0 // This is suppose to be advance, hopefully not too OP
 	armor = list("melee" = 40, "bullet" = 60, "laser" = 40,"energy" = 40, "bomb" = 30, "bio" = 110, "rad" = 110, "fire" = 50, "acid" = 110) //Scale with standard MOPP suits as this effects all ERT suits
-	clothing_flags = NONE
 
 /obj/item/clothing/suit/cbrn/mopp/advance/commander
 	name = "advance MOPP suit 'Commander'"
@@ -275,7 +274,7 @@
 	display_name = "CBRN gear"
 	description = "Chemical, Biological, Radiological and Nuclear protective gear"
 	prereq_ids = list("engineering")
-	design_ids = list("cbrn_civi", "cbrn_sec", "cbrn_engi", "cbrn_serv", "cbrn_cargo", "cbrn_sci", "cbrn_med", "cbrn_mask", "cbrn_boots", "cbrn_gloves", "cbrn_glovesengi", "cbrn_hood", "cbrn_oxy", "cbrn_plasma","cbrn_nitrogen")
+	design_ids = list("cbrn_civi", "cbrn_sec", "cbrn_engi", "cbrn_serv", "cbrn_cargo", "cbrn_sci", "cbrn_med", "cbrn_mask", "cbrn_boots", "cbrn_gloves", "cbrn_glovesengi", "cbrn_glovesmed", "cbrn_hood", "cbrn_oxy", "cbrn_plasma","cbrn_nitrogen") // BLUEMOON ADD cbrn_glovesmed
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 
 /datum/techweb_node/mopp

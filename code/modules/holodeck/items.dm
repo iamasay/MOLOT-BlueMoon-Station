@@ -122,10 +122,10 @@
 	if (isitem(AM) && !istype(AM,/obj/item/projectile))
 		if(prob(50))
 			AM.forceMove(get_turf(src))
-			visible_message("<span class='warning'>Swish! [AM] lands in [src].</span>")
+			visible_message(span_warning("Swish! [AM] lands in [src]."))
 			return
 		else
-			visible_message("<span class='danger'>[AM] bounces off of [src]'s rim!</span>")
+			visible_message(span_danger("[AM] bounces off of [src]'s rim!"))
 			return ..()
 	else
 		return ..()
@@ -165,7 +165,7 @@
 	. = ..()
 	if(.)
 		return
-	if(user.stat || stat & (NOPOWER|BROKEN))
+	if(user.stat || machine_stat & (NOPOWER|BROKEN))
 		to_chat(user, "<span class='warning'>This device is not powered!</span>")
 		return
 

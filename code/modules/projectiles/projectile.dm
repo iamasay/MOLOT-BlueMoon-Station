@@ -272,7 +272,7 @@
 	var/mob/living/L = target
 
 	// BLUEMOON ADD START - больших и тяжёлых существ проблематично нормально оглушить
-	if(HAS_TRAIT(target, TRAIT_BLUEMOON_HEAVY_SUPER))
+	if(L.mob_weight > MOB_WEIGHT_HEAVY)
 		var/target_size_mod = 1
 		if(get_size(target) > 1)
 			target_size_mod = 1 / get_size(target) // я за час не придумал, как из 1 получить 1 и из 2 получить 0.5 - сделайте вы
@@ -517,7 +517,7 @@
 //Returns true if the target atom is on our current turf and above the right layer
 //If direct target is true it's the originally clicked target.
 /obj/item/projectile/proc/can_hit_target(atom/target, direct_target = FALSE, ignore_loc = FALSE,cross_failed = FALSE)
-	if(QDELETED(target) || impacted[target])
+	if(QDELETED(target) || impacted[target]) // BLUEMOON EDIT: Invalid Space Turfs
 		return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE

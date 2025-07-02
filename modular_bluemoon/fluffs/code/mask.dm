@@ -29,3 +29,36 @@
 
 /datum/component/fluff/proc/on_drop(datum/source, mob/user)
 	user.visible_message("<span class='warning'> [message_drop]</span>")
+
+/obj/item/clothing/mask/paper/underhair
+	name = "The paper mask"
+	alternate_worn_layer = BACK_LAYER
+
+/obj/item/clothing/mask/gas/syndicate/cool_version/mihana_mask
+	name = "Andromeda Mask"
+	desc = "A close-fitting tactical mask that can be connected to an air supply."
+	icon_state = "mihana_mask"
+
+/obj/item/clothing/mask/gas/srt_mask
+	name = "SRT Balaclava with Eye patch"
+	desc = "Ordinary Balaclava with non-ordinary Eyepatch. It's is an optoelectronic device invented by Unknown Syndicate company. The Device appeared similar to a plastic eye patch, with text of the device name and serial number printed on the front, with a small camera lens positioned below. It can detect in body temperature, heart rate and sweat secretion to calculate a subject's physical and emotional state. "
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/mask.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/mask.dmi'
+	icon_state = "srt_mask"
+	item_state = "srt_mask"
+
+/obj/item/clothing/mask/gas/syndicate/hahun_mask/eo95_mask
+	name = "EO-95 mask"
+	desc = "A mask with ariral design, emits  a strange purple particles around it, allow the user to breath more cleaner air, \
+			that would be safer for it's owner because of anatomy of arirals."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/mask.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/mask.dmi'
+	icon_state = "eo-95_mask"
+
+/obj/item/clothing/mask/hair_module
+	name = "Hair Module"
+	desc = "Этот модуль крепится к голове СПУ. В дополнение к косметическим функциям, в этот модуль встроены датчики."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/mask.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/mask.dmi'
+	icon_state = "hair_module_mask"
+	item_state = "hair_module_mask"

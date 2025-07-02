@@ -2,7 +2,7 @@
 	. = ..()
 
 	// Check for D4C quirk
-	if(HAS_TRAIT(M,TRAIT_DUMB_CUM))
+	if(HAS_TRAIT(M,TRAIT_DUMB_CUM) && !istype(src, /datum/reagent/consumable/semen/femcum))
 		// Define quirk entry
 		var/datum/quirk/dumb4cum/quirk_target = locate() in M.roundstart_quirks
 
@@ -18,7 +18,7 @@
 		var/datum/quirk/dumb4cum/quirk_target = locate() in M.roundstart_quirks
 
 		// Remove reset timer
-		quirk_target.uncrave()
+		quirk_target.uncrave(FALSE) //diluted, so no "wow effect".
 
 //incubus and succubus additions below
 /datum/reagent/consumable/semen/on_mob_life(mob/living/carbon/M)
@@ -26,20 +26,10 @@
 	if(HAS_TRAIT(M,TRAIT_SUCCUBUS))
 		M.adjust_nutrition(1)
 
-	if(iscatperson(M) && HAS_TRAIT(M,TRAIT_DUMB_CUM)) //special "milk" tastes nice for special felinids
-		if(prob(5))
-			to_chat(M, "<span class = 'notice'>[pick("Mmmm~ boy's milk feels so good inside me~", "Ahh~ boy's milk~")]</span>")
-			M.emote("purr")
-
 /datum/reagent/consumable/ethanol/cum_in_a_hot_tub/semen/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(HAS_TRAIT(M,TRAIT_SUCCUBUS))
 		M.adjust_nutrition(0.5)
-
-	if(iscatperson(M) && HAS_TRAIT(M,TRAIT_DUMB_CUM))
-		if(prob(5))
-			to_chat(M, "<span class = 'notice'>[pick("Mmmm~ boy's milk feels so good inside me~", "Ahh~ boy's milk~")]</span>")
-			M.emote("purr")
 
 /datum/reagent/consumable/milk/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -163,32 +153,30 @@
 		SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "fav_food", /datum/mood_event/favorite_food/russian)
 
 /datum/reagent/consumable/ethanol/vodka/on_mob_life(mob/living/carbon/M)
-
+	. = ..()
 	//Makes holy water generally good for Hallowed users.
 	//Holy water is tough to get in comparison to other medicine anyways.
 	if(HAS_TRAIT(M,TRAIT_RUSSIAN))
 		// Reduce disgust.
 		M.adjust_disgust(-3)
 
-		// Restore stamina.
-		M.adjustStaminaLoss(1)
-
-		// Reduce hunger and thirst.
-		// M.adjust_nutrition(1)
-		// M.adjust_thirst(1)
-
-		// Heal brute and burn.
-		// Accounts for robotic limbs.
-		M.heal_overall_damage(1,1)
-		// Heal oxygen.
-		M.adjustOxyLoss(-1)
-		// Heal clone.
-		M.adjustCloneLoss(-1)
-
-		holder.remove_reagent(type, 0.2)
-
-		// Negate all other holy water effects.
-		return
-
-	// Return normally.
+/datum/reagent/consumable/ethanol/vodka/on_mob_metabolize(mob/living/L)
 	. = ..()
+
+	var/mob/living/carbon/human/M = L
+	if(HAS_TRAIT(M,TRAIT_RUSSIAN))
+		M.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)
+		var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
+		M.add_overlay(forbearance)
+
+		M.gain_trauma(/datum/brain_trauma/special/godwoken, TRAUMA_RESILIENCE_ABSOLUTE)
+
+/datum/reagent/consumable/ethanol/vodka/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+
+	var/mob/living/carbon/human/M = L
+	if(HAS_TRAIT(L, TRAIT_RUSSIAN))
+		var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
+		M.cut_overlay(forbearance)
+
+		M.cure_trauma_type(/datum/brain_trauma/special/godwoken, TRAUMA_RESILIENCE_ABSOLUTE)

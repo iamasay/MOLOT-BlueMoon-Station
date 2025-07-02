@@ -140,7 +140,7 @@
 	name = "Tarkoff Driver";
 	port_direction = 2;
 	preferred_direction = 8;
-	id = "tarkoff_driver";
+	shuttle_id = "tarkoff_driver";
 	height = 16;
 	width = 12
 	},
@@ -200,7 +200,7 @@
 /area/shuttle/tarkoff_driver)
 "Gg" = (
 /obj/effect/spawner/lootdrop/whiteship_cere_ripley,
-/turf/open/floor/iron/recharge_floor,
+/turf/open/floor/plasteel/recharge_floor,
 /area/shuttle/tarkoff_driver)
 "GC" = (
 /obj/structure/statue/bone/rib{

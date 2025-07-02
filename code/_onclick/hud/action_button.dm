@@ -5,10 +5,11 @@
 	var/datum/hud/our_hud
 	var/actiontooltipstyle = ""
 	screen_loc = null
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
 	var/button_icon_state
 	var/appearance_cache
-
+	var/mutable_appearance/button_overlay
 	/// Where we are currently placed on the hud. SCRN_OBJ_DEFAULT asks the linked action what it thinks
 	var/location = SCRN_OBJ_DEFAULT
 	/// A unique bitflag, combined with the name of our linked action this lets us persistently remember any user changes to our position
@@ -30,28 +31,34 @@
 	return ..()
 
 /atom/movable/screen/movable/action_button/proc/can_use(mob/user)
-	if (linked_action)
+	if(isobserver(user))
+		var/mob/dead/observer/dead_mob = user
+		if(dead_mob.observetarget) // Observers can only click on action buttons if they're not observing something
+			return FALSE
+
+	if(linked_action)
 		if(linked_action.viewers[user.hud_used])
 			return TRUE
 		return FALSE
-	else if (isobserver(user))
-		var/mob/dead/observer/O = user
-		return !O.observetarget
-	else
-		return TRUE
+
+	return TRUE
 
 /atom/movable/screen/movable/action_button/Click(location,control,params)
 	if (!can_use(usr))
 		return
 
 	var/list/modifiers = params2list(params)
-	if(modifiers["shift"])
+	if(LAZYACCESS(modifiers, SHIFT_CLICK))
 		var/datum/hud/our_hud = usr.hud_used
 		our_hud.position_action(src, SCRN_OBJ_DEFAULT)
 		return TRUE
 	if(LAZYACCESS(modifiers, ALT_CLICK))
 		begin_creating_bind(usr)
 		return TRUE
+	var/mob/clicker = usr
+	if(!clicker.CheckActionCooldown())
+		return
+	clicker.DelayNextAction(1)
 	linked_action.Trigger()
 	return TRUE
 
@@ -65,7 +72,7 @@
 
 // Entered and Exited won't fire while you're dragging something, because you're still "holding" it
 // Very much byond logic, but I want nice behavior, so we fake it with drag
-/atom/movable/screen/movable/action_button/MouseDrag(atom/over_object, src_location, over_location, src_control, over_control, params)
+/atom/movable/screen/movable/action_button/MouseDrag(atom/over_object, atom/src_location, atom/over_location, src_control, over_control, params)
 	. = ..()
 	if(!can_use(usr))
 		return
@@ -82,8 +89,11 @@
 	if(old_object)
 		old_object.MouseExited(over_location, over_control, params)
 
+	if(QDELETED(over_location))
+		last_hovored_ref = null
+		return
 	last_hovored_ref = WEAKREF(over_object)
-	over_object.MouseEntered(over_location, over_control, params)
+	over_object?.MouseEntered(over_location, over_control, params)
 
 /atom/movable/screen/movable/action_button/MouseEntered(location, control, params)
 	. = ..()
@@ -94,7 +104,7 @@
 	closeToolTip(usr)
 	return ..()
 
-/atom/movable/screen/movable/action_button/MouseDrop(over_object)
+/atom/movable/screen/movable/action_button/MouseDrop(atom/over_object, mob/user, src_location, over_location, params)
 	last_hovored_ref = null
 	if(!can_use(usr))
 		return
@@ -153,6 +163,12 @@
 	user.client.prefs.action_buttons_screen_locs -= "[name]_[id]"
 	user.client.prefs.queue_save_pref(1 SECONDS, TRUE)
 
+/**
+ * This is a silly proc used in hud code code to determine what icon and icon state we should be using
+ * for hud elements (such as action buttons) that don't have their own icon and icon state set.
+ *
+ * It returns a list, which is pretty much just a struct of info
+ */
 /datum/hud/proc/get_action_buttons_icons()
 	. = list()
 	.["bg_icon"] = ui_style
@@ -165,8 +181,15 @@
 		var/datum/action/A = X
 		A.UpdateButtons(status_only)
 
-//This is the proc used to update all the action buttons.
-/mob/proc/update_action_buttons(reload_screen)
+/**
+ * This proc handles adding all of the mob's actions to their screen
+ *
+ * If you just need to update existing buttons, use [/mob/proc/update_mob_action_buttons]!
+ *
+ * Arguments:
+ * * update_flags - reload_screen - bool, if TRUE, this proc will add the button to the screen of the passed mob as well
+ */
+/mob/proc/update_action_buttons(reload_screen = FALSE)
 	if(!hud_used || !client)
 		return
 
@@ -189,6 +212,7 @@
 	icon = 'icons/hud/64x16_actions.dmi'
 	icon_state = "screen_gen_palette"
 	screen_loc = ui_action_palette
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	var/datum/hud/our_hud
 	var/expanded = FALSE
 	/// Id of any currently running timers that set our color matrix
@@ -201,7 +225,7 @@
 		our_hud = null
 	return ..()
 
-/atom/movable/screen/button_palette/Initialize(mapload)
+/atom/movable/screen/button_palette/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	update_appearance()
 
@@ -223,11 +247,12 @@
 
 	var/list/settings = our_hud.get_action_buttons_icons()
 	var/ui_icon = "[settings["bg_icon"]]"
-	var/list/ui_segments = splittext(ui_icon, ".")
-	var/list/ui_paths = splittext(ui_segments[1], "/")
-	var/ui_name = ui_paths[length(ui_paths)]
+	var/static/regex/R
+	if(!R)
+		R = new(@"(screen_.+?)[\./]")
+	R.Find(ui_icon)
 
-	icon_state = "[ui_name]_palette"
+	icon_state = "[R.group[1]]_palette"
 
 /atom/movable/screen/button_palette/MouseEntered(location, control, params)
 	. = ..()
@@ -314,6 +339,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 /atom/movable/screen/palette_scroll
 	icon = 'icons/mob/screen_gen.dmi'
 	screen_loc = ui_palette_scroll
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	/// How should we move the palette's actions?
 	/// Positive scrolls down the list, negative scrolls back
 	var/scroll_direction = 0

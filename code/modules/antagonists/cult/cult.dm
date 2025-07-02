@@ -121,7 +121,7 @@
 	if(mob_override)
 		current = mob_override
 	current.faction |= "cult"
-	current.grant_language(/datum/language/narsie, TRUE, TRUE, LANGUAGE_CULTIST)
+	current.grant_language(/datum/language/narsie, source = LANGUAGE_CULTIST)
 	if(!cult_team?.cult_master)
 		vote.Grant(current)
 	communion.Grant(current)
@@ -140,7 +140,7 @@
 	if(mob_override)
 		current = mob_override
 	current.faction -= "cult"
-	current.remove_language(/datum/language/narsie, TRUE, TRUE, LANGUAGE_CULTIST)
+	current.remove_language(/datum/language/narsie, source = LANGUAGE_CULTIST)
 	vote.Remove(current)
 	communion.Remove(current)
 	magic.Remove(current)
@@ -153,9 +153,8 @@
 		H.dna?.update_ui_block(DNA_LEFT_EYE_COLOR_BLOCK)
 		H.dna?.update_ui_block(DNA_RIGHT_EYE_COLOR_BLOCK)
 		REMOVE_TRAIT(H, TRAIT_CULT_EYES, "valid_cultist")
+		H.remove_overlay(ANTAG_LAYER)
 		H.update_body()
-		H.cut_overlays()
-		H.regenerate_icons()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, INNATE_TRAIT)
 
 /datum/antagonist/cult/on_removal()
@@ -251,13 +250,13 @@
 		H.dna?.update_ui_block(DNA_LEFT_EYE_COLOR_BLOCK)
 		H.dna?.update_ui_block(DNA_RIGHT_EYE_COLOR_BLOCK)
 		REMOVE_TRAIT(H, TRAIT_CULT_EYES, "valid_cultist")
-		H.cut_overlays()
-		H.regenerate_icons()
+		H.remove_overlay(ANTAG_LAYER)
+		H.update_body()
 
 /datum/team/cult
 	name = "Cult"
 
-	var/blood_target
+	var/atom/blood_target
 	var/image/blood_target_image
 	var/blood_target_reset_timer
 
@@ -339,7 +338,9 @@
 		var/mob/living/carbon/human/H = cultist
 		new /obj/effect/temp_visual/cult/sparks(get_turf(H), H.dir)
 		var/istate = pick("halo[rand(1, 6)]")
-		H.add_overlay(mutable_appearance('icons/effects/32x64.dmi', istate, -FIRE_LAYER))
+		var/mutable_appearance/new_cult_overlay = mutable_appearance('icons/effects/32x64.dmi', istate, -ANTAG_LAYER)
+		H.overlays_standing[ANTAG_LAYER] = new_cult_overlay
+		H.apply_overlay(ANTAG_LAYER)
 
 /datum/team/cult/proc/setup_objectives()
 	//SAC OBJECTIVE , todo: move this to objective internals

@@ -148,22 +148,6 @@
 	if(available_panties.len)
 		. += "Alt-Click to choose panties."
 
-/obj/item/portallight/AltClick(mob/user)
-	. = ..()
-	var/obj/item/clothing/underwear/briefs/panties/portalpanties/to_connect
-	if(available_panties.len)
-		to_connect = tgui_input_list(user, "Choose...", "Available panties", available_panties, null)
-	if(to_connect)
-		if(!to_connect.free_use)
-			to_chat(usr, "They have public mode turned off!")
-			return FALSE
-		portalunderwear = to_connect //pair the panties on the fleshlight.
-		to_connect.update_portal()
-		to_connect.portallight += src //pair the fleshlight
-		icon_state = "paired"
-		update_appearance()
-		playsound(src, 'sound/machines/ping.ogg', 50, FALSE)
-
 /obj/item/portallight/update_appearance(updates)
 	. = ..()
 	updatesleeve()
@@ -179,6 +163,10 @@
 	var/target
 	var/mob/living/carbon/human/portal_target = ishuman(portalunderwear.loc) && (portalunderwear.current_equipped_slot & (ITEM_SLOT_UNDERWEAR | ITEM_SLOT_MASK)) ? portalunderwear.loc : null
 
+	// Fluid tranfser inside partner. Also if it is FALSE, it nullifies "orifice" variable in handle_post_sex() to make it work properly, since "cum_inside" variable actually doesn't work correctly today.
+	var/p_to_f = FALSE	//from panties to fleshlight
+	var/f_to_p = FALSE	//from fleshlight to panties
+
 	// This list is structured as [M's longname, M's shortname, wearer's longname, wearer's shortname]
 	var/penis_names = list()
 	if(plush_icon != NONE)
@@ -186,7 +174,7 @@
 	for(var/mob/living/carbon/human/person in list(M, portal_target))
 		if(person.has_penis())
 			var/obj/item/organ/genital/penis/person_penis = person.getorganslot(ORGAN_SLOT_PENIS)
-			LAZYADD(penis_names, "[person_penis.length]-см [lowertext(person_penis.shape)]")
+			LAZYADD(penis_names, "[round(person_penis.length * (person ? get_size(person) : 1), 0.25)]-см [lowertext(person_penis.shape)]")
 			LAZYADD(penis_names, "penis")
 		else if(person.has_strapon())
 			var/obj/item/clothing/underwear/briefs/strapon/person_strapon = person.get_strapon()
@@ -215,18 +203,21 @@
 									target = CUM_TARGET_PENIS
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = NORMAL_LUST
+									f_to_p = TRUE
 								if(CUM_TARGET_ANUS)
 									user_message = (user == M) ? "использует <b>'[src]'</b> по прямому назначению и трахает анальное кольцо кого-то на другой стороне своим членом" : "использует <b>'[src]'</b> по прямому назначению и трахает <b>[M]</b> прямо в анал"
 									target_message = "трахает твой анал с помощью [penis_names[1]] [penis_names[2]]"
 									target = CUM_TARGET_PENIS
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = NORMAL_LUST
+									f_to_p = TRUE
 								if(CUM_TARGET_MOUTH)
 									user_message = (user == M) ? "использует <b>'[src]'</b> по прямому назначению и трахает ротик кого-то на другой стороне своим членом" : "использует <b>'[src]'</b> по прямому назначению и трахает <b>[M]</b> прямо в ротик"
 									target_message = "трахает твой ротик с помощью [penis_names[1]] [penis_names[2]]"
 									target = CUM_TARGET_PENIS
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = LOW_LUST
+									f_to_p = TRUE
 								if(CUM_TARGET_URETHRA)
 									user_message = (user == M) ? "использует <b>'[src]'</b> по прямому назначению и трахает уретру кого-то на другой стороне своим членом" : "использует <b>'[src]'</b> по прямому назначению и заставляет <b>[M]</b> поцеловаться своим слюнявым ротиком с уретрой на другой стороне, таким образом причмокивая в процессе"
 									target_message = "трахает твою уретру с помощью [penis_names[1]] [penis_names[2]]"
@@ -244,6 +235,7 @@
 									target = CUM_TARGET_VAGINA
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = NORMAL_LUST
+									p_to_f = TRUE
 								if(CUM_TARGET_VAGINA)
 									user_message = (user == M) ? "потирает [M.ru_ego()] киску прямо о <b>'[src]'</b>, таким образом стимулирая киску на другой стороне" : "использует <b>'[src]'</b> по прямому назначению и стимулирует киску кого-то на другой стороне киской <b>[M]</b>"
 									target_message = "потирает свою киску прямо о твою собственную"
@@ -262,6 +254,7 @@
 									target = CUM_TARGET_VAGINA
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = LOW_LUST
+									f_to_p = TRUE
 								/* // i don't know how this would work
 								if(CUM_TARGET_URETHRA)
 									user_message = (user == M) ? "fucking urethra" : "force someone to fuck urethra"
@@ -281,6 +274,7 @@
 									target = CUM_TARGET_ANUS
 									user_lust_amt = NORMAL_LUST
 									target_lust_amt = NORMAL_LUST
+									p_to_f = TRUE
 								if(CUM_TARGET_VAGINA)
 									user_message = (user == M) ? "потирает [M.ru_ego()] анус прямо о <b>'[src]'</b>, таким образом стимулирая киску кого-то на другой стороне" : "использует <b>'[src]'</b> по прямому назначению и стимулирует анус кого-то на другой стороне киской <b>[M]</b>"
 									target_message = "потирает свой анус прямо о твою киску"
@@ -321,12 +315,14 @@
 							target = CUM_TARGET_MOUTH
 							user_lust_amt = LOW_LUST
 							target_lust_amt = NORMAL_LUST
+							p_to_f = TRUE
 						if(CUM_TARGET_VAGINA)
 							user_message = (user == M) ? "использует <b>'[src]'</b> по прямому назначению и стимулирует киску кого-то на другой стороне своим ротиком" : "использует <b>'[src]'</b> по прямому назначению и стимулирует влагалище кого-то на другой стороне слюнявым ротиком <b>[M]</b>"
 							target_message = "потирает твою киску"
 							target = CUM_TARGET_MOUTH
 							user_lust_amt = LOW_LUST
 							target_lust_amt = NORMAL_LUST
+							p_to_f = TRUE
 						if(CUM_TARGET_ANUS)
 							user_message = (user == M) ? "использует <b>'[src]'</b> по прямому назначению и стимулирует анус кого-то на другой стороне своим ротиком" : "использует <b>'[src]'</b> по прямому назначению и стимулирует анус кого-то на другой стороне слюнявым ротиком <b>[M]</b>"
 							target_message = "потирает твой анус"
@@ -444,7 +440,7 @@
 	if(user_message)
 		if(portal_target && (portal_target?.client?.prefs.toggles & VERB_CONSENT || !portal_target.ckey))
 			user.visible_message("<span class='lewd'>[user] [user_message].</span>")
-			if(M.can_penetrating_genital_cum() && M.handle_post_sex(user_lust_amt, portalunderwear.targetting, portal_target, target, TRUE, TRUE))
+			if(M.can_penetrating_genital_cum() && M.handle_post_sex(user_lust_amt, f_to_p ? portalunderwear.targetting : null, portal_target, target, f_to_p, TRUE))
 				switch(target)
 					if(CUM_TARGET_PENIS)
 						switch(portalunderwear.targetting)
@@ -488,7 +484,7 @@
 					playlewdinteractionsound(loc, 'modular_sand/sound/interactions/champ_fingering.ogg', 50, 1, -1)
 
 			to_chat(portal_target, "<span class='lewd'>Кто-то использует сопряжённый <b>'[name]'</b>, этот кто-то [target_message].</span>")
-			if(portal_target.handle_post_sex(target_lust_amt, target, M, portalunderwear.targetting, TRUE, TRUE))
+			if(portal_target.handle_post_sex(target_lust_amt, p_to_f ? target : null, M, portalunderwear.targetting, p_to_f, TRUE))
 
 				switch(portalunderwear.targetting)
 					if(CUM_TARGET_VAGINA)
@@ -550,8 +546,7 @@
 
 /obj/item/portallight/proc/updatesleeve()
 	//get their looks and vagina colour!
-	cut_overlay(sleeve)//remove current overlays
-	cut_overlay(organ)
+	cut_overlays()
 
 	var/mob/living/carbon/human/H = null
 	if(portalunderwear && ishuman(portalunderwear.loc))
@@ -627,7 +622,11 @@
 			if(CUM_TARGET_URETHRA)
 				organ = mutable_appearance('modular_sand/icons/obj/fleshlight.dmi', "portal_anus") // i refuse to even attempt spriting this, have a placeholder
 				organ.color = G.color
-		name = portalunderwear.targetting == CUM_TARGET_PENIS ? "Портальный Дилдо" : "Портальный Фонарик"
+
+		if (portalunderwear.targetting == CUM_TARGET_PENIS)
+			name = replacetext(name, "Фонарик", "Дилдо")
+		else
+			name = replacetext(name, "Дилдо", "Фонарик")
 
 		useable = TRUE
 		add_overlay(organ)
@@ -635,17 +634,25 @@
 		useable = FALSE
 
 /obj/item/portallight/attackby(obj/item/I, mob/user)  //перезарядка работает как у резака. Можно изменять, сколько требуется плазмы для полного заряда
-	if(istype(I, /obj/item/toy/plush) || istype(I, /obj/item/storage/daki))
-		lefthand_file = I.lefthand_file
-		righthand_file = I.righthand_file
-		item_state = I.item_state
-		plush_icon = I.icon
-		plush_iconstate = I.icon_state
-		qdel(I)
-		to_chat(user, "<span class='notice'>Ты натягиваешь [I] поверх портального фонарика.</span>")
-		updateplushe()
-	else
-		. = ..()
+	if(istype(I, /obj/item/toy/plush)) // Это делал Рен, но я переделал в лучшую сторону. По хорошему это всё должно лежать в модулях БМа, а не тут.
+		var/obj/item/toy/plush/plush = I
+		if(plush.can_you_fuck_plush)
+			place_toy(I, user)
+
+	if(istype(I, /obj/item/storage/daki))
+		place_toy(I, user)
+
+	return . = ..()
+
+/obj/item/portallight/proc/place_toy(obj/item/I, mob/user)
+	lefthand_file = I.lefthand_file
+	righthand_file = I.righthand_file
+	item_state = I.item_state
+	plush_icon = I.icon
+	plush_iconstate = I.icon_state
+	qdel(I)
+	to_chat(user, "<span class='notice'>Ты натягиваешь [I] поверх портального фонарика.</span>")
+	updateplushe()
 
 /obj/item/portallight/proc/updateplushe()
 	cut_overlay(plushe)
@@ -654,8 +661,6 @@
 	plushe.pixel_x = -3
 	plushe.layer = 33
 	add_overlay(plushe)
-
-
 
 /obj/item/portallight/Destroy()
 	if(available_panties.len)
@@ -702,7 +707,13 @@
 	slot_flags         = targetting == CUM_TARGET_MOUTH ? ITEM_SLOT_MASK  : ITEM_SLOT_UNDERWEAR
 	flags_cover        = targetting == CUM_TARGET_MOUTH ? MASKCOVERSMOUTH : NONE
 	visor_flags_cover  = targetting == CUM_TARGET_MOUTH ? MASKCOVERSMOUTH : NONE
-	name               = targetting == CUM_TARGET_MOUTH ? "Портальная Маска"   : "Портальные Трусики"
+
+	if (targetting == CUM_TARGET_MOUTH)
+		name = replacetext(name, "Трусики", "Маска")
+		name = replacetext(name, "Портальные", "Портальная")
+	else
+		name = replacetext(name, "Маска", "Трусики")
+		name = replacetext(name, "Портальная", "Портальные")
 
 	to_chat(user, "<span class='notice'>Теперь при надевании портал будет обращен к вашему [targetting].</span>")
 	update_portal()
@@ -713,22 +724,13 @@
 		. += "<span class='notice'>Устройство не сопряжено, для сопряжения проведите фонариком по этой паре портальных трусиков (TM) или переведите устройство в <b>публичный режим</b> и ожидайте. </span>"
 	else
 		. += "<span class='notice'>Устройство сопряжено и ожидает использования по прямому назначению. Количество сопряженных устройств: <b>[portallight.len]</b>.</span>"
-	if(free_use)
-		. += "<span class='notice'>Публичный доступ к устройству <b>включен</b>. (Alt+Click для смены режима)</span>"
-	else
-		. += "<span class='notice'>Публичный доступ к устройству <b>отключен</b>. (Alt+Click для смены режима)</span>"
-
-/obj/item/clothing/underwear/briefs/panties/portalpanties/AltClick(mob/user)
-	. = ..()
-	if(do_mob(user, src, 2 SECONDS))
-		free_use()
+	. += "<span class='notice'>Публичный доступ к устройству <b>[free_use ? "включен" : "отключен"]</b>. (Alt+Click для смены режима)</span>"
+	. += span_notice("Использование \"Latex Adjustment Override\" переключает возможность снятия предмета.")
 
 /obj/item/clothing/underwear/briefs/panties/portalpanties/attackby(obj/item/I, mob/living/user) //pairing
 	if(istype(I, /obj/item/portallight))
 		var/obj/item/portallight/P = I
 		if(!(P in portallight))
-			if(!portallight.len)
-				RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(drop_out))
 			portallight += P //pair the fleshlight
 			P.available_panties += src
 			P.portalunderwear = src
@@ -745,8 +747,6 @@
 				P.updateplushe()
 				P.icon_state = "unpaired"
 			to_chat(user, "<span class='notice'>[P] был успешно отвязан.</span>")
-			if(!portallight.len)
-				UnregisterSignal(user, COMSIG_PARENT_QDELETING)
 	else
 		..() //just allows people to hit it with other objects, if they so wished.
 
@@ -782,21 +782,22 @@
 	. = ..()
 	switch(slot)
 		if(ITEM_SLOT_UNDERWEAR, ITEM_SLOT_MASK)
+			RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(drop_out))
 			if(!portallight.len)
 				audible_message("[icon2html(src, hearers(src))] *beep* *beep* *beep*")
 				playsound(src, 'sound/machines/triple_beep.ogg', ASSEMBLY_BEEP_VOLUME, TRUE)
 				to_chat(user, "<span class='notice'>Трусики не связаны с Портальным Фонариком.</span>")
 			else
 				update_portal()
-				RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(drop_out))
 		else
 			update_portal()
 			UnregisterSignal(user, COMSIG_PARENT_QDELETING)
 
-/obj/item/clothing/underwear/briefs/panties/portalpanties/dropped(mob/user)
-	UnregisterSignal(user, COMSIG_PARENT_QDELETING)
-	. = ..()
-	update_portal()
+// already processed in /equipped()
+// /obj/item/clothing/underwear/briefs/panties/portalpanties/dropped(mob/user)
+// 	UnregisterSignal(user, COMSIG_PARENT_QDELETING)
+// 	. = ..()
+// 	update_portal()
 
 /obj/item/clothing/underwear/briefs/panties/portalpanties/Destroy()
 	if(portallight.len)

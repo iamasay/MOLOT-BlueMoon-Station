@@ -123,8 +123,13 @@ SUBSYSTEM_DEF(ticker)
 			if(2) //rare+sound.ogg or MAP+sound.ogg -- Rare sounds or Map-specific sounds
 				if((use_rare_music && L[1] == "rare") || (L[1] == SSmapping.config.map_name))
 					music += S
+				else if(findtext(S, "{") && findtext(S, "}")) // Include songs with curly braces if they are part of a specific category
+					music += S
 			if(1) //sound.ogg -- common sound
-				music += S
+				if(L[1] == "exclude")
+					continue
+				if(!findtext(S, "{") && !findtext(S, "}")) // Exclude songs surrounded by curly braces
+					music += S
 
 	var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
 	if(music.len > 1)
@@ -142,7 +147,11 @@ SUBSYSTEM_DEF(ticker)
 		music = world.file2list(ROUND_START_MUSIC_LIST, "\n")
 		login_music = pick(music)
 	else
-		login_music = "[global.config.directory]/title_music/sounds/[pick(music)]"
+		// Use the sound path from the title subsystem if it exists
+		if(SStitle.sound_path)
+			login_music = SStitle.sound_path
+		else
+			login_music = "[global.config.directory]/title_music/sounds/[pick(music)]"
 
 	if(!GLOB.syndicate_code_phrase)
 		GLOB.syndicate_code_phrase	= generate_code_phrase(return_list=TRUE)
@@ -192,6 +201,7 @@ SUBSYSTEM_DEF(ticker)
 			// BLUEMOON ADD START - воут за карту и перезагрузка сервера, если прошлый раунд окончился крашем
 			if(mapvote_restarter_in_progress)
 				return
+			#ifndef LOWMEMORYMODE
 			if(!SSpersistence.CheckGracefulEnding())
 				SetTimeLeft(-1)
 				start_immediately = FALSE
@@ -200,6 +210,7 @@ SUBSYSTEM_DEF(ticker)
 				SSvote.initiate_vote("map","server", display = SHOW_RESULTS, votesystem = vote_type)
 				to_chat(world, span_boldwarning("Активировано голосование за смену карты из-за неудачного завершения прошлого раунда. После его окончания сервер будет перезапущен."))
 				return
+			#endif
 			// BLUEMOON ADD END
 
 			//lobby stats for statpanels
@@ -218,8 +229,13 @@ SUBSYSTEM_DEF(ticker)
 				var/forcemode = CONFIG_GET(string/force_gamemode)
 				if(forcemode)
 					force_gamemode(forcemode)
+				#ifndef LOWMEMORYMODE
 				if(!forcemode || (GLOB.master_mode == "dynamic" && CONFIG_GET(flag/dynamic_voting)))
 					send_gamemode_vote()
+				#else
+				modevoted = TRUE
+				SEND_SOUND(world, sound('sound/announcer/tonelow.ogg')) // Чтобы не придумывать колесо пусть будет тут
+				#endif
 			//countdown
 			if(timeLeft < 0)
 				return
@@ -400,6 +416,7 @@ SUBSYSTEM_DEF(ticker)
 		else
 			stack_trace("[S] [S.type] found in start landmarks list, which isn't a start landmark!")
 
+	addtimer(CALLBACK(SSmapping, TYPE_PROC_REF(/datum/controller/subsystem/mapping, seedStation), TRUE), 60 SECONDS)
 
 //These callbacks will fire after roundstart key transfer
 /datum/controller/subsystem/ticker/proc/OnRoundstart(datum/callback/cb)
@@ -480,7 +497,7 @@ SUBSYSTEM_DEF(ticker)
 				if (living.client.prefs && living.client.prefs.auto_ooc)
 					if (living.client.prefs.chat_toggles & CHAT_OOC)
 						living.client.prefs.chat_toggles ^= CHAT_OOC
-				var/atom/movable/screen/splash/S = new(living.client, TRUE)
+				var/atom/movable/screen/splash/S = new(null, living.client, TRUE)
 				S.Fade(TRUE)
 				living.client.init_verbs()
 			livings += living

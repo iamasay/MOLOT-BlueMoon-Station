@@ -645,6 +645,7 @@
 	var/datum/action/cooldown/lavawalk/lavawalk
 	var/effectduration = 10 SECONDS
 	var/timer
+	max_stack = 1 // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/lavawalk/ComponentInitialize()
 	. = ..()

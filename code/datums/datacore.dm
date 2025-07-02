@@ -85,7 +85,7 @@
 			crimes |= crime
 			return
 
-// BLUEMOON ADD START - возможность пометить правонарушение как обработанное
+// BLUEMOON ADD START - возможность пометить правонарушение как обработанное | Логи
 /datum/datacore/proc/switch_incur(id, cDataId)
 	for(var/datum/data/record/R in security)
 		if(R.fields["id"] == id)
@@ -94,6 +94,32 @@
 				if(crime.dataId == text2num(cDataId))
 					crime.penalties_incurred = !crime.penalties_incurred
 					return
+
+/datum/datacore/proc/get_actions_logs(id)
+	for(var/datum/data/record/R in security)
+		if(R.fields["id"] == id)
+			var/list/logs = R.fields["actions_logs"]
+			return logs
+
+/datum/datacore/proc/append_sec_logs(id, log, auth_name, auth_rank)
+	for(var/datum/data/record/R in security)
+		if(R.fields["id"] == id)
+			var/timestamp = "\[[STATION_TIME_TIMESTAMP("hh:mm:ss", world.time)]\]"
+			var/log_text = "<b>[timestamp]</b> [log]"
+			log_text = replacetext(log_text, "%%RANK%%", "<u>[auth_rank]</u>")
+			log_text = replacetext(log_text, "%%AUTH%%", "<u>[auth_name]</u>")
+			log_text = replacetext(log_text, "%%GEN_AUTH%%", "<u>[auth_name] ([auth_rank])</u>")
+			R.fields["actions_logs"] += log_text
+
+// отдельная запись квирков когда они реально записаны
+/datum/datacore/proc/notes_traits_modify(mob/living/carbon/human/H)
+	var/datum/data/record/foundrecord = find_record("name", H.real_name, GLOB.data_core.medical)
+	if(foundrecord)
+		var/traits_dat = H.get_trait_string(TRUE)
+		if(!traits_dat)
+			return
+		else
+			foundrecord.fields["notes"] += "\n traits information as of shift start: [traits_dat]"
 // BLUEMOON ADD END
 
 /datum/datacore/proc/manifest()
@@ -286,10 +312,8 @@
 			assignment = H.job
 		else
 			assignment = "Unassigned"
-		//Skyrat changes
 		if(C && C.prefs && C.prefs.alt_titles_preferences[assignment])
 			assignment = C.prefs.alt_titles_preferences[assignment]
-		//End of skyrat changes
 
 		var/static/record_id_num = 1001
 		var/id = num2hex(record_id_num++,6)
@@ -313,6 +337,7 @@
 		G.fields["id"]			= id
 		G.fields["name"]		= H.real_name
 		G.fields["rank"]		= assignment
+		G.fields["real_rank"]	= GetJobName(assignment)
 		G.fields["age"]			= H.age
 		G.fields["species"]		= H.dna.species.name
 		G.fields["fingerprint"]	= md5(H.dna.uni_identity)
@@ -342,7 +367,7 @@
 		M.fields["alg_d"]		= "No allergies have been detected in this patient."
 		M.fields["cdi"]			= "None"
 		M.fields["cdi_d"]		= "No diseases have been diagnosed at the moment."
-		M.fields["notes"]		= "Trait information as of shift start: [H.get_trait_string(medical)]<br>[prefs.medical_records]"
+		M.fields["notes"]		= "[prefs.medical_records]"
 		medical += M
 
 		//Security Record
@@ -355,6 +380,11 @@
 		S.fields["ma_crim"]		= list()
 		S.fields["ma_crim_d"]	= "No major crime convictions."
 		S.fields["notes"]		= prefs.security_records || "No notes."
+		// BLUEMOON ADD START - логи
+		S.fields["actions_logs"] = list(
+			"<u>[GLOB.current_date_string] | [STATION_TIME_TIMESTAMP("hh:mm:ss", world.time)] ЗАПИСЬ НАЧАТА. СУБЪЕКТ - [H.real_name] | [assignment] | [id];</u><br>"
+			)
+		// BLUEMOON ADD END
 		LAZYINITLIST(S.fields["comments"])
 		security += S
 
@@ -362,7 +392,8 @@
 		var/datum/data/record/L = new()
 		L.fields["id"]			= md5("[H.real_name][H.mind.assigned_role]")	//surely this should just be id, like the others?
 		L.fields["name"]		= H.real_name
-		L.fields["rank"] 		= H.mind.assigned_role
+		L.fields["rank"] 		= assignment
+		L.fields["real_rank"]	= GetJobName(assignment)
 		L.fields["age"]			= H.age
 		if(H.gender == MALE)
 			G.fields["gender"]  = "Male"

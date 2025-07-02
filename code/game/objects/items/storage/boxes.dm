@@ -254,6 +254,10 @@
 	..()
 	new /obj/item/camera_bug(src)
 	new /obj/item/door_remote/omni(src)
+	new /obj/item/pinpointer/crew/centcom(src)
+	new /obj/item/stamp/chameleon(src)
+	new /obj/item/detective_scanner(src)
+	new /obj/item/pda/heads(src)
 	new /obj/item/megaphone/command(src)
 
 //blueshield suit box
@@ -301,8 +305,12 @@
 	ammo = /obj/item/ammo_box/magazine/wt550m9
 
 /obj/item/storage/box/ammo/holy
-	name = "some holy water"
+	name = "box of holy water"
 	ammo = /obj/item/reagent_containers/food/drinks/bottle/holywater
+
+/obj/item/storage/box/ammo/cleaning_grenades
+	name = "box of cleaning grenades"
+	ammo = /obj/item/grenade/chem_grenade/cleaner
 
 /obj/item/storage/box/ammo/PopulateContents()
 	..()
@@ -770,7 +778,7 @@
 /obj/item/storage/box/snappops
 	name = "snap pop box"
 	desc = "Eight wrappers of fun! Ages 8 and up. Not suitable for children."
-	icon = 'icons/obj/toy.dmi'
+	icon = 'icons/obj/toys/toy.dmi'
 	icon_state = "spbox"
 	illustration = null
 
@@ -1025,7 +1033,7 @@
 
 /obj/item/storage/box/mechfigures/PopulateContents()
 	for(var/i in 1 to 4)
-		var/randomFigure = pick(subtypesof(/obj/item/toy/prize/))
+		var/randomFigure = pick(subtypesof(/obj/item/toy/mecha))
 		new randomFigure(src)
 
 /obj/item/storage/box/papersack
@@ -1315,7 +1323,7 @@
 
 /obj/item/storage/box/gum/PopulateContents()
 	for(var/i in 1 to 4)
-		new/obj/item/reagent_containers/food/snacks/bubblegum/bubblegum(src)
+		new/obj/item/reagent_containers/food/snacks/bubblegum(src)
 
 /obj/item/storage/box/gum/nicotine
 	name = "nicotine gum packet"
@@ -1729,3 +1737,20 @@
 	desc = "A bag containing fresh, dry coffee robusta beans. Ethically sourced and packaged by Waffle Corp."
 	icon_state = "robusta_beans"
 	beantype = /obj/item/reagent_containers/food/snacks/grown/coffee/robusta
+
+//BLUEMOON ADD
+
+/obj/item/storage/box/acrador_kit
+	name = "Acrador kit"
+	desc = "Contains a full kit of Acrador equipment."
+	icon_state = "box"
+
+/obj/item/storage/box/acrador_kit/PopulateContents()
+	new /obj/item/modkit/rshield_kit(src)
+	new /obj/item/modkit/anstrum_kit(src)
+	new /obj/item/modkit/rs14_kit(src)
+	new /obj/item/modkit/cmg_kit(src)
+	new /obj/item/modkit/tonfa_kit(src)
+	new /obj/item/modkit/rs9(src)
+
+//BLUEMOON ADD END

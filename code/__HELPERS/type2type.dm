@@ -97,6 +97,27 @@
 		else
 	return
 
+/proc/dir2text_ru(direction)
+	switch(direction)
+		if(NORTH)
+			return "север"
+		if(SOUTH)
+			return "юг"
+		if(EAST)
+			return "восток"
+		if(WEST)
+			return "запад"
+		if(NORTHEAST)
+			return "северо-восток"
+		if(SOUTHEAST)
+			return "юго-восток"
+		if(NORTHWEST)
+			return "северо-запад"
+		if(SOUTHWEST)
+			return "юго-запад"
+		else
+	return
+
 //Turns text into proper directions
 /proc/text2dir(direction)
 	switch(uppertext(direction))
@@ -724,7 +745,9 @@
 			return 'modular_citadel/icons/ui/screen_trasenknox.dmi'
 		if('icons/mob/screen_detective.dmi')
 			return 'modular_citadel/icons/ui/screen_detective.dmi'
-		if('modular_sand/icons/mob/screen_liteweb.dmi')
-			return 'modular_sand/icons/mob/screen_liteweb.dmi'
+		if('modular_sand/icons/hud/screen_liteweb/base.dmi')
+			return 'modular_sand/icons/hud/screen_liteweb/base.dmi'
+		if('modular_sand/icons/hud/screen_corru/base.dmi')
+			return 'modular_sand/icons/hud/screen_corru/base.dmi'
 		else
 			return 'modular_citadel/icons/ui/screen_midnight.dmi'

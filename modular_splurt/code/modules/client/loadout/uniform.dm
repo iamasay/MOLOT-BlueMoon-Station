@@ -265,3 +265,135 @@
 	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_JOBS
 	restricted_roles = list("Clown")
 	restricted_desc = "Clown"
+
+//BM add
+/datum/gear/uniform/syndiemaid/civil
+    name = "Tactical Maid Outfit"
+    path = /obj/item/clothing/under/syndicate/maid/civil
+
+/datum/gear/uniform/syndiecombat/civil
+    name = "combat uniform"
+    path = /obj/item/clothing/under/syndicate/combat/civil
+
+/datum/gear/uniform/syndiecamo/civil
+    name = "camouflage fatigues"
+    path = /obj/item/clothing/under/syndicate/camo/civil
+
+/datum/gear/uniform/sneaksuit/civil
+    name = "blood-red sneaksuit"
+    path = /obj/item/clothing/under/syndicate/bloodred/civil
+
+/datum/gear/uniform/syndiesniper/civil
+    name = "Tactical suit"
+    path = /obj/item/clothing/under/syndicate/sniper/civil
+    subcategory = LOADOUT_SUBCATEGORY_UNIFORM_SUITS
+
+/datum/gear/uniform/syndieoveralls/civil
+    name = "Utility Overalls Turtleneck"
+    path = /obj/item/clothing/under/syndicate/overalls/civil
+
+/datum/gear/uniform/syndieoveralls/skirt/civil
+    name = "Utility Overalls Skirtleneck"
+    path = /obj/item/clothing/under/syndicate/overalls/skirt/civil
+
+/datum/gear/uniform/tactical/civil
+    name = "tactical turtleneck"
+    path = /obj/item/clothing/under/syndicate/civil
+
+/datum/gear/uniform/tactical/skirt/civil
+    name = "tactical skirtleneck"
+    path = /obj/item/clothing/under/syndicate/skirt/civil
+
+//BM add end
+// Vore station import/improvement
+
+/datum/gear/uniform/wench
+	name = "Wench's Dress"
+	path = /obj/item/clothing/under/misc/wench
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#ffffff", "#242424", "96710f")
+
+/datum/gear/uniform/tian_dress
+	name = "Tian Dress"
+	path = /obj/item/clothing/under/misc/tian_dress
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#7c1649", "#006cec")
+
+/datum/gear/uniform/vneck
+	name = "V-neck Dress"
+	path = /obj/item/clothing/under/misc/vneck
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#1c1c1c")
+
+/datum/gear/uniform/revealingdress
+	name = "Revealing Dress"
+	path = /obj/item/clothing/under/misc/revealingdress
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#211919", "#4ce2ff")
+
+/datum/gear/uniform/rippedpunk
+	name = "Ripped Punk"
+	path = /obj/item/clothing/under/misc/rippedpunk
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_GENERAL
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#211919", "#4ce2ff")
+
+/datum/gear/uniform/gothic
+	name = "gothic dress"
+	path = /obj/item/clothing/under/misc/gothic
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#232323", "#232323", "#232323", "#232323")
+
+/datum/gear/uniform/pentagram
+	name = "pentagram dress"
+	path = /obj/item/clothing/under/misc/pentagram
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#211919", "#232323")
+
+/datum/gear/uniform/swoop
+	name = "swooped dress"
+	path = /obj/item/clothing/under/misc/swoop
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#f2ce66", "#272525")
+
+/datum/gear/uniform/asym
+	name = "asymmetrical slit skirt"
+	path = /obj/item/clothing/under/misc/asym
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#8abe67", "#8abe67")
+
+/datum/gear/uniform/sheer
+	name = "sheer dress"
+	path = /obj/item/clothing/under/misc/sheer
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#3e769cc5")
+
+/datum/gear/uniform/corsetdress
+	name = "corset dress"
+	path = /obj/item/clothing/under/misc/corsetdress
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_DRESSES
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#1e1b1e", "#f6efdb", "#4b6c5a", "#d4ccb3")
+
+/datum/gear/uniform/miniskirt_sheer
+	name = "fashionable sheer miniskirt"
+	path = /obj/item/clothing/under/misc/miniskirt_sheer
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_SKIRTS
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#0e0e0e")
+
+/datum/gear/uniform/miniskirt
+	name = "fashionable miniskirt"
+	path = /obj/item/clothing/under/misc/miniskirt
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_SKIRTS
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION | LOADOUT_CAN_COLOR_POLYCHROMIC
+	loadout_initial_colors = list("#0e0e0e")

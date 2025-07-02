@@ -9,6 +9,62 @@
 	donator_group_id = DONATOR_GROUP_TIER_3 // can be accessed by all donators
 	ckeywhitelist = list("This entry should never appear with this variable set.") //If it does, then that means somebody fucked up the whitelist system pretty hard
 
+/datum/gear/donator/cleanercloak
+	name = "Teshari Cleaner Cloak"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/cleanercloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/fishingcloak
+	name = "Teshari Fishing Cloak"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/fishingcloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/gamercloak
+	name = "Teshari Gamer Cloack"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/gamercloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/minercloak
+	name = "Teshari Miner Cloack"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/minercloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/smithingcloak
+	name = "Teshari Smithing Cloak"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/smithingcloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/productioncloak
+	name = "Teshari Production Cloak"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/productioncloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/playercloak
+	name = "Teshari Player Cloak"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/cloak/teshari/standard/playercloak
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
 /datum/gear/donator/pet
 	name = "Pet Beacon"
 	slot = ITEM_SLOT_BACKPACK
@@ -23,12 +79,12 @@
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
-/datum/gear/donator/money
-	name = "Money, Motherfucker"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/stack/spacecash/c10000
-	ckeywhitelist = list()
-	donator_group_id = DONATOR_GROUP_TIER_1
+// /datum/gear/donator/money
+// 	name = "Money, Motherfucker"
+// 	slot = ITEM_SLOT_BACKPACK
+// 	path = /obj/item/stack/spacecash/c10000
+// 	ckeywhitelist = list()
+// 	donator_group_id = DONATOR_GROUP_TIER_1
 
 /datum/gear/donator/gasmask_syndicate
 	name = "The Syndicate Mask"
@@ -84,9 +140,9 @@
 	donator_group_id = DONATOR_GROUP_TIER_1
 
 /datum/gear/donator/agent_card
-	name = "Agent Card (without microscanners)" //BLUEMOON CHANGES
+	name = "Callsign ID Card" //BLUEMOON CHANGES
 	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/card/id/syndicate/one_access_copy //BLUEMOON CHANGES
+	path = /obj/item/card/id/callsign/loadout  //BLUEMOON CHANGES
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
@@ -427,6 +483,10 @@
 	path = /obj/item/clothing/head/paperhat
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
+	// BLUEMOON EDIT START - иконки лодаута
+	item_icon = 'icons/obj/clothing/hats.dmi'
+	item_icon_state = "paper"
+	// BLUEMOON EDIT END
 
 /datum/gear/donator/cloakce
 	name = "Polychromic CE Cloak"
@@ -481,7 +541,7 @@
 /datum/gear/donator/luckyjack
 	name = "Lucky Jackboots"
 	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/clothing/shoes/lucky
+	path = /obj/item/clothing/shoes/jackboots/lucky
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
@@ -562,12 +622,12 @@
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
-/datum/gear/donator/fritzplush
-	name = "Fritz Plushie"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/toy/plush/mammal/dog/fritz
-	ckeywhitelist = list()
-	donator_group_id = DONATOR_GROUP_TIER_1
+//datum/gear/donator/fritzplush
+//	name = "Fritz Plushie"
+//	slot = ITEM_SLOT_BACKPACK
+//	path = /obj/item/toy/plush/mammal/dog/fritz
+//	ckeywhitelist = list()
+//	donator_group_id = DONATOR_GROUP_TIER_1			//Нету у нас этого в спрайтах
 
 /datum/gear/donator/kimono
 	name = "Kimono"
@@ -833,5 +893,12 @@
 	name = "The Collectable Wizard's Hat"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/clothing/head/collectable/wizard
+	ckeywhitelist = list()
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/bp_helmet
+	name = "Old bullet proof helmet"
+	slot = ITEM_SLOT_HEAD
+	path = /obj/item/clothing/head/assu_helmet/bp_helmet
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1

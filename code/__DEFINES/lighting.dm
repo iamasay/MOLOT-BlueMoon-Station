@@ -181,8 +181,6 @@ do { \
 ///1000 is an unimportant number, it's just to normalize copied layers
 #define RADIAL_CONTENT_LAYER 1000
 
-#define ADMIN_POPUP_LAYER 1
-
 ///Layer for tooltips
 #define TOOLTIP_LAYER 4
 
@@ -190,7 +188,6 @@ do { \
 #define CINEMATIC_LAYER -1
 
 ///Plane master controller keys
-#define PLANE_MASTERS_GAME "plane_masters_game"
 #define PLANE_MASTERS_COLORBLIND "plane_masters_colorblind"
 
 #define PLANE_CRITICAL_FUCKO_PARALLAX (PLANE_CRITICAL_DISPLAY|PLANE_CRITICAL_NO_EMPTY_RELAY)

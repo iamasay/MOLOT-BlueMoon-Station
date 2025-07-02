@@ -35,6 +35,11 @@
 #define ADMIN_PING_COOLDOWN_TIME (10 MINUTES)
 //ambition end
 
+// BLUEMOON ADD START
+/// Cooldown between rolling random character ambitions
+#define BLUEMOON_AMBITION_COOLDOWN_TIME (10 SECONDS)
+// BLUEMOON ADD END
+
 /datum/mind
 	var/key
 	var/name				//replaces mob/var/original_name
@@ -64,7 +69,6 @@
 	var/isholy = FALSE //is this person a chaplain or admin role allowed to use bibles
 
 	var/mob/living/enslaved_to //If this mind's master is another mob (i.e. adamantine golems)
-	var/datum/language_holder/language_holder
 	var/unconvertable = FALSE
 	var/late_joiner = FALSE
 	///has this mind ever been an AI
@@ -88,8 +92,16 @@
 	/// A lazy list of statuses to add next to this mind in the traitor panel
 	var/list/special_statuses
 
+	// BLUEMOON ADD START
+
+	/// Character ambitions
 	var/list/ambition_objectives = list()
-	var/ambition_limit = 6 //Лимит амбиций
+	/// Maximum amount of random ambitions
+	var/ambition_limit = 6
+	/// Time when new ambition can be rolled
+	var/ambition_cooldown_end = 0
+
+	// BLUEMOON ADD END
 
 /datum/mind/New(key)
 	skill_holder = new(src)
@@ -100,7 +112,6 @@
 /datum/mind/Destroy()
 	SSticker.minds -= src
 	QDEL_LIST(antag_datums)
-	QDEL_NULL(language_holder)
 	QDEL_NULL(skill_holder)
 	set_current(null)
 	soulOwner = null
@@ -121,12 +132,6 @@
 
 /datum/mind/proc/set_original_character(new_original_character)
 	original_character = WEAKREF(new_original_character)
-
-/datum/mind/proc/get_language_holder()
-	if(!language_holder)
-		language_holder = new (src)
-
-	return language_holder
 
 /datum/mind/proc/transfer_to(mob/new_character, var/force_key_move = 0)
 	var/old_character = current
@@ -149,7 +154,19 @@
 	var/datum/atom_hud/antag/hud_to_transfer = antag_hud//we need this because leave_hud() will clear this list
 	var/mob/living/old_current = current
 	if(current)
-		current.transfer_observers_to(new_character)	//transfer anyone observing the old character to the new one
+		//transfer anyone observing the old character to the new one
+		current.transfer_observers_to(new_character)
+
+		// Offload all mind languages from the old holder to a temp one
+		var/datum/language_holder/empty/temp_holder = new()
+		var/datum/language_holder/old_holder = old_current.get_language_holder()
+		var/datum/language_holder/new_holder = new_character.get_language_holder()
+		// Off load mind languages to the temp holder momentarily
+		new_holder.transfer_mind_languages(temp_holder)
+		// Transfer the old holder's mind languages to the new holder
+		old_holder.transfer_mind_languages(new_holder)
+		// And finally transfer the temp holder's mind languages back to the old holder
+		temp_holder.transfer_mind_languages(old_holder)
 	set_current(new_character)								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
 	for(var/a in antag_datums)	//Makes sure all antag datums effects are applied in the new body
@@ -166,7 +183,6 @@
 	if(new_character.client)
 		LAZYCLEARLIST(new_character.client.recent_examines)
 		new_character.client.init_verbs() // re-initialize character specific verbs
-	current.update_atom_languages()
 
 //CIT CHANGE - makes arousal update when transfering bodies
 	if(isliving(new_character)) //New humans and such are by default enabled arousal. Let's always use the new mind's prefs.
@@ -1602,11 +1618,14 @@ GLOBAL_LIST(objective_choices)
 
 	if(href_list["amb_add"])
 		ambition_func = TRUE
-		if (ambition_objectives.len < ambition_limit)
-			to_chat(usr, "<span class='notice'>Новая амбиция: [assign_random_ambition()].</span>")
-		else
+		if (world.time < ambition_cooldown_end)
+			to_chat(usr, "<span class='warning'>Вы можете роллить амбиции не чаще, чем раз в [BLUEMOON_AMBITION_COOLDOWN_TIME / 10] секунд!</span>")
+		else if (ambition_objectives.len > ambition_limit)
 			to_chat(usr, "<span class='warning'>МНОГОВАТО АМБИЦИЙ!</span>")
-		log_game("[key_name(usr)] has added [key_name(current)]'s ambition.")
+		else
+			to_chat(usr, "<span class='notice'>Новая амбиция: [assign_random_ambition()].</span>")
+			ambition_cooldown_end = world.time + BLUEMOON_AMBITION_COOLDOWN_TIME
+			log_game("[key_name(usr)] has added [key_name(current)]'s ambition.")
 
 	else if(href_list["amb_delete"])
 		ambition_func = TRUE
@@ -1691,6 +1710,13 @@ GLOBAL_LIST(objective_choices)
 	var/datum/antagonist/changeling/C = has_antag_datum(/datum/antagonist/changeling)
 	if(!C)
 		C = add_antag_datum(/datum/antagonist/changeling)
+		special_role = ROLE_CHANGELING
+	return C
+
+/datum/mind/proc/make_XenoChangeling()
+	var/datum/antagonist/changeling/C = has_antag_datum(/datum/antagonist/changeling/xenobio)
+	if(!C)
+		C = add_antag_datum(/datum/antagonist/changeling/xenobio)
 		special_role = ROLE_CHANGELING
 	return C
 
@@ -1850,3 +1876,7 @@ GLOBAL_LIST(objective_choices)
 //ambition start
 #undef AMBITION_COOLDOWN_TIME
 //ambition end
+
+/// BLUEMOON ADD START
+#undef BLUEMOON_AMBITION_COOLDOWN_TIME
+/// BLUEMOON ADD END

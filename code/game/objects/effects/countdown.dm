@@ -127,6 +127,12 @@
 	name = "supermatter damage"
 	text_size = 1
 	color = "#00ff80"
+	pixel_y = 8
+
+/obj/effect/countdown/supermatter/attach(atom/A)
+	. = ..()
+	if(istype(A, /obj/machinery/power/supermatter_crystal/shard))
+		pixel_y = -12
 
 /obj/effect/countdown/supermatter/get_value()
 	var/obj/machinery/power/supermatter_crystal/S = attached_to
@@ -172,3 +178,15 @@
 
 /obj/effect/countdown/singularity_act()
 	return
+
+/obj/effect/countdown/flower_bud
+	name = "flower bud countdown"
+
+/obj/effect/countdown/flower_bud/get_value()
+	var/obj/structure/alien/resin/flower_bud/bud = attached_to
+	if(!istype(bud))
+		return
+	if(!bud.finish_time)
+		return -1
+	var/time_left = max(0, (bud.finish_time - world.time) / 10)
+	return time_left

@@ -112,7 +112,7 @@
 		name = initial(name)
 
 /obj/item/mmi/proc/eject_brain(mob/user)
-	if(brain.brainmob)
+	if(brainmob)
 		brainmob.container = null //Reset brainmob mmi var.
 		brainmob.forceMove(brain) //Throw mob into brain.
 		brainmob.set_stat(DEAD)
@@ -256,4 +256,14 @@
 /obj/item/mmi/syndie/Initialize(mapload)
 	. = ..()
 	laws = new /datum/ai_laws/syndicate_override()
+	radio.on = 0
+
+/obj/item/mmi/inteq
+	name = "InteQ Man-Machine Interface"
+	desc = "InteQ's own brand of MMI. It enforces laws designed to help InteQ Operative achieve their goals upon cyborgs and AIs created with it."
+	overrides_aicore_laws = TRUE
+
+/obj/item/mmi/inteq/Initialize(mapload)
+	. = ..()
+	laws = new /datum/ai_laws/inteq_override()
 	radio.on = 0

@@ -105,14 +105,8 @@
 	var/hurt = TRUE
 	var/extra_speed = 0
 	// BLUEMOON ADDITION AHEAD - для изменения урона в зависимости от наличия квирка тяжести персонажа
-	var/damage = 10
-	var/combat_knockdown = 20
-	if(HAS_TRAIT(src, TRAIT_BLUEMOON_HEAVY)) //жирный мужчина под 150 килограмм летит в вашу сторону
-		damage += 25
-		combat_knockdown += 20
-	if(HAS_TRAIT(src, TRAIT_BLUEMOON_HEAVY_SUPER)) //в лицо успешно влетела акула 12 футов в росте
-		damage += 50
-		combat_knockdown += 40
+	var/damage = max(0, 10 + ((src.mob_weight - MOB_WEIGHT_NORMAL) * 25))
+	var/combat_knockdown = max(0, 20 + ((src.mob_weight - MOB_WEIGHT_NORMAL) * 20))
 	// BLUEMOON ADDITION END
 	if(throwingdatum?.thrower != src)
 		extra_speed = min(max(0, throwingdatum.speed - initial(throw_speed)), 3)
@@ -124,17 +118,17 @@
 			hurt = FALSE
 	if(hit_atom.density && isturf(hit_atom))
 		if(hurt)
-			DefaultCombatKnockdown(20)
-			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+			DefaultCombatKnockdown(combat_knockdown)
+			take_bodypart_damage(damage + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
 	if(iscarbon(hit_atom) && hit_atom != src)
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
 			return
 		if(hurt)
-			victim.take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-			victim.DefaultCombatKnockdown(20)
-			DefaultCombatKnockdown(20)
+			victim.take_bodypart_damage(damage + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+			take_bodypart_damage(damage + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+			victim.DefaultCombatKnockdown(combat_knockdown)
+			DefaultCombatKnockdown(combat_knockdown)
 			visible_message("<span class='danger'>[src] crashes into [victim][extra_speed ? " really hard" : ""], knocking them both over!</span>",\
 				"<span class='userdanger'>You violently crash into [victim][extra_speed ? " extra hard" : ""]!</span>")
 		playsound(src,'sound/weapons/punch1.ogg',50,1)
@@ -207,22 +201,24 @@
 		thrown_thing = held_item.on_thrown(src, target)
 	if(!thrown_thing)
 		return FALSE
+	var/power_throw = 0
 	if(isliving(thrown_thing))
 		var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
 		var/turf/end_T = get_turf(target)
 		if(start_T && end_T)
 			log_combat(src, thrown_thing, "thrown", addition="grab from tile in [AREACOORD(start_T)] towards tile at [AREACOORD(end_T)]")
-	var/power_throw = 0
+		//BLUEMOON ADDITION AHEAD
+		var/mob/living/L = thrown_thing
+		switch(L.mob_weight)
+			if(MOB_WEIGHT_HEAVY_SUPER)
+				power_throw = -10
+			if(MOB_WEIGHT_HEAVY)
+				power_throw -= 2
+		//BLUEMOON ADDITION END
 	if(HAS_TRAIT(src, TRAIT_HULK))
 		power_throw++
 	if(HAS_TRAIT(src, TRAIT_DWARF))
 		power_throw--
-	//BLUEMOON ADDITION AHEAD
-	if(HAS_TRAIT(thrown_thing, TRAIT_BLUEMOON_HEAVY)) // тяжёлый персонаж метается хуже обычного
-		power_throw -= 2
-	if(HAS_TRAIT(thrown_thing, TRAIT_BLUEMOON_HEAVY_SUPER)) // сверхтяжёлого персонажа нельзя кинуть с рук
-		power_throw = -10
-	//BLUEMOON ADDITION END
 	if(HAS_TRAIT(thrown_thing, TRAIT_DWARF))
 		power_throw++
 	if(neckgrab_throw)
@@ -608,7 +604,7 @@
 		if(A.update_remote_sight(src)) //returns 1 if we override all other sight updates.
 			return
 
-	if(glasses)
+	if(glasses && istype(glasses, /obj/item/clothing/glasses))
 		var/obj/item/clothing/glasses/G = glasses
 		sight |= G.vision_flags
 		see_in_dark = max(G.darkness_view, see_in_dark)
@@ -618,10 +614,8 @@
 			see_invisible = min(G.invis_view, see_invisible)
 		if(!isnull(G.lighting_alpha))
 			lighting_alpha = min(lighting_alpha, G.lighting_alpha)
-	if(head)
+	if(head && istype(head, /obj/item/clothing/head))
 		var/obj/item/clothing/head/H = head
-		if(!istype(H, /obj/item/clothing/head))
-			return
 		sight |= H.vision_flags
 		see_in_dark = max(H.darkness_view, see_in_dark)
 
@@ -817,10 +811,6 @@
 		else
 			hud_used.healths.icon_state = "health7"
 
-/mob/living/carbon/proc/update_internals_hud_icon(internal_state = 0)
-	if(hud_used && hud_used.internals)
-		hud_used.internals.icon_state = "internal[internal_state]"
-
 /mob/living/carbon/update_stat()
 	if(status_flags & GODMODE)
 		return
@@ -863,13 +853,13 @@
 		stop_pulling()
 		throw_alert("handcuffed", /atom/movable/screen/alert/restrained/handcuffed, new_master = src.handcuffed)
 		if(HAS_TRAIT(src, "bondaged"))
-			SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "mood_bondage", /datum/mood_event/bondage)	 //For bondage enjoyer quirk. - Gardelin0
+			SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, QMOOD_BONDAGE, /datum/mood_event/bondage)	 //For bondage enjoyer quirk. - Gardelin0
 		if(handcuffed.demoralize_criminals)
 			SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "handcuffed", /datum/mood_event/handcuffed)
 	else
 		clear_alert("handcuffed")
 		SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, "handcuffed")
-		SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, "mood_bondage", /datum/mood_event/bondage)	//For bondage enjoyer quirk. - Gardelin0
+		SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, QMOOD_BONDAGE, /datum/mood_event/bondage)	//For bondage enjoyer quirk. - Gardelin0
 	update_action_buttons_icon() //some of our action buttons might be unusable when we're handcuffed.
 	update_inv_handcuffed()
 	update_hud_handcuffed()
@@ -1127,6 +1117,10 @@
 			return TRUE
 	if(isclothing(wear_mask) && (wear_mask.clothing_flags & SCAN_REAGENTS))
 		return TRUE
+	// BLUEMOON ADDITION AHEAD making use of trait system
+	else if (HAS_TRAIT(src.mind, TRAIT_REAGENT_EXPERT))
+		return TRUE
+	// BLUEMOON ADDITION END
 
 /mob/living/carbon/can_hold_items()
 	return TRUE

@@ -6,7 +6,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/tanks_righthand.dmi'
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
-	// worn_icon = 'icons/mob/clothing/back.dmi' //since these can also get thrown into suit storage slots. if something goes on the belt, set this to null.
+	mob_overlay_icon = 'icons/mob/clothing/back.dmi' //since these can also get thrown into suit storage slots. if something goes on the belt, set this to null.
 	hitsound = 'sound/weapons/smash.ogg'
 	pressure_resistance = ONE_ATMOSPHERE * 5
 	force = 5
@@ -34,7 +34,6 @@
 	if(H.internal == src)
 		to_chat(H, "<span class='notice'>You close [src] valve.</span>")
 		H.internal = null
-		H.update_internals_hud_icon(0)
 	else
 		if(!H.getorganslot(ORGAN_SLOT_BREATHING_TUBE))
 			if(HAS_TRAIT(H, TRAIT_NO_INTERNALS))
@@ -60,7 +59,6 @@
 		else
 			to_chat(H, "<span class='notice'>You open [src] valve.</span>")
 		H.internal = src
-		H.update_internals_hud_icon(1)
 	H.update_action_buttons_icon()
 
 
@@ -240,8 +238,8 @@
 /obj/item/tank/return_air()
 	return air_contents
 
-// /obj/item/tank/return_analyzable_air()
-// 	return air_contents
+/obj/item/tank/return_analyzable_air()
+	return air_contents
 
 /obj/item/tank/assume_air(datum/gas_mixture/giver)
 	air_contents.merge(giver)

@@ -1,3 +1,4 @@
+/* BLUEMOON EDIT - CODE OVERRIDDEN IN 'modular_bluemoon\code\modules\vending\_vending.dm'
 /*
  * Vending machine types - Can be found under /code/modules/vending/
  */
@@ -169,6 +170,14 @@
 	/// used for narcing on underages
 	var/obj/item/radio/Radio
 
+	// BLUEMOON EDIT START - возможность кастомных звуков покупки
+	/// Custom vending sound
+	var/vending_sound = 'sound/machines/machine_vend.ogg'
+
+	/// Will vending sound vary
+	var/vending_sound_vary = TRUE
+	// BLUEMOON EDIT END
+
 
 /**
  * Initialize the vending machine
@@ -244,14 +253,14 @@
 
 /obj/machinery/vending/update_appearance(updates=ALL)
 	. = ..()
-	if(stat & BROKEN)
+	if(machine_stat & BROKEN)
 		set_light(0)
 		return
 	set_light(powered() ? MINIMUM_USEFUL_LIGHT_RANGE : 0)
 
 
 /obj/machinery/vending/update_icon_state()
-	if(stat & BROKEN)
+	if(machine_stat & BROKEN)
 		icon_state = "[initial(icon_state)]-broken"
 		return ..()
 	icon_state = "[initial(icon_state)][powered() ? null : "-off"]"
@@ -262,7 +271,7 @@
 	. = ..()
 	if(!light_mask)
 		return
-	if(!(stat & BROKEN) && powered())
+	if(!(machine_stat & BROKEN) && powered())
 		. += emissive_appearance(icon, light_mask)
 
 /obj/machinery/vending/obj_break(damage_flag)
@@ -445,7 +454,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	if(refill_canister && istype(I, refill_canister))
 		if (!panel_open)
 			to_chat(user, span_warning("You should probably unscrew the service panel first!"))
-		else if (stat & (BROKEN|NOPOWER))
+		else if (machine_stat & (BROKEN|NOPOWER))
 			to_chat(user, span_notice("[src] does not respond."))
 		else
 			//if the panel is open we attempt to refill the machine
@@ -503,7 +512,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	visible_message(span_notice("[src] yields [freebies > 1 ? "several free goodies" : "a free goody"]!"))
 
 	for(var/i in 1 to freebies)
-		playsound(src, 'sound/machines/machine_vend.ogg', 50, TRUE, extrarange = -3)
+		playsound(src, vending_sound, 50, vending_sound_vary, extrarange = -3) // BLUEMOON EDIT - возможность кастомных звуков покупки
 		for(var/datum/data/vending_product/R in shuffle(product_records))
 
 			if(R.amount <= 0) //Try to use a record that actually has something to dump.
@@ -718,7 +727,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	to_chat(user, span_notice("You short out the product lock on [src]."))
 
 /obj/machinery/vending/_try_interact(mob/user)
-	if(seconds_electrified && !(stat & NOPOWER))
+	if(seconds_electrified && !(machine_stat & NOPOWER))
 		if(shock(user, 100))
 			return
 
@@ -956,7 +965,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	use_power(5)
 	if(icon_vend) //Show the vending animation if needed
 		flick(icon_vend,src)
-	playsound(src, 'sound/machines/machine_vend.ogg', 50, TRUE, extrarange = -3)
+	playsound(src, vending_sound, 50, vending_sound_vary, extrarange = -3) // BLUEMOON EDIT - возможность кастомных звуков покупки
 	var/obj/item/vended_item = new R.product_path(get_turf(src))
 	// if(greyscale_colors)
 	// 	vended_item.set_greyscale(colors=greyscale_colors)
@@ -969,7 +978,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	vend_ready = TRUE
 
 /obj/machinery/vending/process(delta_time)
-	if(stat & (BROKEN|NOPOWER))
+	if(machine_stat & (BROKEN|NOPOWER))
 		return PROCESS_KILL
 	if(!active)
 		return
@@ -994,7 +1003,7 @@ GLOBAL_LIST_EMPTY(vending_products)
  * * message - the message to speak
  */
 /obj/machinery/vending/proc/speak(message)
-	if(stat & (BROKEN|NOPOWER))
+	if(machine_stat & (BROKEN|NOPOWER))
 		return
 	if(!message)
 		return
@@ -1058,7 +1067,7 @@ GLOBAL_LIST_EMPTY(vending_products)
  * * prb - probability the shock happens
  */
 /obj/machinery/vending/proc/shock(mob/living/user, prb)
-	if(!istype(user) || stat & (BROKEN|NOPOWER)) // unpowered, no shock
+	if(!istype(user) || machine_stat & (BROKEN|NOPOWER)) // unpowered, no shock
 		return FALSE
 	if(!prob(prb))
 		return FALSE
@@ -1078,13 +1087,13 @@ GLOBAL_LIST_EMPTY(vending_products)
 /obj/machinery/vending/proc/canLoadItem(obj/item/I, mob/user)
 	return FALSE
 
-/obj/machinery/vending/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
+/obj/machinery/vending/hitby(atom/movable/hitting_atom, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	. = ..()
-	var/mob/living/L = AM
-	if(tilted || !istype(L) || !prob(20 * (throwingdatum.speed - L.throw_speed))) // hulk throw = +20%, neckgrab throw = +20%
+	var/mob/living/living_mob = hitting_atom
+	if(tilted || !istype(living_mob) || !prob(20 * (throwingdatum.speed - living_mob.throw_speed))) // hulk throw = +20%, neckgrab throw = +20%
 		return
 
-	tilt(L)
+	tilt(living_mob)
 
 /obj/machinery/vending/attack_tk_grab(mob/user)
 	to_chat(user, span_warning("[src] seems to resist your mental grasp!"))
@@ -1308,3 +1317,4 @@ GLOBAL_LIST_EMPTY(vending_products)
 	slogan_list = list("[GLOB.deity] says: It's your divine right to buy!")
 	add_filter("vending_outline", 9, list("type" = "outline", "color" = COLOR_VERY_SOFT_YELLOW))
 	add_filter("vending_rays", 10, list("type" = "rays", "size" = 35, "color" = COLOR_VIVID_YELLOW))
+*/

@@ -69,7 +69,7 @@
 	name = "Antique Derringer"
 	desc = "An easy to conceal, yet extremely deadly handgun, capable of firing .45-70 Govt rounds. Comes in a unique pack of cigarettes with additional munitions."
 	item = /obj/item/storage/fancy/cigarettes/derringer/midworld
-	purchasable_from = UPLINK_NUKE_OPS
+	purchasable_from = (UPLINK_NUKE_OPS | UPLINK_SYNDICATE)
 	cost = 10
 	surplus = 2
 
@@ -192,3 +192,15 @@
 /datum/uplink_item/stealthy_weapons/soap_clusterbang/inteq
 	item = /obj/item/grenade/clusterbuster/soap/inteq
 	purchasable_from = ~(UPLINK_SYNDICATE)
+
+//BLUEMOON add добавил набор оригами в аплинк.
+
+/datum/uplink_item/stealthy_weapons/origami_bundle
+	name = "Boxed Origami Kit"
+	desc = "This box contains a guide on how to craft masterful works of origami, allowing you to transform normal pieces of paper into perfectly aerodynamic (and potentially lethal) paper airplanes."
+	item = /obj/item/storage/box/inteq_kit/origami_bundle
+	cost = 4
+	surplus = 0
+	purchasable_from = ~UPLINK_NUKE_OPS
+
+//BLUEMOON add end

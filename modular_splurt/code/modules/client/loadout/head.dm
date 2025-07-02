@@ -105,3 +105,30 @@
 /datum/gear/head/hoodcowl
 	name = "Hood cowl"
 	path= /obj/item/clothing/head/hoodcowl
+
+// BM add
+/datum/gear/head/syndiewarden/civilian
+    name = "Master At Arms' Police Hat"
+    path = /obj/item/clothing/head/hats/warden/syndicate/civil
+
+/datum/gear/head/syndieberet/civil
+    name = "brig officer's beret"
+    path = /obj/item/clothing/head/beret/sec/syndicate/civil
+
+/datum/gear/head/syndieutility/civil
+    name = "engine tech utility cover"
+    path = /obj/item/clothing/head/soft/sec/syndicate/civil
+
+/datum/gear/head/swatds/civilian
+    name = "SWAT helmet"
+    path = /obj/item/clothing/head/helmet/swat/ds/civil
+
+/datum/gear/head/npc_questhuh_hat
+    name = "NPC Huh hat"
+    path = /obj/item/clothing/head/npc_questhuh_hat
+
+/datum/gear/head/npc_questhey_hat
+    name = "NPC Hey hat"
+    path = /obj/item/clothing/head/npc_questhey_hat
+
+//BM add end

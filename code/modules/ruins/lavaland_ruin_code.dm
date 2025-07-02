@@ -128,18 +128,20 @@
 	icon_state = "sleeper_s"
 	short_desc = "Вы Научный Специалист Синдиката, работающий на Аванпосту Лаваленда и изучающий аномальное поле Системы Синих Лун."
 	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Nanotrasen, начали добычу полезных ископаемых в этом секторе. Продолжайте свои исследования как можно лучше и старайтесь особо не высовываться, и не провоцировать этих же самых сотрудников."
-	important_info = "Вы не Антагонист. Вы можете отправиться на станцию в Эксту. В Динамик вам следует быть ниже травы и тише воды."
+	important_info = "Вы не антагонист."
 	outfit = /datum/outfit/lavaland_syndicate
 	assignedrole = "Lavaland Syndicate"
 	can_load_appearance = TRUE
 	loadout_enabled = TRUE
+	category = "syndicate"
+	make_bank_account = TRUE // BLUEMOON ADD
+	starting_money = 1000 // BLUEMOON ADD
 
 /obj/effect/mob_spawn/human/lavaland_syndicate/special(mob/living/new_spawn)
 	. = ..()
-	new_spawn.grant_language(/datum/language/codespeak, TRUE, TRUE, LANGUAGE_MIND)
+	new_spawn.grant_language(/datum/language/codespeak, source = LANGUAGE_MIND)
 
 /datum/outfit/lavaland_syndicate
-	name = "Lavaland Syndicate Agent"
 	name = "Off-station Syndicate Agent"
 	r_hand = /obj/item/melee/transforming/energy/sword/saber
 	uniform = /obj/item/clothing/under/syndicate
@@ -147,32 +149,35 @@
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 	ears = /obj/item/radio/headset/ds1
-	back = /obj/item/storage/backpack
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/survival = 1,
+		/obj/item/crowbar/red = 1,
+		)
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
 	id = /obj/item/card/id/syndicate/anyone
-	implants = list(/obj/item/implant/weapons_auth)
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor, /obj/item/implant/deathrattle/deepspacecrew)
 
 /datum/outfit/lavaland_syndicate/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	H.faction |= ROLE_SYNDICATE
 
 /obj/effect/mob_spawn/human/lavaland_syndicate/shaft
-	name = "Syndicate Shaft-Miner Specialist"
+	name = "Syndicate Security Specialist"
 	roundstart = FALSE
 	death = FALSE
-	job_description = "Syndicate Shaft-Miner Specialist"
+	job_description = "Syndicate Security Specialist"
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper_s"
-	short_desc = "Вы Шахтёр Синдиката, работающий на Аванпосту Лаваленда и изучающий аномальное поле Системы Синих Лун. Вы второй по главенству оперативник после Специалиста Прослушки на Дюне и исполняете роль офицера."
+	short_desc = "Вы Специалист по обеспечению безопасности Синдиката, работающий на Аванпосту Лаваленда и изучающий аномальное поле Системы Синих Лун. Вы второй по главенству оперативник после Специалиста Прослушки на Дюне."
 	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Nanotrasen, начали добычу полезных ископаемых в этом секторе. Продолжайте свои исследования как можно лучше и старайтесь особо не высовываться, и не провоцировать этих же самых сотрудников."
-	important_info = "Вы не Антагонист. Вы можете отправиться на станцию в Эксту. В Динамик вам следует быть ниже травы и тише воды."
+	important_info = "Вы не антагонист."
 	outfit = /datum/outfit/lavaland_syndicate/shaft
 	assignedrole = "Lavaland Syndicate"
 	can_load_appearance = TRUE
 	loadout_enabled = TRUE
 
 /datum/outfit/lavaland_syndicate/shaft
-	name = "Syndicate Shaft-Miner Specialist"
-	name = "Syndicate Shaft-Miner Specialist"
+	name = "Off-station Syndicate Security Specialist"
 	r_hand = /obj/item/melee/transforming/energy/sword/saber
 	uniform = /obj/item/clothing/under/syndicate
 	suit = /obj/item/clothing/suit/armor/vest
@@ -180,25 +185,31 @@
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 	ears = /obj/item/radio/headset/ds1
-	back = /obj/item/storage/backpack
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/survival = 1,
+		/obj/item/crowbar/red = 1,
+		)
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
-	id = /obj/item/card/id/syndicate/anyone
-	implants = list(/obj/item/implant/weapons_auth)
+	id = /obj/item/card/id/syndicate/anyone/shaft
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor, /obj/item/implant/deathrattle/deepspacecrew)
 
 /obj/effect/mob_spawn/human/lavaland_syndicate/comms
 	name = "Syndicate Comms Agent"
 	job_description = "Off-station Syndicate Comms Agent"
 	short_desc = "Вы Специалист Разведки Синдиката, работающий на Аванпосту Лаваленда и изучающий аномальное поле Системы Синих Лун. Вы первый по главенству оперативник после Специалиста Прослушки на Дюне и исполняете Главенствующую Роль на своём объекте."
 	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Мега-Корпорации Nanotrasen, начали добычу полезных ископаемых в этом секторе. Следите за вражеской активностью как можно лучше и старайтесь не высовываться. Используйте коммуникационное оборудование для оказания поддержки любым полевым агентам и сотрудникам Космической Станции."
-	important_info = "Вы не Антагонист. Вы можете отправиться на станцию в Эксту. В Динамик вам следует быть ниже травы и тише воды."
+	important_info = "Вы не антагонист."
 	outfit = /datum/outfit/lavaland_syndicate/comms
 	can_load_appearance = TRUE
 
+/*
 /obj/effect/mob_spawn/human/lavaland_syndicate/comms/space/Initialize(mapload)
 	. = ..()
 	if(prob(1)) //only has a 99% chance of existing, otherwise it'll just be a NPC syndie.
 		new /mob/living/simple_animal/hostile/syndicate/ranged(get_turf(src))
 		return INITIALIZE_HINT_QDEL
+*/
 
 /datum/outfit/lavaland_syndicate/comms
 	name = "Syndicate Comms Agent"
@@ -208,6 +219,7 @@
 	suit = /obj/item/clothing/suit/armor/vest
 	ears = /obj/item/radio/headset/ds1/comms
 	id = /obj/item/card/id/syndicate/anyone/comms
+	back = /obj/item/storage/backpack/duffelbag/syndie
 
 /obj/item/clothing/mask/chameleon/gps/Initialize(mapload)
 	. = ..()
@@ -245,3 +257,99 @@
 	keyslot = new /obj/item/encryptionkey/headset_syndicate/ds2
 	keyslot2 = new /obj/item/encryptionkey/headset_syndicate/ds1
 	command = TRUE
+
+/obj/effect/mob_spawn/human/lavaland_syndicate/medic
+	name = "Lavaland Medical Specialist"
+	roundstart = FALSE
+	death = FALSE
+	job_description = "Off-station Syndicate Medical Specialist"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper_s"
+	short_desc = "Вы Медицинский Специалист Синдиката, работающий на Аванпосту Лаваленда и изучающий вирусное воздействие на организмы живых существ."
+	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Nanotrasen, начали добычу полезных ископаемых в этом секторе. Продолжайте свои исследования как можно лучше и старайтесь особо не высовываться, и не провоцировать этих же самых сотрудников."
+	important_info = "Вы не антагонист."
+	outfit = /datum/outfit/lavaland_syndicate/medic
+	assignedrole = "Lavaland Syndicate"
+	can_load_appearance = TRUE
+	loadout_enabled = TRUE
+
+/datum/outfit/lavaland_syndicate/medic
+	name = "Off-station Medical Agent"
+	r_hand = /obj/item/melee/transforming/energy/sword/saber
+	uniform = /obj/item/clothing/under/syndicate/scrubs
+	suit = /obj/item/clothing/suit/toggle/labcoat/syndicate
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile/hsc
+	ears = /obj/item/radio/headset/ds1
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/survival = 1,
+		/obj/item/crowbar/red = 1,
+		/obj/item/storage/firstaid/tactical = 1,
+		)
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	id = /obj/item/card/id/syndicate/anyone
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor, /obj/item/implant/deathrattle/deepspacecrew)
+
+/obj/effect/mob_spawn/human/lavaland_syndicate/engineer
+	name = "Lavaland Nuсlear Reactor Specialist"
+	roundstart = FALSE
+	death = FALSE
+	job_description = "Off-station Syndicate Nuсlear Reactor Specialist"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper_s"
+	short_desc = "Вы Специалист по запуску и обслуживанию ядерного реактора Синдиката, работающий на Аванпосту Лаваленда и исполняющий обязаности инженера."
+	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Nanotrasen, начали добычу полезных ископаемых в этом секторе. Продолжайте свои исследования как можно лучше и старайтесь особо не высовываться, и не провоцировать этих же самых сотрудников."
+	important_info = "Вы не антагонист."
+	outfit = /datum/outfit/lavaland_syndicate/engineer
+	assignedrole = "Lavaland Syndicate"
+	can_load_appearance = TRUE
+	loadout_enabled = TRUE
+
+/datum/outfit/lavaland_syndicate/engineer
+	name = "Off-station Nuclear Reactor Agent"
+	r_hand = /obj/item/melee/transforming/energy/sword/saber
+	uniform = /obj/item/clothing/under/syndicate/overalls
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
+	ears = /obj/item/radio/headset/ds1
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/survival = 1,
+		/obj/item/crowbar/red = 1,
+		)
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	id = /obj/item/card/id/syndicate/anyone
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor, /obj/item/implant/deathrattle/deepspacecrew)
+
+/obj/effect/mob_spawn/human/lavaland_syndicate/Mime
+	name = "Lavaland Mime operative"
+	roundstart = FALSE
+	death = FALSE
+	job_description = "Off-station Syndicate Mime operative"
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper_s"
+	short_desc = "Вы Мим Синдиката, работающий на Аванпосту Лаваленда и исполняющий обязоности разнорабочего. Удоволетворите потребности персонала. И помните - ни слова."
+	flavour_text = "К сожалению это или к счастью, но сотрудники вашего партнёра, Nanotrasen, начали добычу полезных ископаемых в этом секторе. Продолжайте свои исследования как можно лучше и старайтесь особо не высовываться, и не провоцировать этих же самых сотрудников."
+	important_info = "Вы не антагонист."
+	outfit = /datum/outfit/lavaland_syndicate/mime
+	assignedrole = "Lavaland Syndicate"
+	can_load_appearance = TRUE
+	loadout_enabled = TRUE
+
+/datum/outfit/lavaland_syndicate/mime
+	name = "Off-station Syndicate Mime operative"
+	r_hand = /obj/item/melee/transforming/energy/sword/saber
+	l_hand = /obj/item/reagent_containers/food/drinks/bottle/bottleofnothing
+	uniform = /obj/item/clothing/under/rank/civilian/mime
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
+	ears = /obj/item/radio/headset/ds1
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/survival = 1,
+		/obj/item/crowbar/red = 1,
+		)
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	id = /obj/item/card/id/syndicate/anyone
+	implants = list(/obj/item/implant/weapons_auth, /obj/item/implant/anchor, /obj/item/implant/deathrattle/deepspacecrew)

@@ -7,6 +7,13 @@
 	interaction_sound = null
 	p13user_emote = PLUG13_EMOTE_BREASTS
 	p13target_strength = PLUG13_STRENGTH_LOW
+	additional_details = list(
+		list(
+			"info" = "Накормить цель реагентами из вашей груди, если таковые имеются",
+			"icon" = "cow",
+			"color" = "white"
+		)
+	)
 
 /datum/interaction/lewd/do_breastfeed/display_interaction(mob/living/user, mob/living/target)
 	var/message
@@ -58,11 +65,7 @@
 	p13target_strength = PLUG13_STRENGTH_NORMAL
 
 	additional_details = list(
-		list(
-			"info" = "You can fill a container if you hold it in your hand or pull it",
-			"icon" = "flask",
-			"color" = "transparent"
-			)
+		INTERACTION_FILLS_CONTAINERS
 	)
 
 /datum/interaction/lewd/titgrope/display_interaction(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -89,6 +92,7 @@
 			else
 				user.visible_message(span_lewd("<b>[user]</b> пытается выдоить содержимое груди <b>[target]</b> в [liquid_container], но ничего не выходит...."), ignored_mobs = user.get_unconsenting())
 				target.handle_post_sex(LOW_LUST, null, user, ORGAN_SLOT_BREASTS)
+				playlewdinteractionsound(get_turf(user), 'modular_sand/sound/interactions/champ_fingering.ogg', 50, 1, -1)
 
 	else
 		target.handle_post_sex(NORMAL_LUST, CUM_TARGET_HAND, user, CUM_TARGET_BREASTS)

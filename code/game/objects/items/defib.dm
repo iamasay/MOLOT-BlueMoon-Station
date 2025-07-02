@@ -280,7 +280,7 @@
 	safety = FALSE
 	always_emagged = TRUE
 	disarm_shock_time = 0
-	cell = /obj/item/stock_parts/cell/infinite
+	cell = /obj/item/stock_parts/cell/hyper //BLUEMOON REBALANCE /obj/item/stock_parts/cell/infinite ---> /obj/item/stock_parts/cell/hyper (лол кто вообще инфинити сунул, а код снизу не работал и её можно было достать)))))))
 	paddles = /obj/item/shockpaddles/syndicate
 	paddle_state = "defibcombat-paddles"
 	powered_state = null
@@ -665,13 +665,7 @@
 					if(req_defib)
 						if(defib.healdisk)
 							H.heal_overall_damage(25, 25)
-					var/list/policies = CONFIG_GET(keyed_list/policy)
-					var/timelimit = CONFIG_GET(number/defib_cmd_time_limit) * 10 //the config is in seconds, not deciseconds
-					var/late = timelimit && (tplus > timelimit)
-					var/policy = late? policies[POLICYCONFIG_ON_DEFIB_LATE] : policies[POLICYCONFIG_ON_DEFIB_INTACT]
-					if(policy)
-						to_chat(H, policy)
-					H.log_message("revived using a defibrillator, [tplus] deciseconds from time of death, considered [late? "late" : "memory-intact"] revival under configured policy limits.", LOG_GAME)
+					H.mind?.revival_handle_memory("defibrillator")
 				if(req_defib)
 					defib.deductcharge(revivecost)
 					cooldown = 1
