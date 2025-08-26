@@ -45,14 +45,14 @@
 	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/melee_lefthand.dmi'
 	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/melee_righthand.dmi'
 
-/obj/item/modkit/esword_kit
-	name = "Energy sword Kit"
-	desc = "A modkit for making a plasma sword into an energy sword."
-	product = /obj/item/melee/transforming/energy/sword/saber
-	fromitem = list(/obj/item/melee/transforming/plasmasword)
+// /obj/item/modkit/esword_kit
+// 	name = "Energy sword Kit"
+// 	desc = "A modkit for making a plasma sword into an energy sword."
+// 	product = /obj/item/melee/transforming/energy/sword/saber
+// 	fromitem = list(/obj/item/melee/transforming/plasmasword)
 
-/obj/item/modkit/desword_kit
-	name = "Double-bladed energy sword Kit"
-	desc = "A modkit for making a plasma scythe into an double-bladed energy sword."
-	product = /obj/item/dualsaber
-	fromitem = list(/obj/item/plasmascythe)
+// /obj/item/modkit/desword_kit
+// 	name = "Double-bladed energy sword Kit"
+// 	desc = "A modkit for making a plasma scythe into an double-bladed energy sword."
+// 	product = /obj/item/dualsaber
+// 	fromitem = list(/obj/item/plasmascythe)

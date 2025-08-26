@@ -43,6 +43,8 @@
 				/obj/item/razor = 3,
 				/obj/item/tcgcard_binder = 10,
 				/obj/item/storage/dice = 10,
+				/obj/item/storage/dice/d6 = 5,
+				/obj/item/reagent_containers/food/drinks/drinkingglass/wooden = 5,
 				/obj/item/toy/prizeball/therapy = 6,
 				/obj/item/tvcamera = 3,
 				/obj/item/toy/nyamagotchi = 10,
@@ -91,6 +93,7 @@
 		/obj/item/airlock_painter/decal/tile = 1,
 		/obj/item/melee/skateboard/pro = 3,
 		/obj/item/melee/skateboard/hoverboard = 1,
+		/obj/item/choice_beacon/box/plushie = 5,
 	)
 	refill_canister = /obj/item/vending_refill/games
 	default_price = PRICE_CHEAP

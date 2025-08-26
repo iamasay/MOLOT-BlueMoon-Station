@@ -13,3 +13,27 @@
 	prereq_ids = list("syndicate_augments")
 	design_ids = list("ci-healerext", "ci-healerint","ci-cortex")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
+/datum/techweb_node/cyberneticbrainbanks
+	id = "cyberneticbrainbanks"
+	display_name = "Cybernetic Data Chips"
+	description = "Additional memory banks for humanoid creatures to enforce additional learning capabilities."
+	prereq_ids = list("adv_cyber_implants")
+	design_ids = list("chip-medical", "chip-robotic","chip-engi")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
+
+/datum/techweb_node/basicxenoorgans
+	id = "basicxenoorgans"
+	display_name = "Basic Xenochimeric Fleshcrafting"
+	description = "Experimental xenochimeric designs for organs."
+	prereq_ids = list("exp_surgery",)
+	design_ids = list("alientongue", "neurotoxin", "plasmavessel")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 25000)
+
+/datum/techweb_node/advxenoorgans
+	id = "advxenoorgans"
+	display_name = "Advanced Xenochimeric Fleshcrafting"
+	description = "Advanced xenochimeric designs for organs."
+	prereq_ids = list("basicxenoorgans")
+	design_ids = list("hivenode", "eggsac", "acidgland", "resinspinner")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 50000) //This one allows you to make your own hives. So yes, expect this to happen only in Extended.

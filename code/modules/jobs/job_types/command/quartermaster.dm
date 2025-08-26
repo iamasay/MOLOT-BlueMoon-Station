@@ -32,7 +32,7 @@
 	departments = DEPARTMENT_BITFLAG_SUPPLY | DEPARTMENT_BITFLAG_COMMAND
 
 	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/bluemoon_criminal)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity)
 	threat = 0.5
 
 	family_heirlooms = list(

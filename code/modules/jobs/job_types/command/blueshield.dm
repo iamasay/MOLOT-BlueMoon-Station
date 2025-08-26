@@ -29,7 +29,7 @@
 
 	display_order = JOB_DISPLAY_ORDER_BLUESHIELD
 	departments = DEPARTMENT_BITFLAG_COMMAND
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/nonviolent, /datum/quirk/blindness, /datum/quirk/monophobia, /datum/quirk/insanity, /datum/quirk/bluemoon_criminal)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/nonviolent, /datum/quirk/blindness, /datum/quirk/monophobia, /datum/quirk/insanity)
 	threat = 3
 
 

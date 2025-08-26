@@ -172,7 +172,7 @@
 		"ears"				= "None",
 		"frills"			= pick(GLOB.frills_list),
 		"spines"			= pick(GLOB.spines_list),
-		"legs"				= pick("Plantigrade","Digitigrade"),
+		"legs"				= "Plantigrade",
 		"caps"				= pick(GLOB.caps_list),
 		"insect_wings"		= pick(GLOB.insect_wings_list),
 		"insect_fluff"		= "None",
@@ -274,6 +274,9 @@
 		"headshot_link"		= "", //SPLURT edit
 		"headshot_link1"		= "", //BLUEMOON edit
 		"headshot_link2"		= "", //BLUEMOON edit
+		"headshot_naked_link"		= "", //BLUEMOON ADD
+		"headshot_naked_link1"		= "", //BLUEMOON ADD
+		"headshot_naked_link2"		= "", //BLUEMOON ADD
 		"meat_type"			= "Mammalian",
 		"body_model"		= body_model,
 		"body_size"			= RESIZE_DEFAULT_SIZE,

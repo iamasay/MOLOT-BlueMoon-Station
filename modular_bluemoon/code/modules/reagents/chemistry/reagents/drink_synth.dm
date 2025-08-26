@@ -358,6 +358,7 @@
 
 // Вариация рестарта для нон-конеров, после него синт не проснётся, пока реагент не закончится
 /datum/reagent/consumable/synthdrink/synthanol/restart/hard
+	name = "Hard Restart"
 	description = "Sometimes you just need to start anew... Welp, this one comes with BIOS update, oh shit."
 	color = "#0095ff"
 	synthetic_taste = "перезагрузки с установкой дополнительного ПО? Оу, это будет долго..."
@@ -423,10 +424,7 @@
 			M.dna.features["ipc_screen"] = "Heart"
 			M.update_body()
 	if(prob(min(current_cycle/5,10)))
-		var/list/genits = M.adjust_arousal(current_cycle, "crocin", aphro = TRUE)
-		for(var/g in genits)
-			var/obj/item/organ/genital/G = g
-			to_chat(M, "<span class='userlove'>[G.arousal_verb]!</span>")
+		M.adjust_arousal(current_cycle, "crocin", aphro = TRUE)
 
 /datum/reagent/consumable/synthdrink/synthanol/database_dropper
 	name = "Database Dropper"

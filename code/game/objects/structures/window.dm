@@ -496,9 +496,6 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 		if(!(flags_1 & NODECONSTRUCT_1))
 			for(var/obj/item/shard/debris in spawnDebris(drop_location()))
 				transfer_fingerprints_to(debris) // transfer fingerprints to shards only
-	if(electrochromatic_status != NOT_ELECTROCHROMATIC)		//eh fine keep your kit.
-		new /obj/item/electronics/electrochromatic_kit(drop_location())
-		// Intentionally not setting the ID so you can't decon one to know all of the IDs.
 	qdel(src)
 	update_nearby_icons()
 
@@ -546,6 +543,9 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	density = FALSE
 	air_update_turf(TRUE)
 	update_nearby_icons()
+	if(electrochromatic_status != NOT_ELECTROCHROMATIC)
+		new /obj/item/electronics/electrochromatic_kit(drop_location())
+		// Intentionally not setting the ID so you can't decon one to know all of the IDs.
 	remove_electrochromatic()
 	return ..()
 
@@ -907,7 +907,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	heat_resistance = 1600
 	armor = list(MELEE = 50, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 50, BIO = 100, RAD = 100, FIRE = 80, ACID = 100)
 	smooth = SMOOTH_TRUE
-	canSmoothWith = null
+	canSmoothWith = list(/turf/closed/wall/r_wall/syndicate, /turf/closed/wall/mineral/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/plastitanium, /obj/structure/shuttle/engine, /obj/structure/falsewall/plastitanium)
 	explosion_block = 3
 	level = 3
 	glass_type = /obj/item/stack/sheet/plastitaniumglass

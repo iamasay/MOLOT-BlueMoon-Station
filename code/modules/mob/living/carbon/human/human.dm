@@ -8,10 +8,6 @@
 /mob/living/carbon/human/Initialize(mapload)
 	add_verb(src, /mob/living/proc/mob_sleep)
 	add_verb(src, /mob/living/proc/lay_down)
-	//add_verb(src, /mob/living/carbon/human/verb/underwear_toggle)
-	add_verb(src, /mob/living/verb/subtle)
-	add_verb(src, /mob/living/verb/subtler)
-	add_verb(src, /mob/living/verb/surrender) // Sandstorm change
 	//initialize limbs first
 	create_bodyparts()
 
@@ -460,8 +456,46 @@
 					threatcount += 2
 
 	//Check for dresscode violations
-	if(istype(head, /obj/item/clothing/head/wizard) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/wizard) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/shielded/wizard) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/syndi) || istype(head, /obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi))
+	// BLUEMOON EDIT START
+	var/list/equip_checks = list(
+		/obj/item/clothing/head/helmet/space/hardsuit/wizard,
+		/obj/item/clothing/head/helmet/space/hardsuit/shielded/wizard,
+		/obj/item/clothing/head/helmet/space/hardsuit/syndi,
+		/obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi,
+		/obj/item/clothing/head/helmet/swat/inteq,
+		/obj/item/clothing/suit/armor/inteq,
+		/obj/item/storage/belt/military/inteq,
+		/obj/item/clothing/glasses/hud/security/sunglasses/inteq,
+		/obj/item/clothing/mask/gas/inteq,
+		/obj/item/storage/backpack/security/inteq,
+		/obj/item/clothing/under/inteq
+	)
+
+	var/list/special_equip_checks = list(/obj/item/clothing/head/wizard = "check_magic_flag")
+
+	// main check
+	var/illegal_equipment = FALSE
+	var/list/equipped_items = get_equipped_items(FALSE)
+	var/list/obscured_slots = check_obscured_slots()
+	for(var/obj/item/I in equipped_items)
+		if(I.current_equipped_slot in obscured_slots)
+			continue
+		for(var/T in equip_checks)
+			if(istype(I, T))
+				illegal_equipment = TRUE
+				break
+		for(var/T in special_equip_checks)
+			if(istype(I, T))
+				var/proc_to_call = special_equip_checks[T]
+				if(!proc_to_call || call(I, proc_to_call)())
+					illegal_equipment = TRUE
+					break
+		if(illegal_equipment)
+			break
+
+	if(illegal_equipment)
 		threatcount += 4 //fuk u antags <3			//no you
+	// BLUEMOON EDIT END
 
 	//mindshield implants imply trustworthyness
 	if(HAS_TRAIT(src, TRAIT_MINDSHIELD))
@@ -1275,7 +1309,7 @@ Mark this mob, then navigate to the preferences of the client you desire and cal
 				to_chat(src, span_warning("\The [S] pulls \the [hand] from your grip!"))
 
 ///Sets up the jump component for the mob. Proc args can be altered so different mobs have different 'default' jump settings
-/mob/living/proc/set_jump_component(duration = 0.5 SECONDS, cooldown = 1 SECONDS, cost = 96, height = 16, sound = null, flags = JUMP_SHADOW, flags_pass = PASSTABLE)
+/mob/living/proc/set_jump_component(duration = 0.5 SECONDS, cooldown = 1 SECONDS, cost = 64, height = 16, sound = null, flags = JUMP_SHADOW, flags_pass = PASSTABLE)
 	if(HAS_TRAIT(src, TRAIT_FREERUNNING))
 		AddComponent(/datum/component/jump, _jump_duration = duration, _jump_cooldown = cooldown, _stamina_cost = 32, _jump_height = height, _jump_sound = sound, _jump_flags = flags, _jumper_allow_pass_flags = flags_pass)
 	else

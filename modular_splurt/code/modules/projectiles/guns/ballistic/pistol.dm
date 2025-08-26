@@ -35,6 +35,7 @@
 		icon_state = "[initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : "" ][magazine && istype(magazine, /obj/item/ammo_box/magazine/e45/e45_extended) ? "-expended" : ""]"
 
 /obj/item/gun/ballistic/automatic/pistol/enforcer/nomag
+	pin = /obj/item/firing_pin/alert_level/blue
 	spawnwithmagazine = FALSE
 
 /obj/item/gun/ballistic/automatic/pistol/enforcerred

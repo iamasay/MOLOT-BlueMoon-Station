@@ -28,6 +28,9 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe_list("beds", list( \
 		new/datum/stack_recipe("bed", /obj/structure/bed, 2, one_per_turf = TRUE, on_floor = TRUE), \
 		new/datum/stack_recipe("double bed", /obj/structure/bed/double, 4, one_per_turf = TRUE, on_floor = TRUE), \
+		// BLUEMOON ADD START
+		new/datum/stack_recipe("bdsm bed", /obj/structure/bed/bdsm_bed, 4, one_per_turf = TRUE, on_floor = TRUE), \
+		// BLUEMOON ADD END
 		new/datum/stack_recipe("pod bed", /obj/structure/bed/pod, 2, one_per_turf = TRUE, on_floor = TRUE), \
 		new/datum/stack_recipe("double pod bed", /obj/structure/bed/double/pod, 4, one_per_turf = TRUE, on_floor = TRUE), \
 	)), \
@@ -151,6 +154,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("tiny fan", /obj/structure/fans/tiny, 2, time = 4, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("Metal Barricade", /obj/structure/deployable_barricade/metal, 2, time = 1 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("desk bell", /obj/structure/desk_bell, 2, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("light switch frame", /obj/item/wallframe/light_switch, 1), \
 ))
 
 /obj/item/stack/sheet/metal
@@ -316,7 +320,8 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("urn", /obj/item/reagent_containers/glass/mortar/urn, 3), \
 	new/datum/stack_recipe("honey frame", /obj/item/honey_frame, 5, time = 10),\
 	new/datum/stack_recipe("notice board frame", /obj/item/wallframe/noticeboard, 5, time = 10),\
-	new/datum/stack_recipe("wooden block", /obj/item/stamp_block, 10, time = 10)
+	new/datum/stack_recipe("wooden block", /obj/item/stamp_block, 10, time = 10),\
+	new/datum/stack_recipe("wooden cup", /obj/item/reagent_containers/food/drinks/drinkingglass/wooden, 1, time = 50)
 	))
 
 /obj/item/stack/sheet/mineral/wood

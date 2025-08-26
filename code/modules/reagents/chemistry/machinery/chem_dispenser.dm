@@ -26,7 +26,7 @@
 	var/powerefficiency = 0.0666666
 	var/dispenceUnit = 5
 	var/amount = 30
-	var/recharge_amount = 10
+	var/recharge_amount = 100 // BLUEMOON EDIT
 	var/recharge_counter = 0
 	var/canStore = TRUE//If this can hold reagents or not
 	var/mutable_appearance/beaker_overlay
@@ -631,12 +631,15 @@
 		/datum/reagent/consumable/applejuice,
 		/datum/reagent/consumable/carrotjuice,
 		/datum/reagent/consumable/pumpkinjuice,
-		/datum/reagent/consumable/watermelonjuice
+		/datum/reagent/consumable/watermelonjuice,
+		/datum/reagent/consumable/melonjuice // BLUEMOON ADD
 	)
 	upgrade_reagents3 = list(
 		/datum/reagent/drug/mushroomhallucinogen,
 		/datum/reagent/consumable/nothing,
-		/datum/reagent/consumable/peachjuice
+		/datum/reagent/consumable/peachjuice,
+		/datum/reagent/consumable/blumpkinjuice, // BLUEMOON ADD
+		/datum/reagent/consumable/coco // BLUEMOON ADD
 	)
 	emagged_reagents = list(
 		/datum/reagent/toxin/mindbreaker,

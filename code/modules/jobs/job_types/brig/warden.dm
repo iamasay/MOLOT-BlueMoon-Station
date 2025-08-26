@@ -28,7 +28,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_WARDEN
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/nonviolent, /datum/quirk/blindness, /datum/quirk/monophobia, /datum/quirk/bluemoon_criminal)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/nonviolent, /datum/quirk/blindness, /datum/quirk/monophobia)
 	threat = 2
 
 	family_heirlooms = list(
@@ -64,7 +64,7 @@
 	l_pocket = /obj/item/storage/bag/security
 	r_pocket = /obj/item/clothing/accessory/badge
 	suit_store = /obj/item/gun/energy/pumpaction/defender
-	backpack_contents = list(/obj/item/reagent_containers/peacehypo, /obj/item/storage/box/sec_kit, /obj/item/stamp/security)
+	backpack_contents = list(/obj/item/reagent_containers/peacehypo, /obj/item/storage/box/sec_kit)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
