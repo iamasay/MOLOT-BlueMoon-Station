@@ -7,109 +7,19 @@
 	burnmod = 1.2
 	brutemod = 0.5 //Латекс мягкий и гибкий и ему легче переносить удары твердыми предметами
 
-// ABILITIES SHOP START
-//----------------------------------------------------------------------------------
-
-/datum/evolution_store
-	var/name = "Evolution store"
-	var/datum/antagonist/living_latex/living_latex
-
-/datum/evolution_store/New(my_living_latex)
-	. = ..()
-	living_latex = my_living_latex
-
-/datum/evolution_store/Destroy()
-	living_latex = null
-	. = ..()
-
-/datum/evolution_store/ui_state(mob/user)
-	return GLOB.always_state
-
-/datum/evolution_store/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "CellularEmporium", name)
-		ui.open()
-
-/datum/evolution_store/ui_data(mob/user)
-
-
-//	var/can_readapt = changeling.can_respec
-//	var/genetic_points_remaining = changeling.geneticpoints
-//	var/absorbed_dna_count = changeling.absorbedcount
-//	var/true_absorbs = changeling.trueabsorbs
-
-//	data["can_readapt"] = can_readapt
-//	data["genetic_points_remaining"] = genetic_points_remaining
-//	data["absorbed_dna_count"] = absorbed_dna_count
-
-	// var/list/abilities = list()
-
-	// for(var/path in changeling.all_powers)
-	// 	var/datum/action/changeling/ability = path
-
-	// 	var/dna_cost = initial(ability.dna_cost)
-	// 	if(dna_cost <= 0)
-	// 		continue
-
-	// 	var/list/AL = list()
-	// 	AL["name"] = initial(ability.name)
-	// 	AL["desc"] = initial(ability.desc)
-	// 	AL["helptext"] = initial(ability.helptext)
-	// 	AL["owned"] = changeling.has_sting(ability)
-	// 	var/req_dna = initial(ability.req_dna)
-	// 	var/req_absorbs = initial(ability.req_absorbs)
-	// 	AL["dna_cost"] = dna_cost
-	// 	AL["can_purchase"] = ((req_absorbs <= true_absorbs) && (req_dna <= absorbed_dna_count) && (dna_cost <= genetic_points_remaining))
-
-	// 	abilities += list(AL)
-
-	// data["abilities"] = abilities
-
-	// return data
-
-/datum/evolution_store/ui_act(action, params)
-	if(..())
-		return
-
-	// switch(action)
-	// 	if("readapt")
-	// 		if(changeling.can_respec)
-	// 			changeling.readapt()
-	// 	if("evolve")
-	// 		var/sting_name = params["name"]
-	// 		changeling.purchase_power(sting_name)
-
-/datum/action/innate/evolution_store
-	name = "Evolution Store"
-	icon_icon = 'icons/obj/drinks.dmi'
-	button_icon_state = "changelingsting"
-	background_icon_state = "bg_changeling"
-	var/datum/evolution_store/evolution
-
-/datum/action/innate/evolution_store/New()
-	. = ..()
-	var/datum/antagonist/living_latex/living_latex = usr.mind.antag_datums
-	evolution = living_latex.evolution_store
-	if(!evolution)
-		CRASH("evolution_store action created with non store")
-
-/datum/action/innate/evolution_store/Activate()
-	evolution.ui_interact(usr)
-// ------------------------------------------------------------------------------
-//END OF ABILITIES SHOT
-
 /datum/antagonist/living_latex
 	name = "Living latex"
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
 	var/current_controller
+	var/stage
 	var/datum/species/old_host_spec
 	var/datum/evolution_store
 	var/list/available_abilities = list(
 		new /datum/action/cooldown/latexmob/venomAction,
 		new /datum/action/cooldown/latexmob/takeControl
 	)
+	var/list/all_abilities = list()
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
@@ -186,123 +96,6 @@
 	var/mergingDelay = 5 //Скорость поглощения носителя
 	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 
-//Способности
-/datum/action/cooldown/latexmob
-	//var/mob/living/simple_animal/latexmob/target = src.owner
-	var/stage_required
-	name = "generic latexmob proc"
-	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
-
-/datum/action/cooldown/latexmob/venomAction
-	stage_required = 1
-	name = "Поглотить/освободить"
-	desc = "Станьте одним целым с кем-то."
-
-/datum/action/cooldown/latexmob/venomAction/Activate()
-	var/mob/living/carbon/host = owner.loc
-	if(!istype(host, /mob/living/carbon))
-		var/list/choices = list()
-		for(var/mob/living/carbon/C in oview(1,owner))
-			choices += C
-			to_chat(owner, "[C]")
-		var/choice = show_radial_menu(owner, owner, choices = choices)
-		if(choice)
-			var/datum/antagonist/living_latex/L = owner.mind.antag_datums
-		//	do_after(owner, 3 SECONDS)
-			L.merging(choice)
-			return
-	else
-		var/turf/targetTurf = host.loc
-		var/datum/antagonist/living_latex/living_latex = owner.mind.antag_datums
-		var/datum/species/old_species = living_latex.old_host_spec
-		host.set_species(old_species)
-		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
-		targetTurf.contents += new /mob/living/simple_animal/latexmob
-		var/obj/item/organ/latexOrgan/OrganToRemove
-		OrganToRemove = locate()
-		if(OrganToRemove)
-			OrganToRemove.Remove()
-		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
-			owner.transfer_ckey(MobForTransfer)
-			return
-
-/datum/action/cooldown/latexmob/takeControl
-	//if(istype(target.loc, /mob/living/carbon))
-	stage_required = 1
-	name = "Захватить контроль над телом"
-	desc = "Возьмите тело под свой контроль и управляйте им как своим"
-
-/datum/action/cooldown/latexmob/takeControl/Activate()
-	var/datum/antagonist/living_latex/venom = owner.mind.antag_datums
-	var/datum/species/old_species
-	if(venom.current_controller == "OWNER" || !venom.current_controller)
-		var/mob/living/carbon/body = owner.loc
-		if(!body.ckey)
-			body.mind = owner.mind
-			body.ckey = owner.ckey
-			venom.current_controller = "VENOM"
-			var/datum/antagonist/living_latex/latex = body.mind.antag_datums
-			
-			old_species= body.dna.species
-			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-			new_species.copy_properties_from(old_species)
-			venom.old_host_spec = old_species
-			body.set_species(new_species)
-			latex.grant_abilities(body)
-		else
-			var/datum/mind/CurrentObserverMind = owner.mind
-
-			body.mind = owner.mind
-			owner.mind = CurrentObserverMind
-
-			var/BodyOwnerKey = body.ckey
-
-			body.ckey = owner.ckey
-			owner.ckey = BodyOwnerKey
-
-			venom.current_controller = "VENOM"
-			old_species = body.dna.species
-			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-			var/datum/antagonist/living_latex/latex = body.mind.antag_datums	
-			new_species.copy_properties_from(old_species)
-			venom.old_host_spec = old_species
-			body.set_species(new_species)
-			latex.grant_abilities(body)
-	else
-		var/obj/item/organ/latexOrgan/organ = locate()
-		var/mob/living/simple_animal/latexmob/venom/backseat = organ.ObserverBackseat
-		var/datum/mind/ObserverMind = backseat.mind
-		if(backseat)
-			owner.mind = ObserverMind
-			backseat.mind = owner.mind
-
-			var/ObserverKey = backseat.ckey
-			var/BodyOwnerKey = owner.ckey
-
-			backseat.ckey = BodyOwnerKey
-			owner.ckey = ObserverKey
-
-			venom.current_controller = "OWNER"
-			var/datum/antagonist/living_latex/latex2 = backseat.mind.antag_datums
-			latex2.grant_abilities(backseat)
-
-/datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
-	var/mob/living/old_body = usr
-	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
-	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
-	O.Insert(T)
-	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom
-	O.ObserverBackseat.loc = T
-	usr.transfer_ckey(O.ObserverBackseat)
-	qdel(old_body)
-
-///obj/item/organ/latexOrgan/Initialize(mapload)
-//	. = ..()
-//	venomUser_backseat = new /mob/living/simple_animal/latexmob/venom
-//	hostUser_backseat = new /mob/living/simple_animal/latexmob/venom
-
-//Стадия 1
-
 /mob/living/simple_animal/latexmob/stage1
 	name = ""
 
@@ -312,12 +105,6 @@
 	var/mob/living/carbon/body
 	var/obj/item/organ/latexOrgan/organ
 
-
-
-	//if one of the two ghosts, the other one stays permanently
-//	if(!body.client && trauma.initialized)
-//		trauma.switch_personalities()
-//		qdel(trauma)
 
 /mob/living/simple_animal/latexmob/venom/Login()
 	..()
