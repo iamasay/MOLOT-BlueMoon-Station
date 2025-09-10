@@ -12,18 +12,30 @@
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
 	var/current_controller
-	var/stage
+	var/stage = 0
+	var/evolve_points = 0
 	var/datum/species/old_host_spec
 	var/datum/evolution_store
 	var/list/available_abilities = list(
 		new /datum/action/cooldown/latexmob/venomAction,
 		new /datum/action/cooldown/latexmob/takeControl
 	)
-	var/list/all_abilities = list()
+	var/list/all_abilities = list(
+		new /datum/action/cooldown/latexmob/medscan,
+		new /datum/action/cooldown/latexmob/heal,
+		new /datum/action/cooldown/latexmob/stasis,
+		new /datum/action/cooldown/latexmob/leak_out
+	)
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
+
+/datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
+	stage = NewStage
+	for(var/datum/action/cooldown/latexmob/venomAction/action in all_abilities)
+		if(action.stage_required == stage)
+			action.Grant(user)
 
 /datum/antagonist/living_latex/Destroy()
 	. = ..()

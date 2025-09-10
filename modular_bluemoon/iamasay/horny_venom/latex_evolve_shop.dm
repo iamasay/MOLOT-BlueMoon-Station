@@ -17,29 +17,29 @@
 /datum/evolution_store/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "CellularEmporium", name)
+		ui = new(user, src, "EvolveShop", name)
 		ui.open()
 
 /datum/evolution_store/ui_data(mob/user)
 
 	var/list/abilities = list()
 
-	 for(var/path in living_latex.all_abilities)
-	 	var/datum/action/cooldown/latexmob/ability = path
+	for(var/path in living_latex.all_abilities)
+		var/datum/action/cooldown/latexmob/ability = path
 
-	 	var/stage_required = initial(ability.stage_required)
+		var/stage_required = initial(ability.stage_required)
 
-	 	var/list/AL = list()
-	 	AL["name"] = initial(ability.name)
-	 	AL["desc"] = initial(ability.desc)
-	 	AL["stage_required"] = initial(ability.stage_required)
-	 	AL["can_purchase"] = (living_latex.stage >= ability.stage_required)
+		var/list/AL = list()
+		AL["name"] = initial(ability.name)
+		AL["desc"] = initial(ability.desc)
+		AL["stage_required"] = initial(ability.stage_required)
+		AL["can_purchase"] = (living_latex.stage >= ability.stage_required)
 
-	 	abilities += list(AL)
+		abilities += list(AL)
 
-	 data["abilities"] = abilities
+		data["abilities"] = abilities
 
-	 return data
+		return data
 
 /datum/evolution_store/ui_act(action, params)
 	if(..())

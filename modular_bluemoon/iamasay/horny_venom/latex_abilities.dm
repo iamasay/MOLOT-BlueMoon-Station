@@ -1,14 +1,59 @@
 //Способности
+//Сначала идут просто объекты абилок и уже после них проки, которые отвечают за функционал
+
 /datum/action/cooldown/latexmob
 	//var/mob/living/simple_animal/latexmob/target = src.owner
+	icon_icon = 'modular_bluemoon/iamasay/horny_venom/icons/latex_abilities.dmi'
+	button_icon = 'modular_bluemoon/iamasay/horny_venom/icons/latex_abilities.dmi'
+	background_icon_state = "background"
 	var/stage_required
 	name = "generic latexmob proc"
 	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
 
-/datum/action/cooldown/latexmob/venomAction
+/datum/action/cooldown/latexmob/takeControl
 	stage_required = 1
+	name = "Захватить контроль над телом"
+	desc = "Возьмите тело под свой контроль и управляйте им как своим"
+
+/datum/action/cooldown/latexmob/venomAction
 	name = "Поглотить/освободить"
 	desc = "Станьте одним целым с кем-то."
+	icon_icon = "Infiltrate"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/ferral_form
+	name = "Форма животного"
+	desc = "Принять форму животного"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/medscan
+	name = "Проверить здоровье"
+	desc = "Позволяет вам понять состояние своего носителя и реагенты в его крови. С более высокой стадией вашего развития этот сканер станет лучше."
+	button_icon_state = "medscan"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/heal
+	name = "Лечение"
+	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."
+	button_icon_state = "heal"
+	stage_required = 2
+
+/datum/action/cooldown/latexmob/stasis
+	name = "Стазис"
+	desc = "Позволяет спрятаться на время от сканеров и какого-либо обнаружения вне тела хозяина. Полностью отключает все ваши способности на время."
+	button_icon_state = "Stasis"
+	stage_required = 2
+
+/datum/action/cooldown/latexmob/leak_out
+	name = "Проползти под чем-либо"
+	desc = "Позволяет вашему гибкому телу проползать под шлюзами и прочими преградами, вроде столов и стеклянных дверей."
+	button_icon_state = "leak_out"
+	stage_required = 3
+
+/datum/action/cooldown/latexmob/human_form
+	name = "Сформировать самостоятельное человеческое тело"
+	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
+	stage_required = 3
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	var/mob/living/carbon/host = owner.loc
@@ -37,12 +82,6 @@
 		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
 			owner.transfer_ckey(MobForTransfer)
 			return
-
-/datum/action/cooldown/latexmob/takeControl
-	//if(istype(target.loc, /mob/living/carbon))
-	stage_required = 1
-	name = "Захватить контроль над телом"
-	desc = "Возьмите тело под свой контроль и управляйте им как своим"
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	var/datum/antagonist/living_latex/venom = owner.mind.antag_datums

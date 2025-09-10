@@ -4720,6 +4720,7 @@
 #include "modular_bluemoon\iamasay\horny_venom\latex_abilities.dm"
 #include "modular_bluemoon\iamasay\horny_venom\latex_evolve_shop.dm"
 #include "modular_bluemoon\iamasay\horny_venom\latexmob.dm"
+#include "modular_bluemoon\iamasay\horny_venom\latex_define.dm"
 #include "modular_bluemoon\kovac_shitcode\code\body_markings.dm"
 #include "modular_bluemoon\kovac_shitcode\code\rus.dm"
 #include "modular_bluemoon\kovac_shitcode\code\solfed.dm"
