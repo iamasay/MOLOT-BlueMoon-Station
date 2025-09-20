@@ -1,5 +1,4 @@
 //Способности
-//Сначала идут просто объекты абилок и уже после них проки, которые отвечают за функционал
 
 /datum/action/cooldown/latexmob
 	//var/mob/living/simple_animal/latexmob/target = src.owner
@@ -14,74 +13,6 @@
 	stage_required = 1
 	name = "Захватить контроль над телом"
 	desc = "Возьмите тело под свой контроль и управляйте им как своим"
-
-/datum/action/cooldown/latexmob/venomAction
-	name = "Поглотить/освободить"
-	desc = "Станьте одним целым с кем-то."
-	icon_icon = "Infiltrate"
-	stage_required = 1
-
-/datum/action/cooldown/latexmob/ferral_form
-	name = "Форма животного"
-	desc = "Принять форму животного"
-	stage_required = 1
-
-/datum/action/cooldown/latexmob/medscan
-	name = "Проверить здоровье"
-	desc = "Позволяет вам понять состояние своего носителя и реагенты в его крови. С более высокой стадией вашего развития этот сканер станет лучше."
-	button_icon_state = "medscan"
-	stage_required = 1
-
-/datum/action/cooldown/latexmob/heal
-	name = "Лечение"
-	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."
-	button_icon_state = "heal"
-	stage_required = 2
-
-/datum/action/cooldown/latexmob/stasis
-	name = "Стазис"
-	desc = "Позволяет спрятаться на время от сканеров и какого-либо обнаружения вне тела хозяина. Полностью отключает все ваши способности на время."
-	button_icon_state = "Stasis"
-	stage_required = 2
-
-/datum/action/cooldown/latexmob/leak_out
-	name = "Проползти под чем-либо"
-	desc = "Позволяет вашему гибкому телу проползать под шлюзами и прочими преградами, вроде столов и стеклянных дверей."
-	button_icon_state = "leak_out"
-	stage_required = 3
-
-/datum/action/cooldown/latexmob/human_form
-	name = "Сформировать самостоятельное человеческое тело"
-	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
-	stage_required = 3
-
-/datum/action/cooldown/latexmob/venomAction/Activate()
-	var/mob/living/carbon/host = owner.loc
-	if(!istype(host, /mob/living/carbon))
-		var/list/choices = list()
-		for(var/mob/living/carbon/C in oview(1,owner))
-			choices += C
-			to_chat(owner, "[C]")
-		var/choice = show_radial_menu(owner, owner, choices = choices)
-		if(choice)
-			var/datum/antagonist/living_latex/L = owner.mind.antag_datums
-		//	do_after(owner, 3 SECONDS)
-			L.merging(choice)
-			return
-	else
-		var/turf/targetTurf = host.loc
-		var/datum/antagonist/living_latex/living_latex = owner.mind.antag_datums
-		var/datum/species/old_species = living_latex.old_host_spec
-		host.set_species(old_species)
-		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
-		targetTurf.contents += new /mob/living/simple_animal/latexmob
-		var/obj/item/organ/latexOrgan/OrganToRemove
-		OrganToRemove = locate(/obj/item/organ/latexOrgan)
-		if(OrganToRemove)
-			OrganToRemove.Remove()
-		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
-			owner.transfer_ckey(MobForTransfer)
-			return
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	var/datum/antagonist/living_latex/venom = owner.mind.antag_datums
@@ -137,12 +68,99 @@
 			var/datum/antagonist/living_latex/latex2 = backseat.mind.antag_datums
 			latex2.grant_abilities(backseat)
 
-/datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
-	var/mob/living/old_body = usr
-	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
-	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
-	O.Insert(T)
-	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom
-	O.ObserverBackseat.loc = T
-	usr.transfer_ckey(O.ObserverBackseat)
-	qdel(old_body)
+/datum/action/cooldown/latexmob/venomAction
+	name = "Поглотить/освободить"
+	desc = "Станьте одним целым с кем-то."
+	icon_icon = "Infiltrate"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/venomAction/Activate()
+	var/mob/living/carbon/host = owner.loc
+	if(!istype(host, /mob/living/carbon))
+		var/list/choices = list()
+		for(var/mob/living/carbon/C in oview(1,owner))
+			choices += C
+			to_chat(owner, "[C]")
+		var/choice = show_radial_menu(owner, owner, choices = choices)
+		if(choice)
+			var/datum/antagonist/living_latex/L = owner.mind.antag_datums
+		//	do_after(owner, 3 SECONDS)
+			L.merging(choice)
+			return
+	else
+		var/turf/targetTurf = host.loc
+		var/datum/antagonist/living_latex/living_latex = owner.mind.antag_datums
+		var/datum/species/old_species = living_latex.old_host_spec
+		host.set_species(old_species)
+		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
+		targetTurf.contents += new /mob/living/simple_animal/latexmob
+		var/obj/item/organ/latexOrgan/OrganToRemove
+		OrganToRemove = locate(/obj/item/organ/latexOrgan)
+		if(OrganToRemove)
+			OrganToRemove.Remove()
+		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
+			owner.transfer_ckey(MobForTransfer)
+			return
+
+/datum/action/cooldown/latexmob/ferral_form
+	name = "Форма животного"
+	desc = "Принять форму животного"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/ferral_form/Activate()
+	. = ..()
+	if(istype(owner, /mob/living/simple_animal/latexmob) || !istype(owner, /mob/living/simple_animal/latexmob/ferral))
+		var/mob/old_body = owner
+		var/turf/targetTurf = owner.loc
+		var/mob/living/simple_animal/latexmob/ferral/mob
+		targetTurf += new mob
+		owner.transfer_ckey(mob)
+		qdel(old_body)
+
+	if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
+		var/mob/old_body = owner
+		var/turf/targetTurf = owner.loc
+		var/mob/living/simple_animal/latexmob/mob
+		targetTurf += new mob
+		owner.transfer_ckey(mob)
+		qdel(old_body)
+
+	else
+		to_chat(owner, "<span class='warning'>Вы не можете использовать способность из текущего положения</span>")
+		return
+
+/datum/action/cooldown/latexmob/medscan
+	name = "Проверить здоровье"
+	desc = "Позволяет вам понять состояние своего носителя и реагенты в его крови. С более высокой стадией вашего развития этот сканер станет лучше."
+	button_icon_state = "medscan"
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/medscan/Activate()
+	. = ..()
+	if(istype(owner.loc, /mob/living/carbon))
+		healthscan(owner, owner.loc)
+	else
+		healthscan(owner, owner)
+
+/datum/action/cooldown/latexmob/heal
+	name = "Лечение"
+	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."
+	button_icon_state = "heal"
+	stage_required = 2
+
+/datum/action/cooldown/latexmob/stasis
+	name = "Стазис"
+	desc = "Позволяет спрятаться на время от сканеров и какого-либо обнаружения вне тела хозяина. Полностью отключает все ваши способности на время."
+	button_icon_state = "Stasis"
+	stage_required = 2
+
+/datum/action/cooldown/latexmob/leak_out
+	name = "Проползти под чем-либо"
+	desc = "Позволяет вашему гибкому телу проползать под шлюзами и прочими преградами, вроде столов и стеклянных дверей."
+	button_icon_state = "leak_out"
+	stage_required = 3
+
+/datum/action/cooldown/latexmob/human_form
+	name = "Сформировать самостоятельное человеческое тело"
+	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
+	stage_required = 3

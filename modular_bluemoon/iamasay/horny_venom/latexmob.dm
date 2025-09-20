@@ -41,6 +41,16 @@
 	. = ..()
 	QDEL_NULL(evolution_store)
 
+/datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
+	var/mob/living/old_body = usr
+	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
+	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
+	O.Insert(T)
+	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom
+	O.ObserverBackseat.loc = T
+	usr.transfer_ckey(O.ObserverBackseat)
+	qdel(old_body)
+
 /obj/effect/mob_spawn/horny_venom
 	name = "Living latex"
 	mob_name = "Living latex"
