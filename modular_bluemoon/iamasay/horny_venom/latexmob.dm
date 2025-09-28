@@ -21,15 +21,25 @@
 		new /datum/action/cooldown/latexmob/takeControl
 	)
 	var/list/all_abilities = list(
+		new /datum/action/cooldown/latexmob/takeControl,
+		new /datum/action/cooldown/latexmob/venomAction,
+		new /datum/action/cooldown/latexmob/ferral_form,
 		new /datum/action/cooldown/latexmob/medscan,
 		new /datum/action/cooldown/latexmob/heal,
 		new /datum/action/cooldown/latexmob/stasis,
-		new /datum/action/cooldown/latexmob/leak_out
+		new /datum/action/cooldown/latexmob/leak_out,
+		new /datum/action/cooldown/latexmob/human_form
 	)
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
+
+/datum/antagonist/living_latex/proc/add_new_ability(ability_name,user)
+	var/datum/action/cooldown/latexmob/ability = locate(/datum/action/cooldown/latexmob, ability_name)
+	if(!ability)
+		return
+	ability.Grant(owner)
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage
@@ -101,7 +111,7 @@
 	src.mind = new
 	color = "#3f3f3f"
 	var/datum/antagonist/living_latex/living_latex = src.mind.antag_datums += new /datum/antagonist/living_latex
-	var/datum/evolution_store/ev_store = new
+	var/datum/evolution_store/ev_store = new(living_latex)
 	living_latex.evolution_store = ev_store
 	living_latex.available_abilities += new /datum/action/innate/evolution_store
 	living_latex.grant_abilities(src)

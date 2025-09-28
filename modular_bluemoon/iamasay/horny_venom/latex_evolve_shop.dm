@@ -21,23 +21,23 @@
 		ui.open()
 
 /datum/evolution_store/ui_data(mob/user)
+	var/list/data = list()
 
 	var/list/abilities = list()
 
-	for(var/path in living_latex.all_abilities)
-		var/datum/action/cooldown/latexmob/ability = path
-
+	for(var/datum/action/cooldown/latexmob/ability in living_latex.all_abilities)
 		var/stage_required = initial(ability.stage_required)
 
 		var/list/AL = list()
 		AL["name"] = initial(ability.name)
 		AL["desc"] = initial(ability.desc)
-		AL["stage_required"] = initial(ability.stage_required)
+		AL["stage_required"] = initial(stage_required)
 		AL["can_purchase"] = (living_latex.stage >= ability.stage_required)
 
 		abilities += list(AL)
 
 		data["abilities"] = abilities
+		data["current_stage"] = initial(living_latex.stage)
 
 		return data
 
@@ -45,13 +45,9 @@
 	if(..())
 		return
 
-	// switch(action)
-	// 	if("readapt")
-	// 		if(changeling.can_respec)
-	// 			changeling.readapt()
-	// 	if("evolve")
-	// 		var/sting_name = params["name"]
-	// 		changeling.purchase_power(sting_name)
+	if(action == "evolve")
+		var/ability_name = params["name"]
+		living_latex.add_new_ability(ability_name)
 
 /datum/action/innate/evolution_store
 	name = "Evolution Store"

@@ -24,7 +24,7 @@
 			body.ckey = owner.ckey
 			venom.current_controller = "VENOM"
 			var/datum/antagonist/living_latex/latex = body.mind.antag_datums
-			
+
 			old_species= body.dna.species
 			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
 			new_species.copy_properties_from(old_species)
@@ -45,7 +45,7 @@
 			venom.current_controller = "VENOM"
 			old_species = body.dna.species
 			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-			var/datum/antagonist/living_latex/latex = body.mind.antag_datums	
+			var/datum/antagonist/living_latex/latex = body.mind.antag_datums
 			new_species.copy_properties_from(old_species)
 			venom.old_host_spec = old_species
 			body.set_species(new_species)
@@ -148,11 +148,19 @@
 	button_icon_state = "heal"
 	stage_required = 2
 
+/datum/action/cooldown/latexmob/heal/Activate()
+	. = ..()
+	return
+
 /datum/action/cooldown/latexmob/stasis
 	name = "Стазис"
 	desc = "Позволяет спрятаться на время от сканеров и какого-либо обнаружения вне тела хозяина. Полностью отключает все ваши способности на время."
 	button_icon_state = "Stasis"
 	stage_required = 2
+
+/datum/action/cooldown/latexmob/stasis/Activate()
+	. = ..()
+	return
 
 /datum/action/cooldown/latexmob/leak_out
 	name = "Проползти под чем-либо"
@@ -160,7 +168,13 @@
 	button_icon_state = "leak_out"
 	stage_required = 3
 
+/datum/action/cooldown/latexmob/leak_out/Activate()
+	. = ..()
+	return
 /datum/action/cooldown/latexmob/human_form
 	name = "Сформировать самостоятельное человеческое тело"
 	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
 	stage_required = 3
+/datum/action/cooldown/latexmob/human_form/Activate()
+	. = ..()
+	return
