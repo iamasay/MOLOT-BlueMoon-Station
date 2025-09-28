@@ -39,7 +39,7 @@
 	var/datum/antagonist/living_latex/ll = user
 	var/datum/action/cooldown/latexmob/ability_to_grant
 	for(var/path in src.all_abilities)
- 		var/datum/action/cooldown/latexmob/ability = path
+		var/datum/action/cooldown/latexmob/ability = path
 		if(initial(ability.name) == ability_name)
 			ability_to_grant = new ability
 			src.add_new_ability(ability_to_grant, ll, user)
