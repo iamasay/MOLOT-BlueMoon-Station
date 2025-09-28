@@ -11,6 +11,7 @@
 
 /datum/action/cooldown/latexmob/takeControl
 	stage_required = 1
+	button_icon_state = "Infiltrate"
 	name = "Захватить контроль над телом"
 	desc = "Возьмите тело под свой контроль и управляйте им как своим"
 
@@ -71,7 +72,7 @@
 /datum/action/cooldown/latexmob/venomAction
 	name = "Поглотить/освободить"
 	desc = "Станьте одним целым с кем-то."
-	icon_icon = "Infiltrate"
+	button_icon_state = "Infiltrate"
 	stage_required = 1
 
 /datum/action/cooldown/latexmob/venomAction/Activate()

@@ -35,11 +35,23 @@
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
 
-/datum/antagonist/living_latex/proc/add_new_ability(ability_name,user)
-	var/datum/action/cooldown/latexmob/ability = locate(/datum/action/cooldown/latexmob, ability_name)
-	if(!ability)
+/datum/antagonist/living_latex/proc/search_ability_path(ability_name,user)
+	var/datum/antagonist/living_latex/ll = user
+	var/datum/action/cooldown/latexmob/ability_to_grant
+	for(var/path in src.all_abilities)
+ 		var/datum/action/cooldown/latexmob/ability = path
+		if(initial(ability.name) == ability_name)
+			ability_to_grant = new ability
+			src.add_new_ability(ability_to_grant, ll, user)
 		return
-	ability.Grant(owner)
+
+/datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant, var/datum/antagonist/living_latex/ll, user)
+	if(ability_to_grant.stage_required == ll.stage || ll.evolve_points < 1)
+		ability_to_grant.Grant(user)
+		ll.evolve_points = 0
+	else
+		to_chat(usr, "<span_class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
+
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage

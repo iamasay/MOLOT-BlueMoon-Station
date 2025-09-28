@@ -27,10 +27,12 @@
 
 	for(var/datum/action/cooldown/latexmob/ability in living_latex.all_abilities)
 		var/stage_required = initial(ability.stage_required)
-
+		var/ability_icon = icon(ability.icon_icon, ability.button_icon_state)
+		var/ability_icon_64 = icon2base64(ability_icon)
 		var/list/AL = list()
 		AL["name"] = initial(ability.name)
 		AL["desc"] = initial(ability.desc)
+		AL["icon"] = initial(ability_icon_64)
 		AL["stage_required"] = initial(stage_required)
 		AL["can_purchase"] = (living_latex.stage >= ability.stage_required)
 
@@ -38,16 +40,17 @@
 
 		data["abilities"] = abilities
 		data["current_stage"] = initial(living_latex.stage)
+		data["current_evolve_points"] = initial(living_latex.evolve_points)
 
-		return data
+	return data
 
 /datum/evolution_store/ui_act(action, params)
 	if(..())
 		return
 
 	if(action == "evolve")
-		var/ability_name = params["name"]
-		living_latex.add_new_ability(ability_name)
+		var/ability_name = params["abilityName"]
+		living_latex.search_ability_path(ability_name, living_latex)
 
 /datum/action/innate/evolution_store
 	name = "Evolution Store"

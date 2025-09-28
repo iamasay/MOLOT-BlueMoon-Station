@@ -5,11 +5,13 @@ import { Window } from '../layouts';
 type EvolveShopContext = {
   abilities: Ability[];
   current_stage: number;
+  current_evolve_points: number;
 };
 
 type Ability = {
   name: string;
   desc: string;
+  icon: string;
   stage_required: number;
   can_purchase: boolean;
 };
@@ -42,7 +44,7 @@ export const EvolveShop = (props, context) => {
                 average: [0.2, 0.6],
                 bad: [-Infinity, 0.2]
               }}
-            value={0.3}
+            value={data.current_evolve_points}
             />
             </Flex.Item>
             </Flex>
@@ -60,14 +62,40 @@ export const EvolveShop = (props, context) => {
           чтобы иметь способы насытится.
         </BlockQuote>
         <Collapsible
-        title={'Список способностей стадии'}
+          title={'Список способностей стадии'}
         >
         {data.abilities.map((ability, index) => (
-          <Tabs>
-            <Tabs.Tab height={10}>
-              {ability.name}
-            </Tabs.Tab>
-          </Tabs>
+          <Flex
+            direction={'row'}
+          >
+            <Section
+              title={ability.name}
+              fill={false}
+            >
+              <Flex.Item
+                grow={false}
+                height={'auto'}
+                width={'auto'}
+              >
+                <Button
+                width="300px"
+                  onClick={() => act('evolve', {"abilityName": ability.name})}
+                >
+                  <img
+                    src={"data:image/jpeg;base64, " + ability.icon}
+                    alt="Спрайт"
+                    style={{
+                      '-ms-interpolation-mode': 'nearest-neighbor'
+                    }}>
+                  </img>
+                  <Box textAlign="center">{ability.name}</Box>
+                </Button>
+                  <Collapsible
+                    title="Описание"
+                  >{ability.desc}</Collapsible>
+              </Flex.Item>
+            </Section>
+          </Flex>
           ))}
         </Collapsible>
         <Button
