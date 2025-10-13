@@ -11,6 +11,7 @@
 	name = "Living latex"
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
+	hud_used = /datum/hud/human
 	var/current_controller
 	var/stage = 0
 	var/evolve_points = 0
@@ -41,12 +42,12 @@
 	for(var/path in src.all_abilities)
 		var/datum/action/cooldown/latexmob/ability = path
 		if(initial(ability.name) == ability_name)
-			ability_to_grant = new ability
+			ability_to_grant = ability
 			src.add_new_ability(ability_to_grant, ll, user)
-		return
+	return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant, var/datum/antagonist/living_latex/ll, user)
-	if(ability_to_grant.stage_required == ll.stage || ll.evolve_points < 1)
+	if(ability_to_grant.stage_required == ll.stage && ll.evolve_points < 1)
 		ability_to_grant.Grant(user)
 		ll.evolve_points = 0
 	else
