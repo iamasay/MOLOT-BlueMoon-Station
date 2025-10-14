@@ -16,7 +16,7 @@
 	desc = "Возьмите тело под свой контроль и управляйте им как своим"
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
-	var/datum/antagonist/living_latex/venom = owner.mind.antag_datums
+	var/datum/antagonist/living_latex/venom = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
 	var/datum/species/old_species
 	if(venom.current_controller == "OWNER" || !venom.current_controller)
 		var/mob/living/carbon/body = owner.loc
@@ -84,23 +84,24 @@
 			to_chat(owner, "[C]")
 		var/choice = show_radial_menu(owner, owner, choices = choices)
 		if(choice)
-			var/datum/antagonist/living_latex/L = owner.mind.antag_datums
+			var/datum/antagonist/living_latex/L = locate (/datum/antagonist/living_latex) in owner.mind.antag_datums
 		//	do_after(owner, 3 SECONDS)
 			L.merging(choice)
 			return
 	else
 		var/turf/targetTurf = host.loc
-		var/datum/antagonist/living_latex/living_latex = owner.mind.antag_datums
+		var/datum/antagonist/living_latex/living_latex = locate (/datum/antagonist/living_latex) in owner.mind.antag_datums
 		var/datum/species/old_species = living_latex.old_host_spec
 		host.set_species(old_species)
 		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
-		targetTurf.contents += new /mob/living/simple_animal/latexmob
+		new /mob/living/simple_animal/latexmob(targetTurf)
 		var/obj/item/organ/latexOrgan/OrganToRemove
-		OrganToRemove = locate(/obj/item/organ/latexOrgan)
+		OrganToRemove = locate(/obj/item/organ/latexOrgan) in host.internal_organs
 		if(OrganToRemove)
 			OrganToRemove.Remove()
 		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
-			owner.transfer_ckey(MobForTransfer)
+			owner.mind.transfer_to(MobForTransfer)
+			living_latex.grant_abilities(MobForTransfer)
 			return
 
 /datum/action/cooldown/latexmob/ferral_form

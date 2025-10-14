@@ -61,7 +61,7 @@
 
 /datum/action/innate/evolution_store/New()
 	. = ..()
-	var/datum/antagonist/living_latex/living_latex = usr.mind.antag_datums
+	var/datum/antagonist/living_latex/living_latex = locate(/datum/antagonist/living_latex) in usr.mind.antag_datums
 	evolution = living_latex.evolution_store
 	if(!evolution)
 		CRASH("evolution_store action created with non store")

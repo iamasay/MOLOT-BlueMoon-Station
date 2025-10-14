@@ -11,7 +11,6 @@
 	name = "Living latex"
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
-	hud_used = /datum/hud/human
 	var/current_controller
 	var/stage = 0
 	var/evolve_points = 0
@@ -32,6 +31,13 @@
 		new /datum/action/cooldown/latexmob/human_form
 	)
 
+/datum/antagonist/living_latex/on_gain()
+	. = ..()
+	var/datum/evolution_store/ev_store = new(src)
+	evolution_store = ev_store
+	available_abilities += new /datum/action/innate/evolution_store
+	grant_abilities(usr)
+
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
@@ -47,12 +53,12 @@
 	return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant, var/datum/antagonist/living_latex/ll, user)
-	if(ability_to_grant.stage_required == ll.stage && ll.evolve_points < 1)
-		ability_to_grant.Grant(user)
+	if(ability_to_grant.stage_required >= ll.stage && ll.evolve_points == 1)
+		available_abilities += ability_to_grant
 		ll.evolve_points = 0
+		grant_abilities(usr)
 	else
 		to_chat(usr, "<span_class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
-
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage
@@ -69,9 +75,9 @@
 	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
 	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
 	O.Insert(T)
-	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom
-	O.ObserverBackseat.loc = T
-	usr.transfer_ckey(O.ObserverBackseat)
+	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom(T)
+	old_body.mind.transfer_to(O.ObserverBackseat)
+	grant_abilities(O.ObserverBackseat)
 	qdel(old_body)
 
 /obj/effect/mob_spawn/horny_venom
@@ -123,11 +129,6 @@
 	. = ..()
 	src.mind = new
 	color = "#3f3f3f"
-	var/datum/antagonist/living_latex/living_latex = src.mind.antag_datums += new /datum/antagonist/living_latex
-	var/datum/evolution_store/ev_store = new(living_latex)
-	living_latex.evolution_store = ev_store
-	living_latex.available_abilities += new /datum/action/innate/evolution_store
-	living_latex.grant_abilities(src)
 
 /mob/living/simple_animal/latexmob/ferral
 	name = "Маленькое латексное существо"
@@ -149,7 +150,6 @@
 	real_name = "unknown conscience"
 	var/mob/living/carbon/body
 	var/obj/item/organ/latexOrgan/organ
-
 
 /mob/living/simple_animal/latexmob/venom/Login()
 	..()
