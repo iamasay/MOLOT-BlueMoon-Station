@@ -20,53 +20,22 @@
 	var/datum/species/old_species
 	if(venom.current_controller == "OWNER" || !venom.current_controller)
 		var/mob/living/carbon/body = owner.loc
-		if(!body.ckey)
-			body.mind = owner.mind
-			body.ckey = owner.ckey
-			venom.current_controller = "VENOM"
-			var/datum/antagonist/living_latex/latex = body.mind.antag_datums
-
-			old_species= body.dna.species
-			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-			new_species.copy_properties_from(old_species)
-			venom.old_host_spec = old_species
-			body.set_species(new_species)
-			latex.grant_abilities(body)
-		else
-			var/datum/mind/CurrentObserverMind = owner.mind
-
-			body.mind = owner.mind
-			owner.mind = CurrentObserverMind
-
-			var/BodyOwnerKey = body.ckey
-
-			body.ckey = owner.ckey
-			owner.ckey = BodyOwnerKey
-
-			venom.current_controller = "VENOM"
-			old_species = body.dna.species
-			var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-			var/datum/antagonist/living_latex/latex = body.mind.antag_datums
-			new_species.copy_properties_from(old_species)
-			venom.old_host_spec = old_species
-			body.set_species(new_species)
-			latex.grant_abilities(body)
+		owner.mind.transfer_to(body)
+		venom.current_controller = "VENOM"
+		var/datum/antagonist/living_latex/latex =locate(/datum/antagonist/living_latex) in body.mind.antag_datums
+		old_species = body.dna.species
+		var/datum/species/jelly/roundstartslime/living_latex/new_species = new
+		new_species.copy_properties_from(old_species)
+		venom.old_host_spec = old_species
+		body.set_species(new_species)
+		latex.grant_abilities(body)
 	else
 		var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan)
 		var/mob/living/simple_animal/latexmob/venom/backseat = organ.ObserverBackseat
-		var/datum/mind/ObserverMind = backseat.mind
 		if(backseat)
-			owner.mind = ObserverMind
-			backseat.mind = owner.mind
-
-			var/ObserverKey = backseat.ckey
-			var/BodyOwnerKey = owner.ckey
-
-			backseat.ckey = BodyOwnerKey
-			owner.ckey = ObserverKey
-
+			owner.mind.transfer_to(backseat)
 			venom.current_controller = "OWNER"
-			var/datum/antagonist/living_latex/latex2 = backseat.mind.antag_datums
+			var/datum/antagonist/living_latex/latex2 = locate(/datum/antagonist/living_latex) in backseat.mind.antag_datums
 			latex2.grant_abilities(backseat)
 
 /datum/action/cooldown/latexmob/venomAction

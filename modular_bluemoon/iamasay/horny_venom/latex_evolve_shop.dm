@@ -39,8 +39,8 @@
 		abilities += list(AL)
 
 		data["abilities"] = abilities
-		data["current_stage"] = initial(living_latex.stage)
-		data["current_evolve_points"] = initial(living_latex.evolve_points)
+		data["current_stage"] = living_latex.stage
+		data["current_evolve_points"] = living_latex.evolve_points
 
 	return data
 

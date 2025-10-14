@@ -53,7 +53,7 @@
 	return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant, var/datum/antagonist/living_latex/ll, user)
-	if(ability_to_grant.stage_required >= ll.stage && ll.evolve_points == 1)
+	if(ability_to_grant.stage_required <= ll.stage && ll.evolve_points == 1)
 		available_abilities += ability_to_grant
 		ll.evolve_points = 0
 		grant_abilities(usr)
