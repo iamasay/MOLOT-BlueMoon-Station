@@ -20,7 +20,11 @@
 	var/datum/species/old_species
 	if(venom.current_controller == "OWNER" || !venom.current_controller)
 		var/mob/living/carbon/body = owner.loc
-		owner.mind.transfer_to(body)
+		if(istype(body, /mob/living))
+			owner.mind.transfer_to(body)
+		else
+			to_chat(owner, span_notice("Вы не можете использовать эту способность сейчас!"))
+			return
 		venom.current_controller = "VENOM"
 		var/datum/antagonist/living_latex/latex =locate(/datum/antagonist/living_latex) in body.mind.antag_datums
 		old_species = body.dna.species
