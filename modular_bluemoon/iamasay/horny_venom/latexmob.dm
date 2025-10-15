@@ -20,6 +20,10 @@
 		new /datum/action/cooldown/latexmob/venomAction,
 		new /datum/action/cooldown/latexmob/takeControl
 	)
+	var/list/avaible_reagents = list(
+		new /datum/reagent/medicine/adminordrazine,
+		new /datum/reagent/medicine/atropine
+	)
 	var/list/all_abilities = list(
 		new /datum/action/cooldown/latexmob/takeControl,
 		new /datum/action/cooldown/latexmob/venomAction,
@@ -42,23 +46,27 @@
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
 
-/datum/antagonist/living_latex/proc/search_ability_path(ability_name,user)
-	var/datum/antagonist/living_latex/ll = user
+/datum/antagonist/living_latex/proc/search_ability_path(ability_name)
 	var/datum/action/cooldown/latexmob/ability_to_grant
 	for(var/path in src.all_abilities)
 		var/datum/action/cooldown/latexmob/ability = path
-		if(initial(ability.name) == ability_name)
+		if(ability.name == ability_name)
 			ability_to_grant = ability
-			src.add_new_ability(ability_to_grant, ll, user)
+			src.add_new_ability(ability_to_grant, src)
 	return
 
-/datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant, var/datum/antagonist/living_latex/ll, user)
-	if(ability_to_grant.stage_required <= ll.stage && ll.evolve_points == 1)
+/datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant)
+	if(ability_to_grant.stage_required <= stage && evolve_points == 1)
 		available_abilities += ability_to_grant
-		ll.evolve_points = 0
+		evolve_points = 0
 		grant_abilities(usr)
 	else
 		to_chat(usr, "<span_class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
+
+/datum/antagonist/living_latex/proc/inject_reagent(reagent_name)
+	usr.reagents.add_reagent(reagent_name, 5)
+	evolve_points -= 0.1
+	return
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage
@@ -117,6 +125,7 @@
 	icon_state = "puddle"
 	color = "#0A0707"
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
+	reagents = new /datum/reagents
 
 /obj/item/organ/latexOrgan
 	name = "strange black organ"

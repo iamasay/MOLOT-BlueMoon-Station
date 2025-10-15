@@ -50,7 +50,7 @@
 
 	if(action == "evolve")
 		var/ability_name = params["abilityName"]
-		living_latex.search_ability_path(ability_name, living_latex)
+		living_latex.search_ability_path(ability_name)
 
 /datum/action/innate/evolution_store
 	name = "Evolution Store"

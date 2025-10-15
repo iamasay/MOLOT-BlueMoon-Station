@@ -87,9 +87,8 @@
 	if(istype(owner, /mob/living/simple_animal/latexmob) || !istype(owner, /mob/living/simple_animal/latexmob/ferral))
 		var/mob/old_body = owner
 		var/turf/targetTurf = owner.loc
-		var/mob/living/simple_animal/latexmob/ferral/mob
-		targetTurf += new mob
-		owner.transfer_ckey(mob)
+		var/mob/living/simple_animal/latexmob/ferral/ferral = new /mob/living/simple_animal/latexmob/ferral(targetTurf)
+		owner.transfer_ckey(ferral)
 		qdel(old_body)
 
 	if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
@@ -99,7 +98,6 @@
 		targetTurf += new mob
 		owner.transfer_ckey(mob)
 		qdel(old_body)
-
 	else
 		to_chat(owner, "<span class='warning'>Вы не можете использовать способность из текущего положения</span>")
 		return
@@ -122,10 +120,68 @@
 	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."
 	button_icon_state = "heal"
 	stage_required = 2
+	var/datum/inject_menu
+
+/datum/action/cooldown/latexmob/heal/Grant(var/mob/user)
+	. = ..()
+	var/datum/antagonist/living_latex/living_latex = locate(/datum/antagonist/living_latex) in user.mind.antag_datums
+	inject_menu = new /datum/inject_menu(owner, living_latex)
+	if(!living_latex)
+		CRASH("inject menu cant locate living latex datum")
+	if(!inject_menu)
+		CRASH("inject_menu action created with non menu")
+
+/datum/inject_menu
+	var/name = "Injecting menu"
+	var/data
+	var/datum/antagonist/living_latex/living_latex
+	var/datum/owner
+	var/last_action_time = 0
+	var/cooldown_duration = 50 // 5 секунд
+
+/datum/inject_menu/New(my_owner, my_living_latex)
+	living_latex = my_living_latex
+	owner = my_owner
+
+/datum/inject_menu/ui_state(mob/user)
+	return GLOB.always_state
+
+/datum/inject_menu/ui_data(mob/user)
+	var/list/data = list()
+	var/list/reagents = list()
+	for(var/datum/reagent/reagent in living_latex.avaible_reagents)
+		var/list/Reag = list()
+		Reag["name"] = reagent.name
+
+		reagents += list(Reag)
+		data["subject"] = living_latex.owner.current
+		data["reagents"] = reagents
+		data["cooldown_remaining"] = max(0, (last_action_time + cooldown_duration - world.time) / 10)
+		data["evolve_poins"] = living_latex.evolve_points
+
+	return data
+
+/datum/inject_menu/ui_act(action, params)
+	if(..())
+		return
+
+	if(world.time < last_action_time + cooldown_duration)
+		to_chat(owner, "Подождите [round((last_action_time + cooldown_duration - world.time) / 10)] секунд перед следующей инъекцией.")
+		return
+
+	if(action == "inject")
+		var/reagent_name = params["reagent_name"]
+		living_latex.inject_reagent(reagent_name)
+		last_action_time = world.time
+
+/datum/inject_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "InjectMenu", name)
+		ui.open()
 
 /datum/action/cooldown/latexmob/heal/Activate()
-	. = ..()
-	return
+	inject_menu.ui_interact(usr)
 
 /datum/action/cooldown/latexmob/stasis
 	name = "Стазис"
