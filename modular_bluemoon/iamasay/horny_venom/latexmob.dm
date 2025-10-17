@@ -21,8 +21,8 @@
 		new /datum/action/cooldown/latexmob/takeControl
 	)
 	var/list/avaible_reagents = list(
-		new /datum/reagent/medicine/adminordrazine,
-		new /datum/reagent/medicine/atropine
+		new /datum/reagent/medicine/adminordrazine = 5,
+		new /datum/reagent/medicine/atropine = 5
 	)
 	var/list/all_abilities = list(
 		new /datum/action/cooldown/latexmob/takeControl,
@@ -64,9 +64,13 @@
 		to_chat(usr, "<span_class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
 
 /datum/antagonist/living_latex/proc/inject_reagent(reagent_name)
-	usr.reagents.add_reagent(reagent_name, 5)
-	evolve_points -= 0.1
-	return
+	for(var/path in src.avaible_reagents)
+		var/datum/reagent/reagent = path
+		if(reagent.name == reagent_name)
+			usr.reagents += new reagent
+			usr.reagents[reagent] = 5
+		evolve_points -= 0.1
+		return
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage
