@@ -21,8 +21,8 @@
 		new /datum/action/cooldown/latexmob/takeControl
 	)
 	var/list/avaible_reagents = list(
-		new /datum/reagent/medicine/adminordrazine = 5,
-		new /datum/reagent/medicine/atropine = 5
+		/datum/reagent/medicine/adminordrazine,
+		/datum/reagent/medicine/atropine
 	)
 	var/list/all_abilities = list(
 		new /datum/action/cooldown/latexmob/takeControl,
@@ -66,11 +66,11 @@
 /datum/antagonist/living_latex/proc/inject_reagent(reagent_name)
 	for(var/path in src.avaible_reagents)
 		var/datum/reagent/reagent = path
-		if(reagent.name == reagent_name)
-			usr.reagents += new reagent
-			usr.reagents[reagent] = 5
-		evolve_points -= 0.1
-		return
+		var/datum/reagent/R = new path
+		if(R.name == reagent_name)
+			usr.reagents.add_reagent(reagent, 5)
+			evolve_points -= 0.1
+		qdel(R)
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
 	stage = NewStage
