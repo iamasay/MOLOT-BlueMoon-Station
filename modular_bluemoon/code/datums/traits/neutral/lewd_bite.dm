@@ -1,48 +1,70 @@
 #define TRAIT_POISONOUS_FANGS = "poisonous fangs"
 
-/datum/quirk/lewd_bite
+/datum/quirk/bite
 	name = "Ядовитые зубы"
-	desc = "По каким-то причинам в ваших зубах появились ядопроводящие трубки, которые впрыскивают яд при укусе в жертву. При появлении вы можете выбрать тип яда.(Не используйте это в бою. ЕРП квирк.)"
-	value = 0
+	desc = "По каким-то причинам в ваших зубах появились ядопроводящие трубки, которые впрыскивают яд при укусе в жертву. При появлении вы можете выбрать тип яда. Выбор реагента дается при первой активации"
+	value = 1
 	medical_record_text = "Пациент имеет ядопроводящие трубки в клыках, способные вводить яд."
 //	mob_trait = TRAIT_POISONOUS_FANGS
 	gain_text = span_notice("Вы ощущаете желание кого-то укусить")
 	lose_text = span_notice("Ваши клыки больше не такие опасные")
-	var/list/available_reagents = list(
-		/datum/chemical_reaction/aphro = "Crocin",
-		/datum/chemical_reaction/aphroplus = "Hexacrocin",
-		/datum/reagent/toxin/chloralhydrate = "Chloral Hydrate",
-		/datum/reagent/consumable/ethanol/isloation_cell = "Isloation cell",
-		/datum/reagent/consumable/ethanol/chemical_ex = "Chemical Ex"
-)
-	var/list/selected_reagents = list()  // Выбранные реагенты (пути к /datum/reagent)
+	var/list/my_reagents = list(
+		/datum/reagent/toxin,
+		/datum/reagent/toxin/acid,
+		/datum/reagent/toxin/mutetoxin
+		)
 
-/datum/quirk/lewd_bite/add()
+/datum/quirk/bite/add()
 	var/mob/living/carbon/human/quirk_mob = quirk_holder
-	var/datum/action/cooldown/lewd_bite/act_bite = new
+	var/datum/action/cooldown/bite/act_bite = new
 	act_bite.Grant(quirk_mob)
-	if(quirk_mob.mob_biotypes & MOB_ROBOTIC)
-		to_chat(quirk_mob, span_warning("As a synthetic lifeform, your components are only able to grant limited sanguine abilities! Regeneration and revival are not possible."))
-	var/datum/reagent/choose = input(quirk_mob, "Выберите яд, который будет впрыскиваться при укусе", "Выбор яда") as null|anything in available_reagents
-	if(!choose || choose == "Cancel")
-		to_chat(quirk_mob, "Из-за отмены выбора яда вы не сможете что-либо вколоть через укус.")
-		return
-	act_bite.venom_bank.add_reagent(choose, 50)
 
-/datum/action/cooldown/lewd_bite
-	name = "Venom bite"
+/datum/quirk/bite_lewd
+	name = "Клыки суккуба"
+	desc = "Укус ваших зубов имеет особый эффект, который может как возбуждать жертву, так и усмирить. Выбор реагента дается при первой активации"
+	value = 0
+	var/my_reagents = list(
+		/datum/reagent/drug/aphrodisiac,
+		/datum/reagent/drug/aphrodisiacplus,
+		/datum/reagent/toxin/chloralhydrate,
+		/datum/reagent/consumable/ethanol/isloation_cell,
+	)
+
+/datum/quirk/bite_lewd/add()
+	var/mob/living/carbon/human/quirk_mob = quirk_holder
+	var/datum/action/cooldown/bite/act_bite = new
+	if(GLOB.round_type == ROUNDTYPE_EXTENDED)
+		to_chat(quirk_holder, "В режим отличный от Extended из списка реагентов квирка Клыки суккуба были убраны опасные реагенты.")
+		my_reagents -= /datum/reagent/toxin/chloralhydrate
+	act_bite.Grant(quirk_mob)
+
+/datum/action/cooldown/bite
+	name = "Ядовитый укус"
 	desc = "Sink your fangs into the person you are grabbing, and attempt to inject reagents into them."
 	icon_icon = 'modular_bluemoon/icons/mob/actions/venom_bite.dmi'
 	button_icon_state = "Bite"
 	cooldown_time = 30 SECONDS
 	var/time_interact = 30
+	var/datum/quirk/bite/my_quirk
 	var/datum/reagents/venom_bank
 
-/datum/action/cooldown/lewd_bite/Grant()
+/datum/action/cooldown/bite/Grant()
 	. = ..()
-	venom_bank = new(100)  // Ёмкость банка (100 единиц); настрой под нужды
+	var/mob/living/carbon/L = owner
+	my_quirk = locate(/datum/quirk/bite) in L.roundstart_quirks
+	if(!my_quirk)
+		my_quirk = locate(/datum/quirk/bite_lewd) in L.roundstart_quirks
+	venom_bank = new(100)
 
-/datum/action/cooldown/lewd_bite/Activate()
+/datum/action/cooldown/bite/Activate()
+	if(!venom_bank.reagent_list.len)
+		var/datum/reagent/choose = tgui_input_list(owner, "Выберите яд, который будет впрыскиваться при укусе", "Выбор яда", my_quirk.my_reagents)
+		if(!choose || choose == "Cancel")
+			to_chat(owner, "Из-за отмены выбора яда вы не сможете что-либо вколоть через укус.")
+			return
+		venom_bank.add_reagent(choose, 50)
+		return
+
 	var/mob/living/carbon/action_owner = owner
 
 	if(!action_owner.pulling)
