@@ -9,9 +9,9 @@
 	gain_text = span_notice("Вы ощущаете желание кого-то укусить")
 	lose_text = span_notice("Ваши клыки больше не такие опасные")
 	var/list/my_reagents = list(
-		/datum/reagent/toxin,
-		/datum/reagent/toxin/acid,
-		/datum/reagent/toxin/mutetoxin
+		/datum/reagent/toxin = "Toxin",
+		/datum/reagent/toxin/acid = "Sulphuric acid",
+		/datum/reagent/toxin/mutetoxin = "Mute Toxin"
 		)
 
 /datum/quirk/bite/add()
@@ -24,15 +24,15 @@
 	desc = "Укус ваших зубов имеет особый эффект, который может как возбуждать жертву, так и усмирить. Выбор реагента дается при первой активации"
 	value = 0
 	var/my_reagents = list(
-		/datum/reagent/drug/aphrodisiac,
-		/datum/reagent/drug/aphrodisiacplus,
-		/datum/reagent/toxin/chloralhydrate,
-		/datum/reagent/consumable/ethanol/isloation_cell,
+		/datum/reagent/drug/aphrodisiac = "Crocin",
+		/datum/reagent/drug/aphrodisiacplus = "Hexacrocin",
+		/datum/reagent/toxin/chloralhydrate = "Chloral Hydrate",
+		/datum/reagent/consumable/ethanol/isloation_cell = "Isolation Cell",
 	)
 
 /datum/quirk/bite_lewd/add()
 	var/mob/living/carbon/human/quirk_mob = quirk_holder
-	var/datum/action/cooldown/bite/act_bite = new
+	var/datum/action/cooldown/bite/lewd/act_bite = new
 	if(GLOB.round_type == ROUNDTYPE_EXTENDED)
 		to_chat(quirk_holder, "В режим отличный от Extended из списка реагентов квирка Клыки суккуба были убраны опасные реагенты.")
 		my_reagents -= /datum/reagent/toxin/chloralhydrate
@@ -40,13 +40,17 @@
 
 /datum/action/cooldown/bite
 	name = "Ядовитый укус"
-	desc = "Sink your fangs into the person you are grabbing, and attempt to inject reagents into them."
+	desc = "Схватив свою жертву вы можете впрыснуть небольшое количество яда в кровь. Но для этого вам нужно крепко держать её."
 	icon_icon = 'modular_bluemoon/icons/mob/actions/venom_bite.dmi'
-	button_icon_state = "Bite"
+	button_icon_state = "bite"
 	cooldown_time = 30 SECONDS
 	var/time_interact = 30
 	var/datum/quirk/bite/my_quirk
 	var/datum/reagents/venom_bank
+
+/datum/action/cooldown/bite/lewd
+	name = "Клыки суккуба"
+	button_icon_state = "lewd_bite"
 
 /datum/action/cooldown/bite/Grant()
 	. = ..()
@@ -58,12 +62,17 @@
 
 /datum/action/cooldown/bite/Activate()
 	if(!venom_bank.reagent_list.len)
-		var/datum/reagent/choose = tgui_input_list(owner, "Выберите яд, который будет впрыскиваться при укусе", "Выбор яда", my_quirk.my_reagents)
+		var/list/reagent_names = list()
+		for(var/key in my_quirk.my_reagents)
+			reagent_names += my_quirk.my_reagents[key]
+		var/datum/reagent/choose = tgui_input_list(owner, "Выберите яд, который будет впрыскиваться при укусе", "Выбор яда", reagent_names)
 		if(!choose || choose == "Cancel")
 			to_chat(owner, "Из-за отмены выбора яда вы не сможете что-либо вколоть через укус.")
 			return
-		venom_bank.add_reagent(choose, 50)
-		return
+		for(var/reagent_path in my_quirk.my_reagents)
+			if(my_quirk.my_reagents[reagent_path] == choose)
+				venom_bank.add_reagent(reagent_path, 50)
+				return
 
 	var/mob/living/carbon/action_owner = owner
 
