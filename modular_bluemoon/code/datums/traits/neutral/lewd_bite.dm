@@ -15,15 +15,14 @@
 		)
 
 /datum/quirk/bite/add()
-	var/mob/living/carbon/human/quirk_mob = quirk_holder
 	var/datum/action/cooldown/bite/act_bite = new
-	act_bite.Grant(quirk_mob)
+	act_bite.Grant(quirk_holder, src.type)
 
 /datum/quirk/bite_lewd
 	name = "Клыки суккуба"
 	desc = "Укус ваших зубов имеет особый эффект, который может как возбуждать жертву, так и усмирить. Выбор реагента дается при первой активации"
 	value = 0
-	var/my_reagents = list(
+	var/list/my_reagents = list(
 		/datum/reagent/drug/aphrodisiac = "Crocin",
 		/datum/reagent/drug/aphrodisiacplus = "Hexacrocin",
 		/datum/reagent/toxin/chloralhydrate = "Chloral Hydrate",
@@ -32,12 +31,11 @@
 	)
 
 /datum/quirk/bite_lewd/add()
-	var/mob/living/carbon/human/quirk_mob = quirk_holder
 	var/datum/action/cooldown/bite/lewd/act_bite = new
 	if(GLOB.round_type != ROUNDTYPE_EXTENDED)
 		to_chat(quirk_holder, "В режим отличный от Extended из списка реагентов квирка Клыки суккуба были убраны опасные реагенты.")
 		my_reagents -= /datum/reagent/toxin/chloralhydrate
-	act_bite.Grant(quirk_mob)
+	act_bite.Grant(quirk_holder, src.type)
 
 /datum/action/cooldown/bite
 	name = "Ядовитый укус"
@@ -53,12 +51,10 @@
 	name = "Клыки суккуба"
 	button_icon_state = "lewd_bite"
 
-/datum/action/cooldown/bite/Grant()
+/datum/action/cooldown/bite/Grant(quirk_holder, type)
 	. = ..()
 	var/mob/living/carbon/L = owner
-	my_quirk = locate(/datum/quirk/bite) in L.roundstart_quirks
-	if(!my_quirk)
-		my_quirk = locate(/datum/quirk/bite_lewd) in L.roundstart_quirks
+	my_quirk = locate(type) in L.roundstart_quirks
 	venom_bank = new(100)
 
 /datum/action/cooldown/bite/Activate()
