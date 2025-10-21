@@ -28,12 +28,13 @@
 		/datum/reagent/drug/aphrodisiacplus = "Hexacrocin",
 		/datum/reagent/toxin/chloralhydrate = "Chloral Hydrate",
 		/datum/reagent/consumable/ethanol/isloation_cell = "Isolation Cell",
+		/datum/reagent/drug/space_drugs = "Space Drugs"
 	)
 
 /datum/quirk/bite_lewd/add()
 	var/mob/living/carbon/human/quirk_mob = quirk_holder
 	var/datum/action/cooldown/bite/lewd/act_bite = new
-	if(GLOB.round_type == ROUNDTYPE_EXTENDED)
+	if(GLOB.round_type != ROUNDTYPE_EXTENDED)
 		to_chat(quirk_holder, "В режим отличный от Extended из списка реагентов квирка Клыки суккуба были убраны опасные реагенты.")
 		my_reagents -= /datum/reagent/toxin/chloralhydrate
 	act_bite.Grant(quirk_mob)
@@ -61,6 +62,14 @@
 	venom_bank = new(100)
 
 /datum/action/cooldown/bite/Activate()
+	if(owner.progressbars)
+		to_chat(owner, span_danger("Вы не можете кусать кого-либо, если уже делаете это, либо что бы там ни было еще!")) //защита от спама
+		return
+	if(owner.tgui_open_uis)
+		for(var/datum/tgui/tgui in owner.tgui_open_uis)
+			if(tgui.interface == "ListInputModal") //Это и есть окошко tgui_input_list. Да, если есть хотя бы какое-то открытое окошко с таким типом, то оно не даст выбрать. Но я не нашел более элегантного способа, этот самый простой.
+				to_chat(owner, span_danger("Вы не можете открыть больше одного tgui окна выбора!")) //защита от спама кнопки, которая приводит к огромному количеству введенных реагентов
+				return
 	if(!venom_bank.reagent_list.len)
 		var/list/reagent_names = list()
 		for(var/key in my_quirk.my_reagents)
@@ -71,7 +80,7 @@
 			return
 		for(var/reagent_path in my_quirk.my_reagents)
 			if(my_quirk.my_reagents[reagent_path] == choose)
-				venom_bank.add_reagent(reagent_path, 50)
+				venom_bank.add_reagent(reagent_path, 100)
 				return
 
 	var/mob/living/carbon/action_owner = owner
@@ -112,42 +121,42 @@
 
 	switch(target_zone)
 		if(BODY_ZONE_HEAD)
-			target_zone_name = "neck"
+			target_zone_name = "шея"
 		if(BODY_ZONE_CHEST)
-			target_zone_name = "shoulder"
+			target_zone_name = "плечи"
 		if(BODY_ZONE_L_ARM)
-			target_zone_name = "left arm"
+			target_zone_name = "левая рука"
 		if(BODY_ZONE_R_ARM)
-			target_zone_name = "right arm"
+			target_zone_name = "правая рука"
 		if(BODY_ZONE_L_LEG)
-			target_zone_name = "left thigh"
+			target_zone_name = "левое бедро"
 		if(BODY_ZONE_R_LEG)
-			target_zone_name = "right thigh"
+			target_zone_name = "правое бедро"
 		if(BODY_ZONE_PRECISE_EYES)
 			if(!bite_target.has_eyes() == HAS_EXPOSED_GENITAL)
 				to_chat(action_owner, span_warning("Вы не можете найти [bite_target]'s глаза, чтобы укусить их!"))
 				return
-			target_zone_name = "eyes"
+			target_zone_name = "глаза"
 			target_zone_check = FALSE
 			target_zone_effects = TRUE
 		if(BODY_ZONE_PRECISE_MOUTH)
 			if(!(bite_target.has_mouth() && bite_target.mouth_is_free()))
 				to_chat(action_owner, span_warning("Вы не можете найти [bite_target]'s губы чтобы укусить их!"))
 				return
-			target_zone_name = "lips"
+			target_zone_name = "губы"
 			target_zone_check = FALSE
 			target_zone_effects = TRUE
 		if(BODY_ZONE_PRECISE_GROIN)
-			target_zone_name = "groin"
+			target_zone_name = "пах"
 			target_zone_check = FALSE
 		if(BODY_ZONE_PRECISE_L_HAND)
-			target_zone_name = "left wrist"
+			target_zone_name = "левое запястье"
 		if(BODY_ZONE_PRECISE_R_HAND)
-			target_zone_name = "right wrist"
+			target_zone_name = "правое запястье"
 		if(BODY_ZONE_PRECISE_L_FOOT)
-			target_zone_name = "left ankle"
+			target_zone_name = "левая лодышка"
 		if(BODY_ZONE_PRECISE_R_FOOT)
-			target_zone_name = "right ankle"
+			target_zone_name = "правая лодышка"
 
 	if(target_zone_check)
 		if(!bite_bodypart)
@@ -189,12 +198,12 @@
 	if(!do_after(action_owner, time_interact, target = bite_target))
 		if(target_zone_check)
 			bite_bodypart.receive_damage(brute = rand(4,8), sharpness = SHARP_POINTY)
-		StartCooldown()
-		return
+			StartCooldown()
+			return
 	else
 		// Проверка: есть ли реагенты в venom_bank для вкалывания
 		if(venom_bank.total_volume < 10)  // Минимум 10 единиц;
-			to_chat(action_owner, span_warning("You don't have enough reagents to inject!"))
+			to_chat(action_owner, span_warning(span_danger("У тебя недостаточно реагентов, чтобы их вколоть! Такое случается, когда реагент не был выбран изначально, ИЛИ после того, как вы слишком часто пользовались способностью.")))
 			StartCooldown()
 			return
 
