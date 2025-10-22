@@ -27,7 +27,8 @@
 		/datum/reagent/drug/aphrodisiacplus = "Hexacrocin",
 		/datum/reagent/toxin/chloralhydrate = "Chloral Hydrate",
 		/datum/reagent/consumable/ethanol/isloation_cell = "Isolation Cell",
-		/datum/reagent/drug/space_drugs = "Space Drugs"
+		/datum/reagent/drug/space_drugs = "Space Drugs",
+		/datum/reagent/consumable/ethanol/twinkjuice = "Boy Kisser"
 	)
 
 /datum/quirk/bite_lewd/add()
