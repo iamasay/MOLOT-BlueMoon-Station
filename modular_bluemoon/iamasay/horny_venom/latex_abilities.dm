@@ -212,13 +212,14 @@
 	var/list/nearby_things = range(1, get_turf(src))
 	var/list/valid_doors = list()
 	for(var/atom/thing in nearby_things)
-		if(!istype(thing, /obj/machinery/door))
+		if(!istype(thing, /obj/machinery/door/airlock))
 			continue
 		valid_doors.Add(thing)
 	if(valid_doors.len > 1)
-		var/choice = show_radial_menu(owner, owner, choices = valid_doors)
+		var/choice = pick(valid_doors)
 		owner.forceMove(get_turf(choice))
 	else if(valid_doors)
+		do_after(usr, 1.5 SECONDS, usr)
 		owner.forceMove(get_turf(valid_doors[1]))
 	else
 		to_chat(owner, "Шлюзы по-близости не найдены")
