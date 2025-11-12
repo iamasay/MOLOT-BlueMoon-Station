@@ -195,12 +195,14 @@
 	var/rank = null			//actual job
 	var/access_txt // mapping aid
 	var/bank_support = ID_FREE_BANK_ACCOUNT
+	var/withdraw_allowed = TRUE // BLUEMOON ADD
 	var/datum/bank_account/registered_account
 	var/obj/machinery/paystand/my_store
 	var/uses_overlays = TRUE
 	var/icon/cached_flat_icon
 	var/card_sticker = FALSE //BLUEMOON ADD часть карт можно навешивать на другие карты
 	var/list/previous_icon_data[3] //BLUEMOON ADD лист для наклеек на карты, порядок icon, icon_state, assignment
+	var/special_assignment = null // BLUEMOOD ADD для особых карт и их HUD, техническое
 
 /obj/item/card/id/Initialize(mapload)
 	. = ..()
@@ -253,7 +255,6 @@
 			previous_icon_data[3] = assignment
 			icon = ID.icon
 			icon_state = ID.icon_state
-			assignment = ID.assignment
 			return
 		//BLUEMOON ADD END
 
@@ -285,6 +286,15 @@
 		to_chat(user, "<span class='notice'>You stuff [I] into [src]. It disappears in a small puff of bluespace smoke, adding [cash_money] credits to the linked account.</span>")
 	else
 		to_chat(user, "<span class='notice'>You insert [I] into [src], adding [cash_money] credits to the linked account.</span>")
+	// после успешного зачисления:
+	if(registered_account)
+		registered_account.makeTransactionLog(
+			cash_money,
+			"Deposit via [I.name]",
+			"[src.name]",
+			user ? user.real_name : "Unknown depositor",
+			FALSE
+		)
 
 	to_chat(user, "<span class='notice'>The linked account now reports a balance of [registered_account.account_balance] cr.</span>")
 	qdel(I)
@@ -304,6 +314,14 @@
 		CHECK_TICK
 
 	registered_account.adjust_money(total)
+	if(registered_account && total > 0)
+		registered_account.makeTransactionLog(
+			total,
+			"Deposit via money bag",
+			"[src.name]",
+			user ? user.real_name : "Unknown depositor",
+			FALSE
+		)
 
 	QDEL_LIST(money)
 
@@ -379,6 +397,23 @@
 		set_new_account(user)
 		return
 
+	if(!withdraw_allowed)
+		if(!HAS_TRAIT(user.mind, TRAIT_FENCER))
+			if(user.mind?.antag_datums && !user.mind?.has_antag_datum(/datum/antagonist/ghost_role))
+				var/message = span_warning("ОШИБКА: Замечена попытка кр... добро пожаловать в систему, Джон Доу.")
+				playsound(src, "sparks", 100, 1)
+				if(registered_account)
+					registered_account.bank_card_talk(message)
+				else
+					to_chat(user, message)
+			else
+				var/message = span_warning("ОШИБКА: С этой карты нельзя снимать кредиты.")
+				if(registered_account)
+					registered_account.bank_card_talk(message)
+				else
+					to_chat(user, message)
+				return
+
 	if (world.time < registered_account.withdrawDelay)
 		registered_account.bank_card_talk("<span class='warning'>ERROR: UNABLE TO LOGIN DUE TO SCHEDULED MAINTENANCE. MAINTENANCE IS SCHEDULED TO COMPLETE IN [(registered_account.withdrawDelay - world.time)/10] SECONDS.</span>", TRUE)
 		return
@@ -394,6 +429,15 @@
 		var/obj/item/holochip/holochip = new (user.drop_location(), amount_to_remove)
 		user.put_in_hands(holochip)
 		to_chat(user, "<span class='notice'>You withdraw [amount_to_remove] credits into a holochip.</span>")
+
+		// 🧾 Добавляем запись о снятии в историю транзакций
+		registered_account.makeTransactionLog(
+			-amount_to_remove,
+			"Withdrawal via ID Card",
+			"[src.name]",
+			user ? user.real_name : "Unknown user",
+			FALSE
+		)
 		return
 	registered_account.bank_card_talk("<span class='warning'>ERROR: The linked account has no sufficient credits to perform that withdrawal.</span>", TRUE)
 
@@ -435,17 +479,19 @@
 	return src
 
 /obj/item/card/id/update_overlays()
-	. = ..()
-	if(!uses_overlays)
-		return
-	cached_flat_icon = null
-	var/job = assignment ? ckey(get_job_name()) : null
-	job = replacetext(job, " ", "")
-	job = lowertext(job)
-	if(registered_name && registered_name != "Captain")
-		. += mutable_appearance(icon, "assigned")
-	if(job)
-		. += mutable_appearance(icon, "id[job]")
+    . = ..()
+    if(!uses_overlays)
+        return
+    cached_flat_icon = null
+    var/job = assignment ? ckey(get_job_name()) : null
+    var/list/specialjobs = list(/obj/item/card/id/syndicate/advanced/ds) // Для спец. ролей с уникальными картами
+    job = replacetext(job, " ", "")
+    job = replacetext(job, "-", "") // Для учёта более сложных assigment'ов, как на DS-1/2
+    job = lowertext(job)
+    if(registered_name && registered_name != "Captain" && !is_type_in_list(src, specialjobs))
+        . += mutable_appearance(icon, "assigned")
+    if(job)
+        . += mutable_appearance(icon, "id[job]")
 
 /obj/item/card/id/proc/get_cached_flat_icon()
 	if(!cached_flat_icon)
@@ -870,6 +916,7 @@
 	name = "departmental card (FUCK)"
 	desc = "Provides access to the departmental budget."
 	icon_state = "budgetcard"
+	withdraw_allowed = FALSE // BLUEMOON ADD
 	var/department_ID = ACCOUNT_CIV
 	var/department_name = ACCOUNT_CIV_NAME
 
@@ -989,5 +1036,59 @@
 
 /obj/item/card/id/death
 	name = "\improper Death Commando ID"
-	icon_state = "centcom"
+	icon_state = "deathsquad"
 	assignment = "Death Commando"
+	special_assignment = "deathcommando"
+
+/obj/item/forensic_card
+    name = "Fingerprint card"
+    desc = "Пустая карточка для снятия отпечатков пальцев."
+    icon = 'icons/obj/card.dmi'
+    icon_state = "fingerprint0"
+    w_class = WEIGHT_CLASS_TINY
+    var/has_print = FALSE
+    var/fingerprint_data = null
+
+/obj/item/forensic_card/attack(mob/living/carbon/human/target, mob/user)
+    if(has_print)
+        to_chat(user, "<span class='notice'>Эта карточка уже содержит отпечаток.</span>")
+        return
+
+    if(!ishuman(target))
+        to_chat(user, "<span class='warning'>Можно снять отпечатки только с человека.</span>")
+        return
+
+    var/mob/living/carbon/human/H = target
+
+    if(H.gloves)
+        to_chat(user, "<span class='warning'>У [H] надеты перчатки — отпечатков не видно.</span>")
+        return
+
+    to_chat(user, "<span class='notice'>Ты начинаешь аккуратно снимать отпечатки с [H]...</span>")
+    user.visible_message(
+        "<span class='info'>[user] прикладывает карточку к руке [H], пытаясь снять отпечатки.</span>",
+        "<span class='notice'>Ты осторожно прижимаешь карточку к пальцам [H].</span>"
+    )
+
+    // 5 секунд неподвижности для дела
+    if(!do_after(user, 5 SECONDS, target = H))
+        to_chat(user, "<span class='warning'>Ты прерываешь процесс, отпечаток не снят.</span>")
+        return
+
+    if(H.gloves) // повторная проверка если одели в момент перчатки.
+        to_chat(user, "<span class='warning'>Пока ты возился, [H] надел перчатки!</span>")
+        return
+
+    fingerprint_data = md5(H.dna.uni_identity)
+    has_print = TRUE
+    icon_state = "fingerprint1"
+
+    to_chat(user, "<span class='notice'>Ты успешно снял отпечатки пальцев с [H].</span>")
+    playsound(src, 'sound/items/taperecorder/taperecorder_print.ogg', 40, FALSE)
+
+/obj/item/forensic_card/examine(mob/user)
+    . = ..()
+    if(has_print)
+        . += "<span class='info'>На карточке виден отпечаток с кодом: [fingerprint_data]</span>"
+    else
+        . += "<span class='notice'>Карточка пуста. Используй её на человеке без перчаток, чтобы снять отпечатки.</span>"

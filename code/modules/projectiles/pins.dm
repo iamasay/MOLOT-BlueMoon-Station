@@ -266,7 +266,7 @@
 	var/selection = alert(user, "Which setting would you want to modify?", "Firing Pin Settings", "Minimum Level Setting", "Maximum Level Setting", "Lethals Only Toggle")
 	if(QDELETED(src) || QDELETED(user) || !user.canUseTopic(src, BE_CLOSE))
 		return
-	var/static/list/till_designs_pr_isnt_merged = list("green", "blue", "amber", "red", "lambda", "delta")
+	var/static/list/till_designs_pr_isnt_merged = list("green", "blue", "amber", "red", "lambda", "gamma", "epsilon", "delta")
 	switch(selection)
 		if("Minimum Level Setting")
 			var/input = input(user, "Input the new minimum level setting.", "Firing Pin Settings", NUM2SECLEVEL(min_sec_level)) as null|anything in till_designs_pr_isnt_merged
@@ -306,8 +306,10 @@
 				overlay.color = "#ff3f34" //light red
 			if(SEC_LEVEL_AMBER)
 				overlay.color = "#ffae42" //light yellow/orange
+			if(SEC_LEVEL_GAMMA)
+				overlay.color = "#7f7f7f"
 			if(SEC_LEVEL_EPSILON)
-				overlay.color = "#ffffff" //light yellow/orange
+				overlay.color = "#ffffff"
 			else
 				overlay.color = "#fe59c2" //neon fuchsia
 		. += overlay
@@ -325,6 +327,7 @@
 	desc = "A firing pin used by the austrailian defense force, retrofit to prevent weapon discharge on the station."
 	icon_state = "firing_pin_explorer"
 	fail_message = "<span class='warning'>CANNOT FIRE WHILE ON STATION, MATE!</span>"
+	pin_removeable = FALSE
 
 // This checks that the user isn't on the station Z-level.
 /obj/item/firing_pin/explorer/pin_auth(mob/living/user)
@@ -336,18 +339,17 @@
 
 /obj/item/firing_pin/alert_level
 	name = "alert level firing pin"
-	var/desired_minimium_alert = SEC_LEVEL_AMBER //For the purpose of the firing pin, we will consider violet, orange and amber as same level
+	var/desired_minimium_alert = SEC_LEVEL_AMBER
 	desc = "A small authentication device, to be inserted into a firearm receiver to allow operation. This one is configured to only fire on amber alert or higher."
-	fail_message = "incorrect alert level!"
+	fail_message = "<span class='warning'>НЕКОРРЕКТНЫЙ УРОВЕНЬ ТРЕВОГИ!</span>"
 
 /obj/item/firing_pin/alert_level/pin_auth(mob/living/user)
+	if(gun.chambered?.harmful == FALSE)
+		return TRUE
 	return (isnum(GLOB.security_level) && GLOB.security_level >= desired_minimium_alert)
 
 /obj/item/firing_pin/alert_level/blue
 	name = "alert level firing pin"
 	desired_minimium_alert = SEC_LEVEL_BLUE
 	desc = "A small authentication device, to be inserted into a firearm receiver to allow operation. This one is configured to only fire on blue alert or higher."
-	fail_message = "incorrect alert level!"
-
-/obj/item/firing_pin/alert_level/blue/pin_auth(mob/living/user)
-	return (isnum(GLOB.security_level) && GLOB.security_level >= desired_minimium_alert)
+	fail_message = "<span class='warning'>НЕКОРРЕКТНЫЙ УРОВЕНЬ ТРЕВОГИ!</span>"

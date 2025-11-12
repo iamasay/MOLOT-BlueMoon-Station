@@ -1,13 +1,60 @@
 //This is the file that handles donator loadout items.
 
 /datum/gear/donator
-	name = "IF YOU SEE THIS, PING A CODER RIGHT NOW!"
+	name = "Golden Horn!"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/bikehorn/golden
 	category = LOADOUT_CATEGORY_DONATOR
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
-	donator_group_id = DONATOR_GROUP_TIER_3 // can be accessed by all donators
-	ckeywhitelist = list("This entry should never appear with this variable set.") //If it does, then that means somebody fucked up the whitelist system pretty hard
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/deskbox
+	name = "Desk Box"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/choice_beacon/box/desk
+	category = LOADOUT_CATEGORY_DONATOR
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/summon_pie
+	name = "Book: Summon Pie"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/book/granter/spell/summon_pie
+	cost = 6
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+	donator_group_id = DONATOR_GROUP_TIER_2
+
+/datum/gear/donator/foam_lmg
+	name = "Foam LMG"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted/riot
+	cost = 6
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+	donator_group_id = DONATOR_GROUP_TIER_2
+
+/datum/gear/donator/foam_lmg_ammo
+	name = "Foam LMG Ammo"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/ammo_box/magazine/toy/m762/riot
+	cost = 2
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+	donator_group_id = DONATOR_GROUP_TIER_2
+
+/datum/gear/donator/money
+	name = "Тысяча Денег (красивое)"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/stack/spacecash/c1000
+	ckeywhitelist = list()
+	donator_group_id = DONATOR_GROUP_TIER_2
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
+
+/datum/gear/donator/chameleon_kit
+	name = "Chameleon Box"
+	path = /obj/item/storage/box/syndie_kit/chameleon
+	cost = 8
+	ckeywhitelist = list()
+	donator_group_id = DONATOR_GROUP_TIER_2
+	subcategory = LOADOUT_SUBCATEGORIES_DON02
 
 /datum/gear/donator/cleanercloak
 	name = "Teshari Cleaner Cloak"
@@ -79,13 +126,6 @@
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
-// /datum/gear/donator/money
-// 	name = "Money, Motherfucker"
-// 	slot = ITEM_SLOT_BACKPACK
-// 	path = /obj/item/stack/spacecash/c10000
-// 	ckeywhitelist = list()
-// 	donator_group_id = DONATOR_GROUP_TIER_1
-
 /datum/gear/donator/gasmask_syndicate
 	name = "The Syndicate Mask"
 	slot = ITEM_SLOT_MASK
@@ -100,15 +140,7 @@
 	ckeywhitelist = list()
 	cost = 4
 	donator_group_id = DONATOR_GROUP_TIER_1
-/*
-/datum/gear/donator/summon_pie
-	name = "Book: Summon Pie"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/book/granter/spell/summon_pie
-	ckeywhitelist = list()
-	cost = 6
-	donator_group_id = DONATOR_GROUP_TIER_1
-*/
+
 /datum/gear/donator/purple_zippo
 	name = "Purple Zippo"
 	slot = ITEM_SLOT_BACKPACK
@@ -140,9 +172,9 @@
 	donator_group_id = DONATOR_GROUP_TIER_1
 
 /datum/gear/donator/agent_card
-	name = "Callsign ID Card" //BLUEMOON CHANGES
+	name = "Syndicate Employee ID Card" //BLUEMOON CHANGES
 	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/card/id/callsign/loadout  //BLUEMOON CHANGES
+	path = /obj/item/card/id/syndicate_citizen  //BLUEMOON CHANGES
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
@@ -902,3 +934,41 @@
 	path = /obj/item/clothing/head/assu_helmet/bp_helmet
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/bm/aviator_helmet
+	name = "Aviator Helmet"
+	slot = ITEM_SLOT_HEAD
+	path = /obj/item/clothing/head/helmet/aviator_helmet/no_armor
+	ckeywhitelist = list()
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+
+/datum/gear/donator/bm/old_wrappings
+	name = "Old Wrappings"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/mantle/cowboy
+	ckeywhitelist = list()
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+
+/datum/gear/donator/bm/old_wrappings
+	name = "Old Wrappings"
+	slot = ITEM_SLOT_NECK
+	path = /obj/item/clothing/neck/mantle/cowboy
+	ckeywhitelist = list()
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+
+/datum/gear/donator/bm/book_alch
+	name = "Alchemist's Book"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/paper/book_alch
+	ckeywhitelist = list()
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
+
+/datum/gear/donator/bm/cigpack_cannabis
+	name = "Freak Brother's Special Cigpack"
+	slot = ITEM_SLOT_BACKPACK
+	path = /obj/item/storage/fancy/cigarettes/cigpack_cannabis
+	ckeywhitelist = list()
+	subcategory = LOADOUT_SUBCATEGORIES_DON01
+	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
+

@@ -29,12 +29,12 @@
 			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_MED
-	bounty_types = CIV_JOB_MED
+	bounty_types = CIV_JOB_CMO
 
 	mind_traits = list(TRAIT_REAGENT_EXPERT, TRAIT_QUICK_CARRY) //BLUEMOON ADD use TRAIT system for jobs
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/illiterate)
 	threat = 2
 
 	starting_modifiers = list(/datum/skill_modifier/job/surgery, /datum/skill_modifier/job/affinity/surgery)

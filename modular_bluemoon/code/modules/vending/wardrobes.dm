@@ -174,7 +174,7 @@
 		/obj/item/clothing/suit/apron/surgical = 5,
 		/obj/item/clothing/mask/surgical = 5,
 		/obj/item/clothing/mask/balaclava/breath/redscarf/bluescarf = 4,
-		/obj/item/clothing/gloves/color/latex/nitrile = 2,
+		/obj/item/clothing/gloves/color/latex/nitrile = 5,
 		/obj/item/clothing/under/rank/medical/doctor/util = 5,
 		/obj/item/clothing/under/rank/medical/paramedic/red = 5,
 		/obj/item/clothing/suit/toggle/labcoat/emt/red = 5,
@@ -377,6 +377,7 @@
 		/obj/item/clothing/under/rank/civilian/hydroponics = 5,
 		/obj/item/clothing/under/rank/civilian/hydroponics/skirt = 5,
 		/obj/item/clothing/mask/bandana = 4,
+		/obj/item/clothing/gloves/botanic_leather = 5,
 	)
 	contraband = list(
 		/obj/item/clothing/under/suit/scarface = 2,
@@ -479,6 +480,7 @@
 		/obj/item/reagent_containers/rag = 3,
 		/obj/item/book/granter/crafting_recipe/cooking_sweets_101 = 2,
 		/obj/item/book/granter/crafting_recipe/coldcooking = 2,
+		/obj/item/clothing/gloves/color/white = 3,
 	)
 	contraband = list(
 		/obj/item/card/id/muck = 2,
@@ -825,8 +827,8 @@
 		/obj/item/clothing/gloves/combat/maid = 5,
 		/obj/item/clothing/head/maid/syndicate = 5,
 		/obj/item/card/id/syndicate = 5,
-		/obj/item/clothing/suit/armor/vest/capcarapace/syndicate/winter = 1,
-		/obj/item/clothing/suit/armor/vest/capcarapace/syndicate = 1,
+		/obj/item/clothing/suit/toggle/captains_parade/syndicate/winter = 1,
+		/obj/item/clothing/suit/toggle/captains_parade/syndicate = 1,
 		/obj/item/clothing/head/hats/warden/syndicate = 1,
 		/obj/item/storage/backpack/duffelbag/syndie = 2
 	)
@@ -920,12 +922,12 @@
 		/obj/item/clothing/suit/hooded/wintercoat/syndicate/civil = 5,
 		/obj/item/clothing/suit/armor/vest/infiltrator/gorlex_harness/civil = 5,
 		/obj/item/clothing/suit/armor/vest/fake = 5,
-		/obj/item/clothing/suit/armor/vest/capcarapace/syndicate/winter/civil = 5,
-		/obj/item/clothing/suit/armor/vest/capcarapace/syndicate/civil = 5,
+		/obj/item/clothing/suit/toggle/captains_parade/syndicate/winter/civil = 5,
+		/obj/item/clothing/suit/toggle/captains_parade/syndicate/civil = 5,
 		/obj/item/clothing/head/maid/syndicate/civil = 5,
 		/obj/item/clothing/head/helmet/swat/ds/civil = 5,
 		/obj/item/clothing/head/hats/warden/syndicate/civil = 5,
-		/obj/item/card/id/callsign = 5
+		/obj/item/card/id/syndicate_citizen = 5
 	)
 	refill_canister = /obj/item/vending_refill/wardrobe/syndie_wardrobe/civil
 	light_color = COLOR_MOSTLY_PURE_RED
@@ -1057,7 +1059,7 @@
 		/obj/item/storage/backpack/security = 1,
 		/obj/item/storage/backpack/satchel/sec = 1,
 		/obj/item/storage/backpack/duffelbag/sec = 1,
-		/obj/item/clothing/suit/toggle/armor/hos/hos_formal = 1,
+		/obj/item/clothing/suit/toggle/captains_parade/hos_formal = 1,
 		/obj/item/clothing/shoes/jackboots = 1,
 		/obj/item/clothing/under/rank/security/head_of_security/parade/female = 1,
 		/obj/item/clothing/under/rank/security/head_of_security/parade = 1,

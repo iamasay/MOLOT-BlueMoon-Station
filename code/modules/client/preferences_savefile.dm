@@ -486,6 +486,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ghost_hud"] >> ghost_hud
 	S["inquisitive_ghost"] >> inquisitive_ghost
 	S["uses_glasses_colour"]>> uses_glasses_colour
+	S["surgical_disable_radial"]>> surgical_disable_radial // BLUEMOON ADD
 	S["clientfps"] >> clientfps
 	S["parallax"] >> parallax
 	S["ambientocclusion"] >> ambientocclusion
@@ -507,11 +508,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//citadel code
 	S["arousable"] >> arousable
+	S["sexknotting"] >> sexknotting // BLUEMOON ADD
 	S["screenshake"] >> screenshake
 	S["damagescreenshake"] >> damagescreenshake
 	S["autostand"] >> autostand
 	S["cit_toggles"] >> cit_toggles
-	S["preferred_chaos"] >> preferred_chaos
+	S["preferred_chaos_level"] >> preferred_chaos_level
 	S["auto_ooc"] >> auto_ooc
 	S["no_tetris_storage"] >> no_tetris_storage
 	S["recoil_screenshake"] >> recoil_screenshake
@@ -561,6 +563,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	toggles = sanitize_integer(toggles, 0, 16777215, initial(toggles))
 	deadmin = sanitize_integer(deadmin, 0, 16777215, initial(deadmin))
 	clientfps = sanitize_integer(clientfps, 0, 1000, 0)
+	preferred_chaos_level = sanitize_integer(preferred_chaos_level, 0, 3, 2)
 	parallax = sanitize_integer(parallax, PARALLAX_DISABLE, PARALLAX_INSANE, null)
 	ambientocclusion = sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))
 	auto_fit_viewport = sanitize_integer(auto_fit_viewport, 0, 1, initial(auto_fit_viewport))
@@ -695,6 +698,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["ghost_hud"], ghost_hud)
 	WRITE_FILE(S["inquisitive_ghost"], inquisitive_ghost)
 	WRITE_FILE(S["uses_glasses_colour"], uses_glasses_colour)
+	WRITE_FILE(S["surgical_disable_radial"], surgical_disable_radial) // BLUEMOON ADD
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["parallax"], parallax)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
@@ -713,12 +717,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["screenshake"], screenshake)
 	WRITE_FILE(S["damagescreenshake"], damagescreenshake)
 	WRITE_FILE(S["arousable"], arousable)
+	WRITE_FILE(S["sexknotting"], sexknotting) // BLUEMOON ADD
 	WRITE_FILE(S["widescreenpref"], widescreenpref)
 	WRITE_FILE(S["fullscreen"], fullscreen)
 	WRITE_FILE(S["long_strip_menu"], long_strip_menu)
 	WRITE_FILE(S["autostand"], autostand)
 	WRITE_FILE(S["cit_toggles"], cit_toggles)
-	WRITE_FILE(S["preferred_chaos"], preferred_chaos)
+	WRITE_FILE(S["preferred_chaos_level"], preferred_chaos_level)
 	WRITE_FILE(S["auto_ooc"], auto_ooc)
 	WRITE_FILE(S["no_tetris_storage"], no_tetris_storage)
 	WRITE_FILE(S["recoil_screenshake"], recoil_screenshake)
@@ -732,11 +737,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["view_pixelshift"], view_pixelshift)
 	WRITE_FILE(S["eorg_enabled"], eorg_enabled)
 
-	var/mob/living/carbon/human/H = parent.mob
-	if(istype(H))
-		H.set_antag_target_indicator() // Update consent HUD
-	//
-
 	//SKYRAT CHANGES BEGIN
 	WRITE_FILE(S["see_chat_emotes"], see_chat_emotes)
 	//SKYRAT CHANGES END
@@ -746,8 +746,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	else
 		WRITE_FILE(S["unlockable_loadout"], safe_json_encode(list()))
 
-	if(parent && !silent)
-		to_chat(parent, span_notice("Saved preferences!"))
+	if(parent)
+		if(ishuman(parent?.mob))
+			var/mob/living/carbon/human/H = parent.mob
+			H.set_antag_target_indicator() // Update consent HUD
+
+		if(!silent)
+			to_chat(parent, span_notice("Saved preferences!"))
 
 	return S
 
@@ -1743,8 +1748,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	bluemoon_character_pref_save(S)
 
-	if(parent && !silent)
-		to_chat(parent, span_notice("Saved character slot!"))
+	if(parent)
+		if(ishuman(parent?.mob))
+			var/mob/living/carbon/human/H = parent.mob
+			H.set_antag_target_indicator() // Update consent HUD
+
+		if(!silent)
+			to_chat(parent, span_notice("Saved character slot!"))
 
 	return S
 

@@ -277,18 +277,21 @@
 			W.attach(src, user, params)
 		return TRUE
 	if(user.a_intent != INTENT_HARM && !(I.item_flags & ABSTRACT))
-		if(user.transferItemToLoc(I, drop_location()))
-			var/list/click_params = params2list(params)
-			//Center the icon where the user clicked.
-			if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
-				return
-			//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
-			I.pixel_x = clamp(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
-			I.pixel_y = clamp(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
-			AfterPutItemOnTable(I, user)
-			return TRUE
+		return PutItemOnTable(I, user, params)
 	else
 		return ..()
+
+/obj/structure/table/proc/PutItemOnTable(obj/item/I, mob/living/user, params)
+	if(user.transferItemToLoc(I, drop_location()))
+		var/list/click_params = params2list(params)
+		//Center the icon where the user clicked.
+		if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
+			return
+		//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
+		I.pixel_x = clamp(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
+		I.pixel_y = clamp(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
+		AfterPutItemOnTable(I, user)
+		return TRUE
 
 /obj/structure/table/proc/AfterPutItemOnTable(obj/item/I, mob/living/user)
 	return
@@ -754,7 +757,7 @@
 	buildstack = /obj/item/stack/sheet/mineral/silver
 	smooth = SMOOTH_FALSE
 	can_buckle = 1
-	buckle_lying = 1
+	buckle_lying = 90
 	var/mob/living/carbon/human/patient = null
 	var/obj/machinery/computer/operating/computer = null
 // BLUEMOON ADD START
@@ -771,7 +774,8 @@
 
 /obj/structure/table/optable/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	LAZYSET(context[SCREENTIP_CONTEXT_LMB], INTENT_ANY, "Unbuckle patient")
-	LAZYSET(context[SCREENTIP_CONTEXT_LMB], INTENT_DISARM, "Set internals")
+	LAZYSET(context[SCREENTIP_CONTEXT_ALT_LMB], INTENT_ANY, "Set internals")
+	LAZYSET(context[SCREENTIP_CONTEXT_CTRL_LMB], INTENT_ANY, "Remove tank and mask")
 	return CONTEXTUAL_SCREENTIP_SET
 
 /obj/structure/table/optable/examine(mob/user)
@@ -791,14 +795,15 @@
 	if(computer)
 		. += span_info("Операционный стол подключен к компьютеру рядом через кабель на полу.")
 
-/obj/structure/table/optable/examine_more(mob/user)
-	. = ..()
-	. += span_notice("Убирать кислородный баллон и маску можно через Alt.")
-	if(tank && mask) . += span_info("<br>Можно попробовать включить оборудование для анестезии, если положить кого-то на стол.")
+	if(tank && mask)
+		. += span_notice("Alt-Click: Можно попробовать включить оборудование для анестезии, если положить кого-то на стол.")
 
-/obj/structure/table/optable/attack_hand(mob/user, act_intent, attackchain_flags)
+	if(tank || mask)
+		. += span_notice("Ctrl-Click: Отсоединить от стола баллон и маску.")
+
+/obj/structure/table/optable/AltClick(mob/living/user)
 	. = ..()
-	if(user.a_intent != INTENT_DISARM)
+	if(!isliving(user) || !user.canUseTopic(src, BE_CLOSE))
 		return
 	if(tank && mask)
 		if(!check_patient())
@@ -839,6 +844,25 @@
 		to_chat(user, span_warning("[src] не имеет прикрепленного к нему баллона или маски!"))
 		return
 
+/obj/structure/table/optable/CtrlClick(mob/user)
+	. = ..()
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return
+	if(!isliving(user))
+		to_chat(user, span_warning("Это слишком сложно для вас!"))
+		return
+	if(check_patient())
+		to_chat(user, span_warning("Сначала нужно убрать пациента!"))
+		return
+	if(tank && !patient?.internal)
+		to_chat(user, span_notice("Вы убираете [tank] с бока операционного стола."))
+		user.put_in_hands(tank)
+		tank = null
+	else if(mask && !patient?.internal)
+		to_chat(user, span_notice("Вы убираете [mask] со стойки операционного стола."))
+		user.put_in_hands(mask)
+		mask = null
+
 /obj/structure/table/optable/attack_robot(mob/user)
 	if(Adjacent(user))
 		return attack_hand(user)
@@ -846,11 +870,6 @@
 /obj/structure/table/optable/post_buckle_mob(mob/living/M)
 	. = ..()
 	check_patient()
-
-/obj/structure/table/optable/user_unbuckle_mob(mob/living/buckled_mob, mob/user)
-	if(user.a_intent == INTENT_DISARM)
-		return
-	. = ..()
 
 /obj/structure/table/optable/process()
 	if(mask?.loc != patient || tank?.loc != src || patient?.loc != loc)
@@ -868,23 +887,6 @@
 	patient.internal = null
 	patient = null
 
-/obj/structure/table/optable/AltClick(mob/living/user)
-	..()
-	if(!ishuman(user))
-		to_chat(user, span_warning("Это слишком сложно для вас!"))
-		return
-	if(patient)
-		to_chat(user, span_warning("Сначала нужно убрать пациента!"))
-		return
-	if(tank && !patient?.internal)
-		to_chat(user, span_notice("Вы убираете [tank] с бока операционного стола."))
-		user.put_in_hands(tank)
-		tank = null
-	else if(mask && !patient?.internal)
-		to_chat(user, span_notice("Вы убираете [mask] со стойки операционного стола."))
-		user.put_in_hands(mask)
-		mask = null
-
 /obj/structure/table/optable/Destroy()
 	if(tank)
 		tank.forceMove(loc)
@@ -894,6 +896,10 @@
 		mask = null
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
+
+// We dont wont put item
+/obj/structure/table/optable/PutItemOnTable(obj/item/I, mob/living/user, params)
+	return
 
 /obj/structure/table/optable/attackby(obj/item/I, mob/living/user, attackchain_flags, damage_multiplier)
 	if(user.a_intent == INTENT_HELP)

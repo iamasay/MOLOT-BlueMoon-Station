@@ -37,9 +37,9 @@
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_SEC
 
-	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM, TRAIT_FENCER)
 
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/blindness, /datum/quirk/monophobia)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/blindness, /datum/quirk/monophobia, /datum/quirk/illiterate)
 
 	display_order = JOB_DISPLAY_ORDER_NTR
 	departments = DEPARTMENT_BITFLAG_LAW
@@ -50,23 +50,10 @@
 		/obj/item/book/manual/wiki/security_space_law
 	)
 
-/obj/item/radio/headset/heads/ntr
-	name = "\proper the NanoTrasen Representative headset"
-	desc = "The headset of the lead station's judge."
-	icon_state = "com_headset"
-	keyslot = new /obj/item/encryptionkey/headset_ntr
-
-/obj/item/radio/headset/heads/ntr/equipped(mob/user, slot)
-	..()
-	if((slot == ITEM_SLOT_EARS_LEFT) || (slot == ITEM_SLOT_EARS_RIGHT))
-		user.typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/law
-	else
-		user.typing_indicator_state = /obj/effect/overlay/typing_indicator
-
 /obj/item/pda/heads/ntr
 	name = "NanoTrasen Representative PDA"
 	default_cartridge = /obj/item/cartridge/hos
-	icon_state = "pda-security"
+	icon_state = "pda-ntr"
 
 /obj/item/clothing/suit/armor/ntr
 	name = "NanoTrasen Officer Coat"
@@ -79,6 +66,7 @@
 	unique_reskin = list(
 		"Syndicate Officer Coat" = list("icon_state" = "str"),
 		"Trenchcoat" = list("icon_state" = "detective"),
+		"CentCom Officer Coat" = list("icon_state" = "centcom_coat"),
 		"Red Coat" = list("icon_state" = "armadyne_trench")
 	)
 
@@ -96,6 +84,12 @@
 	icon_state = "ntrberet"
 	item_state = "ntrberet"
 
+/obj/item/clothing/head/beret/sec/ntr_hat
+	name = "nanotrasen consultant's hat"
+	desc = "A cap made from durathread, it has an insignia on the front denoting the rank of \"Nanotrasen Consultant\"."
+	icon_state = "ntrhat"
+	item_state = "ntrhat"
+
 /obj/item/clothing/shoes/laceup/ntr // даем великому и ужасному судье раундстартом ноуслип туфли
 	name = "distinguished laceup shoes"
 	clothing_flags = NOSLIP
@@ -106,22 +100,22 @@
 
 	belt = /obj/item/pda/heads/ntr
 	id = /obj/item/card/id/silver
-	ears = /obj/item/radio/headset/heads/ntr
+	ears = /obj/item/radio/headset/headset_cent/ntr
 	gloves = /obj/item/clothing/gloves/color/black
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
+	uniform = /obj/item/clothing/under/rank/centcom/officer_alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
 	shoes = /obj/item/clothing/shoes/laceup/ntr
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
+	backpack = /obj/item/storage/backpack/captain/ntr //BLUEMOON add
+	satchel = /obj/item/storage/backpack/satchel/cap/ntr //BLUEMOON add
+	duffelbag = /obj/item/storage/backpack/duffelbag/captain/ntr //BLUEMOON add
 
 	chameleon_extras = /obj/item/stamp/law
 
-	backpack_contents = list(/obj/item/gun/energy/e_gun=1, /obj/item/stamp/law=1)
+	backpack_contents = list(/obj/item/gun/energy/e_gun=1, /obj/item/stamp/law=1, /obj/item/pen/fourcolor/ntr)
 
 	box = /obj/item/storage/box/survival/command
 
@@ -135,10 +129,10 @@
 
 	//belt = /obj/item/pda/syndicate/no_deto
 
-	ears = /obj/item/radio/headset/heads/ntr
+	ears = /obj/item/radio/headset/headset_cent/ntr
 	gloves = /obj/item/clothing/gloves/combat
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black/alt
+	uniform = /obj/item/clothing/under/rank/centcom/officer_alt
 	suit = /obj/item/clothing/suit/armor/ntr
 	head = /obj/item/clothing/head/beret/sec/ntr
 	shoes = /obj/item/clothing/shoes/laceup/ntr
@@ -151,7 +145,7 @@
 	pda_slot = ITEM_SLOT_BELT
 	accessory = /obj/item/clothing/accessory/permit/special/representative
 
-	backpack_contents = list(/obj/item/gun/energy/e_gun=1, /obj/item/stamp/law=1, /obj/item/syndicate_uplink=1)
+	backpack_contents = list(/obj/item/gun/energy/e_gun=1, /obj/item/stamp/law=1, /obj/item/syndicate_uplink=1, /obj/item/pen/fourcolor/ntr)
 
 /datum/outfit/job/ntr/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	..()

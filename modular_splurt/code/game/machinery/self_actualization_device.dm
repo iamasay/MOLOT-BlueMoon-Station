@@ -22,8 +22,8 @@
 	icon = 'modular_splurt/icons/obj/machinery/self_actualization_device.dmi'
 	icon_state = "sad_open"
 	circuit = /obj/item/circuitboard/machine/self_actualization_device
-	state_open = FALSE
-	density = TRUE
+	state_open = TRUE
+	density = FALSE
 	/// Is someone being processed inside of the machine?
 	var/processing = FALSE
 	/// How long does it take to break out of the machine?
@@ -42,9 +42,6 @@
 	)
 	allow_oversized_characters = TRUE
 
-/obj/machinery/self_actualization_device/update_appearance(updates)
-	. = ..()
-
 /obj/machinery/self_actualization_device/Initialize(mapload)
 	. = ..()
 	update_appearance()
@@ -61,7 +58,6 @@
 		return FALSE
 	to_chat(occupant, span_notice("You enter [src]."))
 	update_appearance()
-
 
 /obj/machinery/self_actualization_device/examine(mob/user)
 	. = ..()
@@ -176,8 +172,16 @@
 	patient.getBruteLoss(brute_damage)
 	patient.getFireLoss(burn_damage)
 
+	if(SSquirks?.check_blacklist_conflicts(patient.client?.prefs?.all_quirks))
+		patient.client.prefs.all_quirks.Cut()
+		patient.client.prefs.save_character()
+		log_admin("All quirks for [key_name(patient)] were reset due to quirk selection blacklist (via Self-Actualization Device).")
+
 	SSquirks.AssignQuirks(patient, patient.client, TRUE, TRUE, null, FALSE, patient)
 	SSlanguage.AssignLanguage(patient, patient.client)
+	if(iscuratorjob(patient))
+		patient.grant_all_languages(source = LANGUAGE_CURATOR)
+		patient.remove_blocked_language(GLOB.all_languages, source=LANGUAGE_ALL)
 
 	open_machine()
 	playsound(src, 'sound/machines/microwave/microwave-end.ogg', 100, FALSE)

@@ -174,6 +174,14 @@
 	can_adjust = TRUE
 	fitted = FEMALE_UNIFORM_TOP
 
+/obj/item/clothing/under/donator/bm/braskirt
+	name = "Red bra and striped skirt"
+	desc = "Red side-slit skirt with stripes! Comes with a matching two-tone bra."
+	icon_state = "braskirt"
+	item_state = "braskirt"
+	can_adjust = TRUE
+	fitted = FEMALE_UNIFORM_TOP
+
 /obj/item/clothing/underwear/briefs/kladmen_panties
 	name = "Panties"
 	icon_state = "kladmen_panties"
@@ -276,23 +284,84 @@
 			На обратной стороне изображен стеклянный цилиндр с синим космическим кристаллом внутри. \
 			В юбку встроен радар внешнего обзора. Иногда происходит пространственное смещение... стоп ЧТО?!"
 	icon_state = "InlaidDataDress"
-	actions_types = list(/datum/action/item_action/degree_distortion_effect)
-	var/atom/movable/distortion_effect/filter_on_user
+	actions_types = list(/datum/action/item_action/degree_distortion_effect, /datum/action/item_action/toggle_echo_effect_dress)
+	can_adjust = TRUE
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	species_restricted = list("I.P.C.", "Synthetic Lizardperson", "Synthetic", "Military Synth")
+	var/obj/effect/distortion_effect/filter_on_user
+	var/obj/effect/dress_particle_holder/particle_effect_holder
+	var/obj/echo
+	var/active_echo = TRUE
 
 /obj/item/clothing/under/donator/bm/inlaid_data_dress/New()
 	. = ..()
+
+	echo = new(src)
+	echo.plane = FIELD_OF_VISION_LAYER
+
 	filter_on_user = new(src)
+	particle_effect_holder = new(src)
+
 	LAZYADD(vis_contents, filter_on_user)
+	LAZYADD(vis_contents, particle_effect_holder)
+
+	START_PROCESSING(SSfastprocess, src)
 
 /obj/item/clothing/under/donator/bm/inlaid_data_dress/equipped(mob/user, slot)
 	. = ..()
 	LAZYADD(user.vis_contents, filter_on_user)
+	LAZYADD(user.vis_contents, particle_effect_holder)
+	LAZYADD(user.vis_contents, echo)
+
+	echo.render_source = user.render_target
 
 /obj/item/clothing/under/donator/bm/inlaid_data_dress/dropped(mob/user)
 	LAZYREMOVE(user.vis_contents, filter_on_user)
+	LAZYREMOVE(user.vis_contents, particle_effect_holder)
+	LAZYREMOVE(user.vis_contents, echo)
+
+	echo.render_source = null
 	. = ..()
 
-/atom/movable/distortion_effect
+/obj/item/clothing/under/donator/bm/inlaid_data_dress/toggle_jumpsuit_adjust()
+	if(!body_parts_covered)
+		icon_state = "InlaidDataDress"
+		item_state = "InlaidDataDress"
+		body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	else
+		icon_state = "InlaidDataDress_open"
+		item_state = "InlaidDataDress_open"
+		body_parts_covered = NONE
+	return TRUE
+
+/obj/item/clothing/under/donator/bm/inlaid_data_dress/add_atom_colour(coloration, colour_priority)
+	. = ..()
+	if(filter_on_user)
+		filter_on_user.add_atom_colour(coloration, colour_priority)
+
+	if(particle_effect_holder)
+		particle_effect_holder.add_atom_colour(coloration, colour_priority)
+
+/obj/item/clothing/under/donator/bm/inlaid_data_dress/remove_atom_colour(colour_priority, coloration)
+	. = ..()
+	if(filter_on_user)
+		filter_on_user.remove_atom_colour(coloration, colour_priority)
+
+	if(particle_effect_holder)
+		particle_effect_holder.remove_atom_colour(coloration, colour_priority)
+
+/obj/item/clothing/under/donator/bm/inlaid_data_dress/process(delta_time)
+	if(active_echo)
+		echo_animation()
+
+/obj/item/clothing/under/donator/bm/inlaid_data_dress/proc/echo_animation()
+	var/matrix/m = matrix()
+	m.Translate(rand(-4, 4), rand(-2, 2))
+
+	animate(echo, transform = m, alpha = 48, time = 2, loop=0, flags=ANIMATION_END_NOW)
+	animate(transform = m.Invert(), alpha = 0, time = 2)
+
+/obj/effect/distortion_effect
 	icon = 'modular_bluemoon/fluffs/icons/effects/32x32.dmi'
 	icon_state = "distortion_a"
 	pixel_x = 0
@@ -325,6 +394,46 @@
 
 	T.filter_on_user.alpha = alpha
 
+/datum/action/item_action/toggle_echo_effect_dress
+	name = "Toggle Echo"
+
+/datum/action/item_action/toggle_echo_effect_dress/Trigger()
+
+	if(!..())
+		return FALSE
+
+	var/obj/item/clothing/under/donator/bm/inlaid_data_dress/T = target
+
+	if(!T || !istype(T))
+		return FALSE
+
+	T.active_echo = !T.active_echo
+
+/obj/effect/dress_particle_holder
+	pixel_y = -8
+	alpha = 150
+	plane = FIELD_OF_VISION_LAYER
+	appearance_flags = PIXEL_SCALE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	vis_flags = VIS_INHERIT_LAYER
+
+/obj/effect/dress_particle_holder/New(loc, ...)
+	. = ..()
+	particles = new /particles/dress_particles()
+
+/particles/dress_particles
+	icon = 'modular_bluemoon/fluffs/icons/effects/32x32.dmi'
+	icon_state = "dress_particle"
+	width = 96
+	height = 96
+	count = 40
+	spawning = 8
+	lifespan = 4
+	scale = list(0.75, 0.75)
+	position = generator("circle", 0, 10)
+	velocity = generator("circle", 0.3, 1)
+	fade = 1
+
 /obj/item/clothing/under/donator/bm/saareuni
 	name = "SAARE BDU G3"
 	desc = "Standardized GEN3 BATTLE DRESS UNIFORM issued to each operator for all types of tasks performed on the job. Has characteristic SAARE forearm insignia."
@@ -337,3 +446,78 @@
 	item_state = "saare"
 	can_adjust = TRUE
 
+/obj/item/clothing/under/donator/bm/kladmen_dress
+	name = "Gothic Dress"
+	desc = " Long gothic dress decorated with lace patterns ."
+	icon_state = "kladmen_dress"
+	item_state = "kladmen_dress"
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+
+/obj/item/clothing/under/donator/bm/ranger_uniform
+	name = "Ranger Uniform"
+	desc = "The standard uniform of the Special Unit Rangers is designed for long-term and moderate wear, and the lightweight composite fabrics provide good mobility and lightness."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/under.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/under.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_right.dmi'
+	icon_state = "ranger_uniform"
+	item_state = "ranger_uniform"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/donator/bm/soviet_uniform
+	name = "Soviet Black Uniform"
+	desc = "The standard uniform of the Special Unit Rangers is designed for long-term and moderate wear, and the lightweight composite fabrics provide good mobility and lightness."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/under.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/under.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+	icon_state = "sovietblack"
+	item_state = "syndicate-black"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/rank/brigdoc/mu88_swimsuit
+	name = "M.U. 88 New hope swimcoat"
+	desc = "Лёгкое и незамысловатое одеяние, похожее на женский купальник белого цвета, имеющее подобие корсета из двух чёрных ремешков у пояса. Сделано из гибрида синтетических волокон, делая носку приятной, а сам элемент одежды - прочным и износостойким. На внутренней части имеется небольшой логотип производителя в виде чёрной розы, а рядом надпись - Black Rose atelier."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/under.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/under.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_right.dmi'
+	icon_state = "mu88_swimsuit"
+	item_state = "mu88_swimsuit"
+	can_adjust = FALSE
+
+///////////////////////////////////////////////
+
+/obj/item/clothing/under/donator/bm/dm_pzgrnd_uniform
+	name = "motorized infantry uniform"
+	desc = "A comfortable, durable, and reliable form designed for long movements in harsh conditions. The label inside shows the inscription \"DM Arms\"."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/under.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/under.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_right.dmi'
+	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
+	icon_state = "pz_grenadieruniform"
+	item_state = "pz_grenadieruniform"
+	can_adjust = FALSE
+
+///////////////////////////////////////////////
+
+/obj/item/clothing/under/donator/bm/cesar_tunic
+
+	name = "Fancy tunic"
+	desc = "A comfortable tunic made of expensive fabrics and decorated with gold threads."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/under.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/under.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/under_digi.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_right.dmi'
+	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
+	icon_state = "cesar_tunic"
+	item_state = "cesar_tunic"
+	can_adjust = FALSE
+	unique_reskin = list(
+		"Standart" = list("icon_state" = "cesar_tunic"),
+		"half" = list("icon_state" = "cesar_tunic_alt")
+	)

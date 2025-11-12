@@ -19,6 +19,7 @@
 	icon_state = "dispenser"
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 40
+	active_power_usage = 1000
 	interaction_flags_machine = INTERACT_MACHINE_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OFFLINE
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	circuit = /obj/item/circuitboard/machine/chem_dispenser
@@ -26,7 +27,7 @@
 	var/powerefficiency = 0.0666666
 	var/dispenceUnit = 5
 	var/amount = 30
-	var/recharge_amount = 100 // BLUEMOON EDIT
+	var/recharge_amount = 300 // BLUEMOON EDIT
 	var/recharge_counter = 0
 	var/canStore = TRUE//If this can hold reagents or not
 	var/mutable_appearance/beaker_overlay
@@ -126,10 +127,14 @@
 /obj/machinery/chem_dispenser/process()
 	if (recharge_counter >= 4)
 		if(!is_operational())
+			if(use_power == ACTIVE_POWER_USE)
+				use_power = IDLE_POWER_USE
 			return
 		var/usedpower = cell.give(recharge_amount)
 		if(usedpower)
-			use_power(250*recharge_amount)
+			use_power = ACTIVE_POWER_USE
+		else
+			use_power = IDLE_POWER_USE
 		recharge_counter = 0
 		return
 	recharge_counter++
@@ -472,6 +477,11 @@
 	var/newpowereff = initial(powerefficiency)
 	for(var/obj/item/stock_parts/cell/P in component_parts)
 		cell = P
+		// Добавляем минорное облучение, если батарея радиоактивна. Большей частью ради свечения.
+		if(P.cell_is_radioactive)
+			AddComponent(/datum/component/radioactive, 0, src, 0)
+		else
+			qdel(GetComponent(/datum/component/radioactive))
 	for(var/obj/item/stock_parts/matter_bin/M in component_parts)
 		newpowereff += 0.0166666666*M.rating
 		if(reagents)

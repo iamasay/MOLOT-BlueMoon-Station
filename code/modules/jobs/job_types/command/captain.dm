@@ -31,7 +31,9 @@
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
 	departments = DEPARTMENT_BITFLAG_COMMAND
 
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/blindness)
+	mind_traits = list(TRAIT_FENCER)
+
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/blindness, /datum/quirk/illiterate)
 	threat = 5
 
 	family_heirlooms = list(
@@ -92,7 +94,7 @@
 	neck = /obj/item/clothing/neck/cloak/syndieadm
 	gloves = /obj/item/clothing/gloves/color/captain
 	uniform = /obj/item/clothing/under/rank/captain/util
-	suit = /obj/item/clothing/suit/armor/vest/capcarapace/syndicate
+	suit = /obj/item/clothing/suit/toggle/captains_parade/syndicate
 	shoes = /obj/item/clothing/shoes/jackboots/tall_default
 	head = /obj/item/clothing/head/HoS/syndicate
 
