@@ -74,7 +74,6 @@
 			"<span class='warning'>[user] screws up, causing brain damage!</span>",
 			"[user] completes the surgery on [target]'s brain.")
 		target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 40)
-		..()
 	else
 		user.visible_message("<span class='warning'>[user] suddenly notices that the brain [user.ru_who()] [user.p_were()] working on is not there anymore.", "<span class='warning'>You suddenly notice that the brain you were working on is not there anymore.</span>")
 	return FALSE

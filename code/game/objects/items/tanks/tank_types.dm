@@ -12,7 +12,7 @@
  */
 /obj/item/tank/internals/oxygen
 	name = "oxygen tank"
-	desc = "Баллон кислорода синего цвета."
+	desc = "A tank of oxygen, this one is blue."
 	icon_state = "oxygen"
 	distribute_pressure = TANK_DEFAULT_RELEASE_PRESSURE
 	force = 10
@@ -25,12 +25,12 @@
 
 
 /obj/item/tank/internals/oxygen/yellow
-	desc = "Баллон кислорода жёлтого цвета."
+	desc = "A tank of oxygen, this one is yellow."
 	icon_state = "oxygen_f"
 	dog_fashion = null
 
 /obj/item/tank/internals/oxygen/red
-	desc = "Баллон кислорода красного цвета."
+	desc = "A tank of oxygen, this one is red."
 	icon_state = "oxygen_fr"
 	dog_fashion = null
 
@@ -42,7 +42,7 @@
  */
 /obj/item/tank/internals/anesthetic
 	name = "anesthetic tank"
-	desc = "Баллон с газовой смесью N2O/O2."
+	desc = "A tank with an N2O/O2 gas mix."
 	icon_state = "anesthetic"
 	item_state = "an_tank"
 	force = 10
@@ -77,7 +77,7 @@
  */
 /obj/item/tank/internals/plasma
 	name = "plasma tank"
-	desc = "Содержит опасную плазму. Не вдыхать. Внимание: экстремально горючее."
+	desc = "Contains dangerous plasma. Do not inhale. Warning: extremely flammable."
 	icon_state = "plasma"
 	flags_1 = CONDUCT_1
 	slot_flags = null	//they have no straps!
@@ -117,7 +117,7 @@
 
 /obj/item/tank/internals/plasmaman
 	name = "plasma internals tank"
-	desc = "Баллон плазмы, спроектированный для дыхания, в частности, плазменными формами жизни. Если вы не плазмачеловек, вам не следует его использовать."
+	desc = "A tank of plasma gas designed specifically for use as internals, particularly for plasma-based lifeforms. If you're not a Plasmaman, you probably shouldn't use this."
 	icon_state = "plasmaman_tank"
 	item_state = "plasmaman_tank"
 	force = 10
@@ -153,7 +153,7 @@
  */
 /obj/item/tank/internals/emergency_oxygen
 	name = "emergency oxygen tank"
-	desc = "Для чрезвычайных ситуаций. Содержит малый объём кислорода, постарайтесь сохранить его на случай крайней необходимости."
+	desc = "Used for emergencies. Contains very little oxygen, so try to conserve it until you actually need it."
 	icon_state = "emergency"
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
@@ -172,19 +172,18 @@
 
 /obj/item/tank/internals/emergency_oxygen/engi
 	name = "extended-capacity emergency oxygen tank"
-	desc = "Для чрезвычайных ситуаций и инженерных нужд. Этот баллон вмещает немного больший объем кислорода, судя по бирке на обратной стороне."
 	icon_state = "emergency_engi"
 	volume = 6
 
 /obj/item/tank/internals/emergency_oxygen/engi/sec
 	name = "security extended-capacity emergency oxygen tank"
 	icon_state = "emergency_sec"
-	desc = "Тёмно-красный баллон кислорода для чрезвычайных ситуаций. Обычно используется службами безопасности."
+	desc = "A black-red emergency oxygen tank. Used by corporate security departments."
 
 /obj/item/tank/internals/emergency_oxygen/engi/syndi
 	name = "Suspicious Emergency Oxygen Tank"
 	icon_state = "emergency_syndi"
-	desc = "Тёмный баллон кислорода. На наклейке сзади написано: \"Оригинальный Дизайн Кислородного Баллона, Все Права Защищены.\""
+	desc = "A dark emergency oxygen tank. The label on the back reads \"Original Oxygen Tank Design, Do Not Steal.\""
 	volume = 12
 
 /obj/item/tank/internals/emergency_oxygen/engi/empty/populate_gas()
@@ -192,9 +191,8 @@
 
 /obj/item/tank/internals/emergency_oxygen/double
 	name = "double emergency oxygen tank"
-	desc = "Сдвоенный жёлтый баллон кислорода знакомого дизайна. Вмещает почти в два раза больше объёма газа, нежели малый собрат."
 	icon_state = "emergency_double"
-	volume = 10
+	volume = 12
 
 /obj/item/tank/internals/emergency_oxygen/double/empty/populate_gas()
 	return

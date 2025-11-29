@@ -262,9 +262,9 @@
 	fromitem = list(/obj/item/gun/ballistic/automatic/pistol/enforcer/nomag, /obj/item/gun/ballistic/automatic/pistol/enforcer, /obj/item/gun/ballistic/automatic/pistol/enforcerred, /obj/item/gun/ballistic/automatic/pistol/enforcergold)
 
 /obj/item/gun/ballistic/automatic/pistol/enforcer/nue
-	name = "\improper Araki Arms Nue"
-	desc = "Elegant, reliable and deadly, the semi-automatic, double-action pistol that fires .45 caliber ammunition and engineered to fit any hand. The handle is decorated with orange-colored ergonomic rubber with a Vulpkanin muzzle on it. It's looks familiar."
-	icon = 'modular_bluemoon/fluffs/icons/obj/32x36.dmi'
+	name = "\improper Araki Nue"
+	desc = "Semi-automatic, double-action pistol that was engineered to fit any hand. The handle is decorated with orange-colored ergonomic rubber with a Vulpkanin muzzle on it. It's looks familiar."
+	icon = 'modular_bluemoon/fluffs/icons/obj/guns.dmi'
 	icon_state = "nue"
 	can_suppress = FALSE
 	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/nue_shoot.ogg'
@@ -284,9 +284,9 @@
 	fromitem = list(/obj/item/ammo_box/magazine/e45, /obj/item/ammo_box/magazine/e45/taser, /obj/item/ammo_box/magazine/e45/lethal, /obj/item/ammo_box/magazine/e45/stun, /obj/item/ammo_box/magazine/e45/hydra)
 
 /obj/item/gun/ballistic/automatic/pistol/enforcer/malorian
-	name = "\improper Araki Arms 2563"
-	desc = "The only one of it's kind, unique heavy pistol made specially for Vulpboy Shiro Araki. Sleek, sexy, rebellious. Equipped with a smart link, compatible with various ammunition types, highest quality and the collector's value is through the roof. "
-	icon = 'modular_bluemoon/fluffs/icons/obj/48x32.dmi'
+	name = "\improper Araki Arms 3516"
+	desc = "Unique heavy pistol manufactured by Araki Arms. Taking already successful design of previous Araki Nue, this one was designed to the personal specifications of Shiro."
+	icon = 'modular_bluemoon/fluffs/icons/obj/64x64.dmi'
 	icon_state = "arakiarms"
 	can_suppress = FALSE
 	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/nue_shoot.ogg'
@@ -823,25 +823,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/item/modkit/p320_kit
-	name = "Magnetic Pistol p320 Kit"
-	desc = "A modkit for making an Enforcer into a Magnetic Pistol p320."
-	product = /obj/item/gun/ballistic/automatic/pistol/enforcer/p320
-	fromitem = list(/obj/item/gun/ballistic/automatic/pistol/enforcer/nomag, /obj/item/gun/ballistic/automatic/pistol/enforcer, /obj/item/gun/ballistic/automatic/pistol/enforcerred, /obj/item/gun/ballistic/automatic/pistol/enforcergold)
-
-/obj/item/gun/ballistic/automatic/pistol/enforcer/p320
-	name = "\improper P320"
-	desc = "P320 — модульный полуавтоматический пистолет. Данная версия пистолета была собрана под .45 калибр."
-	icon = 'modular_bluemoon/fluffs/icons/obj/P320.dmi'
-	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_left.dmi'
-	righthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_right.dmi'
-	icon_state = "p320"
-	item_state = "p320"
-	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/archivo.ogg'
-	unique_reskin = null
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 /obj/item/modkit/dedication_kit
 	name = "Magnetic Pistol Dedication Kit"
 	desc = "A modkit for making an Enforcer into a Magnetic Pistol Dedication."
@@ -920,27 +901,3 @@
 	desc = "A modkit for making a .38 Mars Special into a RSH-Future."
 	product = /obj/item/gun/ballistic/revolver/detective/rsh_future
 	fromitem = list (/obj/item/gun/ballistic/revolver/detective)
-
-///////////////////////////////////////////////
-
-/obj/item/gun/ballistic/automatic/wt550/stg56
-	name = "\improper StG-56"
-	desc = "Recreated from old blueprints using the latest materials and a pinch of technology. This rifle will still serve well in its lifetime."
-	icon = 'modular_bluemoon/fluffs/icons/obj/48x32.dmi'
-	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_left.dmi'
-	righthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_right.dmi'
-	icon_state = "stg56"
-	item_state = "stg56"
-	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/stg56_shoot.ogg'
-	can_bayonet = FALSE
-
-/obj/item/gun/ballistic/automatic/wt550/stg56/update_icon_state()
-	icon_state = "stg56[magazine ? "" : "-e"]"
-
-/obj/item/modkit/stg56
-	name = "\improper StG-56 Kit"
-	desc = "A modkit for making a WT-550 into a Sturmgewehr-56."
-	product = /obj/item/gun/ballistic/automatic/wt550/stg56
-	fromitem = list(/obj/item/gun/ballistic/automatic/wt550)
-
-///////////////////////////////////////////////

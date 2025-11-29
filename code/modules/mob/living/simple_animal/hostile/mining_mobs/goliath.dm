@@ -114,10 +114,10 @@
 	icon_living = "Goliath"
 	icon_aggro = "Goliath_alert"
 	icon_dead = "Goliath_dead"
-	maxHealth = 800
-	health = 800
+	maxHealth = 400
+	health = 400
 	speed = 4
-	ranged_cooldown_time = 40
+	ranged_cooldown_time = 80
 	pre_attack_icon = "Goliath_preattack"
 	throw_message = "does nothing to the rocky hide of the"
 	loot = list(/obj/item/stack/sheet/animalhide/goliath_hide) //A throwback to the asteroid days
@@ -129,10 +129,6 @@
 	var/turf/last_location
 	var/tentacle_recheck_cooldown = 100
 
-// Отключаю тентаклиевую фауну вокруг древних, из за огромного срача в память удалеными тентаклями и таймерами.
-// Если кто перепишет работу тентаклей (/obj/effect/temp_visual/goliath_tentacle/ и далее по цепочки проки)
-// без их постоянного создания и удаления, жизнь можно включить обратно.
-/*
 /mob/living/simple_animal/hostile/asteroid/goliath/beast/ancient/BiologicalLife(delta_time, times_fired)
 	if(!(. = ..()))
 		return
@@ -149,7 +145,6 @@
 					new /obj/effect/temp_visual/goliath_tentacle(t, src)
 			else
 				cached_tentacle_turfs -= t
-*/
 
 /mob/living/simple_animal/hostile/asteroid/goliath/beast/tendril
 	fromtendril = TRUE

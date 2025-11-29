@@ -116,7 +116,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/blood_color = BLOOD_COLOR_UNIVERSAL
 
 	var/uses_glasses_colour = 0
-	var/surgical_disable_radial = FALSE 		// BLUEMOON ADD
 
 	//character preferences
 	var/real_name							//our character's name
@@ -381,7 +380,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/damagescreenshake = 2
 	var/recoil_screenshake = 100
 	var/arousable = TRUE
-	var/sexknotting = FALSE // BLUEMOON ADD
 	var/autostand = TRUE
 	var/auto_ooc = FALSE
 
@@ -1010,7 +1008,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "ERP : <a href='?_src_=prefs;preference=erp_pref'>[erppref]</a><br>"
 					dat += "Non-Con : <a href='?_src_=prefs;preference=noncon_pref'>[nonconpref]</a><br>"
 					dat += "Vore : <a href='?_src_=prefs;preference=vore_pref'>[vorepref]</a><br>"
-					dat += "Mob Non-Con Sex : <a href='?_src_=prefs;preference=mobsex_pref'>[mobsexpref]</a><br>"
+					dat += "Mob-Sex : <a href='?_src_=prefs;preference=mobsex_pref'>[mobsexpref]</a><br>"
 					dat += "Horny Antags : <a href='?_src_=prefs;preference=hornyantags_pref'>[hornyantagspref]</a><br>"
 
 					dat += "<h2>Lewd preferences</h2>"
@@ -1745,7 +1743,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "<b>Allow Lewd Verbs:</b> <a href='?_src_=prefs;preference=verb_consent'>[(toggles & VERB_CONSENT) ? "Yes":"No"]</a><br>" // Skyrat - ERP Mechanic Addition
 					dat += "<b>Lewd Verb Sounds:</b> <a href='?_src_=prefs;preference=lewd_verb_sounds'>[(toggles & LEWD_VERB_SOUNDS) ? "Yes":"No"]</a><br>" // Sandstorm - ERP Mechanic Addition
 					dat += "<b>Arousal:</b><a href='?_src_=prefs;preference=arousable'>[arousable == TRUE ? "Enabled" : "Disabled"]</a><BR>"
-					dat += "<b>Allow Knotting:</b><a href='?_src_=prefs;preference=sexknotting'>[sexknotting == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 					dat += "<b>Genital examine text</b>:<a href='?_src_=prefs;preference=genital_examine'>[(cit_toggles & GENITAL_EXAMINE) ? "Enabled" : "Disabled"]</a><BR>"
 					dat += "<b>Vore examine text</b>:<a href='?_src_=prefs;preference=vore_examine'>[(cit_toggles & VORE_EXAMINE) ? "Enabled" : "Disabled"]</a><BR>"
 					dat += "<b>Voracious MediHound sleepers:</b> <a href='?_src_=prefs;preference=hound_sleeper'>[(cit_toggles & MEDIHOUND_SLEEPER) ? "Yes" : "No"]</a><br>"
@@ -3963,8 +3960,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					features["genitals_use_skintone"] = !features["genitals_use_skintone"]
 				if("arousable")
 					arousable = !arousable
-				if("sexknotting")
-					sexknotting = !sexknotting
 				if("hardsuit_with_tail")
 					features["hardsuit_with_tail"] = !features["hardsuit_with_tail"]
 				if("has_cock")
@@ -4785,21 +4780,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					user_gear[LOADOUT_CUSTOM_DESCRIPTION] = new_description
 			// BLUEMOON ADD START - выбор вещей из лодаута как family heirloom
 			if(href_list["loadout_addheirloom"])
-				// Выбран ли предмет среди категории неприемлемых для реликвии?
-				var/typepath = user_gear[LOADOUT_ITEM]
-				var/forbidden = FALSE
-				var/datum/gear/temp_gear = new typepath()
-				if (is_typeof_list(temp_gear.path, LOADOUT_IS_DISALLOWED_HEIRLOOM))
-					forbidden = TRUE
-				qdel(temp_gear) // На всякий случай, чтобы не засирало память лишними датумами
 				// Выбран ли какой-либо другой предмет как семейная реликвия, и если да, то какой?
 				var/existing = find_gear_with_property(loadout_slot, LOADOUT_IS_HEIRLOOM, TRUE)
-				if(!existing && !forbidden)
+				if(!existing)
 					user_gear[LOADOUT_IS_HEIRLOOM] = TRUE
-				else if(existing)
+				else
 					to_chat(user, "<font color='red'>У вас уже выбрана ваша семейная реликвия!</font>")
-				else if(forbidden)
-					to_chat(user, "<font color ='red'>Это не подойдёт в качестве семейной реликвии!</font>")
 			if(href_list["loadout_removeheirloom"])
 				user_gear[LOADOUT_IS_HEIRLOOM] = FALSE
 			// BLUEMOON ADD END

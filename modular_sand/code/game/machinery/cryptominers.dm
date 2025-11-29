@@ -35,7 +35,6 @@
 	var/obj/item/radio/cargo_radio
 	// Should this machine send messages on cargo radio?
 	var/radio_snitch = TRUE
-	var/notice_timer = 0
 
 /obj/machinery/cryptominer/Initialize(mapload)
 	. = ..()
@@ -242,9 +241,7 @@
 /obj/machinery/cryptominer/proc/produce_points(number)
 	playsound(loc, 'sound/machines/ping.ogg', 50, TRUE, -1)
 	if(pay_me)
-		pay_me.adjust_money(miningpoints)
-		pay_me.suspicious_activity = TRUE
-		pay_me.suspicion_reason = "Received funds from illegal Syndicate cryptominer"
+		pay_me.adjust_money(FLOOR(miningpoints * number,1))
 
 /obj/machinery/cryptominer/attack_hand(mob/living/user)
 	. = ..()
@@ -324,42 +321,6 @@
 		icon_state = "loop_nano"
 	else
 		icon_state = "on_nano"
-
-/obj/machinery/cryptominer/proc/report_suspicious_activity(var/miner_type = "cargo")
-	if(!pay_me)
-		return
-
-	// 🛑 Если уже есть подозрительный флаг или активный таймер — не создаём заново
-	if(pay_me.suspicious_activity || pay_me.suspicion_timer)
-		return
-
-	var/delay = 5 MINUTES
-	if(miner_type == "syndicate")
-		delay = 2 MINUTES
-
-	addtimer(CALLBACK(src, PROC_REF(trigger_suspicious_alert), miner_type), delay)
-
-/datum/bank_account/Destroy()
-	if(suspicion_timer)
-		deltimer(suspicion_timer)
-	return ..()
-
-
-/obj/machinery/cryptominer/proc/trigger_suspicious_alert(miner_type)
-	notice_timer = 0
-	if(pay_me.transferable)
-		pay_me.adjust_money(miningpoints)
-	else
-		visible_message(span_warning("⚠ [src] halts mining — linked account is suspended!"))
-		return
-
-	var/msg
-	if(miner_type == "syndicate")
-		msg = "⚠ ALERT: Suspicious financial activity detected on account [pay_me.account_holder]! Source: illegal Syndicate cryptominer."
-	else
-		msg = "⚠ NOTICE: Unusual credit generation detected from cryptominer linked to account [pay_me.account_holder]."
-
-	log_econ(msg)
 
 /*
  * Some entries are currently unimplemented

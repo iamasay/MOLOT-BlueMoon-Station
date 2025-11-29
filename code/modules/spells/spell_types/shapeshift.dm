@@ -146,9 +146,9 @@
 		if(source.revert_on_death)
 			restore(death=TRUE)
 	else
-		restore(stamcrit=TRUE)
+		restore()
 
-/obj/shapeshift_holder/proc/restore(death=FALSE, stamcrit=FALSE)
+/obj/shapeshift_holder/proc/restore(death=FALSE)
 	restoring = TRUE
 	qdel(slink)
 	stored.forceMove(get_turf(src))
@@ -157,8 +157,6 @@
 		shape.mind.transfer_to(stored)
 	if(death)
 		stored.death()
-	if(stamcrit)
-		stored.adjustStaminaLoss(200)
 	else if(source.convert_damage)
 		stored.revive(full_heal = TRUE)
 		var/damage_percent = (shape.maxHealth - shape.health)/shape.maxHealth;

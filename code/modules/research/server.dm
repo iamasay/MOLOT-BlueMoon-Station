@@ -45,9 +45,7 @@
 
 /obj/machinery/rnd/server/examine() // BLUEMOON ADD
 	. = ..()
-	if (obj_flags & EMAGGED)
-		. += "\nThe server's status light is blinking <font color='yellow'>yellow</font>."
-	else if(!working)
+	if(!working)
 		. += "\nThe server's status light is blinking [span_red("red")]."
 	else if(machine_stat & NOPOWER)
 		. += "\nThe server's status light is off."
@@ -56,7 +54,6 @@
 
 /obj/machinery/rnd/server/Destroy()
 	SSresearch.servers -= src
-	GLOB.rndservers_list -= src
 	QDEL_NULL(alarmloop)
 	return ..()
 
@@ -66,8 +63,6 @@
 		tot_rating += SP.rating
 	heat_gen = initial(src.heat_gen) / max(1, tot_rating)
 	income_gen = 1 + ((tot_rating - 1) * 0.2)
-	if(obj_flags & EMAGGED) // Если емагнуто, то будет отрицательное
-		income_gen *= -1
 
 /obj/machinery/rnd/server/power_change()
 	. = ..()
@@ -90,17 +85,6 @@
 	addtimer(CALLBACK(src, PROC_REF(unemp)), severity*9)
 	refresh_working()
 
-/obj/machinery/rnd/server/emag_act(mob/user)
-	. = ..()
-	if(obj_flags & EMAGGED || !panel_open)
-		return
-	log_admin("[key_name(usr)] emagged [src] at [AREACOORD(src)]")
-	to_chat(user, "<span class='warning'>You messed with [src] research templates.</span>")
-	playsound(src, "sparks", 80, 1)
-	income_gen *= -1
-	obj_flags |= EMAGGED
-	return TRUE
-
 /obj/machinery/rnd/server/proc/unemp()
 	machine_stat &= ~EMPED
 	refresh_working()
@@ -108,10 +92,9 @@
 /obj/machinery/rnd/server/proc/mine()
 	. = base_mining_income.Copy()
 	var/turf/open/floor/circuit/c_floor = get_turf(src)
-	var/effectiveness = get_exponential_multiplier() // Чем больше серверов - тем меньше доход от сервера
-	var/penalty = max((get_env_temp() - temp_tolerance_high), 0) * temp_penalty_coefficient * (c_floor ? 1 : 2)
+	var/penalty = max((get_env_temp() - temp_tolerance_high), 0) * temp_penalty_coefficient * (c_floor ? 1 : 0.5)
 	for(var/i in .)
-		.[i] = max(((.[i] * income_gen) - penalty) * effectiveness, 0)
+		.[i] = max((.[i] * income_gen) - penalty, 0)
 
 /obj/machinery/rnd/server/proc/get_env_temp()
 	var/datum/gas_mixture/environment = loc.return_air()
@@ -124,16 +107,6 @@
 			var/datum/gas_mixture/env = L.return_air()
 			env.adjust_heat((heating_power * heat_gen)*0.8)
 			air_update_turf()
-
-/// Прок считает экспоненту серверов в зависимости от их количества. Больше - меньше эффективности выработки.
-/obj/machinery/rnd/server/proc/get_exponential_multiplier()
-	var/position = GLOB.rndservers_list.Find(src)
-	// Первые 3 сервера получат бонус, остальные получат штраф по логарифмической кривой
-	if(position <= 3)
-		return 1.2
-	var/exponent = 0.35
-	var/effectiveness = 1 / (1 + ((position - 4) ** exponent)) // 4-й сервер будет работать с эффективностью 1.0
-	return effectiveness
 
 /proc/fix_noid_research_servers()
 	var/list/no_id_servers = list()
@@ -230,11 +203,9 @@
 			else
 				var/i = 1
 				for(var/obj/machinery/rnd/server/S in GLOB.machines)
-					var/turf/T = get_turf(S) // Ищем координаты
 					dat += "[i]. Server: [uppertext(S.server_id)]<br>"
-					dat += "___Path: C:\\RND\\SERVER_[i]<br>"
-					dat += "___Income stream: <b>[S.income_gen]</b> RP/tick<br>"
-					dat += "___Server location: ([T.x], [T.y], [T.z])<br><br>"
+					dat += "   Path: C:\\RND\\SERVER_[i]<br>"
+					dat += "   Income stream: <b>[S.income_gen]</b> RP/tick<br><br>"
 					i++
 				dat += "Total servers detected: <b>[total_servers]</b><br>"
 

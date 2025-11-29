@@ -31,9 +31,6 @@
 /datum/proc/ru_aya(temp_gender)
 	. = "ый"
 
-/datum/proc/ru_aya_iy(capitalized, temp_gender)
-	. = "ий"
-
 /datum/proc/ru_sya(temp_gender = null, include_l = FALSE)
 	. = "ся"
 	if(include_l)
@@ -116,18 +113,6 @@
 			. = "ая"
 		if(MALE)
 			. = "ый"
-	if(capitalized)
-		. = capitalize(.)
-
-/atom/ru_aya_iy(capitalized, temp_gender)
-	if(!temp_gender)
-		temp_gender = gender
-	. = "ий"
-	switch(temp_gender)
-		if(FEMALE)
-			. = "ая"
-		if(MALE)
-			. = "ий"
 	if(capitalized)
 		. = capitalize(.)
 
@@ -249,7 +234,7 @@
 		temp_gender = PLURAL
 	return ..()
 
-/mob/living/carbon/human/ru_a(capitalized, temp_gender)
+/mob/living/carbon/human/ru_a	(capitalized, temp_gender)
 	var/list/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 	if((ITEM_SLOT_OCLOTHING in obscured) && skipface)

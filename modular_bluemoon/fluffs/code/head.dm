@@ -221,18 +221,6 @@
 
 /////////////////////////////////////////////////////
 
-/obj/item/clothing/head/ranger_helmet
-	name = "Ranger Helmet"
-	desc = "Protective equipment for special police personnel, designed to reduce damaging factors in combat and extreme conditions, it uses composite armor plate based on Kevlar and ceramic inserts resistant to shrapnel and small-caliber bullets. Lightweight, wearable and comfortable."
-	icon_state = "ranger_helmet"
-	item_state = "ranger_helmet"
-	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
-	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
-	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
-
-/////////////////////////////////////////////////////
-
 /obj/item/clothing/head/helmet/sec/ipai
 	name = "I.P.A.I. helmet Dawn Dome"
 	desc = "Уникальная разработка ателье Чёрная Роза в области защиты и маскировки. Данный экземпляр, в виде шлема, является очевидным индивидуальным заказом, однако на шлеме отсутствуют какие-либо инициалы его владельца, только неизвестный штрихкод и логотип производителя, в виде всё той же чёрной розы. Шлем гермитичен, часть корпуса имеет возможность снятия для установки бронепластин, порт для подключения кислородного баллона, а также специально STEAL-s покрытие, которое припятствует считыванию данных о внешности и личности носителя. Во внутренней части имеется маленькая табличка со знаком предупреждения и надписью - ВНИМАНИЕ! В СЛУЧАЕ ВОЗНИКНОВЕНИЯ НЕОПРЕДЕЛЁННЫХ ЗВУКОВ ИЗ ДИНАМИКОВ ПЕРЕДАЧИ ЗВУКОВЫХ ДАННЫХ ВНЕШНЕЙ СРЕДЫ, НАПОМИНАЮЩИЕ ГОЛОСА ИЛИ КРИКИ - СЛЕДУЕТ НЕМЕДЛЕННО ПРЕКРАТИТЬ НОШЕНИЕ И ДОНЕСТИ ИНФОРМАЦИЮ ДО БЛИЖАЙШЕГО ОФИСА АТЕЛЬЕ ЧЁРНАЯ РОЗА"
@@ -240,42 +228,8 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	icon_state = "ipai"
 	item_state = "ipai"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	clothing_flags = ALLOWINTERNALS
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	unique_reskin = null
-
-/obj/item/clothing/head/blueshield/mu88_horns
-	name = "M.U. 88 New hope horns"
-	desc = "Ещё один элемент комплекта 'New hope'. Несмотря на то, что данная вещь скорее носит декоративный характер, имеет в себе скрытые и важные функции. Сами рога выполнены из прочного сплава металлов неизвестного образца. В основную часть встроены антенны для перехвата сигналов с системой датчиков жизнеобеспечения костюмов и скафандров поблизости. Также излучают небольшую сферу сильного магнитного поля, покрывающее пространство головы и 25 сантиметров по радиусу вокруг. Поле имеет защитный функционал, останавливающие все попадающие объекты со скоростью выше выставленного порога, благодаря чему по защитных характеристикам не уступает обычному баллистическому шлему. Не смотря на встроенные механизмы не требует внешней подзарядки. Под креплением расположен небольшой логотип в виде чёрной розы, а также надпись - Black Rose atelier."
-	icon_state = "mu88_horns"
-	item_state = "mu88_horns"
-	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
-	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
-
-///////////////////////////////////////////////
-
-/obj/item/clothing/head/donator/bm/dm_pzgrnd_helmet
-	name = "pionierkorps helmet"
-	desc = "A sturdy helmet primarily designed for military engineers. It comes with goggles for protection against dust and debris. Inside, you can see the inscription \"DM Arms\"."
-	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
-	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
-	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
-	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_right.dmi'
-	icon_state = "pz_grenadierhelmet"
-	item_state = "pz_grenadierhelmet"
-	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
-	armor = null
-	flags_inv = HIDEHAIR|HIDEEARS
-	var/adjusted = FALSE
-
-/obj/item/clothing/head/donator/bm/dm_pzgrnd_helmet/AltClick(mob/user)
-	. = ..()
-	adjusted = !adjusted
-	flags_inv = adjusted ? (HIDEHAIR) : (HIDEHAIR|HIDEEARS)
-	user.update_inv_head()
-	to_chat(user, span_info("Вы поправили шлем, изменяя комфорт ваших ушей в нём."))
-
-///////////////////////////////////////////////

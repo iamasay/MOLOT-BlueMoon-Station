@@ -1,93 +1,56 @@
-
+import { createSearch } from 'common/string';
 import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
+import { useBackend, useLocalState } from "../backend";
 import { Button, Flex, Icon, Input, LabeledList, Section, Table } from '../components';
-import { Window } from '../layouts';
+import { FlexItem } from '../components/Flex';
+import { Window } from "../layouts";
 import { LoginInfo } from './common/LoginInfo';
 import { LoginScreen } from './common/LoginScreen';
 
-const safe = (v, d = '') => (v === null || v === undefined ? d : v);
+export const AccountsUplinkTerminal = (properties, context) => {
+  const { act, data } = useBackend(context);
+  const {
+    loginState,
+    currentPage,
+  } = data;
 
-export const AccountsUplinkTerminal = (_props, context) => {
-  try {
-    const { data } = useBackend(context);
-    const loginState = safe(data?.loginState, { logged_in: 0 });
-    const currentPage = safe(data?.currentPage, 1);
-
-    // Не залогинен → показываем стандартный логин
-    if (!loginState.logged_in) {
-      return (
-        <Window resizable>
-          <Window.Content>
-            <LoginScreen />
-          </Window.Content>
-        </Window>
-      );
-    }
-
-    let body = null;
-    if (currentPage === 1) body = <AccountsRecordList />;
-    else if (currentPage === 2) body = <DetailedAccountInfo />;
-    else if (currentPage === 3) body = <CreateAccount />;
-
+  let body;
+  if (!loginState.logged_in) {
     return (
       <Window resizable>
-        <Window.Content scrollable>
-          <LoginInfo />
-          {body}
+        <Window.Content>
+          <LoginScreen />
         </Window.Content>
       </Window>
     );
-  } catch (err) {
-    // Если что-то пошло не так — выводим это прямо в окне
-    return (
-      <Window title="Accounts Uplink Terminal (render error)">
-        <Window.Content scrollable>
-          <Section title="Render error" level={2}>
-            <div style={{ color: 'red', marginBottom: '8px' }}>
-              {String(err?.message || err)}
-            </div>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>{err?.stack}</pre>
-          </Section>
-        </Window.Content>
-      </Window>
-    );
+  } else {
+    if (currentPage === 1) {
+      body = <AccountsRecordList />;
+    } else if (currentPage === 2) {
+      body = <DetailedAccountInfo />;
+    } else if (currentPage === 3) {
+      body = <CreateAccount />;
+    }
   }
+
+  return (
+    <Window resizable>
+      <Window.Content scrollable>
+        <LoginInfo />
+        {body}
+      </Window.Content>
+    </Window>
+  );
 };
 
-// ─────────────────────────────────────────────────────────────
-// LIST
-// ─────────────────────────────────────────────────────────────
-
-const AccountsRecordList = (_props, context) => {
+const AccountsRecordList = (properties, context) => {
   const { act, data } = useBackend(context);
-  const accounts = Array.isArray(data?.accounts) ? data.accounts : [];
-
-  const [searchText, setSearchText] = useLocalState(context, 'searchText', '');
-  const [sortId, setSortId] = useLocalState(context, 'sortId', 'owner_name');
-  const [sortOrder, setSortOrder] = useLocalState(context, 'sortOrder', true);
-
-  const passSort = { sortId, setSortId, sortOrder, setSortOrder };
-
-  const match = (acc) => {
-    const hay =
-      safe(acc.owner_name, '') +
-      '|' +
-      safe(acc.account_number, '') +
-      '|' +
-      safe(acc.suspended, '');
-    return hay.toLowerCase().includes(searchText.toLowerCase());
-  };
-
-  const sorted = [...accounts]
-    .filter(match)
-    .sort((a, b) => {
-      const ai = safe(a[sortId], '').toString();
-      const bi = safe(b[sortId], '').toString();
-      const dir = sortOrder ? 1 : -1;
-      return ai.localeCompare(bi) * dir;
-    });
-
+  const {
+    accounts,
+  } = data;
+  const [searchText, setSearchText] = useLocalState(context, "searchText", "");
+  const [sortId, _setSortId] = useLocalState(context, "sortId", "owner_name");
+  const [sortOrder, _setSortOrder] = useLocalState(context, "sortOrder", true);
   return (
     <Flex direction="column" height="100%">
       <AccountsActions />
@@ -95,42 +58,31 @@ const AccountsRecordList = (_props, context) => {
         <Section height="100%">
           <Table className="AccountsUplinkTerminal__list">
             <Table.Row bold>
-              <SortButton id="owner_name" {...passSort}>
-                Account Holder
-              </SortButton>
-              <SortButton id="account_number" {...passSort}>
-                Account Number
-              </SortButton>
-              <SortButton id="suspended" {...passSort}>
-                Account Status
-              </SortButton>
+              <SortButton id="owner_name">Account Holder</SortButton>
+              <SortButton id="account_number">Account Number</SortButton>
+              <SortButton id="suspended">Account Status</SortButton>
             </Table.Row>
-
-            {sorted.map((account, idx) => (
-              <Table.Row
-                key={account.id ?? idx}
-                onClick={() => {
-                  if (account.account_index === -1) {
-                    act('view_account_detail', {
-                      index: -1,
-                      dep_index: account.dep_index,   // ✅ добавили
-                      dep_id: account.dep_id,         // ✅ добавили
-                      // target_name: account.target_name, // можно, но уже не обязательно
-                    });
-                  } else {
-                    act('view_account_detail', {
-                      index: account.account_index,
-                    });
-                  }
-                }}
-              >
-                <Table.Cell>
-                  <Icon name="user" /> {safe(account.owner_name, 'Unknown')}
-                </Table.Cell>
-                <Table.Cell>#{safe(account.account_number, 'N/A')}</Table.Cell>
-                <Table.Cell>{safe(account.suspended, 'Unknown')}</Table.Cell>
-              </Table.Row>
-            ))}
+            {accounts
+              .filter(createSearch(searchText, account => {
+                return account.owner_name + "|"
+                        + account.account_number + "|"
+                        + account.suspended;
+              }))
+              .sort((a, b) => {
+                const i = sortOrder ? 1 : -1;
+                return a[sortId].localeCompare(b[sortId]) * i;
+              })
+              .map(account => (
+                <Table.Row
+                  key={account.id}
+                  onClick={
+                    () => act('view_account_detail', { index: account.account_index })
+                  }>
+                  <Table.Cell><Icon name="user" /> {account.owner_name}</Table.Cell>
+                  <Table.Cell>#{account.account_number}</Table.Cell>
+                  <Table.Cell>{account.suspended}</Table.Cell>
+                </Table.Row>
+              ))}
           </Table>
         </Section>
       </Flex.Item>
@@ -138,39 +90,52 @@ const AccountsRecordList = (_props, context) => {
   );
 };
 
-const SortButton = (props, _context) => {
-  const { id, children, sortId, setSortId, sortOrder, setSortOrder } = props;
-  const active = sortId === id;
+const SortButton = (properties, context) => {
+  const [sortId, setSortId] = useLocalState(context, "sortId", "name");
+  const [sortOrder, setSortOrder] = useLocalState(context, "sortOrder", true);
+  const {
+    id,
+    children,
+  } = properties;
   return (
     <Table.Cell>
       <Button
-        color={!active && 'transparent'}
+        color={sortId !== id && "transparent"}
         width="100%"
         onClick={() => {
-          if (active) setSortOrder(!sortOrder);
-          else {
+          if (sortId === id) {
+            setSortOrder(!sortOrder);
+          } else {
             setSortId(id);
             setSortOrder(true);
           }
-        }}
-      >
+        }}>
         {children}
-        {active && <Icon name={sortOrder ? 'sort-up' : 'sort-down'} ml="0.25rem" />}
+        {sortId === id && (
+          <Icon
+            name={sortOrder ? "sort-up" : "sort-down"}
+            ml="0.25rem;"
+          />
+        )}
       </Button>
     </Table.Cell>
   );
 };
 
-const AccountsActions = (_props, context) => {
+const AccountsActions = (properties, context) => {
   const { act, data } = useBackend(context);
-  const is_printing = !!data?.is_printing;
-
-  const [, setSearchText] = useLocalState(context, 'searchText', '');
-
+  const {
+    is_printing,
+  } = data;
+  const [searchText, setSearchText] = useLocalState(context, "searchText", "");
   return (
     <Flex>
-      <Flex.Item>
-        <Button content="New Account" icon="plus" onClick={() => act('create_new_account')} />
+      <FlexItem>
+        <Button
+          content="New Account"
+          icon="plus"
+          onClick={() => act('create_new_account')}
+        />
         <Button
           icon="print"
           content="Print Account List"
@@ -178,54 +143,47 @@ const AccountsActions = (_props, context) => {
           ml="0.25rem"
           onClick={() => act('print_records')}
         />
-      </Flex.Item>
-      <Flex.Item grow="1" ml="0.5rem">
+      </FlexItem>
+      <FlexItem grow="1" ml="0.5rem">
         <Input
           placeholder="Search by account holder, number, status"
           width="100%"
           onInput={(e, value) => setSearchText(value)}
         />
-      </Flex.Item>
+      </FlexItem>
     </Flex>
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-// DETAILS
-// ─────────────────────────────────────────────────────────────
-
-const DetailedAccountInfo = (_props, context) => {
+const DetailedAccountInfo = (properties, context) => {
   const { act, data } = useBackend(context);
   const {
-    is_printing = false,
-    account_number = '',
-    owner_name = '',
-    money = '0',
-    suspended = false,
+    is_printing,
+    account_number,
+    owner_name,
+    money,
+    suspended,
+    transactions,
   } = data;
-
-  const transactions = Array.isArray(data.transactions) ? data.transactions : [];
-  const isDepartment = !!data.is_department;
   return (
     <Fragment>
-      <Section
-        title={`#${account_number} / ${owner_name}`}
-        mt={1}
-        buttons={
-          <Fragment>
-            <Button
-              icon="print"
-              content="Print Account Details"
-              disabled={is_printing}
-              onClick={() => act('print_account_details')}
-            />
-            <Button
-              icon="arrow-left"
-              content="Back"
-              onClick={() => act('back')}
-            />
-          </Fragment>
-        }>
+      <Section title={"#" + account_number + " / " + owner_name} mt={1} buttons={
+        <Fragment>
+          <Button
+            icon="print"
+            content="Print Account Details"
+            disabled={is_printing}
+            onClick={
+              () => act('print_account_details')
+            } />
+          <Button
+            icon="arrow-left"
+            content="Back"
+            onClick={
+              () => act('back')
+            } />
+        </Fragment>
+      }>
         <LabeledList>
           <LabeledList.Item label="Account Number">
             #{account_number}
@@ -235,69 +193,58 @@ const DetailedAccountInfo = (_props, context) => {
           </LabeledList.Item>
           <LabeledList.Item label="Account Balance">
             {money}
-            {!isDepartment && (
-            <Button
-              ml={1}
-              icon="dollar-sign"
-              content="Change Pay Level"
-              onClick={() => act('change_pay_level')}
-            />
-          )}
           </LabeledList.Item>
-          <LabeledList.Item label="Account Status" color={suspended ? 'red' : 'green'}>
-            {suspended ? 'Suspended' : 'Active'}
-            {!isDepartment && (
+          <LabeledList.Item label="Account Status" color={suspended ? "red" : "green"}>
+            {suspended ? "Suspended" : "Active"}
             <Button
               ml={1}
-              content={suspended ? 'Unsuspend' : 'Suspend'}
-              icon={suspended ? 'unlock' : 'lock'}
-              onClick={() => act('toggle_suspension')}
+              content={suspended ? "Unsuspend" : "Suspend"}
+              icon={suspended ? "unlock" : "lock"}
+              onClick={
+                () => act('toggle_suspension')
+              }
             />
-            )}
           </LabeledList.Item>
         </LabeledList>
-
-    {/* 🔻 Добавляем предупреждение */}
-    {data.suspicious && (
-      <Section
-        title="⚠ Suspicious Activity Detected"
-        color="bad"
-        mt={1}
-      >
-        <div style={{ color: 'red', fontWeight: 'bold' }}>
-          {data.suspicious_reason || 'Unusual account behavior detected.'}
-        </div>
       </Section>
-    )}
-      </Section>
-
       <Section title="Transactions">
         <Table>
           <Table.Row header>
-            <Table.Cell>Timestamp</Table.Cell>
-            <Table.Cell>Target</Table.Cell>
-            <Table.Cell>Reason</Table.Cell>
-            <Table.Cell>Value</Table.Cell>
-            <Table.Cell>Terminal</Table.Cell>
+            <Table.Cell>
+              Timestamp
+            </Table.Cell>
+            <Table.Cell>
+              Target
+            </Table.Cell>
+            <Table.Cell>
+              Reason
+            </Table.Cell>
+            <Table.Cell>
+              Value
+            </Table.Cell>
+            <Table.Cell>
+              Terminal
+            </Table.Cell>
           </Table.Row>
-          {transactions.map((t, i) => (
-            <Table.Row key={`${t.date}-${t.time}-${i}`}>
+          {transactions.map(t => (
+            <Table.Row key={t}>
               <Table.Cell>
-                {t.date || '??'} {t.time || ''}
+                {t.date} {t.time}
               </Table.Cell>
-              <Table.Cell>{t.target_name || '-'}</Table.Cell>
-              <Table.Cell>{t.purpose || '-'}</Table.Cell>
-              <Table.Cell>${t.amount || '0'}</Table.Cell>
-              <Table.Cell>{t.source_terminal || '-'}</Table.Cell>
+              <Table.Cell>
+                {t.target_name}
+              </Table.Cell>
+              <Table.Cell>
+                {t.purpose}
+              </Table.Cell>
+              <Table.Cell>
+                ${t.amount}
+              </Table.Cell>
+              <Table.Cell>
+                {t.source_terminal}
+              </Table.Cell>
             </Table.Row>
           ))}
-          {transactions.length === 0 && (
-            <Table.Row>
-              <Table.Cell colSpan={5} textAlign="center" color="label">
-                No transactions found.
-              </Table.Cell>
-            </Table.Row>
-          )}
         </Table>
       </Section>
     </Fragment>
@@ -305,33 +252,34 @@ const DetailedAccountInfo = (_props, context) => {
 };
 
 
-// ─────────────────────────────────────────────────────────────
-// CREATE
-// ─────────────────────────────────────────────────────────────
-
-const CreateAccount = (_props, context) => {
-  const { act } = useBackend(context);
+const CreateAccount = (properties, context) => {
+  const { act, data } = useBackend(context);
   const [accName, setAccName] = useLocalState(context, 'accName', '');
   const [accDeposit, setAccDeposit] = useLocalState(context, 'accDeposit', '');
-
   return (
-    <Section
-      title="Create Account"
-      buttons={<Button icon="arrow-left" content="Back" onClick={() => act('back')} />}
-    >
+    <Section title="Create Account" buttons={
+      <Button
+        icon="arrow-left"
+        content="Back"
+        onClick={
+          () => act('back')
+        } />
+    }>
       <LabeledList>
         <LabeledList.Item label="Account Holder">
-          <Input placeholder="Name Here" onChange={(e, v) => setAccName(v)} />
+          <Input placeholder="Name Here" onChange={(e, value) => setAccName(value)} />
         </LabeledList.Item>
         <LabeledList.Item label="Initial Deposit">
-          <Input placeholder="0" onChange={(e, v) => setAccDeposit(v)} />
+          <Input placeholder="0" onChange={(e, value) => setAccDeposit(value)} />
         </LabeledList.Item>
       </LabeledList>
       <Button
         mt={1}
         fluid
         content="Create Account"
-        onClick={() => act('finalise_create_account', { holder_name: accName, starting_funds: accDeposit })}
+        onClick={
+          () => act('finalise_create_account', { holder_name: accName, starting_funds: accDeposit })
+        }
       />
     </Section>
   );

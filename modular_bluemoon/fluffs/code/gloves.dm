@@ -83,11 +83,3 @@
 /obj/item/clothing/gloves/toggled/hug/poly_evening/ComponentInitialize()
 	. = ..()
 	AddElement(/datum/element/polychromic, list("#FEFEFE"), 1)
-
-/obj/item/clothing/gloves/color/black/soviet_gloves
-	name = "Soviet Black Gloves"
-	desc = "Чёрные перчатки."
-	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/gloves.dmi'
-	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/gloves.dmi'
-	icon_state = "sovietblackgloves"
-	item_state = "sovietblackgloves"

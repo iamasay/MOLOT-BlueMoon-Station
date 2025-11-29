@@ -104,8 +104,7 @@
 			dat += T.name
 		if(!dat.len)
 			return "Отсутствуют"
-		var/list/dat_sorted = sort_list(dat)
-		return dat_sorted.Join(", ")
+		return dat.Join(", ")
 	else
 		for(var/V in roundstart_quirks)
 			var/datum/quirk/T = V
@@ -115,8 +114,7 @@
 				continue
 		if(!dat.len)
 			return FALSE
-		var/list/dat_sorted = sort_list(dat)
-		return dat_sorted.Join(" ; ")
+		return dat.Join(" ; ")
 //BLUEMOON CHANGE END
 
 /mob/living/proc/cleanse_trait_datums() //removes all trait datums

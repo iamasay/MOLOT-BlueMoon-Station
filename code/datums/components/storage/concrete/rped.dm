@@ -5,9 +5,10 @@
 	allow_quick_gather = TRUE
 	allow_quick_empty = TRUE
 	click_gather = TRUE
+	storage_flags = STORAGE_FLAGS_LEGACY_DEFAULT
 	max_w_class = WEIGHT_CLASS_NORMAL
-	max_combined_w_class = 800
-	max_items = 150
+	max_combined_w_class = 100
+	max_items = 100
 	display_numerical_stacking = TRUE
 
 	var/static/list/allowed_material_types = list(
@@ -90,9 +91,6 @@
 		stoplag(1)
 	progress.end_progress()
 	A.do_squish(0.8, 1.2)
-
-/datum/component/storage/concrete/rped/mini
-	max_items = 80
 
 /datum/component/storage/concrete/bluespace/rped
 	collection_mode = COLLECT_EVERYTHING

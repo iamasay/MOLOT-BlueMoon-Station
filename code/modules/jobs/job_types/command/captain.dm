@@ -31,9 +31,9 @@
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
 	departments = DEPARTMENT_BITFLAG_COMMAND
 
-	mind_traits = list(TRAIT_FENCER)
+	mind_traits = list(TRAIT_FENCER) //BLUEMOON ADD use TRAIT system for jobs
 
-	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/blindness, /datum/quirk/illiterate)
+	blacklisted_quirks = list(/datum/quirk/mute, /datum/quirk/brainproblems, /datum/quirk/insanity, /datum/quirk/blindness)
 	threat = 5
 
 	family_heirlooms = list(

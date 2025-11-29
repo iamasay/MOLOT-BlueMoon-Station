@@ -164,11 +164,6 @@ i'd be right happy to */
 		return
 
 	switch(action)
-		// BLUEMOON ADD START
-		if("toggleLock")
-			if(allowed(usr))
-				locked = !locked
-		// BLUEMOON ADD END
 		if("LZCargo")
 			usingBeacon = FALSE
 			if (beacon)
@@ -186,8 +181,6 @@ i'd be right happy to */
 					C.link_console(src, usr)//rather than in beacon's Initialize(), we can assign the computer to the beacon by reusing this proc)
 					printed_beacons++//printed_beacons starts at 0, so the first one out will be called beacon # 1
 					beacon.name = "Supply Pod Beacon #[printed_beacons]"
-					usingBeacon = TRUE
-					beacon.update_status(SP_READY) //turns on the beacon's ready light
 
 
 		if("add")//Generate Supply Order first

@@ -90,6 +90,6 @@
 	opendoors = TRUE
 	rename_team = "Tribunal Ordinator"
 	code = "Red"
-	mission = "уничтожить все угрозы Активам ПАКТа."
+	mission = "уничтожить все угрозы Активам Пакта."
 	polldesc = "an Nanotrasen Tribunal Ordinator"
 	ertphrase = "modular_bluemoon/sound/ert/ert_tribunal.ogg"

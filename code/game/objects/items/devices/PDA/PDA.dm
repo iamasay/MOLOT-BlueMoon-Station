@@ -766,11 +766,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 		var/mob/living/carbon/human/H = loc
 		if(H.wear_id == src)
 			H.sec_hud_set_ID()
-	//BLUEMOON ADD START
-	else if(istype(loc, /obj/item/storage/wallet))
-		var/obj/item/storage/wallet/W = loc
-		W.refreshID()
-	//BLUEMOON ADD END
 
 /obj/item/pda/proc/msg_input(mob/living/U = usr)
 	var/t = stripped_input(U, "Введите сообщение", name)
@@ -996,11 +991,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 		var/mob/living/carbon/human/human_wearer = loc
 		if(human_wearer.wear_id == src)
 			human_wearer.sec_hud_set_ID()
-	//BLUEMOON ADD START
-	else if(istype(loc, /obj/item/storage/wallet))
-		var/obj/item/storage/wallet/W = loc
-		W.refreshID()
-	//BLUEMOON ADD END
 	if(old_id)
 		if(user)
 			user.put_in_hands(old_id)
@@ -1035,17 +1025,13 @@ GLOBAL_LIST_EMPTY(PDAs)
 				playsound(src, 'sound/machines/terminal_success.ogg', 15, 1)
 		else
 			//Basic safety check. If either both objects are held by user or PDA is on ground and card is in hand.
-			if(user.canUseTopic(src, BE_CLOSE)) //if(((src in user.contents) || (isturf(loc) && in_range(src, user))) && (C in user.contents)) // BLUEMOON EDIT
+			if(((src in user.contents) || (isturf(loc) && in_range(src, user))) && (C in user.contents))
 				if(!id_check(user, idcard))
 					return
 				to_chat(user, "<span class='notice'>Вы вставили ID-карту в слот \the [src].</span>")
 				updateSelfDialog()//Update self dialog on success.
 			return	//Return in case of failed check or when successful.
 		updateSelfDialog()//For the non-input related code.
-	// BLUEMOON ADD START
-	else if(id && (istype(C, /obj/item/holochip) || istype(C, /obj/item/stack/spacecash) || istype(C, /obj/item/coin)))
-		id.insert_money(C, user)
-	// BLUEMOON ADD END
 	else if(istype(C, /obj/item/paicard) && !pai)
 		if(!user.transferItemToLoc(C, src))
 			return

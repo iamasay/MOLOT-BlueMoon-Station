@@ -139,7 +139,6 @@
 	name = "Machinery stamping module"
 	desc = "И откуда ты это достал, мясной мешок? Положи обратно!"
 	icon_state = "stamp-machine"
-	on_paper_icon_state = "stamp-machine"
 	dye_color = DYE_BLUE
 // BLUEMOON ADD END
 

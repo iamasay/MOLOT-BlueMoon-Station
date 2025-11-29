@@ -1,6 +1,5 @@
 /mob/living/simple_animal/pet/dog/corgi/moth
 	name = "Moth"
-	real_name = "moth"
 	desc = "Становится понятно, куда пропали шубы, перевозимые СССП."
 	icon = 'icons/mob/animal.dmi'
 	icon_state = "moth"
@@ -22,13 +21,11 @@
 	density = FALSE
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	mob_size = MOB_SIZE_TINY
-	mob_biotypes = MOB_ORGANIC|MOB_BUG
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/xeno = 1)
 	gold_core_spawnable = FRIENDLY_SPAWN
 
 /mob/living/simple_animal/pet/dog/corgi/mothroach
 	name = "Mothroach"
-	real_name = "mothroach"
 	desc = "Мотылёк. Обожает светочи."
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "mothroach"
@@ -36,7 +33,6 @@
 	icon_dead = "mothroach_dead"
 	speak = list("Furrr.","Uhh.", "Hurrr.")
 	speak_chance = 0
-	speak_emote = list("chitters")
 	response_help_continuous = "pets"
 	response_disarm_continuous = "bops"
 	response_harm_continuous = "kicks"
@@ -52,5 +48,4 @@
 	density = FALSE
 	gold_core_spawnable = FRIENDLY_SPAWN
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	mob_biotypes = MOB_ORGANIC|MOB_BUG
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/xeno = 1)

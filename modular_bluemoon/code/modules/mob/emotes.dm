@@ -465,7 +465,7 @@
 	message = "разминает суставы."
 	message_mime = "делает вид, что разминает суставы."
 	sound = 'modular_bluemoon/sound/emotes/bonecrack.ogg'
-	emote_cooldown = 3 SECONDS
+	emote_cooldown = 11.6 SECONDS
 
 /datum/emote/sound/human/ohyes
 	key = "ohyes"
@@ -562,16 +562,6 @@
 	message = "шипит!"
 	sound = 'modular_bluemoon/sound/emotes/felinid_hiss.ogg'
 	emote_cooldown = 1 SECONDS
-
-/datum/emote/sound/human/dexter
-	key = "dexter"
-	key_third_person = "dextered"
-	message = "неистово подозревает в чем-то"
-	message_mime = "пронзает взглядом, неистово подозревая в чем-то"
-	emote_type = EMOTE_AUDIBLE
-	sound = 'modular_bluemoon/sound/emotes/dexter-song.ogg'
-	emote_cooldown = 5 SECONDS
-
 
 /*
  * XENO EMOTES START

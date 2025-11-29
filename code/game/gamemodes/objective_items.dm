@@ -56,7 +56,7 @@
 	excludefromjob = list("Head Of Security")
 
 /datum/objective_item/steal/zippo_nt_rep
-	name = "Зажигалку Представителя ПАКТа."
+	name = "Зажигалку Представителя Пакта."
 	targetitem = /obj/item/lighter/nt_rep
 	difficulty = 10
 	excludefromjob = list("NanoTrasen Representative")

@@ -11,8 +11,7 @@
 		"Cap-Slut",
 		"Grey Cardinals",
 		"Condom",
-		"Catpain",
-		"Commanding Officer"
+		"Catpain"
 	)
 	LAZYADD(alt_titles, extra_titles)
 	. = ..()
@@ -56,7 +55,7 @@
 		"Big Boss",
 		"Head of Slutcurity",
 		"Head of Studcurity",
-		"SAARE Commissioner"
+		"SAARE Senior Operator"
 	)
 	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
 		LAZYADD(extra_titles, "Head of Spookcurity")
@@ -358,7 +357,6 @@
 
 /datum/job/paramedic/New()
 	var/list/extra_titles = list(
-		"Coroner",
 		"NT Field Physician",
 		"Field Medic Of Interdyne",
 		"Crocin Deliverer",
@@ -393,7 +391,6 @@
 		"Studective",
 		"Van Dorn Agent",
 		"AC Recon Agent",
-		"SAARE Inspector",
 		"Forensic Investigator",
 		"Cinder Dick",
 		"Cooperate Auditor"
@@ -416,9 +413,7 @@
 		"Tyranny Lover",
 		"Cerberus",
 		"Slutcurity Officer",
-		"Studcurity Officer",
-		"Service Pet Handler",
-		"K-9 Handler"
+		"Studcurity Officer"
 	)
 	var/list/rem_titles = list(
 		"Peacekeeper"
@@ -436,7 +431,6 @@
 		"Dungeon Master",
 		"Brig Overwatch",
 		"AC Sergeant",
-		"SAARE Supervisor",
 		"Slutcurity Captain",
 		"Voreden"
 	)

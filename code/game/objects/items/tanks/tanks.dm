@@ -32,7 +32,7 @@
 		return
 
 	if(H.internal == src)
-		to_chat(H, "<span class='notice'>Вы закрутили вентиль [src].</span>")
+		to_chat(H, "<span class='notice'>You close [src] valve.</span>")
 		H.internal = null
 	else
 		if(!H.getorganslot(ORGAN_SLOT_BREATHING_TUBE))
@@ -51,13 +51,13 @@
 					internals = TRUE
 
 			if(!internals)
-				to_chat(H, "<span class='warning'>Вы не надели маску для дыхания!</span>")
+				to_chat(H, "<span class='warning'>You are not wearing an internals mask!</span>")
 				return
 
 		if(H.internal)
-			to_chat(H, "<span class='notice'>Вы подключили свою маску к [src].</span>")
+			to_chat(H, "<span class='notice'>You switch your internals to [src].</span>")
 		else
-			to_chat(H, "<span class='notice'>Вы провернули вентиль [src].</span>")
+			to_chat(H, "<span class='notice'>You open [src] valve.</span>")
 		H.internal = src
 	H.update_action_buttons_icon()
 
@@ -102,28 +102,28 @@
 		icon = src.loc
 	if(!in_range(src, user) && !isobserver(user))
 		if(icon == src)
-			. += "<span class='notice'>Если вы хотите больше информации, вам придётся подойти ближе.</span>"
+			. += "<span class='notice'>If you want any more information you'll need to get closer.</span>"
 		return
 
-	. += "<span class='notice'>Манометр сообщает давление в [round(src.air_contents.return_pressure(),0.01)] кПа.</span>"
+	. += "<span class='notice'>The pressure gauge reads [round(src.air_contents.return_pressure(),0.01)] kPa.</span>"
 
 	var/celsius_temperature = src.air_contents.return_temperature()-T0C
 	var/descriptive
 
 	if (celsius_temperature < 20)
-		descriptive = "холодной"
+		descriptive = "cold"
 	else if (celsius_temperature < 40)
-		descriptive = "комнатной температуры"
+		descriptive = "room temperature"
 	else if (celsius_temperature < 80)
-		descriptive = "тёплой"
+		descriptive = "lukewarm"
 	else if (celsius_temperature < 100)
-		descriptive = "нагретой"
+		descriptive = "warm"
 	else if (celsius_temperature < 300)
-		descriptive = "горячей"
+		descriptive = "hot"
 	else
-		descriptive = "обжигающе горячей"
+		descriptive = "furiously hot"
 
-	. += "<span class='notice'>Поверхность ощущается [descriptive].</span>"
+	. += "<span class='notice'>It feels [descriptive].</span>"
 
 /obj/item/tank/blob_act(obj/structure/blob/B)
 	if(B && B.loc == loc)

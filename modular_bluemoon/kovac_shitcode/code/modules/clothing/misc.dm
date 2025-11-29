@@ -158,7 +158,7 @@
 
 /datum/uplink_item/stealthy_weapons/akimbo
 	name = "Akimbo Guide"
-	desc = "A book that provides the agent some abilities to shoot heavy two-handed weapons easily using just one arm with a sacrifice to shoot in auto."
+	desc = "A book that provides the agent some abilities to shoot heavy two-handed weapons easily using just one arm."
 	item = /obj/item/book/granter/trait/akimbo
 	cost = 6
 	purchasable_from = UPLINK_TRAITORS
@@ -166,7 +166,7 @@
 
 /obj/item/book/granter/trait/akimbo
 	name = "The Rules of Engagement"
-	desc = "Allows to shoot two-handed weapons more effectively after reading. A red line says: \"disallows you to shoot weapons in automatic mode\"."
+	desc = "Allows to shoot two-handed weapons more effectively after reading."
 	oneuse = TRUE
 	granted_trait = TRAIT_AKIMBO
 	traitname = "akimbo"

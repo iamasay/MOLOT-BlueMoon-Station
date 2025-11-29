@@ -198,9 +198,6 @@
 
 	module.transform_to(modulelist[input_module])
 
-	// Добавляем видимость проводки инженерным киборгам
-	if(istype(module, /obj/item/robot_module/engineering) || istype(module, /obj/item/robot_module/saboteur))
-		ADD_TRAIT(src, TRAIT_KNOW_ENGI_WIRES, JOB_TRAIT)
 
 /mob/living/silicon/robot/proc/updatename(client/C)
 	if(shell)
@@ -637,6 +634,9 @@
 		new /obj/item/bodypart/l_arm/robot(drop_to)
 		new /obj/item/bodypart/r_arm/robot(drop_to)
 		new /obj/item/bodypart/head/robot(drop_to)
+		for(var/i in 1 to 2)
+			var/obj/item/assembly/flash/handheld/borgeye = new(drop_to)
+			borgeye.burn_out()
 
 	cell?.forceMove(drop_to) // Cell can be null, if removed beforehand
 	radio?.keyslot?.forceMove(drop_to)

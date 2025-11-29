@@ -174,7 +174,7 @@
 		/obj/item/clothing/suit/apron/surgical = 5,
 		/obj/item/clothing/mask/surgical = 5,
 		/obj/item/clothing/mask/balaclava/breath/redscarf/bluescarf = 4,
-		/obj/item/clothing/gloves/color/latex/nitrile = 5,
+		/obj/item/clothing/gloves/color/latex/nitrile = 2,
 		/obj/item/clothing/under/rank/medical/doctor/util = 5,
 		/obj/item/clothing/under/rank/medical/paramedic/red = 5,
 		/obj/item/clothing/suit/toggle/labcoat/emt/red = 5,
@@ -377,7 +377,6 @@
 		/obj/item/clothing/under/rank/civilian/hydroponics = 5,
 		/obj/item/clothing/under/rank/civilian/hydroponics/skirt = 5,
 		/obj/item/clothing/mask/bandana = 4,
-		/obj/item/clothing/gloves/botanic_leather = 5,
 	)
 	contraband = list(
 		/obj/item/clothing/under/suit/scarface = 2,
@@ -480,7 +479,6 @@
 		/obj/item/reagent_containers/rag = 3,
 		/obj/item/book/granter/crafting_recipe/cooking_sweets_101 = 2,
 		/obj/item/book/granter/crafting_recipe/coldcooking = 2,
-		/obj/item/clothing/gloves/color/white = 3,
 	)
 	contraband = list(
 		/obj/item/card_sticker/muck = 2,
@@ -812,8 +810,6 @@
 		/obj/item/clothing/head/soft/sec/syndicate = 3,
 		/obj/item/clothing/head/beret/sec/syndicate = 3,
 		/obj/item/clothing/neck/cloak/syndiecap = 1,
-		/obj/item/armorkit/syndicate = 5,
-		/obj/item/armorkit/helmet/syndicate = 5,
 	)
 	contraband = list(
 		/obj/item/kitchen/knife/combat = 4,

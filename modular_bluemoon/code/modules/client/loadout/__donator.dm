@@ -18,6 +18,13 @@
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
+/datum/gear/donator/nightmarekit
+	name = "Nightmare-kin Kit"
+	path = /obj/item/storage/box/deviant_kit/nightmareish
+	cost = 4
+	ckeywhitelist = list()
+	donator_group_id = DONATOR_GROUP_TIER_1
+
 /datum/gear/donator/syndicate_id_civilian
 	name = "Civilian Syndicate Card"
 	path = /obj/item/card/id/syndicate/one_access_copy/loadout

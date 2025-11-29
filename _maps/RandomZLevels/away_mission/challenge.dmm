@@ -83,6 +83,9 @@
 	},
 /area/awaymission/challenge/main)
 "aC" = (
+/obj/machinery/power/emitter/ctf{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/awaymission/challenge/main)
 "aD" = (
@@ -135,6 +138,12 @@
 "aR" = (
 /obj/effect/turf_decal/stripes/yellow/line,
 /turf/open/floor/plasteel,
+/area/awaymission/challenge/main)
+"aS" = (
+/obj/machinery/power/emitter/energycannon{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
 /area/awaymission/challenge/main)
 "aU" = (
 /obj/machinery/light{
@@ -205,10 +214,8 @@
 /area/awaymission/challenge/main)
 "bk" = (
 /obj/machinery/light,
-/obj/machinery/porta_turret{
-	dir = 8;
-	installation = /obj/item/gun/energy/lasercannon;
-	set_obj_flags = "EMAGGED"
+/obj/machinery/power/emitter/ctf{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/awaymission/challenge/main)
@@ -244,6 +251,10 @@
 	installation = /obj/item/gun/energy/lasercannon;
 	set_obj_flags = "EMAGGED"
 	},
+/turf/open/floor/plating,
+/area/awaymission/challenge/main)
+"bq" = (
+/obj/machinery/power/emitter/energycannon,
 /turf/open/floor/plating,
 /area/awaymission/challenge/main)
 "br" = (
@@ -698,6 +709,12 @@
 /obj/item/ammo_box/magazine/mm712x82,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
+"gF" = (
+/obj/machinery/power/emitter/energycannon{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/awaymission/challenge/main)
 "hB" = (
 /obj/effect/spawner/structure/window/hollow/reinforced/end{
 	dir = 8
@@ -732,11 +749,7 @@
 /turf/open/floor/plating/airless,
 /area/awaymission/challenge/main)
 "Mx" = (
-/obj/machinery/porta_turret{
-	dir = 8;
-	installation = /obj/item/gun/energy/lasercannon;
-	set_obj_flags = "EMAGGED"
-	},
+/obj/machinery/power/emitter/energycannon,
 /turf/open/floor/plating/airless,
 /area/awaymission/challenge/main)
 "OT" = (
@@ -767,6 +780,12 @@
 /mob/living/simple_animal/hostile/syndicate/ranged/anthro,
 /turf/open/floor/carpet,
 /area/awaymission/challenge/start)
+"UL" = (
+/obj/machinery/power/emitter/energycannon{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/awaymission/challenge/main)
 "Zw" = (
 /mob/living/simple_animal/hostile/syndicate/melee/space/anthro/lizard,
 /turf/open/floor/plasteel/dark,
@@ -26335,34 +26354,34 @@ aa
 aa
 aa
 aA
+aS
+aF
+aS
 aF
 aF
-Mx
+aS
 aF
-Mx
-aF
-Mx
-aF
-aF
-aF
-aF
-aF
-aF
-aF
-Mx
-aF
-Mx
-aF
-Mx
+aS
 aF
 aF
 aF
 aF
-Mx
 aF
-Mx
+aS
 aF
-Mx
+aS
+aF
+aF
+aF
+aS
+aF
+aS
+aF
+aS
+aF
+aF
+aF
+aS
 aA
 aa
 aa
@@ -27136,7 +27155,7 @@ aH
 aH
 bC
 aF
-Mx
+aF
 bP
 PS
 cd
@@ -27392,7 +27411,7 @@ aH
 bE
 aH
 bC
-aF
+UL
 aF
 bP
 bS
@@ -27617,7 +27636,7 @@ ab
 ab
 ab
 aA
-aF
+Mx
 aF
 aQ
 aH
@@ -27874,7 +27893,7 @@ au
 au
 ar
 aA
-Mx
+aF
 aF
 bC
 aH
@@ -27906,7 +27925,7 @@ aY
 ba
 aH
 bC
-aF
+UL
 aF
 bP
 bP
@@ -28659,7 +28678,7 @@ aH
 bf
 aC
 bn
-aC
+bq
 bv
 aH
 aH
@@ -28916,7 +28935,7 @@ aH
 bf
 aC
 bn
-aC
+bq
 bv
 aH
 aH
@@ -29673,7 +29692,7 @@ av
 au
 dc
 aA
-Mx
+aF
 aN
 bC
 aH
@@ -29705,7 +29724,7 @@ aZ
 ba
 aH
 bC
-aF
+UL
 aF
 bP
 bP
@@ -29930,7 +29949,7 @@ ab
 ab
 ab
 aA
-aF
+Mx
 aF
 bC
 aH
@@ -30219,7 +30238,7 @@ aH
 aH
 aH
 bC
-aF
+UL
 aF
 bP
 bX
@@ -30477,7 +30496,7 @@ aH
 aH
 bC
 aF
-Mx
+aF
 bP
 bY
 ci
@@ -31219,33 +31238,33 @@ aa
 aa
 aA
 aF
+gF
 aF
-Mx
-aF
-Mx
-aF
-Mx
+gF
 aF
 aF
+gF
 aF
-aF
+gF
 aF
 aF
 aF
-Mx
+gF
 aF
-Mx
+gF
 aF
-Mx
+gF
+aF
+gF
 aF
 aF
 aF
+gF
 aF
-Mx
+gF
 aF
-Mx
+gF
 aF
-Mx
 aA
 aa
 aa

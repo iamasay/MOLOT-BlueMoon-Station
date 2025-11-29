@@ -8,14 +8,6 @@
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
 	donator_group_id = DONATOR_GROUP_TIER_1
 
-/datum/gear/donator/deskbox
-	name = "Desk Box"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/choice_beacon/box/desk
-	category = LOADOUT_CATEGORY_DONATOR
-	subcategory = LOADOUT_SUBCATEGORIES_DON01
-	donator_group_id = DONATOR_GROUP_TIER_1
-
 /datum/gear/donator/summon_pie
 	name = "Book: Summon Pie"
 	slot = ITEM_SLOT_BACKPACK
@@ -44,14 +36,6 @@
 	name = "Тысяча Денег (красивое)"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/stack/spacecash/c1000
-	ckeywhitelist = list()
-	donator_group_id = DONATOR_GROUP_TIER_2
-	subcategory = LOADOUT_SUBCATEGORIES_DON02
-
-/datum/gear/donator/chameleon_kit
-	name = "Chameleon Box"
-	path = /obj/item/storage/box/syndie_kit/chameleon
-	cost = 8
 	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_2
 	subcategory = LOADOUT_SUBCATEGORIES_DON02
@@ -147,6 +131,14 @@
 	path = /obj/item/lighter/purple
 	ckeywhitelist = list()
 	cost = 1
+	donator_group_id = DONATOR_GROUP_TIER_1
+
+/datum/gear/donator/raiqbawks
+	name = "Miami Boombox"
+	slot = ITEM_SLOT_HANDS
+	cost = 2
+	path = /obj/item/boombox/raiq
+	ckeywhitelist = list()
 	donator_group_id = DONATOR_GROUP_TIER_1
 
 /datum/gear/donator/neck_gaiter
@@ -931,36 +923,23 @@
 	name = "Aviator Helmet"
 	slot = ITEM_SLOT_HEAD
 	path = /obj/item/clothing/head/helmet/aviator_helmet/no_armor
-	ckeywhitelist = list()
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
 
 /datum/gear/donator/bm/old_wrappings
 	name = "Old Wrappings"
 	slot = ITEM_SLOT_NECK
 	path = /obj/item/clothing/neck/mantle/cowboy
-	ckeywhitelist = list()
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
 
 /datum/gear/donator/bm/old_wrappings
 	name = "Old Wrappings"
 	slot = ITEM_SLOT_NECK
 	path = /obj/item/clothing/neck/mantle/cowboy
-	ckeywhitelist = list()
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
 
 /datum/gear/donator/bm/book_alch
 	name = "Alchemist's Book"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/paper/book_alch
-	ckeywhitelist = list()
 	subcategory = LOADOUT_SUBCATEGORIES_DON01
 	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-
-/datum/gear/donator/bm/cigpack_cannabis
-	name = "Freak Brother's Special Cigpack"
-	slot = ITEM_SLOT_BACKPACK
-	path = /obj/item/storage/fancy/cigarettes/cigpack_cannabis
-	ckeywhitelist = list()
-	subcategory = LOADOUT_SUBCATEGORIES_DON01
-	loadout_flags = LOADOUT_CAN_NAME | LOADOUT_CAN_DESCRIPTION
-

@@ -38,7 +38,6 @@
 
 /datum/component/riding/proc/vehicle_mob_buckle(datum/source, mob/living/M, force)
 	handle_vehicle_offsets(M.buckled?.dir)
-	handle_vehicle_layer(M.buckled?.dir)
 
 /datum/component/riding/proc/handle_vehicle_layer(dir)
 	var/atom/movable/AM = parent
@@ -207,8 +206,6 @@
 /datum/component/riding/human
 	del_on_unbuckle_all = TRUE
 	var/fireman_carrying = FALSE
-	var/face_to_face_carrying = FALSE
-	var/princess_carrying = FALSE
 
 /datum/component/riding/human/Initialize()
 	. = ..()
@@ -221,8 +218,6 @@
 		H.remove_movespeed_modifier(/datum/movespeed_modifier/human_carry)
 	if(!fireman_carrying)
 		M.Daze(25)
-	if(princess_carrying)
-		M.update_pixel_shifting(TRUE)
 	REMOVE_TRAIT(M, TRAIT_MOBILITY_NOUSE, src)
 	REMOVE_TRAIT(M, TRAIT_BEING_CARRIED, src)
 	return ..()
@@ -232,46 +227,9 @@
 	var/mob/living/carbon/human/H = parent
 	if(length(H.buckled_mobs))
 		H.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/human_carry, TRUE, fireman_carrying? FIREMAN_CARRY_SLOWDOWN : PIGGYBACK_CARRY_SLOWDOWN)
-		RegisterSignal(H.buckled_mobs[1], COMSIG_MOVABLE_MOVED, PROC_REF(set_rider_dir)) // works fine while all humans has max_buckled_mobs = 1
 	if(fireman_carrying)
 		ADD_TRAIT(M, TRAIT_MOBILITY_NOUSE, src)
 	ADD_TRAIT(M, TRAIT_BEING_CARRIED, src)
-
-/datum/component/riding/human/handle_vehicle_offsets(dir)
-	. = ..()
-	set_rider_dir()
-
-/datum/component/riding/human/proc/set_rider_dir()
-	SIGNAL_HANDLER
-	var/mob/living/carbon/human/H = parent
-	if(H.has_buckled_mobs())
-		for(var/mob/living/L in H.buckled_mobs)
-			if(face_to_face_carrying)
-				L.setDir(turn(L.dir, 180))
-			else if(princess_carrying)
-				switch(H.dir)
-					if(EAST, NORTH)
-						H.buckle_lying = 90
-						L.lying = 90
-						L.update_transform(FALSE)
-						L.lying_prev = L.lying
-						L.setDir(WEST)
-						L.update_pixel_shifting(TRUE)
-						while(L.is_tilted > -20)
-							if(L.tilt_left() == FALSE)
-								break
-						L.pixel_x += 4
-					if(WEST, SOUTH)
-						H.buckle_lying = 270
-						L.lying = 270
-						L.update_transform(FALSE)
-						L.lying_prev = L.lying
-						L.setDir(EAST)
-						L.update_pixel_shifting(TRUE)
-						while(L.is_tilted < 20)
-							if(L.tilt_right() == FALSE)
-								break
-						L.pixel_x -= 4
 
 /datum/component/riding/human/proc/on_host_unarmed_melee(atom/target)
 	var/mob/living/carbon/human/H = parent
@@ -284,24 +242,12 @@
 	if(AM.buckled_mobs && AM.buckled_mobs.len)
 		for(var/mob/M in AM.buckled_mobs) //ensure proper layering of piggyback and carry, sometimes weird offsets get applied
 			M.layer = MOB_LAYER
-		// NORTH | SOUTH | EAST | WEST
-		// ABOVE_MOB_LAYER = A, OBJ_LAYER = O
-		if(face_to_face_carrying || princess_carrying) // A|O|O|O
-			if(AM.dir == NORTH)
-				AM.layer = ABOVE_MOB_LAYER
-			else
-				AM.layer = OBJ_LAYER
-		// else if(princess_carrying) // A|O|A|A
-		// 	if(AM.dir == SOUTH)
-		// 		AM.layer = OBJ_LAYER
-		// 	else
-		// 		AM.layer = ABOVE_MOB_LAYER
-		else if(!AM.buckle_lying) // O|A|O|O - piggyback_carrying
+		if(!AM.buckle_lying)
 			if(AM.dir == SOUTH)
 				AM.layer = ABOVE_MOB_LAYER
 			else
 				AM.layer = OBJ_LAYER
-		else // O|A|A|A - fireman_carrying
+		else
 			if(AM.dir == NORTH)
 				AM.layer = OBJ_LAYER
 			else
@@ -311,21 +257,10 @@
 
 /datum/component/riding/human/get_offsets(pass_index)
 	var/mob/living/carbon/human/H = parent
-	var/size_modifier = get_size(H)
-	if(face_to_face_carrying)
-		. = list(TEXT_NORTH = list(0, 4), TEXT_SOUTH = list(0, 4), TEXT_EAST = list(8, 4), TEXT_WEST = list(-8, 4))
-	else if(princess_carrying)
-		. = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
-	else if(H.buckle_lying)
-		. = list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(0, 6), TEXT_WEST = list(0, 6))
+	if(H.buckle_lying)
+		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(0, 6), TEXT_WEST = list(0, 6))
 	else
-		. = list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-6, 6), TEXT_WEST = list( 6, 6))
-	for(var/d in .)
-		if(.[d][1] > 0)
-			.[d][1] += (size_modifier-1)*2
-		else if(.[d][1] < 0)
-			.[d][1] -= (size_modifier-1)*2
-		.[d][2] += (size_modifier-1)*16
+		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-6, 4), TEXT_WEST = list( 6, 4))
 
 /datum/component/riding/human/additional_offset_checks()
 	var/mob/living/carbon/human/H = parent
