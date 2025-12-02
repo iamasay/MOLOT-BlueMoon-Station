@@ -210,7 +210,7 @@
 
 /datum/action/cooldown/latexmob/leak_out/Activate()
 	. = ..()
-	if(!istype(owner, mob/living/simple_animal/latexmob))
+	if(!istype(owner, /mob/living/simple_animal/latexmob))
 		to_chat(owner, "<span class='warning'>Ваше тело недостаточно гибкое для использования этой способности. Попробуйте сменить форму тела на слайма.</span>")
 		return
 	var/list/nearby_things = range(1, get_turf(src))
