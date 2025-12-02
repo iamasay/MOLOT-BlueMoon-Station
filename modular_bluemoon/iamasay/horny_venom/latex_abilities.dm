@@ -33,7 +33,7 @@
 			to_chat(owner, span_notice("Вы не можете использовать эту способность сейчас!"))
 			return
 		my_living_latex.current_controller = "VENOM"
-		var/datum/antagonist/living_latex/latex =locate(/datum/antagonist/living_latex) in body.mind.antag_datums
+		var/datum/antagonist/living_latex/latex = locate(/datum/antagonist/living_latex) in body.mind.antag_datums
 		old_species = body.dna.species
 		var/datum/species/jelly/roundstartslime/living_latex/new_species = new
 		new_species.copy_properties_from(old_species)
@@ -132,8 +132,9 @@
 
 /datum/action/cooldown/latexmob/heal/Grant(var/mob/user)
 	. = ..()
+	var/datum/antagonist/living_latex/my_living_latex = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
 	inject_menu = new /datum/inject_menu(owner, my_living_latex)
-	if(!my_living_latex)
+	if(!my_living_latex || my_living_latex == null)
 		CRASH("inject menu cant locate living latex datum")
 	if(!inject_menu)
 		CRASH("inject_menu action created with non menu")
@@ -209,6 +210,9 @@
 
 /datum/action/cooldown/latexmob/leak_out/Activate()
 	. = ..()
+	if(!istype(owner, mob/living/simple_animal/latexmob))
+		to_chat(owner, "<span class='warning'>Ваше тело недостаточно гибкое для использования этой способности. Попробуйте сменить форму тела на слайма.</span>")
+		return
 	var/list/nearby_things = range(1, get_turf(src))
 	var/list/valid_doors = list()
 	for(var/atom/thing in nearby_things)
@@ -217,12 +221,10 @@
 		valid_doors.Add(thing)
 	if(valid_doors.len > 1)
 		var/choice = pick(valid_doors)
-		owner.forceMove(get_turf(choice))
-	else if(valid_doors)
 		do_after(usr, 1.5 SECONDS, usr)
-		owner.forceMove(get_turf(valid_doors[1]))
+		owner.forceMove(get_turf(choice))
 	else
-		to_chat(owner, "Шлюзы по-близости не найдены")
+		to_chat(owner, "<span class='warning'>Шлюзы по-близости не найдены.</span>")
 
 /datum/action/cooldown/latexmob/human_form
 	name = "Сформировать самостоятельное человеческое тело"
