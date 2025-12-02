@@ -35,6 +35,11 @@
 		new /datum/action/cooldown/latexmob/human_form
 	)
 
+/datum/antagonist/living_latex/process(delta_time)
+	. = ..()
+	if(evolve_points < 1)
+		evolve_points += 0.001 * delta_time
+
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
 	var/datum/evolution_store/ev_store = new(src)
