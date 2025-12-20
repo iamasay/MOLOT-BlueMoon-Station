@@ -1,6 +1,6 @@
 /obj/machinery/chem_master
 	name = "ChemMaster 3000"
-	desc = "Нужен для разделения препаратов и подготовки их в разнообразной форме."
+	desc = "Used to separate chemicals and distribute them in a variety of forms."
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
 	icon = 'icons/obj/chemical.dmi'
@@ -126,24 +126,24 @@
 	if(istype(I, /obj/item/reagent_containers) && !(I.item_flags & ABSTRACT) && I.is_open_container())
 		. = TRUE // no afterattack
 		if(panel_open)
-			to_chat(user, "<span class='warning'>Вы не можете работать с [src.name], пока открыт люк техобслуживания!</span>")
+			to_chat(user, "<span class='warning'>You can't use the [src.name] while its panel is opened!</span>")
 			return
 		var/obj/item/reagent_containers/B = I
 		if(!user.transferItemToLoc(B, src))
 			return
 		replace_beaker(user, B)
-		to_chat(user, "<span class='notice'>Вы вставили [B] в [src].</span>")
+		to_chat(user, "<span class='notice'>You add [B] to [src].</span>")
 		updateUsrDialog()
 		update_icon()
 	else if(!condi && istype(I, /obj/item/storage/pill_bottle))
 		. = TRUE // no afterattack
 		if(panel_open)
-			to_chat(user, "<span class='warning'>Вы не можете работать с [src.name], пока открыт люк техобслуживания!</span>")
+			to_chat(user, "<span class='warning'>You can't use the [src.name] while its panel is opened!</span>")
 			return
 		if(!user.transferItemToLoc(I, src))
 			return
 		replace_pillbottle(user, I)
-		to_chat(user, "<span class='notice'>Вы вставили [I] в слот раздатчика.</span>")
+		to_chat(user, "<span class='notice'>You add [I] into the dispenser slot.</span>")
 		updateUsrDialog()
 	else
 		return ..()
@@ -258,7 +258,7 @@
 		// Custom amount
 		if (amount == -1)
 			amount = text2num(input(
-				"Введите объём для передачи:",
+				"Enter the amount you want to transfer:",
 				name, ""))
 		if (amount == null || amount <= 0)
 			return FALSE
@@ -298,8 +298,8 @@
 		var/amount = text2num(params["amount"])
 		if(amount == null)
 			amount = text2num(input(usr,
-				"Макс. [20 * max_create_amount_multiplier]. Объём препаратов будет распределён поровну.",
-				"Количество?", 1))
+				"Max [20 * max_create_amount_multiplier]. Buffer content will be split evenly.",
+				"How many to make?", 1))
 		amount = clamp(round(amount), 0, 20 * max_create_amount_multiplier)
 		if (amount <= 0)
 			return FALSE
@@ -327,8 +327,8 @@
 			vol_each = vol_each_max
 		if(vol_each == null)
 			vol_each = text2num(input(usr,
-				"Макс. [vol_each_max]u на штуку.",
-				"На какой объём заполнить?",
+				"Maximum [vol_each_max] units per item.",
+				"How many units to fill?",
 				vol_each_max))
 		vol_each = clamp(vol_each, 0, vol_each_max)
 		if(vol_each <= 0)
@@ -341,8 +341,8 @@
 			if (name_has_units)
 				name_default += " ([vol_each]u)"
 			name = stripped_input(usr,
-				"Название:",
-				"Присвойте название!",
+				"Name:",
+				"Give it a name!",
 				name_default,
 				MAX_NAME_LEN)
 		if(!name || !reagents.total_volume || !src || QDELETED(src) || !usr.canUseTopic(src, !issilicon(usr)))
@@ -368,7 +368,7 @@
 				else
 					P.icon_state = "pill[chosenPillStyle]"
 				if(P.icon_state == "pill4")
-					P.desc = "Таблетка или пилюля, но не какая-то там, а красная, та, что берётся неустрашёнными знанием, свободомыслием, сомнениями и жестокими реалиями жизни."
+					P.desc = "A tablet or capsule, but not just any, a red one, one taken by the ones not scared of knowledge, freedom, uncertainty and the brutal truths of reality."
 				adjust_item_drop_location(P)
 				reagents.trans_to(P, vol_each)//, transfered_by = usr)
 			return TRUE
@@ -395,7 +395,7 @@
 				P = new/obj/item/reagent_containers/food/condiment/pack(drop_location())
 				P.originalname = name
 				P.name = trim("[name] pack")
-				P.desc = "Небольшой пакетик. Этикетка говорит, что внутри находится \"[name]\"."
+				P.desc = "A small condiment pack. The label says it contains [name]."
 				reagents.trans_to(P, vol_each)//, transfered_by = usr)
 			return TRUE
 		if(item_type == "condimentBottle")
@@ -442,13 +442,13 @@
 			var/T = initial(R.metabolization_rate) * (60 / P)
 			var/processtype
 			if(CHECK_MULTIPLE_BITFIELDS(R.chemical_flags, (REAGENT_ROBOTIC_PROCESS | REAGENT_ORGANIC_PROCESS)))
-				processtype = "Для синтетов и органиков"
+				processtype = "Both robots and organics"
 			else if(R.chemical_flags & REAGENT_ROBOTIC_PROCESS)
-				processtype = "Только для синтетиков"
+				processtype = "Robots only"
 			else if(R.chemical_flags & REAGENT_ORGANIC_PROCESS)
-				processtype = "Только для органиков"
+				processtype = "Organics only"
 			else
-				processtype = "Ни то ни другооое?! (Доложите в департамент космического времени Nanotrasen's сейчас же!)"
+				processtype = "Noone?! (Report this to Nanotrasen's spacetime department immediately)"
 			if(istype(R, /datum/reagent/fermi))
 				fermianalyze = TRUE
 				var/datum/chemical_reaction/Rcr = get_chemical_reaction(reagent)
@@ -507,7 +507,7 @@
 
 /obj/machinery/chem_master/condimaster
 	name = "CondiMaster 3000"
-	desc = "Нужен для создания приправ и приготовления иных припасов."
+	desc = "Used to create condiments and other cooking supplies."
 	condi = TRUE
 
 #undef PILL_STYLE_COUNT

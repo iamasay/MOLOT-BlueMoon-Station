@@ -776,10 +776,22 @@
 	desc = "An emergency oxygen tank for engineers."
 	id = "emergency_oxygen_engi"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 300)
+	materials = list(/datum/material/iron = 1000)
 	build_path = /obj/item/tank/internals/emergency_oxygen/engi/empty
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+//BLUEMOON ADD START - добовляю расширенные балоны в автолат
+
+/datum/design/extended_emergency
+	name = "Extended emergency oxygen tank"
+	id = "extendedemergency"
+	build_type = AUTOLATHE | NO_PUBLIC_LATHE
+	materials = list(/datum/material/iron = 1500)
+	build_path = /obj/item/tank/internals/emergency_oxygen/engi/empty
+	category = list("hacked", "Misc")
+
+//BLUEMOON ADD END
 
 /////////////////////////////////////////
 /////////////////Tape////////////////////
@@ -788,10 +800,10 @@
 /datum/design/sticky_tape
 	name = "Sticky Tape"
 	id = "sticky_tape"
-	build_type = AUTOLATHE | PROTOLATHE
-	materials = list(/datum/material/plastic = 1000)
+	build_type = PROTOLATHE
+	materials = list(/datum/material/plastic = 500)
 	build_path = /obj/item/stack/sticky_tape
-	category = list("initial", "Equipment", "Misc")
+	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
 /datum/design/super_sticky_tape
@@ -800,7 +812,7 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/plastic = 3000)
 	build_path = /obj/item/stack/sticky_tape/super
-	category = list("initial", "Equipment")
+	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
 /datum/design/pointy_tape
@@ -809,8 +821,20 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 1500, /datum/material/plastic = 1000)
 	build_path = /obj/item/stack/sticky_tape/pointy
-	category = list("initial", "Equipment")
+	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
+
+//BLUEMOON ADD START - добовляю расширенные балоны в автолат
+
+/datum/design/extended_emergency
+	name = "Extended emergency oxygen tank"
+	id = "extendedemergency"
+	build_type = AUTOLATHE | NO_PUBLIC_LATHE
+	materials = list(/datum/material/iron = 1500)
+	build_path = /obj/item/tank/internals/emergency_oxygen/engi/empty
+	category = list("hacked", "Misc")
+
+//BLUEMOON ADD END
 
 /////////////////////////////////////////
 /////////////////Shuttle Upgrades////////

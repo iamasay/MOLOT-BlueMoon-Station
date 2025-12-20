@@ -5,7 +5,7 @@
 	icon_state = "manifold-2"
 
 	name = "pipe manifold"
-	desc = "Трубный коллектор, состоящий из обычных труб."
+	desc = "A manifold composed of regular pipes."
 
 	dir = SOUTH
 	initialize_directions = EAST|NORTH|WEST

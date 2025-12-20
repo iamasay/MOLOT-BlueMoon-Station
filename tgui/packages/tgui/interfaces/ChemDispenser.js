@@ -40,41 +40,41 @@ export const ChemDispenser = (props, context) => {
       resizable>
       <Window.Content overflow="auto">
         <Section
-          title="Статус"
+          title="Status"
           buttons={
             [(recording && (
               <Box inline mx={1} color="red">
                 <Icon name="circle" mr={1} />
-                Запись
+                Recording
               </Box>
             )),
             <Button     // eslint-disable-line
               key="colorButton"
               icon="cog"
               disabled={!data.isBeakerLoaded}
-              tooltip="Переключить дозировку кнопками или ручным вводом"
+              tooltip="Alternate between buttons and radial input"
               tooltipPosition="bottom-end"
               selected={modeToggle}
               onClick={() => setModeToggle(!modeToggle)} />]
           }>
           <LabeledList>
-            <LabeledList.Item label="Заряд">
+            <LabeledList.Item label="Energy">
               <ProgressBar
                 value={data.energy / data.maxEnergy}>
-                {toFixed(data.energy) + ' u'}
+                {toFixed(data.energy) + ' units'}
               </ProgressBar>
             </LabeledList.Item>
           </LabeledList>
         </Section>
         <Section
-          title="Рецепты"
+          title="Recipes"
           buttons={(
             <Fragment>
               {!recording && (
                 <Box inline mx={1}>
                   <Button
                     color="transparent"
-                    content="Удалить рецепты"
+                    content="Clear recipes"
                     onClick={() => act('clear_recipes')} />
                 </Box>
               )}
@@ -82,21 +82,21 @@ export const ChemDispenser = (props, context) => {
                 <Button
                   icon="circle"
                   disabled={!data.isBeakerLoaded}
-                  content="Записать"
+                  content="Record"
                   onClick={() => act('record_recipe')} />
               )}
               {recording && (
                 <Button
                   icon="ban"
                   color="transparent"
-                  content="Стереть"
+                  content="Discard"
                   onClick={() => act('cancel_recording')} />
               )}
               {recording && (
                 <Button
                   icon="save"
                   color="green"
-                  content="Сохранить"
+                  content="Save"
                   onClick={() => act('save_recording')} />
               )}
             </Fragment>
@@ -115,14 +115,14 @@ export const ChemDispenser = (props, context) => {
             ))}
             {recipes.length === 0 && (
               <Box color="light-gray">
-                Рецепты отсутствуют
+                No recipes.
               </Box>
             )}
           </Box>
         </Section>
         <Section
           key="dispense"
-          title="Выдача"
+          title="Dispense"
           buttons={(
             [modeToggle ? (
               beakerTransferAmounts.map(amount => (
@@ -151,7 +151,7 @@ export const ChemDispenser = (props, context) => {
             <Button       // eslint-disable-line
               key="colorButton"
               icon="cog"
-              tooltip={"Цветовая палитра реагентов по pH"}
+              tooltip={"Color code the reagents by pH"}
               tooltipPosition={"bottom-end"}
               selected={hasCol}
               onClick={() => setHasCol(!hasCol)} />]
@@ -174,19 +174,19 @@ export const ChemDispenser = (props, context) => {
         </Section>
         {!!data.canStore && (
           <Section
-            title="Хранилище"
+            title="Storage"
             buttons={
               <Box>
-                Объем передачи:
+                Transfer amount:
                 <AnimatedNumber
                   initial={5}
-                  value={` ${data.amount} `} />
+                  value={data.amount} />
                 u
               </Box>
             }>
             <ProgressBar
               value={data.storedVol / data.maxVol}>
-              {toFixed(data.storedVol) + ' u / ' + data.maxVol + ' u'}
+              {toFixed(data.storedVol) + ' units / ' + data.maxVol + ' units'}
             </ProgressBar>
             <ChemicalBuffer>
               {storedContents.map(chemical => (
@@ -199,7 +199,7 @@ export const ChemDispenser = (props, context) => {
           </Section>
         )}
         <Section
-          title="Ёмкость"
+          title="Beaker"
           buttons={(
             beakerTransferAmounts.map(amount => (
               <Button
@@ -212,32 +212,32 @@ export const ChemDispenser = (props, context) => {
           )}>
           <LabeledList>
             <LabeledList.Item
-              label="Объём"
+              label="Beaker"
               buttons={!!data.isBeakerLoaded && (
                 <Button
                   icon="eject"
-                  content="Извлечь"
+                  content="Eject"
                   disabled={!data.isBeakerLoaded}
                   onClick={() => act('eject')} />
               )}>
               {recording
-                && 'Моделируемая мензурка'
+                && 'Virtual beaker'
                 || data.isBeakerLoaded
                 && (
                   <Fragment>
                     <AnimatedNumber
                       initial={0}
                       value={data.beakerCurrentVolume} />
-                    /{data.beakerMaxVolume} u
+                    /{data.beakerMaxVolume} units
                   </Fragment>
                 )
-                || 'Отсутствует'}
+                || 'No beaker'}
             </LabeledList.Item>
             <LabeledList.Item
-              label="Содержимое">
+              label="Contents">
               <Box color="label">
                 {(!data.isBeakerLoaded && !recording) && 'N/A'
-                  || beakerContents.length === 0 && 'Пусто'}
+                  || beakerContents.length === 0 && 'Nothing'}
               </Box>
               <ChemicalBeaker>
                 {beakerContents.map(chemical => (
@@ -274,11 +274,11 @@ const ChemicalBufferEntry = (props, context) => {
         <AnimatedNumber
           value={chemical.volume}
           initial={0} />
-        {`u ${chemical.name}`}
+        {` units of ${chemical.name}`}
       </Table.Cell>
       <Table.Cell collapsing>
         <Button
-          content="Выдать"
+          content="Dispense"
           icon="download"
           disabled={!!data.recordingRecipe || !data.isBeakerLoaded}
           mt={0.5}
@@ -301,12 +301,12 @@ const ChemicalBeakerEntry = (props, context) => {
         <AnimatedNumber
           value={chemical.volume}
           initial={0} />
-        {`u ${chemical.name}`}
+        {` units of ${chemical.name}`}
       </Table.Cell>
       {!!data.canStore && (
         <Table.Cell collapsing>
           <Button
-            content="Хранение"
+            content="Store"
             icon="upload"
             disabled={!!data.recordingRecipe}
             mt={0.5}

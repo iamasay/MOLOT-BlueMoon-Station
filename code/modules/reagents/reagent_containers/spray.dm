@@ -125,7 +125,7 @@
 //space cleaner
 /obj/item/reagent_containers/spray/cleaner
 	name = "space cleaner"
-	desc = "Непенистый спрей бренда \"BLAM!\" с космоочистителем!"
+	desc = "BLAM!-brand non-foaming space cleaner!"
 	volume = 100
 	list_reagents = list(/datum/reagent/space_cleaner = 100)
 	amount_per_transfer_from_this = 2

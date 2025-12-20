@@ -111,16 +111,9 @@
 	return ..()
 
 /obj/item/projectile/broom/proc/drop_everything()
-	var/turf/proj_turf = get_turf(src)
-	var/turf/next_turf = get_step(proj_turf, dir)
-	var/obj/machinery/disposal/bin/target_bin = locate(/obj/machinery/disposal/bin) in next_turf.contents
 	for(var/thing in pushedstuff)
 		var/atom/movable/AM = thing
-		if(target_bin)
-			AM.forceMove(target_bin)
-			target_bin.update_icon()
-		else
-			AM.forceMove(proj_turf)
+		AM.forceMove(get_turf(src))
 	for(var/mob/living/L in losers)
 		L.Knockdown(rand(3,7))
 	vis_contents = list()

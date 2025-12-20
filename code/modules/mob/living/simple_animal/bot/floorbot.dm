@@ -1,7 +1,7 @@
 //Floorbot
 /mob/living/simple_animal/bot/floorbot
 	name = "\improper Floorbot"
-	desc = "Небольшой робот, чинящий полы, в очень хорошем настроении!"
+	desc = "A little floor repairing robot, he looks so excited!"
 	icon = 'icons/mob/aibots.dmi'
 	icon_state = "floorbot0"
 	density = FALSE
@@ -35,8 +35,6 @@
 
 	var/upgrades = 0
 
-	var/list/toolbox_upg = list()
-
 	#define HULL_BREACH		1
 	#define LINE_SPACE_MODE		2
 	#define FIX_TILE		3
@@ -68,26 +66,19 @@
 	anchored = FALSE
 	update_icon()
 
-/mob/living/simple_animal/bot/floorbot/examine(mob/user)
-	. = ..()
-	// Если планируются ещё улучшения (> 2), рекомендация использовать прок english_list() или написать отдельную строчку улучшения
-	if(toolbox_upg && toolbox_upg.len)
-		var/installed_toolboxes = jointext(toolbox_upg, " и ")
-		. += span_info("Бот оболочен [installed_toolboxes].")
-
 /mob/living/simple_animal/bot/floorbot/set_custom_texts()
-	text_hack = "Вы взломали протоколы построек у [name]."
-	text_dehack = "Вы заметили ошибки в программе [name] и сбросили их до заводских настроек."
-	text_dehack_fail = "[name] не отвечает на запросы сброса настроек!"
+	text_hack = "You corrupt [name]'s construction protocols."
+	text_dehack = "You detect errors in [name] and reset his programming."
+	text_dehack_fail = "[name] is not responding to reset commands!"
 
 /mob/living/simple_animal/bot/floorbot/attackby(obj/item/W , mob/user, params)
 	if(istype(W, /obj/item/stack/tile/plasteel))
-		to_chat(user, "<span class='notice'>Плиточник может производить нормальную плитку самостоятельно.</span>")
+		to_chat(user, "<span class='notice'>The floorbot can produce normal tiles itself.</span>")
 		return
 	if(specialtiles && istype(W, /obj/item/stack/tile))
 		var/obj/item/stack/tile/usedtile = W
 		if(usedtile.type != tiletype)
-			to_chat(user, "<span class='warning'>В боте-плиточнике уже есть кастомные плитки.</span>")
+			to_chat(user, "<span class='warning'>Different custom tiles are already inside the floorbot.</span>")
 			return
 	if(istype(W, /obj/item/stack/tile))
 		if(specialtiles >= maxtiles)
@@ -98,48 +89,37 @@
 		tiles.use(loaded)
 		specialtiles += loaded
 		if(loaded > 0)
-			to_chat(user, "<span class='notice'>Вы загрузили [loaded] в бота-плиточника. Теперь в нём есть плитка: [specialtiles].</span>")
+			to_chat(user, "<span class='notice'>You load [loaded] tiles into the floorbot. It now contains [specialtiles] tiles.</span>")
 		else
-			to_chat(user, "<span class='warning'>Нужен хотя бы один метр-на-метр плитки, чтобы вставить в [src]!</span>")
+			to_chat(user, "<span class='warning'>You need at least one floor tile to put into [src]!</span>")
 
 	else if(istype(W, /obj/item/storage/toolbox/artistic))
-		if(!open)
-			to_chat(user, "<span class='notice'>Панель [src] не открыта!</span>")
-			return
-		if(!bot_core.allowed(user))
-			to_chat(user, "<span class='notice'>Панель доступов [src] заблокирована для вас!</span>")
-			return
-		if(W.contents.len)
-			to_chat(user, "<span class='notice'>Ящик с инструментами должен быть пуст!</span>")
-			return
 		if(bot_core.allowed(user) && open && !(upgrades & UPGRADE_FLOOR_ARTBOX))
-			to_chat(user, "<span class='notice'>Вы улучшили оболочку \the [src] для большей ёмкости!</span>")
+			to_chat(user, "<span class='notice'>You upgrade \the [src] case to hold more!</span>")
 			upgrades |= UPGRADE_FLOOR_ARTBOX
 			maxtiles += 100 //Double the storage!
-			toolbox_upg += "просторным корпусом"
 			qdel(W)
-		else
-			to_chat(user, "<span class='notice'>[src] уже имеет просторную оболочку!</span>")
-
-	else if(istype(W, /obj/item/storage/toolbox/syndicate))
 		if(!open)
-			to_chat(user, "<span class='notice'>Панель [src] не открыта!</span>")
+			to_chat(user, "<span class='notice'>The [src] access pannle is not open!</span>")
 			return
 		if(!bot_core.allowed(user))
-			to_chat(user, "<span class='notice'>Панель доступов [src] заблокирована для вас!</span>")
+			to_chat(user, "<span class='notice'>The [src] access pannel locked off to you!</span>")
 			return
-		if(W.contents.len)
-			to_chat(user, "<span class='notice'>Ящик с инструментами должен быть пуст!</span>")
-			return
+		else
+			to_chat(user, "<span class='notice'>The [src] already has a upgraded case!</span>")
+
+	else if(istype(W, /obj/item/storage/toolbox/syndicate))
 		if(bot_core.allowed(user) && open && !(upgrades & UPGRADE_FLOOR_SYNDIBOX))
-			to_chat(user, "<span class='notice'>Вы улучшили корпус \the [src] для максимальной ёмкости!</span>")
+			to_chat(user, "<span class='notice'>You upgrade \the [src] case to hold more!</span>")
 			upgrades |= UPGRADE_FLOOR_SYNDIBOX
 			maxtiles += 200 //Double bse storage
 			base_speed = 1 //2x faster!
-			toolbox_upg += "материалом синдикатовского качества"
 			qdel(W)
+		if(!bot_core.allowed(user))
+			to_chat(user, "<span class='notice'>The [src] access pannel locked off to you!</span>")
+			return
 		else
-			to_chat(user, "<span class='notice'>[src] уже имеет просторную оболочку!</span>")
+			to_chat(user, "<span class='notice'>The [src] already has a upgraded case!</span>")
 
 
 	else
@@ -149,7 +129,7 @@
 	. = ..()
 	if(emagged == 2)
 		if(user)
-			to_chat(user, "<span class='danger'>[src] жужжит и звенит.</span>")
+			to_chat(user, "<span class='danger'>[src] buzzes and beeps.</span>")
 
 // Variables sent to TGUI
 /mob/living/simple_animal/bot/floorbot/ui_data(mob/user)
@@ -216,7 +196,7 @@
 		return
 
 	if(prob(5))
-		audible_message("[src] делает взволнованный звеняще-жужжащий звук!")
+		audible_message("[src] makes an excited booping beeping sound!")
 
 	//Normal scanning procedure. We have tiles loaded, are not emagged.
 	if(!target && emagged < 2)
@@ -273,7 +253,7 @@
 				anchored = TRUE
 				mode = BOT_REPAIRING
 				F.ReplaceWithLattice()
-				audible_message("<span class='danger'>[src] делает взволнованный звенящий звук.</span>")
+				audible_message("<span class='danger'>[src] makes an excited booping sound.</span>")
 				spawn(5)
 					anchored = FALSE
 					mode = BOT_IDLE
@@ -358,7 +338,7 @@
 	if(isspaceturf(target_turf)) //If we are fixing an area not part of pure space, it is
 		anchored = TRUE
 		icon_state = "floorbot-c"
-		visible_message("<span class='notice'>[targetdirection ? "[src] начинает установку обшивки." : "[src] начинает латать пробоину."] </span>")
+		visible_message("<span class='notice'>[targetdirection ? "[src] begins installing a bridge plating." : "[src] begins to repair the hole."] </span>")
 		mode = BOT_REPAIRING
 		sleep(50)
 		if(mode == BOT_REPAIRING && src.loc == target_turf)
@@ -374,7 +354,7 @@
 			anchored = TRUE
 			icon_state = "floorbot-c"
 			mode = BOT_REPAIRING
-			visible_message("<span class='notice'>[src] чинит покрытие под собой.</span>")
+			visible_message("<span class='notice'>[src] begins repairing the floor.</span>")
 			sleep(50)
 			if(mode == BOT_REPAIRING && F && src.loc == F)
 				F.broken = 0
@@ -385,7 +365,7 @@
 			anchored = TRUE
 			icon_state = "floorbot-c"
 			mode = BOT_REPAIRING
-			visible_message("<span class='notice'>[src] заменяет плитку пола.</span>")
+			visible_message("<span class='notice'>[src] begins replacing the floor tiles.</span>")
 			sleep(50)
 			if(mode == BOT_REPAIRING && F && src.loc == F)
 				F.broken = 0
@@ -393,7 +373,7 @@
 				F.PlaceOnTop(initial(tiletype.turf_type), flags = CHANGETURF_INHERIT_AIR)
 				specialtiles -= 1
 				if(specialtiles == 0)
-					speak("Запрос замены пользовательской плитки для возобновления работ.")
+					speak("Requesting refill of custom floortiles to continue replacing.")
 	mode = BOT_IDLE
 	update_icon()
 	anchored = FALSE
@@ -406,7 +386,7 @@
 
 /mob/living/simple_animal/bot/floorbot/explode()
 	on = FALSE
-	visible_message("<span class='boldannounce'>[src] разлетается на части!</span>")
+	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/atom/Tsec = drop_location()
 
 	drop_part(toolbox, Tsec)

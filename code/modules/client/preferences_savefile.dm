@@ -486,8 +486,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ghost_hud"] >> ghost_hud
 	S["inquisitive_ghost"] >> inquisitive_ghost
 	S["uses_glasses_colour"]>> uses_glasses_colour
-	S["auto_capitalize_enabled"]>> auto_capitalize_enabled
-	S["surgical_disable_radial"]>> surgical_disable_radial // BLUEMOON ADD
 	S["clientfps"] >> clientfps
 	S["parallax"] >> parallax
 	S["ambientocclusion"] >> ambientocclusion
@@ -509,7 +507,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//citadel code
 	S["arousable"] >> arousable
-	S["sexknotting"] >> sexknotting // BLUEMOON ADD
 	S["screenshake"] >> screenshake
 	S["damagescreenshake"] >> damagescreenshake
 	S["autostand"] >> autostand
@@ -699,8 +696,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["ghost_hud"], ghost_hud)
 	WRITE_FILE(S["inquisitive_ghost"], inquisitive_ghost)
 	WRITE_FILE(S["uses_glasses_colour"], uses_glasses_colour)
-	WRITE_FILE(S["auto_capitalize_enabled"], auto_capitalize_enabled)
-	WRITE_FILE(S["surgical_disable_radial"], surgical_disable_radial) // BLUEMOON ADD
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["parallax"], parallax)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
@@ -719,7 +714,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["screenshake"], screenshake)
 	WRITE_FILE(S["damagescreenshake"], damagescreenshake)
 	WRITE_FILE(S["arousable"], arousable)
-	WRITE_FILE(S["sexknotting"], sexknotting) // BLUEMOON ADD
 	WRITE_FILE(S["widescreenpref"], widescreenpref)
 	WRITE_FILE(S["fullscreen"], fullscreen)
 	WRITE_FILE(S["long_strip_menu"], long_strip_menu)

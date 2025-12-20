@@ -187,9 +187,8 @@
 		return
 
 	//get the user's location
-	if(!istype(user.loc, /obj/item/integrated_circuit/manipulation))
-		if(!isturf(user.loc))
-			return	//can't do this stuff whilst inside objects and such
+	if(!isturf(user.loc))
+		return	//can't do this stuff whilst inside objects and such
 
 	user.DelayNextAction()
 	add_fingerprint(user)

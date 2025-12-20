@@ -25,7 +25,7 @@
 /obj/structure/bed/examine(mob/user)
 	. = ..()
 	if(bolts)
-		. += "<span class='notice'>Держится на парочке <b>болтов</b>.</span>"
+		. += "<span class='notice'>It's held together by a couple of <b>bolts</b>.</span>"
 
 /obj/structure/bed/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
@@ -64,7 +64,7 @@
  */
 /obj/structure/bed/roller
 	name = "Roller bed"
-	desc = "Складываемая каталка, пригодная к ручной переноске."
+	desc = "A collapsed roller bed that can be carried around."
 	icon = 'icons/obj/rollerbed.dmi'
 	icon_state = "down"
 	anchored = FALSE

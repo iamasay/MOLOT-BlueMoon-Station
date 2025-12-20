@@ -11,24 +11,24 @@ export const ThermoMachine = (props, context) => {
       width={300}
       height={250}>
       <Window.Content>
-        <Section title="Статус">
+        <Section title="Status">
           <LabeledList>
-            <LabeledList.Item label="Температура">
+            <LabeledList.Item label="Temperature">
               <AnimatedNumber
                 value={data.temperature}
                 format={value => toFixed(value, 2)} />
               {' K'}
             </LabeledList.Item>
-            <LabeledList.Item label="Давление">
+            <LabeledList.Item label="Pressure">
               <AnimatedNumber
                 value={data.pressure}
                 format={value => toFixed(value, 2)} />
-              {' кПа'}
+              {' kPa'}
             </LabeledList.Item>
           </LabeledList>
         </Section>
         <Section
-          title="Управление"
+          title="Controls"
           buttons={(
             <Button
               icon={data.on ? 'power-off' : 'times'}
@@ -44,7 +44,7 @@ export const ThermoMachine = (props, context) => {
                 selected={data.cooling}
                 onClick={() => act('cooling')} />
             </LabeledList.Item> */}
-            <LabeledList.Item label="Целевая температура">
+            <LabeledList.Item label="Target Temperature">
               <NumberInput
                 animated
                 value={Math.round(data.target)}
@@ -58,25 +58,25 @@ export const ThermoMachine = (props, context) => {
                   target: value,
                 })} />
             </LabeledList.Item>
-            <LabeledList.Item label="Пресеты">
+            <LabeledList.Item label="Presets">
               <Button
                 icon="fast-backward"
                 disabled={data.target === data.min}
-                title="Минимальная температура"
+                title="Minimum temperature"
                 onClick={() => act('target', {
                   target: data.min,
                 })} />
               <Button
                 icon="sync"
                 disabled={data.target === data.initial}
-                title="Комнатная температура"
+                title="Room Temperature"
                 onClick={() => act('target', {
                   target: data.initial,
                 })} />
               <Button
                 icon="fast-forward"
                 disabled={data.target === data.max}
-                title="Максимальная температура"
+                title="Maximum Temperature"
                 onClick={() => act('target', {
                   target: data.max,
                 })} />

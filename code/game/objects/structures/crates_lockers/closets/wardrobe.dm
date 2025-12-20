@@ -1,6 +1,6 @@
 /obj/structure/closet/wardrobe
 	name = "wardrobe"
-	desc = "Это стандартный шкафчик-хранилище для разнообразных потребностей компании Nanotrasen."
+	desc = "It's a storage unit for standard-issue Nanotrasen attire."
 	icon_door = "blue"
 /obj/structure/closet/wardrobe/PopulateContents()
 	..()

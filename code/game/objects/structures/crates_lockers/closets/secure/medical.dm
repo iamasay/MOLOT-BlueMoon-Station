@@ -1,6 +1,6 @@
 /obj/structure/closet/secure_closet/medical1
 	name = "medicine closet"
-	desc = "Доверху набито медицинским хламом."
+	desc = "Filled to the brim with medical junk."
 	icon_state = "med"
 	req_access = list(ACCESS_MEDICAL)
 

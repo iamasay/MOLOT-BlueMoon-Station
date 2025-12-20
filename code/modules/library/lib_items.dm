@@ -256,38 +256,36 @@
 			return
 		switch(choice)
 			if("Title")
-				var/newtitle = tgui_input_text(usr, "Write a new title:", "Book Labelling", max_length = MAX_NAME_LEN, encode = TRUE)
+				var/newtitle = reject_bad_text(stripped_input(user, "Write a new title:"))
 				if(!user.canUseTopic(src, BE_CLOSE, literate))
+					return
+				if (length(newtitle) > 30)
+					to_chat(user, "<span class='warning'>That title won't fit on the cover!</span>")
 					return
 				if(!newtitle)
 					to_chat(user, "<span class='warning'>That title is invalid.</span>")
 					return
-
-				name = newtitle
-				title = newtitle
-				return
-
+				else
+					name = newtitle
+					title = newtitle
 			if("Contents")
-				var/content = tgui_input_text(usr, "Write your book's contents:", "Book contents", max_length = MAX_PAPER_LENGTH, multiline = TRUE, encode = TRUE, prevent_enter = TRUE)
+				var/content = stripped_input(user, "Write your book's contents (HTML NOT allowed):","","",8192)
 				if(!user.canUseTopic(src, BE_CLOSE, literate))
 					return
 				if(!content)
 					to_chat(user, "<span class='warning'>The content is invalid.</span>")
 					return
-
-				dat += replacetext(content, "\n", "<BR>") + "<br>"
-				return
-
+				else
+					dat += content
 			if("Author")
-				var/newauthor = tgui_input_text(usr, "Write the author's name:", "Book Author", max_length = MAX_NAME_LEN, encode = TRUE)
+				var/newauthor = stripped_input(user, "Write the author's name:")
 				if(!user.canUseTopic(src, BE_CLOSE, literate))
 					return
 				if(!newauthor)
 					to_chat(user, "<span class='warning'>The name is invalid.</span>")
 					return
-
-				author = newauthor
-				return
+				else
+					author = newauthor
 			else
 				return
 

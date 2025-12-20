@@ -6,7 +6,7 @@
 	icon_state = "pipe11-2"
 
 	name = "pipe"
-	desc = "Метр отрезка обыкновенной трубы."
+	desc = "A one meter section of regular pipe."
 
 	dir = SOUTH
 	initialize_directions = SOUTH|NORTH

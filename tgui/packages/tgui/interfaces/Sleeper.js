@@ -4,19 +4,19 @@ import { Window } from '../layouts';
 
 const damageTypes = [
   {
-    label: 'Травмы',
+    label: 'Brute',
     type: 'bruteLoss',
   },
   {
-    label: 'Ожоги',
+    label: 'Burn',
     type: 'fireLoss',
   },
   {
-    label: 'Токсины',
+    label: 'Toxin',
     type: 'toxLoss',
   },
   {
-    label: 'Гипоксия',
+    label: 'Oxygen',
     type: 'oxyLoss',
   },
 ];
@@ -46,7 +46,7 @@ export const Sleeper = (props, context) => {
       height={505}>
       <Window.Content>
         <Section
-          title={occupant.name ? occupant.name : 'Пациент отсутствует'}
+          title={occupant.name ? occupant.name : 'No Occupant'}
           minHeight="210px"
           buttons={!!occupant.stat && (
             <Box
@@ -81,21 +81,21 @@ export const Sleeper = (props, context) => {
                   </LabeledList.Item>
                 ))}
                 <LabeledList.Item
-                  label="Клетки"
+                  label="Cells"
                   color={occupant.cloneLoss ? 'bad' : 'good'}>
-                  {occupant.cloneLoss ? 'Распадаются' : 'Целостны'}
+                  {occupant.cloneLoss ? 'Damaged' : 'Healthy'}
                 </LabeledList.Item>
                 <LabeledList.Item
-                  label="Мозг"
+                  label="Brain"
                   color={occupant.brainLoss ? 'bad' : 'good'}>
-                  {occupant.brainLoss ? 'Повреждён' : 'Стабилен'}
+                  {occupant.brainLoss ? 'Abnormal' : 'Healthy'}
                 </LabeledList.Item>
               </LabeledList>
             </>
           )}
         </Section>
         <Section
-          title="Препараты"
+          title="Medicines"
           minHeight="245px"
           buttons={(
             <Button

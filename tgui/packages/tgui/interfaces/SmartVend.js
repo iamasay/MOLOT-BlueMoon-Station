@@ -12,7 +12,7 @@ export const SmartVend = (props, context) => {
       height={550}>
       <Window.Content overflow="auto">
         <Section
-          title="Хранилище"
+          title="Storage"
           buttons={!!data.isdryer && (
             <Button
               icon={data.drying ? 'stop' : 'tint'}
@@ -22,17 +22,17 @@ export const SmartVend = (props, context) => {
           )}>
           {data.contents.length === 0 && (
             <NoticeBox>
-              К несчастью, внутри {data.name} пусто.
+              Unfortunately, this {data.name} is empty.
             </NoticeBox>
           ) || (
             <Table>
               <Table.Row header>
                 <Table.Cell>
-                  Содержимое:
+                  Item
                 </Table.Cell>
                 <Table.Cell collapsing />
                 <Table.Cell collapsing textAlign="center">
-                  {data.verb ? data.verb : 'Выдать'}
+                  {data.verb ? data.verb : 'Dispense'}
                 </Table.Cell>
               </Table.Row>
               {map((value, key) => (
@@ -45,14 +45,14 @@ export const SmartVend = (props, context) => {
                   </Table.Cell>
                   <Table.Cell collapsing>
                     <Button
-                      content="Одно"
+                      content="One"
                       disabled={value.amount < 1}
                       onClick={() => act('Release', {
                         name: value.name,
                         amount: 1,
                       })} />
                     <Button
-                      content="Неск."
+                      content="Many"
                       disabled={value.amount <= 1}
                       onClick={() => act('Release', {
                         name: value.name,

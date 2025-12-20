@@ -1,6 +1,6 @@
 /obj/machinery/vending/medical
 	name = "\improper NanoMed Plus"
-	desc = "Раздатчик медпрепаратов и снаряжения."
+	desc = "Medical drug dispenser."
 	icon_state = "med"
 	icon_deny = "med-deny"
 	//panel_type = "panel11"
@@ -77,7 +77,7 @@
 
 /obj/machinery/vending/medical/syndicate_access/cybersun
 	name = "\improper CyberMed ++"
-	desc = "Продвинутый раздатчик препаратов и лекарств, как \"рекреационных\", так и медицинских."
+	desc = "An advanced vendor that dispenses medical drugs, both recreational and medicinal."
 	products = list(
 		/obj/item/reagent_containers/syringe = 4,
 		/obj/item/healthanalyzer/advanced = 4,
@@ -134,7 +134,7 @@
 //Created out of a necessity to get these dumb chems out of the medical tools vendor.
 /obj/machinery/vending/drugs
 	name = "\improper NanoDrug Plus"
-	desc = "Раздатчик медпрепаратов и снаряжения."
+	desc = "Medical drugs dispenser."
 	icon_state = "drug"
 	icon_deny = "drug-deny"
 	//panel_type = "panel11"

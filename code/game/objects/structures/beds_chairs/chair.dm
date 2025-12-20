@@ -1,6 +1,6 @@
 /obj/structure/chair
 	name = "chair"
-	desc = "На этом вы сидите. По своей воле или нет."
+	desc = "You sit in this. Either by will or force."
 	icon = 'icons/obj/chairs.dmi'
 	icon_state = "chair"
 	anchored = TRUE
@@ -17,9 +17,9 @@
 
 /obj/structure/chair/examine(mob/user)
 	. = ..()
-	. += span_notice("Оно держится на нескольких <b>болтах</b>.")
+	. += span_notice("It's held together by a couple of <b>bolts</b>.")
 	if(!has_buckled_mobs())
-		. += span_notice("Перетащите свой спрайт, чтобы усесться.")
+		. += span_notice("Drag your sprite to sit in it.")
 
 /obj/structure/chair/Initialize(mapload)
 	. = ..()
@@ -99,15 +99,15 @@
 		if(!item_chair || !user.can_hold_items() || !has_buckled_mobs() || buckled_mobs.len > 1 || dir != user.dir || flags_1 & NODECONSTRUCT_1)
 			return TRUE
 		if(!user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
-			to_chat(user, "<span class='warning'>Сейчас вы это не можете сделать!</span>")
+			to_chat(user, "<span class='warning'>You can't do that right now!</span>")
 			return TRUE
 		if(IS_STAMCRIT(user))
-			to_chat(user, "<span class='warning'>Вы слишком устали для этого.</span>")
+			to_chat(user, "<span class='warning'>You're too exhausted for that.</span>")
 			return TRUE
 		var/mob/living/poordude = buckled_mobs[1]
 		if(!istype(poordude))
 			return TRUE
-		user.visible_message("<span class='notice'>[user] вытаскивает [src] из под [poordude].</span>", "<span class='notice'>Вы вытаскиваете [src] из под [poordude].</span>")
+		user.visible_message("<span class='notice'>[user] pulls [src] out from under [poordude].</span>", "<span class='notice'>You pull [src] out from under [poordude].</span>")
 		var/obj/item/chair/C = new item_chair(loc)
 		C.set_custom_materials(custom_materials)
 		TransferComponents(C)
@@ -142,7 +142,7 @@
 	handle_layer()
 	// BLUEMOON ADDITION AHEAD - стул ломается при попытке сесть на него сверхтяжёлым персонажем
 	if(M.mob_weight > MOB_WEIGHT_HEAVY)
-		visible_message(span_warning("[src] прогибается под весом [M] и ломается на части!"))
+		visible_message(span_warning("[src] buckles under the weight of [M] causing it to break!"))
 		playsound(src, 'modular_bluemoon/sound/effects/chair_break.ogg', 70, TRUE)
 		unbuckle_mob(M, TRUE)
 		deconstruct(FALSE)
@@ -169,7 +169,7 @@
 /obj/structure/chair/wood
 	icon_state = "wooden_chair"
 	name = "wooden chair"
-	desc = "Старое никогда не устаревает в вопросе стиля."
+	desc = "Old is never too old to not be in fashion."
 	resistance_flags = FLAMMABLE
 	max_integrity = 70
 	buildstacktype = /obj/item/stack/sheet/mineral/wood
@@ -188,7 +188,7 @@
 
 /obj/structure/chair/comfy
 	name = "comfy chair"
-	desc = "Выглядит комфортно."
+	desc = "It looks comfy."
 	icon_state = "comfychair"
 	color = rgb(255,255,255)
 	resistance_flags = FLAMMABLE
@@ -246,7 +246,7 @@
 
 /obj/structure/chair/comfy/plywood
 	name = "plywood chair"
-	desc = "Расслабляющее фанерное кресло."
+	desc = "A relaxing plywood chair."
 	icon_state = "plywood_chair"
 	anchored = FALSE
 	buildstacktype = /obj/item/stack/sheet/mineral/wood
@@ -257,7 +257,7 @@
 
 /obj/structure/chair/comfy/shuttle
 	name = "shuttle seat"
-	desc = "Комфортабельное и надёжно закреплённое кресло. С крепкими фиксирующими устройствами для плавных перелётов."
+	desc = "A comfortable, secure seat. It has a more sturdy looking buckling system, for smoother flights."
 	icon_state = "shuttle_chair"
 	buildstacktype = /obj/item/stack/sheet/mineral/titanium
 
@@ -285,7 +285,7 @@
 
 /obj/structure/chair/stool
 	name = "stool"
-	desc = "Примостите задницу."
+	desc = "Apply butt."
 	icon_state = "stool"
 	buildstackamount = 1
 	item_chair = /obj/item/chair/stool
@@ -321,7 +321,7 @@
 
 /obj/structure/chair/stool/bar
 	name = "bar stool"
-	desc = "На нём видны некие неприятные пятна..."
+	desc = "It has some unsavory stains on it..."
 	icon_state = "bar"
 	item_chair = /obj/item/chair/stool/bar
 
@@ -339,7 +339,7 @@
 
 /obj/item/chair
 	name = "chair"
-	desc = "Обязателен для любой барной потасовке."
+	desc = "Bar brawl essential."
 	icon = 'icons/obj/chairs.dmi'
 	icon_state = "chair_toppled"
 	item_state = "chair"
@@ -470,7 +470,7 @@
 
 /obj/structure/chair/stool/alien
 	name = "alien stool"
-	desc = "Твёрдый табурет из продвинутого инопланетного сплава."
+	desc = "A hard stool made of advanced alien alloy."
 	icon_state = "stoolalien"
 	icon = 'icons/obj/abductor.dmi'
 	item_chair = /obj/item/chair/stool/alien
@@ -479,7 +479,7 @@
 
 /obj/structure/chair/stool/bar/alien
 	name = "alien bar stool"
-	desc = "Твёрдый барный стульчик из продвинутого инопланетного сплава."
+	desc = "A hard bar stool made of advanced alien alloy."
 	icon_state = "baralien"
 	icon = 'icons/obj/abductor.dmi'
 	item_chair = /obj/item/chair/stool/bar/alien
@@ -507,7 +507,7 @@
 
 /obj/structure/chair/stool/bar/brass
 	name = "brass bar stool"
-	desc = "Латунный барный стульчик с красным шёлком в роли подушки."
+	desc = "A brass bar stool with red silk for a pillow."
 	icon_state = "barbrass"
 	item_chair = /obj/item/chair/stool/bar/brass
 	buildstacktype = /obj/item/stack/tile/brass
@@ -515,7 +515,7 @@
 
 /obj/structure/chair/stool/bar/bronze
 	name = "bronze bar stool"
-	desc = "Бронзовый барный стульчик с красным шёлком в роли подушки"
+	desc = "A bronze bar stool with red silk for a pillow."
 	icon_state = "barbrass"
 	item_chair = /obj/item/chair/stool/bar/bronze
 	buildstacktype = /obj/item/stack/sheet/bronze
@@ -523,7 +523,7 @@
 
 /obj/structure/chair/stool/brass
 	name = "brass stool"
-	desc = "Латунный табурет с комфортным шёлком поверх него."
+	desc = "A brass stool with a silk top for comfort."
 	icon_state = "stoolbrass"
 	item_chair = /obj/item/chair/stool/brass
 	buildstacktype = /obj/item/stack/tile/brass
@@ -531,7 +531,7 @@
 
 /obj/structure/chair/stool/bronze
 	name = "bronze stool"
-	desc = "Бронзовый табурет с комфортным шёлком поверх него"
+	desc = "A bronze stool with a silk top for comfort."
 	icon_state = "stoolbrass"
 	item_chair = /obj/item/chair/stool/bronze
 	buildstacktype = /obj/item/stack/sheet/bronze
@@ -588,13 +588,13 @@
 
 /obj/structure/chair/old
 	name = "strange chair"
-	desc = "На этом вы сидите. По своей воле или нет. Выглядит ДИКО неудобным."
+	desc = "You sit in this. Either by will or force. Looks REALLY uncomfortable."
 	icon_state = "chairold"
 	item_chair = null
 
 /obj/structure/chair/brass
 	name = "brass chair"
-	desc = "Замудрённое кресло из латуни. Выглядит неудобным."
+	desc = "A spinny chair made of brass. It looks uncomfortable."
 	icon_state = "brass_chair"
 	max_integrity = 150
 	buildstacktype = /obj/item/stack/tile/brass
@@ -630,8 +630,8 @@
 	return TRUE
 
 /obj/structure/chair/bronze
-	name = "bronze chair"
-	desc = "Замудрёное кресло из бронзы. И даже с маленькими шестернями в роли колёс!"
+	name = "brass chair"
+	desc = "A spinny chair made of bronze. It has little cogs for wheels!"
 	anchored = FALSE
 	icon_state = "brass_chair"
 	buildstacktype = /obj/item/stack/sheet/bronze

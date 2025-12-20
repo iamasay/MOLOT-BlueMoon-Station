@@ -5,20 +5,20 @@ import { BeakerContents } from './common/BeakerContents';
 
 const damageTypes = [
   {
-    label: "Травмы",
+    label: "Brute",
     type: "bruteLoss",
   },
   {
-    label: "Ожоги",
-    type: "fireLoss",
+    label: "Respiratory",
+    type: "oxyLoss",
   },
   {
-    label: "Токсины",
+    label: "Toxin",
     type: "toxLoss",
   },
   {
-    label: "Гипоксия",
-    type: "oxyLoss",
+    label: "Burn",
+    type: "fireLoss",
   },
 ];
 
@@ -38,26 +38,26 @@ const CryoContent = (props, context) => {
   const { act, data } = useBackend(context);
   return (
     <>
-      <Section title="Пациент">
+      <Section title="Occupant">
         <LabeledList>
-          <LabeledList.Item label="Пациент">
-            {data.occupant.name || 'Отсутствует'}
+          <LabeledList.Item label="Occupant">
+            {data.occupant.name || 'No Occupant'}
           </LabeledList.Item>
           {!!data.hasOccupant && (
             <>
               <LabeledList.Item
-                label="Состояние"
+                label="State"
                 color={data.occupant.statstate}>
                 {data.occupant.stat}
               </LabeledList.Item>
               <LabeledList.Item
-                label="Температура"
+                label="Temperature"
                 color={data.occupant.temperaturestatus}>
                 <AnimatedNumber
                   value={data.occupant.bodyTemperature} />
                 {' K'}
               </LabeledList.Item>
-              <LabeledList.Item label="Здоровье">
+              <LabeledList.Item label="Health">
                 <ProgressBar
                   value={data.occupant.health / data.occupant.maxHealth}
                   color={data.occupant.health > 0 ? 'good' : 'average'}>
@@ -80,9 +80,9 @@ const CryoContent = (props, context) => {
           )}
         </LabeledList>
       </Section>
-      <Section title="Капсула">
+      <Section title="Cell">
         <LabeledList>
-          <LabeledList.Item label="Питание">
+          <LabeledList.Item label="Power">
             <Button
               icon={data.isOperating ? "power-off" : "times"}
               disabled={data.isOpen}
@@ -91,14 +91,14 @@ const CryoContent = (props, context) => {
               {data.isOperating ? "On" : "Off"}
             </Button>
           </LabeledList.Item>
-          <LabeledList.Item label="Температура">
+          <LabeledList.Item label="Temperature">
             <AnimatedNumber value={data.cellTemperature} /> K
           </LabeledList.Item>
-          <LabeledList.Item label="Створки">
+          <LabeledList.Item label="Door">
             <Button
               icon={data.isOpen ? "unlock" : "lock"}
               onClick={() => act('door')}
-              content={data.isOpen ? "Открыты" : "Закрыты"} />
+              content={data.isOpen ? "Open" : "Closed"} />
             <Button
               icon={data.autoEject ? "sign-out-alt" : "sign-in-alt"}
               onClick={() => act('autoeject')}
@@ -107,13 +107,13 @@ const CryoContent = (props, context) => {
         </LabeledList>
       </Section>
       <Section
-        title="Внутренняя ёмкость"
+        title="Beaker"
         buttons={(
           <Button
             icon="eject"
             disabled={!data.isBeakerLoaded}
             onClick={() => act('ejectbeaker')}
-            content="Извлечь" />
+            content="Eject" />
         )}>
         <BeakerContents
           beakerLoaded={data.isBeakerLoaded}

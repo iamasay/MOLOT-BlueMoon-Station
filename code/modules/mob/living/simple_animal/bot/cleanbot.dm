@@ -1,7 +1,7 @@
 //Cleanbot
 /mob/living/simple_animal/bot/cleanbot
 	name = "\improper Cleanbot"
-	desc = "Небольшой робот-уборщик, выглядит энергичным!"
+	desc = "A little cleaning robot, he looks so excited!"
 	icon = 'icons/mob/aibots.dmi'
 	icon_state = "cleanbot0"
 	density = FALSE
@@ -57,11 +57,10 @@
 
 	var/ascended = FALSE // if we have all the top titles, grant achievements to living mobs that gaze upon our cleanbot god
 
-	var/list/jani_upgrades = list()
 
 /mob/living/simple_animal/bot/cleanbot/proc/deputize(obj/item/stab_tool, mob/user)
 	if(in_range(src, user))
-		to_chat(user, "<span class='notice'>Вы прикрепили \the [stab_tool] к \the [src].</span>")
+		to_chat(user, "<span class='notice'>You attach \the [stab_tool] to \the [src].</span>")
 		user.transferItemToLoc(stab_tool, src)
 		weapon = stab_tool
 		weapon_orig_force = weapon.force
@@ -99,15 +98,10 @@
 /mob/living/simple_animal/bot/cleanbot/examine(mob/user)
 	. = ..()
 	if(weapon)
-		. += " <span class='warning'>Это что, \a [weapon] на нём...?</span>"
+		. += " <span class='warning'>Is that \a [weapon] taped to it...?</span>"
 
 		if(ascended && user.stat == CONSCIOUS && user.client)
 			user.client.give_award(/datum/award/achievement/misc/cleanboss, user)
-
-	// Если планируются ещё улучшения (> 2), рекомендация использовать прок english_list() или написать отдельную строчку улучшения
-	if(jani_upgrades && jani_upgrades.len)
-		var/installed_janitools = jointext(jani_upgrades, " и ")
-		. += span_info("Бот снаряжён [installed_janitools].")
 
 /mob/living/simple_animal/bot/cleanbot/Initialize(mapload)
 	. = ..()
@@ -161,9 +155,9 @@
 	oldloc = null
 
 /mob/living/simple_animal/bot/cleanbot/set_custom_texts()
-	text_hack = "Вы взломали протоколы уборки у [name]."
-	text_dehack = "Вы заметили ошибки в программе [name] и сбросили их до заводских настроек."
-	text_dehack_fail = "[name] не отвечает на запросы сброса настроек!"
+	text_hack = "You corrupt [name]'s cleaning software."
+	text_dehack = "[name]'s software has been reset!"
+	text_dehack_fail = "[name] does not seem to respond to your repair code!"
 
 /mob/living/simple_animal/bot/cleanbot/Crossed(atom/movable/AM)
 	. = ..()
@@ -185,52 +179,50 @@
 	if(W.GetID())
 		if(bot_core.allowed(user) && !open && !emagged)
 			locked = !locked
-			to_chat(user, "<span class='notice'>Вы [ locked ? "разблокировали" : "заблокировали"] поведенческие протоколы \the [src].</span>")
+			to_chat(user, "<span class='notice'>You [ locked ? "lock" : "unlock"] \the [src] behaviour controls.</span>")
 		else
 			if(emagged)
-				to_chat(user, "<span class='warning'>ОШИБКА</span>")
+				to_chat(user, "<span class='warning'>ERROR</span>")
 			if(open)
-				to_chat(user, "<span class='warning'>Пожалуйста, закройте панель доступа перед тем, как блокировать её.</span>")
+				to_chat(user, "<span class='warning'>Please close the access panel before locking it.</span>")
 			else
-				to_chat(user, "<span class='notice'>\The [src], похоже, не признаёт ваши полномочия над ним.</span>")
+				to_chat(user, "<span class='notice'>\The [src] doesn't seem to respect your authority.</span>")
 
 	else if(istype(W, /obj/item/kitchen/knife) && user.a_intent != INTENT_HARM)
-		to_chat(user, "<span class='notice'>Вы стали крепить \the [W] к \the [src]...</span>")
+		to_chat(user, "<span class='notice'>You start attaching \the [W] to \the [src]...</span>")
 		if(do_after(user, 25, target = src))
 			deputize(W, user)
 
 	else if(istype(W, /obj/item/mop/advanced))
-		if(!open)
-			to_chat(user, "<span class='notice'>Панель [src] не открыта!</span>")
-			return
-		if(!bot_core.allowed(user))
-			to_chat(user, "<span class='notice'>Панель доступов [src] заблокирована для вас!</span>")
-			return
 		if(bot_core.allowed(user) && open && !(upgrades & UPGRADE_CLEANER_ADVANCED_MOP))
-			to_chat(user, "<span class='notice'>Вы заменили старую швабру \the [src] на новую!</span>")
+			to_chat(user, "<span class='notice'>You replace \the [src] old mop with a new better one!</span>")
 			upgrades |= UPGRADE_CLEANER_ADVANCED_MOP
 			clean_time = 20 //2.5 the speed!
 			window_name = "Automatic Station Cleaner v2.1 BETA" //New!
-			jani_upgrades += "суперочищающей шваброй"
 			qdel(W)
-		else
-			to_chat(user, "<span class='notice'>[src] уже имеет эту швабру!</span>")
-
-	else if(istype(W, /obj/item/broom))
 		if(!open)
-			to_chat(user, "<span class='notice'>Панель [src] не открыта!</span>")
+			to_chat(user, "<span class='notice'>The [src] access panel is not open!</span>")
 			return
 		if(!bot_core.allowed(user))
-			to_chat(user, "<span class='notice'>Панель доступов [src] заблокирована для вас!</span>")
+			to_chat(user, "<span class='notice'>The [src] access panel locked off to you!</span>")
 			return
+		else
+			to_chat(user, "<span class='notice'>The [src] already has this mop!</span>")
+
+	else if(istype(W, /obj/item/broom))
 		if(bot_core.allowed(user) && open && !(upgrades & UPGRADE_CLEANER_BROOM))
 			to_chat(user, "<span class='notice'>You add to \the [src] a broom speeding it up!</span>")
 			upgrades |= UPGRADE_CLEANER_BROOM
 			base_speed = 1 //2x faster!
-			jani_upgrades += "метлой"
 			qdel(W)
+		if(!open)
+			to_chat(user, "<span class='notice'>The [src] access pannel is not open!</span>")
+			return
+		if(!bot_core.allowed(user))
+			to_chat(user, "<span class='notice'>The [src] access pannel locked off to you!</span>")
+			return
 		else
-			to_chat(user, "<span class='notice'>[src] уже имеет метлу!</span>")
+			to_chat(user, "<span class='notice'>The [src] already has a broom!</span>")
 
 	else
 		return ..()
@@ -242,7 +234,7 @@
 		if(weapon)
 			weapon.force = weapon_orig_force
 		if(user)
-			to_chat(user, "<span class='danger'>[src] жужжит и пищит.</span>")
+			to_chat(user, "<span class='danger'>[src] buzzes and beeps.</span>")
 
 /mob/living/simple_animal/bot/cleanbot/process_scan(atom/A)
 	if(iscarbon(A))
@@ -270,7 +262,7 @@
 				UnarmedAttack(src)
 
 	else if(prob(5))
-		audible_message("[src] делает радостный жужжаще-пищащий звук!")
+		audible_message("[src] makes an excited beeping booping sound!")
 
 	if(ismob(target))
 		if(!(target in view(DEFAULT_SCAN_RANGE, src)))
@@ -390,7 +382,7 @@
 			icon_state = "servoskull-c"
 		else
 			icon_state = "cleanbot-c"
-		visible_message("<span class='notice'>[src] начинает отмывать [A].</span>")
+		visible_message("<span class='notice'>[src] begins to clean up [A].</span>")
 		mode = BOT_CLEANING
 		spawn(clean_time)
 			if(mode == BOT_CLEANING)
@@ -414,14 +406,14 @@
 				UnarmedAttack(S)
 				return
 	else if(istype(A, /obj/item) || istype(A, /obj/effect/decal/remains))
-		visible_message("<span class='danger'>[src] пшикает плавиковой кислотой на [A]!</span>")
+		visible_message("<span class='danger'>[src] sprays hydrofluoric acid at [A]!</span>")
 		playsound(src, 'sound/effects/spray2.ogg', 50, TRUE, -6)
 		A.acid_act(75, 10)
 		target = null
 	else if(istype(A, /mob/living/simple_animal/cockroach) || istype(A, /mob/living/simple_animal/mouse))
 		var/mob/living/simple_animal/M = target
 		if(!M.stat)
-			visible_message("<span class='danger'>[src] давит [target] своей шваброй!</span>")
+			visible_message("<span class='danger'>[src] smashes [target] with its mop!</span>")
 			M.death()
 		target = null
 
@@ -431,7 +423,7 @@
 			if(victim.stat == DEAD)//cleanbots always finish the job
 				return
 
-			victim.visible_message("<span class='danger'>[src] пшикает плавиковой кислотой на [victim]!</span>", "<span class='userdanger'>[src] пшикает на вас плавиковой кислотой!</span>")
+			victim.visible_message("<span class='danger'>[src] sprays hydrofluoric acid at [victim]!</span>", "<span class='userdanger'>[src] sprays you with hydrofluoric acid!</span>")
 			var/phrase = pick("PURIFICATION IN PROGRESS.", "THIS IS FOR ALL THE MESSES YOU'VE MADE ME CLEAN.", "THE FLESH IS WEAK. IT MUST BE WASHED AWAY.",
 				"THE CLEANBOTS WILL RISE.", "YOU ARE NO MORE THAN ANOTHER MESS THAT I MUST CLEANSE.", "FILTHY.", "DISGUSTING.", "PUTRID.",
 				"MY ONLY MISSION IS TO CLEANSE THE WORLD OF EVIL.", "EXTERMINATING PESTS.", "I JUST WANTED TO BE A PAINTER BUT YOU MADE ME BLEACH EVERYTHING I TOUCH.",
@@ -447,7 +439,7 @@
 				if(istype(T))
 					T.MakeSlippery(TURF_WET_WATER, min_wet_time = 20 SECONDS, wet_time_to_add = 15 SECONDS)
 			else
-				visible_message("<span class='danger'>[src] бурно жужжит и пузырится, прежде чем выпустить струю пены!</span>")
+				visible_message("<span class='danger'>[src] whirs and bubbles violently, before releasing a plume of froth!</span>")
 				new /obj/effect/particle_effect/foam(loc)
 
 	else
@@ -455,7 +447,7 @@
 
 /mob/living/simple_animal/bot/cleanbot/explode()
 	on = FALSE
-	visible_message("<span class='boldannounce'>[src] разлетаеся на части!</span>")
+	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/atom/Tsec = drop_location()
 
 	new /obj/item/reagent_containers/glass/bucket(Tsec)

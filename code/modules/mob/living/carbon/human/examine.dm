@@ -2,7 +2,6 @@
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_on 	= ru_who(TRUE)
 	var/t_ego 	= ru_ego()
-	var/t_nego	= ru_nego()
 	var/t_a 	= ru_a()
 
 	var/obscure_name
@@ -82,7 +81,7 @@
 			. += "[t_on] одет[t_a] в [w_uniform.get_examine_string(user)][accessory_msg]."
 	//head
 	if(head && !(head.obj_flags & EXAMINE_SKIP))
-		. += "[t_on] носит на голове [head.get_examine_string(user)]."
+		. += "[t_on] одет[t_a] в [head.get_examine_string(user)]."
 
 	//suit/armor
 	if(wear_suit && !(wear_suit.item_flags & EXAMINE_SKIP))
@@ -94,7 +93,7 @@
 
 	//back
 	if(back && !(back.item_flags & EXAMINE_SKIP))
-		. += "На спине у [t_nego] [back.get_examine_string(user)]."
+		. += "[t_on] держит на своей спине [back.get_examine_string(user)]."
 
 	//Hands
 	for(var/obj/item/I in held_items)
@@ -116,7 +115,7 @@
 				if(length(accessory_preparation))
 					accessory_msg = " c [english_list(accessory_preparation)] на кончиках пальцев"
 
-		. += "[t_on] носит на руках [gloves.get_examine_string(user)][accessory_msg]."
+		. += "[t_on] одет[t_a] в [gloves.get_examine_string(user)][accessory_msg]."
 	else if(length(blood_DNA))
 		var/hand_number = get_num_arms(FALSE)
 		if(hand_number)
@@ -131,18 +130,18 @@
 
 	//mask
 	if(wear_mask && !(ITEM_SLOT_MASK in obscured))
-		. += "[t_on] носит на лице [wear_mask.get_examine_string(user)]."
+		. += "[t_on] носит [wear_mask.get_examine_string(user)]."
 
 	if(wear_neck && !(ITEM_SLOT_NECK in obscured))
-		. += "[t_on] носит на шее [wear_neck.get_examine_string(user)]."
+		. += "[t_on] носит на своей шее [wear_neck.get_examine_string(user)]."
 
 	//belt
 	if(belt && !(belt.item_flags & EXAMINE_SKIP))
-		. += "[t_on] носит на поясе [belt.get_examine_string(user)]."
+		. += "[t_on] носит на своём поясе [belt.get_examine_string(user)]."
 
 	//shoes
 	if(shoes && !(ITEM_SLOT_FEET in obscured))
-		. += "[t_on] обут[t_a] в [shoes.get_examine_string(user)]."
+		. += "[t_on] одет[t_a] в [shoes.get_examine_string(user)]."
 
 	//eyes
 	if(!(ITEM_SLOT_EYES in obscured))

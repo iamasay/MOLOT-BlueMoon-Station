@@ -384,8 +384,7 @@
 
 /obj/item/reagent_containers/food/snacks/bbqribs
 	name = "bbq ribs"
-	desc = "Рёбрышки-барбекю в добротном слое соуса-барбекю. Наименее веганская вещь в бытие."
-	icon = 'modular_bluemoon/icons/obj/food/food.dmi'
+	desc = "BBQ ribs, slathered in a healthy coating of BBQ sauce. The least vegan thing to ever exist."
 	icon_state = "ribs"
 	w_class = WEIGHT_CLASS_NORMAL
 	list_reagents = list(/datum/reagent/consumable/nutriment = 8, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/bbqsauce = 5)

@@ -3,7 +3,7 @@
 // -------------------------
 /obj/machinery/smartfridge
 	name = "smartfridge"
-	desc = "Хранит холодные вещи холодными и горячие вещи холодными."
+	desc = "Keeps cold things cold and hot things cold."
 	icon = 'icons/obj/vending.dmi'
 	icon_state = "smartfridge"
 	layer = BELOW_OBJ_LAYER
@@ -38,8 +38,7 @@
 /obj/machinery/smartfridge/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>Статус-дисплей сообщает:\n\
-		- Поместится максимум <b>[max_n_of_items]</b> шт. предметов.</span>"
+		. += "<span class='notice'>The status display reads: This unit can hold a maximum of <b>[max_n_of_items]</b> items.</span>"
 
 /obj/machinery/smartfridge/update_icon_state()
 	SSvis_overlays.remove_vis_overlay(src, managed_vis_overlays)
@@ -92,12 +91,12 @@
 	if(!machine_stat)
 
 		if(contents.len >= max_n_of_items)
-			to_chat(user, "<span class='warning'>\The [src] заполнен!</span>")
+			to_chat(user, "<span class='warning'>\The [src] is full!</span>")
 			return FALSE
 
 		if(accept_check(O))
 			load(O)
-			user.visible_message("<span class='notice'>[user] загружает \the [O] в \the [src].</span>", "<span class='notice'>Вы загрузили \the [O] в \the [src].</span>")
+			user.visible_message("<span class='notice'>[user] adds \the [O] to \the [src].</span>", "<span class='notice'>You add \the [O] to \the [src].</span>")
 			updateUsrDialog()
 			if (visible_contents)
 				update_icon()
@@ -116,22 +115,22 @@
 
 			if(loaded)
 				if(contents.len >= max_n_of_items)
-					user.visible_message("<span class='notice'>[user] загружает \the [src] объёмом \the [O].</span>", \
-						"<span class='notice'>Вы пополнили  \the [src] некоторым количеством \the [O].</span>")
+					user.visible_message("<span class='notice'>[user] loads \the [src] with \the [O].</span>", \
+						"<span class='notice'>You fill \the [src] with \the [O].</span>")
 				else
-					user.visible_message("<span class='notice'>[user] загружает \the [src] объёмом \the [O].</span>", \
-						"<span class='notice'>Вы пополнили \the [src] некоторым количеством \the [O].</span>")
+					user.visible_message("<span class='notice'>[user] loads \the [src] with \the [O].</span>", \
+						"<span class='notice'>You load \the [src] with \the [O].</span>")
 				if(O.contents.len > 0)
-					to_chat(user, "<span class='warning'>Некоторые предметы не были приняты.</span>")
+					to_chat(user, "<span class='warning'>Some items are refused.</span>")
 				if (visible_contents)
 					update_icon()
 				return TRUE
 			else
-				to_chat(user, "<span class='warning'>В [O] ничего нет, чтобы класть в [src]!</span>")
+				to_chat(user, "<span class='warning'>There is nothing in [O] to put in [src]!</span>")
 				return FALSE
 
 	if(user.a_intent != INTENT_HARM)
-		to_chat(user, "<span class='warning'>\The [src] разумно отторгает [O].</span>")
+		to_chat(user, "<span class='warning'>\The [src] smartly refuses [O].</span>")
 		updateUsrDialog()
 		return FALSE
 	else
@@ -148,7 +147,7 @@
 	if(ismob(O.loc))
 		var/mob/M = O.loc
 		if(!M.transferItemToLoc(O, src))
-			to_chat(usr, "<span class='warning'>\the [O] прилепилось к вашей руке, вы не можете деть это в \the [src]!</span>")
+			to_chat(usr, "<span class='warning'>\the [O] is stuck to your hand, you cannot put it in \the [src]!</span>")
 			return FALSE
 		else
 			return TRUE
@@ -208,13 +207,13 @@
 			var/desired = 0
 
 			if(!allow_ai_retrieve && isAI(usr))
-				to_chat(usr, "<span class='warning'>[src], похоже, не признаёт ваши полномочия!</span>")
+				to_chat(usr, "<span class='warning'>[src] does not seem to be configured to respect your authority!</span>")
 				return
 
 			if (params["amount"])
 				desired = text2num(params["amount"])
 			else
-				desired = input("Сколько?", "Сколько предметов хотите вытащить?", 1) as null|num
+				desired = input("How many items?", "How many items would you like to take out?", 1) as null|num
 
 			if(QDELETED(src) || QDELETED(usr) || !usr.Adjacent(src)) // Sanity checkin' in case stupid stuff happens while we wait for input()
 				return FALSE
@@ -249,7 +248,7 @@
 // ----------------------------
 /obj/machinery/smartfridge/drying_rack
 	name = "drying rack"
-	desc = "Деревянное сооружение для просушивания растений, пищи и шкур."
+	desc = "A wooden contraption, used to dry plant products, food and hide."
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "drying_rack"
 	use_power = IDLE_POWER_USE
@@ -379,7 +378,7 @@
 // ----------------------------
 /obj/machinery/smartfridge/drinks
 	name = "drink showcase"
-	desc = "Охлаждаемое хранилище для бутылочек вкусной-вкусной выпивки."
+	desc = "A refrigerated storage unit for tasty tasty alcohol."
 	base_build_path = /obj/machinery/smartfridge/drinks
 
 /obj/machinery/smartfridge/drinks/accept_check(obj/item/O)
@@ -392,7 +391,7 @@
 //  Food smartfridge
 // ----------------------------
 /obj/machinery/smartfridge/food
-	desc = "Холодильник для пищи."
+	desc = "A refrigerated storage unit for food."
 	base_build_path = /obj/machinery/smartfridge/food
 
 /obj/machinery/smartfridge/food/accept_check(obj/item/O)
@@ -405,7 +404,7 @@
 // -------------------------------------
 /obj/machinery/smartfridge/extract
 	name = "smart slime extract storage"
-	desc = "Охлаждаемое хранилище для содержания слаймовых экстрактов."
+	desc = "A refrigerated storage unit for slime extracts."
 	base_build_path = /obj/machinery/smartfridge/extract
 
 /obj/machinery/smartfridge/extract/accept_check(obj/item/O)
@@ -423,7 +422,7 @@
 // -------------------------
 /obj/machinery/smartfridge/organ
 	name = "smart organ storage"
-	desc = "Охлаждаемое хранилище для содержания органов."
+	desc = "A refrigerated storage unit for organ storage."
 	max_n_of_items = 20	//vastly lower to prevent processing too long
 	base_build_path = /obj/machinery/smartfridge/organ
 	var/repair_rate = 0
@@ -492,7 +491,7 @@
 // -----------------------------
 /obj/machinery/smartfridge/chemistry
 	name = "smart chemical storage"
-	desc = "Охлаждаемое хранилище для медпрепаратов."
+	desc = "A refrigerated storage unit for medicine storage."
 	base_build_path = /obj/machinery/smartfridge/chemistry
 
 /obj/machinery/smartfridge/chemistry/accept_check(obj/item/O)
@@ -534,7 +533,7 @@
 // ----------------------------
 /obj/machinery/smartfridge/chemistry/virology
 	name = "smart virus storage"
-	desc = "Охлаждаемое хранилище для содержания летучих образцов."
+	desc = "A refrigerated storage unit for volatile sample storage."
 	base_build_path = /obj/machinery/smartfridge/chemistry/virology
 
 /obj/machinery/smartfridge/chemistry/virology/preloaded
@@ -553,7 +552,7 @@
 // ----------------------------
 /obj/machinery/smartfridge/disks
 	name = "disk compartmentalizer"
-	desc = "Машина для хранения разнообразных дисков. Большинство просто называют ДСУ (disk storage unit)."
+	desc = "A machine capable of storing a variety of disks. Denoted by most as the DSU (disk storage unit)."
 	icon_state = "disktoaster"
 	pass_flags = PASSTABLE
 	visible_contents = FALSE
