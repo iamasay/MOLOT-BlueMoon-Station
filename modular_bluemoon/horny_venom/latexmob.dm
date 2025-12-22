@@ -12,12 +12,10 @@
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
 	var/current_controller
-	var/alert_has_been_viewed = FALSE
 	var/stage = 0
 	var/evolve_points = 0
-	var/mergingDelay = DEBUG_MERGING_DELAY
+	var/mergingDelay = DEFAULT_MERGING_DELAY
 	var/datum/species/old_host_spec
-	var/datum/species/jelly/roundstartslime/living_latex/self_species
 	var/datum/evolution_store
 	var/list/available_abilities = list(
 		new /datum/action/cooldown/latexmob/venomAction,
@@ -38,30 +36,17 @@
 		new /datum/action/cooldown/latexmob/human_form
 	)
 
-/datum/antagonist/living_latex/process()
+/datum/antagonist/living_latex/process(delta_time)
 	. = ..()
 	if(evolve_points < 1)
-		evolve_points += POINTS_REGEN_DEBUG
+		evolve_points += 0.001 * delta_time
 
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
 	var/datum/evolution_store/ev_store = new(src)
-	self_species = new /datum/species/jelly/roundstartslime/living_latex
 	evolution_store = ev_store
 	available_abilities += new /datum/action/innate/evolution_store
-	set_name(usr)
 	grant_abilities(usr)
-
-/datum/antagonist/living_latex/on_body_transfer(mob/living/old_body, mob/living/new_body)
-	. = ..()
-	for(var/datum/action/cooldown/latexmob/all_powers as anything in available_abilities)
-		all_powers.Remove(old_body)
-		all_powers.Grant(new_body)
-
-/datum/antagonist/living_latex/proc/set_name(var/mob/living/user)
-	user.name = tgui_input_text(user, "Введите псевдоним", "Set name", "Сгусток латекса", 30)
-	if(!user.name)
-		user.name = "Сгусток латекса"
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
@@ -77,9 +62,6 @@
 	return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant)
-	if(locate(ability_to_grant) in available_abilities)
-		to_chat(usr, "<span_class='warning'>У вас уже есть эта способность!</span>")
-		return
 	if(ability_to_grant.stage_required <= stage && evolve_points == 1)
 		available_abilities += ability_to_grant
 		evolve_points = 0
@@ -155,14 +137,6 @@
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
 	reagents = new /datum/reagents
 
-/mob/living/simple_animal/latexmob/Life(seconds, times_fired)
-	. = ..()
-	if(!src.mind)
-		//добавить сюда логгирование в рантаймы
-		return
-	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in src.mind.antag_datums
-	my_antag_datum?.process()
-
 /obj/item/organ/latexOrgan
 	name = "strange black organ"
 	//icon =
@@ -186,31 +160,25 @@
 	var/current_stage //1,2,3
 	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 
+/mob/living/simple_animal/latexmob/stage1
+	name = ""
 
 /mob/living/simple_animal/latexmob/venom
 	name = "split personality"
 	real_name = "unknown conscience"
-	var/mob/living/carbon/human/body
+	var/mob/living/carbon/body
 	var/obj/item/organ/latexOrgan/organ
 
 /mob/living/simple_animal/latexmob/venom/Login()
 	..()
+	to_chat(src, "<span class='notice'>As a split personality, you cannot do anything but observe. However, you will eventually gain control of your body, switching places with the current personality.</span>")
+	to_chat(src, "<span class='warning'><b>Do not commit suicide or put the body in a deadly position. Behave like you care about it as much as the owner.</b></span>")
 	body = src.loc
-	LOGIN_NOTICE_MESSAGE(src)
-	var/datum/antagonist/living_latex/antag_datum = check_LL_antagDatum(src)
-	if(antag_datum && !antag_datum.alert_has_been_viewed) //Показывается только один раз и только носителю антаг датума.
-		LOGIN_WARNING_MESSAGE(src)
-		antag_datum.alert_has_been_viewed = TRUE
-
 
 /mob/living/simple_animal/latexmob/venom/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(length(message) && body)
-		to_chat(body, span_bold("Странный голос раздается эхом и гласит: \"[message]\""))
-		to_chat(src, span_bold("Вы говорите: [message]"))
+		to_chat(body, "You hear a strange voice in your head... \"[message]\"")
 	return
 
 /mob/living/simple_animal/latexmob/venom/emote(act, m_type = null, message = null, intentional = FALSE)
-	if(length(message) && body)
-		to_chat(body, span_love("[message]"))
-		to_chat(src, span_warning("Вы совершили действие над хостом:")+span_love("[message]"))
 	return
