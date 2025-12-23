@@ -91,7 +91,8 @@
 /datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
 	var/mob/living/old_body = usr
 	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
-	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
+	var/obj/effect/temp_visual/venom_in = new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
+//	venom_in.transform.Scale(T.transform[1], T.transform[1])
 	O.Insert(T)
 	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom(T)
 	old_body.mind.transfer_to(O.ObserverBackseat)
@@ -160,8 +161,6 @@
 	var/current_stage //1,2,3
 	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 
-/mob/living/simple_animal/latexmob/stage1
-	name = ""
 
 /mob/living/simple_animal/latexmob/venom
 	name = "split personality"
@@ -171,13 +170,14 @@
 
 /mob/living/simple_animal/latexmob/venom/Login()
 	..()
-	to_chat(src, "<span class='notice'>As a split personality, you cannot do anything but observe. However, you will eventually gain control of your body, switching places with the current personality.</span>")
-	to_chat(src, "<span class='warning'><b>Do not commit suicide or put the body in a deadly position. Behave like you care about it as much as the owner.</b></span>")
+	to_chat(src, LOGIN_NOTICE_MESSAGE)
+	to_chat(src, LOGIN_WARNING_MESSAGE)
 	body = src.loc
 
 /mob/living/simple_animal/latexmob/venom/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(length(message) && body)
-		to_chat(body, "You hear a strange voice in your head... \"[message]\"")
+		to_chat(body, span_bold("Странный голос раздается эхом и гласит: \"[message]\""))
+		to_chat(src, span_bold("Вы говорите: [message]"))
 	return
 
 /mob/living/simple_animal/latexmob/venom/emote(act, m_type = null, message = null, intentional = FALSE)
