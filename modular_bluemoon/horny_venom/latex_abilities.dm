@@ -31,7 +31,8 @@
 		var/mob/living/carbon/body = owner.loc
 		if(istype(body, /mob/living))
 			var/datum/mind/owner_mind = owner.mind
-			body.mind.transfer_to(backseat, 1)
+			if(body.mind)
+				body.mind.transfer_to(backseat, 1)
 			owner_mind.transfer_to(body, 1)
 		else
 			to_chat(owner, DEFAULT_ABITILY_ERROR_MESSAGE)
@@ -48,7 +49,8 @@
 		var/mob/living/carbon/body = owner
 		var/datum/mind/owner_mind = owner.mind
 		if(backseat)
-			backseat.mind.transfer_to(body, 1)
+			if(backseat.mind)
+				backseat.mind.transfer_to(body, 1)
 			owner_mind.transfer_to(backseat, 1)
 			my_living_latex.current_controller = BODY_OWNER
 			my_living_latex.grant_abilities(backseat)
@@ -61,7 +63,10 @@
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	. = ..()
-	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in body.mind.antag_datums
+	if(owner.progressbars)
+		to_chat(owner, span_danger("В данный момент вы уже пытаетесь поглотить кого-то")) //защита от повторной активации
+		return
+	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
 	var/delay = my_antag_datum.mergingDelay
 	if(istype(owner, /mob/living/carbon))
 		to_chat(owner, "Вы не можете использовать эту способность из текущего состояния!")
@@ -69,19 +74,34 @@
 	var/mob/living/carbon/host = owner.loc
 	if(!istype(host, /mob/living/carbon))
 		var/list/choices = list()
+		var/list/choices_img = list()
 		for(var/mob/living/carbon/C in oview(1,owner))
 			choices += C
-			to_chat(owner, "[C]")
-		var/choice = show_radial_menu(owner, owner, choices = choices)
+		for(var/mob/living/carbon/C in oview(1,owner))
+			var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
+			choice_image.overlays = C.overlays
+			choices_img[C.name] = choice_image
+		var/choice = show_radial_menu(owner, owner, choices_img)
 		if(choice)
-			do_after(owner, delay)
-			my_living_latex.merging(choice)
-			return
+			var/mob/living/carbon/true_choice = choices[choices_img.Find(choice)] //Списки choice и choices_img хранят объекты в одинаковом порядке, поэтому я беру индекс конкретного выбора и обращаюсь по этому индексу к списку, где реально хранится ссылка на хумана, а не на его картинку. Ибо если засунуть объект хумана в выбор, то мы не увидим его визуального изображения в радиальном меню
+			if(get_dist(true_choice, owner) > 1)
+				to_chat(owner, span_warning("Вы слишком далеко"))
+				return
+			if(do_after(owner, delay, owner))
+				to_chat(choice, span_boldwarning("Что-то склизкое и темное обхватывает вас с ног, начиная ползти вверх по вашему телу, пробирай до дрожи!"))
+				true_choice.Stun(4 SECONDS) //При условии, что минимальная задержка у паразита в пять секунд, а максимальная в десять, у жертвы есть все шансы выбраться.
+				true_choice.drop_all_held_items()
+				true_choice.stuttering += rand(5, 10)
+				my_living_latex.merging(true_choice)
+				return
 	if(!istype(owner, /mob/living/carbon))
+		if(!istype(host, /mob/living/carbon))
+			return
 		var/turf/targetTurf = host.loc
 		var/datum/species/old_species = my_living_latex.old_host_spec
 		host.set_species(old_species)
-		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
+		var/obj/effect/temp_visual/venom_out = new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
+//		venom_out.transform.Scale(host.transform[1], host.transform[1])
 		new /mob/living/simple_animal/latexmob(targetTurf)
 		var/obj/item/organ/latexOrgan/OrganToRemove
 		OrganToRemove = locate(/obj/item/organ/latexOrgan) in host.internal_organs
@@ -231,8 +251,8 @@
 		valid_doors.Add(thing)
 	if(valid_doors.len > 1)
 		var/choice = pick(valid_doors)
-		do_after(usr, 1.5 SECONDS, usr)
-		owner.forceMove(get_turf(choice))
+		if(do_after(usr, 1.5 SECONDS, usr))
+			owner.forceMove(get_turf(choice))
 	else
 		to_chat(owner, "<span class='warning'>Шлюзы по-близости не найдены.</span>")
 
