@@ -100,8 +100,7 @@
 		var/turf/targetTurf = host.loc
 		var/datum/species/old_species = my_living_latex.old_host_spec
 		host.set_species(old_species)
-		var/obj/effect/temp_visual/venom_out = new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
-//		venom_out.transform.Scale(host.transform[1], host.transform[1])
+		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
 		new /mob/living/simple_animal/latexmob(targetTurf)
 		var/obj/item/organ/latexOrgan/OrganToRemove
 		OrganToRemove = locate(/obj/item/organ/latexOrgan) in host.internal_organs
