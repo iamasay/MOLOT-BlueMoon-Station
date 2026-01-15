@@ -36,10 +36,10 @@
 		new /datum/action/cooldown/latexmob/human_form
 	)
 
-/datum/antagonist/living_latex/process(delta_time)
+/datum/antagonist/living_latex/process()
 	. = ..()
 	if(evolve_points < 1)
-		evolve_points += 0.001 * delta_time
+		evolve_points += POINTS_REGEN_DEBUG
 
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
@@ -62,6 +62,9 @@
 	return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant)
+	if(locate(ability_to_grant) in available_abilities)
+		to_chat(usr, "<span_class='warning'>У вас уже есть эта способность!</span>")
+		return
 	if(ability_to_grant.stage_required <= stage && evolve_points == 1)
 		available_abilities += ability_to_grant
 		evolve_points = 0
@@ -137,6 +140,11 @@
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
 	reagents = new /datum/reagents
 
+/mob/living/simple_animal/latexmob/Life(seconds, times_fired)
+	. = ..()
+	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in src.mind.antag_datums
+	my_antag_datum?.process()
+
 /obj/item/organ/latexOrgan
 	name = "strange black organ"
 	//icon =
@@ -180,4 +188,7 @@
 	return
 
 /mob/living/simple_animal/latexmob/venom/emote(act, m_type = null, message = null, intentional = FALSE)
+	if(length(message) && body)
+		to_chat(body, span_love("[message]"))
+		to_chat(src, span_warning("Вы совершили действие над хостом:")+span_love("[message]"))
 	return

@@ -248,7 +248,7 @@
 		if(!istype(thing, /obj/machinery/door/airlock))
 			continue
 		valid_doors.Add(thing)
-	if(valid_doors.len > 1)
+	if(valid_doors.len >= 1)
 		var/choice = pick(valid_doors)
 		if(do_after(usr, 1.5 SECONDS, usr))
 			owner.forceMove(get_turf(choice))
