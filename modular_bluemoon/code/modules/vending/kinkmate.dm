@@ -75,6 +75,7 @@
 				/obj/item/clothing/gloves/latexsleeves = 3,
 				/obj/item/bdsm_whip = 3,
 				/obj/item/bdsm_whip/ridingcrop = 3,
+				/obj/item/storage/belt/belly_riding = 10,
 			),
 		),
 
@@ -226,6 +227,7 @@
 		/obj/item/storage/pill_bottle/peen_pop = 3,
 		/obj/item/chastity_hypno/magazine = 6,
 		/obj/item/chastity_hypno/watch = 2,
+		/obj/item/ammo_casing/p50/lewd = 3,
     )
 	premium = list(
 		/obj/item/clothing/under/pants/chaps = 5,
