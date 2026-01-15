@@ -52,6 +52,12 @@
 		var/ability_name = params["abilityName"]
 		living_latex.search_ability_path(ability_name)
 
+	if(action == "evolve_to_stage")
+		var/target_stage = params["stage"]
+		if(living_latex.stage < target_stage)
+			living_latex.stage = target_stage
+			living_latex.evolve_points = 0
+
 /datum/action/innate/evolution_store
 	name = "Evolution Store"
 	icon_icon = 'icons/obj/drinks.dmi'
