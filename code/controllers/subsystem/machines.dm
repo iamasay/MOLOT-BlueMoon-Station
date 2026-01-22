@@ -1,3 +1,4 @@
+GLOBAL_LIST_EMPTY(processing)
 SUBSYSTEM_DEF(machines)
 	name = "Machines"
 	init_order = INIT_ORDER_MACHINES
@@ -15,6 +16,9 @@ SUBSYSTEM_DEF(machines)
 	///List of all powernets on the server.
 	var/list/datum/powernet/powernets = list()
 	var/static/list/bluespaceminer_by_zlevel[][] //BLUEMOON ADD счётчик бс майнеров на z уровне
+	var/static/machine_log_data = list()
+	var/static/machine_log_enabled = TRUE
+	var/static/machine_fire_count = 0
 
 /datum/controller/subsystem/machines/Initialize()
 	makepowernets()
@@ -42,26 +46,100 @@ SUBSYSTEM_DEF(machines)
 			propagate_network(power_cable, power_cable.powernet)
 
 /datum/controller/subsystem/machines/fire(resumed = FALSE)
+	var/fire_start_time = world.timeofday
 	if (!resumed)
-		for(var/datum/powernet/powernet as anything in powernets)
-			powernet.reset() //reset the power state.
-		src.currentrun = processing.Copy()
+		machine_fire_count++
+		var/copy_start = world.time
+		src.currentrun = src.processing.Copy()
+		var/copy_time = world.time - copy_start
 
-	//cache for sanic speed (lists are references anyways)
+		if(machine_log_enabled)
+			log_machine_data("FIRE_START", list(
+				"resumed" = FALSE,
+				"copy_time_ms" = copy_time,
+				"machines_count" = src.currentrun.len,
+				"fire_number" = machine_fire_count,
+				"world_time" = world.time
+			))
+		send_to_python_backend("start", list(
+			"subsystem" = "machines",
+			"fire_number" = machine_fire_count,
+			"count" = src.currentrun.len,
+			"copy_time_ms" = copy_time,
+			"world_time" = world.time
+		))
+
 	var/list/currentrun = src.currentrun
+	var/list/results = list()
 
 	while(currentrun.len)
-		var/obj/machinery/thing = currentrun[currentrun.len]
+		var/obj/machinery/O = currentrun[currentrun.len]
 		currentrun.len--
-		if(!QDELETED(thing) && thing.process(wait * 0.1) != PROCESS_KILL)
-			if(thing.use_power)
-				thing.auto_use_power() //add back the power state
-		else
-			processing -= thing
-			if (!QDELETED(thing))
-				thing.datum_flags &= ~DF_ISPROCESSING
+
+		if(QDELETED(O))
+			if(machine_log_enabled)
+				log_machine_data("QDELETED", list(
+					"object_type" = "[O.type]",
+					"index" = currentrun.len
+				))
+			GLOB.processing -= O
+			continue
+
+		var/process_start = world.time
+		O.process()
+		var/process_time = world.time - process_start
+
+		results += list(list(
+			"ref" = REF(O),
+			"type" = O.type,
+			"process_time" = process_time,
+			"x" = O.x,
+			"y" = O.y,
+			"z" = O.z,
+			"active" = O.anchored // пример статуса
+		))
+
 		if (MC_TICK_CHECK)
+			if(machine_log_enabled)
+				var/total_time = (world.timeofday - fire_start_time) * 100
+				log_machine_data("MC_TICK_CHECK_PAUSE", list(
+					"processed_count" = (src.processing.len - currentrun.len),
+					"remaining_count" = currentrun.len,
+					"total_time" = total_time,
+					"will_resume" = TRUE
+				))
+				send_to_python_backend("pause", list(
+					"subsystem" = "machines",
+					"fire_number" = machine_fire_count,
+					"processed_count" = (src.processing.len - currentrun.len),
+					"remaining_count" = currentrun.len,
+					"total_time_ms" = total_time,
+					"will_resume" = TRUE
+				))
 			return
+
+	var/total_time = (world.timeofday - fire_start_time) * 100
+	if(machine_log_enabled)
+		log_machine_data("FIRE_END", list(
+			"total_machines_processed" = src.processing.len,
+			"total_time_ms" = total_time,
+			"avg_time_per_machine" = (total_time / max(1, src.processing.len)),
+			"results_sample" = results.len > 0 ? results : null[1]
+		))
+		send_to_python_backend("end", list(
+			"subsystem" = "machines",
+			"fire_number" = machine_fire_count,
+			"total_processed" = src.processing.len,
+			"total_time_ms" = total_time,
+		))
+
+/proc/log_machine_data(event_type, data)
+	var/timestamp = "[time2text(world.timeofday, "hh:mm:ss")]"
+	var/json_data = json_encode(data)
+	var/log_line = "[timestamp] [event_type]: [json_data]\n"
+
+	// В файл
+	WRITE_LOG("[GLOB.log_directory]/machines_debug.log", log_line)
 
 /// Registers a machine with the machine subsystem; should only be called by the machine itself during its creation.
 /datum/controller/subsystem/machines/proc/register_machine(obj/machinery/machine)

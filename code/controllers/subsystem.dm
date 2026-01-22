@@ -1,3 +1,6 @@
+#define DEBUG_HTTP TRUE
+#define PYTHON_BACKEND_URL "http://localhost:8000"
+#define PYTHON_BACKEND_ENABLED TRUE
 /**
 	* # Subsystem base class
 	*
@@ -99,7 +102,94 @@
 /datum/controller/subsystem/proc/PreInit()
 	return
 
-//This is used so the mc knows when the subsystem sleeps. do not override.
+/proc/send_to_python_backend(event_type, data)
+	if(!PYTHON_BACKEND_ENABLED)
+		return FALSE
+
+	spawn(0)
+		_send_request(event_type, data)
+
+	return TRUE
+
+/proc/_send_request(event_type, data)
+	try
+		var/url = "[PYTHON_BACKEND_URL]/fire/[event_type]?"
+
+		var/subsystem = data["subsystem"]
+		var/fire_number = data["fire_number"]
+
+		url += "subsystem=[subsystem]"
+		url += "&fire_number=[fire_number]"
+
+		if(event_type == "start")
+			var/count = data["count"]
+			var/copy_time_ms = data["copy_time_ms"]
+			var/world_time = data["world_time"]
+			url += "&count=[count]"
+			url += "&copy_time_ms=[copy_time_ms]"
+			url += "&world_time=[world_time]"
+
+		else if(event_type == "end")
+			var/total_processed = data["total_processed"]
+			var/total_time_ms = data["total_time_ms"]
+			url += "&total_processed=[total_processed]"
+			url += "&total_time_ms=[total_time_ms]"
+
+		else if(event_type == "pause")
+			var/processed_count = data["processed_count"] || 0
+			var/remaining_count = data["remaining_count"] || 0
+			var/total_time_ms = data["total_time_ms"] || 0
+			url += "&processed_count=[processed_count]"
+			url += "&remaining_count=[remaining_count]"
+			url += "&total_time_ms=[total_time_ms]"
+
+		world.log << "HTTP GET: [url]"
+
+		var/response = world.Export(url)
+
+		if(!response)
+			world.log << "HTTP: No response"
+			return
+
+		var/status = text2num(response["STATUS"])
+
+		if(status == 200)
+			world.log << "HTTP: OK"
+		else
+			world.log << "HTTP: Status [status]"
+
+	catch(var/exception/e)
+		world.log << "HTTP ERROR: [e]"
+
+/proc/test_python_backend()
+	var/url = "[PYTHON_BACKEND_URL]/health"
+	var/response = world.Export(url)
+
+	if(!response)
+		world.log << "TEST: Failed"
+		return FALSE
+
+	var/status = text2num(response["STATUS"])
+
+	if(status == 200)
+		world.log << "TEST: OK"
+		return TRUE
+
+	world.log << "TEST: Status [status]"
+	return FALSE
+
+/proc/send_test_event()
+	var/data = list(
+		"subsystem" = "machines",
+		"fire_number" = 999,
+		"count" = 100,
+		"copy_time_ms" = 50,
+		"world_time" = world.time
+	)
+
+	send_to_python_backend("start", data)
+	world.log << "TEST: Event sent"
+
 /datum/controller/subsystem/proc/ignite(resumed = FALSE)
 	SHOULD_NOT_OVERRIDE(TRUE)
 	set waitfor = FALSE
