@@ -72,6 +72,16 @@
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
+/datum/design/bolter_wrench
+	name = "Bolter Wrench"
+	desc = "A wrench that can unbolt airlocks regardless of power status."
+	id = "bolter_wrench"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/wrench/bolter
+	category = list("Tool Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
 //BLUEMOON ADD START - переношу с ТГ Т2 инструменты для учёных
 /datum/design/handdrillsci
 	name = "Science Hand Drill"
@@ -286,7 +296,7 @@
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver = 1500, /datum/material/gold = 1000)
 	build_path = /obj/item/retractor/advanced
 	category = list("Tool Designs")
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/surgicaldrill_adv
 	name = "Surgical Laser Drill"
@@ -296,7 +306,7 @@
 	materials = list(/datum/material/iron = 2500, /datum/material/glass = 2500, /datum/material/silver = 6000, /datum/material/gold = 5500, /datum/material/diamond = 3500)
 	build_path = /obj/item/surgicaldrill/advanced
 	category = list("Tool Designs")
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/scalpel_adv
 	name = "Laser Scalpel"
@@ -306,7 +316,7 @@
 	materials = list(/datum/material/iron = 1500, /datum/material/glass = 1500, /datum/material/silver = 4000, /datum/material/gold = 2500)
 	build_path = /obj/item/scalpel/advanced
 	category = list("Tool Designs")
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/robotic_processor
 	name = "Robotic Processor"

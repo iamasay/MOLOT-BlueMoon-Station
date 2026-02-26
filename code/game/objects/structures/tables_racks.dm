@@ -691,9 +691,39 @@
 	else
 		. = ..()
 
+/obj/structure/table/reinforced/rglass
+	name = "reinforced glass table"
+	desc = "A reinforced version of the glass table."
+	icon = 'icons/obj/smooth_structures/rglass_table.dmi'
+	icon_state = "rglass_table"
+	buildstack = /obj/item/stack/sheet/rglass
+	canSmoothWith = null
+	max_integrity = 150
+
+/obj/structure/table/reinforced/plasmarglass
+	name = "reinforced plasma glass table"
+	desc = "A reinforced version of the plasma glass table."
+	icon = 'icons/obj/smooth_structures/rplasmaglass_table.dmi'
+	icon_state = "rplasmaglass_table"
+	buildstack = /obj/item/stack/sheet/plasmarglass
+	canSmoothWith = null
+
+/obj/structure/table/reinforced/titaniumglass
+	name = "titanium glass table"
+	desc = "A titanium reinforced glass table, with a fresh coat of NT white paint."
+	icon = 'icons/obj/smooth_structures/titaniumglass_table.dmi'
+	icon_state = "titaniumglass_table"
+	buildstack = /obj/item/stack/sheet/titaniumglass
+	canSmoothWith = null
+	max_integrity = 250
+
 /obj/structure/table/reinforced/plastitaniumglass
 	name = "Plastitanium Glass Table"
 	desc = "Стол из силикат-плазменного композита с титановым усилением. Прочно так же, как и звучит."
+	icon = 'icons/obj/smooth_structures/plastitaniumglass_table.dmi'
+	icon_state = "plastitaniumglass_table"
+	buildstack = /obj/item/stack/sheet/plastitaniumglass
+	canSmoothWith = null
 	max_integrity = 300
 
 /obj/structure/table/reinforced/brass
@@ -768,9 +798,6 @@
 	. = ..()
 	register_context()
 
-/obj/structure/table/optable/Destroy()
-	stop_process()
-	. = ..()
 
 /obj/structure/table/optable/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	LAZYSET(context[SCREENTIP_CONTEXT_LMB], INTENT_ANY, "Unbuckle patient")
@@ -894,6 +921,13 @@
 	if(mask)
 		mask.forceMove(loc)
 		mask = null
+	if(patient)
+		if(patient.internal == tank)
+			patient.internal = null
+		patient = null
+	if(computer)
+		computer.table = null
+		computer = null
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
 

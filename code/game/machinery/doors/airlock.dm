@@ -860,6 +860,24 @@
 				return
 	add_fingerprint(user)
 
+	// Разболтировочный ключ — в начале, чтобы не перехватывали другие обработчики
+	if(istype(C, /obj/item/wrench/bolter))
+		if(!locked)
+			return ..()
+		if(!panel_open)
+			to_chat(user, "<span class='warning'>You need to open the maintenance panel first!</span>")
+			return
+		if(security_level != AIRLOCK_SECURITY_NONE)
+			to_chat(user, "<span class='warning'>The airlock's reinforcement prevents access to the bolt mechanism!</span>")
+			return
+		to_chat(user, "<span class='notice'>You start raising the door bolts with [C]...</span>")
+		if(C.use_tool(src, user, 50, volume = 50))
+			if(!panel_open || !locked)
+				return
+			unbolt()
+			user.visible_message("<span class='notice'>[user] raises \the [src]'s bolts with [C].</span>", "<span class='notice'>You raise the door bolts.</span>")
+		return
+
 	if(panel_open)
 		switch(security_level)
 			if(AIRLOCK_SECURITY_NONE)
@@ -1634,7 +1652,7 @@
 		set_electrified(ELECTRIFIED_PERMANENT)
 
 /obj/machinery/door/airlock/proc/toggle_bolt(mob/user)
-	if(!user_allowed(user))
+	if(user && !user_allowed(user))
 		return
 	if(wires.is_cut(WIRE_BOLTS))
 		to_chat(user, "<span class='warning'>The door bolt drop wire is cut - you can't toggle the door bolts.</span>")
@@ -1648,13 +1666,13 @@
 		bolt()
 
 /obj/machinery/door/airlock/proc/toggle_emergency(mob/user)
-	if(!user_allowed(user))
+	if(user && !user_allowed(user))
 		return
 	emergency = !emergency
 	update_icon()
 
 /obj/machinery/door/airlock/proc/user_toggle_open(mob/user)
-	if(!user_allowed(user))
+	if(user && !user_allowed(user))
 		return
 	if(welded)
 		to_chat(user, text("The airlock has been welded shut!"))
