@@ -94,9 +94,11 @@
 		AddElement(/datum/element/object_reskinning)
 
 /obj/Destroy(force=FALSE)
-	if(!ismachinery(src))
-		STOP_PROCESSING(SSobj, src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
-	SStgui.close_uis(src)
+	if(!ismachinery(src) && (datum_flags & DF_ISPROCESSING))
+		STOP_PROCESSING(SSobj, src)
+	if(datum_flags & DF_HAS_OPEN_UI)
+		SStgui.close_uis(src)
+	armor = null
 	. = ..()
 
 /// @depricated DO NOT USE
@@ -215,7 +217,7 @@
 				obj_flags &= ~IN_USE
 
 
-/obj/attack_ghost(mob/user)
+/obj/attack_ghost(mob/dead/observer/user)
 	. = ..()
 	if(.)
 		return
