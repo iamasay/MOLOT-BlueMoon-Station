@@ -46,7 +46,11 @@
 	var/datum/evolution_store/ev_store = new(src)
 	evolution_store = ev_store
 	available_abilities += new /datum/action/innate/evolution_store
+	set_name(usr)
 	grant_abilities(usr)
+
+/datum/antagonist/living_latex/proc/set_name(var/mob/living/user)
+	user.name = tgui_input_text(user, "Введите псевдоним", "Set name", "Сгусток латекса", 30)
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)
