@@ -25,6 +25,9 @@
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	. = ..()
 	var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan)
+	if(!organ)
+		to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
+		return
 	var/mob/living/simple_animal/latexmob/venom/backseat = organ.ObserverBackseat
 	var/datum/species/old_species
 	if(my_living_latex.current_controller == BODY_OWNER || !my_living_latex.current_controller)
@@ -35,7 +38,7 @@
 				body.mind.transfer_to(backseat, 1)
 			owner_mind.transfer_to(body, 1)
 		else
-			to_chat(owner, DEFAULT_ABITILY_ERROR_MESSAGE)
+			to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
 			return
 		my_living_latex.current_controller = VENOM_USER
 		var/datum/antagonist/living_latex/latex = locate(/datum/antagonist/living_latex) in body.mind.antag_datums
@@ -87,6 +90,9 @@
 			if(get_dist(true_choice, owner) > 1)
 				to_chat(owner, span_warning("Вы слишком далеко"))
 				return
+			if(istype(wear_suit, /obj/item/clothing/suit/space))
+				to_chat(owner, span_warning("Цель одета в скафандр, некуда пролезть!"))
+				return
 			if(do_after(owner, delay, owner))
 				to_chat(choice, span_boldwarning("Что-то склизкое и темное обхватывает вас с ног, начиная ползти вверх по вашему телу, пробирай до дрожи!"))
 				true_choice.Stun(4 SECONDS) //При условии, что минимальная задержка у паразита в пять секунд, а максимальная в десять, у жертвы есть все шансы выбраться.
@@ -136,7 +142,7 @@
 		my_living_latex.grant_abilities(mob)
 		qdel(old_body)
 	else
-		to_chat(owner, DEFAULT_ABITILY_ERROR_MESSAGE)
+		to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
 		return
 
 /datum/action/cooldown/latexmob/medscan
