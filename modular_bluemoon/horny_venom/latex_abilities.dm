@@ -64,7 +64,7 @@
 	button_icon_state = "Infiltrate"
 	stage_required = 1
 
-/datum/action/cooldown/latexmob/venomAction/Activate()
+/datum/action/cooldown/latexmob/venomAction/Activate()//TODO: произвести рефактор, убрать дублирование кода, засунуть сложные конструкции в отдельные proc для читаемости
 	. = ..()
 	if(owner.progressbars)
 		to_chat(owner, span_danger("В данный момент вы уже пытаетесь поглотить кого-то")) //защита от повторной активации
@@ -90,15 +90,17 @@
 			if(get_dist(true_choice, owner) > 1)
 				to_chat(owner, span_warning("Вы слишком далеко"))
 				return
-			if(istype(wear_suit, /obj/item/clothing/suit/space))
-				to_chat(owner, span_warning("Цель одета в скафандр, некуда пролезть!"))
-				return
+			if(ishuman(true_choice))
+				var/mob/living/carbon/human/target = true_choice
+				if(istype(target.wear_suit, /obj/item/clothing/suit/space))
+					to_chat(owner, span_warning("Цель одета в скафандр, некуда пролезть!"))
+					return
 			if(do_after(owner, delay, owner))
 				to_chat(choice, span_boldwarning("Что-то склизкое и темное обхватывает вас с ног, начиная ползти вверх по вашему телу, пробирай до дрожи!"))
 				true_choice.Stun(4 SECONDS) //При условии, что минимальная задержка у паразита в пять секунд, а максимальная в десять, у жертвы есть все шансы выбраться.
 				true_choice.drop_all_held_items()
 				true_choice.stuttering += rand(5, 10)
-				my_living_latex.merging(true_choice)
+				my_living_latex.merging(true_choice) //Тут возможен баг. Если цель на момент начала do_after была без скафандра, но успела каким-то образом его надеть уже после начала прогрессбара, то он всё равно завершится удачей, игнорируя скаф. В будущем надо будет заменить проверку на универсальный proc для уменьшения дублирования кода и распихать его в нужных местах.
 				return
 	if(!istype(owner, /mob/living/carbon))
 		if(!istype(host, /mob/living/carbon))
@@ -131,6 +133,7 @@
 		owner.mind.transfer_to(ferral)
 		ferral.color = null //иначе будет красить в черный цвет
 		my_living_latex.grant_abilities(ferral)
+		ferral.name = old_body.name
 		qdel(old_body)
 		return
 
@@ -140,6 +143,7 @@
 		var/mob/living/simple_animal/latexmob/mob = new /mob/living/simple_animal/latexmob(targetTurf)
 		owner.mind.transfer_to(mob)
 		my_living_latex.grant_abilities(mob)
+		mob.name = old_body.name
 		qdel(old_body)
 	else
 		to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
