@@ -13,7 +13,7 @@
 	if(owner.mind)
 		my_living_latex = check_LL_antagDatum(owner)
 	else
-		return
+		return FALSE
 
 /datum/action/cooldown/latexmob/takeControl
 	stage_required = 1
@@ -36,8 +36,7 @@
 	button_icon_state = "Infiltrate"
 	stage_required = 1
 
-/datum/action/cooldown/latexmob/venomAction/Activate()//TODO: произвести рефактор, убрать дублирование кода, засунуть сложные конструкции в отдельные proc для читаемости
-	. = ..()
+/datum/action/cooldown/latexmob/venomAction/Activate()
 	if(protect_from_spam(owner)) return
 	var/delay = my_living_latex.mergingDelay
 	if(iscarbon(owner))
@@ -45,38 +44,17 @@
 		return
 	var/mob/living/carbon/host = owner.loc
 	if(!iscarbon(host))
-		var/list/choices = list()
-		var/list/choices_img = list()
-		for(var/mob/living/carbon/C in oview(1,owner))
-			choices += C
-		for(var/mob/living/carbon/C in oview(1,owner))
-			var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
-			choice_image.overlays = C.overlays
-			choices_img[C.name] = choice_image
-		var/choice = show_radial_menu(owner, owner, choices_img)
-		if(choice)
-			var/mob/living/carbon/true_choice = choices[choices_img.Find(choice)] //Списки choice и choices_img хранят объекты в одинаковом порядке, поэтому я беру индекс конкретного выбора и обращаюсь по этому индексу к списку, где реально хранится ссылка на хумана, а не на его картинку. Ибо если засунуть объект хумана в выбор, то мы не увидим его визуального изображения в радиальном меню
-			if(get_dist(true_choice, owner) > 1)
-				to_chat(owner, span_warning("Вы слишком далеко"))
-				return
-			if(ishuman(true_choice))
-				var/mob/living/carbon/human/target = true_choice
-				if(istype(target.wear_suit, /obj/item/clothing/suit/space))
-					to_chat(owner, span_warning("Цель одета в скафандр, некуда пролезть!"))
-					return
-			if(do_after(owner, delay, owner))
-				to_chat(choice, span_boldwarning("Что-то склизкое и темное обхватывает вас с ног, начиная ползти вверх по вашему телу, пробирай до дрожи!"))
-				true_choice.Stun(4 SECONDS) //При условии, что минимальная задержка у паразита в пять секунд, а максимальная в десять, у жертвы есть все шансы выбраться.
-				true_choice.drop_all_held_items()
-				true_choice.stuttering += rand(5, 10)
-				my_living_latex.merging(true_choice) //Тут возможен баг. Если цель на момент начала do_after была без скафандра, но успела каким-то образом его надеть уже после начала прогрессбара, то он всё равно завершится удачей, игнорируя скаф. В будущем надо будет заменить проверку на универсальный proc для уменьшения дублирования кода и распихать его в нужных местах.
-				return
+		var/mob/living/carbon/true_choice = pick_merge_target(owner)
+		if(!can_merge_target(owner, true_choice))
+			return
+		if(do_after(owner, delay, owner))
+			handle_merging(true_choice)
+			my_living_latex.merging(true_choice)
+			return
 	if(!iscarbon(owner))
 		if(!iscarbon(host))
 			return
 		var/turf/targetTurf = host.loc
-		var/datum/species/old_species = my_living_latex.old_host_spec
-		host.set_species(old_species)
 		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
 		new /mob/living/simple_animal/latexmob(targetTurf)
 		var/obj/item/organ/latexOrgan/OrganToRemove
@@ -126,10 +104,8 @@
 
 /datum/action/cooldown/latexmob/medscan/Activate()
 	. = ..()
-	if(istype(owner.loc, /mob/living/carbon))
-		healthscan(owner, owner.loc)
-	else
-		healthscan(owner, owner)
+	var/mob/living/carbon/host = owner.loc
+	healthscan(owner, istype(host) ? host : owner)
 
 /datum/action/cooldown/latexmob/heal
 	name = "Лечение"
@@ -141,9 +117,9 @@
 /datum/action/cooldown/latexmob/heal/Grant(var/mob/user)
 	. = ..()
 	var/datum/antagonist/living_latex/my_living_latex = check_LL_antagDatum(owner)
-	inject_menu = new /datum/inject_menu(owner, my_living_latex)
 	if(!my_living_latex || my_living_latex == null)
 		CRASH("inject menu cant locate living latex datum")
+	inject_menu = new /datum/inject_menu(owner, my_living_latex)
 	if(!inject_menu)
 		CRASH("inject_menu action created with non menu")
 
