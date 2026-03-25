@@ -74,7 +74,40 @@
  */
 /proc/swap_minds(datum/antagonist/living_latex/LL, mob/living/ability_owner, mob/living/simple_animal/latexmob/venom/backseat)
 	if(!ability_owner || !backseat || !LL)
-		return null
+		return FALSE
 	var/mob/living/body = is_venom_controlling(LL) ? ability_owner : ability_owner.loc //Кто контролирует тело? Латекс? Нет? Ну тогда руль явно у body owner
 	easy_latexmob_minds_swap(ability_owner.mind, body.mind, body, LL)
 	LL.grant_abilities(ability_owner)
+	return TRUE
+
+/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner)
+    var/list/choices = list()
+    var/list/choices_img = list()
+    for(var/mob/living/carbon/C in oview(1, owner))
+        choices += C
+    for(var/mob/living/carbon/C in oview(1, owner))
+        var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
+        choice_image.overlays = C.overlays
+        choices_img[C.name] = choice_image
+    var/choice = show_radial_menu(owner, owner, choices_img)
+    if(!choice)
+        return null
+    return choices[choices_img.Find(choice)]
+
+/proc/can_merge_target(mob/living/user, mob/living/carbon/target)
+    if(get_dist(target, user) > 1)
+        to_chat(user, span_warning("Вы слишком далеко"))
+        return FALSE
+    if(ishuman(target))
+        var/mob/living/carbon/human/H = target
+        if(istype(H.wear_suit, /obj/item/clothing/suit/space))
+            to_chat(user, span_warning("Цель одета в скафандр, некуда пролезть!"))
+            return FALSE
+    return TRUE
+
+/proc/handle_merging(mob/living/carbon/target)
+	to_chat(target, span_boldwarning("Что-то склизкое и темное обхватывает вас с ног, начиная ползти вверх по вашему телу, пробирай до дрожи!"))
+	target.Stun(4 SECONDS)
+	target.drop_all_held_items()
+	target.stuttering += rand(5, 10)
+	return TRUE
