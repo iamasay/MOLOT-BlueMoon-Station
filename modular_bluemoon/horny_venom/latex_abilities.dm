@@ -1,7 +1,6 @@
 //Способности
 
 /datum/action/cooldown/latexmob
-	//var/mob/living/simple_animal/latexmob/target = src.owner
 	icon_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	background_icon_state = "background"
@@ -12,7 +11,7 @@
 
 /datum/action/cooldown/latexmob/Activate(atom/target)
 	if(owner.mind)
-		my_living_latex = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
+		my_living_latex = check_LL_antagDatum(owner)
 	else
 		return
 
@@ -24,39 +23,12 @@
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	. = ..()
-	var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan)
+	var/obj/item/organ/latexOrgan/organ = get_latexOrgan_if_captured_by_LL(owner)
 	if(!organ)
-		to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
 		return
 	var/mob/living/simple_animal/latexmob/venom/backseat = organ.ObserverBackseat
-	var/datum/species/old_species
-	if(my_living_latex.current_controller == BODY_OWNER || !my_living_latex.current_controller)
-		var/mob/living/carbon/body = owner.loc
-		if(istype(body, /mob/living))
-			var/datum/mind/owner_mind = owner.mind
-			if(body.mind)
-				body.mind.transfer_to(backseat, 1)
-			owner_mind.transfer_to(body, 1)
-		else
-			to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
-			return
-		my_living_latex.current_controller = VENOM_USER
-		var/datum/antagonist/living_latex/latex = locate(/datum/antagonist/living_latex) in body.mind.antag_datums
-		old_species = body.dna.species
-		var/datum/species/jelly/roundstartslime/living_latex/new_species = new
-		new_species.copy_properties_from(old_species)
-		my_living_latex.old_host_spec = old_species
-		body.set_species(new_species)
-		latex.grant_abilities(body)
-	else
-		var/mob/living/carbon/body = owner
-		var/datum/mind/owner_mind = owner.mind
-		if(backseat)
-			if(backseat.mind)
-				backseat.mind.transfer_to(body, 1)
-			owner_mind.transfer_to(backseat, 1)
-			my_living_latex.current_controller = BODY_OWNER
-			my_living_latex.grant_abilities(backseat)
+	swap_LL_species(my_living_latex, owner)
+	swap_minds(my_living_latex, owner, backseat)
 
 /datum/action/cooldown/latexmob/venomAction
 	name = "Поглотить/освободить"
@@ -66,16 +38,13 @@
 
 /datum/action/cooldown/latexmob/venomAction/Activate()//TODO: произвести рефактор, убрать дублирование кода, засунуть сложные конструкции в отдельные proc для читаемости
 	. = ..()
-	if(owner.progressbars)
-		to_chat(owner, span_danger("В данный момент вы уже пытаетесь поглотить кого-то")) //защита от повторной активации
-		return
-	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
-	var/delay = my_antag_datum.mergingDelay
-	if(istype(owner, /mob/living/carbon))
+	if(protect_from_spam(owner)) return
+	var/delay = my_living_latex.mergingDelay
+	if(iscarbon(owner))
 		to_chat(owner, "Вы не можете использовать эту способность из текущего состояния!")
 		return
 	var/mob/living/carbon/host = owner.loc
-	if(!istype(host, /mob/living/carbon))
+	if(!iscarbon(host))
 		var/list/choices = list()
 		var/list/choices_img = list()
 		for(var/mob/living/carbon/C in oview(1,owner))
@@ -102,8 +71,8 @@
 				true_choice.stuttering += rand(5, 10)
 				my_living_latex.merging(true_choice) //Тут возможен баг. Если цель на момент начала do_after была без скафандра, но успела каким-то образом его надеть уже после начала прогрессбара, то он всё равно завершится удачей, игнорируя скаф. В будущем надо будет заменить проверку на универсальный proc для уменьшения дублирования кода и распихать его в нужных местах.
 				return
-	if(!istype(owner, /mob/living/carbon))
-		if(!istype(host, /mob/living/carbon))
+	if(!iscarbon(owner))
+		if(!iscarbon(host))
 			return
 		var/turf/targetTurf = host.loc
 		var/datum/species/old_species = my_living_latex.old_host_spec
@@ -111,7 +80,7 @@
 		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
 		new /mob/living/simple_animal/latexmob(targetTurf)
 		var/obj/item/organ/latexOrgan/OrganToRemove
-		OrganToRemove = locate(/obj/item/organ/latexOrgan) in host.internal_organs
+		OrganToRemove = get_latexOrgan_if_captured_by_LL(owner)
 		if(OrganToRemove)
 			OrganToRemove.Remove()
 		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
@@ -171,7 +140,7 @@
 
 /datum/action/cooldown/latexmob/heal/Grant(var/mob/user)
 	. = ..()
-	var/datum/antagonist/living_latex/my_living_latex = locate(/datum/antagonist/living_latex) in owner.mind.antag_datums
+	var/datum/antagonist/living_latex/my_living_latex = check_LL_antagDatum(owner)
 	inject_menu = new /datum/inject_menu(owner, my_living_latex)
 	if(!my_living_latex || my_living_latex == null)
 		CRASH("inject menu cant locate living latex datum")
