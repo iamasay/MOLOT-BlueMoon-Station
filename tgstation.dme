@@ -4997,6 +4997,7 @@
 #include "modular_bluemoon\fluffs\code\modules\catcrin\code\catcrin_healthscan_suit.dm"
 #include "modular_bluemoon\fluffs\code\modules\catcrin\code\catcrin_stuff.dm"
 #include "modular_bluemoon\horny_venom\venom_defines.dm"
+#include "modular_bluemoon\horny_venom\latex_helpers.dm"
 #include "modular_bluemoon\horny_venom\latex_abilities.dm"
 #include "modular_bluemoon\horny_venom\latex_evolve_shop.dm"
 #include "modular_bluemoon\horny_venom\latexmob.dm"

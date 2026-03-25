@@ -5,6 +5,8 @@
 
 #define BODY_OWNER "OWNER" //Если тело находится под контролем изначального владельца
 #define VENOM_USER "VENOM" //Если телом сейчас управляет игрок на латексном паразите
+#define IN 			"in"   //Применяется при трансфере BACKSEAT <--> BODY
+#define OUT 		"out"  //Применяется при трансфере BODY <--> BACKSEAT
 
 //-----Скорости слияния с хостом-----
 #define DEFAULT_MERGING_DELAY 10 SECONDS	//Начальная стадия

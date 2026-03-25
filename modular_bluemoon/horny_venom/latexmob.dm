@@ -16,6 +16,7 @@
 	var/evolve_points = 0
 	var/mergingDelay = DEFAULT_MERGING_DELAY
 	var/datum/species/old_host_spec
+	var/datum/species/jelly/roundstartslime/living_latex/self_species
 	var/datum/evolution_store
 	var/list/available_abilities = list(
 		new /datum/action/cooldown/latexmob/venomAction,
@@ -44,6 +45,7 @@
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
 	var/datum/evolution_store/ev_store = new(src)
+	self_species = new /datum/species/jelly/roundstartslime/living_latex
 	evolution_store = ev_store
 	available_abilities += new /datum/action/innate/evolution_store
 	set_name(usr)
