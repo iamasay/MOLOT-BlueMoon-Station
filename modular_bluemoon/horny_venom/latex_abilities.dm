@@ -23,12 +23,17 @@
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	. = ..()
-	var/obj/item/organ/latexOrgan/organ = get_latexOrgan_if_captured_by_LL(owner)
+	var/mob/living/body = is_venom_controlling(my_living_latex) ? owner : owner.loc
+	var/obj/item/organ/latexOrgan/organ = get_latexOrgan_if_captured_by_LL(body)
 	if(!organ)
 		return
 	var/mob/living/simple_animal/latexmob/venom/backseat = organ.ObserverBackseat
 	swap_LL_species(my_living_latex, owner)
-	swap_minds(my_living_latex, owner, backseat)
+	if(!swap_minds(my_living_latex, owner, backseat))
+		swap_LL_species(my_living_latex, owner)
+		return FALSE
+	return TRUE
+
 
 /datum/action/cooldown/latexmob/venomAction
 	name = "Поглотить/освободить"
@@ -37,6 +42,7 @@
 	stage_required = 1
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
+	. = ..()
 	if(protect_from_spam(owner)) return
 	var/delay = my_living_latex.mergingDelay
 	if(iscarbon(owner))
