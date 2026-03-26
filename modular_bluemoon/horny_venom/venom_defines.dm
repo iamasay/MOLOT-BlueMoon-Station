@@ -12,6 +12,7 @@
 #define DEFAULT_MERGING_DELAY 10 SECONDS	//Начальная стадия
 #define MEDIUM_MERGING_DELAY   8 SECONDS	//Последующие стадии
 #define BEST_MERGING_DELAY     5 SECONDS	//Самая последняя стадия, наименьшая задержка
+#define DEBUG_MERGING_DELAY    1 SECONDS    //Только для разработки
 
 //-----Разнообразные сообщения, используемые в to_chat-----
 #define DEFAULT_ABILITY_ERROR_MESSAGE span_warning("Вы не можете использовать эту способность из текущего состояния!")

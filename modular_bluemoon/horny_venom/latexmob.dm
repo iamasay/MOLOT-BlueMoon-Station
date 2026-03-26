@@ -14,7 +14,7 @@
 	var/current_controller
 	var/stage = 0
 	var/evolve_points = 0
-	var/mergingDelay = DEFAULT_MERGING_DELAY
+	var/mergingDelay = DEBUG_MERGING_DELAY
 	var/datum/species/old_host_spec
 	var/datum/species/jelly/roundstartslime/living_latex/self_species
 	var/datum/evolution_store
@@ -51,8 +51,16 @@
 	set_name(usr)
 	grant_abilities(usr)
 
+/datum/antagonist/living_latex/on_body_transfer(mob/living/old_body, mob/living/new_body)
+	. = ..()
+	for(var/datum/action/cooldown/latexmob/all_powers as anything in available_abilities)
+		all_powers.Remove(old_body)
+		all_powers.Grant(new_body)
+
 /datum/antagonist/living_latex/proc/set_name(var/mob/living/user)
 	user.name = tgui_input_text(user, "Введите псевдоним", "Set name", "Сгусток латекса", 30)
+	if(!user.name)
+		user.name = "Сгусток латекса"
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
 	for(var/datum/action/action in available_abilities)

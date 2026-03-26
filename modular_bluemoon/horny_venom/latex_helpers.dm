@@ -2,12 +2,11 @@
  * Проверяет, захвачена ли цель. Если да, то возвращает latexOrgan
  */
 /proc/get_latexOrgan_if_captured_by_LL(mob/living/carbon/owner)
-	var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan) in owner
-	if(!organ)
-		to_chat(owner, DEFAULT_ABILITY_ERROR_MESSAGE)
-		return FALSE
-	return organ
-
+	if(ismob(owner))
+		var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan) in owner.internal_organs
+		return organ
+	else
+		return null
 /**
  * Поиск антаг датума Living Latex среди всех остальных. Возвращает сам датум, если его нет, то False
  * На вход подавать того, в ком искать.
@@ -77,7 +76,6 @@
 		return FALSE
 	var/mob/living/body = is_venom_controlling(LL) ? ability_owner : ability_owner.loc //Кто контролирует тело? Латекс? Нет? Ну тогда руль явно у body owner
 	easy_latexmob_minds_swap(ability_owner.mind, body.mind, body, LL)
-	LL.grant_abilities(ability_owner)
 	return TRUE
 
 /proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner)
