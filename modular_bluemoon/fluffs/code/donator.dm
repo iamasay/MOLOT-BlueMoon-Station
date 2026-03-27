@@ -1493,7 +1493,7 @@
 	name = "Millie plush"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/toy/plush/bm/millie
-	ckeywhitelist = list("pingvas", "ty4kahahebe", "scorpionch")
+	ckeywhitelist = list("pingvas", "ty4kahahebe", "scorpionch", "blatoff")
 
 /datum/gear/donator/bm/praxil_seven
 	name = "Praxil-7 Mark II Kit"
@@ -1644,6 +1644,38 @@
 	slot = ITEM_SLOT_OCLOTHING
 	path = /obj/item/clothing/suit/hooded/bm/donator/cybercoat
 	ckeywhitelist = list("cnaperdodo")
+
+/datum/gear/donator/bm/officer_armor
+	name = "Officer’s Armor"
+	slot = ITEM_SLOT_OCLOTHING
+	path = /obj/item/clothing/suit/armor/vest/capcarapace/officer_armor
+	ckeywhitelist = list("cnaperdodo")
+	restricted_desc = "Capitan, Head of Security and Nanotrasen Representative"
+	restricted_roles = list("Capitan", "Head of Security", "Nanotrasen Representative")
+
+/datum/gear/donator/bm/ppo_armor_strong_heavy
+	name = "Heavy SPO Armor Set"
+	slot = ITEM_SLOT_OCLOTHING
+	path = /obj/item/clothing/suit/armor/vest/capcarapace/ppo_armor_strong_heavy
+	ckeywhitelist = list("cnaperdodo")
+	restricted_desc = "Capitan, Head of Security and Nanotrasen Representative"
+	restricted_roles = list("Capitan", "Head of Security", "Nanotrasen Representative")
+
+/datum/gear/donator/bm/sec_spo
+	name = "SPO uniform"
+	slot = ITEM_SLOT_ICLOTHING
+	path = /obj/item/clothing/under/rank/security/officer/sec_spo
+	ckeywhitelist = list("cnaperdodo")
+	restricted_desc = "Capitan, Head of Security and Nanotrasen Representative"
+	restricted_roles = list("Detective", "Security Officer", "Warden", "Head of Security")
+
+/datum/gear/donator/bm/officer_jumpsuit
+	name = "Officer’s uniform"
+	slot = ITEM_SLOT_ICLOTHING
+	path = /obj/item/clothing/under/rank/security/officer/officer_jumpsuit
+	ckeywhitelist = list("cnaperdodo")
+	restricted_desc = "Capitan, Head of Security and Nanotrasen Representative"
+	restricted_roles = list("Capitan", "Head of Security", "Nanotrasen Representative")
 
 /datum/gear/donator/bm/diamond_ring
 	name = "A diamond ring"
@@ -2083,7 +2115,7 @@
 	name = "LIZARED Open Panties"
 	slot = ITEM_SLOT_UNDERWEAR
 	path = /obj/item/clothing/underwear/briefs/panties/lizared/exposed
-	ckeywhitelist = list("pingvas", "ty4kahahebe")
+	ckeywhitelist = list("pingvas", "ty4kahahebe", "blatoff")
 
 /datum/gear/donator/bm/custom_vape
 	name = "Custom E-Cigarette"
