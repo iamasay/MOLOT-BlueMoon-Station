@@ -463,6 +463,7 @@
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 5
+	block_parry_data = /datum/block_parry_data/chair //Раньше он наследовал dualsaber, теперь стул, что честно т.к занимает две руки.
 
 	attack_verb = list("attacked", "struck", "hit")
 	total_mass_on = TOTAL_MASS_TOY_SWORD
