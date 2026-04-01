@@ -156,6 +156,9 @@
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()
+	if(!src.mind)
+		//добавить сюда логгирование в рантаймы
+		return
 	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in src.mind.antag_datums
 	my_antag_datum?.process()
 

@@ -34,7 +34,6 @@
 		return FALSE
 	return TRUE
 
-
 /datum/action/cooldown/latexmob/venomAction
 	name = "Поглотить/освободить"
 	desc = "Станьте одним целым с кем-то."
