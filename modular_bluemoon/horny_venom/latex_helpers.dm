@@ -107,3 +107,17 @@
 	target.drop_all_held_items()
 	target.stuttering += rand(5, 10)
 	return TRUE
+
+/proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
+	new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
+	var/mob/living/simple_animal/latexmob = new /mob/living/simple_animal/latexmob(target_turf)
+	var/obj/item/organ/latexOrgan/OrganToRemove = get_latexOrgan_if_captured_by_LL(host_body)
+	OrganToRemove ? OrganToRemove.Remove() : null //Вместо null надо добавить нормальный лог об ошибке
+	ability_owner_mind.transfer_to(latexmob)
+	LL.grant_abilities(latexmob)
+
+/proc/enter_in_host(datum/antagonist/living_latex/my_living_latex, mob/living/carbon/owner, delay, mob/living/carbon/human/target_host, datum/action/cooldown/latexmob/latexmob_action_ref)
+	new /obj/effect/temp_visual/latexmob/venom_in (target_host.loc)
+	if(do_after(owner, delay, owner))
+		my_living_latex.merging(target_host) //выполняет слияние хоста с латексным и даёт ссылку на моба внутри хоста.
+		return
