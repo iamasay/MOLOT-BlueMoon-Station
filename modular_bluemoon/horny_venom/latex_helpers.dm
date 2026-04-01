@@ -1,8 +1,8 @@
 /**
  * Проверяет, захвачена ли цель. Если да, то возвращает latexOrgan
  */
-/proc/get_latexOrgan_if_captured_by_LL(mob/living/carbon/owner)
-	if(ismob(owner))
+/proc/get_latexOrgan_if_captured_by_LL(mob/living/carbon/human/owner)
+	if(ishuman(owner))
 		var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan) in owner.internal_organs
 		return organ
 	else
@@ -43,6 +43,7 @@
 		body.set_species(new_species)
 	else //Игрок на LL возвращает контроль владельцу тела над телом(Локация LL = турф, а значит он за "рулём")
 		LL_mob.set_species(LL.old_host_spec) // Возвращаем как было(в будущем опционально)
+
 /**
  * Меняет backseat и тело host-а местами, вне зависимости от того, кто и где сидит.
  * Определение идёт на уровне сравнения LL_body с аргументом host_body. Если они равны, то становится понятно,
@@ -50,19 +51,16 @@
  */
 /proc/easy_latexmob_minds_swap(datum/mind/LL_mind, datum/mind/host_mind, mob/living/host_body, datum/antagonist/living_latex/LL)
 	var/mob/living/LL_body = LL_mind.current
-	if(!host_mind)
-		LL_mind.transfer_to(host_body)
-		return
 	if(LL_body == host_body)
 		var/obj/item/organ/latexOrgan/organ = get_latexOrgan_if_captured_by_LL(host_body)
 		var/mob/living/simple_animal/latexmob/venom/backseat  = organ.ObserverBackseat
-		var/datum/mind/captured_host_mind = backseat.mind
+		var/datum/mind/captured_host_mind = backseat.mind //когда LL_body == bost_body то host_mind == LL_mind и надо найти целевой.
 		LL_mind.transfer_to(backseat)
-		captured_host_mind.transfer_to(LL_body)
+		captured_host_mind ? captured_host_mind.transfer_to(LL_body) : null //Но и целевого может не быть, если тело - мартышка.
 		LL.current_controller = BODY_OWNER
 	else
-		host_mind.transfer_to(host_body)
-		LL_mind.transfer_to(LL_body)
+		host_mind ? host_mind.transfer_to(LL_body) : null //host_mind-а может не быть, в случае с мартышкой
+		LL_mind.transfer_to(host_body)
 		LL.current_controller = VENOM_USER
 
 /**
