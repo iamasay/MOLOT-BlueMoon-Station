@@ -189,7 +189,7 @@
 /mob/living/simple_animal/latexmob/venom
 	name = "split personality"
 	real_name = "unknown conscience"
-	var/mob/living/carbon/body
+	var/mob/living/carbon/human/body
 	var/obj/item/organ/latexOrgan/organ
 
 /mob/living/simple_animal/latexmob/venom/Login()

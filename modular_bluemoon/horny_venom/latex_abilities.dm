@@ -5,6 +5,7 @@
 	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	background_icon_state = "background"
 	var/stage_required
+	var/delay
 	var/datum/antagonist/living_latex/my_living_latex
 	name = "generic latexmob proc"
 	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
@@ -12,6 +13,7 @@
 /datum/action/cooldown/latexmob/Activate(atom/target)
 	if(owner.mind)
 		my_living_latex = check_LL_antagDatum(owner)
+		delay = my_living_latex.mergingDelay
 	else
 		return FALSE
 
@@ -42,34 +44,22 @@
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	. = ..()
-	if(protect_from_spam(owner)) return
-	var/delay = my_living_latex.mergingDelay
-	if(iscarbon(owner))
-		to_chat(owner, "Вы не можете использовать эту способность из текущего состояния!")
-		return
-	var/mob/living/carbon/host = owner.loc
-	if(!iscarbon(host))
-		var/mob/living/carbon/true_choice = pick_merge_target(owner)
-		if(!can_merge_target(owner, true_choice))
-			return
-		if(do_after(owner, delay, owner))
-			handle_merging(true_choice)
-			my_living_latex.merging(true_choice)
-			return
-	if(!iscarbon(owner))
-		if(!iscarbon(host))
-			return
-		var/turf/targetTurf = host.loc
-		new /obj/effect/temp_visual/latexmob/venom_out(targetTurf)
-		new /mob/living/simple_animal/latexmob(targetTurf)
-		var/obj/item/organ/latexOrgan/OrganToRemove
-		OrganToRemove = get_latexOrgan_if_captured_by_LL(owner)
-		if(OrganToRemove)
-			OrganToRemove.Remove()
-		for(var/mob/living/simple_animal/latexmob/MobForTransfer in oview(1,host))
-			owner.mind.transfer_to(MobForTransfer)
-			my_living_latex.grant_abilities(MobForTransfer)
-			return
+	if(iscarbon(owner) && protect_from_spam(owner))
+		return DEFAULT_ABILITY_ERROR_MESSAGE
+
+	if(islatexmob(owner) && !isbackseatmob(owner))
+		var/mob/living/carbon/target_host = pick_merge_target(owner)
+		if(can_merge_target(owner, target_host))
+			handle_merging(target_host)
+			enter_in_host(my_living_latex, owner, delay, target_host)
+	else
+		var/mob/living/simple_animal/latexmob/venom/user = owner
+		var/mob/living/carbon/human/host = user.body
+		var/turf/target_turf = host.loc
+		if(isturf(target_turf) && ishuman(host))
+			exit_from_host(target_turf, owner.mind, host, delay, my_living_latex)
+		else
+			return DEFAULT_ABILITY_ERROR_MESSAGE
 
 /datum/action/cooldown/latexmob/ferral_form
 	name = "Форма животного"

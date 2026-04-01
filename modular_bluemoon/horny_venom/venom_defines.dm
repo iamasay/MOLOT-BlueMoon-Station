@@ -3,6 +3,9 @@
 //Простые постоянные, которые подсказывают механу, кто сейчас находится
 // в теле хоста. От их значения обычно зависит то, что будет делать абилка takeControl
 
+#define islatexmob(A) (istype(A, /mob/living/simple_animal/latexmob)) //Простая проверка на latexmob
+#define isbackseatmob(A) (istype(A, /mob/living/simple_animal/latexmob/venom)) //аналогично для venom
+
 #define BODY_OWNER "OWNER" //Если тело находится под контролем изначального владельца
 #define VENOM_USER "VENOM" //Если телом сейчас управляет игрок на латексном паразите
 #define IN 			"in"   //Применяется при трансфере BACKSEAT <--> BODY
