@@ -197,6 +197,7 @@
 /datum/action/cooldown/latexmob/human_form
 	name = "Сформировать самостоятельное человеческое тело"
 	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
+	button_icon_state = "human_form"
 	stage_required = 3
 
 /datum/action/cooldown/latexmob/human_form/Activate()
