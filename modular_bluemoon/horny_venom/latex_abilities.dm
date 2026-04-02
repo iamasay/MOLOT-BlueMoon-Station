@@ -18,7 +18,7 @@
 		return FALSE
 
 /datum/action/cooldown/latexmob/takeControl
-	stage_required = 1
+	stage_required = 3
 	button_icon_state = "Infiltrate"
 	name = "Захватить контроль над телом"
 	desc = "Возьмите тело под свой контроль и управляйте им как своим"
@@ -34,6 +34,7 @@
 	if(!swap_minds(my_living_latex, owner, backseat))
 		swap_LL_species(my_living_latex, owner)
 		return FALSE
+	my_living_latex.evolve_points = 0 //BURN IT ALL, BACK TO ZERO. Делаю эту абилку самой дорогой.
 	return TRUE
 
 /datum/action/cooldown/latexmob/venomAction
