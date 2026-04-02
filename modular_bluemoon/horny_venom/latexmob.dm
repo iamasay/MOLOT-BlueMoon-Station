@@ -12,6 +12,7 @@
 	show_to_ghosts = TRUE
 	antag_moodlet = /datum/mood_event/focused
 	var/current_controller
+	var/alert_has_been_viewed = FALSE
 	var/stage = 0
 	var/evolve_points = 0
 	var/mergingDelay = DEBUG_MERGING_DELAY
@@ -194,10 +195,13 @@
 
 /mob/living/simple_animal/latexmob/venom/Login()
 	..()
-	LOGIN_NOTICE_MESSAGE(src)
-	if(check_LL_antagDatum(src))
-		LOGIN_WARNING_MESSAGE(src)
 	body = src.loc
+	LOGIN_NOTICE_MESSAGE(src)
+	var/datum/antagonist/living_latex/antag_datum = check_LL_antagDatum(src)
+	if(antag_datum && !antag_datum.alert_has_been_viewed) //Показывается только один раз и только носителю антаг датума.
+		LOGIN_WARNING_MESSAGE(src)
+		antag_datum.alert_has_been_viewed = TRUE
+
 
 /mob/living/simple_animal/latexmob/venom/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(length(message) && body)
