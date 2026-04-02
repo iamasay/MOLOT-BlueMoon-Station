@@ -49,12 +49,16 @@
 	var/mob/living/LL_body = LL_mind.current
 	if(LL_body == host_body)
 		var/datum/mind/captured_host_mind = backseat.mind //когда LL_body == bost_body то host_mind == LL_mind и надо найти целевой.
+		if(checkplayerssd(backseat)) //хуманов с генетики можно, а ливнувших игроков нельзя
+			return MERGING_SSD_ERROR(LL_mind.current)
 		LL_mind.transfer_to(backseat, TRUE)
 		captured_host_mind ? captured_host_mind.transfer_to(LL_body, TRUE) : null //Но и целевого может не быть, если тело - мартышка.
 		LL.current_controller = BODY_OWNER
 	else
-		host_mind ? host_mind.transfer_to(backseat, TRUE) : null //host_mind-а может не быть, в случае с мартышкой
+		if(checkplayerssd(host_body))
+			return MERGING_SSD_ERROR(LL_mind.current)
 		LL_mind.transfer_to(host_body, TRUE) //Без TRUE выкинет LL_mind в госты и всё.
+		host_mind ? host_mind.transfer_to(backseat, TRUE) : null //host_mind-а может не быть, в случае с мартышкой
 		LL.current_controller = VENOM_USER
 
 /**

@@ -49,7 +49,7 @@
 
     if(islatexmob(owner) && !isbackseatmob(owner))
         var/mob/living/carbon/target_host = pick_merge_target(owner)
-        if(target_host && can_merge_target(owner, target_host))
+        if(target_host && can_merge_target(owner, target_host) && !checkplayerssd(target_host))
             handle_merging(target_host)
             enter_in_host(my_living_latex, owner, delay, target_host)
     else
