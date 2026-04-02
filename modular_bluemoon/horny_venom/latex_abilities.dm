@@ -65,6 +65,7 @@
 /datum/action/cooldown/latexmob/ferral_form
 	name = "Форма животного"
 	desc = "Принять форму животного"
+	button_icon_state = "ferral_form"
 	stage_required = 1
 
 /datum/action/cooldown/latexmob/ferral_form/Activate()
