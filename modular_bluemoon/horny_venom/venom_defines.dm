@@ -5,6 +5,7 @@
 
 #define islatexmob(A) (istype(A, /mob/living/simple_animal/latexmob)) //Простая проверка на latexmob
 #define isbackseatmob(A) (istype(A, /mob/living/simple_animal/latexmob/venom)) //аналогично для venom
+#define checkplayerssd(M) (!M.client && M.mind) //Майнд есть, а клиента нет. Типичный признак ливнувшего игрока.
 
 #define BODY_OWNER "OWNER" //Если тело находится под контролем изначального владельца
 #define VENOM_USER "VENOM" //Если телом сейчас управляет игрок на латексном паразите
@@ -20,6 +21,7 @@
 //TGUI ALERTS сообщения, выводимые в виде окна игроку. Носят важный характер.
 // Сюда выносятся только важные сообщения.
 #define LOGIN_WARNING_MESSAGE(user) (tgui_alert(user, "Не совершайте самоубиство и не ставьте чужое тело в неловкое положение. Так же вам крайне не следует делать сомнительные, или откровенные(ЕРП) действия, без явного одобрения со стороны хозяина тела(Noncon = Yes считается за явное одобрение, в противном случае ОБЯЗАТЕЛЬНО спрашивайте в LOOC).", "Предупреждение", list("Я осознаю это")))
+#define MERGING_SSD_ERROR(user) (tgui_alert(user, "Вы не можете пытаться поглотить/взять контроль SSD игроков", "ОШИБКА", list("Хорошо")))
 
 //-----Разнообразные сообщения, используемые в to_chat-----
 #define DEFAULT_ABILITY_ERROR_MESSAGE(user)  to_chat(user, span_warning("Вы не можете использовать эту способность из текущего состояния!"))
