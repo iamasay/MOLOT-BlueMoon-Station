@@ -44,23 +44,23 @@
 	stage_required = 1
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
-    . = ..()
-    if(protect_from_spam(owner))
-        return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
+	. = ..()
+	if(protect_from_spam(owner))
+		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
-    if(islatexmob(owner) && !isbackseatmob(owner))
-        var/mob/living/carbon/target_host = pick_merge_target(owner)
+	if(islatexmob(owner) && !isbackseatmob(owner))
+		var/mob/living/carbon/target_host = pick_merge_target(owner)
 		if(checkplayerssd(target_host))
 			return MERGING_SSD_ERROR(owner)
-        if(target_host && can_merge_target(owner, target_host))
-            handle_merging(target_host)
-            enter_in_host(my_living_latex, owner, delay, target_host)
-    else
-        var/mob/living/simple_animal/latexmob/venom/user = owner
-        if(ishuman(user.body))
-            exit_from_host(user.body.loc, owner.mind, user.body, delay, my_living_latex)
-        else
-            return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
+		if(target_host && can_merge_target(owner, target_host))
+			handle_merging(target_host)
+			enter_in_host(my_living_latex, owner, delay, target_host)
+	else
+		var/mob/living/simple_animal/latexmob/venom/user = owner
+		if(ishuman(user.body))
+			exit_from_host(user.body.loc, owner.mind, user.body, delay, my_living_latex)
+		else
+			return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
 /datum/action/cooldown/latexmob/ferral_form
 	name = "Форма животного"
@@ -124,21 +124,21 @@
 	return GLOB.always_state
 
 /datum/inject_menu/ui_data(mob/user)
-    var/list/data = list()
-    var/list/reagents = list()
+	var/list/data = list()
+	var/list/reagents = list()
 
-    for(var/type_of_reagent in living_latex.avaible_reagents)
-        var/list/reag = list()
-        var/datum/reagent/R = new type_of_reagent
-        reag["name"] = R.name
-        reagents += list(reag)
-        qdel(R)
+	for(var/type_of_reagent in living_latex.avaible_reagents)
+		var/list/reag = list()
+		var/datum/reagent/R = new type_of_reagent
+		reag["name"] = R.name
+		reagents += list(reag)
+		qdel(R)
 
-    data["subject"] = living_latex.owner.current
-    data["reagents"] = reagents
-    data["cooldown_remaining"] = max(0, (last_action_time + cooldown_duration - world.time) / 10)
-    data["evolve_poins"] = living_latex.evolve_points
-    return data
+	data["subject"] = living_latex.owner.current
+	data["reagents"] = reagents
+	data["cooldown_remaining"] = max(0, (last_action_time + cooldown_duration - world.time) / 10)
+	data["evolve_poins"] = living_latex.evolve_points
+	return data
 
 /datum/inject_menu/ui_act(action, params)
 	if(..())
@@ -160,7 +160,7 @@
 		ui.open()
 
 /datum/action/cooldown/latexmob/heal/Activate()
-    inject_menu.ui_interact(owner)
+	inject_menu.ui_interact(owner)
 
 /datum/action/cooldown/latexmob/stasis
 	name = "Стазис"
