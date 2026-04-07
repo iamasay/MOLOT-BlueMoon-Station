@@ -33,7 +33,7 @@ export const EvolveShop = (props, context) => {
 
   return (
     <Window width={900} height={520}>
-      <Window.Content>
+      <Window.Content scrollable>
         {/* Шапка с текущей стадией и прогрессом */}
         <Section
           fill={false}
