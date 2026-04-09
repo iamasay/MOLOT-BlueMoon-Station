@@ -7,6 +7,28 @@
 #define isbackseatmob(A) (istype(A, /mob/living/simple_animal/latexmob/venom)) //аналогично для venom
 #define checkplayerssd(M) (!M.client && M.mind) //Майнд есть, а клиента нет. Типичный признак ливнувшего игрока.
 
+/**
+ * Макрос для проверки дистанции
+ * Если до цели один шаг или меньше, то TRUE
+ * Если больше, то FALSE
+ */
+#define check_one_meter_distance_to_mob(M, U) \
+    if (get_dist(M, U) > 1) {\
+        TOO_FAR_ERROR(U); \
+        return FALSE; \
+    }
+/**
+ * Проверка human на факт наличия космического костюма
+ * Если и сам костюм И шлем надены на хумана, то выдает FALSE
+ * Если хотя бы одно из этих FALSE то итог TRUE
+ * ВАЖНО: НЕ использовать внутри if
+ */
+#define check_space_suit(M, U) \
+    if(istype(M.wear_suit, /obj/item/clothing/suit/space) && istype(M.head, /obj/item/clothing/head/helmet/space)) { \
+        SPACE_SUIT_ERROR(U); \
+        return FALSE; \
+    }
+
 #define BODY_OWNER "OWNER" //Если тело находится под контролем изначального владельца
 #define VENOM_USER "VENOM" //Если телом сейчас управляет игрок на латексном паразите
 #define IN 			"in"   //Применяется при трансфере BACKSEAT <--> BODY

@@ -66,7 +66,7 @@
 	name = "Форма животного"
 	desc = "Принять форму животного"
 	button_icon_state = "ferral_form"
-	stage_required = 1
+	stage_required = 2
 
 /datum/action/cooldown/latexmob/ferral_form/Activate()
 	. = ..()
@@ -92,6 +92,17 @@
 	. = ..()
 	var/mob/living/carbon/host = owner.loc
 	healthscan(owner, istype(host) ? host : owner)
+
+/datum/action/cooldown/latexmob/simple_mob_consuming
+	name = "Поглотить животное"
+	desc = "Позволяет получить дополнительные очки эволюции за счет расщипления органической биомассы."
+	button_icon_state = ""
+	stage_required = 1
+
+/datum/action/cooldown/latexmob/simple_mob_consuming/Activate()
+	. = ..()
+	var/mob/living/simple_animal/target_to_consume = pick_merge_target(owner)
+
 
 /datum/action/cooldown/latexmob/heal
 	name = "Лечение"
