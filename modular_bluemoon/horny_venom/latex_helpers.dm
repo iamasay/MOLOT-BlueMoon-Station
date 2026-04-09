@@ -15,17 +15,17 @@
  * Проверка на наличие прогрессбара не даёт спамить длительными процессами. Возвращает TRUE если прогрессбар есть.
  */
 /proc/protect_from_spam(mob/living/owner)
-    if(owner.progressbars)
-        SLOW_DOWN_ANTISPAM_MESSAGE(owner)
-        return TRUE
-    return FALSE
+	if(owner.progressbars)
+		SLOW_DOWN_ANTISPAM_MESSAGE(owner)
+		return TRUE
+	return FALSE
 /**
  * Возвращает TRUE или FALSE в зависимости от того, кто контролирует текущее тело хоста
  * Зависит от переменной внутри датума living_latex под названием current_controller
  * Если она пуста, или содержит BODY_OWNER, то proc вернёт FALSE
  */
 /proc/is_venom_controlling(datum/antagonist/living_latex/LL)
-    return LL?.current_controller == VENOM_USER
+	return LL?.current_controller == VENOM_USER
 
 /**
  * Меняет расу хоста при смене контроля. Определяет само кого и куда.
@@ -82,37 +82,38 @@
 	return(new_body)
 
 /proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner)
-    var/list/choices = list()
-    var/list/choices_img = list()
-    for(var/mob/living/carbon/C in oview(1, owner))
-        choices += C
-    for(var/mob/living/carbon/C in oview(1, owner))
-        var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
-        choice_image.overlays = C.overlays
-        choices_img[C.name] = choice_image
-    var/choice = show_radial_menu(owner, owner, choices_img)
-    if(!choice)
-        return null
-    return choices[choices_img.Find(choice)]
+	var/list/choices = list()
+	var/list/choices_img = list()
+	for(var/mob/living/C in oview(1, owner))
+		choices += C
+	for(var/mob/living/C in oview(1, owner))
+		var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
+		choice_image.overlays = C.overlays
+		choices_img[C.name] = choice_image
+	var/choice = show_radial_menu(owner, owner, choices_img)
+	if(!choice)
+		return null
+	return choices[choices_img.Find(choice)]
 
 /proc/can_merge_target(mob/living/user, mob/living/carbon/target)
-    if(get_dist(target, user) > 1)
-        TOO_FAR_ERROR(user)
-        return FALSE
-    if(ishuman(target))
-        var/mob/living/carbon/human/H = target
-        if(istype(H.wear_suit, /obj/item/clothing/suit/space) && istype(H.head, /obj/item/clothing/head/helmet/space))
-            SPACE_SUIT_ERROR(user)
-            return FALSE
-    return TRUE
+	check_one_meter_distance_to_mob(target, user)
+	if(istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target
+		check_space_suit(H, user)
+		return TRUE
+	else
+		return FALSE
 
-/proc/handle_merging(mob/living/carbon/target)
+/proc/handle_merging(mob/living/target)
 	HANDLE_MERGING_TO_HOST_MESSAGE(target)
 	target.Stun(4 SECONDS)
 	target.drop_all_held_items()
 	target.stuttering += rand(5, 10)
 	return TRUE
 
+/proc/LL_consume_simplemob(mob/living/simple_animal/target)
+	check_one_meter_distance_to_mob(target, owner)
+	mob_
 /proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
 	new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
 	var/mob/living/simple_animal/latexmob = new /mob/living/simple_animal/latexmob(target_turf)
