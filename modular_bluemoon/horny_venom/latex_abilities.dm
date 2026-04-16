@@ -17,6 +17,9 @@
 	else
 		return FALSE
 
+/datum/action/cooldown/latexmob/proc/Update()
+	return
+
 /datum/action/cooldown/latexmob/takeControl
 	stage_required = 3
 	button_icon_state = "Infiltrate"
