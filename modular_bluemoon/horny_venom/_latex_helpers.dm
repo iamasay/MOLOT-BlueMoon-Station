@@ -105,15 +105,13 @@
 		return FALSE
 
 /proc/handle_merging(mob/living/target)
-	HANDLE_MERGING_TO_HOST_MESSAGE(target)
+	if(checkplayerssd(target))
+		HANDLE_MERGING_TO_HOST_MESSAGE(target)
 	target.Stun(4 SECONDS)
 	target.drop_all_held_items()
 	target.stuttering += rand(5, 10)
 	return TRUE
 
-/proc/LL_consume_simplemob(mob/living/simple_animal/target)
-	check_one_meter_distance_to_mob(target, owner)
-	mob_
 /proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
 	new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
 	var/mob/living/simple_animal/latexmob = new /mob/living/simple_animal/latexmob(target_turf)
