@@ -13,8 +13,8 @@
 	outfit = /datum/outfit/job/bouncer
 	plasma_outfit = /datum/outfit/plasmaman/bar
 
-	access = list(ACCESS_HYDROPONICS, ACCESS_BAR, ACCESS_KITCHEN, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM)
+	access = list(ACCESS_HYDROPONICS, ACCESS_BAR, ACCESS_KITCHEN, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_PRODUCTION_SERVICE)
+	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM, ACCESS_PRODUCTION_SERVICE)
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 	bounty_types = CIV_JOB_DRINK
@@ -35,8 +35,8 @@
 		"Doorwoman",
 		"Hired Muscle",
 		"Public Defender",
-		"Sevice Guard",
-		"Slapper"
+		"Service Guard",
+		"Slapper",
 		)
 
 /////////////////////////////
@@ -113,7 +113,7 @@
 	desc = "A storage case for a Mk. 58 Enforcer. Peace through power!"
 
 /obj/item/storage/secure/briefcase/bouncer/e45_box/PopulateContents()
-	var/obj/item/gun/ballistic/automatic/pistol/enforcer/pistol = new /obj/item/gun/ballistic/automatic/pistol/enforcer/nomag(src)
+	new /obj/item/gun/ballistic/automatic/pistol/enforcer/nomag(src)
 	new /obj/item/ammo_box/magazine/e45/taser(src)
 	new /obj/item/ammo_box/magazine/e45/taser(src)
 	new /obj/item/ammo_box/magazine/e45/taser(src)

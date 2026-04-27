@@ -109,6 +109,8 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		if(job.is_species_blacklisted(player.client)) //BLUEMOON ADDITION - XENO SUPREMACY
 			return FALSE //BLUEMOON ADDITION - XENO SUPREMACY
+		if(!player.client.prefs.pref_species.qualifies_for_rank(rank, player.client.prefs.features))
+			return FALSE
 		var/position_limit = job.total_positions
 		if(!latejoin)
 			position_limit = job.spawn_positions
@@ -516,26 +518,31 @@ SUBSYSTEM_DEF(job)
 			flavor_display_text += "\n<li>Ввиду критической нехватки персонала, ваша ID-карта имеет дополнительный доступ.</li>"
 		if(job.custom_spawn_text)
 			flavor_display_text += "\n<li>[capitalize(job.custom_spawn_text)]</li>"
-	if(H.mind.assigned_role == "Head of Security") // Секция добавления штук для ГСБ
-		for(var/obj/structure/safe/floor/syndi/armory/brigsafe in world)
-			var/code_text = "[brigsafe.tumblers.Join("-")]"
-			flavor_display_text += "\n<li><span class='red'>Вам известен код сейфа оружейной:<br><B>[code_text].</B></span>\n</li>"
-			H.mind.memory += ("Код сейфа оружейной: [code_text].\n") // Нет, add_memory не работает, этот брутфорс был нужен.
 	if(ishuman(H))
 		var/mob/living/carbon/human/wageslave = H
 		flavor_display_text += "\n<li>Номер вашего банковского аккаунта - [wageslave.account_id].</li>"
 		H.add_memory("Номер вашего банковского аккаунта - [wageslave.account_id].")
-	to_chat(M, examine_block(flavor_display_text))
 	// BLUEMOON EDIT END
 	if(job && H)
 		if(job.dresscodecompliant)// CIT CHANGE - dress code compliance
 			equip_loadout(N, H) // CIT CHANGE - allows players to spawn with loadout items
 		job.after_spawn(H, M.client, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 		post_equip_loadout(N, H)//CIT CHANGE - makes players spawn with in-backpack loadout items properly. A little hacky but it works
-		if(joined_late && ishuman(H)) // BLUEMOON ADD
-			give_spare_id_safe_paper(H)
-
+		// BLUEMOON ADDITION
+		switch(rank)
+			if("Head of Security") // Секция добавления штук для ГСБ
+				var/station_armory = GLOB.areas_by_type[/area/ai_monitored/security/armory]
+				if(station_armory)
+					var/obj/structure/safe/floor/syndi/armory/brigsafe
+					for(brigsafe in station_armory)
+						var/code_text = "[brigsafe.tumblers.Join("-")]"
+						flavor_display_text += "\n<li><span class='red'>Вам известен код сейфа оружейной:<br><B>[code_text].</B></span>\n</li>"
+						H.mind.memory += ("Код сейфа оружейной: [code_text].\n") // Нет, add_memory не работает, этот брутфорс был нужен.
+		// BLUEMOON EDIT END
 		handle_roundstart_items(H, M.ckey, H.mind.assigned_role, H.mind.special_role)
+		if(ishuman(H))
+			bm_deliver_metadollar_purchases(H, M.client)
+	to_chat(M, examine_block(flavor_display_text))
 
 	var/list/tcg_cards
 	if(ishuman(H))
