@@ -1273,6 +1273,28 @@
 		var/mob/unbuckle_me_now = i
 		unbuckle_mob(unbuckle_me_now, FALSE)
 
+/mob/living/silicon/robot/proc/camera_remove(drop_assembly = FALSE)
+	if(QDELETED(builtInCamera))
+		return
+
+	if(drop_assembly)
+		var/cyborg_turf_loc = get_turf(src)
+		new /obj/item/wallframe/camera (cyborg_turf_loc)
+		new /obj/item/stack/cable_coil(cyborg_turf_loc, 2)
+	QDEL_NULL(builtInCamera)
+
+/mob/living/silicon/robot/proc/camera_restore()
+	if(!QDELETED(builtInCamera) || scrambledcodes)
+		return
+
+	builtInCamera = new (src)
+	builtInCamera.c_tag = real_name
+	builtInCamera.network = list("ss13")
+	builtInCamera.internal_light = FALSE
+
+	if(wires?.is_cut(WIRE_CAMERA))
+		builtInCamera.toggle_cam(src, 0)
+
 /mob/living/silicon/robot/proc/TryConnectToAI(mob/living/silicon/ai/connect_to)
 	set_connected_ai(connect_to || select_active_ai_with_fewest_borgs(z))
 	if(connected_ai)
@@ -1395,7 +1417,7 @@
 	if(chameleon_module())
 		borg_type = "инженерный"
 
-	. += "Это [module_to_ru_adjective(borg_type)] киборг[check_allegiance()]"
+	. += "Это [vocabulary_to_ru(GLOB.borgmodule_ru_adjective, borg_type)] киборг[check_allegiance()]"
 	if(activity)
 		. += activity
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, usr, .)

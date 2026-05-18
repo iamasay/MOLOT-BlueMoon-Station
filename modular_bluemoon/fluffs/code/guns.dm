@@ -1045,7 +1045,7 @@
 
 /obj/item/gun/ballistic/automatic/pistol/enforcer/p226_syndicate
 	name = "\improper P226 'Syndicate'"
-	desc = "Трофей. 45 калибр. Унифицированное оружие самозащиты, выдаваемое каждому без исключения жителю-Касари флота-государства Небулы по окончании ими первой стадии жизни. Крайне редок, в сравнении с иным огнестрельным оружием галактики - штучный товар, использующий замысловатую систему заряжания и некоторые технически трудно реализуемые решения, крайне мешающие реверс-инженерингу и стороннему производству. Благодаря нему каждый житель Небулы может дать отпор неприятелю извне, коих у них полно. Не только эффективно, но и со стилем."
+	desc = "Наградной пистолет модели P226 красного цвета. На верхней части рукоятки присутствует выбитый символ Триглава Синдиката с черной 'S' на кроваво-красном фоне. Кожух ствола переливается кроваво-медным отблеском на свете. Бок рукоятки украшен золотистыми буквами 'ЗА ОТЛИЧНУЮ СЛУЖБУ'."
 	icon = 'modular_bluemoon/fluffs/icons/obj/guns.dmi'
 	icon_state = "p_226_syndicate"
 	item_state = "p_226_syndicate"
@@ -1293,6 +1293,7 @@
 	item_state = "mpl_21"
 	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_left.dmi'
 	righthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_right.dmi'
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/mpl21_shot.ogg'
 	base_pixel_x = -8
 	var/const/custom_mag_type = /obj/item/ammo_box/magazine/recharge/lasgun/mpl_21
 
@@ -1364,6 +1365,7 @@
 	item_state = null
 	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_left.dmi'
 	righthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_right.dmi'
+	ammo_type = list(/obj/item/ammo_casing/energy/lasergun/lcr_29)
 	base_pixel_x = -8
 	charge_sections = 2
 	shaded_charge = TRUE
@@ -1372,6 +1374,9 @@
 /obj/item/gun/energy/laser/lcr_29/get_examine_name(mob/user)
 	. = ..()
 	. += " <span class='chat-tooltip chat-tooltip--warning'>\[?\]<span class='chat-tooltip__content'>This is [/obj/item/gun/energy/laser::name]</span></span>"
+
+/obj/item/ammo_casing/energy/lasergun/lcr_29
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/lcr29_shot.ogg'
 
 ///////////////////////////////////////////////
 
@@ -1394,10 +1399,17 @@
 	charge_sections = 2
 	shaded_charge = TRUE
 	modifystate = FALSE
+	ammo_type = list(/obj/item/ammo_casing/energy/disabler/m3_predator, /obj/item/ammo_casing/energy/electrode/security/m3_predator = FALSE)
 
 /obj/item/gun/energy/e_gun/advtaser/m3_predator/get_examine_name(mob/user)
 	. = ..()
 	. += " <span class='chat-tooltip chat-tooltip--warning'>\[?\]<span class='chat-tooltip__content'>This is [/obj/item/gun/energy/e_gun/advtaser::name]</span></span>"
+
+/obj/item/ammo_casing/energy/disabler/m3_predator
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/m3_predator_disabler.ogg'
+
+/obj/item/ammo_casing/energy/electrode/security/m3_predator
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/m3_predator_taser.ogg'
 
 ///////////////////////////////////////////////
 
@@ -1463,3 +1475,37 @@
 	desc = "A modkit for making an antique laser gun into a fancy laser rifle."
 	product = /obj/item/gun/energy/laser/captain/rifle/amogus
 	fromitem = list(/obj/item/gun/energy/laser/captain)
+
+/obj/item/modkit/cz_75
+	name = "CZ-75 kit"
+	desc = "A modkit for making an Mk. 58 Enforcer into a CZ-75 pistol."
+	icon = 'modular_bluemoon/icons/obj/guns/gunkit.dmi'
+	icon_state = "kitsuitcase"
+	product = /obj/item/gun/ballistic/automatic/pistol/enforcer/cz_75
+	fromitem = list(/obj/item/gun/ballistic/automatic/pistol/enforcer/nomag, /obj/item/gun/ballistic/automatic/pistol/enforcer, /obj/item/gun/ballistic/automatic/pistol/enforcerred, /obj/item/gun/ballistic/automatic/pistol/enforcergold)
+
+/obj/item/gun/ballistic/automatic/pistol/enforcer/cz_75
+	name = "\improper CZ-75"
+	desc = "The model most commonly used in stealth assassinations is made of lightweight alloy. Due to frequent use, the grip is scratched, and the letter 'S' is visible under the trigger."
+	icon = 'modular_bluemoon/fluffs/icons/obj/48x32.dmi'
+	icon_state = "cz_75"
+	item_state = "cz_75"
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/guns_right.dmi'
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/cz_75_shoot.ogg'
+	base_pixel_y = -4
+
+/obj/item/gun/ballistic/automatic/pistol/enforcer/cz_75/get_examine_name(mob/user)
+	. = ..()
+	. += " <span class='chat-tooltip chat-tooltip--warning'>\[?\]<span class='chat-tooltip__content'>This is [/obj/item/gun/ballistic/automatic/pistol/enforcer::name]</span></span>"
+
+/obj/item/gun/ballistic/automatic/pistol/enforcer/cz_75/get_gunlight_overlay()
+	if(!gun_light)
+		return
+	var/mutable_appearance/flashlight_overlay = mutable_appearance(icon, "[initial(icon_state)]-flashlight[gun_light.on ? "-on" : ""]")
+	if(!chambered)
+		flashlight_overlay.pixel_x += 1
+	return flashlight_overlay
+
+/obj/item/gun/ballistic/automatic/pistol/enforcer/cz_75/update_icon_state() // -expended вырезан, спрайтов не завезли
+	icon_state = "[current_skin ? unique_reskin[current_skin]["icon_state"] : initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : "" ][magazine && istype(magazine, /obj/item/ammo_box/magazine/e45/e45_drum) ? "-drum" : ""]"

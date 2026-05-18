@@ -72,12 +72,13 @@
 	glasses = /obj/item/clothing/glasses/hud/health/night/syndicate
 	back = /obj/item/storage/backpack/ert_commander
 	belt = /obj/item/storage/belt/military/ert_min
-	suit_store = /obj/item/gun/ballistic/automatic/ar
+	suit_store = /obj/item/gun/ballistic/automatic/proto/suppressed
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,
 		/obj/item/storage/box/ert_commander=1,
-		/obj/item/storage/firstaid/regular=1,\
-		/obj/item/storage/box/ammo/m556=1,\
+		/obj/item/storage/firstaid/brute=1,
+		/obj/item/storage/firstaid/fire=1,
+		/obj/item/storage/box/ammo=1,\
 		/obj/item/gun/energy/e_gun/nuclear/ert=1,\
 		)
 
@@ -114,14 +115,16 @@
 	glasses = /obj/item/clothing/glasses/hud/health/night/syndicate
 	belt = /obj/item/storage/belt/military/ert_max
 	suit_store = /obj/item/gun/energy/modular_laser_rifle
-	l_pocket = /obj/item/gun/ballistic/revolver/mateba
+	l_pocket = /obj/item/gun/ballistic/revolver/requiem
 	shoes = /obj/item/clothing/shoes/magboots/syndie/advance
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
 		/obj/item/storage/box/ert_commander=1,\
-		/obj/item/storage/firstaid/regular=1,\
+		/obj/item/storage/firstaid/brute=1,\
+		/obj/item/storage/firstaid/fire=1,\
 		/obj/item/gun/energy/e_gun/nuclear/ert=1,\
-		/obj/item/ammo_box/a357=2,\
+		/obj/item/ammo_box/a357/requiem=2,\
+		/obj/item/disk/design_disk/adv/ammo/requiem=1,\
 		)
 
 	cybernetic_implants = list(
@@ -193,13 +196,14 @@
 	glasses = /obj/item/clothing/glasses/hud/health/night/syndicate
 	belt = /obj/item/storage/belt/military/ert_min
 	back = /obj/item/storage/backpack/ert_commander/ert_security
-	suit_store = /obj/item/gun/ballistic/automatic/ar
+	suit_store = /obj/item/gun/ballistic/automatic/proto/suppressed
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
 
 		/obj/item/storage/box/handcuffs=1,\
-		/obj/item/storage/firstaid/regular=1,\
-		/obj/item/storage/box/ammo/m556 = 1,
+		/obj/item/storage/firstaid/brute=1,\
+		/obj/item/storage/firstaid/fire=1,\
+		/obj/item/storage/box/ammo = 1,
 		/obj/item/gun/energy/e_gun/dragnet=1,
 		)
 
@@ -226,16 +230,18 @@
 	mask = /obj/item/clothing/mask/gas/sechailer/swat
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/alert/sec
 	suit_store = /obj/item/gun/energy/modular_laser_rifle
-	l_pocket = /obj/item/gun/ballistic/revolver/mateba
+	l_pocket = /obj/item/gun/ballistic/revolver/requiem
 	belt = /obj/item/storage/belt/military/ert_max
 
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
 		/obj/item/storage/box/handcuffs=1,\
-		/obj/item/storage/firstaid/regular=1,\
+		/obj/item/storage/firstaid/brute=1,\
+		/obj/item/storage/firstaid/fire=1,\
 		/obj/item/gun/energy/e_gun/dragnet=1,\
 		/obj/item/gun/energy/e_gun/nuclear/ert=1,\
-		/obj/item/ammo_box/a357=2,\
+		/obj/item/ammo_box/a357/requiem=2,\
+		/obj/item/disk/design_disk/adv/ammo/requiem=1,\
 		)
 
 	cybernetic_implants = list(
@@ -317,12 +323,12 @@
 	glasses = /obj/item/clothing/glasses/hud/health/night/syndicate
 	back = /obj/item/storage/backpack/ert_commander/ert_medical
 	belt = /obj/item/defibrillator/compact/loaded_ert
-	suit_store = /obj/item/gun/ballistic/automatic/ar
+	suit_store = /obj/item/gun/ballistic/automatic/proto/suppressed
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
 		/obj/item/storage/firstaid/tactical/ert_first = 1,\
 		/obj/item/storage/firstaid/tactical/ert_second = 1,\
-		/obj/item/storage/box/ammo/m556=1,\
+		/obj/item/storage/box/ammo=1,\
 		/obj/item/reagent_containers/hypospray/combat=1,\
 		/obj/item/gun/medbeam=1,\
 		/obj/item/paper/beamgun_istruction=1,\
@@ -355,7 +361,7 @@
 	mask = /obj/item/clothing/mask/gas/sechailer/swat
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/alert/med
 	suit_store = /obj/item/gun/energy/modular_laser_rifle
-	l_pocket = /obj/item/gun/ballistic/revolver/mateba
+	l_pocket = /obj/item/gun/ballistic/revolver/requiem
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,
 		/obj/item/gun/energy/e_gun/nuclear/ert=1,
@@ -366,7 +372,8 @@
 		/obj/item/paper/beamgun_istruction=1,
 		/obj/item/roller=1,
 		/obj/item/bodybag/bluespace=1,
-		/obj/item/ammo_box/a357=2,\
+		/obj/item/ammo_box/a357/requiem=2,\
+		/obj/item/disk/design_disk/adv/ammo/requiem=1,\
 		)
 
 	cybernetic_implants = list(
@@ -447,11 +454,12 @@
 	glasses =  /obj/item/clothing/glasses/meson/night/ert
 	back = /obj/item/storage/backpack/ert_commander/ert_engineering
 	belt = /obj/item/storage/belt/utility/chief/full
-	suit_store = /obj/item/gun/ballistic/automatic/ar
+	suit_store = /obj/item/gun/ballistic/automatic/proto/suppressed
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
-		/obj/item/storage/box/ammo/m556=1,
-		/obj/item/storage/firstaid/regular=1,\
+		/obj/item/storage/box/ammo=1,
+		/obj/item/storage/firstaid/brute=1,
+		/obj/item/storage/firstaid/fire=1,
 		/obj/item/rcd_ammo/large=2,
 		/obj/item/construction/rcd/combat=1,
 		/obj/item/inducer=1,
@@ -482,16 +490,18 @@
 
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/alert/engi
 	suit_store = /obj/item/gun/energy/modular_laser_rifle
-	l_pocket = /obj/item/gun/ballistic/revolver/mateba
+	l_pocket = /obj/item/gun/ballistic/revolver/requiem
 
 
 	backpack_contents = list(/obj/item/storage/box/survival/centcom=1,\
 		/obj/item/gun/energy/e_gun/nuclear/ert=1,\
-		/obj/item/storage/firstaid/regular=1,\
+		/obj/item/storage/firstaid/brute=1,\
+		/obj/item/storage/firstaid/fire=1,\
 		/obj/item/construction/rcd/combat=1,
 		/obj/item/inducer/sci/combat=1,
 		/obj/item/stock_parts/cell/vortex=1,
-		/obj/item/ammo_box/a357=2,\
+		/obj/item/ammo_box/a357/requiem=2,\
+		/obj/item/disk/design_disk/adv/ammo/requiem=1,\
 		)
 
 	cybernetic_implants = list(
