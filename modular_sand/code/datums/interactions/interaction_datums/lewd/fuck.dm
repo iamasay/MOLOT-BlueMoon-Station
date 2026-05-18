@@ -82,7 +82,10 @@
 
 /datum/interaction/lewd/fuck/anal/display_interaction(mob/living/user, mob/living/partner)
 	var/datum/interaction/lewd/parent_interaction = new /datum/interaction/lewd
+
 	var/is_hidden = parent_interaction.display_interaction(user, partner) // я хз как иначе обойти вызов родителя /datum/interaction/lewd/fuck, дабы получить is_hidden из базового /datum/interaction/lewd
+	qdel(parent_interaction)
+
 	var/message
 	//var/u_His = user.ru_ego()
 	//var/t_His = partner.ru_ego()
