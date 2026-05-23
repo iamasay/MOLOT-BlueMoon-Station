@@ -106,7 +106,6 @@
 	. = ..()
 	var/mob/living/simple_animal/target_to_consume = pick_merge_target(owner)
 
-
 /datum/action/cooldown/latexmob/heal
 	name = "Лечение"
 	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."

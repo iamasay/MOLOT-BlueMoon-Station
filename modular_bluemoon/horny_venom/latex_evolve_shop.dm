@@ -55,8 +55,7 @@
 	if(action == "evolve_to_stage")
 		var/target_stage = params["stage"]
 		if(living_latex.stage < target_stage)
-			living_latex.stage = target_stage
-			living_latex.evolve_points = 0
+			living_latex.upgrade_stage(target_stage)
 
 /datum/action/innate/evolution_store
 	name = "Evolution Store"

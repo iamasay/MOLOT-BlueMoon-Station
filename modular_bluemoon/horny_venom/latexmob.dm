@@ -96,11 +96,8 @@
 			evolve_points -= 0.1
 		qdel(R)
 
-/datum/antagonist/living_latex/proc/upgrade_stage(NewStage, user)
+/datum/antagonist/living_latex/proc/upgrade_stage(NewStage)
 	stage = NewStage
-	for(var/datum/action/cooldown/latexmob/venomAction/action in all_abilities)
-		if(action.stage_required == stage)
-			action.Grant(user)
 
 /datum/antagonist/living_latex/Destroy()
 	. = ..()

@@ -81,18 +81,22 @@
 	qdel(old_body)
 	return(new_body)
 
-/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner)
+/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner, pick_only_simplemob = FALSE)
 	var/list/choices = list()
 	var/list/choices_img = list()
+
 	for(var/mob/living/C in oview(1, owner))
+		if(ishuman(C) && pick_only_simplemob == TRUE)
+			continue
 		choices += C
-	for(var/mob/living/C in oview(1, owner))
 		var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
 		choice_image.overlays = C.overlays
 		choices_img[C.name] = choice_image
 	var/choice = show_radial_menu(owner, owner, choices_img)
+
 	if(!choice)
 		return null
+
 	return choices[choices_img.Find(choice)]
 
 /proc/can_merge_target(mob/living/user, mob/living/carbon/target)
