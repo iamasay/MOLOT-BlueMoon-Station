@@ -98,6 +98,9 @@
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage)
 	stage = NewStage
+	evolve_points = 0
+	for(var/datum/action/cooldown/latexmob/ability in all_abilities) //Важно понимать, что all_abilities это список способностей, что мапятся в UI магазине, но никак не у игрока. Для игрока список другой.
+		ability.update_stage(NewStage)
 
 /datum/antagonist/living_latex/Destroy()
 	. = ..()

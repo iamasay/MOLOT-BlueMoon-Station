@@ -10,6 +10,11 @@
 	name = "generic latexmob proc"
 	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
 
+/datum/action/cooldown/latexmob/proc/update_stage(stage)
+	if(stage == stage_required)
+		return
+	button_icon_state = initial(button_icon_state) + "_[stage]" //initial нужен чтобы из Infiltrate_1 не получалось Infiltrate_1_2_3 которое сломает всю логику
+
 /datum/action/cooldown/latexmob/Activate(atom/target)
 	if(owner.mind)
 		my_living_latex = check_LL_antagDatum(owner)
@@ -45,6 +50,11 @@
 	desc = "Станьте одним целым с кем-то."
 	button_icon_state = "Infiltrate"
 	stage_required = 1
+	var/can_absorb_humans = FALSE
+	var/absorbed_mobs_counter = 0
+
+/datum/action/cooldown/latexmob/venomAction/update_stage(stage)
+
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	. = ..()
