@@ -48,10 +48,11 @@
 	desc = "Станьте одним целым с кем-то."
 	button_icon_state = "Infiltrate"
 	stage_required = 1
-	var/can_absorb_humans = FALSE
-	var/absorbed_mobs_counter = 0
+	var/pick_only_simplemob = TRUE
+	var/absorbed_mobs_counter = 1
 
 /datum/action/cooldown/latexmob/venomAction/update_stage(stage)
+	pick_only_simplemob = FALSE
 
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
@@ -60,7 +61,10 @@
 		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
 	if(islatexmob(owner) && !isbackseatmob(owner))
-		var/mob/living/carbon/target_host = pick_merge_target(owner)
+		var/mob/living/carbon/target_host = pick_merge_target(owner, pick_only_simplemob)
+		if(pick_only_simplemob && isanimal(target_host))
+			do_absorb_simple_mob(target_host, owner, my_living_latex, src)
+			return
 		if(checkplayerssd(target_host))
 			return MERGING_SSD_ERROR(owner)
 		if(target_host && can_merge_target(owner, target_host))

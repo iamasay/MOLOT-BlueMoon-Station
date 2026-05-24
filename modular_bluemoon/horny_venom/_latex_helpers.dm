@@ -81,12 +81,12 @@
 	qdel(old_body)
 	return(new_body)
 
-/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner, pick_only_simplemob = FALSE)
+/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob)
 	var/list/choices = list()
 	var/list/choices_img = list()
 
 	for(var/mob/living/C in oview(1, owner))
-		if(ishuman(C) && pick_only_simplemob == TRUE)
+		if(ishuman(C) && pick_only_simplemob)
 			continue
 		choices += C
 		var/image/choice_image = image(icon = C.icon, icon_state = C.icon_state)
@@ -98,6 +98,14 @@
 		return null
 
 	return choices[choices_img.Find(choice)]
+
+/proc/do_absorb_simple_mob(mob/living/simple_animal/absorbed_mob, mob/living/simple_animal/latexmob/absorber, datum/antagonist/living_latex/LL, datum/action/cooldown/latexmob/venomAction/my_action)
+	var/absorbed_mobs_modifier = max(1 - (my_action.absorbed_mobs_counter - 1) * 0.1, 0.1)
+	absorber.loc = absorbed_mob.loc
+
+	LL.evolve_points += (absorbed_mob.maxHealth * 0.0001) * absorbed_mobs_modifier //100HP превращаются в 0.01 что будет 1% для evolve_points, а потом * модификатор, который от 1 до 0.1
+	my_action.absorbed_mobs_counter ++
+	qdel(absorbed_mob)
 
 /proc/can_merge_target(mob/living/user, mob/living/carbon/target)
 	check_one_meter_distance_to_mob(target, user)
