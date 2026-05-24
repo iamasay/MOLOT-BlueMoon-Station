@@ -103,14 +103,25 @@
 	var/absorbed_mobs_modifier = max(1 - (my_action.absorbed_mobs_counter - 1) * 0.1, 0.1)
 	absorber.loc = absorbed_mob.loc
 
-	LL.evolve_points += (absorbed_mob.maxHealth * 0.0001) * absorbed_mobs_modifier //100HP превращаются в 0.01 что будет 1% для evolve_points, а потом * модификатор, который от 1 до 0.1
+	LL.evolve_points += (absorbed_mob.maxHealth * 0.001) * absorbed_mobs_modifier
 	my_action.absorbed_mobs_counter ++
 	qdel(absorbed_mob)
 
-/proc/can_merge_target(mob/living/user, mob/living/carbon/target)
-	check_one_meter_distance_to_mob(target, user)
-	if(istype(target, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = target
+/proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
+	if (!target_host)
+		return FALSE
+	if (target_host && (can_absorb_alive || target_host.stat == DEAD))
+		return TRUE
+	else if(!ishuman(target_host))
+		MOB_IS_ALIVE_ERROR(owner)
+		return FALSE
+
+/proc/can_merge_target(mob/living/user, mob/living/carbon/target_host, pick_only_simplemob, can_absorb_alive)
+	if(pick_only_simplemob && isanimal(target_host) && can_LL_absorb_alive(user, can_absorb_alive, target_host))
+		return TRUE
+	check_one_meter_distance_to_mob(target_host, user)
+	if(istype(target_host, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target_host
 		check_space_suit(H, user)
 		return TRUE
 	else

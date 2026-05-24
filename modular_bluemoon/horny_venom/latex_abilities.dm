@@ -49,10 +49,15 @@
 	button_icon_state = "Infiltrate"
 	stage_required = 1
 	var/pick_only_simplemob = TRUE
+	var/can_absorb_alive = FALSE
 	var/absorbed_mobs_counter = 1
 
 /datum/action/cooldown/latexmob/venomAction/update_stage(stage)
-	pick_only_simplemob = FALSE
+	. = ..()
+	if(stage == 2)
+		can_absorb_alive = TRUE
+	if(stage == 3)
+		pick_only_simplemob = FALSE
 
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
@@ -60,14 +65,20 @@
 	if(protect_from_spam(owner))
 		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
+
 	if(islatexmob(owner) && !isbackseatmob(owner))
 		var/mob/living/carbon/target_host = pick_merge_target(owner, pick_only_simplemob)
-		if(pick_only_simplemob && isanimal(target_host))
-			do_absorb_simple_mob(target_host, owner, my_living_latex, src)
+
+		// Первая ветка поглощения простого моба
+		if(isanimal(target_host))
+			if(target_host && can_merge_target(owner, target_host, pick_only_simplemob, can_absorb_alive))
+				do_absorb_simple_mob(target_host, owner, my_living_latex, src)
 			return
-		if(checkplayerssd(target_host))
-			return MERGING_SSD_ERROR(owner)
-		if(target_host && can_merge_target(owner, target_host))
+
+		// Вторая ветка слияния
+		if(target_host && can_merge_target(owner, target_host, pick_only_simplemob, can_absorb_alive))
+			if(checkplayerssd(target_host))
+				return MERGING_SSD_ERROR(owner)
 			handle_merging(target_host)
 			enter_in_host(my_living_latex, owner, delay, target_host)
 	else
@@ -76,6 +87,8 @@
 			exit_from_host(user.body.loc, owner.mind, user.body, delay, my_living_latex)
 		else
 			return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
+
+	return
 
 /datum/action/cooldown/latexmob/ferral_form
 	name = "Форма животного"
