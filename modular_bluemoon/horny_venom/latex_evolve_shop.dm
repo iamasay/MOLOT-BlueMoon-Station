@@ -50,7 +50,7 @@
 
 	if(action == "evolve")
 		var/ability_name = params["abilityName"]
-		living_latex.search_ability_path(ability_name)
+		living_latex.search_ability_name(ability_name)
 
 	if(action == "evolve_to_stage")
 		var/target_stage = params["stage"]

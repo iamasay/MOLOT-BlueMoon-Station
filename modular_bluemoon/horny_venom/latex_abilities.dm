@@ -14,6 +14,7 @@
 	if(stage == stage_required)
 		return
 	button_icon_state = initial(button_icon_state) + "_[stage]" //initial нужен чтобы из Infiltrate_1 не получалось Infiltrate_1_2_3 которое сломает всю логику
+	UpdateButtons()
 
 /datum/action/cooldown/latexmob/Activate(atom/target)
 	if(owner.mind)
@@ -21,9 +22,6 @@
 		delay = my_living_latex.mergingDelay
 	else
 		return FALSE
-
-/datum/action/cooldown/latexmob/proc/Update()
-	return
 
 /datum/action/cooldown/latexmob/takeControl
 	stage_required = 3
@@ -105,16 +103,6 @@
 	. = ..()
 	var/mob/living/carbon/host = owner.loc
 	healthscan(owner, istype(host) ? host : owner)
-
-/datum/action/cooldown/latexmob/simple_mob_consuming
-	name = "Поглотить животное"
-	desc = "Позволяет получить дополнительные очки эволюции за счет расщипления органической биомассы."
-	button_icon_state = ""
-	stage_required = 1
-
-/datum/action/cooldown/latexmob/simple_mob_consuming/Activate()
-	. = ..()
-	var/mob/living/simple_animal/target_to_consume = pick_merge_target(owner)
 
 /datum/action/cooldown/latexmob/heal
 	name = "Лечение"

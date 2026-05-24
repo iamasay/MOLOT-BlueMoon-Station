@@ -67,25 +67,35 @@
 	for(var/datum/action/action in available_abilities)
 		action.Grant(user)
 
-/datum/antagonist/living_latex/proc/search_ability_path(ability_name)
-	var/datum/action/cooldown/latexmob/ability_to_grant
-	for(var/path in src.all_abilities)
-		var/datum/action/cooldown/latexmob/ability = path
+/datum/antagonist/living_latex/proc/search_ability_name(ability_name)
+	for(var/datum/action/cooldown/latexmob/ability in src.all_abilities)
 		if(ability.name == ability_name)
-			ability_to_grant = ability
-			src.add_new_ability(ability_to_grant, src)
-	return
+			var/datum/action/cooldown/latexmob/new_player_ability = new ability.type
+			add_new_ability(new_player_ability)
+			return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant)
-	if(locate(ability_to_grant) in available_abilities)
-		to_chat(usr, "<span_class='warning'>У вас уже есть эта способность!</span>")
-		return
-	if(ability_to_grant.stage_required <= stage && evolve_points == 1)
+	var/datum/action/cooldown/latexmob/located_ability = locate(ability_to_grant) in available_abilities
+
+	if (located_ability)
+		var/datum/action/cooldown/latexmob/same_ability = locate(ability_to_grant) in all_abilities
+		var/identical = ability_to_grant.button_icon_state == same_ability.button_icon_state
+		if (identical)
+			to_chat(usr, "<span class='warning'>У вас уже есть эта способность!</span>")
+			return
+
+	if (ability_to_grant.stage_required <= stage && evolve_points == 1)
 		available_abilities += ability_to_grant
 		evolve_points = 0
 		grant_abilities(usr)
+
+		if (located_ability)
+			available_abilities -= located_ability
+			located_ability.Remove(usr)
+			ability_to_grant.update_stage(stage)
+			ABILITY_IS_UPDATED(usr, ability_to_grant)
 	else
-		to_chat(usr, "<span_class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
+		to_chat(usr, "<span class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
 
 /datum/antagonist/living_latex/proc/inject_reagent(reagent_name)
 	for(var/path in src.avaible_reagents)
