@@ -107,6 +107,35 @@
 	my_action.absorbed_mobs_counter ++
 	qdel(absorbed_mob)
 
+/mob/proc/LL_build_latex_icon(icon_file, icon_state)
+	if(!icon_file || !icon_state)
+		return null
+
+	var/icon/mask = getIconMask(src)
+	if(!mask)
+		return null
+
+	var/icon/overlay_icon = icon(icon_file, icon_state)
+
+	overlay_icon.UseAlphaMask(mask)
+
+	return overlay_icon
+
+/mob/proc/LL_apply_latex_overlay(icon_file, icon_state)
+	if(!icon_file || !icon_state)
+		return
+
+	var/icon/latex_icon = LL_build_latex_icon(icon_file, icon_state)
+	if(!latex_icon)
+		return
+
+	var/image/overlay_image = image(latex_icon, src)
+	overlay_image.layer = layer + 0.1
+
+	add_overlay(overlay_image)
+
+	return latex_icon
+
 /proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
 	if (!target_host)
 		return FALSE

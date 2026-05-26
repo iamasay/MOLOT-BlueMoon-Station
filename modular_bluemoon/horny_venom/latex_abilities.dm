@@ -72,7 +72,11 @@
 		// Первая ветка поглощения простого моба
 		if(isanimal(target_host))
 			if(target_host && can_merge_target(owner, target_host, pick_only_simplemob, can_absorb_alive))
-				do_absorb_simple_mob(target_host, owner, my_living_latex, src)
+				var/icon/overlay = target_host.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE)
+				owner.loc = target_host.loc
+				if(do_after(owner, 5 SECONDS, owner))
+					do_absorb_simple_mob(target_host, owner, my_living_latex, src)
+				target_host.cut_overlay(overlay)
 			return
 
 		// Вторая ветка слияния

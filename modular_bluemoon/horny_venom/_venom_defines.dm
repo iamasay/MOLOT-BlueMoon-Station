@@ -29,6 +29,10 @@
         return FALSE; \
     }
 
+#define DEFAULT_LL_OVERLAY_ICON 'modular_bluemoon/horny_venom/icons/full_sprite_overlay.dmi'
+#define DEFAULT_LL_OVERLAY_ICON_STATE "overlay"
+
+
 #define BODY_OWNER "OWNER" //Если тело находится под контролем изначального владельца
 #define VENOM_USER "VENOM" //Если телом сейчас управляет игрок на латексном паразите
 #define IN 			"in"   //Применяется при трансфере BACKSEAT <--> BODY

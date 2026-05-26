@@ -182,8 +182,9 @@
 
 /mob/living/simple_animal/latexmob/Initialize(mapload, new_colour, new_is_adult)
 	. = ..()
-	src.mind = new
-	color = "#3f3f3f"
+	var/mob/living/simple_animal/latexmob/latexmob = src
+	latexmob.mind = new
+	latexmob.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE)
 
 /mob/living/simple_animal/latexmob/ferral
 	name = "Маленькое латексное существо"
