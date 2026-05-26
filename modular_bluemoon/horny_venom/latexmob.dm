@@ -161,7 +161,6 @@
 	name = "Сгусток латекса"
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "puddle"
-	color = "#0A0707"
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
 	reagents = new /datum/reagents
 

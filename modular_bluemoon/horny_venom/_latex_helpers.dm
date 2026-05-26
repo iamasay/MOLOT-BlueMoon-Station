@@ -129,12 +129,11 @@
 	if(!latex_icon)
 		return
 
-	var/image/overlay_image = image(latex_icon, src)
-	overlay_image.layer = layer + 0.1
+	var/mutable_appearance/MA = mutable_appearance(latex_icon)
+	MA.layer = layer + 0.1
 
-	add_overlay(overlay_image)
-
-	return latex_icon
+	add_overlay(MA)
+	return MA
 
 /proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
 	if (!target_host)
