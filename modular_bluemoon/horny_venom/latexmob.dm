@@ -184,6 +184,7 @@
 	var/mob/living/simple_animal/latexmob/latexmob = src
 	latexmob.mind = new
 	latexmob.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE)
+	AddElement(/datum/element/ventcrawling, given_tier = VENTCRAWLER_ALWAYS)
 
 /mob/living/simple_animal/latexmob/ferral
 	name = "Маленькое латексное существо"
@@ -195,7 +196,15 @@
 	speak = list() //Добавить сюда галлком хотя бы
 	var/current_stage //1,2,3
 	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
+	dextrous = TRUE
+	dextrous_hud_type = /datum/hud/dextrous/drone
+	pass_flags = PASSTABLE | PASSMOB
+	damage_coeff = list(BRUTE = 0.5, BURN = 1.3, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+	var/can_be_held = TRUE //mob holder element.
+	held_items = list(null, null)
 
+/mob/living/simple_animal/latexmob/ferral/Initialize(mapload, new_colour, new_is_adult)
+	. = ..()
 
 /mob/living/simple_animal/latexmob/venom
 	name = "split personality"

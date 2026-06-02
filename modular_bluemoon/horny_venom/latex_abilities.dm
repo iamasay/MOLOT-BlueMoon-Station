@@ -97,9 +97,14 @@
 	desc = "Принять форму животного"
 	button_icon_state = "ferral_form"
 	stage_required = 2
+	var/melee_damage = 2
 	var/list/forms_list = list(
-		new /mob/living/simple_animal/latexmob/ferral
+		/mob/living/simple_animal/latexmob/ferral
 	)
+
+/datum/action/cooldown/latexmob/ferral_form/update_stage(stage)
+	. = ..()
+	melee_damage = melee_damage * 1.25
 
 /datum/action/cooldown/latexmob/ferral_form/Activate()
 	. = ..()
