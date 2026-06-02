@@ -197,7 +197,7 @@
 	var/current_stage //1,2,3
 	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 	dextrous = TRUE
-	dextrous_hud_type = /datum/hud/dextrous/drone
+	dextrous_hud_type = /datum/hud/dextrous
 	pass_flags = PASSTABLE | PASSMOB
 	damage_coeff = list(BRUTE = 0.5, BURN = 1.3, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	var/can_be_held = TRUE //mob holder element.

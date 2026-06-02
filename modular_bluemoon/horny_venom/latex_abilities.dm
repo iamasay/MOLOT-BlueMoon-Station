@@ -98,9 +98,7 @@
 	button_icon_state = "ferral_form"
 	stage_required = 2
 	var/melee_damage = 2
-	var/list/forms_list = list(
-		/mob/living/simple_animal/latexmob/ferral
-	)
+	var/list/forms_list = list()
 
 /datum/action/cooldown/latexmob/ferral_form/update_stage(stage)
 	. = ..()
@@ -114,6 +112,8 @@
 	if(istype(owner, /mob/living/simple_animal) && !istype(owner, /mob/living/simple_animal/latexmob/ferral))
 		LL_mob_choice_with_radial_menu(owner, use_custom_list = forms_list)
 		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob/ferral, owner.loc)
+		if(forms_list.len == 0)
+			forms_list += new_body
 		new_body.health = old_body_health
 
 	else if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
