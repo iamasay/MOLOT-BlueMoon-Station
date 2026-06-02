@@ -102,9 +102,10 @@
 /proc/do_absorb_simple_mob(mob/living/simple_animal/absorbed_mob, mob/living/simple_animal/latexmob/absorber, datum/antagonist/living_latex/LL, datum/action/cooldown/latexmob/venomAction/my_action)
 	var/absorbed_mobs_modifier = max(1 - (my_action.absorbed_mobs_counter - 1) * 0.1, 0.1)
 	absorber.loc = absorbed_mob.loc
-
-	LL.evolve_points += (absorbed_mob.maxHealth * 0.001) * absorbed_mobs_modifier
+	var/additional_points = (absorbed_mob.maxHealth * 0.001) * absorbed_mobs_modifier
+	LL.evolve_points += additional_points
 	my_action.absorbed_mobs_counter ++
+	absorber.balloon_alert(absorber, "<span class='warning'>Вы получили [additional_points] очков. Итого: [LL.evolve_points] очков</span>")
 	qdel(absorbed_mob)
 
 /mob/proc/LL_build_latex_icon(icon_file, icon_state)
@@ -142,9 +143,14 @@
 	var/start_time = world.time
 	var/finished = TRUE
 	var/datum/progressbar/progbar
+	var/list/overlays_to_del = list(overlay)
 	progbar = new(owner_mob, delay, absorb_target)
 	while(world.time < start_time + delay)
 		stoplag(1)
+		if(get_dist(absorb_target, owner_mob) > 1)
+			owner_mob.balloon_alert(owner_mob, "Вы слишком далеко!")
+			finished = FALSE
+			break
 		if(QDELETED(overlay) || QDELETED(owner_mob) || QDELETED(absorb_target))
 			finished = FALSE
 			break
@@ -154,10 +160,10 @@
 		var/alpha = round(255 * elapsed / delay)
 		alpha = max(0, min(255, alpha))  // ограничиваем диапазон
 		overlay = absorb_target.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, alpha)
-
-	if(finished && overlay)
-		absorb_target.cut_overlay(overlay)
-		progbar.end_progress()
+		overlays_to_del += overlay
+	for(var/target in overlays_to_del)
+		absorb_target.cut_overlay(target) //их там реально много собирается
+	progbar.end_progress()
 	return finished
 
 /proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
@@ -189,7 +195,8 @@
 	return TRUE
 
 /proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
-	new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
+	var/obj/effect/temp_visual/latexmob/effect = new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
+	effect.dir = host_body.dir
 	var/mob/living/simple_animal/latexmob = new /mob/living/simple_animal/latexmob(target_turf)
 	var/obj/item/organ/latexOrgan/OrganToRemove = get_latexOrgan_if_captured_by_LL(host_body)
 	if(OrganToRemove)
@@ -200,7 +207,8 @@
 	LL.grant_abilities(latexmob)
 
 /proc/enter_in_host(datum/antagonist/living_latex/my_living_latex, mob/living/carbon/owner, delay, mob/living/carbon/human/target_host, datum/action/cooldown/latexmob/latexmob_action_ref)
-	new /obj/effect/temp_visual/latexmob/venom_in (target_host.loc)
+	var/obj/effect/temp_visual/latexmob/effect =  new /obj/effect/temp_visual/latexmob/venom_in (target_host.loc)
+	effect.dir = target_host.dir
 	if(do_after(owner, delay, owner))
 		my_living_latex.merging(target_host) //выполняет слияние хоста с латексным и даёт ссылку на моба внутри хоста.
 		return

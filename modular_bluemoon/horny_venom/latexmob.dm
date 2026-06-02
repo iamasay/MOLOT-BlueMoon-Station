@@ -84,9 +84,9 @@
 			to_chat(usr, "<span class='warning'>У вас уже есть эта способность!</span>")
 			return
 
-	if (ability_to_grant.stage_required <= stage && evolve_points == 1)
+	if (ability_to_grant.stage_required <= stage && evolve_points >= 1)
 		available_abilities += ability_to_grant
-		evolve_points = 0
+		evolve_points -= 1
 		grant_abilities(usr)
 
 		if (located_ability)
