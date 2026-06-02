@@ -65,18 +65,16 @@
 	if(protect_from_spam(owner))
 		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
-
 	if(islatexmob(owner) && !isbackseatmob(owner))
 		var/mob/living/carbon/target_host = pick_merge_target(owner, pick_only_simplemob)
 
 		// Первая ветка поглощения простого моба
 		if(isanimal(target_host))
 			if(target_host && can_merge_target(owner, target_host, pick_only_simplemob, can_absorb_alive))
-				var/mutable_appearance/overlay = target_host.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE)
-				owner.loc = target_host.loc
-				if(do_after(owner, 5 SECONDS, owner))
+				var/absorb_delay = 5 SECONDS
+				var/finished = owner.LL_apply_animated_latex_overlay_with_progressbar(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, absorb_delay, target_host)
+				if(finished)
 					do_absorb_simple_mob(target_host, owner, my_living_latex, src)
-				target_host.cut_overlay(overlay)
 			return
 
 		// Вторая ветка слияния
