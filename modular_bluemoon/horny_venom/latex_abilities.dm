@@ -132,11 +132,31 @@
 	desc = "Позволяет вам понять состояние своего носителя и реагенты в его крови. С более высокой стадией вашего развития этот сканер станет лучше."
 	button_icon_state = "medscan"
 	stage_required = 1
+	var/is_simple = TRUE
+	var/list/modes = list("chem", "heal", "wound")
+
+/datum/action/cooldown/latexmob/medscan/update_stage(stage)
+	. = ..()
+	if(stage == 2)
+		is_simple = FALSE
+	if(stage == 3)
+		var/datum/atom_hud/H = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
+		H.add_hud_to(owner)
 
 /datum/action/cooldown/latexmob/medscan/Activate()
 	. = ..()
 	var/mob/living/carbon/host = owner.loc
-	healthscan(owner, istype(host) ? host : owner)
+	if(is_simple)
+		healthscan(owner, istype(host) ? host : owner)
+	else
+		var/mode = tgui_input_list(owner, "Выбор режима", "Режим анализа", modes, default = "heal")
+		switch(mode)
+			if("heal")
+				healthscan(owner, istype(host) ? host : owner)
+			if("chem")
+				chemscan(owner, istype(host) ? host : owner)
+			if("wound")
+				woundscan(owner, istype(host) ? host : owner)
 
 /datum/action/cooldown/latexmob/heal
 	name = "Лечение"
