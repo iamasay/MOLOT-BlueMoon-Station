@@ -66,7 +66,7 @@
 		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
 	if(islatexmob(owner) && !isbackseatmob(owner))
-		var/mob/living/carbon/target_host = pick_merge_target(owner, pick_only_simplemob)
+		var/mob/living/carbon/target_host = LL_mob_choice_with_radial_menu(owner, pick_only_simplemob)
 
 		// Первая ветка поглощения простого моба
 		if(isanimal(target_host))
@@ -97,15 +97,23 @@
 	desc = "Принять форму животного"
 	button_icon_state = "ferral_form"
 	stage_required = 2
+	var/list/forms_list = list(
+		new /mob/living/simple_animal/latexmob/ferral
+	)
 
 /datum/action/cooldown/latexmob/ferral_form/Activate()
 	. = ..()
+	var/mob/living/owner_mob = owner
+	var/old_body_health = owner_mob.health
 	var/mob/living/simple_animal/latexmob/new_body
 	if(istype(owner, /mob/living/simple_animal) && !istype(owner, /mob/living/simple_animal/latexmob/ferral))
+		LL_mob_choice_with_radial_menu(owner, use_custom_list = forms_list)
 		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob/ferral, owner.loc)
+		new_body.health = old_body_health
 
 	else if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
 		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob, owner.loc)
+		new_body.health = old_body_health
 
 	else
 		return DEFAULT_ABILITY_ERROR_MESSAGE(owner)

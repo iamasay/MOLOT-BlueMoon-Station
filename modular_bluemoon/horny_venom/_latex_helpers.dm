@@ -81,11 +81,11 @@
 	qdel(old_body)
 	return(new_body)
 
-/proc/pick_merge_target(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob)
+/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob, var/list/use_custom_list)
 	var/list/choices = list()
 	var/list/choices_img = list()
-
-	for(var/mob/living/C in oview(1, owner))
+	var/list/targets = use_custom_list ? use_custom_list : oview(1, owner)
+	for(var/mob/living/C in targets)
 		if(ishuman(C) && pick_only_simplemob)
 			continue
 		choices += C
