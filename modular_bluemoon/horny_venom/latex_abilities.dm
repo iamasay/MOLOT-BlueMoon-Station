@@ -162,11 +162,21 @@
 	name = "Лечение"
 	desc = "Впрыскивает в кровь носителя реагенты на выбор, для лечения или иных нужд. Чем выше стадия - тем больше выбора реагентов."
 	button_icon_state = "heal"
-	stage_required = 2
+	stage_required = 1
+	cooldown_time = 30 SECONDS
 	var/datum/inject_menu/inject_menu
+
+/datum/action/cooldown/latexmob/heal/update_stage(stage)
+	. = ..()
+	if(stage == 2)
+		my_living_latex.avaible_reagents += my_living_latex.second_stage_reagents
+	if(stage == 3)
+		my_living_latex.avaible_reagents += my_living_latex.last_stage_reagents
 
 /datum/action/cooldown/latexmob/heal/Grant(var/mob/user)
 	. = ..()
+	if(owner.mind)
+		my_living_latex = check_LL_antagDatum(owner)
 	if(!my_living_latex)
 		CRASH("inject menu cant locate living latex datum")
 	inject_menu = new /datum/inject_menu(owner, my_living_latex)

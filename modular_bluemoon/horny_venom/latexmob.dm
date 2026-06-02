@@ -24,9 +24,30 @@
 		new /datum/action/cooldown/latexmob/takeControl
 	)
 	var/list/avaible_reagents = list(
-		/datum/reagent/medicine/adminordrazine,
-		/datum/reagent/medicine/atropine
+		/datum/reagent/medicine/epinephrine,
+		/datum/reagent/medicine/antitoxin,
+		/datum/reagent/medicine/tricordrazine,
+		/datum/reagent/drug/aphrodisiac,
+		/datum/reagent/drug/anaphrodisiac,
 	)
+
+	var/list/second_stage_reagents = list(
+		/datum/reagent/medicine/salbutamol,
+		/datum/reagent/medicine/kelotane,
+		/datum/reagent/medicine/neurine,
+		/datum/reagent/medicine/oculine,
+		/datum/reagent/drug/space_drugs,
+		/datum/reagent/medicine/morphine,
+	)
+	var/list/last_stage_reagents = list(
+		/datum/reagent/medicine/antihol,
+		/datum/reagent/medicine/strange_reagent,
+		/datum/reagent/medicine/pen_acid/pen_jelly,
+		/datum/reagent/medicine/potass_iodide,
+		/datum/reagent/drug/aphrodisiacplus,
+		/datum/reagent/drug/anaphrodisiacplus,
+	)
+
 	var/list/all_abilities = list(
 		new /datum/action/cooldown/latexmob/takeControl,
 		new /datum/action/cooldown/latexmob/venomAction,
