@@ -163,6 +163,8 @@
 	icon_state = "puddle"
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
 	reagents = new /datum/reagents
+	melee_damage_lower = 2
+	melee_damage_upper = 5
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()
@@ -194,14 +196,15 @@
 	health = 150
 	maxHealth = 150
 	speak = list() //Добавить сюда галлком хотя бы
-	var/current_stage //1,2,3
-	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 	dextrous = TRUE
-	dextrous_hud_type = /datum/hud/dextrous
+	dextrous_hud_type = /datum/hud/dextrous/latexmob
+	possible_a_intents = list(INTENT_HELP, INTENT_HARM)
 	pass_flags = PASSTABLE | PASSMOB
 	damage_coeff = list(BRUTE = 0.5, BURN = 1.3, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	var/can_be_held = TRUE //mob holder element.
 	held_items = list(null, null)
+	var/current_stage //1,2,3
+	var/can_be_held = TRUE //mob holder element.
+	var/need_to_next_stade //200u, 500u, 1000u of semen/femcum. Yeeah )O)
 
 /mob/living/simple_animal/latexmob/ferral/Initialize(mapload, new_colour, new_is_adult)
 	. = ..()

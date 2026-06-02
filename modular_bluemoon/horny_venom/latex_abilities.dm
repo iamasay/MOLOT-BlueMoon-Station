@@ -97,7 +97,7 @@
 	desc = "Принять форму животного"
 	button_icon_state = "ferral_form"
 	stage_required = 2
-	var/melee_damage = 2
+	var/melee_damage = 5
 	var/list/forms_list = list()
 
 /datum/action/cooldown/latexmob/ferral_form/update_stage(stage)
@@ -115,6 +115,8 @@
 		if(forms_list.len == 0)
 			forms_list += new_body
 		new_body.health = old_body_health
+		new_body.melee_damage_lower = melee_damage - 2
+		new_body.melee_damage_upper = melee_damage
 
 	else if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
 		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob, owner.loc)
