@@ -16,6 +16,7 @@
 	var/stage = 0
 	var/evolve_points = 0
 	var/mergingDelay = DEBUG_MERGING_DELAY
+	var/hide_latexorgan_on_healscan = FALSE
 	var/datum/species/old_host_spec
 	var/datum/species/jelly/roundstartslime/living_latex/self_species
 	var/datum/evolution_store
@@ -139,7 +140,7 @@
 
 /datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
 	var/mob/living/old_body = usr
-	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan
+	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan(my_antag_datum = src)
 	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
 	O.Insert(T)
 	O.ObserverBackseat = new /mob/living/simple_animal/latexmob/venom(T)
@@ -186,6 +187,7 @@
 	reagents = new /datum/reagents
 	melee_damage_lower = 2
 	melee_damage_upper = 5
+	pass_flags = PASSTABLE | PASSMOB
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()
@@ -201,6 +203,15 @@
 	zone = BODY_ZONE_HEAD
 	organ_flags = ORGAN_NO_SPOIL
 	var/mob/living/simple_animal/latexmob/venom/ObserverBackseat
+	var/datum/antagonist/living_latex/antag_datum
+	var/is_hiding = FALSE
+
+/obj/item/organ/latexOrgan/New(loc, ..., var/datum/antagonist/my_antag_datum)
+	. = ..()
+	antag_datum = my_antag_datum
+
+/obj/item/organ/latexOrgan/proc/update_hiding_state()
+	is_hiding = antag_datum.hide_latexorgan_on_healscan
 
 /mob/living/simple_animal/latexmob/Initialize(mapload, new_colour, new_is_adult)
 	. = ..()
@@ -220,7 +231,6 @@
 	dextrous = TRUE
 	dextrous_hud_type = /datum/hud/dextrous/latexmob
 	possible_a_intents = list(INTENT_HELP, INTENT_HARM)
-	pass_flags = PASSTABLE | PASSMOB
 	damage_coeff = list(BRUTE = 0.5, BURN = 1.3, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	held_items = list(null, null)
 	var/current_stage //1,2,3

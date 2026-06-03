@@ -152,7 +152,7 @@
 		var/mode = tgui_input_list(owner, "Выбор режима", "Режим анализа", modes, default = "heal")
 		switch(mode)
 			if("heal")
-				healthscan(owner, istype(host) ? host : owner)
+				healthscan(owner, istype(host) ? host : owner, advanced = TRUE)
 			if("chem")
 				chemscan(owner, istype(host) ? host : owner)
 			if("wound")
@@ -245,7 +245,24 @@
 
 /datum/action/cooldown/latexmob/stasis/Activate()
 	. = ..()
-	return
+	if(owner.stat != CONSCIOUS && isanimal(owner))
+		return
+	if (owner.layer != ABOVE_NORMAL_TURF_LAYER)
+		owner.layer = ABOVE_NORMAL_TURF_LAYER
+		if(isbackseatmob(owner))
+			my_living_latex.hide_latexorgan_on_healscan = TRUE
+			owner.balloon_alert(owner, "Ваше присутствие в теле скрыто от сканеров!")
+			return
+		else
+			owner.visible_message("<span class='name'>[owner] прижимается к земле!</span>")
+			owner.balloon_alert(owner, "Вы начинаете прятаться!")
+	else
+		owner.layer = MOB_LAYER
+		my_living_latex.hide_latexorgan_on_healscan = FALSE
+		if(!isbackseatmob(owner))
+			owner.visible_message("[owner] медленно поднимается с земли...")
+		owner.balloon_alert(owner, "Вы перестаёте прятаться!")
+	return TRUE
 
 /datum/action/cooldown/latexmob/leak_out
 	name = "Проползти под шлюзом"
