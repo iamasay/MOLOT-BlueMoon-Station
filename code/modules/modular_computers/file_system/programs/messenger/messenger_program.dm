@@ -173,6 +173,9 @@
 
 /// Set the ringtone if possible. Also handles encoding.
 /datum/computer_file/program/messenger/proc/set_ringtone(new_ringtone, mob/user)
+	// html_encode is required: a custom ringtone reaches an UNESCAPED maptext sink via
+	// computer.ring() -> balloon_alert(). To avoid double-encoding on re-edit, the
+	// PDA_ringSet dialog html_decode()s this value back when pre-filling its default.
 	new_ringtone = trim(html_encode(new_ringtone), MESSENGER_RINGTONE_MAX_LENGTH)
 	if(!new_ringtone)
 		return FALSE
@@ -190,8 +193,6 @@
 	return TRUE
 
 /datum/computer_file/program/messenger/ui_state(mob/user)
-	if(issilicon(user))
-		return GLOB.deep_inventory_state
 	return GLOB.default_state
 
 /datum/computer_file/program/messenger/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -201,7 +202,7 @@
 	switch(action)
 		if("PDA_ringSet")
 			var/mob/living/user = usr
-			var/new_ringtone = tgui_input_text(user, "Enter a new ringtone", "Ringtone", ringtone, max_length = MAX_MESSAGE_LEN, encode = FALSE)
+			var/new_ringtone = tgui_input_text(user, "Enter a new ringtone", "Ringtone", html_decode(ringtone), max_length = MAX_MESSAGE_LEN, encode = FALSE)
 			if(!new_ringtone)
 				return FALSE
 			return set_ringtone(new_ringtone, user)
@@ -369,8 +370,8 @@
 			return TRUE
 
 		if("PDA_setAdminPhoto")
-			if(!usr.client?.holder)
-				to_chat(usr, span_warning("Only administrators can use this feature."))
+			if(!usr.client?.holder && !is_donator_group(usr.ckey, DONATOR_GROUP_TIER_2))
+				to_chat(usr, span_warning("Only administrators and sponsors can use this feature."))
 				return FALSE
 			var/url = params["url"]
 			if(url && istext(url))
@@ -393,7 +394,7 @@
 	var/list/static_data = list()
 	static_data["can_spam"] = spam_mode
 	static_data["is_silicon"] = issilicon(user)
-	static_data["remote_silicon"] = (isAI(user) || iscyborg(user)) && !istype(computer, /obj/item/modular_computer/pda/silicon)
+	static_data["remote_silicon"] = (isAI(user) || iscyborg(user)) && !computer.get_ntnet_status()
 	static_data["alert_able"] = alert_able
 	return static_data
 
@@ -446,7 +447,7 @@
 		data["selected_photo_path"] = null
 
 	data["admin_photo_url"] = admin_photo_url
-	data["is_admin"] = !!user.client?.holder
+	data["can_set_url_photo"] = !!user.client?.holder || is_donator_group(user.ckey, DONATOR_GROUP_TIER_1)
 
 	var/obj/item/disk = computer.inserted_disk
 	if(istype(disk, /obj/item/cartridge/virus))
@@ -608,6 +609,8 @@
 
 			if(!istype(target_chat))
 				target_chat = create_chat(REF(target))
+			if(!target_chat)
+				continue
 
 		else
 			continue
@@ -621,6 +624,8 @@
 	// Log in our chat
 	var/datum/pda_message/message_datum = new(message, TRUE, STATION_TIME_TIMESTAMP(PDA_MESSAGE_TIMESTAMP_FORMAT, world.time), photo_asset, everyone)
 	for(var/datum/pda_chat/target_chat as anything in target_chats)
+		if(!target_chat)
+			continue
 		target_chat.add_message(message_datum, show_in_recents = !everyone)
 		target_chat.unread_messages = 0
 
@@ -825,7 +830,7 @@
 
 	// Ensure computer is on
 	if(!computer.enabled)
-		computer.turn_on(usr)
+		computer.turn_on(usr, FALSE)
 		if(!computer.enabled)
 			return
 

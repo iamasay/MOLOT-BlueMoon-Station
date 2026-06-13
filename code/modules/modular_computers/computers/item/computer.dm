@@ -88,6 +88,9 @@
 	var/obj/item/paicard/inserted_pai
 	/// Whether this device has extended signal range
 	var/long_ranged = FALSE
+	/// Allow people with chunky fingers to use?
+	var/allow_chunky = FALSE
+
 	/// Amount of paper stored in the device
 	var/stored_paper = 10
 	/// Remaining honk virus ticks
@@ -284,7 +287,7 @@
 	else
 		turn_on(user)
 
-/obj/item/modular_computer/proc/turn_on(mob/user)
+/obj/item/modular_computer/proc/turn_on(mob/user, open_ui = TRUE)
 	var/issynth = issilicon(user) // Robots and AIs get different activation messages.
 	if(obj_integrity <= integrity_failure * max_integrity)
 		if(issynth)
@@ -307,7 +310,8 @@
 			soundloop.start()
 		enabled = 1
 		update_appearance()
-		ui_interact(user)
+		if(open_ui)
+			ui_interact(user)
 		return TRUE
 	else // Unpowered
 		if(issynth)

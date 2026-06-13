@@ -37,6 +37,7 @@
 	comp_light_color = "#FFCC66"
 	looping_sound = FALSE
 	long_ranged = TRUE
+	allow_chunky = TRUE
 
 	///The item currently inserted into the PDA, starts with a pen.
 	var/obj/item/inserted_item = /obj/item/pen
@@ -513,7 +514,7 @@
 	if(new_alert)
 		new_alert = FALSE
 		update_appearance()
-	if(user.client)
+	if(user.client && !equipped)
 		update_pda_prefs(user.client)
 	. = ..()
 	if(HAS_TRAIT(src, TRAIT_PDA_MESSAGE_MENU_RIGGED))
@@ -950,7 +951,7 @@
 
 /obj/item/modular_computer/pda/silicon/turn_on(mob/user, open_ui = FALSE)
 	if(silicon_owner?.stat != DEAD)
-		return ..()
+		return ..(user, open_ui)
 	return FALSE
 
 // pAI PDA
