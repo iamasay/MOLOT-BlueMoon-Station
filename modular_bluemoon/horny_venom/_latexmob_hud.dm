@@ -1,5 +1,5 @@
 /datum/hud/dextrous/latexmob
-	// ui_style = 'icons/mob/screen_alien.dmi' надо будет своё крутое с
+	ui_style = 'modular_bluemoon/horny_venom/icons/latex_hud.dmi'
 
 /datum/hud/dextrous/latexmob/New(mob/owner)
 	..()

@@ -24,6 +24,7 @@
 		new /datum/action/cooldown/latexmob/venomAction,
 		new /datum/action/cooldown/latexmob/takeControl
 	)
+
 	var/list/avaible_reagents = list(
 		/datum/reagent/medicine/epinephrine,
 		/datum/reagent/medicine/antitoxin,
@@ -58,6 +59,28 @@
 		new /datum/action/cooldown/latexmob/stasis,
 		new /datum/action/cooldown/latexmob/leak_out,
 		new /datum/action/cooldown/latexmob/human_form
+	)
+
+	var/list/base_mimicry_types = list(
+		/obj/item,
+		/obj/item/book,
+		/obj/item/clothing,
+		/obj/item/reagent_containers/food,
+		)
+
+	var/list/advanced_mimicry_types = list(
+		/obj/structure/bed,
+		/obj/structure/chair,
+		/obj/structure/closet,
+		/obj/machinery/sleeper,
+		/obj/structure/closet/crate,
+	)
+
+	var/list/superior_special_mimicry_types = list(
+		/obj/machinery/vending,
+		/obj/machinery/computer,
+		/obj/machinery/computer/arcade,
+		/obj/machinery/washing_machine,
 	)
 
 /datum/antagonist/living_latex/process()
@@ -188,6 +211,19 @@
 	melee_damage_lower = 2
 	melee_damage_upper = 5
 	pass_flags = PASSTABLE | PASSMOB
+	var/mimicry_in_use = FALSE
+
+/mob/living/simple_animal/latexmob/CtrlShiftClickOn(atom/movable/A)
+	. = ..()
+	var/object_valid_for_mimicry
+	var/datum/antagonist/living_latex/antag_datum = check_LL_antagDatum(src)
+	var/datum/action/cooldown/latexmob/mimicry/mimic_ability = locate(/datum/action/cooldown/latexmob/mimicry) in antag_datum.available_abilities
+	if(mimic_ability)
+		var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
+		object_valid_for_mimicry = check_type_for_mimicry(A, avaible_types)
+	if(object_valid_for_mimicry)
+		mimic_ability.copied_appearance = A.appearance
+		mimic_ability.copied_type = A.type
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()

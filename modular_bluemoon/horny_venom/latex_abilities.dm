@@ -292,7 +292,37 @@
 	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
 	button_icon_state = "human_form"
 	stage_required = 3
+	var/list/human_visuals_storage = list() //Игрок должен иметь возможность удобного выбора внешки и сохранять её.
 
 /datum/action/cooldown/latexmob/human_form/Activate()
 	. = ..()
-	return
+
+/datum/action/cooldown/latexmob/mimicry
+	name = "Мимикрия"
+	desc = "Возможность мимикрировать под элементы окружения, или одежду для скрытности."
+	button_icon_state = "no_icon"
+	stage_required = 2
+	var/avaible_types_for_mimicry = list()
+	var/tmp/copied_appearance
+	var/copied_type
+
+/datum/action/cooldown/latexmob/mimicry/update_stage(stage)
+	. = ..()
+	if(stage == 3)
+		avaible_types_for_mimicry += my_living_latex.advanced_mimicry_types
+	if(stage == 4)
+		avaible_types_for_mimicry += my_living_latex.superior_special_mimicry_types
+
+/datum/action/cooldown/latexmob/mimicry/Activate()
+	. = ..()
+	if(!avaible_types_for_mimicry)
+		avaible_types_for_mimicry = my_living_latex.base_mimicry_types
+		owner.balloon_alert(owner, "Способность успешно настроена")
+	if(islatexmob(owner) && copied_appearance)
+		var/mob/living/simple_animal/latexmob/my_mob = owner
+		var/mimicry_in_use = my_mob?.mimicry_in_use
+		if(!mimicry_in_use)
+			my_mob.do_mimicry(copied_appearance, copied_type, list_of_shapes)
+		else
+			my_mob.go_back()
+		mimicry_in_use = !mimicry_in_use
