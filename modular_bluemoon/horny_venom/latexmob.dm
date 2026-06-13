@@ -216,7 +216,7 @@
 /mob/living/simple_animal/latexmob/CtrlShiftClickOn(atom/movable/A)
 	. = ..()
 	var/object_valid_for_mimicry
-	var/datum/antagonist/living_latex/antag_datum = check_LL_antagDatum(src)
+	var/datum/antagonist/living_latex/antag_datum = src.mind ? locate(/datum/antagonist/living_latex) in src.mind.antag_datums : FALSE
 	var/datum/action/cooldown/latexmob/mimicry/mimic_ability = locate(/datum/action/cooldown/latexmob/mimicry) in antag_datum.available_abilities
 	if(mimic_ability)
 		var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
@@ -286,7 +286,7 @@
 	..()
 	body = src.loc
 	LOGIN_NOTICE_MESSAGE(src)
-	var/datum/antagonist/living_latex/antag_datum = check_LL_antagDatum(src)
+	var/datum/antagonist/living_latex/antag_datum = src.mind ? locate(/datum/antagonist/living_latex) in src.mind.antag_datums : FALSE
 	if(antag_datum && !antag_datum.alert_has_been_viewed) //Показывается только один раз и только носителю антаг датума.
 		LOGIN_WARNING_MESSAGE(src)
 		antag_datum.alert_has_been_viewed = TRUE

@@ -1,20 +1,20 @@
 /**
  * Проверяет, захвачена ли цель. Если да, то возвращает latexOrgan
  */
-/proc/get_latexOrgan_if_captured_by_LL(mob/living/carbon/human/owner)
+/datum/action/cooldown/latexmob/proc/get_latexOrgan_if_captured_by_LL(mob/living/carbon/human/owner)
 	var/obj/item/organ/latexOrgan/organ = locate(/obj/item/organ/latexOrgan) in owner.internal_organs
 	return organ
 /**
  * Поиск антаг датума Living Latex среди всех остальных. Возвращает сам датум, если его нет, то False
  * На вход подавать того, в ком искать.
  */
-/proc/check_LL_antagDatum(mob/living/owner)
+/datum/action/cooldown/latexmob/proc/check_LL_antagDatum(mob/living/owner)
 	var/datum/antagonist/living_latex/antag_datum = owner.mind ? locate(/datum/antagonist/living_latex) in owner.mind.antag_datums : FALSE
 	return antag_datum
 /**
  * Проверка на наличие прогрессбара не даёт спамить длительными процессами. Возвращает TRUE если прогрессбар есть.
  */
-/proc/protect_from_spam(mob/living/owner)
+/datum/action/cooldown/latexmob/proc/protect_from_spam(mob/living/owner)
 	if(owner.progressbars)
 		SLOW_DOWN_ANTISPAM_MESSAGE(owner)
 		return TRUE
@@ -24,13 +24,14 @@
  * Зависит от переменной внутри датума living_latex под названием current_controller
  * Если она пуста, или содержит BODY_OWNER, то proc вернёт FALSE
  */
-/proc/is_venom_controlling(datum/antagonist/living_latex/LL)
+
+/datum/action/cooldown/latexmob/proc/is_venom_controlling(datum/antagonist/living_latex/LL)
 	return LL?.current_controller == VENOM_USER
 
 /**
  * Меняет расу хоста при смене контроля. Определяет само кого и куда.
  */
-/proc/swap_LL_species(datum/antagonist/living_latex/LL, mob/living/LL_mob)
+/datum/action/cooldown/latexmob/proc/swap_LL_species(datum/antagonist/living_latex/LL, mob/living/LL_mob)
 	if(iscarbon(LL_mob.loc)) //Игрок LL на втором плане, захватывает тельце хоста
 		var/mob/living/carbon/body = LL_mob.loc
 		LL.old_host_spec = body.dna.species
@@ -45,7 +46,7 @@
  * Определение идёт на уровне сравнения LL_body с аргументом host_body. Если они равны, то становится понятно,
  * что игрок LL находится в теле host-а.
  */
-/proc/easy_latexmob_minds_swap(datum/mind/LL_mind, datum/mind/host_mind, mob/living/host_body, datum/antagonist/living_latex/LL, mob/living/simple_animal/latexmob/venom/backseat)
+/datum/action/cooldown/latexmob/proc/easy_latexmob_minds_swap(datum/mind/LL_mind, datum/mind/host_mind, mob/living/host_body, datum/antagonist/living_latex/LL, mob/living/simple_animal/latexmob/venom/backseat)
 	var/mob/living/LL_body = LL_mind.current
 	if(LL_body == host_body)
 		var/datum/mind/captured_host_mind = backseat.mind //когда LL_body == bost_body то host_mind == LL_mind и надо найти целевой.
@@ -67,21 +68,21 @@
  * Сработает второй раз, то вернёт обратно.
  * Если у цели нет mind-а(мартышки и прочие неразумные), то без лишних проверок позволяет захватить контроль
  */
-/proc/swap_minds(datum/antagonist/living_latex/LL, mob/living/ability_owner, mob/living/simple_animal/latexmob/venom/backseat)
+/datum/action/cooldown/latexmob/proc/swap_minds(datum/antagonist/living_latex/LL, mob/living/ability_owner, mob/living/simple_animal/latexmob/venom/backseat)
 	if(!ability_owner || !backseat || !LL)
 		return FALSE
 	var/mob/living/body = is_venom_controlling(LL) ? ability_owner : ability_owner.loc //Кто контролирует тело? Латекс? Нет? Ну тогда руль явно у body owner
 	easy_latexmob_minds_swap(ability_owner.mind, body.mind, body, LL, backseat)
 	return TRUE
 
-/proc/swap_LL_body_to_new_form(mob/living/old_body, mob_typepath, turf/location)
+/datum/action/cooldown/latexmob/proc/swap_LL_body_to_new_form(mob/living/old_body, mob_typepath, turf/location)
 	var/mob/living/new_body = new mob_typepath(location)
 	old_body.mind.transfer_to(new_body)
 	new_body.name = old_body.name
 	qdel(old_body)
 	return(new_body)
 
-/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob, var/list/use_custom_list)
+/datum/action/cooldown/latexmob/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob, var/list/use_custom_list)
 	var/list/choices = list()
 	var/list/choices_img = list()
 	var/list/targets = use_custom_list ? use_custom_list : oview(1, owner)
@@ -99,7 +100,7 @@
 
 	return choices[choices_img.Find(choice)]
 
-/proc/do_absorb_simple_mob(mob/living/simple_animal/absorbed_mob, mob/living/simple_animal/latexmob/absorber, datum/antagonist/living_latex/LL, datum/action/cooldown/latexmob/venomAction/my_action)
+/datum/action/cooldown/latexmob/proc/do_absorb_simple_mob(mob/living/simple_animal/absorbed_mob, mob/living/simple_animal/latexmob/absorber, datum/antagonist/living_latex/LL, datum/action/cooldown/latexmob/venomAction/my_action)
 	var/absorbed_mobs_modifier = max(1 - (my_action.absorbed_mobs_counter - 1) * 0.1, 0.1)
 	absorber.loc = absorbed_mob.loc
 	var/additional_points = (absorbed_mob.maxHealth * 0.001) * absorbed_mobs_modifier
@@ -166,7 +167,7 @@
 	progbar.end_progress()
 	return finished
 
-/proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
+/datum/action/cooldown/latexmob/proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
 	if (!target_host)
 		return FALSE
 	if (target_host && (can_absorb_alive || target_host.stat == DEAD))
@@ -175,7 +176,7 @@
 		MOB_IS_ALIVE_ERROR(owner)
 		return FALSE
 
-/proc/can_merge_target(mob/living/user, mob/living/carbon/target_host, pick_only_simplemob, can_absorb_alive)
+/datum/action/cooldown/latexmob/proc/can_merge_target(mob/living/user, mob/living/carbon/target_host, pick_only_simplemob, can_absorb_alive)
 	if(pick_only_simplemob && isanimal(target_host) && can_LL_absorb_alive(user, can_absorb_alive, target_host))
 		return TRUE
 	check_one_meter_distance_to_mob(target_host, user)
@@ -186,7 +187,7 @@
 	else
 		return FALSE
 
-/proc/handle_merging(mob/living/target)
+/datum/action/cooldown/latexmob/proc/handle_merging(mob/living/target)
 	if(checkplayerssd(target))
 		HANDLE_MERGING_TO_HOST_MESSAGE(target)
 	target.Stun(4 SECONDS)
@@ -194,7 +195,7 @@
 	target.stuttering += rand(5, 10)
 	return TRUE
 
-/proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
+/datum/action/cooldown/latexmob/proc/exit_from_host(turf/target_turf, datum/mind/ability_owner_mind, mob/living/carbon/human/host_body, delay, datum/antagonist/living_latex/LL)
 	var/obj/effect/temp_visual/latexmob/effect = new /obj/effect/temp_visual/latexmob/venom_out(target_turf)
 	effect.dir = host_body.dir
 	var/mob/living/simple_animal/latexmob = new /mob/living/simple_animal/latexmob(target_turf)
@@ -206,7 +207,7 @@
 	ability_owner_mind.transfer_to(latexmob)
 	LL.grant_abilities(latexmob)
 
-/proc/enter_in_host(datum/antagonist/living_latex/my_living_latex, mob/living/carbon/owner, delay, mob/living/carbon/human/target_host, datum/action/cooldown/latexmob/latexmob_action_ref)
+/datum/action/cooldown/latexmob/proc/enter_in_host(datum/antagonist/living_latex/my_living_latex, mob/living/carbon/owner, delay, mob/living/carbon/human/target_host, datum/action/cooldown/latexmob/latexmob_action_ref)
 	var/obj/effect/temp_visual/latexmob/effect =  new /obj/effect/temp_visual/latexmob/venom_in (target_host.loc)
 	effect.dir = target_host.dir
 	if(do_after(owner, delay, owner))
