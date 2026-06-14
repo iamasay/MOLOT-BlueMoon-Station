@@ -4,6 +4,7 @@
 	icon_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	background_icon_state = "background"
+	button_icon_state = "no_icon"
 	var/stage_required
 	var/delay
 	var/datum/antagonist/living_latex/my_living_latex
@@ -299,12 +300,30 @@
 
 /datum/action/cooldown/latexmob/mimicry
 	name = "Мимикрия"
-	desc = "Возможность мимикрировать под элементы окружения, или одежду для скрытности."
-	button_icon_state = "no_icon"
+	desc = "Возможность мимикрировать под элементы окружения, или одежду для маскировки."
 	stage_required = 2
+	var/obj/copied_object
 	var/avaible_types_for_mimicry = list()
-	var/tmp/copied_appearance
-	var/copied_type
+	var/list/components_list = list(
+		/datum/component/latex_mimicry/chair,
+		/datum/component/latex_mimicry/book,
+		/datum/component/latex_mimicry/clothing,
+		/datum/component/latex_mimicry/food_container,
+		/datum/component/latex_mimicry/closet,
+		/datum/component/latex_mimicry/sleeper,
+		/datum/component/latex_mimicry/crate,
+		/datum/component/latex_mimicry/vending_machine,
+		/datum/component/latex_mimicry/computer,
+		/datum/component/latex_mimicry/washing_machine,
+	)
+
+/datum/action/cooldown/latexmob/mimicry/proc/choose_component_datum()
+	for(var/datum/component/latex_mimicry/mimicry_datum in components_list)
+		if(copied_object.parent_type == mimicry_datum.valid_object_type)
+			return mimicry_datum
+
+	owner.balloon_alert(owner, "Слишком сложный объект!")
+	return FALSE
 
 /datum/action/cooldown/latexmob/mimicry/update_stage(stage)
 	. = ..()
@@ -315,14 +334,18 @@
 
 /datum/action/cooldown/latexmob/mimicry/Activate()
 	. = ..()
+
+	if(!copied_object)
+		owner.balloon_alert(owner, "Нажмите Ctrl+Click по объекту!")
+		return
 	if(!avaible_types_for_mimicry)
 		avaible_types_for_mimicry = my_living_latex.base_mimicry_types
-		owner.balloon_alert(owner, "Способность успешно настроена")
-	if(islatexmob(owner) && copied_appearance)
+	if(islatexmob(owner))
 		var/mob/living/simple_animal/latexmob/my_mob = owner
 		var/mimicry_in_use = my_mob?.mimicry_in_use
+		var/datum/component/latex_mimicry/choosed_mimicry_datum = choose_component_datum(copied_object.type)
 		if(!mimicry_in_use)
-			my_mob.do_mimicry(copied_appearance, copied_type, list_of_shapes)
+			my_mob.do_mimicry(copied_object.appearance, copied_object.type, list_of_shapes, choosed_mimicry_datum)
 		else
 			my_mob.go_back()
 		mimicry_in_use = !mimicry_in_use

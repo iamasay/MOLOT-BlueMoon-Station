@@ -58,7 +58,8 @@
 		new /datum/action/cooldown/latexmob/heal,
 		new /datum/action/cooldown/latexmob/stasis,
 		new /datum/action/cooldown/latexmob/leak_out,
-		new /datum/action/cooldown/latexmob/human_form
+		new /datum/action/cooldown/latexmob/human_form,
+		new /datum/action/cooldown/latexmob/mimicry,
 	)
 
 	var/list/base_mimicry_types = list(
@@ -66,7 +67,7 @@
 		/obj/item/book,
 		/obj/item/clothing,
 		/obj/item/reagent_containers/food,
-		)
+	)
 
 	var/list/advanced_mimicry_types = list(
 		/obj/structure/bed,
@@ -79,7 +80,6 @@
 	var/list/superior_special_mimicry_types = list(
 		/obj/machinery/vending,
 		/obj/machinery/computer,
-		/obj/machinery/computer/arcade,
 		/obj/machinery/washing_machine,
 	)
 
@@ -213,22 +213,30 @@
 	pass_flags = PASSTABLE | PASSMOB
 	var/mimicry_in_use = FALSE
 
-/mob/living/simple_animal/latexmob/CtrlShiftClickOn(atom/movable/A)
+/mob/living/simple_animal/latexmob/CtrlClickOn(atom/movable/A)
 	. = ..()
 	var/object_valid_for_mimicry
 	var/datum/antagonist/living_latex/antag_datum = src.mind ? locate(/datum/antagonist/living_latex) in src.mind.antag_datums : FALSE
 	var/datum/action/cooldown/latexmob/mimicry/mimic_ability = locate(/datum/action/cooldown/latexmob/mimicry) in antag_datum.available_abilities
+	if(!mimic_ability.my_living_latex)
+		mimic_ability.my_living_latex = antag_datum
+	if(!mimic_ability.avaible_types_for_mimicry)
+		mimic_ability.avaible_types_for_mimicry = antag_datum.base_mimicry_types
 	if(mimic_ability)
 		var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
-		object_valid_for_mimicry = check_type_for_mimicry(A, avaible_types)
+		object_valid_for_mimicry = check_type_for_mimicry(A.parent_type, avaible_types)
+
 	if(object_valid_for_mimicry)
-		mimic_ability.copied_appearance = A.appearance
-		mimic_ability.copied_type = A.type
+		mimic_ability.copied_object = A
+		balloon_alert(src, "Объект скопирован")
+		return
+	else
+		balloon_alert(src, "Недоступно, [A.parent_type], [object_valid_for_mimicry]!") //недостаточная стадия, невалидный объект и т.д
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()
 	if(!src.mind)
-		//добавить сюда логгирование в рантаймы
+		stack_trace("Latexmob Life() called without mind!")
 		return
 	var/datum/antagonist/living_latex/my_antag_datum = locate(/datum/antagonist/living_latex) in src.mind.antag_datums
 	my_antag_datum?.process()
@@ -290,7 +298,6 @@
 	if(antag_datum && !antag_datum.alert_has_been_viewed) //Показывается только один раз и только носителю антаг датума.
 		LOGIN_WARNING_MESSAGE(src)
 		antag_datum.alert_has_been_viewed = TRUE
-
 
 /mob/living/simple_animal/latexmob/venom/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(length(message) && body)
