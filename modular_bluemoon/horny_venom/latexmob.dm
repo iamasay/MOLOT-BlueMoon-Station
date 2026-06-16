@@ -218,11 +218,8 @@
 	var/object_valid_for_mimicry
 	var/datum/antagonist/living_latex/antag_datum = src.mind ? locate(/datum/antagonist/living_latex) in src.mind.antag_datums : FALSE
 	var/datum/action/cooldown/latexmob/mimicry/mimic_ability = locate(/datum/action/cooldown/latexmob/mimicry) in antag_datum.available_abilities
-	if(!mimic_ability.my_living_latex)
-		mimic_ability.my_living_latex = antag_datum
-	if(!mimic_ability.avaible_types_for_mimicry)
-		mimic_ability.avaible_types_for_mimicry = antag_datum.base_mimicry_types
 	if(mimic_ability)
+		mimic_ability.Activate(try_copy = TRUE)
 		var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
 		object_valid_for_mimicry = check_type_for_mimicry(A.parent_type, avaible_types)
 

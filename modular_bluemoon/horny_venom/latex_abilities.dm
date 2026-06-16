@@ -12,6 +12,8 @@
 	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
 
 /datum/action/cooldown/latexmob/proc/update_stage(stage)
+	if(!owner)
+		return
 	if(stage == stage_required)
 		return
 	button_icon_state = initial(button_icon_state) + "_[stage]" //initial нужен чтобы из Infiltrate_1 не получалось Infiltrate_1_2_3 которое сломает всю логику
@@ -169,6 +171,8 @@
 
 /datum/action/cooldown/latexmob/heal/update_stage(stage)
 	. = ..()
+	if(!owner)
+		return
 	if(stage == 2)
 		my_living_latex.avaible_reagents += my_living_latex.second_stage_reagents
 	if(stage == 3)
@@ -303,24 +307,25 @@
 	desc = "Возможность мимикрировать под элементы окружения, или одежду для маскировки."
 	stage_required = 2
 	var/obj/copied_object
-	var/avaible_types_for_mimicry = list()
-	var/list/components_list = list(
-		/datum/component/latex_mimicry/chair,
-		/datum/component/latex_mimicry/book,
-		/datum/component/latex_mimicry/clothing,
-		/datum/component/latex_mimicry/food_container,
-		/datum/component/latex_mimicry/closet,
-		/datum/component/latex_mimicry/sleeper,
-		/datum/component/latex_mimicry/crate,
-		/datum/component/latex_mimicry/vending_machine,
-		/datum/component/latex_mimicry/computer,
-		/datum/component/latex_mimicry/washing_machine,
+	var/list/avaible_types_for_mimicry = list()
+	var/alist/components_list = alist(
+		/datum/component/latex_mimicry = /obj/item,
+		/datum/component/latex_mimicry/chair = /obj/structure/chair,
+		/datum/component/latex_mimicry/book = /obj/item/book,
+		/datum/component/latex_mimicry/clothing = /obj/item/clothing,
+		/datum/component/latex_mimicry/food_container = /obj/item/reagent_containers/food,
+		/datum/component/latex_mimicry/closet = /obj/structure/closet,
+		/datum/component/latex_mimicry/sleeper = /obj/machinery/sleeper,
+		/datum/component/latex_mimicry/crate = /obj/structure/closet/crate,
+		/datum/component/latex_mimicry/vending_machine = /obj/machinery/vending,
+		/datum/component/latex_mimicry/computer = /obj/machinery/computer,
+		/datum/component/latex_mimicry/washing_machine = /obj/machinery/washing_machine,
 	)
 
-/datum/action/cooldown/latexmob/mimicry/proc/choose_component_datum()
-	for(var/datum/component/latex_mimicry/mimicry_datum in components_list)
-		if(copied_object.parent_type == mimicry_datum.valid_object_type)
-			return mimicry_datum
+/datum/action/cooldown/latexmob/mimicry/proc/choose_component_datum(/obj/copied_object)
+	for(var/mimicry_type in components_list)
+		if(copied_object.parent_type == components_list[mimicry_type] || copied_object.type == components_list[mimicry_type])
+			return mimicry_type
 
 	owner.balloon_alert(owner, "Слишком сложный объект!")
 	return FALSE
@@ -332,20 +337,29 @@
 	if(stage == 4)
 		avaible_types_for_mimicry += my_living_latex.superior_special_mimicry_types
 
-/datum/action/cooldown/latexmob/mimicry/Activate()
+/datum/action/cooldown/latexmob/mimicry/Activate(atom/target, var/try_copy = FALSE)
 	. = ..()
 
-	if(!copied_object)
+	if(avaible_types_for_mimicry.len == 0)
+		avaible_types_for_mimicry += my_living_latex.base_mimicry_types
+
+	if(!copied_object && try_copy == FALSE)
 		owner.balloon_alert(owner, "Нажмите Ctrl+Click по объекту!")
 		return
-	if(!avaible_types_for_mimicry)
-		avaible_types_for_mimicry = my_living_latex.base_mimicry_types
-	if(islatexmob(owner))
+	to_chat(owner, "латексмоб [islatexmob(owner)]")
+	to_chat(owner, "try_copy [try_copy]")
+	if(islatexmob(owner) && try_copy == FALSE)
+		to_chat(owner, "условие выполнилось")
 		var/mob/living/simple_animal/latexmob/my_mob = owner
+		to_chat(owner, "my_mob = [my_mob]")
 		var/mimicry_in_use = my_mob?.mimicry_in_use
-		var/datum/component/latex_mimicry/choosed_mimicry_datum = choose_component_datum(copied_object.type)
-		if(!mimicry_in_use)
+		to_chat(owner, "mimicry_in_use = [mimicry_in_use]")
+		var/datum/component/latex_mimicry/choosed_mimicry_datum = choose_component_datum(copied_object)
+		to_chat(owner, "copied_object.type = [copied_object.type]")
+		to_chat(owner, "choosed_mimicry_datum = [choosed_mimicry_datum]")
+		if(!mimicry_in_use && choosed_mimicry_datum)
 			my_mob.do_mimicry(copied_object.appearance, copied_object.type, list_of_shapes, choosed_mimicry_datum)
+			to_chat(owner, "Выполняю do_mimicry")
 		else
 			my_mob.go_back()
-		mimicry_in_use = !mimicry_in_use
+		my_mob.mimicry_in_use = !mimicry_in_use
