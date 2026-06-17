@@ -346,20 +346,14 @@
 	if(!copied_object && try_copy == FALSE)
 		owner.balloon_alert(owner, "Нажмите Ctrl+Click по объекту!")
 		return
-	to_chat(owner, "латексмоб [islatexmob(owner)]")
-	to_chat(owner, "try_copy [try_copy]")
 	if(islatexmob(owner) && try_copy == FALSE)
-		to_chat(owner, "условие выполнилось")
 		var/mob/living/simple_animal/latexmob/my_mob = owner
-		to_chat(owner, "my_mob = [my_mob]")
 		var/mimicry_in_use = my_mob?.mimicry_in_use
-		to_chat(owner, "mimicry_in_use = [mimicry_in_use]")
 		var/datum/component/latex_mimicry/choosed_mimicry_datum = choose_component_datum(copied_object)
-		to_chat(owner, "copied_object.type = [copied_object.type]")
-		to_chat(owner, "choosed_mimicry_datum = [choosed_mimicry_datum]")
-		if(!mimicry_in_use && choosed_mimicry_datum)
+		if(!choosed_mimicry_datum)
+			return
+		if(!mimicry_in_use)
 			my_mob.do_mimicry(copied_object.appearance, copied_object.type, list_of_shapes, choosed_mimicry_datum)
-			to_chat(owner, "Выполняю do_mimicry")
 		else
 			my_mob.go_back()
 		my_mob.mimicry_in_use = !mimicry_in_use
