@@ -59,9 +59,10 @@
 
 /datum/action/innate/evolution_store
 	name = "Evolution Store"
-	icon_icon = 'icons/obj/drinks.dmi'
-	button_icon_state = "changelingsting"
-	background_icon_state = "bg_changeling"
+	icon_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
+	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
+	background_icon_state = "background"
+	button_icon_state = "shop"
 	var/datum/evolution_store/evolution
 
 /datum/action/innate/evolution_store/New()

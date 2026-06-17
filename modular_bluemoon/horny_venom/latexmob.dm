@@ -222,8 +222,8 @@
 
 /mob/living/simple_animal/latexmob
 	name = "Сгусток латекса"
-	icon = 'icons/mob/mob.dmi'
-	icon_state = "puddle"
+	icon = 'modular_bluemoon/horny_venom/icons/latexmob.dmi'
+	icon_state = "slime_form"
 	desc = "На первый взгляд, это обычный черный слайм, однако он выглядит в разы плотнее и быстрее."
 	reagents = new /datum/reagents
 	melee_damage_lower = 2
