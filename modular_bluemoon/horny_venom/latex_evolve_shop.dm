@@ -25,7 +25,7 @@
 
 	var/list/abilities = list()
 
-	for(var/datum/action/cooldown/latexmob/ability in living_latex.all_abilities)
+	for(var/datum/action/cooldown/latexmob/ability in living_latex.only_for_ui_abilities_list)
 		var/stage_required = initial(ability.stage_required)
 		var/ability_icon = icon(ability.icon_icon, ability.button_icon_state)
 		var/ability_icon_64 = icon2base64(ability_icon)

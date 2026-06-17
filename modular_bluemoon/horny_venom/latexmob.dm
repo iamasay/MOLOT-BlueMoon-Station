@@ -50,7 +50,19 @@
 		/datum/reagent/drug/anaphrodisiacplus,
 	)
 
-	var/list/all_abilities = list(
+	var/alist/all_abilities = alist(
+		/datum/action/cooldown/latexmob/takeControl = "Захватить контроль над телом",
+		/datum/action/cooldown/latexmob/venomAction = "Поглотить/освободить",
+		/datum/action/cooldown/latexmob/ferral_form = "Форма животного",
+		/datum/action/cooldown/latexmob/medscan     = "Проверить здоровье",
+		/datum/action/cooldown/latexmob/heal        = "Лечение",
+		/datum/action/cooldown/latexmob/stasis      = "Стазис",
+		/datum/action/cooldown/latexmob/leak_out    = "Проползти под шлюзом",
+		/datum/action/cooldown/latexmob/human_form  = "Сформировать человеческое тело",
+		/datum/action/cooldown/latexmob/mimicry     = "Мимикрия",
+	)
+
+	var/list/only_for_ui_abilities_list = list(
 		new /datum/action/cooldown/latexmob/takeControl,
 		new /datum/action/cooldown/latexmob/venomAction,
 		new /datum/action/cooldown/latexmob/ferral_form,
@@ -113,34 +125,35 @@
 		action.Grant(user)
 
 /datum/antagonist/living_latex/proc/search_ability_name(ability_name)
-	for(var/datum/action/cooldown/latexmob/ability in src.all_abilities)
-		if(ability.name == ability_name)
-			var/datum/action/cooldown/latexmob/new_player_ability = new ability.type
+	for(var/ability_typepath in src.all_abilities)
+		if(src.all_abilities[ability_typepath] == ability_name)
+			var/datum/action/cooldown/latexmob/new_player_ability = new ability_typepath
+			new_player_ability.my_living_latex = src
 			add_new_ability(new_player_ability)
 			return
 
 /datum/antagonist/living_latex/proc/add_new_ability(var/datum/action/cooldown/latexmob/ability_to_grant)
+
+//Блок УЛУЧШЕНИЯ абилки
 	var/datum/action/cooldown/latexmob/located_ability = locate(ability_to_grant) in available_abilities
 
-	if (located_ability)
-		var/datum/action/cooldown/latexmob/same_ability = locate(ability_to_grant) in all_abilities
-		var/identical = ability_to_grant.button_icon_state == same_ability.button_icon_state
-		if (identical)
-			to_chat(usr, "<span class='warning'>У вас уже есть эта способность!</span>")
+	if (located_ability && located_ability.stage < located_ability.finall_stage && located_ability.stage < stage)
+		if(evolve_points < located_ability.points_need_to_upgrade)
+			to_chat(usr, "<span class='warning'>У вас не хватает очков эволюции, чтобы улучшить данную способность!</span>")
 			return
+		located_ability.update_stage()
+		ABILITY_IS_UPDATED(usr, ability_to_grant)
+		return
 
-	if (ability_to_grant.stage_required <= stage && evolve_points >= 1)
+//Блок ПОКУПКИ новой абилки
+	if (ability_to_grant.stage_required <= stage && evolve_points >= 1 && !located_ability)
 		available_abilities += ability_to_grant
-		evolve_points -= 1
+		evolve_points -= ability_to_grant.points_need_to_purchase
 		grant_abilities(usr)
-
-		if (located_ability)
-			available_abilities -= located_ability
-			located_ability.Remove(usr)
-			ability_to_grant.update_stage(stage)
-			ABILITY_IS_UPDATED(usr, ability_to_grant)
 	else
-		to_chat(usr, "<span class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>")
+		var/message
+		message = located_ability ? "<span class='warning'>Cпособность [ability_to_grant.name] уже куплена и улучшена! Если это не так, проверьте текущую стадию.</span>" : "<span class='warning'>У вас не хватает стадии или очков эволюции, чтобы приобрести данную способность!</span>"
+		to_chat(usr, message)
 
 /datum/antagonist/living_latex/proc/inject_reagent(reagent_name)
 	for(var/path in src.avaible_reagents)
@@ -152,10 +165,11 @@
 		qdel(R)
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage)
+	var/next_stage = stage++
+	if(NewStage > next_stage)
+		return
 	stage = NewStage
 	evolve_points = 0
-	for(var/datum/action/cooldown/latexmob/ability in all_abilities) //Важно понимать, что all_abilities это список способностей, что мапятся в UI магазине, но никак не у игрока. Для игрока список другой.
-		ability.update_stage(NewStage)
 
 /datum/antagonist/living_latex/Destroy()
 	. = ..()
@@ -218,17 +232,19 @@
 	var/object_valid_for_mimicry
 	var/datum/antagonist/living_latex/antag_datum = src.mind ? locate(/datum/antagonist/living_latex) in src.mind.antag_datums : FALSE
 	var/datum/action/cooldown/latexmob/mimicry/mimic_ability = locate(/datum/action/cooldown/latexmob/mimicry) in antag_datum.available_abilities
-	if(mimic_ability)
-		mimic_ability.Activate(try_copy = TRUE)
-		var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
-		object_valid_for_mimicry = check_type_for_mimicry(A.parent_type, avaible_types)
+	if(!mimic_ability)
+		return
+
+	mimic_ability.Activate(try_copy = TRUE)
+	var/list/avaible_types = mimic_ability.avaible_types_for_mimicry
+	object_valid_for_mimicry = check_type_for_mimicry(A.parent_type, avaible_types)
 
 	if(object_valid_for_mimicry)
 		mimic_ability.copied_object = A
 		balloon_alert(src, "Объект скопирован")
 		return
 	else
-		balloon_alert(src, "Недоступно, [A.parent_type], [object_valid_for_mimicry]!") //недостаточная стадия, невалидный объект и т.д
+		balloon_alert(src, "Недоступно!") //недостаточная стадия, невалидный объект и т.д
 
 /mob/living/simple_animal/latexmob/Life(seconds, times_fired)
 	. = ..()

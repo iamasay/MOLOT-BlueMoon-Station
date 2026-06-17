@@ -6,21 +6,25 @@
 	background_icon_state = "background"
 	button_icon_state = "no_icon"
 	var/stage_required
+	var/stage = 0
+	var/finall_stage = 3
+	var/points_need_to_upgrade = 1
+	var/points_need_to_purchase = 1
 	var/delay
 	var/datum/antagonist/living_latex/my_living_latex
 	name = "generic latexmob proc"
 	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
 
-/datum/action/cooldown/latexmob/proc/update_stage(stage)
+/datum/action/cooldown/latexmob/proc/update_stage()
 	if(!owner)
 		return
-	if(stage == stage_required)
-		return
+	my_living_latex.evolve_points -= points_need_to_upgrade
+	++stage //сначала увеличивает на 1, потом возвращает результат сложения
 	button_icon_state = initial(button_icon_state) + "_[stage]" //initial нужен чтобы из Infiltrate_1 не получалось Infiltrate_1_2_3 которое сломает всю логику
 	UpdateButtons()
 
 /datum/action/cooldown/latexmob/Activate(atom/target)
-	if(owner.mind)
+	if(owner.mind && !my_living_latex)
 		my_living_latex = check_LL_antagDatum(owner)
 		delay = my_living_latex.mergingDelay
 	else
@@ -61,7 +65,6 @@
 		can_absorb_alive = TRUE
 	if(stage == 3)
 		pick_only_simplemob = FALSE
-
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	. = ..()
@@ -293,7 +296,7 @@
 		return NO_AIRLOCK_NEABY(owner)
 
 /datum/action/cooldown/latexmob/human_form
-	name = "Сформировать самостоятельное человеческое тело"
+	name = "Сформировать человеческое тело"
 	desc = "Вы накопили достаточно биоматериала, чтобы сформировать свое собственное отдельное тело"
 	button_icon_state = "human_form"
 	stage_required = 3
@@ -306,20 +309,21 @@
 	name = "Мимикрия"
 	desc = "Возможность мимикрировать под элементы окружения, или одежду для маскировки."
 	stage_required = 2
+	finall_stage = 4
 	var/obj/copied_object
 	var/list/avaible_types_for_mimicry = list()
 	var/alist/components_list = alist(
-		/datum/component/latex_mimicry = /obj/item,
-		/datum/component/latex_mimicry/chair = /obj/structure/chair,
-		/datum/component/latex_mimicry/book = /obj/item/book,
-		/datum/component/latex_mimicry/clothing = /obj/item/clothing,
-		/datum/component/latex_mimicry/food_container = /obj/item/reagent_containers/food,
-		/datum/component/latex_mimicry/closet = /obj/structure/closet,
-		/datum/component/latex_mimicry/sleeper = /obj/machinery/sleeper,
-		/datum/component/latex_mimicry/crate = /obj/structure/closet/crate,
-		/datum/component/latex_mimicry/vending_machine = /obj/machinery/vending,
-		/datum/component/latex_mimicry/computer = /obj/machinery/computer,
-		/datum/component/latex_mimicry/washing_machine = /obj/machinery/washing_machine,
+		/datum/component/latex_mimicry/crate 			= /obj/structure/closet/crate,
+		/datum/component/latex_mimicry/closet 			= /obj/structure/closet,
+		/datum/component/latex_mimicry/chair 			= /obj/structure/chair,
+		/datum/component/latex_mimicry/food_container   = /obj/item/reagent_containers/food,
+		/datum/component/latex_mimicry/washing_machine  = /obj/machinery/washing_machine,
+		/datum/component/latex_mimicry/sleeper          = /obj/machinery/sleeper,
+		/datum/component/latex_mimicry/vending_machine  = /obj/machinery/vending,
+		/datum/component/latex_mimicry/computer         = /obj/machinery/computer,
+		/datum/component/latex_mimicry/book             = /obj/item/book,
+		/datum/component/latex_mimicry/clothing         = /obj/item/clothing,
+		/datum/component/latex_mimicry 	                = /obj/item,
 	)
 
 /datum/action/cooldown/latexmob/mimicry/proc/choose_component_datum(/obj/copied_object)
