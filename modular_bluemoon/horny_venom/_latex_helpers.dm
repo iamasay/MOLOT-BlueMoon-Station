@@ -80,9 +80,13 @@
 	old_body.mind.transfer_to(new_body)
 	new_body.name = old_body.name
 	qdel(old_body)
-	return(new_body)
+	new_body.SetStun(INFINITY, ignore_canstun = TRUE) //запрещаем двигаться
+	var/finished = new_body.LL_apply_animated_latex_overlay_with_progressbar(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, 5, new_body)
+	if(finished)
+		new_body.SetStun(0, ignore_canstun = TRUE) //даём двигаться
+		return(new_body)
 
-/datum/action/cooldown/latexmob/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob, var/list/use_custom_list)
+/datum/action/cooldown/latexmob/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/owner, var/pick_only_simplemob, var/list/use_custom_list)
 	var/list/choices = list()
 	var/list/choices_img = list()
 	var/list/targets = use_custom_list ? use_custom_list : oview(1, owner)
