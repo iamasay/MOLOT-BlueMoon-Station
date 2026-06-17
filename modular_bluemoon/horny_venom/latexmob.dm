@@ -97,7 +97,10 @@
 
 /datum/antagonist/living_latex/process()
 	. = ..()
-	if(evolve_points < 1)
+	var/needed_for_full = 1 - evolve_points
+	if(needed_for_full <= (evolve_points + POINTS_REGEN_DEBUG))
+		evolve_points += needed_for_full
+	else
 		evolve_points += POINTS_REGEN_DEBUG
 
 /datum/antagonist/living_latex/on_gain()
@@ -165,11 +168,12 @@
 		qdel(R)
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage)
-	var/old_stage = stage
-	if((old_stage + 1) != NewStage)
-		return
-	stage = NewStage
-	evolve_points = 0
+	if(evolve_points == 1)
+		var/old_stage = stage
+		if((old_stage + 1) != NewStage)
+			return
+		stage = NewStage
+		evolve_points = 0
 
 /datum/antagonist/living_latex/Destroy()
 	. = ..()
