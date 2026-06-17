@@ -165,8 +165,8 @@
 		qdel(R)
 
 /datum/antagonist/living_latex/proc/upgrade_stage(NewStage)
-	var/next_stage = stage++
-	if(NewStage > next_stage)
+	var/old_stage = stage
+	if((old_stage + 1) != NewStage)
 		return
 	stage = NewStage
 	evolve_points = 0

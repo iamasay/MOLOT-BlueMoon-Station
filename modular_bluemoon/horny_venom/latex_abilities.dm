@@ -172,10 +172,8 @@
 	cooldown_time = 30 SECONDS
 	var/datum/inject_menu/inject_menu
 
-/datum/action/cooldown/latexmob/heal/update_stage(stage)
+/datum/action/cooldown/latexmob/heal/update_stage()
 	. = ..()
-	if(!owner)
-		return
 	if(stage == 2)
 		my_living_latex.avaible_reagents += my_living_latex.second_stage_reagents
 	if(stage == 3)
