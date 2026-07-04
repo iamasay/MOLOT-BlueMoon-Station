@@ -432,7 +432,7 @@
 	desc = "A high powered chainsaw for cutting up ...you know...."
 	item = /obj/item/chainsaw/doomslayer/inteq_chainsaw
 	cost = 16
-	purchasable_from = ~(UPLINK_SYNDICATE)
+	purchasable_from = ~(UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 /// Clown Ops Uplink additions
 /datum/uplink_item/suits/hardsuit/elite_clown

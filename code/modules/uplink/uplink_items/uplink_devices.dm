@@ -13,6 +13,7 @@
 			которая разблокирует скрытые функции электронных устройств, подрывает их функции и легко ломает защитные механизмы."
 	item = /obj/item/card/emag
 	cost = 6
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/emagrecharge
 	name = "Electromagnet Charging Device"
@@ -84,6 +85,7 @@
 			5 зарядов в комплекте."
 	item = /obj/item/compressionkit
 	cost = 5
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/briefcase_launchpad
 	name = "Briefcase Launchpad"
@@ -92,6 +94,7 @@
 	surplus = 0
 	item = /obj/item/storage/briefcase/launchpad
 	cost = 6
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/camera_bug
 	name = "Camera Bug"
@@ -135,6 +138,7 @@
 	item = /obj/item/cartridge/virus/frame
 	cost = 2
 	restricted = TRUE
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/toolbox
 	name = "Full Illegal Toolbox"
@@ -163,7 +167,7 @@
 	desc = "Дешёвый тюбик одноразового суперклея марки Syndicate. \
 			Примените к любому предмету, чтобы сделать его невыбрасываемым. \
 			Осторожно — не приклейте то, что уже держите в руках!"
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 	item = /obj/item/syndie_glue
 	cost = 2
 
@@ -173,12 +177,14 @@
 			Будьте осторожны с формулировками — ИИ обожают искать лазейки."
 	item = /obj/item/ai_module/syndicate
 	cost = 9
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/damaged_module
 	name = "Damaged AI Law Upload Module"
 	desc = "Этот модуль загрузки законов ИИ валялся на нашем складе хрен знает сколько. Мы понятия не имеем, зачем вам это."
 	item = /obj/item/ai_module/core/full/damaged
 	cost = 5
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 ///datum/uplink_item/device_tools/headsetupgrade
 // 	name = "Headset Upgrader"
@@ -192,13 +198,14 @@
 			в строю даже под огнём. Не скрещивайте лучи!"
 	item = /obj/item/gun/medbeam
 	cost = 15
-	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE
+	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/nutcracker
 	name = "Nutcracker"
 	desc = "Увеличенная версия того, что вы себе представили. Достаточно большой, чтобы давить черепа."
 	item = /obj/item/nutcracker
 	cost = 1
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/singularity_beacon
 	name = "Power Beacon"
@@ -209,6 +216,7 @@
 			который телепортирует большой маяк к вам при активации."
 	item = /obj/item/sbeacondrop
 	cost = 14
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/powersink
 	name = "Power Sink"
@@ -217,6 +225,7 @@
 			в большинство сумок. Осторожно: взорвётся, если в сети слишком много энергии."
 	item = /obj/item/powersink
 	cost = 6
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/rad_laser
 	name = "Radioactive Microlaser"
@@ -241,6 +250,7 @@
 			Правда, техники работают только с болтовками и помповыми..."
 	item = /obj/item/book/granter/trait/rifleman
 	cost = 3 // fuck it available for everyone
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/stimpack
 	name = "Stimpack"
@@ -249,6 +259,7 @@
 	item = /obj/item/reagent_containers/hypospray/medipen/stimulants
 	cost = 5
 	surplus = 90
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/medkit
 	name = "Сombat Medic Kit"
@@ -319,6 +330,7 @@
 			Тёплые объекты — тела, киборги, ядра ИИ — светятся ярче холодных стен и шлюзов."
 	item = /obj/item/clothing/glasses/thermal/syndi
 	cost = 4
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/potion
 	name = "Sentience Potion"
@@ -349,3 +361,4 @@
 			4 заряда, автоподзарядка, гарантия аннулируется при воздействии ЭМИ."
 	item = /obj/item/storage/box/syndie_kit/teleporter
 	cost = 4
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW

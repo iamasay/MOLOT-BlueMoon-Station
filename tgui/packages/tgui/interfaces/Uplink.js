@@ -9,12 +9,15 @@ const MAX_SEARCH_RESULTS = 25;
 
 export const Uplink = (props, context) => {
   const { data } = useBackend(context);
-  const { telecrystals } = data;
+  const { telecrystals, uplink_type } = data;
+
+  const theme = uplink_type === 'Pact Uplink' ? 'pact' : 'syndicate';
+
   return (
     <Window
       width={620}
       height={580}
-      theme="syndicate">
+      theme={theme}>
       <Window.Content overflow="auto">
         <GenericUplink
           currencyAmount={telecrystals}
