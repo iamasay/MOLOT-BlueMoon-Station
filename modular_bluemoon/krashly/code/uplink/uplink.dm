@@ -71,7 +71,7 @@
 //Аплинк экипажа Синдистанции
 
 /obj/item/syndicate_uplink/station
-	name = "Syndicate Crew Uplink"
+	name = "Syndicate & Nanotrasen Crew Uplink"
 	desc = "Аплинк, имеющий в своём ассортименте только разрешенные к использованию контрабандные предметы и \
 			некоторые дополнительные, разрешенные ПАКТом элементы снабжения."
 	uplink_flag = UPLINK_SYNDICATE_PACT_CREW
