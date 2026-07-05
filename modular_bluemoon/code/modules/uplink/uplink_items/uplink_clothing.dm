@@ -28,7 +28,7 @@
 			Эта достигает более высоких скоростей за счёт установки \
 			большего количества двигателей и нанесения красной краски."
 	item = /obj/item/mod/module/jetpack/advanced
-	cost = 5
+	cost = 4
 	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/mod/noslip //
