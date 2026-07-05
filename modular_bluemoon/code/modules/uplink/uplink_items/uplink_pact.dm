@@ -88,6 +88,7 @@
 	desc = "Химический имплант, работающий в зависимости от текущего уровня тревоги."
 	item = /obj/item/autosurgeon/syndicate/corp_chem_implant
 	cost = 4
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/corp_chem_implant
 	starting_organ = /obj/item/organ/cyberimp/chest/chem_implant/sec_level
@@ -97,6 +98,7 @@
 	desc = "A deployable riot shield to help deal with civil unrest."
 	item = /obj/item/autosurgeon/syndicate/corp_arm_shied
 	cost = 3
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/corp_arm_shied
 	starting_organ = /obj/item/organ/cyberimp/arm/shield/sec_level
@@ -142,6 +144,7 @@
 	desc = "This implant will synthesize and pump into your bloodstream a small amount of nutriment when you are hungry. This version of the pump also provides a proper water supply."
 	item = /obj/item/autosurgeon/syndicate/nutriment_pump
 	cost = 2
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/nutriment_pump
 	starting_organ = /obj/item/organ/cyberimp/chest/nutrimentextreme
@@ -151,6 +154,7 @@
 	desc = "An advanced health analyzer implant, designed to directly interface with a host's body and relay scan information to the brain on command."
 	item = /obj/item/autosurgeon/syndicate/scanner
 	cost = 1
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/scanner
 	starting_organ = /obj/item/organ/internal/cyberimp/chest/scanner
@@ -160,6 +164,7 @@
 	desc = "An implantable set of thruster ports. They use the gas from environment or subject's internals for propulsion in zero-gravity areas. Unlike regular jetpacks, this device has no stabilization system."
 	item = /obj/item/autosurgeon/syndicate/thrusters
 	cost = 3
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/thrusters
 	starting_organ = /obj/item/organ/cyberimp/chest/thrusters
@@ -169,6 +174,7 @@
 	desc = "A pair of binocular lenses, that can be attached to the eyes."
 	item = /obj/item/autosurgeon/syndicate/binocular_lenses
 	cost = 2
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/binocular_lenses
 	starting_organ = /obj/item/organ/cyberimp/arm/lenses
@@ -178,6 +184,7 @@
 	desc = "A variant of the arm cannon implant that fires electrodes and disabler shots. The cannon emerges from the subject's arm and remains inside when not in use."
 	item = /obj/item/autosurgeon/syndicate/arm_taser
 	cost = 8
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/arm_taser
 	starting_organ = /obj/item/organ/cyberimp/arm/gun/taser
@@ -187,6 +194,7 @@
 	desc = "An integrated projector mounted onto a user's arm that is able to be used as a powerful flash."
 	item = /obj/item/autosurgeon/syndicate/high_intensity_photon_projector
 	cost = 2
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
 /obj/item/autosurgeon/syndicate/high_intensity_photon_projector
 	starting_organ = /obj/item/organ/cyberimp/arm/flash
