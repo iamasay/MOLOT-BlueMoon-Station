@@ -332,7 +332,7 @@ GLOBAL_VAR_INIT(weapon_permits_issued, 0)
 /obj/item/clothing/accessory/permit/special/syndie_station
 	name = "Syndicate Crew permit"
 	desc = "Мы все очень любим контрабанду"
-	permitted_weapons = "Любое снаряжение, оружие или снаряжение не выше зелёного уровня контрабанды"
+	permitted_weapons = "Любое оружие или снаряжение не выше зелёного уровня контрабанды"
 	notes = "Любой сотрудник имеет право на ношение и использование контрабанды зелёного уровня, в целях самообороны, или устранение угрозы жизни себя, и окружающих"
 
 /obj/item/clothing/accessory/permit/special/explorer

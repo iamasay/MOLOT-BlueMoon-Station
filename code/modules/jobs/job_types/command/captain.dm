@@ -130,7 +130,7 @@
 	box = /obj/item/storage/box/survival/syndie
 	pda_slot = ITEM_SLOT_BELT
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1,/obj/item/syndicate_uplink/station=1)
-	accessory = list(/obj/item/clothing/accessory/permit/special/syndie_station)
+	accessory = list(/obj/item/clothing/accessory/medal/gold/captain, /obj/item/clothing/accessory/permit/special/captain, /obj/item/clothing/accessory/permit/special/syndie_station)
 
 /datum/outfit/job/captain/hardsuit
 	name = "Captain (Hardsuit)"

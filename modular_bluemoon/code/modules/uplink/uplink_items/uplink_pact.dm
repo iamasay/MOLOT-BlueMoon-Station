@@ -12,7 +12,7 @@
 	cost = 5
 
 /datum/uplink_item/pact/alliance_case
-	name = "Alliance Assasin suit"
+	name = "Alliance Assassin suit"
 	desc = "Комплект с практичным и удобным боевым костюмом белого цвета. Кажется, это женская модель."
 	item = /obj/item/storage/toolbox/infiltrator/alliance
 	cost = 3
@@ -71,13 +71,14 @@
 /datum/uplink_item/explosives/stingbang
 	name = "Stingbang"
 	desc = "Почти безвредная граната с резиновыми шариками. Часть дополнительного снаряжения офицеров СБ"
+	item = /obj/item/grenade/stingbang
 	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 	cost = 2
 
 /datum/uplink_item/explosives/megastingbang
 	name = "Megastingbang"
 	desc = "Более сильная версия стингбанг, содержащая коллосальное количество резиновых шариков."
-	item = /obj/item/grenade/stingbang/shred
+	item = /obj/item/grenade/stingbang/mega
 	cost = 5
 	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 

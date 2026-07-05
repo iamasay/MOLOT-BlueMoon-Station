@@ -139,14 +139,14 @@
 	desc = "Быстрозарядник на семь бронебойных патронов .357 AP Magnum для револьвера Syndicate. \
 			Прошибает как горячий нож сквозь масло."
 	item = /obj/item/ammo_box/a357/ap
-	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
+	purchasable_from =  ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/ammo/revolver/dumdum
 	name = ".357 DumDum Speed Loader"
 	desc = "Быстрозарядник на семь разрывных патронов .357 DumDum Magnum для револьвера Syndicate. \
 			Рви и кромсай."
 	item = /obj/item/ammo_box/a357/dumdum
-	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
+	purchasable_from =  ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/ammo/a40mm
 	name = "40mm Grenade"
