@@ -268,7 +268,7 @@
 	item = /obj/item/storage/firstaid/tactical/nukeop
 	cost = 4
 	surplus = 75
-	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE
+	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/surgerybag
 	name = "Illegal Surgery Duffel Bag"
