@@ -100,38 +100,92 @@
 /obj/item/autosurgeon/syndicate/corp_arm_shied
 	starting_organ = /obj/item/organ/cyberimp/arm/shield/sec_level
 
-/datum/uplink_item/implants/anti_stun
-	name = "Corporate CNS Rebooter"
-	desc = "This implant will automatically give you back control over your central nervous system, reducing downtime when stunned."
-	item = /obj/item/autosurgeon/syndicate/corp_anti_stun
-	cost = 3
+// /datum/uplink_item/implants/anti_stun
+// 	name = "Corporate CNS Rebooter"
+// 	desc = "This implant will automatically give you back control over your central nervous system, reducing downtime when stunned."
+// 	item = /obj/item/autosurgeon/syndicate/corp_anti_stun
+// 	cost = 3
 
 /obj/item/autosurgeon/syndicate/corp_anti_stun
 	starting_organ = /obj/item/organ/cyberimp/brain/anti_stun/sec_level
 
-/datum/uplink_item/implants/thermals
-	name = "Corporate Thermals"
-	desc = "These cybernetic eye implants will give you thermal vision. Vertical slit pupil included."
-	item = /obj/item/autosurgeon/syndicate/corp_thermals
-	cost = 4
+// /datum/uplink_item/implants/thermals
+// 	name = "Corporate Thermals"
+// 	desc = "These cybernetic eye implants will give you thermal vision. Vertical slit pupil included."
+// 	item = /obj/item/autosurgeon/syndicate/corp_thermals
+// 	cost = 4
 
 /obj/item/autosurgeon/syndicate/corp_thermals
 	starting_organ = /obj/item/organ/eyes/robotic/toggled/thermals/sec_level
 
-/datum/uplink_item/implants/anti_drop
-	name = "Corporate Anti drop implant"
-	desc = "This cybernetic brain implant will allow you to force your hand muscles to contract, preventing item dropping. Twitch ear to toggle"
-	item = /obj/item/autosurgeon/syndicate/corp_antidrop
-	cost = 5
+// /datum/uplink_item/implants/anti_drop
+// 	name = "Corporate Anti drop implant"
+// 	desc = "This cybernetic brain implant will allow you to force your hand muscles to contract, preventing item dropping. Twitch ear to toggle"
+// 	item = /obj/item/autosurgeon/syndicate/corp_antidrop
+// 	cost = 5
 
 /obj/item/autosurgeon/syndicate/corp_antidrop
 	starting_organ = /obj/item/organ/cyberimp/brain/anti_drop/sec_level
 
-/datum/uplink_item/implants/arm_blade
-	name = "Corporate Blade implant"
-	desc = "An integrated blade implant designed to be installed into a persons arm. Stylish and deadly; Although, being caught with this without proper permits is sure to draw unwanted attention"
-	item = /obj/item/autosurgeon/syndicate/corp_arm_blade
-	cost = 4
+// /datum/uplink_item/implants/arm_blade
+// 	name = "Corporate Blade implant"
+// 	desc = "An integrated blade implant designed to be installed into a persons arm. Stylish and deadly; Although, being caught with this without proper permits is sure to draw unwanted attention"
+// 	item = /obj/item/autosurgeon/syndicate/corp_arm_blade
+// 	cost = 4
 
 /obj/item/autosurgeon/syndicate/corp_arm_blade
 	starting_organ = /obj/item/organ/cyberimp/arm/mantis_blade/sec_level
+
+/datum/uplink_item/implants/nutriment_pump
+	name = "Extreme Nutriment Pump"
+	desc = "This implant will synthesize and pump into your bloodstream a small amount of nutriment when you are hungry. This version of the pump also provides a proper water supply."
+	item = /obj/item/autosurgeon/syndicate/nutriment_pump
+	cost = 2
+
+/obj/item/autosurgeon/syndicate/nutriment_pump
+	starting_organ = /obj/item/organ/cyberimp/chest/nutrimentextreme
+
+/datum/uplink_item/implants/internal_health_analyzer
+	name = "Internal Health Analyzer"
+	desc = "An advanced health analyzer implant, designed to directly interface with a host's body and relay scan information to the brain on command."
+	item = /obj/item/autosurgeon/syndicate/scanner
+	cost = 1
+
+/obj/item/autosurgeon/syndicate/scanner
+	starting_organ = /obj/item/organ/internal/cyberimp/chest/scanner
+
+/datum/uplink_item/implants/thrusters
+	name = "Implantable Thrusters Set"
+	desc = "An implantable set of thruster ports. They use the gas from environment or subject's internals for propulsion in zero-gravity areas. Unlike regular jetpacks, this device has no stabilization system."
+	item = /obj/item/autosurgeon/syndicate/thrusters
+	cost = 3
+
+/obj/item/autosurgeon/syndicate/thrusters
+	starting_organ = /obj/item/organ/cyberimp/chest/thrusters
+
+/datum/uplink_item/implants/binocular_lenses
+	name = "Binocular Lenses"
+	desc = "A pair of binocular lenses, that can be attached to the eyes."
+	item = /obj/item/autosurgeon/syndicate/binocular_lenses
+	cost = 2
+
+/obj/item/autosurgeon/syndicate/binocular_lenses
+	starting_organ = /obj/item/organ/cyberimp/arm/lenses
+
+/datum/uplink_item/implants/arm_taser
+	name = "Arm-mounted Taser Implant"
+	desc = "A variant of the arm cannon implant that fires electrodes and disabler shots. The cannon emerges from the subject's arm and remains inside when not in use."
+	item = /obj/item/autosurgeon/syndicate/arm_taser
+	cost = 8
+
+/obj/item/autosurgeon/syndicate/arm_taser
+	starting_organ = /obj/item/organ/cyberimp/arm/gun/taser
+
+/datum/uplink_item/implants/high_intensity_photon_projector
+	name = "Integrated High-Intensity Photon Projector"
+	desc = "An integrated projector mounted onto a user's arm that is able to be used as a powerful flash."
+	item = /obj/item/autosurgeon/syndicate/high_intensity_photon_projector
+	cost = 2
+
+/obj/item/autosurgeon/syndicate/high_intensity_photon_projector
+	starting_organ = /obj/item/organ/cyberimp/arm/flash

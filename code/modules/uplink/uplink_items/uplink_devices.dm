@@ -85,7 +85,6 @@
 			5 зарядов в комплекте."
 	item = /obj/item/compressionkit
 	cost = 5
-	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/briefcase_launchpad
 	name = "Briefcase Launchpad"
