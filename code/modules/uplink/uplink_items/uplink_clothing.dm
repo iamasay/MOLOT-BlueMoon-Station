@@ -59,7 +59,7 @@
 			Экипаж Nanotrasen паникует при виде этих скафандров."
 	item = /obj/item/clothing/suit/space/hardsuit/syndi
 	cost = 6
-	purchasable_from = ~(UPLINK_TRAITORS | UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS) //you can't buy it in nuke, because the elite hardsuit costs the same while being better
+	purchasable_from = ~(UPLINK_TRAITORS | UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW) //you can't buy it in nuke, because the elite hardsuit costs the same while being better
 
 /datum/uplink_item/suits/chameleon_hardsuit
 	name = "Chameleon Hardsuit"
