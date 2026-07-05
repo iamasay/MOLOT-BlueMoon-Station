@@ -39,7 +39,7 @@
 	item = /obj/item/storage/box/syndie_kit/contract_kit
 	cost = 30
 	player_minimum = 50
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 	restricted = TRUE
 	blocked_round_types = list(ROUNDTYPE_DYNAMIC_LIGHT)
 
@@ -59,7 +59,7 @@
 	item = /obj/item/storage/box/syndie_kit/scarp
 	cost = 20
 	player_minimum = 20
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/suits/infiltrator_bundle
 	name = "Insidious Infiltration Gear Case"
@@ -147,7 +147,7 @@
 	item = /obj/structure/closet/crate
 	cost = 20
 	player_minimum = 25
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 	var/starting_crate_value = 50
 	var/uplink_flags = UPLINK_TRAITORS
 
@@ -158,6 +158,7 @@
 	cost = 40
 	player_minimum = 40
 	starting_crate_value = 125
+	purchasable_from = ~UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/bundles_tc/surplus/purchase(mob/user, datum/component/uplink/U)
 	var/list/uplink_items = get_uplink_items(uplink_flags, FALSE)

@@ -90,7 +90,7 @@
 	cost = 18
 	player_minimum = 25
 	surplus = 0
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/stealthy_weapons/martialartstwo
 	name = "Rising Bass Scroll"
@@ -100,7 +100,7 @@
 	cost = 20
 	player_minimum = 25
 	surplus = 0
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/stealthy_weapons/martialartsthree
 	name = "Krav Maga Scroll"

@@ -143,7 +143,7 @@
 	item = /obj/item/plasmascythe
 	player_minimum = 25
 	cost = 16
-	purchasable_from = ~(UPLINK_SYNDICATE | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_SYNDICATE | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 	blocked_round_types = list(ROUNDTYPE_DYNAMIC_LIGHT)
 
 /datum/uplink_item/dangerous/plasmascythe/get_discount()
@@ -252,7 +252,7 @@
 	refundable = TRUE
 	cant_discount = TRUE
 	surplus = 0
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 	player_minimum = 25
 	restricted = TRUE
 	refund_path = /obj/item/guardiancreator/tech/choose/traitor
