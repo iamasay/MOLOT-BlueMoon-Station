@@ -64,6 +64,6 @@
 /datum/component/mod_retractable/proc/snap_back()
 	if(!using_device || !storage_module)
 		return
-
+	already_holding = FALSE
 	using_device.forceMove(storage_module)
 	playsound(get_turf(my_modsuit), sound, 30, 1)
