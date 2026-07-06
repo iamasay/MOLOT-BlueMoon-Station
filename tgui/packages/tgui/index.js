@@ -36,7 +36,7 @@ import { setupHotKeys } from './hotkeys';
 import { captureExternalLinks } from './links';
 import { createRenderer } from './renderer';
 import { getRoutedComponent } from './routes';
-import { configureStore, StoreProvider } from './store';
+import { configureStore } from './store';
 
 perf.mark('inception', window.performance?.timing?.navigationStart);
 perf.mark('init');
@@ -58,10 +58,10 @@ const getFindBarInstanceKey = () => {
 const renderApp = createRenderer(() => {
   const Component = getRoutedComponent(store);
   return (
-    <StoreProvider store={store}>
+    <>
       <Component />
       <FindBar key={getFindBarInstanceKey()} />
-    </StoreProvider>
+    </>
   );
 });
 

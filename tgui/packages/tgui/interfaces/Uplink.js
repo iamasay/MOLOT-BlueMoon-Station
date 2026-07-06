@@ -1,6 +1,7 @@
 import { createSearch, decodeHtmlEntities } from 'common/string';
+import { useState } from 'react';
 
-import { useBackend, useLocalState } from '../backend';
+import { useBackend } from '../backend';
 import { Box, Button, Flex, Input, NoticeBox, Section, Table, Tabs } from '../components';
 import { formatMoney } from '../format';
 import { Window } from '../layouts';
@@ -27,12 +28,12 @@ export const Uplink = (props, context) => {
   );
 };
 
-export const GenericUplink = (props, context) => {
+export const GenericUplink = (props) => {
   const {
     currencyAmount = 0,
     currencySymbol = 'cr',
   } = props;
-  const { act, data } = useBackend(context);
+  const { act, data } = useBackend();
   const {
     compactMode,
     lockable,
@@ -41,11 +42,11 @@ export const GenericUplink = (props, context) => {
   const [
     searchText,
     setSearchText,
-  ] = useLocalState(context, 'searchText', '');
+  ] = useState('');
   const [
     selectedCategory,
     setSelectedCategory,
-  ] = useLocalState(context, 'category', categories[0]?.name);
+  ] = useState(categories[0]?.name);
   const testSearch = createSearch(searchText, item => {
     return item.name + item.desc;
   });
@@ -125,17 +126,17 @@ export const GenericUplink = (props, context) => {
   );
 };
 
-const ItemList = (props, context) => {
+const ItemList = (props) => {
   const {
     compactMode,
     currencyAmount,
     currencySymbol,
   } = props;
-  const { act } = useBackend(context);
+  const { act } = useBackend();
   const [
     hoveredItem,
     setHoveredItem,
-  ] = useLocalState(context, 'hoveredItem', {});
+  ] = useState({});
   const hoveredCost = hoveredItem && hoveredItem.cost || 0;
   // Append extra hover data to items
   const items = props.items.map(item => {
