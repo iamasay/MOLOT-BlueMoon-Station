@@ -116,7 +116,9 @@
 		/obj/item/storage/ifak,
 		/obj/item/storage/box/sec_kit,
 		/obj/item/melee/classic_baton,
-		/obj/item/stamp/security)
+		/obj/item/stamp/security,
+		/obj/item/syndicate_uplink/station
+		)
 	mask = /obj/item/clothing/mask/cigarette/cigar/havana
 
 	backpack = /obj/item/storage/backpack/duffelbag/syndie/ammo
