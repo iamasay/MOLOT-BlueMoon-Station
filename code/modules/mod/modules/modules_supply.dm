@@ -29,7 +29,8 @@
 
 /obj/item/mod/module/gps/on_uninstall()
 	. = ..()
-	my_retract_component.Destroy()
+	my_retract_component.RemoveComponent()
+	qdel(my_retract_component)
 
 /obj/item/mod/module/gps/on_use()
 	. = ..()
