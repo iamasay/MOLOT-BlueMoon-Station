@@ -8,6 +8,7 @@
 			Она использует множество датчиков и гироскопов чтобы своевременно перераспределять нагрузку и стабилизировать \
 			её относительно корпуса пользователя для минимизации нагрузки на точки опоры."
 	icon_state = "harness"
+	complexity = 5
 
 /obj/item/mod/module/backpack_harness/on_install()
 	. = ..()
@@ -47,6 +48,7 @@
 			Является улучшенной версией, по сравнению с обычным модулем рюкзака и равноценна спортивной сумке. \
 			Может быть улучшена с помощью БС ядра, путём вставки вручную в специальное отверстие."
 	max_volume = STORAGE_VOLUME_DUFFLEBAG
+	complexity = 5
 
 /obj/item/mod/module/storage/extended/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
@@ -60,6 +62,19 @@
 		storage_flags = STORAGE_FLAGS_VOLUME_DEFAULT
 		max_volume = STORAGE_VOLUME_BAG_OF_HOLDING
 		qdel(I)
+
+/obj/item/mod/module/storage/syndicate
+	name = "MOD Blood-red storage module"
+	desc = "Набор встроенных отделений для хранения и специализированных карманов, установленных по всей \
+		поверхности костюма, полезных для хранения различных мелочей и штучек. Имеет модный кроваво-красный окрас."
+	icon_state = "storage_syndi"
+	complexity = 2 //на 1 меньше, чем обычная версия.
+
+/obj/item/mod/module/storage/extended/syndicate
+	name = "MOD Blood-red Extended storage module"
+	desc = "Компактный расширенный модуль хранилища с лого Синдиката и модной кроваво-красной расцвекой."
+	icon_state = "storage_case"
+	complexity = 2
 
 /obj/item/mod/module/storage/on_install()
 	. = ..()
