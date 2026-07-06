@@ -15,7 +15,7 @@
 			Некоторые зоны и устройства Syndicate доступны только с такими картами."
 	item = /obj/item/card/id/syndicate
 	cost = 2
-	purchasable_from = UPLINK_SYNDICATE
+	purchasable_from = UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/stealthy_tools/agent_card_inteq
 	name = "Agent Identification Card"

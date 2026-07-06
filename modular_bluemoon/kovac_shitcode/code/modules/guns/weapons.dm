@@ -470,7 +470,7 @@
 			Additionally the suit is collapsible, making it small enough to fit within a backpack."
 	item = /obj/item/clothing/suit/space/hardsuit/syndi
 	cost = 8
-	purchasable_from = UPLINK_SYNDICATE
+	purchasable_from = UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/suits/hardsuit/syndi_elite
 	name = "Syndicate Elite Hardsuit"
@@ -478,7 +478,7 @@
 			provides the user with superior armor and mobility compared to the standard Syndicate hardsuit."
 	item = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	cost = 12
-	purchasable_from = UPLINK_SYNDICATE
+	purchasable_from = UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/suits/hardsuit/syndi_shield
 	name = "Syndicate Shielded Hardsuit"

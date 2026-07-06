@@ -59,6 +59,34 @@
 	cost = 3
 	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
 
+/datum/uplink_item/ammo/enforcer_letal
+	name = "Enforcer letal drum"
+	desc = "Барабан на Энфорсер с летальными патронами"
+	item = /obj/item/ammo_box/magazine/e45/e45_drum/lethal
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
+	cost = 3
+
+/datum/uplink_item/ammo/enforcer_rubber
+	name = "Enforcer rubber drum"
+	desc = "Барабан на Энфорсер с резиновыми патронами"
+	item = /obj/item/ammo_box/magazine/e45/e45_drum
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
+	cost = 1
+
+/datum/uplink_item/ammo/enforcer_taser
+	name = "Enforcer taser drum"
+	desc = "Барабан на Энфорсер с тазерными патронами"
+	item = /obj/item/ammo_box/magazine/e45/e45_drum/taser
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
+	cost = 2
+
+/datum/uplink_item/ammo/enforcer_laser
+	name = "Enforcer laser drum"
+	desc = "Барабан на Энфорсер с лазерными патронами"
+	item = /obj/item/ammo_box/magazine/e45/e45_drum/laser
+	purchasable_from = UPLINK_SYNDICATE_PACT_CREW
+	cost = 2
+
 //Взрывчатка
 
 /datum/uplink_item/explosives/shredbang
