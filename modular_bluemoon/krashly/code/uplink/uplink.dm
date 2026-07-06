@@ -79,7 +79,7 @@
 /obj/item/syndicate_uplink/station/Initialize(mapload, owner, tc_amount = 10)
 	. = ..()
 	var/datum/component/old_component = GetComponent(/datum/component/uplink/syndicate)
-	old_component.RemoveComponent() //я не смог решить иначе. Оно ТК суммирует :(
+	old_component.Destroy()//я не смог решить иначе. Оно ТК суммирует :(
 	AddComponent(/datum/component/uplink/syndicate/pact, owner, FALSE, TRUE, uplink_flag, tc_amount)
 
 /datum/component/uplink/syndicate/pact
