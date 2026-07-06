@@ -34,9 +34,10 @@
 
 /datum/component/mod_retractable/Destroy()
 	if(storage_module)
-		UnregisterSignal(storage_module, COMSIG_MODULE_ON_USE, PROC_REF(retract_in_hands))
+		UnregisterSignal(src, COMSIG_MODULE_ON_USE, PROC_REF(retract_in_hands))
 	if(using_device)
 		UnregisterSignal(using_device, COMSIG_MOVABLE_MOVED, PROC_REF(check_range))
+		qdel(using_device)
 		using_device = null
 		my_modsuit = null
 	return ..()
@@ -66,4 +67,3 @@
 
 	using_device.forceMove(storage_module)
 	playsound(get_turf(my_modsuit), sound, 30, 1)
-	already_holding = FALSE

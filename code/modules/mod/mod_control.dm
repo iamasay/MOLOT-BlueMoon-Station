@@ -291,6 +291,7 @@
 	if(screwdriver.use_tool(src, user, 0.5 SECONDS))
 		if(active || activating)
 			balloon_alert(user, "сначала отключите костюм!")
+			return FALSE
 		screwdriver.play_tool_sound(src, 100)
 		balloon_alert(user, "успешно!")
 		open = !open

@@ -19,13 +19,17 @@
 	name = "MOD internal GPS"
 	icon_state = "gps-trac"
 	desc = "Выдвижной экран GPS, который является образцом самого обычного \
-			модуля позиционированния, разработанный в Nanotrasen. Стоит \
-			осознавать, что вашу позицию будет видно всем остальным владельцем такого устройства."
+			модуля позиционирования, разработанного в Nanotrasen. Стоит \
+			осознавать, что вашу позицию будет видно всем остальным владельцам такого устройства."
 
 /obj/item/mod/module/gps/on_install()
 	. = ..()
 	var/obj/item/item_to_snap = new /obj/item/gps/mod(src)
 	my_retract_component = AddComponent(/datum/component/mod_retractable, device = item_to_snap, modsuit = mod, retract_sound = my_retract_sound)
+
+/obj/item/mod/module/gps/on_uninstall()
+	. = ..()
+	my_retract_component.Destroy()
 
 /obj/item/mod/module/gps/on_use()
 	. = ..()
@@ -66,7 +70,7 @@
 			return
 		playsound(mod, 'sound/mecha/hydraulic.ogg', 25, TRUE)
 		if(!do_after(mod.wearer, load_time, target = target))
-			mod.balloon_alert(mod.wearer, "interrupted!")
+			mod.balloon_alert(mod.wearer, "прервано!")
 			return
 		if(!check_crate_pickup(picked_crate))
 			return
@@ -80,7 +84,7 @@
 			return
 		playsound(mod, 'sound/mecha/hydraulic.ogg', 25, TRUE)
 		if(!do_after(mod.wearer, load_time, target = target))
-			mod.balloon_alert(mod.wearer, "interrupted!")
+			mod.balloon_alert(mod.wearer, "прервано!")
 			return
 		if(is_blocked_turf(target_turf))
 			return

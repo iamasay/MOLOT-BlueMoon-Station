@@ -102,7 +102,7 @@
 	if(!mod?.wearer) //the control's TGUI is reachable on an unworn suit; every module action below needs a wearer
 		return
 	if(((!mod.active || mod.activating) && !allowed_inactive))
-		mod.balloon_alert(mod.wearer, "Сначала активируте костюм!")
+		mod.balloon_alert(mod.wearer, "Сначала активируйте костюм!")
 		return
 	if(module_type != MODULE_USABLE)
 		if(active)
@@ -123,7 +123,7 @@
 		return FALSE
 	if(!allowed_in_phaseout && istype(mod.wearer.loc, /obj/effect/dummy/phased_mob))
 		//specifically a to_chat because the user is phased out.
-		to_chat(mod.wearer, span_warning("Вы не можете активировать это сейчас!."))
+		to_chat(mod.wearer, span_warning("Вы не можете активировать это сейчас!"))
 		return FALSE
 	if(module_type == MODULE_ACTIVE)
 		if(mod.selected_module && !mod.selected_module.on_deactivation())
@@ -138,7 +138,7 @@
 				return
 		else
 			update_signal()
-			mod.balloon_alert(mod.wearer, "[src] активирован. Нажмите Alt+click по цели чтобы использовать")
+			mod.balloon_alert(mod.wearer, "[src] активирован. Нажмите Alt+click по цели, чтобы использовать")
 	active = TRUE
 	mod.wearer.update_inv_back()
 	return TRUE
@@ -150,7 +150,7 @@
 		mod.selected_module = null
 		if(device)
 			mod.wearer.transferItemToLoc(device, src, TRUE)
-			mod.balloon_alert(mod.wearer, "[device] вывдвинут")
+			mod.balloon_alert(mod.wearer, "[device] выдвинут")
 			UnregisterSignal(mod.wearer, COMSIG_ATOM_EXITED)
 		else
 			mod.balloon_alert(mod.wearer, "[src] деактивирован")
@@ -167,7 +167,7 @@
 		return FALSE
 	if(!allowed_in_phaseout && istype(mod.wearer.loc, /obj/effect/dummy/phased_mob))
 		//specifically a to_chat because the user is phased out.
-		to_chat(mod.wearer, span_warning("Вы не можете активировать это сейчас!."))
+		to_chat(mod.wearer, span_warning("Вы не можете активировать это сейчас!"))
 		return FALSE
 	COOLDOWN_START(src, cooldown_timer, cooldown_time)
 	addtimer(CALLBACK(mod.wearer, TYPE_PROC_REF(/mob, update_inv_back)), cooldown_time)
