@@ -276,22 +276,22 @@
 			краденый Syndicate ИММ, смирительную рубашку и намордник."
 	item = /obj/item/storage/backpack/duffelbag/syndie/surgery
 	cost = 1  ///bluemoon change
-	purchasable_from = UPLINK_SYNDICATE
+	purchasable_from = UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/surgerybag/inteq
 	item = /obj/item/storage/backpack/duffelbag/syndie/inteq/surgery
-	purchasable_from = ~UPLINK_SYNDICATE
+	purchasable_from = ~(UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/device_tools/surgerybag_adv
 	name = "Advanced Illegal Surgery Duffel Bag"
 	desc = "Краденая хирургическая сумка Syndicate с набором улучшенных хирургических инструментов в придачу."
 	item = /obj/item/storage/backpack/duffelbag/syndie/surgery_adv
 	cost = 3  ///bluemoon change
-	purchasable_from = UPLINK_SYNDICATE
+	purchasable_from = UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW
 
 /datum/uplink_item/device_tools/surgerybag_adv/inteq
 	item = /obj/item/storage/backpack/duffelbag/syndie/inteq/surgery_adv
-	purchasable_from = ~UPLINK_SYNDICATE
+	purchasable_from = ~(UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 ///datum/uplink_item/device_tools/encryptionkey
 // 	name = "InteQ Encryption Key"
