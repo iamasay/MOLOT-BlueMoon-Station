@@ -555,7 +555,7 @@
 	weight = 32
 	cost = 10
 	required_round_type = list(ROUNDTYPE_DYNAMIC_LIGHT) // BLUEMOON ADD
-	requirements = list(101,10,10,10,10,10,10,10,10,10) //BLUEMOON CHANGES
+	requirements = list(10,10,10,10,10,10,10,10,10,10) //BLUEMOON CHANGES
 	flags = HIGH_IMPACT_RULESET
 	antag_cap = list("denominator" = 5, "offset" = 1) //BLUEMOON ADDITION
 	/// A reference to the handler that is used to run pre_execute(), execute(), etc..
