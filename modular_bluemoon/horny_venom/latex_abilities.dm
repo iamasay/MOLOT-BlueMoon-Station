@@ -57,9 +57,9 @@
 	stage_required = 1
 	var/pick_only_simplemob = TRUE
 	var/can_absorb_alive = FALSE
-
 	var/absorbed_mobs_counter = 1
-/datum/action/cooldown/latexmob/venomAction/update_stage()
+
+/datum/action/cooldown/latexmob/venomAction/update_stage(stage)
 	. = ..()
 	if(stage == 2)
 		can_absorb_alive = TRUE
@@ -80,7 +80,6 @@
 				var/absorb_delay = 5 SECONDS
 				var/finished = owner.LL_apply_animated_latex_overlay_with_progressbar(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, absorb_delay, target_host)
 				if(finished)
-					add_mob_copy_to_ability(target_host)
 					do_absorb_simple_mob(target_host, owner, my_living_latex, src)
 			return
 
@@ -97,7 +96,7 @@
 		else
 			return DEFAULT_ABILITY_ERROR_MESSAGE(owner)
 
-	return owner.balloon_alert(owner, "Не найдено подходящей цели!")
+	return
 
 /datum/action/cooldown/latexmob/ferral_form
 	name = "Форма животного"
@@ -105,9 +104,9 @@
 	button_icon_state = "ferral_form"
 	stage_required = 2
 	var/melee_damage = 5
-	var/list/forms_list = list(/mob/living/simple_animal/latexmob/ferral(owner))
+	var/list/forms_list = list()
 
-/datum/action/cooldown/latexmob/ferral_form/update_stage()
+/datum/action/cooldown/latexmob/ferral_form/update_stage(stage)
 	. = ..()
 	melee_damage = melee_damage * 1.25
 
@@ -116,16 +115,16 @@
 	var/mob/living/owner_mob = owner
 	var/old_body_health = owner_mob.health
 	var/mob/living/simple_animal/latexmob/new_body
-	if(islatexmob(owner_mob) && !isbackseatmob(owner_mob))
-		var/mob_typepath = LL_mob_choice_with_radial_menu(owner, use_custom_list = forms_list)
-		new_body = swap_LL_body_to_new_form(owner, mob_typepath, owner.loc)
+	if(istype(owner, /mob/living/simple_animal) && !istype(owner, /mob/living/simple_animal/latexmob/ferral))
+		LL_mob_choice_with_radial_menu(owner, use_custom_list = forms_list)
+		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob/ferral, owner.loc)
 		if(forms_list.len == 0)
 			forms_list += new_body
 		new_body.health = old_body_health
 		new_body.melee_damage_lower = melee_damage - 2
 		new_body.melee_damage_upper = melee_damage
 
-	else if(!islatexmob(owner))
+	else if(istype(owner, /mob/living/simple_animal/latexmob/ferral))
 		new_body = swap_LL_body_to_new_form(owner, /mob/living/simple_animal/latexmob, owner.loc)
 		new_body.health = old_body_health
 
@@ -142,7 +141,7 @@
 	var/is_simple = TRUE
 	var/list/modes = list("chem", "heal", "wound")
 
-/datum/action/cooldown/latexmob/medscan/update_stage()
+/datum/action/cooldown/latexmob/medscan/update_stage(stage)
 	. = ..()
 	if(stage == 2)
 		is_simple = FALSE
@@ -333,7 +332,7 @@
 	owner.balloon_alert(owner, "Слишком сложный объект!")
 	return FALSE
 
-/datum/action/cooldown/latexmob/mimicry/update_stage()
+/datum/action/cooldown/latexmob/mimicry/update_stage(stage)
 	. = ..()
 	if(stage == 3)
 		avaible_types_for_mimicry += my_living_latex.advanced_mimicry_types
