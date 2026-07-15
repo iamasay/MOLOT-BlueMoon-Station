@@ -1,6 +1,8 @@
 //Способности
 
 /datum/action/cooldown/latexmob
+	name = "generic latexmob proc"
+	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
 	icon_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	background_icon_state = "background"
@@ -12,8 +14,7 @@
 	var/points_need_to_purchase = 1
 	var/delay
 	var/datum/antagonist/living_latex/my_living_latex
-	name = "generic latexmob proc"
-	desc = "Вы не должны это видеть в игре. Это базовый прок холдер, он содержит базовые свойства."
+	var/is_internal_ability = FALSE //если эта способность должна быть доступна только изнутри захваченного моба
 
 /datum/action/cooldown/latexmob/proc/update_stage()
 	if(!owner)
@@ -24,6 +25,8 @@
 	UpdateButtons()
 
 /datum/action/cooldown/latexmob/Activate(atom/target)
+	if(!isbackseatmob(owner) && is_internal_ability) //backseatmob появляется только когда игрок внутри
+		return
 	if(owner.mind && !my_living_latex)
 		my_living_latex = check_LL_antagDatum(owner)
 		delay = my_living_latex.mergingDelay
@@ -35,6 +38,7 @@
 	button_icon_state = "Infiltrate"
 	name = "Захватить контроль над телом"
 	desc = "Возьмите тело под свой контроль и управляйте им как своим"
+	is_internal_ability = TRUE
 
 /datum/action/cooldown/latexmob/takeControl/Activate()
 	. = ..()
@@ -59,7 +63,7 @@
 	var/can_absorb_alive = FALSE
 	var/absorbed_mobs_counter = 1
 
-/datum/action/cooldown/latexmob/venomAction/update_stage(stage)
+/datum/action/cooldown/latexmob/venomAction/update_stage()
 	. = ..()
 	if(stage == 2)
 		can_absorb_alive = TRUE
@@ -106,7 +110,7 @@
 	var/melee_damage = 5
 	var/list/forms_list = list()
 
-/datum/action/cooldown/latexmob/ferral_form/update_stage(stage)
+/datum/action/cooldown/latexmob/ferral_form/update_stage()
 	. = ..()
 	melee_damage = melee_damage * 1.25
 
@@ -141,7 +145,7 @@
 	var/is_simple = TRUE
 	var/list/modes = list("chem", "heal", "wound")
 
-/datum/action/cooldown/latexmob/medscan/update_stage(stage)
+/datum/action/cooldown/latexmob/medscan/update_stage()
 	. = ..()
 	if(stage == 2)
 		is_simple = FALSE
@@ -332,7 +336,7 @@
 	owner.balloon_alert(owner, "Слишком сложный объект!")
 	return FALSE
 
-/datum/action/cooldown/latexmob/mimicry/update_stage(stage)
+/datum/action/cooldown/latexmob/mimicry/update_stage()
 	. = ..()
 	if(stage == 3)
 		avaible_types_for_mimicry += my_living_latex.advanced_mimicry_types

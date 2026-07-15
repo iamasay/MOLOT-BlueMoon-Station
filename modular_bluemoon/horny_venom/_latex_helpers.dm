@@ -82,7 +82,7 @@
 	qdel(old_body)
 	return(new_body)
 
-/datum/action/cooldown/latexmob/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/venom/owner, var/pick_only_simplemob, var/list/use_custom_list)
+/datum/action/cooldown/latexmob/proc/LL_mob_choice_with_radial_menu(mob/living/simple_animal/latexmob/owner, var/pick_only_simplemob, var/list/use_custom_list)
 	var/list/choices = list()
 	var/list/choices_img = list()
 	var/list/targets = use_custom_list ? use_custom_list : oview(1, owner)
@@ -96,6 +96,7 @@
 	var/choice = show_radial_menu(owner, owner, choices_img)
 
 	if(!choice)
+		owner.balloon_alert(owner, "Не найдено подходящей цели!")
 		return null
 
 	return choices[choices_img.Find(choice)]
