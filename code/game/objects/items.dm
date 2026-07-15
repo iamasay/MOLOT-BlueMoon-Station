@@ -533,6 +533,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 /obj/item/proc/pickup(mob/user)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ITEM_PICKUP, user)
+	src.say("COMSIG_ITEM_PICKUP")
 	item_flags |= IN_INVENTORY
 	if(item_flags & (ITEM_CAN_BLOCK | ITEM_CAN_PARRY) && user.client && !(type in user.client.block_parry_hinted))
 		var/list/dat = list("<span class='boldnotice'>You have picked up an item that can be used to block and/or parry:</span>")

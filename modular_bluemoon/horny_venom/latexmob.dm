@@ -103,6 +103,14 @@
 	else
 		evolve_points += POINTS_REGEN_DEBUG
 
+/datum/antagonist/living_latex/proc/get_ability_by_path(path)
+	for(var/datum/action/ability in available_abilities)
+		if(istype(ability, path))
+			return ability
+		else
+			continue
+	return FALSE
+
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
 	var/datum/evolution_store/ev_store = new(src)

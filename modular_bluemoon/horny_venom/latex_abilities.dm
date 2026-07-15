@@ -26,7 +26,7 @@
 
 /datum/action/cooldown/latexmob/Activate(atom/target)
 	if(!isbackseatmob(owner) && is_internal_ability) //backseatmob появляется только когда игрок внутри
-		return
+		return FALSE
 	if(owner.mind && !my_living_latex)
 		my_living_latex = check_LL_antagDatum(owner)
 		delay = my_living_latex.mergingDelay

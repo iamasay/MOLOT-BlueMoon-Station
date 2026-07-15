@@ -16,7 +16,7 @@
 		current_location = src.loc
 		var/obj/mimicry_object =  new type_of_copied(current_location)
 		var/datum/component/latex_mimicry/latex_component = mimicry_object.LoadComponent(mimicry_datum_type)
-		latex_component.stored_latexmob = src
+		latex_component.setup(src)
 		//enter_in_object_animation()
 		forceMove(mimicry_object)
 
