@@ -116,7 +116,7 @@
 	var/datum/evolution_store/ev_store = new(src)
 	self_species = new /datum/species/jelly/roundstartslime/living_latex
 	evolution_store = ev_store
-	available_abilities += new /datum/action/innate/evolution_store
+	available_abilities += new /datum/action/cooldown/latexmob/evolution_store
 	set_name(usr)
 	grant_abilities(usr)
 
@@ -132,7 +132,8 @@
 		user.name = "Сгусток латекса"
 
 /datum/antagonist/living_latex/proc/grant_abilities(user)
-	for(var/datum/action/action in available_abilities)
+	for(var/datum/action/cooldown/latexmob/action in available_abilities)
+		action.my_living_latex = src
 		action.Grant(user)
 
 /datum/antagonist/living_latex/proc/search_ability_name(ability_name)

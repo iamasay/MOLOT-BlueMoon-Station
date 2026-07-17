@@ -29,7 +29,6 @@
         return
     addtimer(CALLBACK(src, PROC_REF(merging), source, user), 0)
 
-
 /datum/component/latex_mimicry/proc/merging(obj/item/I, mob/user)
     if(!istype(I))
         return FALSE

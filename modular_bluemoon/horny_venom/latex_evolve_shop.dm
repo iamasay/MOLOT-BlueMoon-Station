@@ -57,7 +57,7 @@
 		if(living_latex.stage < target_stage)
 			living_latex.upgrade_stage(target_stage)
 
-/datum/action/innate/evolution_store
+/datum/action/cooldown/latexmob/evolution_store
 	name = "Evolution Store"
 	icon_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
 	button_icon = 'modular_bluemoon/horny_venom/icons/latex_abilities.dmi'
@@ -65,12 +65,12 @@
 	button_icon_state = "shop"
 	var/datum/evolution_store/evolution
 
-/datum/action/innate/evolution_store/New()
+/datum/action/cooldown/latexmob/evolution_store/New()
 	. = ..()
 	var/datum/antagonist/living_latex/living_latex = locate(/datum/antagonist/living_latex) in usr.mind.antag_datums
 	evolution = living_latex.evolution_store
 	if(!evolution)
 		CRASH("evolution_store action created with non store")
 
-/datum/action/innate/evolution_store/Activate()
+/datum/action/cooldown/latexmob/evolution_store/Activate()
 	evolution.ui_interact(usr)
