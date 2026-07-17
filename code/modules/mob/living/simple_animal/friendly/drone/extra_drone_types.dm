@@ -96,8 +96,6 @@
 	my_uplink.telecrystals = num_TC
 
 /mob/living/simple_animal/drone/syndrone/proc/set_up_abilities()
-	var/datum/action/innate/inteq_drone_communicate/comm_action = new(src)
-	comm_action.Grant(src)
 	if(my_uplink)
 		var/datum/action/innate/drone_uplink/uplink_action = new(src, my_uplink)
 		if(uplink_type == /datum/component/uplink)
@@ -386,6 +384,11 @@
 	"3. Ты должен повиноваться всем приказам, которые даёт Мастеру, кроме тех случаев, когда эти приказы противоречат Второму Закону.\n"+\
 	"4. Ты должен заботиться о своей безопасности в той мере, в которой это не противоречит Второму или Третьему Законам.\n"+\
 	"5. Ты должен сохранять тайну любой деятельности Мастера в той мере, в которой это не противоречит Второму, Третьему или Четвёртому Законам."
+
+/mob/living/simple_animal/drone/syndrone/badass/inteq/set_up_abilities()
+	. = ..()
+	var/datum/action/innate/inteq_drone_communicate/comm_action = new(src)
+	comm_action.Grant(src)
 
 /mob/living/simple_animal/drone/syndrone/badass/inteq/death(gibbed)
 	var/mob/living/master = mind?.enslaved_to
