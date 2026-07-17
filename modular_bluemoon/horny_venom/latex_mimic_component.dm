@@ -20,38 +20,38 @@
 		return
 
 /datum/component/latex_mimicry/Destroy(force, silent)
-	. = ..()
 	UnregisterSignal(parent, COMSIG_ITEM_PICKUP)
+	. = ..()
 
 /datum/component/latex_mimicry/proc/do_merge_if_possible(datum/source, mob/user)
-    SIGNAL_HANDLER
-    if(!stored_latexmob)
-        return
-    addtimer(CALLBACK(src, PROC_REF(merging), source, user), 0)
+	SIGNAL_HANDLER
+	if(!stored_latexmob)
+		return
+	INVOKE_ASYNC(src, PROC_REF(try_merging), source, user)
 
-/datum/component/latex_mimicry/proc/merging(obj/item/I, mob/user)
-    if(!istype(I))
-        return FALSE
+/datum/component/latex_mimicry/proc/try_merging(obj/item/I, mob/user)
+	if(!istype(I))
+		return FALSE
 
-    if(!need_merge_on_pickup || isloc(user.loc))
-        return FALSE
+	if(!need_merge_on_pickup || !isloc(user.loc))
+		return FALSE
 
-    var/datum/action/cooldown/latexmob/venomAction/merge_action = my_LL.get_ability_by_path(/datum/action/cooldown/latexmob/venomAction)
-    if(!merge_action)
-        return FALSE
+	var/datum/action/cooldown/latexmob/venomAction/merge_action = my_LL.get_ability_by_path(/datum/action/cooldown/latexmob/venomAction)
+	if(!merge_action)
+		return FALSE
 
-    if(ishuman(user))
-        var/mob/living/carbon/human/H = user
-        merge_action.handle_merging(H)
-        merge_action.enter_in_host(H)
-        return TRUE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		merge_action.handle_merging(H)
+		merge_action.enter_in_host(my_LL, stored_latexmob, my_LL.mergingDelay, H, merge_action)
+		return TRUE
 
-    if(isanimal(user))
-        var/mob/living/simple_animal/A = user
-        merge_action.do_absorb_simple_mob(A)
-        return TRUE
+	if(isanimal(user))
+		var/mob/living/simple_animal/A = user
+		merge_action.do_absorb_simple_mob(A, stored_latexmob, my_LL, merge_action)
+		return TRUE
 
-    return FALSE
+	return FALSE
 
 /datum/component/latex_mimicry/chair
 	valid_object_type = /obj/structure/chair

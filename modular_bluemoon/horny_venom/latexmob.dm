@@ -189,7 +189,7 @@
 	QDEL_NULL(evolution_store)
 
 /datum/antagonist/living_latex/proc/merging(mob/living/carbon/T)
-	var/mob/living/old_body = usr
+	var/mob/living/old_body = owner.current
 	var/obj/item/organ/latexOrgan/O = new /obj/item/organ/latexOrgan(my_antag_datum = src)
 	new /obj/effect/temp_visual/latexmob/venom_in(T.loc)
 	O.Insert(T)
