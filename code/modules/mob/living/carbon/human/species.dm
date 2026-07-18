@@ -917,9 +917,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
-
+	H.mutant_part_appearances = list()
 	H.cleanup_overlays()
-	H.clear_mutant_part_appearances()
 
 	if(!length(mutant_bodyparts))
 		return
@@ -941,6 +940,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(!S || S.is_not_visible(H, tauric))
 				bodyparts_to_add -= mutant_part
 
+	//Digitigrade legs are stuck in the phantom zone between true limbs and mutant bodyparts. Mainly it just needs more agressive updating than most limbs.
 	var/update_needed = FALSE
 	var/not_digitigrade = TRUE
 	for(var/X in H.bodyparts)
@@ -948,15 +948,16 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		if(!O.use_digitigrade)
 			continue
 		not_digitigrade = FALSE
-		if(!(DIGITIGRADE in species_traits))
+		if(!(DIGITIGRADE in species_traits)) //Someone cut off a digitigrade leg and tacked it on
 			species_traits += DIGITIGRADE
 		var/should_be_squished = FALSE
 		if(H.wear_suit)
-			if(!(H.wear_suit.mutantrace_variation & STYLE_DIGITIGRADE) || (tauric && (H.wear_suit.mutantrace_variation & STYLE_ALL_TAURIC)))
+			if(!(H.wear_suit.mutantrace_variation & STYLE_DIGITIGRADE) || (tauric && (H.wear_suit.mutantrace_variation & STYLE_ALL_TAURIC))) //digitigrade/taur suits
 				should_be_squished = TRUE
 		if(H.w_uniform && !H.wear_suit)
 			if(!(H.w_uniform.mutantrace_variation & STYLE_DIGITIGRADE))
 				should_be_squished = TRUE
+		//skyrat edit
 		if(H.w_underwear && !H.wear_suit && !H.w_uniform)
 			if(!(H.w_underwear.mutantrace_variation & STYLE_DIGITIGRADE))
 				should_be_squished = TRUE
@@ -966,6 +967,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		if(H.w_shirt && !H.wear_suit && !H.w_uniform)
 			if(!(H.w_shirt.mutantrace_variation & STYLE_DIGITIGRADE))
 				should_be_squished = TRUE
+		//
 		if(O.use_digitigrade == FULL_DIGITIGRADE && should_be_squished)
 			O.use_digitigrade = SQUISHED_DIGITIGRADE
 			update_needed = TRUE
@@ -974,7 +976,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			update_needed = TRUE
 	if(update_needed)
 		H.update_body_parts()
-	if(not_digitigrade && (DIGITIGRADE in species_traits))
+	if(not_digitigrade && (DIGITIGRADE in species_traits)) //Curse is lifted
 		species_traits -= DIGITIGRADE
 
 	if(!bodyparts_to_add)
@@ -995,18 +997,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 			if(!S || S.icon_state == "none")
 				continue
-			var/normalized_part = bodypart
-			if(bodypart == "mam_waggingtail")
-				normalized_part = "mam_tail"
-			if(bodypart == "waggingtail_human")
-				normalized_part = "tail_human"
-			if(bodypart == "waggingtail_lizard")
-				normalized_part = "tail_lizard"
-
-			var/tag = GLOB.all_mutant_parts[normalized_part]
-
-			if(tag && !(normalized_part in GLOB.ignored_mutant_pseudo_parts))
-				H.register_mutant_part_appearance(tag, S)
 
 			for(var/L in S.relevant_layers)
 				LAZYADD(relevant_layers["[L]"], S)
@@ -1019,7 +1009,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		"[BODY_ADJ_UPPER_LAYER]" = "ADJUP",
 		"[BODY_FRONT_LAYER]" = "FRONT",
 		"[HORNS_LAYER]" = "HORNS",
-	)
+		)
 
 	var/g = (H.dna.features["body_model"] == FEMALE) ? "f" : "m"
 	var/husk = HAS_TRAIT(H, TRAIT_HUSK)
@@ -1027,42 +1017,34 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	for(var/layer in relevant_layers)
 		var/list/standing = list()
 		var/layertext = layer_text[layer]
-		if(!layertext)
+		if(!layertext) //shouldn't happen
 			stack_trace("invalid layer '[layer]' found in the list of relevant layers on species.handle_mutant_bodyparts().")
 			continue
-
 		var/layernum = text2num(layer)
-
 		for(var/bodypart in relevant_layers[layer])
 			var/datum/sprite_accessory/S = bodypart
 			var/mutable_appearance/accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
 			accessory_overlay.category = S.mutable_category
-
-			var/part_name = S.mutant_part_string || dna_feature_as_text_string[S]
-
-			var/mutant_string = S.mutant_part_string
-			if(mutant_string == "tailwag")
-				mutant_string = "tail"
-
-			var/tag = GLOB.all_mutant_parts[part_name]
-			if(!tag && mutant_string)
-				tag = GLOB.all_mutant_parts[mutant_string]
-				H.register_mutant_part_appearance(tag, accessory_overlay)
-
+			bodypart = S.mutant_part_string || dna_feature_as_text_string[S]
 			if(S.gender_specific)
-				accessory_overlay.icon_state = "[g]_[part_name]_[S.icon_state]_[layertext]"
+				accessory_overlay.icon_state = "[g]_[bodypart]_[S.icon_state]_[layertext]"
 			else
-				accessory_overlay.icon_state = "m_[part_name]_[S.icon_state]_[layertext]"
+				accessory_overlay.icon_state = "m_[bodypart]_[S.icon_state]_[layertext]"
 
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
-
+			if(!H.mutant_part_appearances[S.mutant_part_string])
+				H.mutant_part_appearances[S.mutant_part_string] = list()
+			H.mutant_part_appearances[S.mutant_part_string] += accessory_overlay
 			var/advanced_color_system = (H.dna.features["color_scheme"] == ADVANCED_CHARACTER_COLORING)
 
+			var/mutant_string = S.mutant_part_string
+			if(mutant_string == "tailwag") //wagging tails should be coloured the same way as your tail
+				mutant_string = "tail"
 			var/primary_string = advanced_color_system ? "[mutant_string]_primary" : "mcolor"
 			var/secondary_string = advanced_color_system ? "[mutant_string]_secondary" : "mcolor2"
 			var/tertiary_string = advanced_color_system ? "[mutant_string]_tertiary" : "mcolor3"
-
+			//failsafe: if there's no value for any of these, set it to white
 			if(!H.dna.features[primary_string])
 				H.dna.features[primary_string] = advanced_color_system ? H.dna.features["mcolor"] : "FFFFFF"
 			if(!H.dna.features[secondary_string])
@@ -1126,9 +1108,9 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				else
 					accessory_overlay.color = forced_colour
 			else
-				if(part_name == "ears")
+				if(bodypart == "ears")
 					accessory_overlay.icon_state = "m_ears_none_[layertext]"
-				if(part_name == "tail")
+				if(bodypart == "tail")
 					accessory_overlay.icon_state = "m_tail_husk_[layertext]"
 				if(S.color_src == MATRIXED)
 					var/list/accessory_colorlist = list()
@@ -1146,18 +1128,17 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 			standing += accessory_overlay
 
-			// extra-оверлеи
-			if(S.extra)
+			if(S.extra) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
 				extra_accessory_overlay.category = S.mutable_category
 				if(S.gender_specific)
-					extra_accessory_overlay.icon_state = "[g]_[part_name]_extra_[S.icon_state]_[layertext]"
+					extra_accessory_overlay.icon_state = "[g]_[bodypart]_extra_[S.icon_state]_[layertext]"
 				else
-					extra_accessory_overlay.icon_state = "m_[part_name]_extra_[S.icon_state]_[layertext]"
+					extra_accessory_overlay.icon_state = "m_[bodypart]_extra_[S.icon_state]_[layertext]"
 				if(S.center)
 					extra_accessory_overlay = center_image(extra_accessory_overlay, S.dimension_x, S.dimension_y)
 
-				switch(S.extra_color_src)
+				switch(S.extra_color_src) //change the color of the extra overlay
 					if(MUTCOLORS)
 						if(fixed_mut_color)
 							extra_accessory_overlay.color = "#[fixed_mut_color]"
@@ -1182,6 +1163,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 						extra_accessory_overlay.color = "#[H.facial_hair_color]"
 					if(EYECOLOR)
 						extra_accessory_overlay.color = "#[H.left_eye_color]"
+
 					if(HORNCOLOR)
 						extra_accessory_overlay.color = "#[H.dna.features["horns_color"]]"
 					if(WINGCOLOR)
@@ -1193,17 +1175,17 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 				standing += extra_accessory_overlay
 
-			if(S.extra2)
+			if(S.extra2) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra2_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
 				extra2_accessory_overlay.category = S.mutable_category
 				if(S.gender_specific)
-					extra2_accessory_overlay.icon_state = "[g]_[part_name]_extra2_[S.icon_state]_[layertext]"
+					extra2_accessory_overlay.icon_state = "[g]_[bodypart]_extra2_[S.icon_state]_[layertext]"
 				else
-					extra2_accessory_overlay.icon_state = "m_[part_name]_extra2_[S.icon_state]_[layertext]"
+					extra2_accessory_overlay.icon_state = "m_[bodypart]_extra2_[S.icon_state]_[layertext]"
 				if(S.center)
 					extra2_accessory_overlay = center_image(extra2_accessory_overlay, S.dimension_x, S.dimension_y)
 
-				switch(S.extra2_color_src)
+				switch(S.extra2_color_src) //change the color of the extra overlay
 					if(MUTCOLORS)
 						if(fixed_mut_color)
 							extra2_accessory_overlay.color = "#[fixed_mut_color]"
