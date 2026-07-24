@@ -1,5 +1,0 @@
-author: Herobrine998
-delete-after: true
-changes:
-  - code_imp: Фикс прока try_dismember, что использовался как возвращающий значение,
-      но всегда возвращал истину
