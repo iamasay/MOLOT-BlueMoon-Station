@@ -1,5 +1,0 @@
-author: PlayTheGoat
-delete-after: true
-changes:
-  - bugfix: Industrial Suit Storage Unit не меняет текстурку при откручивании крышки
-      панели обслуживания на классический
