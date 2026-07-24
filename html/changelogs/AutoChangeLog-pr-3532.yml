@@ -1,5 +1,0 @@
-author: Herobrine998
-delete-after: true
-changes:
-  - code_imp: base_pixel_x/base_pixel_y теперь будут учитываться при укладке на стол,
-      держании в руках и при выборе альт. скинов
