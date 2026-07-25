@@ -1,5 +1,0 @@
-author: Silver-Paws
-delete-after: true
-changes:
-  - bugfix: Пофикшен крафт BoH и разновидности кликом ядра по инертной версии внутри
-      других хранилищ типа сумок.
