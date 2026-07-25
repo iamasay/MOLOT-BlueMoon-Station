@@ -1,0 +1,4 @@
+author: iamasay
+delete-after: true
+changes:
+  - bugfix: убрал баг на бесконечные деньги
