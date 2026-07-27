@@ -813,11 +813,17 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 					grad_color = H.grad_color
 					if(grad_style)
 						var/datum/sprite_accessory/gradient = GLOB.hair_gradients_list[grad_style]
-						var/icon/temp = icon(gradient.icon, gradient.icon_state)
-						var/icon/temp_hair = icon(hair_file, hair_state)
-						temp.Blend(temp_hair, ICON_ADD)
-						gradient_overlay.icon = temp
-						gradient_overlay.color = "#" + grad_color
+						// Битый преф (стиль, которого больше нет в списке) без гарда
+						// роняет весь handle_hair на каждом апдейте иконки моба.
+						if(gradient)
+							var/icon/temp = icon(gradient.icon, gradient.icon_state)
+							var/icon/temp_hair = icon(hair_file, hair_state)
+							temp.Blend(temp_hair, ICON_ADD)
+							gradient_overlay.icon = temp
+							gradient_overlay.color = "#" + grad_color
+						else
+							grad_style = null
+							H.grad_style = null
 
 				else
 					hair_overlay.color = forced_colour
@@ -1568,7 +1574,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(istype(I, /obj/item/clothing/accessory/ring))
 				if(istype(H.gloves))
 					var/obj/item/clothing/gloves/attaching_target = H.gloves
-					if(length(attaching_target.attached_accessories) > attaching_target.max_accessories)
+					if(length(attaching_target.accessories_attached) > attaching_target.max_accessories)
 						if(return_warning)
 							return_warning[1] = "\The [attaching_target] is at maximum capacity!"
 						return FALSE
@@ -1584,7 +1590,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			else
 				if(istype(H.w_uniform, /obj/item/clothing/under))
 					var/obj/item/clothing/under/attaching_target = H.w_uniform
-					if(length(attaching_target.attached_accessories) > attaching_target.max_accessories)
+					if(length(attaching_target.accessories_attached) > attaching_target.max_accessories)
 						if(return_warning)
 							return_warning[1] = "\The [attaching_target] is at maximum capacity!"
 						return FALSE
