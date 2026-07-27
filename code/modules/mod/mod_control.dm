@@ -1,16 +1,11 @@
-/// MODsuits, trade-off between armor and utility
+
 /obj/item/mod
 	name = "Base MOD"
 	desc = "Вы не должны это видеть, кричите на кодера!"
-	/*	icon = 'icons/obj/clothing/modsuit/mod_clothing.dmi' // BLUEMOON COMMENTING OUT saving old code lines
-	mob_overlay_icon = 'icons/mob/clothing/modsuit/mod_clothing.dmi' */
-// BLUEMOON ADDITION AHEAD custom sprite states
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
-	// Bitflags for exosuit subcategories
 	var/mod_flags
-// BLUEMOON ADDITION END
 	icon_state = "standard-control"
 	item_state = "standard-control"
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
@@ -33,6 +28,8 @@
 		/datum/action/item_action/mod/activate/ai,
 		/datum/action/item_action/mod/module/ai,
 		/datum/action/item_action/mod/panel/ai,
+		/datum/action/item_action/mod/hardlight_deploy,
+		// /datum/action/item_action/mod/hardlight_deploy/chooce_color,
 	)
 	resistance_flags = NONE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
@@ -198,7 +195,6 @@
 	if((!cell || !cell.charge) && active && !activating)
 		power_off()
 		return PROCESS_KILL
-	// Добавляем минорное облучение, если батарея радиоактивна. Большей частью ради свечения.
 	if(cell.cell_is_radioactive)
 		AddComponent(/datum/component/radioactive, 0, src, 0)
 	var/malfunctioning_charge_drain = 0

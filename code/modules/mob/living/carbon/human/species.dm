@@ -2790,6 +2790,10 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 //Tail Wagging//
 ////////////////
 
+#define COMSIG_TOGGLE_TAILWAG "tailwag_sig"
+#define WAGGING_START "wag_start"
+#define WAGGING_STOP "wag_stop"
+
 /datum/species/proc/can_wag_tail(mob/living/carbon/human/H)
 	if(!tail_type || !wagging_type)
 		return FALSE
@@ -2824,6 +2828,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(tail_type == "tail_lizard") //special lizard thing
 				swap_mutant_bodypart_key("spines", "waggingspines")
 			H.update_body()
+			SEND_SIGNAL(H, COMSIG_TOGGLE_TAILWAG, WAGGING_START)
 
 /datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
 	if(tail_type && wagging_type)
@@ -2832,6 +2837,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(tail_type == "tail_lizard") //special lizard thing
 				swap_mutant_bodypart_key("waggingspines", "spines")
 			H.update_body()
+			SEND_SIGNAL(H, COMSIG_TOGGLE_TAILWAG, WAGGING_STOP)
 
 ///////////////
 //FLIGHT SHIT//
