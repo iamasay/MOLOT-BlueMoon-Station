@@ -463,11 +463,16 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/y = min(world.maxy, max(1, A.y + dy))
 	return locate(x,y,A.z)
 
-/*
-	Gets all contents of contents and returns them all in a list.
-*/
+/atom/proc/contains(var/atom/A)
+	if(!A)
+		return FALSE
+	for(var/atom/location = A.loc, location, location = location.loc)
+		if(location == src)
+			return TRUE
 
-/atom/proc/GetAllContents(var/T)
+
+/// Gets all contents of contents and returns them all in a list.
+/atom/proc/GetAllContents(T)
 	if(!length(contents))
 		if(!T || istype(src, T))
 			return list(src)
@@ -529,6 +534,29 @@ Turf and target are separate in case you want to teleport some distance from a t
 			lim = processing.len
 			. += A
 
+/// Возвращает список всех объектов указанного типа в цепочке loc
+/atom/proc/get_all_recursive_loc(T)
+	. = list()
+	var/atom/A = src.loc
+
+	while(A)
+		if(istype(A, T))
+			. += A
+
+		A = A.loc
+
+//Recursively checks if an item is inside a given type, even through layers of storage. Returns the atom if it finds it.
+/proc/recursive_loc_check(atom/movable/target, type)
+	var/atom/A = target
+	if(istype(A, type))
+		return A
+
+	while(!istype(A.loc, type))
+		if(!A.loc)
+			return
+		A = A.loc
+
+	return A.loc
 
 //Step-towards method of determining whether one atom can see another. Similar to viewers()
 /proc/can_see(atom/source, atom/target, length=5) // I couldnt be arsed to do actual raycasting :I This is horribly inaccurate.
@@ -1050,13 +1078,6 @@ B --><-- A
 			CHECK_TICK
 
 	return L
-
-/atom/proc/contains(var/atom/A)
-	if(!A)
-		return FALSE
-	for(var/atom/location = A.loc, location, location = location.loc)
-		if(location == src)
-			return TRUE
 
 /proc/flick_overlay_static(O, atom/A, duration)
 	set waitfor = 0
