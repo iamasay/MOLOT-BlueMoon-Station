@@ -743,16 +743,15 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 
 // facing verbs
 /mob/proc/canface()
+	. = FALSE
 	if(world.time < client?.last_turn)
-		return FALSE
+		return
 	if(stat == DEAD || stat == UNCONSCIOUS)
-		return FALSE
+		return
 	if(anchored)
-		return FALSE
+		return
 	if(mob_transforming)
-		return FALSE
-	if(restrained())
-		return FALSE
+		return
 	return TRUE
 
 /mob/proc/fall(forced)
@@ -792,18 +791,26 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 
 /mob/verb/northshift()
 	set hidden = TRUE
+	if(!canface())
+		return FALSE
 	pixel_shift(NORTH)
 
 /mob/verb/southshift()
 	set hidden = TRUE
+	if(!canface())
+		return FALSE
 	pixel_shift(SOUTH)
 
 /mob/verb/eastshift()
 	set hidden = TRUE
+	if(!canface())
+		return FALSE
 	pixel_shift(EAST)
 
 /mob/verb/westshift()
 	set hidden = TRUE
+	if(!canface())
+		return FALSE
 	pixel_shift(WEST)
 
 /mob/proc/IsAdvancedToolUser()//This might need a rename but it should replace the can this mob use things check
