@@ -1,0 +1,4 @@
+author: ARZUMATA
+delete-after: true
+changes:
+  - bugfix: корректное управление компонентом и сигналами waddling
