@@ -157,6 +157,10 @@
 	use_power = IDLE_POWER_USE
 
 	if(!ishuman(occupant) || !check_for_normalizer(occupant)) // BLUEMOON EDIT - added || !check_for_normalizer(occupant)
+		// processing уже снят выше, так что process() машину больше не откроет: без
+		// open_machine() пациент оставался запертым внутри до клика по машине или
+		// десятисекундного container_resist.
+		open_machine()
 		return FALSE
 
 	var/mob/living/carbon/human/patient = occupant

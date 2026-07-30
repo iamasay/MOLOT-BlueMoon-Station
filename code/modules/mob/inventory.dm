@@ -181,6 +181,12 @@
 	return !held_items[hand_index]
 
 /mob/proc/put_in_hand(obj/item/I, hand_index, forced = FALSE, ignore_anim = TRUE)
+	// Класть в руки удалённый предмет нельзя: forced = TRUE обходит can_put_in_hand целиком, и
+	// стрип-меню приносило сюда самоудаляющиеся при снятии предметы (энергетический силок,
+	// поцелуй) - forceMove мертвецу пинил его ссылкой из contents и давал "doMove qdel-нутого"
+	// (прод-раунд 9834). Сторона сброса такой гард уже имеет.
+	if(QDELETED(I))
+		return FALSE
 	if(forced || can_put_in_hand(I, hand_index))
 		if(isturf(I.loc) && !ignore_anim)
 			I.do_pickup_animation(src)
@@ -235,7 +241,10 @@
 //If both fail it drops it on the floor and returns FALSE.
 //This is probably the main one you need to know :)
 /mob/proc/put_in_hands(obj/item/I, del_on_fail = FALSE, merge_stacks = TRUE, forced = FALSE)
-	if(!I)
+	// QDELETED, а не только !I: удалённый предмет остаётся ненулевым, put_in_hand его теперь
+	// отвергает - и управление доходило бы до хвоста прока, где удалённому предмету всё равно
+	// делают forceMove(drop_location()) и dropped(). Тот же рантайм, только этажом ниже.
+	if(QDELETED(I))
 		return FALSE
 
 	// If the item is a stack and we're already holding a stack then merge
