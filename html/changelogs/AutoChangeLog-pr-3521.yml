@@ -1,5 +1,0 @@
-author: Kubic70
-delete-after: true
-changes:
-  - code_imp: Add define ATOM_STATISTICS_LOGGING
-  - code_imp: Add Atom Statistics Logging to Atoms Subsystem
