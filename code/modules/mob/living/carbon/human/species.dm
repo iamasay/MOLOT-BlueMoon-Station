@@ -923,12 +923,12 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
+	var/list/overlay_to_add = H.save_special_overlays()
+	H.test_var = overlay_to_add //ДЕБАГГИНГ, ПОТОМ
 	H.mutant_part_appearances = list()
 	H.cleanup_overlays()
-
 	if(!length(mutant_bodyparts))
 		return
-
 	//Тавры и наги
 	var/tauric = H.have_tauric_body()
 	var/datum/action/found_action = search_coiling_action(H)
@@ -1225,6 +1225,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 		H.overlays_standing[layernum] = standing
 
+	H.apply_copied_special_overlays(overlay_to_add)
+	H.body_front_standing = H.overlays_standing[BODY_FRONT_LAYER]
 	H.apply_overlay(BODY_BEHIND_LAYER)
 	H.apply_overlay(BODY_ADJ_LAYER)
 	H.apply_overlay(BODY_ADJ_UPPER_LAYER)
@@ -2790,7 +2792,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 //Tail Wagging//
 ////////////////
 
-#define COMSIG_TOGGLE_TAILWAG "tailwag_sig"
 #define WAGGING_START "wag_start"
 #define WAGGING_STOP "wag_stop"
 
@@ -2824,20 +2825,23 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 /datum/species/proc/start_wagging_tail(mob/living/carbon/human/H)
 	if(tail_type && wagging_type)
 		if(mutant_bodyparts[tail_type])
-			swap_mutant_bodypart_key(tail_type, wagging_type)
+			H.toggle_tailwagging_overlay(WAGGING_START)
+			swap_mutant_bodypart_key(tail_type, wagging_type) //Этот прок РЕАЛЬНО меняет хвост
+			//сделать так, чтобы виляющая разновидность просто не показывалась при оверлее!
+			//Тут не обойтись без создания ключей в списке mutant parts
+			//так как порядок влияет на отображение.
 			if(tail_type == "tail_lizard") //special lizard thing
 				swap_mutant_bodypart_key("spines", "waggingspines")
 			H.update_body()
-			SEND_SIGNAL(H, COMSIG_TOGGLE_TAILWAG, WAGGING_START)
 
 /datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
 	if(tail_type && wagging_type)
 		if(mutant_bodyparts[wagging_type])
+			H.toggle_tailwagging_overlay(WAGGING_STOP)
 			swap_mutant_bodypart_key(wagging_type, tail_type)
 			if(tail_type == "tail_lizard") //special lizard thing
 				swap_mutant_bodypart_key("waggingspines", "spines")
 			H.update_body()
-			SEND_SIGNAL(H, COMSIG_TOGGLE_TAILWAG, WAGGING_STOP)
 
 ///////////////
 //FLIGHT SHIT//

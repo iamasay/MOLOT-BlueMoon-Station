@@ -19,7 +19,7 @@
 	"[HORNS_LAYER]"           = "HORNS" \
 )
 
-#define LAYERS list( \
+#define OVERLAY_LAYERS list( \
 	SNOUT_APPEARANCE, \
 	TAIL_APPEARANCE, \
 	EARS_APPEARANCE, \
@@ -47,43 +47,49 @@
 //---HUMAN PROCS---
 
 /mob/living/carbon/human
+	var/list/test_var = list()
+	var/list/test_overlay_to_remove = list()
+	var/list/body_front_standing
+
+/mob/living/carbon/human/proc/save_special_overlays()
+	var/list/special_overlays_to_copy = list()
+	var/list/body_front_layers = overlays_standing[BODY_FRONT_LAYER]
+	var/list/colors = list()
+	var/list/effect_icons = list()
+	var/list/effect_states = list()
+
+	for(var/mutable_appearance/overlay in body_front_layers)
+		if(!overlay)
+			continue
+
+		if(overlay.name in OVERLAY_LAYERS)
+			special_overlays_to_copy += overlay
+			colors += overlay.color_tone
+			effect_icons += overlay.used_effect_icon
+			effect_states += overlay.used_effect_state
+
+	return list(special_overlays_to_copy, colors, effect_icons, effect_states)
+
+/mob/living/carbon/human/proc/apply_copied_special_overlays(list/special_overlays_to_copy, list/colors, list/effect_icons, list/effect_states)
+	if(special_overlays_to_copy)
+		for(var/special_overlay in special_overlays_to_copy)
+			var/color = pick(colors)
+			var/effect_icon = pick(effect_icons)
+			var/effect_state = pick(effect_states)
+			apply_overlay_on_bodypart(special_overlay, color, effect_icon, effect_state)
+
+/mob/living/carbon/human
 	var/list/mutant_part_appearances = list() //Хранит списки по ключам слоя. tail = list(tail_FRONT, tail_ADJ). Содержимое это mutable_apperance
 
-/mob/living/carbon/human/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_TOGGLE_TAILWAG, PROC_REF(handle_tailwag)) //для виляния необходима жёсткая синхронизация.
-
-//update_body в дефолте просто накладывал спрайты поверх оверлея. Чтобы этого не происходило
-//приходится перерисовывать их при каждом обновлении тела.
-/mob/living/carbon/human/update_body(update_genitals, block_recursive_calls)
-	. = ..()
-	regenerate_overlays() //удаляет и рисует заново оверлеи
-
-/mob/living/carbon/human/proc/regenerate_overlays()
-	var/list/overlays_copy = list()
-	for(var/layer_name in mutant_part_appearances)
-		var/list/overlays_by_layer = get_special_overlay_by_name(layer_name)
-		if(!overlays_by_layer)
-			continue
-		for(var/mutable_appearance/overlay in overlays_by_layer)
-			if(overlay)
-				overlays -= overlay
-				if(!overlays_copy[layer_name])
-					overlays_copy[layer_name] = list()
-				overlays_copy[layer_name] += overlay
-				remove_overlay(layer_name)
-	for(var/layer in overlays_copy)
-		remove_or_add_overlay_by_list(overlays_copy[layer], layer, OVERLAY_ADD)//по индексу лежит список конкретного ключа. Например tail
-
 /mob/living/carbon/human/proc/remove_or_add_overlay_by_list(overlays_list, layer_name, mode)
-	for(var/mutable_appearance/overlay in overlays_list)
-		switch(mode)
-			if(OVERLAY_REMOVE)
-				overlays -= overlay
-				remove_overlay(layer_name)
-			if(OVERLAY_ADD)
-				overlays_standing[layer_name] = overlay
-				apply_overlay(layer_name)
+	switch(mode)
+		if(OVERLAY_REMOVE)
+			// cut_overlay(overlays_list)
+			for(var/mutable_appearance/overlay in overlays_list)
+				overlays_standing[BODY_FRONT_LAYER] -= overlay
+		if(OVERLAY_ADD)
+			for(var/mutable_appearance/overlay in overlays_list)
+				overlays_standing[BODY_FRONT_LAYER] += overlay //фактически добавится только после handle_mutant_bodyparts
 
 /mob/living/carbon/human/proc/get_MOD_overlay_icon(icon/A, safety = TRUE, color = MOD_STANDART_COLOR, effect_icon, effect_state)
 	var/icon/flat_icon = safety ? A : new(A)
@@ -97,14 +103,17 @@
 
 /mob/living/carbon/human/proc/get_special_overlay_by_name(layer_name)
 	var/list/overlays_to_return = list()
-	for(var/mutable_appearance/overlay in overlays)
+	var/list/body_front_overlays = overlays_standing[BODY_FRONT_LAYER]
+
+	for(var/mutable_appearance/overlay in body_front_overlays)
+		if(!overlay)
+			continue
+
 		if(overlay.name == layer_name)
 			overlays_to_return += overlay
-	return overlays_to_return
 
-/mob/living/carbon/human/proc/handle_tailwag(datum/source, params)
-    SIGNAL_HANDLER
-    toggle_tailwagging_overlay(params)
+	test_overlay_to_remove = overlays_to_return
+	return overlays_to_return
 
 /mob/living/carbon/human/proc/toggle_tailwagging_overlay(params)
 	var/removing_layer
@@ -123,8 +132,10 @@
 
 	picked_MA = pick(overlays_to_remove)
 	var/list/MA_args = picked_MA.copy_special_MA_params(target_layer)
-	apply_overlay_on_bodypart(arglist(MA_args))
+	for(var/message in overlays_to_remove)
+		to_chat(src, "removing: [message]")
 	remove_or_add_overlay_by_list(overlays_to_remove, removing_layer, OVERLAY_REMOVE)
+	apply_overlay_on_bodypart(arglist(MA_args))
 
 /mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
 	var/list/target_MAs = get_appearance_by_layer(layer)
@@ -150,12 +161,11 @@
 		new_MA.used_effect_icon = effect_icon
 		new_MA.used_effect_state = effect_state
 		new_MA.name = layer
-		overlays_standing[layer] = new_MA
-		apply_overlay(layer)
+		overlays_standing[BODY_FRONT_LAYER] += new_MA
 	return list(new_MA, layer)
 
 /mob/living/carbon/human/proc/test_overlays()
-	for(var/layer in LAYERS)
+	for(var/layer in OVERLAY_LAYERS)
 		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
 
 /mob/living/carbon/human/proc/get_appearance_by_layer(layer)
