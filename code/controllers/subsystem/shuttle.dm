@@ -1077,7 +1077,7 @@ SUBSYSTEM_DEF(shuttle)
 				var/obj/docking_port/mobile/emergency/eshut = M
 				var/evac_duration = emergencyEscapeTime * eshut.engine_coeff
 				var/datum/shuttle_event/new_event = eshut.add_shuttle_event(event_type)
-				new_event?.start_up_event(evac_duration)
+				new_event?.start_up_event(evac_duration, TRUE)
 				message_admins("[key_name_admin(usr)] forced hyperspace event [event_type] on the evacuation shuttle.")
 				log_admin("[key_name(usr)] forced hyperspace event [event_type] on the evacuation shuttle.")
 				SSblackbox.record_feedback("text", "shuttle_manipulator", 1, "force_hyperspace:[event_type]")

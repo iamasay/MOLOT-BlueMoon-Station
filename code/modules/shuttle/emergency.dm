@@ -386,15 +386,15 @@
 			if(!ispath(event_type, /datum/shuttle_event) || !(event_type in get_admin_forceable_hyperspace_events()))
 				continue
 			var/datum/shuttle_event/queued_ev = add_shuttle_event(event_type)
-			queued_ev?.start_up_event(evac_duration)
-		used_admin_queue = TRUE
+			queued_ev?.start_up_event(evac_duration, TRUE)
+			used_admin_queue = TRUE
 		queued_admin_hyperspace_events.Cut()
 	if(!used_admin_queue)
 		var/list/weighted = get_hyperspace_event_roll_weights()
 		if(length(weighted))
 			var/chosen = pickweight(weighted)
 			var/datum/shuttle_event/new_event = add_shuttle_event(chosen)
-			new_event?.start_up_event(evac_duration)
+			new_event?.start_up_event(evac_duration, TRUE)
 
 /obj/docking_port/mobile/emergency/check()
 	if(!timer)
