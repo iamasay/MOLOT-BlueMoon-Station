@@ -173,3 +173,4 @@
   - code_imp: Добавлены ру-пронауны "Ним/ней" для локализаторов.
   - refactor: Код целей Changeling Zombie перенесен с datum/component его вируса в
       datum/antagonist его роли.
+  - balance: Мутация Laser Eyes больше не работает при пацифизме у носителя.
