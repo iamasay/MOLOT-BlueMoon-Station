@@ -37,7 +37,7 @@
 	category = CAT_CLOTHING
 
 /datum/crafting_recipe/makeshift_platecarrier
-	name = "Makeshift Combat Rig"
+	name = "Makeshift Plate Carrier"
 	result = /obj/item/clothing/suit/armor/hos/platecarrier/makeshift
 	reqs = list(
 		/obj/item/clothing/suit/armor/vest = 1,

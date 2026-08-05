@@ -171,7 +171,7 @@
 	storage.max_items = 5
 
 /obj/item/clothing/suit/armor/hos/platecarrier/makeshift
-	name = "makeshift combat rig"
+	name = "makeshift plate carrier"
 	desc = "A hand-sown combat rig made from armor vests and security belts. Trades some protection for utility."
 	body_parts_covered = CHEST|GROIN|ARMS
 	armor = list(MELEE = 35, BULLET = 30, LASER = 30, ENERGY = 40, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
