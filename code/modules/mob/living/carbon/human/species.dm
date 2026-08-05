@@ -923,6 +923,14 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
+	var/list/overlays_to_add = H.overlays_standing[SPECIAL_OVERLAYS_LAYER]
+	var/tail_params
+	if(overlays_to_add)
+		for(var/mutable_appearance/tail in overlays_to_add)
+			if(tail.name == "tail" || tail.name == "tailwag")
+				tail_params = tail.copy_special_MA_params()
+				if(tail_params)
+					to_chat(H, "Параметры хвоста скопированы: [tail_params[1]]")
 	H.mutant_part_appearances = list()
 	H.cleanup_overlays()
 	if(!length(mutant_bodyparts))
@@ -1017,7 +1025,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 	var/g = (H.dna.features["body_model"] == FEMALE) ? "f" : "m"
 	var/husk = HAS_TRAIT(H, TRAIT_HUSK)
-
 	for(var/layer in relevant_layers)
 		var/list/standing = list()
 		var/layertext = layer_text[layer]
@@ -1034,7 +1041,19 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				accessory_overlay.icon_state = "[g]_[bodypart]_[S.icon_state]_[layertext]"
 			else
 				accessory_overlay.icon_state = "m_[bodypart]_[S.icon_state]_[layertext]"
-
+// MARK: Хвост тут!
+			var/mutant_string = S.mutant_part_string
+			var/icon/tail_with_effect
+			if(mutant_string == "tailwag" && tail_params)
+				var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
+				var/color = tail_params[2]
+				var/effect_icon = tail_params[3]
+				var/effect_icon_state = tail_params[4]
+				tail_with_effect = H.get_MOD_overlay_icon(tail_icon, TRUE, color, effect_icon, effect_icon_state)
+			if(tail_with_effect)
+				accessory_overlay = mutable_appearance(tail_with_effect)
+				to_chat(H, "Пробую применить эффект виляющего хвоста")
+//MARK: конец
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
 			if(!H.mutant_part_appearances[S.mutant_part_string])
@@ -1042,7 +1061,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			H.mutant_part_appearances[S.mutant_part_string] += accessory_overlay
 			var/advanced_color_system = (H.dna.features["color_scheme"] == ADVANCED_CHARACTER_COLORING)
 
-			var/mutant_string = S.mutant_part_string
+			// var/mutant_string = S.mutant_part_string
 			if(mutant_string == "tailwag") //wagging tails should be coloured the same way as your tail
 				mutant_string = "tail"
 			var/primary_string = advanced_color_system ? "[mutant_string]_primary" : "mcolor"
@@ -1223,17 +1242,13 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 		H.overlays_standing[layernum] = standing
 
-	H.body_front_standing = H.overlays_standing[BODY_FRONT_LAYER]
-	H.apply_overlay(BODY_BEHIND_LAYER)
-	H.apply_overlay(BODY_ADJ_LAYER)
-	H.apply_overlay(BODY_ADJ_UPPER_LAYER)
-	H.apply_overlay(BODY_FRONT_LAYER)
-	H.apply_overlay(HORNS_LAYER)
-
+	H.add_all_overlays()
 	if(!block_recursive_calls)
 		var/datum/component/dullahan/D = H.GetComponent(/datum/component/dullahan)
 		if(D && D.dullahan_head)
 			D.dullahan_head.update_appearance()
+	if(overlays_to_add)
+		H.build_overlays()
 
 /*
  * Equip the outfit required for life. Replaces items currently worn.
@@ -2822,13 +2837,11 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 /datum/species/proc/start_wagging_tail(mob/living/carbon/human/H)
 	if(tail_type && wagging_type)
 		if(mutant_bodyparts[tail_type])
-			swap_mutant_bodypart_key(tail_type, wagging_type) //Этот прок РЕАЛЬНО меняет хвост
-			//сделать так, чтобы виляющая разновидность просто не показывалась при оверлее!
-			//Тут не обойтись без создания ключей в списке mutant parts
-			//так как порядок влияет на отображение.
+			swap_mutant_bodypart_key(tail_type, wagging_type)
 			if(tail_type == "tail_lizard") //special lizard thing
 				swap_mutant_bodypart_key("spines", "waggingspines")
 			H.update_body()
+
 
 /datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
 	if(tail_type && wagging_type)
