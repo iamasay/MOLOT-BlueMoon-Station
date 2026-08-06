@@ -736,7 +736,7 @@
 		return
 	if(lowertext(key) != "c")
 		return
-	open_mode_menu(Wearer)
+	INVOKE_ASYNC(src, PROC_REF(open_mode_menu), Wearer)
 
 /obj/item/clothing/suit/space/hardsuit/nano/proc/equip_support_gear(mob/living/carbon/human/H)
 	equip_kit_item(H, /obj/item/clothing/glasses/nano_goggles, ITEM_SLOT_EYES)
