@@ -19,6 +19,7 @@
 	response_harm_continuous = "kicks"
 	response_harm_simple = "kick"
 	emote_taunt = list("hisses")
+	playable_by_ghost = TRUE
 	taunt_chance = 30
 	speed = 0
 	maxHealth = 250
