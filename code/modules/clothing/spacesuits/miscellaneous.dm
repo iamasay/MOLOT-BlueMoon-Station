@@ -491,7 +491,7 @@ Contains:
 	desc = "A slimming piece of dubious space carp technology. Carp magic lets you walk freely through the void."
 	icon_state = "carp_suit"
 	item_state = "space_suit_syndicate"
-	tail_state = "wizard"
+	tail_state = "carp"
 	slowdown = 0	//Space carp magic, never stop believing
 	armor = list(MELEE = 60, BULLET = 60, LASER = 50, ENERGY = 25, BOMB = 55, BIO = 100, RAD = 100, FIRE = 100, ACID = 100, WOUND = 30) // same as elite InteQ / syndi elite
 	allowed = list(/obj/item/tank/internals, /obj/item/gun/ballistic/automatic/speargun)	//I'm giving you a hint here
