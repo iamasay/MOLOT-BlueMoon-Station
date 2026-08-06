@@ -1,7 +1,7 @@
 /datum/action/item_action/dusting_implant
 	check_flags =  NONE
 	name = "Activate Dusting Implant"
-	button_icon = 'icons/effects/blood.dmi'
+	icon_icon = 'icons/effects/blood.dmi'
 	button_icon_state = "remains"
 
 //Crytek Nanosuit made by YoYoBatty
@@ -31,8 +31,8 @@
 /datum/action/item_action/nanojump
 	name = "Activate Strength Jump"
 	desc = "Activates the Nanosuit's super jumping ability to allows the user to cross 2 wide gaps."
-	button_icon = 'icons/mob/actions/actions_items.dmi'
-	button_icon_state = "jetboot"
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	button_icon_state = "strength_mode"
 
 /obj/item/clothing/shoes/combat/coldres/nanojump
 	name = "nanosuit boots"
@@ -585,35 +585,35 @@
 	helmet.display_visor_message("Все системы были успешно перезагружены.")
 	shutdown = FALSE
 	toggle_mode(NANO_ARMOR)
+	refresh_nano_action_buttons()
 
 /datum/action/item_action/nanosuit
 	check_flags = AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions.dmi'
 	background_icon_state = "bg_tech_blue"
 
 /datum/action/item_action/nanosuit/goggletoggle
 	name = "Night Vision"
-	button_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
 	button_icon_state = "toggle_goggle"
 
 /datum/action/item_action/nanosuit/armor
 	name = "Armor Mode"
-	button_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
 	button_icon_state = "armor_mode"
 
 /datum/action/item_action/nanosuit/cloak
 	name = "Cloak Mode"
-	button_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
 	button_icon_state = "cloak_mode"
 
 /datum/action/item_action/nanosuit/speed
 	name = "Speed Mode"
-	button_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
 	button_icon_state = "speed_mode"
 
 /datum/action/item_action/nanosuit/strength
 	name = "Strength Mode"
-	button_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
+	icon_icon = 'modular_bluemoon/icons/mob/nanosuit/actions_nanosuit.dmi'
 	button_icon_state = "strength_mode"
 
 
@@ -675,9 +675,8 @@
 
 /datum/action/item_action/nanosuit/zoom
 	name = "Helmet Zoom"
-	button_icon = 'icons/mob/actions.dmi'
 	background_icon_state = "bg_tech_blue"
-	button_icon = 'icons/mob/actions/actions_items.dmi'
+	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "sniper_zoom"
 
 /datum/action/item_action/nanosuit/zoom/Trigger(trigger_flags)
@@ -709,8 +708,35 @@
 		log_game("[user] has engaged [src]")
 		if(help_verb)
 			Wearer.verbs += help_verb
+		RegisterSignal(Wearer, COMSIG_MOB_KEYDOWN, PROC_REF(nano_keydown))
 		INVOKE_ASYNC(src, PROC_REF(bootSequence))
 	..()
+	if(slot == ITEM_SLOT_OCLOTHING)
+		refresh_nano_action_buttons()
+
+/obj/item/clothing/suit/space/hardsuit/nano/proc/refresh_nano_action_buttons()
+	if(!Wearer)
+		return
+	var/list/nano_items = list(src)
+	if(istype(helmet) && helmet.loc == Wearer)
+		nano_items += helmet
+	if(istype(Wearer.glasses, /obj/item/clothing/glasses/nano_goggles))
+		nano_items += Wearer.glasses
+	if(istype(Wearer.shoes, /obj/item/clothing/shoes/combat/coldres/nanojump))
+		nano_items += Wearer.shoes
+	for(var/obj/item/I in nano_items)
+		for(var/datum/action/A as anything in I.actions)
+			A.Grant(Wearer)
+		I.update_action_buttons(FALSE, TRUE)
+	Wearer.update_action_buttons_icon()
+
+/obj/item/clothing/suit/space/hardsuit/nano/proc/nano_keydown(mob/source, key, client/user, full_key)
+	SIGNAL_HANDLER
+	if(!Wearer || source != Wearer)
+		return
+	if(lowertext(key) != "c")
+		return
+	open_mode_menu(Wearer)
 
 /obj/item/clothing/suit/space/hardsuit/nano/proc/equip_support_gear(mob/living/carbon/human/H)
 	equip_kit_item(H, /obj/item/clothing/glasses/nano_goggles, ITEM_SLOT_EYES)
@@ -723,7 +749,10 @@
 			return H.equip_to_slot_or_del(I, slot)
 	return H.equip_to_slot_or_del(new item_path, slot)
 
-/obj/item/clothing/suit/space/hardsuit/nano/dropped()
+/obj/item/clothing/suit/space/hardsuit/nano/dropped(mob/user)
+	var/mob/living/carbon/human/H = user || Wearer
+	if(ishuman(H))
+		UnregisterSignal(H, COMSIG_MOB_KEYDOWN)
 	..()
 	if(help_verb && Wearer)
 		Wearer.verbs -= help_verb
@@ -759,6 +788,7 @@
 	helmet.display_visor_message("Успех. Приятного использования.")
 	shutdown = FALSE
 	toggle_mode(NANO_ARMOR)
+	refresh_nano_action_buttons()
 
 
 /datum/outfit/nanosuit
@@ -1221,15 +1251,6 @@
 	name = "nanosuit self charging battery"
 	maxcharge = 100
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | FREEZE_PROOF
-
-// /mob/living/carbon/human/key_down(_key, client/user)
-// 	switch(_key)
-// 		if("C")
-// 			if(istype(wear_suit, /obj/item/clothing/suit/space/hardsuit/nano))
-// 				var/obj/item/clothing/suit/space/hardsuit/nano/NS = wear_suit
-// 				NS.open_mode_menu(src)
-// 				return
-// 	..()
 
 /obj/item/clothing/suit/space/hardsuit/nano/proc/check_menu(mob/living/user)
 	if(!user)
