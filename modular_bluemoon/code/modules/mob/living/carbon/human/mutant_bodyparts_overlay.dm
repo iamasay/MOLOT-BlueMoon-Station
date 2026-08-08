@@ -25,25 +25,6 @@
 	EARS_APPEARANCE, \
 )
 
-//Пояснение:
-//Любой overlay должен быть добавлен в overlays_standing по своему месту, на индекс
-//Делать apply_overlay лишний раз - плохо, если нет гарантии, что добавленные оверлеи будут очищены корректно
-//Внутри handle_mutant_bodyparts сначала все спрайты очищаются, потом добавляются вновь и делают это послойно
-//Нёт чёткого разделения на то, нужно ли обновить конкретно хвост, или морду. Обновляется тупо всё, так как перебирается циклом.
-
-// Наложение оверлея работает вполне просто. Копируется спрайт целевой части тела, эффект обрезается под его форму
-//добавляется в свой слой на overlays_standing и производится apply. В handle_mutant_bodyparts стоит условие, позволяющее
-//перерисовать оверлеи, добавленные таким способом, если они вообще есть.
-
-//Минусы: Невозможно синхронизировать хвост. Не прописано таргетное исключение конкретных оверлеев.(легко исправить, но не приоритет)
-// По какой-то причине оверлей обрезается под хвост так,что он максимально неккоретно анимируется. Дёргано, рвано.
-// В теории, если была бы возможность максимально чётко обрезать его с нулевой секунды анимации, то проблемы синхронизации бы не было
-//Однако, это невозможно. Убрать сам хвост попросту недостаточно, так как анимация именно оверлея рваная.
-
-//Возможное решение: Красить сам хвост напрямую в целевой цвет и накидывать на него эффект через блэнд.
-// такое решение является абсолютным архитектурным костылём, ведь тогда обработка эксклюзивно хвоста будет отличатсья ото всего остального.
-// да и вообще не факт, что оно будет работать, но звучит как то, что должно работать.
-
 //-----MUTABLE_APPERANCE-----
 
 //Я не знаю, как иначе передавать эффекты, не сохраняя их. Поэтому создал переменные
@@ -111,21 +92,26 @@
 		overlays_standing[SPECIAL_OVERLAYS_LAYER] += new_MA
 	return list(new_MA, layer)
 
-// /mob/living/carbon/human/proc/rebuild_tailwag(target_icon_state) //Не выдаёт иконку
-// 	var/list/bodyparts_to_add = dna.species.mutant_bodyparts.Copy()
-// 	var/target_part = "mam_waggingtail"
-// 	if(target_part in bodyparts_to_add)
-// 		var/reference_list = GLOB.mutant_reference_list[target_part]
-// 		if(reference_list)
-// 			var/datum/sprite_accessory/S
-// 			var/transformed_part = GLOB.mutant_transform_list[target_part]
-// 			if(transformed_part)
-// 				S = reference_list[dna.features[transformed_part]]
-// 			else
-// 				S = reference_list[dna.features[target_part]]
-
-// 			var/icon/accessory_overlay = icon(S.icon, target_icon_state)
-// 			return accessory_overlay
+/mob/living/carbon/human/proc/handle_tail(mutable_appearance/accessory_overlay, list/tail_params)
+	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
+	var/icon/tail_with_effect
+	var/color = tail_params[2]
+	var/effect_icon = tail_params[3]
+	var/effect_icon_state = tail_params[4]
+	tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, color, effect_icon, effect_icon_state)
+	if(tail_with_effect)
+		var/icon/initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
+		initial_icon.ColorTone(rgb(122, 122, 122, 213))
+		initial_icon.Blend(tail_icon, ICON_OVERLAY)
+		to_chat(src, "Пробую применить эффект виляющего хвоста")
+		return mutable_appearance(
+			initial_icon,
+			"",
+			accessory_overlay.layer,
+			accessory_overlay.plane,
+			accessory_overlay.alpha,
+			accessory_overlay.appearance_flags,
+			)
 
 /mob/living/carbon/human/proc/build_overlays()
 	for(var/layer in OVERLAY_LAYERS)

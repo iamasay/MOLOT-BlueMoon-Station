@@ -1041,19 +1041,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				accessory_overlay.icon_state = "[g]_[bodypart]_[S.icon_state]_[layertext]"
 			else
 				accessory_overlay.icon_state = "m_[bodypart]_[S.icon_state]_[layertext]"
-// MARK: Хвост тут!
-			var/mutant_string = S.mutant_part_string
-			var/icon/tail_with_effect
-			if(mutant_string == "tailwag" && tail_params)
-				var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
-				var/color = tail_params[2]
-				var/effect_icon = tail_params[3]
-				var/effect_icon_state = tail_params[4]
-				tail_with_effect = H.get_MOD_overlay_icon(tail_icon, TRUE, color, effect_icon, effect_icon_state)
-			if(tail_with_effect)
-				accessory_overlay = mutable_appearance(tail_with_effect)
-				to_chat(H, "Пробую применить эффект виляющего хвоста")
-//MARK: конец
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
 			if(!H.mutant_part_appearances[S.mutant_part_string])
@@ -1061,8 +1048,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			H.mutant_part_appearances[S.mutant_part_string] += accessory_overlay
 			var/advanced_color_system = (H.dna.features["color_scheme"] == ADVANCED_CHARACTER_COLORING)
 
-			// var/mutant_string = S.mutant_part_string
-			if(mutant_string == "tailwag") //wagging tails should be coloured the same way as your tail
+			var/mutant_string = S.mutant_part_string
+			if(mutant_string == "tailwag")
 				mutant_string = "tail"
 			var/primary_string = advanced_color_system ? "[mutant_string]_primary" : "mcolor"
 			var/secondary_string = advanced_color_system ? "[mutant_string]_secondary" : "mcolor2"
@@ -1148,6 +1135,10 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(OFFSET_MUTPARTS in H.dna.species.offset_features)
 				accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1]
 				accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2]
+
+// MARK: Хвост тут!
+			if(mutant_string == "tail" && tail_params)
+				accessory_overlay = H.handle_tail(accessory_overlay, tail_params)
 
 			standing += accessory_overlay
 
