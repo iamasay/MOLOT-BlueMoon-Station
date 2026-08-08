@@ -52,7 +52,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	volume = min(volume, 100)
 	var/turf/T = get_turf(src)
 	for(var/mob/M in hearers)
-		var/bark_vol = round((M.client?.prefs?.get_sound_volume("bark") || 100) * volume / 100)
+		var/bark_vol = round((M.client?.prefs?.get_sound_volume("bark")) * volume / 100)
 		M.playsound_local(T, vol = bark_vol, vary = TRUE, frequency = pitch, max_distance = distance, falloff_distance = 0, falloff_exponent = BARK_SOUND_FALLOFF_EXPONENT(distance), S = vocal_bark, distance_multiplier = 1)
 
 /atom/movable/proc/can_speak()
@@ -64,6 +64,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	for(var/_AM in hearers)
 		var/atom/movable/AM = _AM
 		AM.Hear(rendered, src, message_language, message, , spans, message_mode, source)
+	if(message_language && initial(message_language.visual_language)) //визуальный язык не звучит
+		return
 	if(SEND_SIGNAL(src, COMSIG_MOVABLE_QUEUE_BARK, hearers, args) || vocal_bark || vocal_bark_id)
 		// Барк-таймеры ставим только ради слушателей с клиентом и включённым SOUND_BARK:
 		// анонс по всем ньюскастерам станции ставил 500+ таймеров одним тиком в пустые
