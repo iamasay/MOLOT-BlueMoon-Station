@@ -34,17 +34,25 @@
 	for(var/part in need_to_conseal)
 		var/list/result = wearer.apply_overlay_on_bodypart(part, hardlight_color)
 		hardlight_in_use["[result[LAYER_INDEX]]"] = result[MA_INDEX]
+	wearer.dna.species.handle_mutant_bodyparts()
 
 /obj/item/mod/control/proc/remove_hardlight(var/index)
+
+	var/list/all_effect_in_use = wearer.overlays_standing[SPECIAL_OVERLAYS_LAYER]
 	if(!index)
-		for(var/hardlight in hardlight_in_use)
-			wearer.overlays_standing[hardlight[LAYER_INDEX]] -= hardlight[MA_INDEX]
-			wearer.remove_overlay(hardlight[LAYER_INDEX])
-			wearer.update_inv_back()
+		for(var/hardlight_element in hardlight_in_use)
+			for(var/mutable_appearance/hardlight in all_effect_in_use)
+				if(hardlight.name == hardlight_element[LAYER_INDEX])
+					all_effect_in_use -= hardlight
+		wearer.dna.species.handle_mutant_bodyparts()
+		wearer.update_inv_back()
 		return
-	var/mutable_appearance/target_MA = hardlight_in_use[index]
-	wearer.overlays_standing[index] -= target_MA
-	wearer.remove_overlay(index)
+
+	for(var/mutable_appearance/hardlight in all_effect_in_use)
+		if(hardlight.name == index)
+			all_effect_in_use -= hardlight
+
+	wearer.dna.species.handle_mutant_bodyparts()
 
 // /datum/action/item_action/mod/hardlight_deploy/chooce_color
 // 	name = "Choice hardlight color"
@@ -85,5 +93,7 @@
 		mod.need_to_conseal += choice
 		if(!mod.active)
 			mod.wearer.balloon_alert(mod.wearer, "Защитный слой активируется вместе с костюмом!")
+			return
+		mod.update_hardlight()
 
 

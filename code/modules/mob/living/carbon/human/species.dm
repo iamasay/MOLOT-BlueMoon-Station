@@ -921,16 +921,21 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	H.apply_overlay(BODY_LAYER)
 	handle_mutant_bodyparts(H, null, block_recursive_calls)
 
+// MARK: handle_mutant_bodyparts
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
+	//is_wagging_tail() - если виляет, то тру, если нет, то фолс
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
 	var/list/overlays_to_add = H.overlays_standing[SPECIAL_OVERLAYS_LAYER]
 	var/tail_params
+	var/mutable_appearance/old_tail
 	if(overlays_to_add)
 		for(var/mutable_appearance/tail in overlays_to_add)
 			if(tail.name == "tail" || tail.name == "tailwag")
 				tail_params = tail.copy_special_MA_params()
+				old_tail = tail
 				if(tail_params)
 					to_chat(H, "Параметры хвоста скопированы: [tail_params[1]]")
+
 	H.mutant_part_appearances = list()
 	H.cleanup_overlays()
 	if(!length(mutant_bodyparts))
@@ -1139,7 +1144,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 // MARK: Хвост тут!
 			if(mutant_string == "tail" && tail_params)
 				accessory_overlay = H.handle_tail(accessory_overlay, tail_params)
-
+				overlays_to_add -= old_tail
 			standing += accessory_overlay
 
 			if(S.extra) //apply the extra overlay, if there is one
@@ -1232,14 +1237,21 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				standing += extra2_accessory_overlay
 
 		H.overlays_standing[layernum] = standing
-
+	if(overlays_to_add)
+		H.overlays_standing[SPECIAL_OVERLAYS_LAYER] = overlays_to_add
+	if(!tail_params)
+		if("tail" in H.layers_need_to_be_overlayed)
+			var/mutable_appearance/random_overlay = pick(overlays_to_add)
+			tail_params = random_overlay.copy_special_MA_params(layer = "tail")
+			H.apply_overlay_on_bodypart(arglist(tail_params))
+			to_chat(H, "Пытаюсь восстановить хвостяру")
+			for(var/argss in tail_params)
+				to_chat(H, "[argss]")
 	H.add_all_overlays()
 	if(!block_recursive_calls)
 		var/datum/component/dullahan/D = H.GetComponent(/datum/component/dullahan)
 		if(D && D.dullahan_head)
 			D.dullahan_head.update_appearance()
-	if(overlays_to_add)
-		H.build_overlays()
 
 /*
  * Equip the outfit required for life. Replaces items currently worn.

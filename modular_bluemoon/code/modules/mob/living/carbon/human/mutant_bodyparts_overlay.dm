@@ -1,15 +1,10 @@
 #define SNOUT_APPEARANCE "snout"
 #define TAIL_APPEARANCE "tail"
-// #define TAILWAG_APPERANCE "tailwag"
 #define EARS_APPEARANCE "ears"
 #define INSECT_WINGS_APPEARANCE "insect_wings"
 #define TAUR_APPEARANCE "taur"
 #define INSECT_FLUFF_APPEARANCE "insect_fluff"
 #define HORNS_APPEARANCE ""
-
-#define OVERLAY_ADD "add"
-#define OVERLAY_REMOVE "remove"
-
 
 #define LAYER_TEXT list( \
 	"[BODY_BEHIND_LAYER]"     = "BEHIND", \
@@ -23,7 +18,12 @@
 	SNOUT_APPEARANCE, \
 	TAIL_APPEARANCE, \
 	EARS_APPEARANCE, \
+	INSECT_WINGS_APPEARANCE, \
+	INSECT_FLUFF_APPEARANCE, \
+	TAUR_APPEARANCE, \
+	HORNS_APPEARANCE, \
 )
+
 
 //-----MUTABLE_APPERANCE-----
 
@@ -47,6 +47,7 @@
 
 /mob/living/carbon/human
 	var/list/mutant_part_appearances = list() //Хранит списки по ключам слоя. tail = list(tail_FRONT, tail_ADJ). Содержимое это mutable_apperance
+	var/list/layers_need_to_be_overlayed = list()
 
 //По сути, просто берёт иконку, красит её в цвет, в половину меняет прозрачность и накладывает эффект через блэнд.
 /mob/living/carbon/human/proc/get_MOD_overlay_icon(icon/A, safety = TRUE, color = MOD_STANDART_COLOR, effect_icon, effect_state)
@@ -64,16 +65,14 @@
 //Каждый раз, когда handle_mutant_bodyparts вызывается, то и содержимое handle_mutant_bodyparts меняется(Наличие/отсутствие ключей в нём)
 /mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
 	var/list/target_MAs = get_appearance_by_layer(layer)
+	to_chat(src, "[target_MAs.len]")
 	if(!target_MAs)
 		return
 	var/mutable_appearance/new_MA
 	for(var/mutable_appearance/base_MA in target_MAs)
 		var/icon/mask = icon(base_MA.icon, base_MA.icon_state)
-		// if(layer == TAILWAG_APPERANCE && target_MAs)
-		// 	mask = rebuild_tailwag(base_icon_state)
 		if(!mask)
 			continue
-
 		var/icon/adding_icon = get_MOD_overlay_icon(mask, TRUE, color, effect_icon, effect_state)
 		new_MA = mutable_appearance(
 			adding_icon,
@@ -90,7 +89,13 @@
 		if(!overlays_standing[SPECIAL_OVERLAYS_LAYER])
 			overlays_standing[SPECIAL_OVERLAYS_LAYER] = list()
 		overlays_standing[SPECIAL_OVERLAYS_LAYER] += new_MA
+		layers_need_to_be_overlayed += layer
 	return list(new_MA, layer)
+
+/mob/living/carbon/human/proc/remove_overlay_from_bodypart(layer)
+	for(var/mutable_appearance/overlay in overlays_standing[SPECIAL_OVERLAYS_LAYER])
+		if(overlay.name == layer)
+			overlays_standing[SPECIAL_OVERLAYS_LAYER] -= overlay
 
 /mob/living/carbon/human/proc/handle_tail(mutable_appearance/accessory_overlay, list/tail_params)
 	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
@@ -103,7 +108,6 @@
 		var/icon/initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
 		initial_icon.ColorTone(rgb(122, 122, 122, 213))
 		initial_icon.Blend(tail_icon, ICON_OVERLAY)
-		to_chat(src, "Пробую применить эффект виляющего хвоста")
 		return mutable_appearance(
 			initial_icon,
 			"",
@@ -116,7 +120,7 @@
 /mob/living/carbon/human/proc/build_overlays()
 	for(var/layer in OVERLAY_LAYERS)
 		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
-	apply_overlay(SPECIAL_OVERLAYS_LAYER)
+	dna.species.handle_mutant_bodyparts(src)
 
 /mob/living/carbon/human/proc/get_appearance_by_layer(layer)
 	return mutant_part_appearances[layer]
