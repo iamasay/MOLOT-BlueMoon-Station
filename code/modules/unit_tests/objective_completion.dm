@@ -80,6 +80,11 @@
 	another_destroy.owner = traitor_mind
 	TEST_ASSERT(!another_destroy.is_unique_objective(target_mind), "Уничтожение не должно совпадать с уже выданным убийством")
 
+	qdel(another_destroy)
+	qdel(kill_objective)
+	antag.objectives = null
+	//owner остаётся на месте: Destroy() антага сам зовёт do_remove_antag_datum,
+	//а ручное обнуление владельца било по stack_trace "no owner" и красило CI
 	qdel(antag)
 	qdel(target_mind)
 	qdel(traitor_mind)

@@ -37,6 +37,8 @@
 	var/failed_steps
 	var/next_dest
 	var/next_dest_loc
+	///Do not immediately replace one unreachable autonomous target with its neighbour.
+	var/next_path_attempt = 0
 
 	var/obj/item/weapon
 	var/weapon_orig_force = 0
@@ -168,6 +170,7 @@
 	ignore_list = list() //Allows the bot to clean targets it previously ignored due to being unreachable.
 	target = null
 	oldloc = null
+	next_path_attempt = 0
 
 /mob/living/simple_animal/bot/cleanbot/set_custom_texts()
 	text_hack = "Вы взломали протоколы уборки у [name]."
@@ -292,21 +295,30 @@
 		if(!length(candidate_filter))
 			return
 
-		cached_view = shuffle(view(DEFAULT_SCAN_RANGE, src))
+		var/list/exposed_atoms = view(DEFAULT_SCAN_RANGE, src)
 		// Grid cells are deliberately broader than the requested range and do
 		// not encode opacity. Keep only candidates BYOND actually exposes.
-		// Множество строится один раз: view() в грязном коридоре это больше тысячи
-		// атомов, и перебирать его на каждого кандидата - квадратичный проход
-		var/list/exposed_by_view = list()
-		for(var/atom/seen as anything in cached_view)
-			exposed_by_view[seen] = TRUE
+		// A live dirty corridor can put more than a thousand atoms in view().
+		// Do not shuffle that whole list or traverse it again after LOS filtering:
+		// only the handful of actual grid candidates need randomized ordering.
 		var/list/visible_candidates = list()
-		for(var/atom/candidate as anything in candidate_filter)
-			if(exposed_by_view[candidate])
-				visible_candidates[candidate] = TRUE
-		candidate_filter = visible_candidates
+		if(length(candidate_filter) <= CLEANBOT_VIEW_FILTER_LINEAR_LIMIT)
+			for(var/atom/candidate as anything in candidate_filter)
+				if(candidate in exposed_atoms)
+					visible_candidates += candidate
+		else
+			var/list/exposed_by_view = list()
+			for(var/atom/seen as anything in exposed_atoms)
+				exposed_by_view[seen] = TRUE
+			for(var/atom/candidate as anything in candidate_filter)
+				if(exposed_by_view[candidate])
+					visible_candidates += candidate
+		candidate_filter = list()
+		for(var/atom/candidate as anything in visible_candidates)
+			candidate_filter[candidate] = TRUE
 		if(!length(candidate_filter))
 			return
+		cached_view = shuffle(visible_candidates)
 	else if(!cached_view)
 		cached_view = shuffle(view(DEFAULT_SCAN_RANGE, src))
 
@@ -382,7 +394,7 @@
 		if(!process_scan(target))
 			target = null
 
-	if(!target)
+	if(!target && world.time >= next_path_attempt)
 		target = scan_for_target()
 
 	if(!target && auto_patrol) //Search for cleanables it can see.
@@ -423,7 +435,10 @@
 				add_to_ignore(target)
 				target = null
 				path = list()
+				mode = BOT_IDLE
+				next_path_attempt = world.time + CLEANBOT_FAILED_PATH_RETRY
 				return
+			next_path_attempt = 0
 			mode = BOT_MOVING
 		else if(!bot_move(target))
 			target = null
