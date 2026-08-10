@@ -361,7 +361,8 @@
 			else
 				path = get_path_to(src, target, BOT_TARGET_PATH_LIMIT, id=access_card,simulated_only = 0)
 
-			if(!bot_move(target))
+			// Empty JPS must arm the cooldown without bot_move() → set_path(null).
+			if(!length(path) || !bot_move(target))
 				add_to_ignore(target)
 				target = null
 				mode = BOT_IDLE
