@@ -1,0 +1,4 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - code_imp: Стабилизированы тесты повторного поиска пути клинбота и флорбота
