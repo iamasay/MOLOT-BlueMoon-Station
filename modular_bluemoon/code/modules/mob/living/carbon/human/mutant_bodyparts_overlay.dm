@@ -5,6 +5,7 @@
 #define TAUR_APPEARANCE "taur"
 #define INSECT_FLUFF_APPEARANCE "insect_fluff"
 #define HORNS_APPEARANCE ""
+#define HAIR_APPEARANCE "hair"
 
 #define LAYER_TEXT list( \
 	"[BODY_BEHIND_LAYER]"     = "BEHIND", \
@@ -22,8 +23,8 @@
 	INSECT_FLUFF_APPEARANCE, \
 	TAUR_APPEARANCE, \
 	HORNS_APPEARANCE, \
+	HAIR_APPEARANCE, \
 )
-
 
 //-----MUTABLE_APPERANCE-----
 
@@ -60,55 +61,35 @@
 		flat_icon.Blend(M, ICON_ADD)
 	return flat_icon
 
-//ВАЖНО: Данный proc создаёт видимый overlay на основе видимой части тела. Если части тела нет, то оверлея тоже не будет.
-// тут нужно обращать на переменную mutant_part_appearances, которая записывается внутри handle_mutant_bodyparts
-//Каждый раз, когда handle_mutant_bodyparts вызывается, то и содержимое handle_mutant_bodyparts меняется(Наличие/отсутствие ключей в нём)
 /mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
 	var/list/target_MAs = get_appearance_by_layer(layer)
-	to_chat(src, "[target_MAs.len]")
 	if(!target_MAs)
 		return
-	var/mutable_appearance/new_MA
 	for(var/mutable_appearance/base_MA in target_MAs)
-		var/icon/mask = icon(base_MA.icon, base_MA.icon_state)
-		if(!mask)
-			continue
-		var/icon/adding_icon = get_MOD_overlay_icon(mask, TRUE, color, effect_icon, effect_state)
-		new_MA = mutable_appearance(
-			adding_icon,
-			"",
-			base_MA.layer,
-			base_MA.plane,
-			LIGHTING_PLANE_ALPHA_VISIBLE,
-			base_MA.appearance_flags,
-			)
-		new_MA.name = layer
-		new_MA.color_tone = color
-		new_MA.used_effect_icon = effect_icon
-		new_MA.used_effect_state = effect_state
-		if(!overlays_standing[SPECIAL_OVERLAYS_LAYER])
-			overlays_standing[SPECIAL_OVERLAYS_LAYER] = list()
-		overlays_standing[SPECIAL_OVERLAYS_LAYER] += new_MA
 		if(!(layer in layers_need_to_be_overlayed))
-			layers_need_to_be_overlayed += layer
-	return list(new_MA, layer)
+			layers_need_to_be_overlayed[layer] = list(layer, color, effect_icon, effect_state)
 
 /mob/living/carbon/human/proc/remove_overlay_from_bodypart(layer)
 	for(var/mutable_appearance/overlay in overlays_standing[SPECIAL_OVERLAYS_LAYER])
 		if(overlay.name == layer)
 			overlays_standing[SPECIAL_OVERLAYS_LAYER] -= overlay
 
-/mob/living/carbon/human/proc/handle_tail(mutable_appearance/accessory_overlay, list/tail_params)
+/mob/living/carbon/human/proc/make_overlayed(mutable_appearance/accessory_overlay, list/tail_params)
+	if(!accessory_overlay)
+		return FALSE
 	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
 	var/icon/tail_with_effect
-	var/color = tail_params[2]
+	var/color
+	if(tail_params[2])
+		color = BlendRGB(accessory_overlay.color, tail_params[2])
 	var/effect_icon = tail_params[3]
 	var/effect_icon_state = tail_params[4]
-	tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, color, effect_icon, effect_icon_state)
+	tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, tail_params[2], effect_icon, effect_icon_state)
 	if(tail_with_effect)
 		var/icon/initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
-		initial_icon.ColorTone(rgb(122, 122, 122, 213))
 		initial_icon.Blend(tail_icon, ICON_OVERLAY)
+		if(accessory_overlay.color && color)
+			initial_icon.ColorTone(color)
 		return mutable_appearance(
 			initial_icon,
 			"",
@@ -118,10 +99,26 @@
 			accessory_overlay.appearance_flags,
 			)
 
-/mob/living/carbon/human/proc/build_overlays()
+/mob/living/carbon/human/proc/apply_all_overlays()
 	for(var/layer in OVERLAY_LAYERS)
 		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
 	dna.species.handle_mutant_bodyparts(src)
+	update_hair(src)
+
+/datum/species/proc/update_overlay_by_key(key, mob/living/carbon/human/H, mutable_appearance/accessory_overlay)
+
+	if(!H.layers_need_to_be_overlayed[key])
+		return accessory_overlay // <--отдаёт то же самое, что попало на вход, т.к нет необходимости модифицировать
+
+	var/overlay_params = H.layers_need_to_be_overlayed[key]
+	accessory_overlay = H.make_overlayed(accessory_overlay, overlay_params)
+
+	return accessory_overlay // <-- а тут уже с оверлеем, модифицированная версия
+
+/datum/species/proc/save_part_appearance(mob/living/carbon/human/H, mutant_part_string, accessory_overlay)
+	if(!H.mutant_part_appearances[mutant_part_string])
+		H.mutant_part_appearances[mutant_part_string] = list()
+	H.mutant_part_appearances[mutant_part_string] += accessory_overlay
 
 /mob/living/carbon/human/proc/get_appearance_by_layer(layer)
 	return mutant_part_appearances[layer]

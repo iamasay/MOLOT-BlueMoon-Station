@@ -835,11 +835,12 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 					hair_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
 
 		if(hair_overlay.icon)
-			standing += hair_overlay
-			standing += gradient_overlay
+			standing += update_overlay_by_key(hair_overlay)
+			standing += update_overlay_by_key(gradient_overlay)
 
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER] = standing
+		H.mutant_part_appearances["hair"] += list(standing)
 
 	H.apply_overlay(HAIR_LAYER)
 
@@ -925,16 +926,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
 	//is_wagging_tail() - если виляет, то тру, если нет, то фолс
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
-	var/list/overlays_to_add = H.overlays_standing[SPECIAL_OVERLAYS_LAYER]
-	var/tail_params
-	var/mutable_appearance/old_tail
-	if(overlays_to_add)
-		for(var/mutable_appearance/tail in overlays_to_add)
-			if(tail.name == "tail" || tail.name == "tailwag")
-				tail_params = tail.copy_special_MA_params()
-				old_tail = tail
-				if(tail_params)
-					to_chat(H, "Параметры хвоста скопированы: [tail_params[1]]")
 
 	H.mutant_part_appearances = list()
 	H.cleanup_overlays()
@@ -957,44 +948,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			if(!S || S.is_not_visible(H, tauric))
 				bodyparts_to_add -= mutant_part
 
-	//Digitigrade legs are stuck in the phantom zone between true limbs and mutant bodyparts. Mainly it just needs more agressive updating than most limbs.
-	var/update_needed = FALSE
-	var/not_digitigrade = TRUE
-	for(var/X in H.bodyparts)
-		var/obj/item/bodypart/O = X
-		if(!O.use_digitigrade)
-			continue
-		not_digitigrade = FALSE
-		if(!(DIGITIGRADE in species_traits)) //Someone cut off a digitigrade leg and tacked it on
-			species_traits += DIGITIGRADE
-		var/should_be_squished = FALSE
-		if(H.wear_suit)
-			if(!(H.wear_suit.mutantrace_variation & STYLE_DIGITIGRADE) || (tauric && (H.wear_suit.mutantrace_variation & STYLE_ALL_TAURIC))) //digitigrade/taur suits
-				should_be_squished = TRUE
-		if(H.w_uniform && !H.wear_suit)
-			if(!(H.w_uniform.mutantrace_variation & STYLE_DIGITIGRADE))
-				should_be_squished = TRUE
-		//skyrat edit
-		if(H.w_underwear && !H.wear_suit && !H.w_uniform)
-			if(!(H.w_underwear.mutantrace_variation & STYLE_DIGITIGRADE))
-				should_be_squished = TRUE
-		if(H.w_socks && !H.wear_suit && !H.w_uniform)
-			if(!(H.w_socks.mutantrace_variation & STYLE_DIGITIGRADE))
-				should_be_squished = TRUE
-		if(H.w_shirt && !H.wear_suit && !H.w_uniform)
-			if(!(H.w_shirt.mutantrace_variation & STYLE_DIGITIGRADE))
-				should_be_squished = TRUE
-		//
-		if(O.use_digitigrade == FULL_DIGITIGRADE && should_be_squished)
-			O.use_digitigrade = SQUISHED_DIGITIGRADE
-			update_needed = TRUE
-		else if(O.use_digitigrade == SQUISHED_DIGITIGRADE && !should_be_squished)
-			O.use_digitigrade = FULL_DIGITIGRADE
-			update_needed = TRUE
-	if(update_needed)
+	if(handle_digitigrade(H.bodyparts, H, tauric)) //Если хоть один бодипарт будет digi, то true. Если ни один - false
 		H.update_body_parts()
-	if(not_digitigrade && (DIGITIGRADE in species_traits)) //Curse is lifted
-		species_traits -= DIGITIGRADE
 
 	if(!bodyparts_to_add)
 		return
@@ -1141,17 +1096,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1]
 				accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2]
 
-// MARK: Хвост тут!
-			to_chat(H, "mutant_string: [mutant_string]")
-			if(mutant_string == "tail" && tail_params)
-				to_chat(H, "вызов хэндла тейла")
-				accessory_overlay = H.handle_tail(accessory_overlay, tail_params)
-				if(is_wagging_tail())
-					for(var/mutable_appearance/tail in overlays_to_add)
-						if(tail.name == "tail" || tail.name == "tailwag")
-							overlays_to_add -= tail
-							to_chat(H, "удалил часть хвоста")
-			standing += accessory_overlay
+// MARK: добавление оверлея
+			standing += update_overlay_by_key(mutant_string, H, accessory_overlay)
 
 			if(S.extra) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
@@ -1243,16 +1189,16 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				standing += extra2_accessory_overlay
 
 		H.overlays_standing[layernum] = standing
-	if(overlays_to_add)
-		H.overlays_standing[SPECIAL_OVERLAYS_LAYER] = overlays_to_add
-	if(!tail_params)
-		if("tail" in H.layers_need_to_be_overlayed)
-			var/mutable_appearance/random_overlay = pick(overlays_to_add)
-			tail_params = random_overlay.copy_special_MA_params(layer = "tail")
-			H.apply_overlay_on_bodypart(arglist(tail_params))
-			to_chat(H, "Пытаюсь восстановить хвостяру")
-			for(var/argss in tail_params)
-				to_chat(H, "[argss]")
+	// if(overlays_to_add)
+	// 	H.overlays_standing[SPECIAL_OVERLAYS_LAYER] = overlays_to_add
+	// if(!tail_params)
+	// 	if("tail" in H.layers_need_to_be_overlayed)
+	// 		var/mutable_appearance/random_overlay = pick(overlays_to_add)
+	// 		tail_params = random_overlay.copy_special_MA_params(layer = "tail")
+	// 		H.apply_overlay_on_bodypart(arglist(tail_params))
+	// 		to_chat(H, "Пытаюсь восстановить хвостяру")
+	// 		for(var/argss in tail_params)
+	// 			to_chat(H, "[argss]")
 	H.add_all_overlays()
 	if(!block_recursive_calls)
 		var/datum/component/dullahan/D = H.GetComponent(/datum/component/dullahan)

@@ -1,4 +1,4 @@
-#define MOD_STANDART_COLOR rgb(140, 192, 235, 213)
+#define MOD_STANDART_COLOR rgb(26, 209, 255, 255)
 #define MOD_SYNDICATE_COLOR rgb(243, 70, 57)
 #define MOD_INTEQ_COLOR rgb(245, 117, 32)
 #define MA_INDEX 1
