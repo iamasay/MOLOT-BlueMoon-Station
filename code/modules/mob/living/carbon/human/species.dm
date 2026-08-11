@@ -1142,9 +1142,15 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2]
 
 // MARK: Хвост тут!
+			to_chat(H, "mutant_string: [mutant_string]")
 			if(mutant_string == "tail" && tail_params)
+				to_chat(H, "вызов хэндла тейла")
 				accessory_overlay = H.handle_tail(accessory_overlay, tail_params)
-				overlays_to_add -= old_tail
+				if(is_wagging_tail())
+					for(var/mutable_appearance/tail in overlays_to_add)
+						if(tail.name == "tail" || tail.name == "tailwag")
+							overlays_to_add -= tail
+							to_chat(H, "удалил часть хвоста")
 			standing += accessory_overlay
 
 			if(S.extra) //apply the extra overlay, if there is one

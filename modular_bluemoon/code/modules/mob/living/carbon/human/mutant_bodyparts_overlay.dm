@@ -89,7 +89,8 @@
 		if(!overlays_standing[SPECIAL_OVERLAYS_LAYER])
 			overlays_standing[SPECIAL_OVERLAYS_LAYER] = list()
 		overlays_standing[SPECIAL_OVERLAYS_LAYER] += new_MA
-		layers_need_to_be_overlayed += layer
+		if(!(layer in layers_need_to_be_overlayed))
+			layers_need_to_be_overlayed += layer
 	return list(new_MA, layer)
 
 /mob/living/carbon/human/proc/remove_overlay_from_bodypart(layer)
