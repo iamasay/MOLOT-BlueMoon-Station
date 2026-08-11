@@ -7,12 +7,10 @@
 /obj/item/mod/control
 	var/list/need_to_conseal = list()
 	var/hardlight_color = MOD_STANDART_COLOR
-	var/list/hardlight_in_use = list()
 
 /obj/item/mod/control/conceal(mob/user, part)
 	. = ..()
 	remove_hardlight()
-	helmet.visor_flags_inv = initial(helmet.visor_flags_inv)
 	wearer.regenerate_icons()
 
 /obj/item/mod/control/toggle_activate(mob/user, force_deactivate)
@@ -25,43 +23,19 @@
 
 /obj/item/mod/control/deploy(mob/user, part)
 	. = ..()
-	if(hardlight_in_use)
-		helmet.visor_flags_inv = null
-		wearer.update_inv_head()
+	if(need_to_conseal)
 		update_hardlight()
 
 /obj/item/mod/control/proc/update_hardlight()
 	for(var/part in need_to_conseal)
-		var/list/result = wearer.apply_overlay_on_bodypart(part, hardlight_color)
-		hardlight_in_use["[result[LAYER_INDEX]]"] = result[MA_INDEX]
-	wearer.dna.species.handle_mutant_bodyparts()
+		wearer.apply_bodypart_overlays(need_to_conseal)
+	wearer.regenerate_icons()
 
 /obj/item/mod/control/proc/remove_hardlight(var/index)
-
-	var/list/all_effect_in_use = wearer.overlays_standing[SPECIAL_OVERLAYS_LAYER]
-	if(!index)
-		for(var/hardlight_element in hardlight_in_use)
-			for(var/mutable_appearance/hardlight in all_effect_in_use)
-				if(hardlight.name == hardlight_element[LAYER_INDEX])
-					all_effect_in_use -= hardlight
-		wearer.dna.species.handle_mutant_bodyparts()
-		wearer.update_inv_back()
-		return
-
-	for(var/mutable_appearance/hardlight in all_effect_in_use)
-		if(hardlight.name == index)
-			all_effect_in_use -= hardlight
-
-	wearer.dna.species.handle_mutant_bodyparts()
-
-// /datum/action/item_action/mod/hardlight_deploy/chooce_color
-// 	name = "Choice hardlight color"
-// 	button_icon_state = "color"
-// 	var/modsuit_color
-
-// /datum/action/item_action/mod/hardlight_deploy/chooce_color/Trigger(trigger_flags)
-// 	var/chosen_colour = input(mod.wearer, "", "Choose Color", modsuit_color) as color|null
-// 	mod.hardlight_color = chosen_colour
+	if(index)
+		wearer.remove_overlay_by_bodypart_key(index)
+		return TRUE
+	wearer.clear_bodypart_overlays()
 
 /datum/action/item_action/mod/hardlight_deploy
 	name = "Activate Hardlight field"

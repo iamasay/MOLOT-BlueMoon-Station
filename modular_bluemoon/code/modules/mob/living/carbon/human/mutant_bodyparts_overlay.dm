@@ -62,17 +62,8 @@
 	return flat_icon
 
 /mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
-	var/list/target_MAs = get_appearance_by_layer(layer)
-	if(!target_MAs)
-		return
-	for(var/mutable_appearance/base_MA in target_MAs)
-		if(!(layer in layers_need_to_be_overlayed))
-			layers_need_to_be_overlayed[layer] = list(layer, color, effect_icon, effect_state)
-
-/mob/living/carbon/human/proc/remove_overlay_from_bodypart(layer)
-	for(var/mutable_appearance/overlay in overlays_standing[SPECIAL_OVERLAYS_LAYER])
-		if(overlay.name == layer)
-			overlays_standing[SPECIAL_OVERLAYS_LAYER] -= overlay
+	if(!(layer in layers_need_to_be_overlayed))
+		layers_need_to_be_overlayed[layer] = list(layer, color, effect_icon, effect_state)
 
 /mob/living/carbon/human/proc/make_overlayed(mutable_appearance/accessory_overlay, list/tail_params)
 	if(!accessory_overlay)
@@ -99,11 +90,24 @@
 			accessory_overlay.appearance_flags,
 			)
 
-/mob/living/carbon/human/proc/apply_all_overlays()
-	for(var/layer in OVERLAY_LAYERS)
+/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers)
+	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
+	for(var/layer in target_layers)
 		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
-	dna.species.handle_mutant_bodyparts(src)
-	update_hair(src)
+	regenerate_icons()
+
+/mob/living/carbon/human/proc/clear_bodypart_overlays()
+	layers_need_to_be_overlayed = list()
+	regenerate_icons()
+
+
+/mob/living/carbon/human/proc/remove_overlay_by_bodypart_key(key, need_update_body)
+	if(key in layers_need_to_be_overlayed)
+		layers_need_to_be_overlayed -= key
+		if(need_update_body)
+			regenerate_icons()
+		return TRUE
+	return FALSE
 
 /datum/species/proc/update_overlay_by_key(key, mob/living/carbon/human/H, mutable_appearance/accessory_overlay)
 
