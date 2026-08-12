@@ -4689,6 +4689,7 @@
 #include "modular_bluemoon\code\game\turfs\space.dm"
 #include "modular_bluemoon\code\game\turfs\simulated\floor\plasteel_floor.dm"
 #include "modular_bluemoon\code\game\turfs\simulated\floor\shuttle.dm"
+#include "modular_bluemoon\code\modules\ghostcafe_spawner.dm"
 #include "modular_bluemoon\code\modules\admin\admin_ticket_stats_panel.dm"
 #include "modular_bluemoon\code\modules\admin\tetris_records.dm"
 #include "modular_bluemoon\code\modules\admin\tgs_metadollars.dm"
