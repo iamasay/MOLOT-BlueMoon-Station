@@ -1,0 +1,7 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - qol: Настройки TGUI теперь сохраняются между сессиями клиента через BYOND 516
+      hubStorage.
+  - bugfix: Исправлена миграция, очистка и fallback настроек интерфейса.
+  - code_imp: Обновлены устаревшие Sass-функции интерфейса Hypertorus.
