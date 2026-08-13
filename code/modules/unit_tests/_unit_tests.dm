@@ -284,6 +284,7 @@
 #include "space_weather_phases.dm"
 #include "spirit_regressions.dm"
 #include "statpanel_listedturf.dm"
+#include "status_tab_suit_readouts.dm"
 #include "ssmobs_optimization.dm"
 #include "hostile_ai_baseline.dm"
 #include "ai_behavior_scenarios.dm"
