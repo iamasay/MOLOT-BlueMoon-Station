@@ -1,5 +1,0 @@
-author: Silver-Paws
-delete-after: true
-changes:
-  - bugfix: БС-аномалия больше не создаёт телепорт, при детонации, на уровне-секторе
-      ЦК.
