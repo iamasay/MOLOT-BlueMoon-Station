@@ -526,9 +526,9 @@
 	if(mod)
 		if(!istype(mod))
 			return machine_sleep()
-		if(!mod.cell)
+		cell = mod.get_cell()
+		if(!cell)
 			return machine_sleep()
-		cell = mod.cell
 	else
 		return machine_sleep()
 

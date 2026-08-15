@@ -15,7 +15,7 @@
 
 /obj/item/mod/control/toggle_activate(mob/user, force_deactivate)
 	. = ..()
-	if(active)
+	if(is_active())
 		update_hardlight()
 		return
 
@@ -65,7 +65,7 @@
 		mod.wearer.balloon_alert(mod.wearer, "Защитный слой успешно убран!")
 	else
 		mod.need_to_conseal += choice
-		if(!mod.active)
+		if(!mod.is_active())
 			mod.wearer.balloon_alert(mod.wearer, "Защитный слой активируется вместе с костюмом!")
 			return
 		mod.update_hardlight()

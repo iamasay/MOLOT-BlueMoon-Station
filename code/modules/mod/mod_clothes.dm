@@ -7,12 +7,67 @@
 
 	var/obj/item/mod/control/mod
 	var/obj/item/clothing/overslot
+	var/list/seal_message = list(
+		"затягивается и герметизируется на вас",
+		)
+	var/list/unseal_message = list(
+		"расслабляется и открывается",
+		)
+	var/list/overslot_blacklist = list(
+		/obj/item/clothing/suit/space,
+		/obj/item/clothing/head/helmet,
+		//Сюда вписываем то, поверх чего должно быть невозможно развернуть элемент МОДа!
+	)
+	var/clothing_slot
+	var/theme_category
 
-/obj/item/clothing/mod_part/proc/conseal_to_overslot(clothing_slot)
-		overslot = item
-		return mod.wearer.transferItemToLoc(overslot, item, force = TRUE)
+/obj/item/clothing/mod_part/proc/update_flags(list/used_skin)
+	var/list/category = used_skin[theme_category]
+	clothing_flags = category[UNSEALED_CLOTHING] || NONE
+	visor_flags = category[SEALED_CLOTHING] || NONE
+	flags_inv = category[UNSEALED_INVISIBILITY] || NONE
+	visor_flags_inv = category[SEALED_INVISIBILITY] || NONE
+	flags_cover = category[UNSEALED_COVER] || NONE
+	visor_flags_cover = category[SEALED_COVER] || NONE
 
-/obj/item/clothing/head/mod
+/obj/item/clothing/mod_part/proc/conseal_to_overslot()//Не давать скрывать space suit
+	var/obj/item/clothing/item = mod.wearer.get_item_by_slot(clothing_slot)
+	overslot = item
+	if(item.type in overslot_blacklist)
+		return FALSE
+	return mod.wearer.transferItemToLoc(overslot, item, force = TRUE)
+
+/obj/item/clothing/mod_part/proc/seal_part(seal)
+	if(seal)
+		clothing_flags |= visor_flags
+		flags_inv |= visor_flags_inv
+		flags_cover |= visor_flags_cover
+		heat_protection = initial(heat_protection)
+		cold_protection = initial(cold_protection)
+	else
+		flags_cover &= ~visor_flags_cover
+		flags_inv &= ~visor_flags_inv
+		clothing_flags &= ~visor_flags
+		heat_protection = NONE
+		cold_protection = NONE
+	icon_state = "[mod.skin]-[initial(icon_state)][seal ? "-sealed" : ""]"
+	item_state = "[mod.skin]-[initial(item_state)][seal ? "-sealed" : ""]"
+
+/obj/item/clothing/mod_part/proc/equip_item_from_overslot()
+	REMOVE_TRAIT(src, TRAIT_NODROP, MOD_TRAIT)
+	if(!overslot)
+		return
+	if(!mod.wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))//Экипировать элемент одежды с оверслота обратно
+		mod.wearer.dropItemToGround(overslot, force = TRUE)//если условие выше не удалось, то дропать на землю
+	overslot = null
+
+/obj/item/clothing/mod_part/Destroy()
+	if(!QDELETED(mod))
+		mod.mod_parts -= src
+		QDEL_NULL(mod)
+	return ..()
+
+/obj/item/clothing/mod_part/head
 	name = "MOD helmet"
 	desc = "Шлем для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -37,25 +92,26 @@
 	item_flags = IMMUTABLE_SLOW
 	can_be_reinforced = FALSE
 	var/alternate_layer = NECK_LAYER
-	var/obj/item/mod/control/mod
-	var/obj/item/clothing/overslot
 	mutantrace_variation = STYLE_MUZZLE
+	theme_category = HELMET_FLAGS
 
-/obj/item/clothing/head/mod/Destroy()
-	if(!QDELETED(mod))
-		mod.helmet = null
-		mod.mod_parts -= src
-		QDEL_NULL(mod)
-	return ..()
+/obj/item/clothing/mod_part/head/update_flags(list/used_skin)
+	. = ..()
+	alternate_worn_layer = used_skin["HELMET_LAYER"]
+	alternate_layer = used_skin["HELMET_LAYER"]
 
-/obj/item/clothing/head/mod/proc/show_overslot()
-	if(!overslot)
-		return
-	if(!mod.wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
-		mod.wearer.dropItemToGround(overslot, force = TRUE)
-	overslot = null
+/obj/item/clothing/mod_part/head/seal_part(seal)
+	. = ..()
+	if(seal)
+		alternate_worn_layer = null
+	else
+		alternate_worn_layer = alternate_layer
+	mod.wearer.update_inv_head()
+	mod.wearer.update_inv_wear_mask()
+	mod.wearer.update_hair()
 
-/obj/item/clothing/suit/mod
+//Дать на альт-клик отображать глаза поверх шлема.
+/obj/item/clothing/mod_part/suit
 	name = "MOD chestplate"
 	desc = "Нагрудник для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -64,7 +120,7 @@
 	icon_state = "chestplate"
 	item_state = "chestplate"
 	tail_state = ""
-	blood_overlay_type = "armor"
+	var/blood_overlay_type = "armor"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = CHEST|GROIN
 	heat_protection = CHEST|GROIN
@@ -79,25 +135,15 @@
 	can_be_reinforced = FALSE
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/device/cooler)
 	resistance_flags = NONE
-	var/obj/item/mod/control/mod
-	var/obj/item/clothing/overslot
 	mutantrace_variation = STYLE_DIGITIGRADE
+	theme_category = CHESTPLATE_FLAGS
 
-/obj/item/clothing/suit/mod/Destroy()
-	if(!QDELETED(mod))
-		mod.chestplate = null
-		mod.mod_parts -= src
-		QDEL_NULL(mod)
-	return ..()
+/obj/item/clothing/mod_part/suit/seal_part(seal)
+	. = ..()
+	mod.wearer.update_inv_wear_suit()
+	mod.wearer.update_inv_w_uniform()
 
-/obj/item/clothing/suit/mod/proc/show_overslot()
-	if(!overslot)
-		return
-	if(!mod.wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
-		mod.wearer.dropItemToGround(overslot, force = TRUE)
-	overslot = null
-
-/obj/item/clothing/gloves/mod
+/obj/item/clothing/mod_part/gloves
 	name = "MOD gauntlets"
 	desc = "Пара рукавиц для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -115,25 +161,14 @@
 	resistance_flags = NONE
 	item_flags = IMMUTABLE_SLOW
 	can_be_reinforced = FALSE
-	var/obj/item/mod/control/mod
-	var/obj/item/clothing/overslot
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
+	theme_category = GAUNTLETS_FLAGS
 
-/obj/item/clothing/gloves/mod/Destroy()
-	if(!QDELETED(mod))
-		mod.gauntlets = null
-		mod.mod_parts -= src
-		QDEL_NULL(mod)
-	return ..()
+/obj/item/clothing/mod_part/gloves/seal_part(seal)
+	. = ..()
+	mod.wearer.update_inv_gloves()
 
-/obj/item/clothing/gloves/mod/proc/show_overslot()
-	if(!overslot)
-		return
-	if(!mod.wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
-		mod.wearer.dropItemToGround(overslot, force = TRUE)
-	overslot = null
-
-/obj/item/clothing/shoes/mod
+/obj/item/clothing/mod_part/shoes
 	name = "MOD boots"
 	desc = "Пара ботинок для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -151,23 +186,13 @@
 	resistance_flags = NONE
 	item_flags = IMMUTABLE_SLOW
 	can_be_reinforced = FALSE
-	var/obj/item/mod/control/mod
-	var/obj/item/clothing/overslot
 	mutantrace_variation = STYLE_DIGITIGRADE
+	theme_category = BOOTS_FLAGS
+/obj/item/clothing/mod_part/shoes/seal_part(seal)
+	. = ..()
+	mod.wearer.update_inv_shoes()
 
-/obj/item/clothing/shoes/mod/Destroy()
-	if(!QDELETED(mod))
-		mod.boots = null
-		mod.mod_parts -= src
-		QDEL_NULL(mod)
-	return ..()
-
-/obj/item/clothing/shoes/mod/proc/show_overslot()
-	if(!overslot)
-		return
-	if(!mod.wearer.equip_to_slot_if_possible(overslot, overslot.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
-		mod.wearer.dropItemToGround(overslot, force = TRUE)
-	overslot = null
-
-/obj/item/clothing/shoes/mod/negates_gravity()
+/obj/item/clothing/mod_part/shoes/negates_gravity()
 	return clothing_flags & NOSLIP
+
+

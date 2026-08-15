@@ -311,7 +311,7 @@
 						can_shake = TRUE
 					if(istype(user.back, /obj/item/mod/control)) // обычные персонажи с активированными клешнями из МОДа на спине могут поднимать
 						var/obj/item/mod/control/MOD = user.back
-						if(MOD.active || istype(MOD.selected_module, /obj/item/mod/module/clamp))
+						if(MOD.is_active() || istype(MOD.selected_module, /obj/item/mod/module/clamp))
 							can_shake = TRUE
 
 				if(!can_shake)

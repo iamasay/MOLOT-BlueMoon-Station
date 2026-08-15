@@ -1,23 +1,3 @@
-#define MOD_PART_HEAD		1
-#define MOD_PART_CHEST		2
-#define MOD_PART_GLOVES		3
-#define MOD_PART_FEET		4
-#define MOD_PART_CORE		5
-
-#define MOD_STATE_RETRACTED  1
-#define MOD_STATE_DEPLOYING  2
-#define MOD_STATE_DEPLOYED   3
-#define MOD_STATE_RETRACTING 4
-
-#define MOD_HELMET mod_parts[MOD_PART_HEAD]
-#define MOD_CHESTPLATE mod_parts[MOD_PART_CHEST]
-#define MOD_GLOVES mod_parts[MOD_PART_GLOVES]
-#define MOD_BOOTS mod_parts[MOD_PART_FEET]
-#define MOD_CORE   mod_parts[MOD_PART_HMOD_PART_COREEAD]
-
-/obj/item/stock_parts/cell/mod_core
-	name = "MOD Core"
-
 /obj/item/mod
 	name = "Base MOD"
 	desc = "Вы не должны это видеть, кричите на кодера!"
@@ -56,8 +36,7 @@
 	permeability_coefficient = 0.01
 	siemens_coefficient = 0.5
 	alternate_worn_layer = BODY_FRONT_LAYER
-	var/mod_state
-	/// The MOD's theme, decides on some stuff like armor and statistics.
+	var/status_flags
 	var/datum/mod_theme/theme = /datum/mod_theme
 
 	/// Looks of the MOD.		//]
@@ -65,105 +44,79 @@
 	/// Theme of the MOD TGUI	//] <-- перенести в mod_theme
 	var/ui_theme = "ntos"		//]
 
-	/// How long the MOD is electrified for.
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
-	/// If the suit interface is broken.
 	var/interface_break = FALSE
-	/// How much module complexity can this MOD carry.
 	var/complexity_max = DEFAULT_MAX_COMPLEXITY
-	/// How much module complexity this MOD is carrying.
 	var/complexity = 0
-	/// Power usage of the MOD.
 	var/cell_drain = DEFAULT_CHARGE_DRAIN
-	/// Slowdown of the MOD when not active.
 	var/slowdown_inactive = 2
-	/// Slowdown of the MOD when active.
 	var/slowdown_active = 1
-	/// Extended description of the theme.
 	var/extended_desc
-	/// How long this MOD takes each part to seal.
 	var/activation_step_time = MOD_ACTIVATION_STEP_TIME
 
-	/// List of parts (helmet, chestplate, gauntlets, boots).
-	var/list/mod_parts = list(
-		MOD_PART_HEAD = null,
-		MOD_PART_CHEST = null,
-		MOD_PART_GLOVES = null,
-		MOD_PART_FEET = null,
-		MOD_PART_CORE = null,
+	var/alist/mod_parts = alist(
+		MOD_PART_HEAD = /obj/item/clothing/mod_part/head,
+		MOD_PART_CHEST = /obj/item/clothing/mod_part/suit,
+		MOD_PART_GLOVES = /obj/item/clothing/mod_part/gloves,
+		MOD_PART_FEET = /obj/item/clothing/mod_part/shoes,
+		MOD_PART_CELL = /obj/item/stock_parts/cell,
 	)
 
-	/// Modules the MOD should spawn with.
 	var/list/initial_modules = list()
-	/// Modules the MOD currently possesses.
 	var/list/modules = list()
-	/// Currently used module.
 	var/obj/item/mod/module/selected_module
-	/// AI/pAI mob inhabiting the MOD.
 	var/mob/living/silicon/ai
-	/// Delay between moves as AI.
 	var/movedelay = 0
-	/// Cooldown for AI moves.
 	COOLDOWN_DECLARE(cooldown_mod_move)
-	/// Person wearing the MODsuit.
 	var/mob/living/carbon/human/wearer
-	/// Определяет, может ли быть установлен ПИИ в МОД
 	var/can_install_pai = FALSE
 
+/obj/item/mod/control/proc/get_mod_part_by_index(index)
+	return mod_parts[index]
+
 /obj/item/mod/control/proc/get_helmet()
-	return mod_parts[MOD_PART_HEAD]
+    return mod_parts[MOD_PART_HEAD]
 
 /obj/item/mod/control/proc/get_chestplate()
-	return mod_parts[MOD_PART_CHEST]
+    return mod_parts[MOD_PART_CHEST]
 
 /obj/item/mod/control/proc/get_gauntlets()
-	return mod_parts[MOD_PART_GLOVES]
+    return mod_parts[MOD_PART_GLOVES]
 
 /obj/item/mod/control/proc/get_boots()
-	return mod_parts[MOD_PART_FEET]
+    return mod_parts[MOD_PART_FEET]
+
+
+/obj/item/mod/control/proc/is_malfunctioning()
+	return CHECK_BITFIELD(status_flags, MOD_MALFUNCTION) ? TRUE : FALSE
+
+/obj/item/mod/control/proc/is_active()
+	return CHECK_BITFIELD(status_flags, MOD_ACTIVE) ? TRUE : FALSE
+
+/obj/item/mod/control/proc/is_activating()
+	return CHECK_BITFIELD(status_flags, MOD_ACTIVATING) ? TRUE : FALSE
+
+/obj/item/mod/control/proc/is_open()
+	return CHECK_BITFIELD(status_flags, MOD_OPEN) ? TRUE : FALSE
+
+/obj/item/mod/control/proc/toggle_state(flag)
+	TOGGLE_BITFIELD(status_flags, flag)
 
 /obj/item/mod/control/Initialize(mapload, new_theme, new_skin, list/parts)
 	. = ..()
 	if(new_theme)
 		theme = new_theme
 	theme = GLOB.mod_themes[theme]
-	extended_desc = theme.extended_desc
-	slowdown_inactive = theme.slowdown_inactive
-	slowdown_active = theme.slowdown_active
-	complexity_max = theme.complexity_max
-	skin = new_skin || theme.default_skin
-	ui_theme = theme.ui_theme
-	cell_drain = theme.cell_drain
-	initial_modules += theme.inbuilt_modules
 	set_wires(new /datum/wires/mod(src))
-	if(ispath(cell))
-		cell = new cell
-	helmet = new /obj/item/clothing/head/mod
-	helmet.mod = src
-	mod_parts += helmet
-	chestplate = new /obj/item/clothing/suit/mod
-	chestplate.mod = src
-	mod_parts += chestplate
-	gauntlets = new /obj/item/clothing/gloves/mod
-	gauntlets.mod = src
-	mod_parts += gauntlets
-	boots = new /obj/item/clothing/shoes/mod
-	boots.mod = src
-	mod_parts += boots
-	var/list/all_parts = mod_parts.Copy() + src
-	for(var/obj/item/piece as anything in all_parts)
-		piece.name = "[theme.name] [piece.name]"
-		piece.desc = "[piece.desc] [theme.desc]"
-		piece.armor = getArmor(arglist(theme.armor))
-		piece.resistance_flags = theme.resistance_flags
-		piece.heat_protection = NONE
-		piece.cold_protection = NONE
-		piece.max_heat_protection_temperature = theme.max_heat_protection_temperature
-		piece.min_cold_protection_temperature = theme.min_cold_protection_temperature
-		piece.permeability_coefficient = theme.permeability_coefficient
-		piece.siemens_coefficient = theme.siemens_coefficient
-		piece.icon_state = "[skin]-[initial(piece.icon_state)]"
-		piece.item_state = "[skin]-[initial(piece.item_state)]"
+	if(ispath(MOD_PART_CELL))
+		mod_parts[MOD_PART_CELL] = new mod_parts[MOD_PART_CELL]
+	for(var/index in mod_parts)
+		if(!ispath(mod_parts[index]))
+			continue
+		var/obj/item/clothing/mod_part/part = new mod_parts[index]
+		part.mod = src
+		mod_parts[index] = part
+	theme.setup_theme(src, new_skin)
 	update_flags()
 	update_speed()
 	for(var/obj/item/mod/module/module as anything in initial_modules)
@@ -173,44 +126,27 @@
 	movedelay = CONFIG_GET(number/movedelay/run_delay)
 
 /obj/item/mod/control/Destroy()
-	if(active)
+	if(is_active())
 		STOP_PROCESSING(SSobj, src)
 	//unset_wearer звали только из equipped/dropped, а крио уносит надетый МОД
 	//forceMove'ом мимо dropped: костюм держал тело и две подписки на нём до конца смены
 	if(wearer)
 		unset_wearer()
 	var/atom/deleting_atom
-	if(!QDELETED(helmet))
-		deleting_atom = helmet
-		helmet.mod = null
-		helmet = null
-		mod_parts -= deleting_atom
-		qdel(deleting_atom)
-	if(!QDELETED(chestplate))
-		deleting_atom = chestplate
-		chestplate.mod = null
-		chestplate = null
-		mod_parts -= deleting_atom
-		qdel(deleting_atom)
-	if(!QDELETED(gauntlets))
-		deleting_atom = gauntlets
-		gauntlets.mod = null
-		gauntlets = null
-		mod_parts -= deleting_atom
-		qdel(deleting_atom)
-	if(!QDELETED(boots))
-		deleting_atom = boots
-		boots.mod = null
-		boots = null
-		mod_parts -= deleting_atom
-		qdel(deleting_atom)
+	for(var/index in mod_parts)
+		var/obj/item/clothing/mod_part/part
+		if(!QDELETED(part))
+			deleting_atom = part
+			part.mod = null
+			mod_parts -= deleting_atom
+			qdel(deleting_atom)
 	for(var/obj/item/mod/module/module as anything in modules)
 		module.mod = null
 		modules -= module
 		qdel(module)
 	QDEL_NULL(ai)
 	QDEL_NULL(wires)
-	QDEL_NULL(cell)
+	QDEL_NULL(MOD_CELL)
 	return ..()
 
 /obj/item/mod/control/examine_more(mob/user)
@@ -218,20 +154,21 @@
 	. += extended_desc
 
 /obj/item/mod/control/process(delta_time)
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(seconds_electrified > MACHINE_NOT_ELECTRIFIED)
 		seconds_electrified--
-	if((!cell || !cell.charge) && active && !activating)
+	if((!cell || !cell.charge) && is_active() && is_open())
 		power_off()
 		return PROCESS_KILL
 	if(cell.cell_is_radioactive)
 		AddComponent(/datum/component/radioactive, 0, src, 0)
 	var/malfunctioning_charge_drain = 0
-	if(malfunctioning)
+	if(is_malfunctioning())
 		malfunctioning_charge_drain = rand(1,20)
 	cell.charge = max(0, cell.charge - (cell_drain + malfunctioning_charge_drain)*delta_time)
 	update_cell_alert()
 	for(var/obj/item/mod/module/module as anything in modules)
-		if(malfunctioning && module.active && DT_PROB(5, delta_time))
+		if(is_malfunctioning() && module.active && DT_PROB(5, delta_time))
 			module.on_deactivation()
 		module.on_process(delta_time)
 
@@ -277,10 +214,11 @@
 			return ..()
 
 /obj/item/mod/control/attack_hand(mob/user)
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(seconds_electrified && cell?.charge)
 		if(shock(user))
 			return
-	if(open && loc == user)
+	if(is_open() && loc == user)
 		if(!cell)
 			balloon_alert(user, "нет батареи!")
 			return
@@ -297,6 +235,7 @@
 	return ..()
 
 /obj/item/mod/control/AltClick(mob/user)
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(seconds_electrified && cell?.charge)
 		if(shock(user))
 			return
@@ -307,25 +246,25 @@
 	. = ..()
 	if(.)
 		return TRUE
-	if(active || activating)
+	if(is_active() || is_activating())
 		balloon_alert(user, "сначала отключите костюм!")
 		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 		return FALSE
-	balloon_alert(user, "[open ? "закрытие" : "открытие"] панели...")
+	balloon_alert(user, "[is_open() ? "закрытие" : "открытие"] панели...")
 	if(screwdriver.use_tool(src, user, 0.5 SECONDS))
-		if(active || activating)
+		if(is_active() || is_activating())
 			balloon_alert(user, "сначала отключите костюм!")
 			return FALSE
 		screwdriver.play_tool_sound(src, 100)
 		balloon_alert(user, "успешно!")
-		open = !open
+		toggle_state(MOD_OPEN)
 	else
 		balloon_alert(user, "прервано!")
 	return TRUE
 
 /obj/item/mod/control/crowbar_act(mob/living/user, obj/item/crowbar)
 	. = ..()
-	if(!open)
+	if(!is_open())
 		balloon_alert(user, "сначала откройте панель!")
 		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 		return FALSE
@@ -351,22 +290,23 @@
 	return FALSE
 
 /obj/item/mod/control/attackby(obj/item/attacking_item, mob/living/user, params)
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(istype(attacking_item, /obj/item/paicard))
-		if(!open) //mod must be open
+		if(!is_open()) //mod must be open
 			balloon_alert(user, "панель костюма должна быть открыта!")
 			return FALSE
 		if(can_install_pai)
 			insert_pai(user, attacking_item)
 			return TRUE
 	if(istype(attacking_item, /obj/item/mod/module))
-		if(!open)
+		if(!is_open())
 			balloon_alert(user, "сначала откройте панель!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return FALSE
 		install(attacking_item, user)
 		return TRUE
 	else if(istype(attacking_item, /obj/item/stock_parts/cell))
-		if(!open)
+		if(!is_open())
 			balloon_alert(user, "сначала откройте панель!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return FALSE
@@ -385,22 +325,21 @@
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		update_cell_alert()
 		return TRUE
-	else if(is_wire_tool(attacking_item) && open)
+	else if(is_wire_tool(attacking_item) && is_open())
 		wires.interact(user)
 		return TRUE
-	else if(open && attacking_item.GetID())
+	else if(is_open() && attacking_item.GetID())
 		update_access(user, attacking_item)
 		return TRUE
 	return ..()
 
 /obj/item/mod/control/get_cell()
-	if(open)
-		return cell
+	return mod_parts[MOD_PART_CELL]
 
 /obj/item/mod/control/emp_act(severity)
 	. = ..()
 	to_chat(wearer, span_notice("Обнаружен [severity > 1 ? "слабый" : "сильный"] электромагнитный импульс!"))
-	if(!active || !wearer || . & EMP_PROTECT_CONTENTS)
+	if(!is_active() || !wearer || . & EMP_PROTECT_CONTENTS)
 		return
 	selected_module = null
 	wearer.apply_damage(10 / severity, BURN, spread_damage=TRUE)
@@ -414,7 +353,7 @@
 	quick_activation()
 
 /obj/item/mod/control/doStrip(mob/stripper, mob/owner)
-	if(active && !toggle_activate(stripper, force_deactivate = TRUE))
+	if(is_active() && !toggle_activate(stripper, force_deactivate = TRUE))
 		return
 	for(var/obj/item/part in mod_parts)
 		conceal(null, part)
@@ -422,7 +361,7 @@
 
 /obj/item/mod/control/worn_overlays(isinhands = FALSE, icon_file)
 	. = ..()
-	if(!active)
+	if(!is_active())
 		return
 	for(var/obj/item/mod/module/module as anything in modules)
 		var/list/module_icons = module.generate_worn_overlay()
@@ -454,25 +393,9 @@
 
 /obj/item/mod/control/proc/update_flags()
 	var/list/used_skin = theme.skins[skin]
-	for(var/obj/item/clothing/part as anything in mod_parts)
-		var/used_category
-		if(part == helmet)
-			used_category = HELMET_FLAGS
-			helmet.alternate_worn_layer = used_skin["HELMET_LAYER"]
-			helmet.alternate_layer = used_skin["HELMET_LAYER"]
-		if(part == chestplate)
-			used_category = CHESTPLATE_FLAGS
-		if(part == gauntlets)
-			used_category = GAUNTLETS_FLAGS
-		if(part == boots)
-			used_category = BOOTS_FLAGS
-		var/list/category = used_skin[used_category]
-		part.clothing_flags = category[UNSEALED_CLOTHING] || NONE
-		part.visor_flags = category[SEALED_CLOTHING] || NONE
-		part.flags_inv = category[UNSEALED_INVISIBILITY] || NONE
-		part.visor_flags_inv = category[SEALED_INVISIBILITY] || NONE
-		part.flags_cover = category[UNSEALED_COVER] || NONE
-		part.visor_flags_cover = category[SEALED_COVER] || NONE
+	for(var/index in mod_parts)
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
+		part.update_flags(used_skin)
 
 /obj/item/mod/control/proc/quick_module(mob/user)
 	if(!length(modules))
@@ -504,7 +427,7 @@
 	wearer?.regenerate_icons()
 
 /obj/item/mod/control/proc/set_mod_skin(new_skin)
-	if(active)
+	if(is_active())
 		CRASH("[src] tried to set skin while active!")
 	skin = new_skin
 	var/list/used_skin = theme.skins[new_skin]
@@ -517,6 +440,7 @@
 	wearer?.regenerate_icons()
 
 /obj/item/mod/control/proc/shock(mob/living/user)
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(!istype(user) || cell?.charge < 1)
 		return FALSE
 	do_sparks(5, TRUE, src)
@@ -558,7 +482,7 @@
 	var/obj/item/mod/module/old_module = module
 	modules -= old_module
 	complexity -= old_module.complexity
-	if(active)
+	if(is_active())
 		old_module.on_suit_deactivation()
 		if(old_module.active)
 			old_module.on_deactivation()
@@ -576,6 +500,7 @@
 	balloon_alert(user, "access updated")
 
 /obj/item/mod/control/proc/update_cell_alert()
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(!wearer)
 		return
 	if(!cell)
@@ -596,7 +521,7 @@
 
 /obj/item/mod/control/proc/update_speed()
 	for(var/obj/item/part as anything in mod_parts)
-		part.slowdown = (active ? slowdown_active : slowdown_inactive) / length(mod_parts)
+		part.slowdown = (is_active() ? slowdown_active : slowdown_inactive) / length(mod_parts)
 	wearer?.update_equipment_speed_mods()
 
 /obj/item/mod/control/proc/power_off()
@@ -605,7 +530,7 @@
 
 /obj/item/mod/control/proc/on_exit(datum/source, atom/movable/part, direction)
 	SIGNAL_HANDLER
-
+	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(part.loc == src)
 		return
 	if(part == cell)
@@ -619,12 +544,13 @@
 		return
 	if(mod_parts.Find(part))
 		conceal(wearer, part)
-		if(active)
+		if(is_active())
 			INVOKE_ASYNC(src, PROC_REF(toggle_activate), wearer, TRUE)
 		return
 
 /obj/item/mod/control/proc/on_borg_charge(datum/source, amount)
 	SIGNAL_HANDLER
+	var/obj/item/stock_parts/cell/cell = get_cell()
 
 	if(!cell)
 		return

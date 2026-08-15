@@ -96,6 +96,31 @@
 		),
 	)
 
+/datum/mod_theme/proc/setup_theme(obj/item/mod/control/modsuit, new_skin)
+	var/list/all_parts = modsuit.mod_parts.Copy() + modsuit
+	modsuit.extended_desc = extended_desc
+	modsuit.slowdown_inactive = slowdown_inactive
+	modsuit.slowdown_active = slowdown_active
+	modsuit.complexity_max = complexity_max
+	modsuit.skin = new_skin || default_skin
+	modsuit.ui_theme = ui_theme
+	modsuit.cell_drain = cell_drain
+	modsuit.initial_modules += inbuilt_modules
+	for(var/obj/item/piece as anything in all_parts)
+		piece.name = "[name] [piece.name]"
+		piece.desc = "[piece.desc] [desc]"
+		piece.armor = getArmor(arglist(armor))
+		piece.resistance_flags = resistance_flags
+		piece.heat_protection = NONE
+		piece.cold_protection = NONE
+		piece.max_heat_protection_temperature = max_heat_protection_temperature
+		piece.min_cold_protection_temperature = min_cold_protection_temperature
+		piece.permeability_coefficient = permeability_coefficient
+		piece.siemens_coefficient = siemens_coefficient
+		piece.icon_state = "[modsuit.skin]-[initial(piece.icon_state)]"
+		piece.item_state = "[modsuit.skin]-[initial(piece.item_state)]"
+	return TRUE
+
 /datum/mod_theme/engineering
 	name = "engineering"
 	desc = "Инженерный костюм с термо- и электрозащитой. Классика Nakamura Engineering."
