@@ -6,7 +6,8 @@
 		return
 	var/list/display_names = list()
 	var/list/items = list()
-	for(var/obj/item/piece as anything in mod_parts)
+	for(var/slot in mod_parts)
+		var/obj/item/piece = mod_parts[slot]
 		display_names[piece.name] = REF(piece)
 		var/image/piece_image = image(icon = piece.icon, icon_state = piece.icon_state)
 		items += list(piece.name = piece_image)
@@ -17,21 +18,19 @@
 	var/obj/item/part = locate(part_reference) in mod_parts
 	if(!istype(part) || user.incapacitated())
 		return
-	if((active || activating) && part != helmet)  //BM added an exception for a helmet
-		balloon_alert(user, "отключите костюм для начала!")
-		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
-		return
 	var/parts_to_check = mod_parts - part
 	if(part.loc != user)
 		deploy(user, part)
-		for(var/obj/item/piece as anything in parts_to_check)
+		for(var/slot in parts_to_check)
+			var/obj/item/piece = mod_parts[slot]
 			if(piece.loc == user)
 				continue
 			choose_deploy(user)
 			break
 	else
 		conceal(user, part)
-		for(var/obj/item/piece as anything in parts_to_check)
+		for(var/slot in parts_to_check)
+			var/obj/item/piece = mod_parts[slot]
 			if(piece.loc != user)
 				continue
 			choose_deploy(user)
@@ -40,6 +39,9 @@
 /// Deploys a part of the suit onto the user.
 /obj/item/mod/control/proc/deploy(mob/user, part)
 	var/obj/item/piece = part
+
+	//conseal_to_overslot проблема с выбором слота
+
 	if(piece == helmet && wearer.head)
 		helmet.overslot = wearer.head
 		wearer.transferItemToLoc(helmet.overslot, helmet, force = TRUE)

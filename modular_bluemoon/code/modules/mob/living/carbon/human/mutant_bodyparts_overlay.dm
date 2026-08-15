@@ -7,14 +7,6 @@
 #define HORNS_APPEARANCE ""
 #define HAIR_APPEARANCE "hair"
 
-#define LAYER_TEXT list( \
-	"[BODY_BEHIND_LAYER]"     = "BEHIND", \
-	"[BODY_ADJ_LAYER]"        = "ADJ", \
-	"[BODY_ADJ_UPPER_LAYER]"  = "ADJUP", \
-	"[BODY_FRONT_LAYER]"      = "FRONT", \
-	"[HORNS_LAYER]"           = "HORNS" \
-)
-
 #define OVERLAY_LAYERS list( \
 	SNOUT_APPEARANCE, \
 	TAIL_APPEARANCE, \
@@ -48,7 +40,7 @@
 
 /mob/living/carbon/human
 	var/list/mutant_part_appearances = list() //Хранит списки по ключам слоя. tail = list(tail_FRONT, tail_ADJ). Содержимое это mutable_apperance
-	var/list/layers_need_to_be_overlayed = list()
+	var/list/layers_for_apply_effect = list()
 
 //По сути, просто берёт иконку, красит её в цвет, в половину меняет прозрачность и накладывает эффект через блэнд.
 /mob/living/carbon/human/proc/get_MOD_overlay_icon(icon/A, safety = TRUE, color = MOD_STANDART_COLOR, effect_icon, effect_state)
@@ -62,10 +54,10 @@
 	return flat_icon
 
 /mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
-	if(!(layer in layers_need_to_be_overlayed))
-		layers_need_to_be_overlayed[layer] = list(layer, color, effect_icon, effect_state)
+	if(!(layer in layers_for_apply_effect))
+		layers_for_apply_effect[layer] = list(layer, color, effect_icon, effect_state)
 
-/mob/living/carbon/human/proc/make_overlayed(mutable_appearance/accessory_overlay, list/tail_params)
+/mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/tail_params)
 	if(!accessory_overlay)
 		return FALSE
 	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
@@ -88,6 +80,8 @@
 			accessory_overlay.plane,
 			accessory_overlay.alpha,
 			accessory_overlay.appearance_flags,
+			pixel_x = accessory_overlay.pixel_x,
+			pixel_y = accessory_overlay.pixel_y
 			)
 
 /mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers)
@@ -97,13 +91,12 @@
 	regenerate_icons()
 
 /mob/living/carbon/human/proc/clear_bodypart_overlays()
-	layers_need_to_be_overlayed = list()
+	layers_for_apply_effect = list()
 	regenerate_icons()
 
-
 /mob/living/carbon/human/proc/remove_overlay_by_bodypart_key(key, need_update_body)
-	if(key in layers_need_to_be_overlayed)
-		layers_need_to_be_overlayed -= key
+	if(key in layers_for_apply_effect)
+		layers_for_apply_effect -= key
 		if(need_update_body)
 			regenerate_icons()
 		return TRUE
@@ -111,11 +104,11 @@
 
 /datum/species/proc/update_overlay_by_key(key, mob/living/carbon/human/H, mutable_appearance/accessory_overlay)
 
-	if(!H.layers_need_to_be_overlayed[key])
+	if(!H.layers_for_apply_effect[key])
 		return accessory_overlay // <--отдаёт то же самое, что попало на вход, т.к нет необходимости модифицировать
 
-	var/overlay_params = H.layers_need_to_be_overlayed[key]
-	accessory_overlay = H.make_overlayed(accessory_overlay, overlay_params)
+	var/overlay_params = H.layers_for_apply_effect[key]
+	accessory_overlay = H.use_effect_by_params(accessory_overlay, overlay_params)
 
 	return accessory_overlay // <-- а тут уже с оверлеем, модифицированная версия
 

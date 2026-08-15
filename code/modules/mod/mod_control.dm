@@ -1,3 +1,22 @@
+#define MOD_PART_HEAD		1
+#define MOD_PART_CHEST		2
+#define MOD_PART_GLOVES		3
+#define MOD_PART_FEET		4
+#define MOD_PART_CORE		5
+
+#define MOD_STATE_RETRACTED  1
+#define MOD_STATE_DEPLOYING  2
+#define MOD_STATE_DEPLOYED   3
+#define MOD_STATE_RETRACTING 4
+
+#define MOD_HELMET mod_parts[MOD_PART_HEAD]
+#define MOD_CHESTPLATE mod_parts[MOD_PART_CHEST]
+#define MOD_GLOVES mod_parts[MOD_PART_GLOVES]
+#define MOD_BOOTS mod_parts[MOD_PART_FEET]
+#define MOD_CORE   mod_parts[MOD_PART_HMOD_PART_COREEAD]
+
+/obj/item/stock_parts/cell/mod_core
+	name = "MOD Core"
 
 /obj/item/mod
 	name = "Base MOD"
@@ -37,20 +56,15 @@
 	permeability_coefficient = 0.01
 	siemens_coefficient = 0.5
 	alternate_worn_layer = BODY_FRONT_LAYER
+	var/mod_state
 	/// The MOD's theme, decides on some stuff like armor and statistics.
 	var/datum/mod_theme/theme = /datum/mod_theme
-	/// Looks of the MOD.
-	var/skin = "standard"
-	/// Theme of the MOD TGUI
-	var/ui_theme = "ntos"
-	/// If the suit is deployed and turned on.
-	var/active = FALSE
-	/// If the suit wire/module hatch is open.
-	var/open = FALSE
-	/// If the suit is malfunctioning.
-	var/malfunctioning = FALSE
-	/// If the suit is currently activating/deactivating.
-	var/activating = FALSE
+
+	/// Looks of the MOD.		//]
+	var/skin = "standard"		//]
+	/// Theme of the MOD TGUI	//] <-- перенести в mod_theme
+	var/ui_theme = "ntos"		//]
+
 	/// How long the MOD is electrified for.
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
 	/// If the suit interface is broken.
@@ -69,18 +83,16 @@
 	var/extended_desc
 	/// How long this MOD takes each part to seal.
 	var/activation_step_time = MOD_ACTIVATION_STEP_TIME
-	/// MOD cell.
-	var/obj/item/stock_parts/cell/cell
-	/// MOD helmet.
-	var/obj/item/clothing/head/mod/helmet
-	/// MOD chestplate.
-	var/obj/item/clothing/suit/mod/chestplate
-	/// MOD gauntlets.
-	var/obj/item/clothing/gloves/mod/gauntlets
-	/// MOD boots.
-	var/obj/item/clothing/shoes/mod/boots
+
 	/// List of parts (helmet, chestplate, gauntlets, boots).
-	var/list/mod_parts = list()
+	var/list/mod_parts = list(
+		MOD_PART_HEAD = null,
+		MOD_PART_CHEST = null,
+		MOD_PART_GLOVES = null,
+		MOD_PART_FEET = null,
+		MOD_PART_CORE = null,
+	)
+
 	/// Modules the MOD should spawn with.
 	var/list/initial_modules = list()
 	/// Modules the MOD currently possesses.
@@ -98,7 +110,19 @@
 	/// Определяет, может ли быть установлен ПИИ в МОД
 	var/can_install_pai = FALSE
 
-/obj/item/mod/control/Initialize(mapload, new_theme, new_skin)
+/obj/item/mod/control/proc/get_helmet()
+	return mod_parts[MOD_PART_HEAD]
+
+/obj/item/mod/control/proc/get_chestplate()
+	return mod_parts[MOD_PART_CHEST]
+
+/obj/item/mod/control/proc/get_gauntlets()
+	return mod_parts[MOD_PART_GLOVES]
+
+/obj/item/mod/control/proc/get_boots()
+	return mod_parts[MOD_PART_FEET]
+
+/obj/item/mod/control/Initialize(mapload, new_theme, new_skin, list/parts)
 	. = ..()
 	if(new_theme)
 		theme = new_theme

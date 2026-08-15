@@ -839,7 +839,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 			standing += hair_overlay
 			standing += gradient_overlay
 
-		// if("hair" in H.layers_need_to_be_overlayed)
+		// if("hair" in H.layers_for_apply_effect)
 		// 	standing += update_overlay_by_key("hair", H, hair_overlay)
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER] = standing
@@ -947,7 +947,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				S = reference_list[H.dna.features[transformed_part]]
 			else
 				S = reference_list[H.dna.features[mutant_part]]
-			if(!S || S.is_not_visible(H, tauric) && !(S.mutant_part_string in H.layers_need_to_be_overlayed))
+			if(!S || S.is_not_visible(H, tauric) && !(S.mutant_part_string in H.layers_for_apply_effect))
 				bodyparts_to_add -= mutant_part
 
 	if(handle_digitigrade(H.bodyparts, H, tauric)) //Если хоть один бодипарт будет digi, то true. Если ни один - false
@@ -1194,7 +1194,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	// if(overlays_to_add)
 	// 	H.overlays_standing[SPECIAL_OVERLAYS_LAYER] = overlays_to_add
 	// if(!tail_params)
-	// 	if("tail" in H.layers_need_to_be_overlayed)
+	// 	if("tail" in H.layers_for_apply_effect)
 	// 		var/mutable_appearance/random_overlay = pick(overlays_to_add)
 	// 		tail_params = random_overlay.copy_special_MA_params(layer = "tail")
 	// 		H.apply_overlay_on_bodypart(arglist(tail_params))

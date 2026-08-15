@@ -15,7 +15,7 @@
 
 /obj/item/mod/control/toggle_activate(mob/user, force_deactivate)
 	. = ..()
-	if(activating)
+	if(active)
 		update_hardlight()
 		return
 
@@ -46,7 +46,7 @@
 /datum/action/item_action/mod/hardlight_deploy/Trigger(trigger_flags)
 	. = ..()
 	if(!radial_menu_choises)
-		radial_menu_choises = list( //Я не знаю почему, но дефайны тут не резолвятся в райнтайме. Я того рот наоборот.
+		radial_menu_choises = list(
 			"ears" = new /image(icon_icon, "ears"),
 			"snout" = new /image(icon_icon, "snout"),
 			"tail" = new /image(icon_icon, "tail"),

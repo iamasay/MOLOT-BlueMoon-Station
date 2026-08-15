@@ -1,14 +1,23 @@
+/obj/item/clothing/mod_part
+	name = "Часть МОД костюма"
+	desc = "Это базовый класс любого носимого на теле МОД костюма. \
+			Раньше они не имели наследования и друг от друга, а брали родителя от типа \
+			своего слота, т.е шлемов, ботинок и т.д. Вы не представляете, как же много макаронного кода \
+			это порождало."
+
+	var/obj/item/mod/control/mod
+	var/obj/item/clothing/overslot
+
+/obj/item/clothing/mod_part/proc/conseal_to_overslot(clothing_slot)
+		overslot = item
+		return mod.wearer.transferItemToLoc(overslot, item, force = TRUE)
+
 /obj/item/clothing/head/mod
 	name = "MOD helmet"
 	desc = "Шлем для MOD-костюма."
-	/*	icon = 'icons/obj/clothing/modsuit/mod_clothing.dmi' // BLUEMOON COMMENTING OUT saving old code lines
-	mob_overlay_icon = 'icons/mob/clothing/modsuit/mod_clothing.dmi'
-	anthro_mob_worn_overlay = 'icons/mob/clothing/modsuit/mod_clothing_anthro.dmi' */
-// BLUEMOON ADDITION AHEAD custom sprite states
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
-// BLUEMOON ADDITION END
 	icon_state = "helmet"
 	item_state = "helmet"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
@@ -39,7 +48,6 @@
 		QDEL_NULL(mod)
 	return ..()
 
-/// Restores the head item that was stored when the MOD helmet was deployed over it
 /obj/item/clothing/head/mod/proc/show_overslot()
 	if(!overslot)
 		return
@@ -50,14 +58,9 @@
 /obj/item/clothing/suit/mod
 	name = "MOD chestplate"
 	desc = "Нагрудник для MOD-костюма."
-	/*	icon = 'icons/obj/clothing/modsuit/mod_clothing.dmi' // BLUEMOON COMMENTING OUT saving old code lines
-	mob_overlay_icon = 'icons/mob/clothing/modsuit/mod_clothing.dmi'
-	anthro_mob_worn_overlay = 'icons/mob/clothing/modsuit/mod_clothing_anthro.dmi' */
-// BLUEMOON ADDITION AHEAD custom sprite states
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
-// BLUEMOON ADDITION END
 	icon_state = "chestplate"
 	item_state = "chestplate"
 	tail_state = ""
@@ -87,7 +90,6 @@
 		QDEL_NULL(mod)
 	return ..()
 
-/// Restores the suit/outer clothing that was stored when the MOD chestplate was deployed over it
 /obj/item/clothing/suit/mod/proc/show_overslot()
 	if(!overslot)
 		return
@@ -98,14 +100,9 @@
 /obj/item/clothing/gloves/mod
 	name = "MOD gauntlets"
 	desc = "Пара рукавиц для MOD-костюма."
-	/*	icon = 'icons/obj/clothing/modsuit/mod_clothing.dmi' // BLUEMOON COMMENTING OUT saving old code lines
-	mob_overlay_icon = 'icons/mob/clothing/modsuit/mod_clothing.dmi'
-	anthro_mob_worn_overlay = 'icons/mob/clothing/modsuit/mod_clothing_anthro.dmi' */
-// BLUEMOON ADDITION AHEAD custom sprite states
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
-// BLUEMOON ADDITION END
 	icon_state = "gauntlets"
 	item_state = "gauntlets"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
@@ -129,8 +126,6 @@
 		QDEL_NULL(mod)
 	return ..()
 
-/// Replaces these gloves on the wearer with the overslot ones
-
 /obj/item/clothing/gloves/mod/proc/show_overslot()
 	if(!overslot)
 		return
@@ -141,14 +136,9 @@
 /obj/item/clothing/shoes/mod
 	name = "MOD boots"
 	desc = "Пара ботинок для MOD-костюма."
-	/*	icon = 'icons/obj/clothing/modsuit/mod_clothing.dmi' // BLUEMOON COMMENTING OUT saving old code lines
-	mob_overlay_icon = 'icons/mob/clothing/modsuit/mod_clothing.dmi'
-	anthro_mob_worn_overlay = 'icons/mob/clothing/modsuit/mod_clothing_anthro.dmi' */
-// BLUEMOON ADDITION AHEAD custom sprite states
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
-// BLUEMOON ADDITION END
 	icon_state = "boots"
 	item_state = "boots"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
@@ -172,7 +162,6 @@
 		QDEL_NULL(mod)
 	return ..()
 
-/// Replaces these shoes on the wearer with the overslot ones
 /obj/item/clothing/shoes/mod/proc/show_overslot()
 	if(!overslot)
 		return
