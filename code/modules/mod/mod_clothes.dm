@@ -167,10 +167,15 @@
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	theme_category = GAUNTLETS_FLAGS
 	slot_flags = ITEM_SLOT_GLOVES
+	var/transfer_blood = FALSE
+	var/transfer_prints = FALSE
 
 /obj/item/clothing/mod_part/gloves/seal_part(seal)
 	. = ..()
 	mod.wearer.update_inv_gloves()
+
+/obj/item/clothing/mod_part/gloves/proc/Touch(atom/A, proximity)
+	return FALSE // return TRUE to cancel attack_hand()
 
 /obj/item/clothing/mod_part/shoes
 	name = "MOD boots"

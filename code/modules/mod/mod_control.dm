@@ -216,7 +216,11 @@
 /obj/item/mod/control/MouseDrop(atom/over_object)
 	if(src != wearer?.back || !istype(over_object, /atom/movable/screen/inventory/hand))
 		return ..()
-	for(var/obj/item/part in mod_parts)
+	if(is_active())
+		balloon_alert(wearer, "Отключите МОД!")
+		return playsound(src, 'sound/machines/scanbuzz.ogg', 25, FALSE, SILENCED_SOUND_EXTRARANGE)
+	for(var/index in mod_parts)
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
 		if(part.loc != null)
 			balloon_alert(wearer, "выдвиньте элементы МОДа!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, FALSE, SILENCED_SOUND_EXTRARANGE)
