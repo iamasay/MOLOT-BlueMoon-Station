@@ -75,17 +75,29 @@
 	return mod_parts[index]
 
 /obj/item/mod/control/proc/get_helmet()
-    return mod_parts[MOD_PART_HEAD]
+	return mod_parts[MOD_PART_HEAD]
 
 /obj/item/mod/control/proc/get_chestplate()
-    return mod_parts[MOD_PART_CHEST]
+	return mod_parts[MOD_PART_CHEST]
 
 /obj/item/mod/control/proc/get_gauntlets()
-    return mod_parts[MOD_PART_GLOVES]
+	return mod_parts[MOD_PART_GLOVES]
 
 /obj/item/mod/control/proc/get_boots()
-    return mod_parts[MOD_PART_FEET]
+	return mod_parts[MOD_PART_FEET]
 
+/obj/item/mod/control/proc/all_parts_deployed()
+	if(!wearer)
+		return FALSE
+
+	for(var/index in mod_parts)
+		if(index == MOD_PART_CELL)
+			continue
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
+		if(part.loc != wearer)
+			return FALSE
+
+	return TRUE
 
 /obj/item/mod/control/proc/is_malfunctioning()
 	return CHECK_BITFIELD(status_flags, MOD_MALFUNCTION) ? TRUE : FALSE
@@ -108,14 +120,16 @@
 		theme = new_theme
 	theme = GLOB.mod_themes[theme]
 	set_wires(new /datum/wires/mod(src))
-	if(ispath(MOD_PART_CELL))
-		mod_parts[MOD_PART_CELL] = new mod_parts[MOD_PART_CELL]
+	if(ispath(MOD_CELL))
+		var/cell_type = mod_parts[MOD_PART_CELL]
+		mod_parts[MOD_PART_CELL] = new cell_type
 	for(var/index in mod_parts)
-		if(!ispath(mod_parts[index]))
+		if(!ispath(mod_parts[index]) || index == MOD_PART_CELL)
 			continue
-		var/obj/item/clothing/mod_part/part = new mod_parts[index]
-		part.mod = src
+		var/part_type = mod_parts[index]
+		var/obj/item/clothing/mod_part/part = new part_type
 		mod_parts[index] = part
+		part.mod = src
 	theme.setup_theme(src, new_skin)
 	update_flags()
 	update_speed()
@@ -134,7 +148,7 @@
 		unset_wearer()
 	var/atom/deleting_atom
 	for(var/index in mod_parts)
-		var/obj/item/clothing/mod_part/part
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
 		if(!QDELETED(part))
 			deleting_atom = part
 			part.mod = null
@@ -394,6 +408,8 @@
 /obj/item/mod/control/proc/update_flags()
 	var/list/used_skin = theme.skins[skin]
 	for(var/index in mod_parts)
+		if(index == MOD_PART_CELL)
+			continue
 		var/obj/item/clothing/mod_part/part = mod_parts[index]
 		part.update_flags(used_skin)
 
@@ -520,7 +536,10 @@
 			wearer.throw_alert("mod_charge", /atom/movable/screen/alert/emptycell)
 
 /obj/item/mod/control/proc/update_speed()
-	for(var/obj/item/part as anything in mod_parts)
+	for(var/index in mod_parts)
+		if(index == MOD_PART_CELL)
+			continue
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
 		part.slowdown = (is_active() ? slowdown_active : slowdown_inactive) / length(mod_parts)
 	wearer?.update_equipment_speed_mods()
 

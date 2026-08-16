@@ -11,31 +11,27 @@
 /obj/item/mod/control/conceal(mob/user, part)
 	. = ..()
 	remove_hardlight()
-	wearer.regenerate_icons()
+	wearer.update_body()
 
-/obj/item/mod/control/toggle_activate(mob/user, force_deactivate)
+/obj/item/mod/control/finish_activation(on)
 	. = ..()
-	if(is_active())
+	if(on == TRUE && all_parts_deployed())
 		update_hardlight()
-		return
-
-	remove_hardlight()
 
 /obj/item/mod/control/deploy(mob/user, part)
 	. = ..()
-	if(need_to_conseal)
+	if(need_to_conseal && is_active() && all_parts_deployed())
 		update_hardlight()
 
 /obj/item/mod/control/proc/update_hardlight()
-	for(var/part in need_to_conseal)
-		wearer.apply_bodypart_overlays(need_to_conseal)
-	wearer.regenerate_icons()
+	wearer.apply_bodypart_overlays(need_to_conseal, update = FALSE)
+	wearer.update_body()
 
 /obj/item/mod/control/proc/remove_hardlight(var/index)
 	if(index)
 		wearer.remove_overlay_by_bodypart_key(index)
 		return TRUE
-	wearer.clear_bodypart_overlays()
+	wearer.clear_bodypart_overlays(update = FALSE)
 
 /datum/action/item_action/mod/hardlight_deploy
 	name = "Activate Hardlight field"
@@ -61,7 +57,7 @@
 	if(choice in mod.need_to_conseal)
 		mod.need_to_conseal -= choice
 		mod.remove_hardlight(choice)
-		mod.wearer.regenerate_icons()
+		mod.wearer.update_body()
 		mod.wearer.balloon_alert(mod.wearer, "Защитный слой успешно убран!")
 	else
 		mod.need_to_conseal += choice

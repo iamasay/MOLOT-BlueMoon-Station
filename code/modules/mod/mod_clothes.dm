@@ -18,7 +18,6 @@
 		/obj/item/clothing/head/helmet,
 		//Сюда вписываем то, поверх чего должно быть невозможно развернуть элемент МОДа!
 	)
-	var/clothing_slot
 	var/theme_category
 
 /obj/item/clothing/mod_part/proc/update_flags(list/used_skin)
@@ -31,7 +30,9 @@
 	visor_flags_cover = category[SEALED_COVER] || NONE
 
 /obj/item/clothing/mod_part/proc/conseal_to_overslot()//Не давать скрывать space suit
-	var/obj/item/clothing/item = mod.wearer.get_item_by_slot(clothing_slot)
+	var/obj/item/clothing/item = mod.wearer.get_item_by_slot(slot_flags)
+	if(!item)
+		return TRUE
 	overslot = item
 	if(item.type in overslot_blacklist)
 		return FALSE
@@ -94,6 +95,7 @@
 	var/alternate_layer = NECK_LAYER
 	mutantrace_variation = STYLE_MUZZLE
 	theme_category = HELMET_FLAGS
+	slot_flags = ITEM_SLOT_HEAD
 
 /obj/item/clothing/mod_part/head/update_flags(list/used_skin)
 	. = ..()
@@ -137,6 +139,7 @@
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 	theme_category = CHESTPLATE_FLAGS
+	slot_flags = ITEM_SLOT_OCLOTHING
 
 /obj/item/clothing/mod_part/suit/seal_part(seal)
 	. = ..()
@@ -163,6 +166,7 @@
 	can_be_reinforced = FALSE
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	theme_category = GAUNTLETS_FLAGS
+	slot_flags = ITEM_SLOT_GLOVES
 
 /obj/item/clothing/mod_part/gloves/seal_part(seal)
 	. = ..()
@@ -188,6 +192,8 @@
 	can_be_reinforced = FALSE
 	mutantrace_variation = STYLE_DIGITIGRADE
 	theme_category = BOOTS_FLAGS
+	slot_flags = ITEM_SLOT_FEET
+
 /obj/item/clothing/mod_part/shoes/seal_part(seal)
 	. = ..()
 	mod.wearer.update_inv_shoes()

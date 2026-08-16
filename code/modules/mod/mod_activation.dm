@@ -2,20 +2,23 @@
 
 /// Creates a radial menu from which the user chooses parts of the suit to deploy/retract. Repeats until all parts are extended or retracted.
 /obj/item/mod/control/proc/choose_deploy(mob/user)
-	if(!length(mod_parts))
-		return
 	var/list/display_names = list()
 	var/list/items = list()
 	for(var/slot in mod_parts)
+		if(slot == MOD_PART_CELL)
+			continue
 		var/obj/item/piece = mod_parts[slot]
-		display_names[piece.name] = REF(piece)
-		var/image/piece_image = image(icon = piece.icon, icon_state = piece.icon_state)
-		items += list(piece.name = piece_image)
+		display_names[piece.name] = piece
+		var/image/piece_image = image(
+			icon = piece.icon,
+			icon_state = piece.icon_state
+		)
+		items[piece.name] = piece_image
 	var/pick = show_radial_menu(user, src, items, custom_check = FALSE, require_near = TRUE, tooltips = TRUE)
 	if(!pick)
 		return
-	var/part_reference = display_names[pick]
-	var/obj/item/part = locate(part_reference) in mod_parts
+	var/obj/item/part = display_names[pick]
+
 	if(!istype(part) || user.incapacitated())
 		return
 	var/parts_to_check = mod_parts - part
@@ -67,6 +70,7 @@
 
 /obj/item/mod/control/proc/conceal(mob/user, part)
 	var/obj/item/clothing/mod_part/piece = part
+	wearer.transferItemToLoc(piece, null, TRUE)
 	piece.equip_item_from_overslot()
 	if(!user)
 		return
@@ -102,7 +106,9 @@
 		if(!module.active || module.allowed_inactive)
 			continue
 		module.on_deactivation()
-	toggle_state(MOD_ACTIVATING)
+	ENABLE_BITFIELD(status_flags, MOD_ACTIVATING)
+	if(is_active())
+		remove_hardlight()
 	to_chat(wearer, span_notice("MODsuit [is_active() ? "shutting down" : "starting up"]."))
 	if(ai)
 		to_chat(ai, span_notice("MODsuit [is_active() ? "shutting down" : "starting up"]."))
@@ -112,13 +118,15 @@
 			var/obj/item/clothing/mod_part/MOD_PART = get_mod_part_by_index(index)
 			MOD_PART.seal_part(seal = FALSE)
 		finish_activation(on = FALSE)
-		toggle_state(MOD_ACTIVATING)
+		DISABLE_BITFIELD(status_flags, MOD_ACTIVATING)
 		to_chat(wearer, span_notice("Systems shut down. Parts unsealed. Goodbye, [wearer]."))
 		if(ai)
 			to_chat(ai, span_notice("<b>SYSTEMS DEACTIVATED. GOODBYE: \"[ai]\"</b>"))
 		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, frequency = 6000)
 		return TRUE
 	for(var/index in mod_parts)
+		if(index == MOD_PART_CELL)
+			continue
 		var/obj/item/clothing/mod_part/MOD_PART = get_mod_part_by_index(index)
 		if(do_after(wearer, activation_step_time, wearer, MOD_ACTIVATION_STEP_FLAGS, extra_checks = CALLBACK(src, PROC_REF(has_wearer))))
 			to_chat(wearer, span_notice("[MOD_PART.name] [is_active() ? pick(MOD_PART.unseal_message) : pick(MOD_PART.seal_message)]."))
@@ -138,20 +146,25 @@
 			playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, frequency = 6000)
 	else
 		return toggle_activate_fail()
-	toggle_state(MOD_ACTIVATING)
+	DISABLE_BITFIELD(status_flags, MOD_ACTIVATING)
 	return TRUE
 
 /obj/item/mod/control/proc/toggle_activate_fail()
 	for(var/index in mod_parts)
+		if(index == MOD_PART_CELL)
+			continue
 		var/obj/item/clothing/mod_part/MOD_PART = get_mod_part_by_index(index)
 		MOD_PART.seal_part(TRUE)
 	to_chat(wearer, span_warning("[is_active() ? "Shut down" : "Start up"] cancelled."))
 	finish_activation(on = is_active())
-	toggle_state(MOD_ACTIVATING)
+	DISABLE_BITFIELD(status_flags, MOD_ACTIVATING)
 	return FALSE
 
 /obj/item/mod/control/proc/finish_activation(on)
-	toggle_state(MOD_ACTIVE)
+	if(on == TRUE)
+		ENABLE_BITFIELD(status_flags, MOD_ACTIVE)
+	else
+		DISABLE_BITFIELD(status_flags, MOD_ACTIVE)
 	if(is_active())
 		for(var/obj/item/mod/module/module as anything in modules)
 			module.on_suit_activation()

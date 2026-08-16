@@ -84,15 +84,17 @@
 			pixel_y = accessory_overlay.pixel_y
 			)
 
-/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers)
+/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, update = TRUE)
 	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
 	for(var/layer in target_layers)
 		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
-	regenerate_icons()
+	if(update)
+		regenerate_icons()
 
-/mob/living/carbon/human/proc/clear_bodypart_overlays()
+/mob/living/carbon/human/proc/clear_bodypart_overlays(update = TRUE)
 	layers_for_apply_effect = list()
-	regenerate_icons()
+	if(update)
+		regenerate_icons()
 
 /mob/living/carbon/human/proc/remove_overlay_by_bodypart_key(key, need_update_body)
 	if(key in layers_for_apply_effect)

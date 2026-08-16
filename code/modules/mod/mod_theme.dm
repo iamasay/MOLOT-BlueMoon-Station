@@ -97,7 +97,6 @@
 	)
 
 /datum/mod_theme/proc/setup_theme(obj/item/mod/control/modsuit, new_skin)
-	var/list/all_parts = modsuit.mod_parts.Copy() + modsuit
 	modsuit.extended_desc = extended_desc
 	modsuit.slowdown_inactive = slowdown_inactive
 	modsuit.slowdown_active = slowdown_active
@@ -106,7 +105,15 @@
 	modsuit.ui_theme = ui_theme
 	modsuit.cell_drain = cell_drain
 	modsuit.initial_modules += inbuilt_modules
-	for(var/obj/item/piece as anything in all_parts)
+	for(var/index in (modsuit.mod_parts + list(modsuit)))
+		if(index == MOD_PART_CELL)
+			continue
+		var/obj/item/piece
+
+		if(index != modsuit)
+			piece = modsuit.mod_parts[index]
+		else
+			piece = modsuit
 		piece.name = "[name] [piece.name]"
 		piece.desc = "[piece.desc] [desc]"
 		piece.armor = getArmor(arglist(armor))
