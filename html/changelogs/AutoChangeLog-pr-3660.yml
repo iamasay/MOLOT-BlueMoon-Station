@@ -1,0 +1,5 @@
+author: Herobrine998
+delete-after: true
+changes:
+  - qol: Минимальный порог смеха у n2o повышен
+  - bugfix: При операциях больше не просыпаются под анестетиком
