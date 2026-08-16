@@ -1,0 +1,6 @@
+author: Silver-Paws
+delete-after: true
+changes:
+  - spellcheck: Добавлен перевод player panel.
+  - admin: 'Player panel: перемещение отправки в крио и лобби; добавление подсказок
+      при наведении мышью; улучшение вёрстки ради устранения съезжающего интерфейса.'
