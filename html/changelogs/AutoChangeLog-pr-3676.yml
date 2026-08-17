@@ -1,0 +1,4 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - bugfix: Починена компиляция - попытка вылупить яйцо больше не ломает сборку
