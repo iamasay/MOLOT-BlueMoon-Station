@@ -61,6 +61,7 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 		layers_for_apply_effect[layer] = list(layer, color, effect_icon, effect_state)
 
 /mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/tail_params)
+	//в этом proc-е происходит творческий беспорядок. Я уберу, правда.
 	if(!accessory_overlay)
 		return FALSE
 	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
@@ -74,7 +75,6 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	var/cache_list_key = "[accessory_overlay.icon][accessory_overlay.icon_state][effect_icon][effect_icon_state]"
 	if(cache_list_key in GLOB.mutant_overlays_cache)
 		initial_icon = GLOB.mutant_overlays_cache[cache_list_key]
-		to_chat(src, "Нашел в кэше, ключ [cache_list_key]")
 	else
 		tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, tail_params[2], effect_icon, effect_icon_state)
 		if(tail_with_effect)
