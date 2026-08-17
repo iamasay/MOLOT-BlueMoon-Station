@@ -28,7 +28,7 @@
 	var/obj/item/mod/control/mod = holder
 	switch(wire)
 		if(WIRE_DISABLE)
-			ENABLE_BITFIELD(mod.mod_parts, MOD_MALFUNCTION)
+			ENABLE_BITFIELD(mod.status_flags, MOD_MALFUNCTION)
 		if(WIRE_SHOCK)
 			mod.seconds_electrified = MACHINE_DEFAULT_ELECTRIFY_TIME
 		if(WIRE_INTERFACE)

@@ -30,8 +30,9 @@
 
 /datum/action/item_action/mod/hardlight_deploy/chooce_color/Trigger(trigger_flags)
 	var/chosen_colour = input(mod.wearer, "", "Choose Color", modsuit_color) as color|null
-	mod.hardlight_color = chosen_colour
-	mod.update_hardlight()
+	if(chosen_colour)
+		mod.hardlight_color = chosen_colour
+		mod.update_hardlight()
 
 /datum/action/item_action/mod/hardlight_deploy
 	name = "Activate Hardlight field"

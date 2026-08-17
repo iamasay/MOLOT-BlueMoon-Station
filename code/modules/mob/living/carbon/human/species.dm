@@ -899,9 +899,19 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				standing += left_eye
 				standing += right_eye
 				// Свечение глаз
-				if(has_emissive_part(H.dna.features, "eyes"))
-					standing += emissive_copy(left_eye)
-					standing += emissive_copy(right_eye)
+				if(H.dna?.features["emissive_eyes"])
+					var/mutable_appearance/left_eye_emissive = emissive_appearance(left_eye.icon, left_eye.icon_state, EMISSIVE_BLOCKER_LAYER + 0.5)
+					var/mutable_appearance/right_eye_emissive = emissive_appearance(right_eye.icon, right_eye.icon_state, EMISSIVE_BLOCKER_LAYER + 0.5)
+					left_eye_emissive.pixel_x = left_eye.pixel_x
+					left_eye_emissive.pixel_y = left_eye.pixel_y
+					right_eye_emissive.pixel_x = right_eye.pixel_x
+					right_eye_emissive.pixel_y = right_eye.pixel_y
+					left_eye_emissive.category = "HEAD"
+					right_eye_emissive.category = "HEAD"
+					left_eye_emissive.appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE // ЗАМЕТКА НА БУДУЩЕЕ ЕСЛИ КТО БУДЕТ ДЕЛАТЬ СВЕТЯЩИЕСЯ ЧАСТИ ТЕЛА
+					right_eye_emissive.appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE // ЕБАННАЯ МАСКА ЭММЕСИВ-ПЛЕЙНА ДЫРЯВИТ ОСВЕЩЕНИЕ И ПРОСТРАНСТВО КАК БАРБОСИК ВАГИНУ БЕЛОЙ ЖЕНЩИНЫ. ПРОПИСЫВАЙТЕ ФЛАГИ KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE И СТО ЛЕТ БЕД ЗНАТЬ НЕ БУДЕТЕ.
+					standing += left_eye_emissive
+					standing += right_eye_emissive
 
 	if(H.nail_style)
 		var/mutable_appearance/nail_overlay = mutable_appearance('modular_splurt/icons/mobs/nails.dmi', "nails", -HANDS_PART_LAYER)
@@ -916,6 +926,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 // MARK: handle_mutant_bodyparts
 /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour, block_recursive_calls = FALSE)
+	//is_wagging_tail() - если виляет, то тру, если нет, то фолс
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
 
 	H.mutant_part_appearances = list()
@@ -1090,9 +1101,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 // MARK: добавление оверлея
 			standing += update_overlay_by_key(mutant_string, H, accessory_overlay)
 
-			if(has_emissive_part(H.dna.features, mutant_string || bodypart))
-				standing += emissive_copy(accessory_overlay)
-
 			if(S.extra) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
 				extra_accessory_overlay.category = S.mutable_category
@@ -1140,9 +1148,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 				standing += extra_accessory_overlay
 
-				if(has_emissive_part(H.dna.features, mutant_string || bodypart))
-					standing += emissive_copy(extra_accessory_overlay)
-
 			if(S.extra2) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra2_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
 				extra2_accessory_overlay.category = S.mutable_category
@@ -1185,10 +1190,17 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 				standing += extra2_accessory_overlay
 
-				if(has_emissive_part(H.dna.features, mutant_string || bodypart))
-					standing += emissive_copy(extra2_accessory_overlay)
-
 		H.overlays_standing[layernum] = standing
+	// if(overlays_to_add)
+	// 	H.overlays_standing[SPECIAL_OVERLAYS_LAYER] = overlays_to_add
+	// if(!tail_params)
+	// 	if("tail" in H.layers_for_apply_effect)
+	// 		var/mutable_appearance/random_overlay = pick(overlays_to_add)
+	// 		tail_params = random_overlay.copy_special_MA_params(layer = "tail")
+	// 		H.apply_overlay_on_bodypart(arglist(tail_params))
+	// 		to_chat(H, "Пытаюсь восстановить хвостяру")
+	// 		for(var/argss in tail_params)
+	// 			to_chat(H, "[argss]")
 	H.add_all_overlays()
 	if(!block_recursive_calls)
 		var/datum/component/dullahan/D = H.GetComponent(/datum/component/dullahan)

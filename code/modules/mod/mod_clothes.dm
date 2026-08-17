@@ -88,7 +88,7 @@
 	flags_inv = HIDEFACIALHAIR
 	flags_cover = NONE
 	visor_flags = THICKMATERIAL|STOPSPRESSUREDAMAGE
-	visor_flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT
+	visor_flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR
 	visor_flags_cover = HEADCOVERSMOUTH|HEADCOVERSEYES
 	item_flags = IMMUTABLE_SLOW
 	can_be_reinforced = FALSE
@@ -130,7 +130,6 @@
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	clothing_flags = THICKMATERIAL
-	flags_inv = HIDETAUR
 	visor_flags = STOPSPRESSUREDAMAGE
 	visor_flags_inv = HIDEJUMPSUIT
 	item_flags = IMMUTABLE_SLOW
@@ -140,6 +139,8 @@
 	mutantrace_variation = STYLE_DIGITIGRADE
 	theme_category = CHESTPLATE_FLAGS
 	slot_flags = ITEM_SLOT_OCLOTHING
+	var/taur_types_icon_whitelist = alist(	"_canine" = list("Canine", "Feline", "Eevee", "Virgo - Synthetic Feline",\
+																"Virgo - Synthetic Feline (Inverted)", "Virgo - Synthetic Wolf", "Virgo - Synthetic Wolf (Inverted)"),)
 
 /obj/item/clothing/mod_part/suit/seal_part(seal)
 	. = ..()

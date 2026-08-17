@@ -20,16 +20,6 @@
 	else
 		return FALSE
 
-/mob/living/carbon/human/proc/handle_overlay_tailwag(list/overlays_to_add, mutable_appearance/tail_overlay, tail_type)
-	switch(tail_type)
-		if("tailwag")
-			var/list/overlay_options = tail_overlay.copy_special_MA_params(layer = "tailwag")
-			apply_overlay_on_bodypart(arglist(overlay_options))
-		if("tail")
-			var/list/overlay_options = tail_overlay.copy_special_MA_params(layer = "tail")
-			apply_overlay_on_bodypart(arglist(overlay_options))
-	to_chat(src, "[tail_type]")
-
 /datum/species/proc/search_coiling_action(mob/living/carbon/human/H)
 	for(var/datum/action/A in H.actions)
 		if(A.type == /datum/action/innate/ability/coiling)

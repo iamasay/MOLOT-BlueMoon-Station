@@ -971,8 +971,8 @@
 
 /datum/mod_theme/inteq
 	name = "InteQ"
-	desc = "A highly advanced combat suit, decorated with a sinister-looking dark blue colors, manufactured and crafted for special operations mercenaries. "
-	extended_desc = "A highly advanced combat suit, decorated with a sinister-looking dark blue colors, manufactured and crafted for special operations mercenaries. The design is a streamlined layered construction composed of molded plasteel and composite ceramics, while the undersuit is lined with lightweight kevlar and hybrid duratri weave. A small tag hangs on it that reads: Made by Fox and Ghost inc cooperation. All rights reserved, tampering with the suit's design will result in immediate suit annihilation."
+	desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. "
+	extended_desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
 	default_skin = "InteQ"
 	armor = list(MELEE = 50, BULLET = 50, LASER = 40, ENERGY = 55, BOMB = 55, BIO = 100, RAD = 70, FIRE = 100, ACID = 100, WOUND = 25)
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
