@@ -23,6 +23,7 @@
 /obj/effect/turf_decal/siding/wideplating/end{
 	dir = 4
 	},
+/turf/open/floor/mineral/titanium/white/airless,
 /area/ruin/space/has_grav/whiteship/box)
 "bB" = (
 /obj/machinery/sleeper{
@@ -84,11 +85,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
-"dr" = (
-/obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space,
-/turf/open/floor/mineral/plastitanium,
-/area/ruin/space/has_grav/whiteship/box)
 "ds" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/blue/half{
@@ -106,6 +102,11 @@
 "dZ" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating/airless,
+/area/ruin/space/has_grav/whiteship/box)
+"eB" = (
+/obj/effect/decal/cleanable/dirt,
+/mob/living/simple_animal/hostile/inteq/melee/space/stormtrooper,
+/turf/open/floor/mineral/titanium/white/airless,
 /area/ruin/space/has_grav/whiteship/box)
 "eD" = (
 /obj/effect/turf_decal/vg_decals/atmos/carbon_dioxide,
@@ -154,6 +155,11 @@
 /obj/effect/decal/cleanable/blood/footprints,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
+"gy" = (
+/obj/effect/decal/cleanable/dirt,
+/mob/living/simple_animal/hostile/inteq/ranged/shotgun/space,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
 "gK" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/engine,
@@ -186,6 +192,7 @@
 /obj/effect/turf_decal/siding/wideplating/end{
 	dir = 8
 	},
+/turf/open/floor/mineral/titanium/white/airless,
 /area/ruin/space/has_grav/whiteship/box)
 "hf" = (
 /obj/effect/turf_decal/siding/wideplating/corner{
@@ -276,6 +283,7 @@
 /obj/machinery/door/airlock/mining/glass{
 	name = "Resource Collector Dock"
 	},
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "jb" = (
 /obj/effect/turf_decal/siding/wideplating/terracotta{
@@ -289,12 +297,6 @@
 	},
 /obj/effect/turf_decal/trimline/dark_red/arrow_ccw,
 /turf/open/floor/mineral/titanium/white/airless,
-/area/ruin/space/has_grav/whiteship/box)
-"jq" = (
-/obj/effect/turf_decal/siding/wideplating{
-	dir = 8
-	},
-/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
 "jO" = (
 /obj/effect/decal/remains/human,
@@ -403,8 +405,6 @@
 /obj/effect/turf_decal/siding/wideplating,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
-"md" = (
-/area/ruin/space/has_grav/whiteship/box)
 "mp" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 4
@@ -498,6 +498,13 @@
 /obj/structure/closet/crate,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
+"oH" = (
+/obj{
+	name = "---Merge conflict marker---"
+	},
+/mob/living/simple_animal/hostile/inteq/ranged/sniper,
+/turf/template_noop,
+/area/template_noop)
 "oK" = (
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
 	dir = 8
@@ -585,6 +592,13 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating/airless,
 /area/ruin/space/has_grav/whiteship/box)
+"qH" = (
+/obj/effect/turf_decal/siding/wideplating{
+	dir = 8
+	},
+/mob/living/simple_animal/hostile/inteq/melee/sword/space,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
 "qZ" = (
 /obj/structure/shipping_container/nthi{
 	layer = 1
@@ -606,10 +620,13 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
-"rO" = (
-/obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space,
-/turf/open/floor/mineral/titanium/white/airless,
+"rs" = (
+/obj/effect/turf_decal/trimline/yellow/arrow_ccw{
+	dir = 1
+	},
+/obj/structure/cable,
+/mob/living/simple_animal/hostile/inteq/space/stormtrooper,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
 "sn" = (
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
@@ -639,16 +656,12 @@
 /obj/effect/turf_decal/siding/wideplating{
 	dir = 8
 	},
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "sX" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/table/reinforced,
 /turf/open/floor/mineral/plastitanium,
-/area/ruin/space/has_grav/whiteship/box)
-"tP" = (
-/obj/structure/cable,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/catwalk_floor/iron_white,
 /area/ruin/space/has_grav/whiteship/box)
 "tU" = (
 /turf/closed/wall/mineral/plastitanium,
@@ -664,10 +677,6 @@
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
 	},
-/turf/open/floor/mineral/plastitanium,
-/area/ruin/space/has_grav/whiteship/box)
-"uS" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
 "vk" = (
@@ -697,10 +706,6 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/mineral/titanium/white/airless,
 /area/ruin/space/has_grav/whiteship/box)
-"wk" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/sniper,
-/turf/template_noop,
-/area/template_noop)
 "wP" = (
 /obj/effect/turf_decal/siding/yellow{
 	dir = 4
@@ -718,6 +723,11 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/table/wood,
 /turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
+"xD" = (
+/obj/structure/cable,
+/mob/living/simple_animal/hostile/inteq/ranged/spacebattle,
+/turf/open/floor/catwalk_floor/iron_white,
 /area/ruin/space/has_grav/whiteship/box)
 "xG" = (
 /obj/effect/decal/cleanable/dirt,
@@ -777,6 +787,7 @@
 /obj/machinery/door/airlock/mining/glass{
 	name = "Resource Collector Dock"
 	},
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "Ay" = (
 /turf/open/floor/mineral/plastitanium,
@@ -796,12 +807,23 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/mineral/titanium/white/airless,
 /area/ruin/space/has_grav/whiteship/box)
+"Bd" = (
+/obj/effect/turf_decal/tile/blue/opposingcorners,
+/obj/effect/decal/cleanable/dirt,
+/mob/living/simple_animal/hostile/inteq/ranged/sniper,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
 "Be" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/closet/crate/trashcart,
 /obj/item/trash/chips,
 /obj/item/trash/syndi_cakes,
 /obj/item/trash/tray,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
+"Bm" = (
+/obj/effect/decal/cleanable/dirt,
+/mob/living/simple_animal/hostile/inteq/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
 "BB" = (
@@ -1078,6 +1100,7 @@
 /obj/machinery/door/airlock/mining/glass{
 	name = "Resource Collector Dock"
 	},
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "LZ" = (
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
@@ -1272,6 +1295,7 @@
 "Sr" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/titanium,
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "Tj" = (
 /obj/effect/turf_decal/trimline/dark_red/warning{
@@ -1305,6 +1329,12 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/mineral/plastitanium,
+/area/ruin/space/has_grav/whiteship/box)
+"TS" = (
+/obj/structure/cable,
+/obj/effect/decal/cleanable/dirt,
+/mob/living/simple_animal/hostile/inteq/ranged/shotgun/space,
+/turf/open/floor/catwalk_floor/iron_white,
 /area/ruin/space/has_grav/whiteship/box)
 "Ud" = (
 /obj/effect/decal/cleanable/dirt,
@@ -1353,11 +1383,6 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/whiteship/box)
-"VQ" = (
-/obj/structure/cable,
-/mob/living/simple_animal/hostile/syndicate/ranged/smg/pilot,
-/turf/open/floor/catwalk_floor/iron_white,
-/area/ruin/space/has_grav/whiteship/box)
 "Wc" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/space/has_grav/whiteship/box)
@@ -1374,6 +1399,7 @@
 "Xg" = (
 /obj/effect/decal/cleanable/glass,
 /obj/structure/girder/displaced,
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/whiteship/box)
 "Xp" = (
 /obj/effect/turf_decal/siding/yellow{
@@ -1610,9 +1636,9 @@ Wc
 Pw
 eV
 eV
-mR
+rs
 Ay
-dr
+MA
 Be
 Wc
 hp
@@ -1715,7 +1741,7 @@ nH
 nH
 VD
 hR
-jq
+qH
 sp
 Wc
 Wc
@@ -1725,7 +1751,7 @@ Wc
 Wc
 Wc
 MA
-uS
+Ay
 Ay
 Wc
 nH
@@ -1747,7 +1773,7 @@ oL
 mp
 Wc
 MA
-MA
+Bm
 ut
 Wc
 nH
@@ -1786,7 +1812,7 @@ Oa
 sJ
 mN
 qi
-tP
+TS
 KT
 bT
 iS
@@ -1894,7 +1920,7 @@ MA
 MA
 Sr
 Ud
-VQ
+xD
 Ud
 RQ
 Wc
@@ -1946,7 +1972,7 @@ IA
 Wc
 Fd
 Ay
-MA
+gy
 MA
 Gu
 "}
@@ -2021,12 +2047,12 @@ nH
 nH
 nH
 nH
-md
+Vt
 Wc
 aB
 Ov
 aw
-Ov
+eB
 Ov
 xG
 ku
@@ -2051,7 +2077,7 @@ oW
 Ov
 vz
 lS
-rO
+Ov
 ji
 Wc
 Xp
@@ -2209,7 +2235,7 @@ Xg
 Sp
 dZ
 Xr
-oR
+Bd
 gQ
 FX
 Wc
@@ -2348,7 +2374,7 @@ nH
 "}
 (42,1,1) = {"
 nH
-wk
+oH
 nH
 nH
 nH
