@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(mutant_overlays_cache, list())
+
 #define SNOUT_APPEARANCE "snout"
 #define TAIL_APPEARANCE "tail"
 #define EARS_APPEARANCE "ears"
@@ -47,6 +49,7 @@
 	var/icon/flat_icon = safety ? A : new(A)
 	flat_icon.ColorTone(color)
 	flat_icon.ChangeOpacity(0.5)
+	flat_icon.Scale(A.Width(), A.Height())
 	if(effect_icon) //Может накладывать любой эффект по форме спрайта
 		var/icon/alpha_mask = new(effect_icon, effect_state)
 		var/icon/M = new(alpha_mask)
@@ -62,27 +65,34 @@
 		return FALSE
 	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
 	var/icon/tail_with_effect
+	var/icon/initial_icon
 	var/color
 	if(tail_params[2])
 		color = BlendRGB(accessory_overlay.color, tail_params[2])
 	var/effect_icon = tail_params[3]
 	var/effect_icon_state = tail_params[4]
-	tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, tail_params[2], effect_icon, effect_icon_state)
-	if(tail_with_effect)
-		var/icon/initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
-		initial_icon.Blend(tail_icon, ICON_OVERLAY)
-		if(accessory_overlay.color && color)
-			initial_icon.ColorTone(color)
-		return mutable_appearance(
-			initial_icon,
-			"",
-			accessory_overlay.layer,
-			accessory_overlay.plane,
-			accessory_overlay.alpha,
-			accessory_overlay.appearance_flags,
-			pixel_x = accessory_overlay.pixel_x,
-			pixel_y = accessory_overlay.pixel_y
-			)
+	var/cache_list_key = "[accessory_overlay.icon][accessory_overlay.icon_state][effect_icon][effect_icon_state]"
+	if(cache_list_key in GLOB.mutant_overlays_cache)
+		initial_icon = GLOB.mutant_overlays_cache[cache_list_key]
+		to_chat(src, "Нашел в кэше, ключ [cache_list_key]")
+	else
+		tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, tail_params[2], effect_icon, effect_icon_state)
+		if(tail_with_effect)
+			initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
+			initial_icon.Blend(tail_icon, ICON_OVERLAY)
+			if(accessory_overlay.color && color)
+				initial_icon.ColorTone(color)
+			GLOB.mutant_overlays_cache[cache_list_key] = initial_icon
+	return mutable_appearance(
+		initial_icon,
+		"",
+		accessory_overlay.layer,
+		accessory_overlay.plane,
+		accessory_overlay.alpha,
+		accessory_overlay.appearance_flags,
+		pixel_x = accessory_overlay.pixel_x,
+		pixel_y = accessory_overlay.pixel_y
+		)
 
 /mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, update = TRUE)
 	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
