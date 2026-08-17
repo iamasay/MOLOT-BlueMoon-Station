@@ -72,7 +72,7 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 		color = BlendRGB(accessory_overlay.color, tail_params[2])
 	var/effect_icon = tail_params[3]
 	var/effect_icon_state = tail_params[4]
-	var/cache_list_key = "[accessory_overlay.icon][accessory_overlay.icon_state][effect_icon][effect_icon_state]"
+	var/cache_list_key = "[accessory_overlay.icon][accessory_overlay.icon_state][effect_icon][effect_icon_state][color]"
 	if(cache_list_key in GLOB.mutant_overlays_cache)
 		initial_icon = GLOB.mutant_overlays_cache[cache_list_key]
 	else
@@ -94,10 +94,10 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 		pixel_y = accessory_overlay.pixel_y
 		)
 
-/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, update = TRUE)
+/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, color, update = TRUE)
 	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
 	for(var/layer in target_layers)
-		apply_overlay_on_bodypart(layer, MOD_STANDART_COLOR, 'icons/effects/effects.dmi', "scanline")
+		apply_overlay_on_bodypart(layer, color, 'icons/effects/effects.dmi', "scanline")
 	if(update)
 		regenerate_icons()
 

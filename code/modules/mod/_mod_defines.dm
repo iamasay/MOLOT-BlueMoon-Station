@@ -21,3 +21,12 @@
 #define MOD_ACTIVATING  (1<<1)
 #define MOD_MALFUNCTION (1<<2)
 #define MOD_OPEN        (1<<3)
+
+#define MOD_STANDART_COLOR rgb(26, 209, 255, 255)
+#define MOD_SYNDICATE_COLOR rgb(255, 60, 26, 255)
+#define MOD_INTEQ_COLOR rgb(255, 129, 26, 255)
+#define MOD_COMMAND_COLOR rgb(26, 118, 255, 255)
+#define MOD_MEDBAY_COLOR rgb(26, 255, 179, 255)
+#define MOD_CARGO_COLOR rgb(255, 118, 26, 255)
+#define MOD_SEC_COLOR rgb(255, 26, 26, 255)
+#define MOD_RESEARCH_COLOR rgb(133, 26, 255, 255)

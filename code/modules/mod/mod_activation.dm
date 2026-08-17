@@ -115,6 +115,8 @@
 
 	if(force_deactivate)
 		for(var/index in mod_parts)
+			if(index == MOD_PART_CELL)
+				continue
 			var/obj/item/clothing/mod_part/MOD_PART = get_mod_part_by_index(index)
 			MOD_PART.seal_part(seal = FALSE)
 		finish_activation(on = FALSE)

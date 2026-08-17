@@ -28,7 +28,7 @@
 		/datum/action/item_action/mod/module/ai,
 		/datum/action/item_action/mod/panel/ai,
 		/datum/action/item_action/mod/hardlight_deploy,
-		// /datum/action/item_action/mod/hardlight_deploy/chooce_color,
+		/datum/action/item_action/mod/hardlight_deploy/chooce_color,
 	)
 	resistance_flags = NONE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
@@ -53,7 +53,8 @@
 	var/slowdown_active = 1
 	var/extended_desc
 	var/activation_step_time = MOD_ACTIVATION_STEP_TIME
-
+	var/list/need_to_conseal = list()
+	var/hardlight_color = MOD_STANDART_COLOR
 	var/alist/mod_parts = alist(
 		MOD_PART_HEAD = /obj/item/clothing/mod_part/head,
 		MOD_PART_CHEST = /obj/item/clothing/mod_part/suit,
@@ -171,7 +172,7 @@
 	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(seconds_electrified > MACHINE_NOT_ELECTRIFIED)
 		seconds_electrified--
-	if((!cell || !cell.charge) && is_active() && is_open())
+	if((!cell || !cell.charge) && is_active())
 		power_off()
 		return PROCESS_KILL
 	if(cell.cell_is_radioactive)

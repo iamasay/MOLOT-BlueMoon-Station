@@ -1,13 +1,3 @@
-#define MOD_STANDART_COLOR rgb(26, 209, 255, 255)
-#define MOD_SYNDICATE_COLOR rgb(243, 70, 57)
-#define MOD_INTEQ_COLOR rgb(245, 117, 32)
-#define MA_INDEX 1
-#define LAYER_INDEX 2
-
-/obj/item/mod/control
-	var/list/need_to_conseal = list()
-	var/hardlight_color = MOD_STANDART_COLOR
-
 /obj/item/mod/control/conceal(mob/user, part)
 	. = ..()
 	remove_hardlight()
@@ -24,7 +14,7 @@
 		update_hardlight()
 
 /obj/item/mod/control/proc/update_hardlight()
-	wearer.apply_bodypart_overlays(need_to_conseal, update = FALSE)
+	wearer.apply_bodypart_overlays(need_to_conseal, hardlight_color, update = FALSE)
 	wearer.update_body()
 
 /obj/item/mod/control/proc/remove_hardlight(var/index)
@@ -32,6 +22,16 @@
 		wearer.remove_overlay_by_bodypart_key(index)
 		return TRUE
 	wearer.clear_bodypart_overlays(update = FALSE)
+
+/datum/action/item_action/mod/hardlight_deploy/chooce_color
+	name = "Choice hardlight color"
+	button_icon_state = "color"
+	var/modsuit_color
+
+/datum/action/item_action/mod/hardlight_deploy/chooce_color/Trigger(trigger_flags)
+	var/chosen_colour = input(mod.wearer, "", "Choose Color", modsuit_color) as color|null
+	mod.hardlight_color = chosen_colour
+	mod.update_hardlight()
 
 /datum/action/item_action/mod/hardlight_deploy
 	name = "Activate Hardlight field"
@@ -65,5 +65,3 @@
 			mod.wearer.balloon_alert(mod.wearer, "Защитный слой активируется вместе с костюмом!")
 			return
 		mod.update_hardlight()
-
-

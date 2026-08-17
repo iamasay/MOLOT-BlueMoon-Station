@@ -36,7 +36,7 @@
 	/// How much battery power the MOD uses by just being on
 	var/cell_drain = DEFAULT_CHARGE_DRAIN
 	/// Slowdown of the MOD when not active.
-	var/slowdown_inactive = 1.1
+	var/slowdown_inactive = 0
 	/// Slowdown of the MOD when active.
 	var/slowdown_active = 0
 	/// Theme used by the MOD TGUI.
@@ -47,6 +47,7 @@
 	var/list/inbuilt_modules = list()
 	/// Modules blacklisted from the MOD.
 	var/list/module_blacklist = list()
+	var/hardlight_color = MOD_STANDART_COLOR
 	/// List of skins with their appropriate clothing flags.
 	var/list/skins = list(
 		"standard" = list(
@@ -105,6 +106,7 @@
 	modsuit.ui_theme = ui_theme
 	modsuit.cell_drain = cell_drain
 	modsuit.initial_modules += inbuilt_modules
+	modsuit.hardlight_color = hardlight_color
 	for(var/index in (modsuit.mod_parts + list(modsuit)))
 		if(index == MOD_PART_CELL)
 			continue
@@ -141,6 +143,7 @@
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
+	slowdown_inactive = 1.1
 	skins = list(
 		"engineering" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -180,6 +183,7 @@
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
+	slowdown_inactive = 1.1
 	skins = list(
 		"atmospheric" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -222,6 +226,7 @@
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
 	siemens_coefficient = 0
 	inbuilt_modules = list(/obj/item/mod/module/magboot/advanced)
+	hardlight_color = MOD_COMMAND_COLOR
 	skins = list(
 		"advanced" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -265,6 +270,8 @@
 	cell_drain = DEFAULT_CHARGE_DRAIN * 2
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
 	inbuilt_modules = list(/obj/item/mod/module/orebag)
+	hardlight_color = MOD_CARGO_COLOR
+	slowdown_inactive = 1.2
 	skins = list(
 		"mining" = list(
 			HELMET_LAYER = null,
@@ -301,9 +308,10 @@
 		он невероятно кислотостойкий. Энергопотребление немного выше, чем у гражданских моделей, \
 		и он слаб против постукиваний пальцами по стеклу."
 	default_skin = "medical"
-	armor = list(MELEE = 5, BULLET = 5, LASER = 5, ENERGY = 5, BOMB = 10, BIO = 100, FIRE = 60, ACID = 75, WOUND = 5, RAD = 0)
-	cell_drain = DEFAULT_CHARGE_DRAIN * 1.3
+	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 100, FIRE = 60, ACID = 75, WOUND = 5, RAD = 0)
+	cell_drain = DEFAULT_CHARGE_DRAIN * 0.9 //медбей это про скорость и долговечность, но околонулевая защита.
 	inbuilt_modules = list(/obj/item/mod/module/quick_carry)
+	hardlight_color = MOD_MEDBAY_COLOR
 	skins = list(
 		"medical" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -363,11 +371,12 @@
 		при этом оставаясь полностью иммунными к химическим и термическим угрозам. \
 		Энергопотребление немного выше, чем у гражданских моделей, и он слаб против постукиваний пальцами по стеклу."
 	default_skin = "rescue"
-	armor = list(MELEE = 10, BULLET = 10, LASER = 5, ENERGY = 5, BOMB = 10, BIO = 100, FIRE = 100, ACID = 100, WOUND = 5, RAD = 0)
+	armor = list(MELEE = 5, BULLET = 5, LASER = 5, ENERGY = 5, BOMB = 10, BIO = 100, FIRE = 100, ACID = 100, WOUND = 5, RAD = 0)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	cell_drain = DEFAULT_CHARGE_DRAIN * 1.2
+	cell_drain = DEFAULT_CHARGE_DRAIN
 	inbuilt_modules = list(/obj/item/mod/module/quick_carry/advanced)
+	hardlight_color = MOD_MEDBAY_COLOR
 	skins = list(
 		"rescue" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -406,10 +415,12 @@
 		других типов оружия и физического урона; а вся взрывостойкость в основном работает, чтобы сохранить пользователя целым, \
 		но не живым. Также пользователь обнаружит, что узкие дверные проёмы практически невозможно преодолеть."
 	default_skin = "research"
-	armor = list(MELEE = 20, BULLET = 15, LASER = 5, ENERGY = 5, BOMB = 100, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 0)
+	armor = list(MELEE = 20, BULLET = 15, LASER = 5, ENERGY = 5, BOMB = 100, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 40)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	inbuilt_modules = list(/obj/item/mod/module/reagent_scanner/advanced)
+	hardlight_color = MOD_RESEARCH_COLOR
+	slowdown_inactive = 1.1
 	skins = list(
 		"research" = list(
 			HELMET_LAYER = null,
@@ -447,10 +458,12 @@
 		Однако системы, используемые в этих костюмах, устарели более чем на несколько лет, \
 		что приводит к общему снижению ёмкости модулей."
 	default_skin = "security"
-	armor = list(MELEE = 30, BULLET = 20, LASER = 30, ENERGY = 30, BOMB = 30, BIO = 100, FIRE = 100, ACID = 75, WOUND = 15, RAD = 0)
+	armor = list(MELEE = 40, BULLET = 35, LASER = 35, ENERGY = 45, BOMB = 30, BIO = 100, FIRE = 100, ACID = 75, WOUND = 15, RAD = 0)
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 5
 	inbuilt_modules = list(/obj/item/mod/module/magnetic_harness)
+	hardlight_color = MOD_SEC_COLOR
+	slowdown_inactive = 1.0
 	skins = list(
 		"security" = list(
 			HELMET_LAYER = null,
@@ -488,11 +501,13 @@
 		По бокам костюма установлены теплоотводы, а для изоляции от \
 		коррозионных сред и внезапных ударов по суставам пользователя применены более совершенные технологии."
 	default_skin = "safeguard"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 30, ENERGY = 30, BOMB = 30, BIO = 100, FIRE = 100, ACID = 95, WOUND = 15, RAD = 0) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 40"
+	armor = list(MELEE = 45, BULLET = 50, LASER = 40, ENERGY = 50, BOMB = 30, BIO = 100, FIRE = 100, ACID = 95, WOUND = 15, RAD = 0) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 40"
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 5
+	hardlight_color = MOD_COMMAND_COLOR
+	slowdown_inactive = 1
 	skins = list(
 		"safeguard" = list(
 			HELMET_LAYER = null,
@@ -531,11 +546,13 @@
 		и блюспейс-обработку для поддержки широкого спектра модулей, а для скорости задействованы только лучшие приводы. \
 		Сходство с шлемом Gorlex Marauder — чистое совпадение."
 	default_skin = "magnate"
-	armor = list(MELEE = 40, BULLET = 50, LASER = 30, ENERGY = 30, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 0)
+	armor = list(MELEE = 40, BULLET = 50, LASER = 50, ENERGY = 30, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 50)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
+	hardlight_color = MOD_COMMAND_COLOR
+	slowdown_inactive = 1.1
 	skins = list(
 		"magnate" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -574,6 +591,7 @@
 	armor = list(MELEE = 5, BULLET = 5, LASER = 20, ENERGY = 20, BOMB = 10, BIO = 100, FIRE = 60, ACID = 30, WOUND = 5, RAD = 0)
 	cell_drain = DEFAULT_CHARGE_DRAIN * 0.25
 	slowdown_active = 1.25
+	hardlight_color = MOD_SYNDICATE_COLOR
 	/*inbuilt_modules = list(/obj/item/mod/module/waddle)*/ // Waddling element not ported, commented for now as it is a prerequisite.
 	skins = list(
 		"cosmohonk" = list(
@@ -612,11 +630,13 @@
 		С него свисает маленькая бирка с надписью: 'Собственность Gorlex Marauders при содействии Cybersun Industries. \
 		Все права защищены, вмешательство в костюм аннулирует гарантию."
 	default_skin = "syndicate"
-	armor = list(MELEE = 25, BULLET = 35, LASER = 25, ENERGY = 15, BOMB = 30, BIO = 100, FIRE = 50, ACID = 90, WOUND = 25, RAD = 0) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 20, LASER = 15"
+	armor = list(MELEE = 40, BULLET = 35, LASER = 35, ENERGY = 45, BOMB = 30, BIO = 100, FIRE = 100, ACID = 75, WOUND = 15, RAD = 0) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 20, LASER = 15"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	ui_theme = "syndicate"
 	inbuilt_modules = list()
+	hardlight_color = MOD_SYNDICATE_COLOR
+	slowdown_active = 1.1
 	skins = list(
 		"syndicate" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -653,12 +673,14 @@
 		'Собственность Gorlex Marauders при содействии Cybersun Industries. \
 		Все права защищены, вмешательство в костюм аннулирует продолжительность жизни.'"
 	default_skin = "elite"
-	armor = list(MELEE = 45, BULLET = 45, LASER = 35, ENERGY = 30, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 0) // BLUEMOON EDIT - was "MELEE = 35, BULLET = 30, LASER = 35"
+	armor = list(MELEE = 60, BULLET = 60, LASER = 50, ENERGY = 30, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 70) // BLUEMOON EDIT - was "MELEE = 35, BULLET = 30, LASER = 35"
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	ui_theme = "syndicate"
 	inbuilt_modules = list()
+	slowdown_active = 1.1
+	hardlight_color = MOD_SYNDICATE_COLOR
 	skins = list(
 		"elite" = list(
 			HELMET_LAYER = null,
@@ -743,6 +765,7 @@
 	siemens_coefficient = 0
 	slowdown_inactive = 0.5
 	slowdown_active = 0
+	hardlight_color = MOD_COMMAND_COLOR
 	skins = list(
 		"responsory" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -806,6 +829,7 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 10
+	hardlight_color = MOD_SYNDICATE_COLOR
 	skins = list(
 		"apocryphal" = list(
 			HELMET_LAYER = null,
@@ -841,10 +865,11 @@
 		считается военным преступлением и поводом для немедленной казни на более чем пятидесяти космических станциях Nanotrasen. \
 		Сходство с шлемом Gorlex Marauder — чистое совпадение."
 	default_skin = "corporate"
-	armor = list(MELEE = 40, BULLET = 50, LASER = 30, ENERGY = 30, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 0)
+	armor = list(MELEE = 50, BULLET = 50, LASER = 40, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 30)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
+	hardlight_color = MOD_SYNDICATE_COLOR
 	skins = list(
 		"corporate" = list(
 			HELMET_LAYER = null,
@@ -940,6 +965,45 @@
 			),
 			BOOTS_FLAGS = list(
 				UNSEALED_CLOTHING = THICKMATERIAL|STOPSPRESSUREDAMAGE,
+			),
+		),
+	)
+
+/datum/mod_theme/inteq
+	name = "InteQ"
+	desc = "A highly advanced combat suit, decorated with a sinister-looking dark blue colors, manufactured and crafted for special operations mercenaries. "
+	extended_desc = "A highly advanced combat suit, decorated with a sinister-looking dark blue colors, manufactured and crafted for special operations mercenaries. The design is a streamlined layered construction composed of molded plasteel and composite ceramics, while the undersuit is lined with lightweight kevlar and hybrid duratri weave. A small tag hangs on it that reads: Made by Fox and Ghost inc cooperation. All rights reserved, tampering with the suit's design will result in immediate suit annihilation."
+	default_skin = "InteQ"
+	armor = list(MELEE = 50, BULLET = 50, LASER = 40, ENERGY = 55, BOMB = 55, BIO = 100, RAD = 70, FIRE = 100, ACID = 100, WOUND = 25)
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
+	siemens_coefficient = 0
+	slowdown_inactive = 1
+	slowdown_active = 0.5
+	ui_theme = "inteq"
+	inbuilt_modules = list()
+	hardlight_color = MOD_INTEQ_COLOR
+	skins = list(
+		"InteQ" = list(
+			HELMET_LAYER = NECK_LAYER,
+			HELMET_FLAGS = list(
+				UNSEALED_CLOTHING = NONE,
+				SEALED_CLOTHING = THICKMATERIAL|STOPSPRESSUREDAMAGE|ALLOWINTERNALS,
+				UNSEALED_INVISIBILITY = HIDEFACIALHAIR,
+				SEALED_INVISIBILITY = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT,
+				SEALED_COVER = HEADCOVERSMOUTH|HEADCOVERSEYES,
+			),
+			CHESTPLATE_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
+				SEALED_INVISIBILITY = HIDEJUMPSUIT,
+			),
+			GAUNTLETS_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
+			),
+			BOOTS_FLAGS = list(
+				UNSEALED_CLOTHING = THICKMATERIAL,
+				SEALED_CLOTHING = STOPSPRESSUREDAMAGE,
 			),
 		),
 	)
