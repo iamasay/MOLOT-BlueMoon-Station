@@ -119,6 +119,7 @@
 				continue
 			var/obj/item/clothing/mod_part/MOD_PART = get_mod_part_by_index(index)
 			MOD_PART.seal_part(seal = FALSE)
+			conceal(user, MOD_PART)
 		finish_activation(on = FALSE)
 		DISABLE_BITFIELD(status_flags, MOD_ACTIVATING)
 		to_chat(wearer, span_notice("Systems shut down. Parts unsealed. Goodbye, [wearer]."))
