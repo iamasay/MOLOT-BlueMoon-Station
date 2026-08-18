@@ -2466,6 +2466,10 @@
 	dir = 1
 	},
 /area/command/teleporter)
+"atc" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/plating,
+/area/maintenance/starboard)
 "atf" = (
 /obj/structure/dresser,
 /obj/machinery/airalarm{
@@ -4083,6 +4087,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/neutral/half,
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/textured/half,
 /area/hallway/secondary/entry)
 "aAI" = (
@@ -7051,6 +7056,7 @@
 /area/hallway/primary/port)
 "aOn" = (
 /obj/machinery/light,
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/textured/half,
 /area/hallway/primary/port)
 "aOo" = (
@@ -20811,6 +20817,7 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel,
 /area/engineering/atmos)
 "bMQ" = (
@@ -24554,6 +24561,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/textured/half{
 	dir = 4
 	},
@@ -30078,7 +30086,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/factory)
 "cqn" = (
-/obj/structure/grille,
+/obj/machinery/recharge_station,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "cqo" = (
@@ -32696,6 +32704,7 @@
 /turf/open/floor/carpet/blue,
 /area/command/heads_quarters/cmo)
 "cAC" = (
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/dark/textured/large,
 /area/hallway/secondary/construction)
 "cAD" = (
@@ -37204,6 +37213,7 @@
 /obj/effect/turf_decal/siding/dark_red{
 	dir = 6
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/dark/textured/half{
 	dir = 4
 	},
@@ -45782,6 +45792,7 @@
 /area/security/prison)
 "hmr" = (
 /obj/effect/decal/cleanable/vomit/old,
+/obj/machinery/recharge_station,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "hmB" = (
@@ -48147,15 +48158,13 @@
 /turf/open/floor/circuit/green,
 /area/tcommsat/server)
 "imR" = (
-/obj/structure/chair{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/textured/edge{
 	dir = 8
 	},
@@ -49441,6 +49450,7 @@
 /obj/effect/turf_decal/siding/dark_red{
 	dir = 9
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/dark/textured/corner,
 /area/security/prison)
 "iPN" = (
@@ -58932,7 +58942,7 @@
 /turf/open/floor/plasteel/white/textured/edge,
 /area/medical/medbay/central)
 "mLb" = (
-/obj/structure/reagent_dispensers/water_cooler,
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/white/side{
 	dir = 1
 	},
@@ -68191,6 +68201,10 @@
 /obj/item/seeds/berry,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
+"qEY" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/plasteel,
+/area/engineering/main)
 "qFf" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -81651,6 +81665,10 @@
 	dir = 8
 	},
 /area/hallway/primary/fore)
+"wco" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/carpet/royalblue,
+/area/maintenance/starboard/aft)
 "wct" = (
 /obj/structure/table/reinforced,
 /obj/machinery/recharger{
@@ -82318,15 +82336,13 @@
 	},
 /area/security/processing)
 "wqN" = (
-/obj/structure/chair{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/plasteel/textured/edge{
 	dir = 4
 	},
@@ -84176,6 +84192,16 @@
 	},
 /turf/open/floor/grass,
 /area/service/park)
+"xgf" = (
+/obj/effect/turf_decal/trimline/dark_blue/filled/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/dark_blue/filled/mid_joiner{
+	dir = 1
+	},
+/obj/machinery/recharge_station,
+/turf/open/floor/plasteel/dark/textured/half,
+/area/command/gateway)
 "xgk" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -101944,7 +101970,7 @@ aaa
 aaa
 bCq
 bUs
-cqn
+cAJ
 bCq
 jDj
 orj
@@ -102201,7 +102227,7 @@ aaa
 aaa
 bCq
 dpQ
-cqn
+cAJ
 bCq
 qPx
 jDj
@@ -104256,7 +104282,7 @@ bCq
 bCq
 bCq
 bCq
-cqn
+cAJ
 bUs
 bCq
 aaa
@@ -111969,7 +111995,7 @@ aaa
 aoV
 aoV
 bCq
-bHE
+cqn
 bUz
 bVI
 bWC
@@ -112253,7 +112279,7 @@ coH
 cgR
 cgR
 cqx
-cgR
+qEY
 crp
 cgI
 cgI
@@ -114277,7 +114303,7 @@ bJm
 bHh
 aaa
 aHF
-bqF
+xgf
 eFH
 aYg
 bLy
@@ -137908,7 +137934,7 @@ gXs
 bky
 kgk
 brH
-bvQ
+atc
 bxt
 cNT
 bCm
@@ -137943,7 +137969,7 @@ bsx
 chH
 eUX
 srk
-gGK
+wco
 cNW
 gXs
 aaf
