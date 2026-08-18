@@ -60,7 +60,7 @@
 		MOD_PART_CHEST = /obj/item/clothing/mod_part/suit,
 		MOD_PART_GLOVES = /obj/item/clothing/mod_part/gloves,
 		MOD_PART_FEET = /obj/item/clothing/mod_part/shoes,
-		MOD_PART_CELL = /obj/item/stock_parts/cell,
+		MOD_PART_CELL = null,
 	)
 
 	var/list/initial_modules = list()

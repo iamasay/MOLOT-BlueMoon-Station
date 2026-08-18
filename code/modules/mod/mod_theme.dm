@@ -636,7 +636,6 @@
 	ui_theme = "syndicate"
 	inbuilt_modules = list()
 	hardlight_color = MOD_SYNDICATE_COLOR
-	slowdown_active = 1.1
 	skins = list(
 		"syndicate" = list(
 			HELMET_LAYER = NECK_LAYER,
@@ -679,7 +678,6 @@
 	siemens_coefficient = 0
 	ui_theme = "syndicate"
 	inbuilt_modules = list()
-	slowdown_active = 1.1
 	hardlight_color = MOD_SYNDICATE_COLOR
 	skins = list(
 		"elite" = list(
@@ -764,7 +762,6 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	slowdown_inactive = 0.5
-	slowdown_active = 0
 	hardlight_color = MOD_COMMAND_COLOR
 	skins = list(
 		"responsory" = list(
