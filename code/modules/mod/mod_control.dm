@@ -152,7 +152,8 @@
 		var/obj/item/clothing/mod_part/part = mod_parts[index]
 		if(!QDELETED(part))
 			deleting_atom = part
-			part.mod = null
+			if(part != MOD_PART_CELL)
+				part.mod = null
 			mod_parts -= deleting_atom
 			qdel(deleting_atom)
 	for(var/obj/item/mod/module/module as anything in modules)
