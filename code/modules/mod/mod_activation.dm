@@ -25,6 +25,8 @@
 	if(part.loc != user)
 		deploy(user, part)
 		for(var/slot in parts_to_check)
+			if(slot == MOD_PART_CELL)
+				continue
 			var/obj/item/piece = mod_parts[slot]
 			if(piece.loc == user)
 				continue
@@ -33,6 +35,8 @@
 	else
 		conceal(user, part)
 		for(var/slot in parts_to_check)
+			if(slot == MOD_PART_CELL)
+				continue
 			var/obj/item/piece = mod_parts[slot]
 			if(piece.loc != user)
 				continue
