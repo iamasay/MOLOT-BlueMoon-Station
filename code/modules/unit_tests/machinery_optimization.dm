@@ -607,7 +607,7 @@
 	TEST_ASSERT(!unit.machine_sleeping, "machine_wake() must resume the SSU")
 	var/charge_before = cell.charge
 	unit.process(2)
-	TEST_ASSERT(cellcharge > charge_before, "an awake SSU must charge the docked MOD cell")
+	TEST_ASSERT(cell.charge > charge_before, "an awake SSU must charge the docked MOD cell")
 	TEST_ASSERT(!unit.machine_sleeping, "the SSU must keep processing while the cell is below max")
 
 	// Полная ячейка - снова сон.
