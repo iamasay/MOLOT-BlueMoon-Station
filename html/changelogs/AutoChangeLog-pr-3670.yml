@@ -1,5 +1,0 @@
-author: Herobrine998
-delete-after: true
-changes:
-  - rscadd: Логи для кастомных интеракций
-  - bugfix: Исправлен баг, что кастомные интеракции не видели другие персонажи
