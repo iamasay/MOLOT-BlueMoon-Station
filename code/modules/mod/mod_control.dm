@@ -249,8 +249,8 @@
 		balloon_alert(user, "батарея вытащена")
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		if(!user.put_in_hands(cell))
-			mod_parts[MOD_PART_CELL] = null
 			cell.forceMove(drop_location())
+		mod_parts[MOD_PART_CELL] = null
 		update_cell_alert()
 		return
 	return ..()
