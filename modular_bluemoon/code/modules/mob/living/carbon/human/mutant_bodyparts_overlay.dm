@@ -47,7 +47,6 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 //По сути, просто берёт иконку, красит её в цвет, в половину меняет прозрачность и накладывает эффект через блэнд.
 /mob/living/carbon/human/proc/get_MOD_overlay_icon(icon/A, safety = TRUE, color = MOD_STANDART_COLOR, effect_icon, effect_state)
 	var/icon/flat_icon = safety ? A : new(A)
-	flat_icon.ColorTone(color)
 	flat_icon.ChangeOpacity(0.5)
 	flat_icon.Scale(A.Width(), A.Height())
 	if(effect_icon) //Может накладывать любой эффект по форме спрайта

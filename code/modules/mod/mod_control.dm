@@ -248,6 +248,7 @@
 		balloon_alert(user, "батарея вытащена")
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		if(!user.put_in_hands(cell))
+			mod_parts[MOD_PART_CELL] = null
 			cell.forceMove(drop_location())
 		update_cell_alert()
 		return
@@ -339,7 +340,7 @@
 			cell.forceMove(drop_location())
 			user.put_in_hands(cell)
 		attacking_item.moveToNullspace()
-		cell = attacking_item
+		mod_parts[MOD_PART_CELL] = attacking_item
 		balloon_alert(user, "батарея установлена")
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		update_cell_alert()
