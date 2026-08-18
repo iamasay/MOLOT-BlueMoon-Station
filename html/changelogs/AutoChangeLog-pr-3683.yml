@@ -1,0 +1,5 @@
+author: Silver-Paws
+delete-after: true
+changes:
+  - bugfix: Пиксель-шифт обнуляется при "дропе" айтема из радиального меню tool implant
+      и иконка айтема теперь не ездит за пределы своей кнопки.
