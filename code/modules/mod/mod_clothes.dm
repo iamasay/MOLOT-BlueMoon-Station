@@ -122,7 +122,6 @@
 	icon_state = "chestplate"
 	item_state = "chestplate"
 	tail_state = ""
-	var/blood_overlay_type = "armor"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = CHEST|GROIN
 	heat_protection = CHEST|GROIN
@@ -141,6 +140,8 @@
 	slot_flags = ITEM_SLOT_OCLOTHING
 	var/taur_types_icon_whitelist = alist(	"_canine" = list("Canine", "Feline", "Eevee", "Virgo - Synthetic Feline",\
 																"Virgo - Synthetic Feline (Inverted)", "Virgo - Synthetic Wolf", "Virgo - Synthetic Wolf (Inverted)"),)
+	var/fire_resist = T0C+100
+	var/blood_overlay_type = "armor"
 
 /obj/item/clothing/mod_part/suit/seal_part(seal)
 	. = ..()

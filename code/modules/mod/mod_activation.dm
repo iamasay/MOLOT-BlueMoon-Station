@@ -42,7 +42,9 @@
 /// Deploys a part of the suit onto the user.
 /obj/item/mod/control/proc/deploy(mob/user, part)
 	var/obj/item/clothing/mod_part/piece = part
-
+	var/obj/item/item_in_slot
+	if(piece.slot_flags == ITEM_SLOT_OCLOTHING)
+		item_in_slot = wearer.s_store
 	if(!piece.conseal_to_overslot()) //скрывает одежду внутрь переменной элемента МОДа
 		balloon_alert(wearer, "ОШИБКА")
 		return to_chat(wearer, span_alertwarning("У вас не получилось развернуть поверх вашей текущей одежды элемент МОДа."))
@@ -55,6 +57,8 @@
 			span_notice("[piece] разворачивается[piece.p_s()] с механическим шипением."),
 			span_hear("Вы слышите механическое шипение."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+		if(item_in_slot)
+			wearer.equip_to_slot_if_possible(item_in_slot, ITEM_SLOT_SUITSTORE)
 		return TRUE
 	else if(piece.loc != src)
 		if(!user)
