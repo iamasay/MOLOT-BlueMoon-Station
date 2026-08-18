@@ -1,0 +1,8 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - rscadd: Добавлена вкладка "Sex Animations" в ерп панель
+  - rscadd: Lewd interactions анимированы pixel shifting`ом
+  - qol: кнопки координации переведены на onhold, для зажимания, вместо частого нажатия
+  - bugfix: Исправлен баг, позволявший шифтиться, больше чем на 32 px
+  - bugfix: Исправлен баг, ломающий tilt angle персонажа
