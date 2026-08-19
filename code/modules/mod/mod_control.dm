@@ -190,7 +190,7 @@
 
 /obj/item/mod/control/equipped(mob/user, slot)
 	..()
-	if(slot == ITEM_SLOT_BACK)
+	if(slot == ITEM_SLOT_BACK || slot == ITEM_SLOT_BELT)
 		set_wearer(user)
 	else if(wearer)
 		unset_wearer()
@@ -201,7 +201,7 @@
 		unset_wearer()
 
 /obj/item/mod/control/item_action_slot_check(slot)
-	if(slot == ITEM_SLOT_BACK)
+	if(slot == slot_flags)
 		return TRUE
 
 /obj/item/mod/control/allow_attack_hand_drop(mob/user)
@@ -378,6 +378,9 @@
 		return
 	for(var/obj/item/part in mod_parts)
 		conceal(null, part)
+		if(need_to_conseal)
+			wearer.clear_bodypart_overlays(update = FALSE)
+		remove_hardlight()
 	return ..()
 
 /obj/item/mod/control/worn_overlays(isinhands = FALSE, icon_file)
@@ -581,3 +584,26 @@
 	if(!cell)
 		return
 	cell.give(amount)
+
+/obj/item/mod/control/proc/send_modsuit_message(viewer, title, message)
+
+	var/dat = "<style>"
+
+	dat += ".background-box {background-color: #120101; border: 1px solid #d4cccc; padding: 0; font-family: 'Courier New', monospace; color: #b0b0b0; box-shadow: 0 0 15px rgb(255, 248, 248);}"
+
+	dat += ".message-header {background-color: #120101; color: #f1f1f1; text-align: center; font-weight: bold; padding: 10px 0; margin: 0; text-transform: uppercase; border-bottom: 1px solid #910101; text-shadow: 0 0 8px #910101; letter-spacing: 2px; position: relative;}"
+
+	dat += ".message-header::before { position: absolute; left: 15px; animation: retro-spin 1s linear infinite; color: #0d1735;}"
+	dat += ".message-row {padding: 10px 15px; margin: 4px 0; line-height: 1.4; font-size: 12px; transition: all 0.1s; border-left: 2px solid transparent;}"
+	dat += ".message-row:hover {background-color: #1b4b5a; color: #ffffff; border-left: 2px solid #15cffd;}"
+
+	dat += ".message-row:nth-child(odd) {background-color: #080808;}"
+
+	dat += "</style>"
+
+	dat += "<div class='background-box'>"
+	dat += "<div class='message-header'>[title]</div>"
+	dat += "<div class='message-row'>[message]</div>"
+	dat += "</div>"
+
+	to_chat(viewer, dat)

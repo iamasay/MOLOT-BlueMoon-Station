@@ -63,6 +63,8 @@
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		if(item_in_slot)
 			wearer.equip_to_slot_if_possible(item_in_slot, ITEM_SLOT_SUITSTORE)
+		if(need_to_conseal && is_active() && all_parts_deployed())
+			update_hardlight()
 		return TRUE
 	else if(piece.loc != src)
 		if(!user)
@@ -85,6 +87,7 @@
 	wearer.visible_message(span_notice("[wearer]'s [piece] retract[piece.p_s()] back into [src] with a mechanical hiss."),
 		span_notice("[piece] retract[piece.p_s()] back into [src] with a mechanical hiss."),
 		span_hear("You hear a mechanical hiss."))
+	remove_hardlight()
 	playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 
 /obj/item/mod/control/proc/toggle_activate(mob/user, force_deactivate = FALSE)
@@ -130,9 +133,9 @@
 			conceal(user, MOD_PART)
 		finish_activation(on = FALSE)
 		DISABLE_BITFIELD(status_flags, MOD_ACTIVATING)
-		to_chat(wearer, span_notice("Systems shut down. Parts unsealed. Goodbye, [wearer]."))
+		send_modsuit_message(wearer, "ОТКЛЮЧЕНИЕ", "Systems shut down. Parts unsealed. Goodbye, [wearer].")
 		if(ai)
-			to_chat(ai, span_notice("<b>SYSTEMS DEACTIVATED. GOODBYE: \"[ai]\"</b>"))
+			send_modsuit_message(ai, "ОТКЛЮЧЕНИЕ", "<b>СИСТЕМЫ ДЕАКТИВИРОВАНЫ. ПРОЩАЙТЕ: \"[ai]\"</b>")
 		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, frequency = 6000)
 		return TRUE
 	for(var/index in mod_parts)
@@ -184,6 +187,8 @@
 		for(var/obj/item/mod/module/module as anything in modules)
 			module.on_suit_deactivation()
 		STOP_PROCESSING(SSobj, src)
+	if(on == TRUE && all_parts_deployed())
+		update_hardlight()
 	update_speed()
 	update_icon_state()
 	wearer.update_inv_back()

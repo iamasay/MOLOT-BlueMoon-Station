@@ -4,10 +4,15 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 #define TAIL_APPEARANCE "tail"
 #define EARS_APPEARANCE "ears"
 #define INSECT_WINGS_APPEARANCE "insect_wings"
+#define DECO_WINGS_APPEARANCE "deco_wings"
 #define TAUR_APPEARANCE "taur"
 #define INSECT_FLUFF_APPEARANCE "insect_fluff"
-#define HORNS_APPEARANCE ""
+#define HORNS_APPEARANCE "horns"
 #define HAIR_APPEARANCE "hair"
+#define PENIS_APPEARANCE "penis"
+#define TESTICLES_APPEARANCE "testicles"
+#define VAGINA_APPEARANCE "vagina"
+#define BREASTS_APPEARANCE "breasts"
 
 #define OVERLAY_LAYERS list( \
 	SNOUT_APPEARANCE, \
@@ -18,6 +23,10 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	TAUR_APPEARANCE, \
 	HORNS_APPEARANCE, \
 	HAIR_APPEARANCE, \
+	BREASTS_APPEARANCE, \
+	VAGINA_APPEARANCE, \
+	TESTICLES_APPEARANCE, \
+	PENIS_APPEARANCE, \
 )
 
 //-----MUTABLE_APPERANCE-----
@@ -59,6 +68,11 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	if(!(layer in layers_for_apply_effect))
 		layers_for_apply_effect[layer] = list(layer, color, effect_icon, effect_state)
 
+//WORK IN PROCESS
+//TODO: заменить effect.icon и state на общий datum
+//убрать позорное обращение к индексу на что-то более красивое
+//уменьшить вложеность, разделив этот большой proc на много маленьких(читаемость отвратительна)
+
 /mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/tail_params)
 	//в этом proc-е происходит творческий беспорядок. Я уберу, правда.
 	if(!accessory_overlay)
@@ -82,6 +96,8 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 			if(accessory_overlay.color && color)
 				initial_icon.ColorTone(color)
 			GLOB.mutant_overlays_cache[cache_list_key] = initial_icon
+			if(GLOB.mutant_overlays_cache.len >= 100)
+				GLOB.mutant_overlays_cache.Cut(1, 51)
 	return mutable_appearance(
 		initial_icon,
 		"",
@@ -93,23 +109,26 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 		pixel_y = accessory_overlay.pixel_y
 		)
 
-/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, color, update = TRUE)
+/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, color, update = TRUE, override)
 	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
+	var/icon_state = "scanline"
+	if(override)
+		icon_state = override
 	for(var/layer in target_layers)
-		apply_overlay_on_bodypart(layer, color, 'icons/effects/effects.dmi', "scanline")
+		apply_overlay_on_bodypart(layer, color, 'icons/effects/effects.dmi', icon_state)
 	if(update)
 		regenerate_icons()
 
 /mob/living/carbon/human/proc/clear_bodypart_overlays(update = TRUE)
 	layers_for_apply_effect = list()
 	if(update)
-		regenerate_icons()
+		update_mutant_bodyparts()
 
 /mob/living/carbon/human/proc/remove_overlay_by_bodypart_key(key, need_update_body)
 	if(key in layers_for_apply_effect)
 		layers_for_apply_effect -= key
 		if(need_update_body)
-			regenerate_icons()
+			update_mutant_bodyparts()
 		return TRUE
 	return FALSE
 

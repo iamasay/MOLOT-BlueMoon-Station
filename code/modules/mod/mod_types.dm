@@ -290,12 +290,29 @@
 		/obj/item/mod/module/jetpack/advanced,
 	)
 
-
 //these exist for the prefs menu
 /obj/item/mod/control/pre_equipped/syndicate_empty
 	theme = /datum/mod_theme/syndicate
 
 /obj/item/mod/control/pre_equipped/syndicate_empty/elite
 	theme = /datum/mod_theme/elite
+
+/obj/item/mod/control/pre_equipped/lustwish
+	theme = /datum/mod_theme/lustwish
+
+/obj/item/mod/control/pre_equipped/infiltrator_inteq
+	slot_flags = ITEM_SLOT_BELT
+	equip_cell = /obj/item/stock_parts/cell/bluespace
+	theme = /datum/mod_theme/inteq/infiltrator
+	initial_modules = list(
+		/obj/item/mod/module/storage/extended/syndicate,
+		/obj/item/mod/module/welding,
+		/obj/item/mod/module/noslip,
+		/obj/item/mod/module/stealth,
+		/obj/item/mod/module/visor/night,
+		/obj/item/mod/module/holster,
+		/obj/item/mod/module/magnetic_harness,
+		/obj/item/mod/module/springlock/advanced,
+	)
 
 INITIALIZE_IMMEDIATE(/obj/item/mod/control/pre_equipped/syndicate_empty)
