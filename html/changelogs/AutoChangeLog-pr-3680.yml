@@ -1,5 +1,0 @@
-author: Silver-Paws
-delete-after: true
-changes:
-  - qol: HUD фабрикаторов, протолатов и принтеров получил скролл-окно содержимого.
-  - admin: Доперевод Player Panel администрации.
