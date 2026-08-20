@@ -37,7 +37,7 @@
 			"taur" = new /image(icon_icon, "taur"),
 			"horns" = new /image(icon_icon, "horns"),
 			"insect_wings" = new /image(icon_icon, "deco_wings"),
-			"some_wings" = new /image(icon_icon, "some_wings"),
+			"insect_wings" = new /image(icon_icon, "some_wings"),
 			"ipc_antenna" = new /image(icon_icon, "ipc_antenna"),
 			"xenodorsal" = new /image(icon_icon, "xenodorsal"),
 			"spines" = new /image(icon_icon, "spines"),
