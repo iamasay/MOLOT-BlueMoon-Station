@@ -13,7 +13,7 @@
 	name = "Infiltrator InteQ MOD"
 	desc = "Высокотехнологичный боевой костюм преспособленный для скрытных миссий для наёмников спецопераций. Конструкция представляет собой обтекаемую многослойную структуру композитной керамики и прокладок лёгкого кевлара и гибридного дюратриплетения. На бирке написано: Произведено совместно Fox и Ghost inc. НЕ ЗАЩИЩАЕТ ОТ КОСМОСА."
 	item = /obj/item/mod/control/pre_equipped/infiltrator_inteq
-	cost = 18
+	cost = 12
 	purchasable_from = UPLINK_TRAITORS
 
 /datum/uplink_item/mod/syndie
