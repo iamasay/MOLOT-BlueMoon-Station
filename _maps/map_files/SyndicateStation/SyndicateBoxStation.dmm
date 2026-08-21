@@ -9245,9 +9245,6 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "aAd" = (
-/obj/machinery/pool/filter{
-	pixel_y = -17
-	},
 /turf/open/floor/mineral/plastitanium,
 /area/commons/fitness/recreation)
 "aAe" = (
@@ -10253,8 +10250,7 @@
 	},
 /area/engineering/engine_smes)
 "aDQ" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/recreation)
 "aDW" = (
 /obj/structure/loot_pile/maint,
@@ -10838,7 +10834,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ai_monitored/command/storage/eva)
 "aGk" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/recreation)
 "aGm" = (
 /obj/structure/railing{
@@ -50417,7 +50413,7 @@
 	dir = 1;
 	pixel_y = -24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/recreation)
 "gyT" = (
 /obj/structure/cable{
@@ -63419,7 +63415,6 @@
 /turf/open/floor/mineral/plastitanium,
 /area/security/brig)
 "pQx" = (
-/obj/machinery/pool/controller,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -67099,7 +67094,7 @@
 	dir = 2;
 	pixel_y = 24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/recreation)
 "sGc" = (
 /obj/effect/turf_decal/stripes/white{

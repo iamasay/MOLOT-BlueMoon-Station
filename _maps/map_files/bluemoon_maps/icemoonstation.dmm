@@ -803,8 +803,7 @@
 	color = "#9cd6ff"
 	},
 /obj/effect/turf_decal/trimline/white,
-/obj/machinery/pool/drain,
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -11412,7 +11411,7 @@
 /area/hallway/primary/starboard)
 "ceZ" = (
 /obj/machinery/light/floor,
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -11525,7 +11524,7 @@
 	color = "#9cd6ff";
 	dir = 8
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -14110,7 +14109,7 @@
 "cBL" = (
 /obj/item/fuel_rod/material,
 /obj/effect/turf_decal/stripes/yellow/line,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "cBQ" = (
 /obj/effect/turf_decal/tile/neutral,
@@ -21262,7 +21261,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 5
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "dSb" = (
 /obj/effect/turf_decal/stripes{
@@ -24228,7 +24227,7 @@
 	dir = 4;
 	color = "#9cd6ff"
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -30433,7 +30432,7 @@
 	color = "#9cd6ff"
 	},
 /obj/machinery/light/floor,
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -31644,10 +31643,7 @@
 /turf/open/floor/engine,
 /area/science/test_area)
 "fLR" = (
-/obj/machinery/pool/filter{
-	pixel_y = 24
-	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -33719,7 +33715,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "ggh" = (
 /obj/machinery/door_timer{
@@ -40513,7 +40509,7 @@
 	dir = 2;
 	pixel_y = 17
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "hvj" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
@@ -40939,7 +40935,7 @@
 	dir = 4;
 	color = "#9cd6ff"
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -41866,7 +41862,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 9
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "hHG" = (
 /obj/effect/decal/cleanable/dirt/dust,
@@ -49268,7 +49264,7 @@
 	dir = 1;
 	pixel_y = -18
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -52100,7 +52096,6 @@
 /turf/open/floor/plating,
 /area/engineering/main)
 "jzf" = (
-/obj/machinery/pool/controller,
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 8
 	},
@@ -57167,7 +57162,7 @@
 	dir = 1;
 	pixel_y = -17
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -57190,8 +57185,7 @@
 	},
 /area/hallway/primary/fore)
 "krk" = (
-/obj/machinery/pool/drain,
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -58960,7 +58954,7 @@
 	color = "#9cd6ff";
 	dir = 4
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -64374,7 +64368,6 @@
 /obj/structure/sink/kitchen/directional/south{
 	pixel_y = 25
 	},
-/obj/machinery/pool/drain,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/factory)
 "lFP" = (
@@ -65812,7 +65805,6 @@
 	},
 /area/science)
 "lVO" = (
-/obj/machinery/pool/controller,
 /obj/effect/turf_decal/bot/yellow,
 /obj/effect/turf_decal/loading_area{
 	icon_state = "drain";
@@ -66244,7 +66236,7 @@
 	dir = 1;
 	color = "#9cd6ff"
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -68935,7 +68927,7 @@
 /obj/item/fuel_rod{
 	pixel_x = -6
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/ruin/icemoon/unpowered/glacier/nuclear)
 "mAe" = (
 /obj/structure/sign/poster/official/random{
@@ -71482,7 +71474,7 @@
 	pixel_x = -6
 	},
 /obj/machinery/light,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/ruin/icemoon/unpowered/glacier/nuclear)
 "mWv" = (
 /obj/machinery/door/airlock/maintenance_hatch{
@@ -76568,10 +76560,6 @@
 /obj/machinery/shower/directional/south{
 	pixel_y = 15
 	},
-/obj/machinery/pool/drain{
-	pixel_x = -1;
-	pixel_y = 1
-	},
 /obj/structure/curtain,
 /turf/open/floor/plasteel/smooth/small,
 /area/mine/storage)
@@ -77690,7 +77678,6 @@
 /obj/machinery/shower/directional/west{
 	dir = 4
 	},
-/obj/machinery/pool/drain,
 /obj/machinery/firealarm{
 	dir = 1;
 	pixel_y = -24
@@ -79307,7 +79294,6 @@
 /obj/machinery/shower/directional/west{
 	dir = 4
 	},
-/obj/machinery/pool/drain,
 /turf/open/floor/plasteel/smooth/small,
 /area/science/xenobiology)
 "osC" = (
@@ -82310,9 +82296,6 @@
 /turf/open/floor/plating,
 /area/medical/morgue)
 "oVu" = (
-/obj/machinery/pool/filter{
-	pixel_y = -18
-	},
 /turf/open/floor/engine,
 /area/engineering/main/reactor_core)
 "oVz" = (
@@ -92075,7 +92058,7 @@
 	pixel_y = 9
 	},
 /obj/effect/turf_decal/trimline/white,
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -95719,7 +95702,7 @@
 /turf/open/floor/plasteel/white/textured,
 /area/medical/virology)
 "rlP" = (
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -96254,7 +96237,7 @@
 /obj/structure/pool/Lboard{
 	pixel_y = 8
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -96844,7 +96827,7 @@
 	dir = 6
 	},
 /obj/item/fuel_rod/material,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "rvy" = (
 /obj/structure/sign/directions/engineering{
@@ -104605,7 +104588,7 @@
 	dir = 4;
 	color = "#9cd6ff"
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -104929,7 +104912,7 @@
 /obj/item/fuel_rod/material/telecrystal{
 	pixel_x = 6
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/ruin/icemoon/unpowered/glacier/nuclear)
 "sPx" = (
 /obj/structure/cable{
@@ -105712,7 +105695,7 @@
 	dir = 4
 	},
 /obj/item/fuel_rod/material,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "sWJ" = (
 /obj/structure/marker_beacon/bronze,
@@ -117455,8 +117438,7 @@
 /area/medical/medbay/central)
 "vgt" = (
 /obj/item/fuel_rod/material,
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "vgu" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
@@ -120768,7 +120750,7 @@
 /obj/machinery/camera/autoname{
 	dir = 10
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "vNN" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -127241,7 +127223,6 @@
 /area/ai_monitored/turret_protected/ai)
 "wUY" = (
 /obj/effect/turf_decal/stripes/yellow/line,
-/obj/machinery/pool/drain,
 /turf/open/floor/noslip,
 /area/engineering/main/reactor_control)
 "wVa" = (
@@ -130150,7 +130131,7 @@
 	dir = 2;
 	pixel_y = 24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/ruin/icemoon/unpowered/glacier/nuclear)
 "xzk" = (
 /turf/closed/wall,
@@ -133036,7 +133017,7 @@
 	dir = 2;
 	pixel_y = 24
 	},
-/turf/open/pool{
+/turf/open/pool/water{
 	icon_state = "drained"
 	},
 /area/commons/fitness/pool)
@@ -134270,7 +134251,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/icemoon/unpowered/glacier/highsec)
 "ykn" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/ruin/icemoon/unpowered/glacier/nuclear)
 "yku" = (
 /obj/effect/turf_decal/tile/dark{

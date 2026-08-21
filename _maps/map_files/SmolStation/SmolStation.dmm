@@ -16416,7 +16416,6 @@
 /turf/open/floor/plasteel/dark,
 /area/command/heads_quarters/hos)
 "lOW" = (
-/obj/machinery/pool/controller,
 /turf/open/floor/plasteel/yellowsiding,
 /area/commons/dorms)
 "lPS" = (
@@ -19122,7 +19121,7 @@
 /area/ai_monitored/turret_protected/aisat)
 "nPf" = (
 /obj/structure/pool/ladder,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "nPh" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
@@ -21238,10 +21237,7 @@
 /turf/open/floor/plasteel,
 /area/engineering/main)
 "puN" = (
-/obj/machinery/pool/filter{
-	pixel_y = 24
-	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "pvd" = (
 /obj/structure/cable{
@@ -21448,8 +21444,7 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "pAq" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "pAu" = (
 /obj/structure/closet/firecloset,
@@ -23366,7 +23361,7 @@
 /area/hallway/primary/aft)
 "rdM" = (
 /obj/structure/pool/Lboard,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "reK" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
@@ -23404,7 +23399,7 @@
 /turf/open/floor/plasteel,
 /area/cargo/qm)
 "rgA" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "rgN" = (
 /obj/effect/turf_decal/tile/red,
@@ -23811,7 +23806,7 @@
 	dir = 2;
 	pixel_y = 24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "rGQ" = (
 /obj/effect/turf_decal/tile/blue,
@@ -32150,7 +32145,7 @@
 	dir = 1;
 	pixel_y = -24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/dorms)
 "xGr" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,

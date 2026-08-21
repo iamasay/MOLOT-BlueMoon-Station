@@ -14259,7 +14259,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "chw" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/hidden{
@@ -16180,7 +16180,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 5
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "cxf" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -22796,8 +22796,7 @@
 	},
 /area/security/brig)
 "dtQ" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "dtR" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer2{
@@ -24703,7 +24702,7 @@
 /area/hallway/secondary/entry)
 "dHQ" = (
 /obj/item/pool/pool_noodle/blue,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "dHR" = (
 /obj/effect/turf_decal/loading_area{
@@ -30421,7 +30420,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "exN" = (
 /obj/machinery/disposal/bin,
@@ -33542,7 +33541,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 6
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "eVa" = (
 /obj/structure/table,
@@ -38713,7 +38712,7 @@
 	dir = 8;
 	pixel_x = 2
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "fLl" = (
 /obj/effect/turf_decal/stripes/yellow/line,
@@ -38878,7 +38877,7 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "fMe" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "fMs" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -39406,7 +39405,6 @@
 /turf/open/floor/plating,
 /area/construction)
 "fQJ" = (
-/obj/machinery/pool/controller,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
@@ -39634,7 +39632,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "fSl" = (
 /obj/effect/turf_decal/loading_area{
@@ -44154,7 +44152,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "gCH" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -52904,7 +52902,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "hQP" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -64367,13 +64365,9 @@
 /turf/open/floor/wood,
 /area/engineering/break_room)
 "jwT" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "jwU" = (
-/obj/machinery/pool/filter{
-	pixel_y = -18
-	},
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
@@ -70101,15 +70095,12 @@
 	},
 /area/engineering/main)
 "kmj" = (
-/obj/machinery/pool/filter{
-	pixel_y = 24
-	},
 /obj/effect/turf_decal/loading_area{
 	dir = 8;
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "kmk" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -74540,7 +74531,7 @@
 /area/maintenance/port)
 "kSD" = (
 /obj/effect/turf_decal/stripes/yellow/line,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "kSM" = (
 /obj/structure/chair/sofa/left/brown{
@@ -75845,7 +75836,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "lct" = (
 /obj/effect/turf_decal/loading_area{
@@ -76871,7 +76862,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "lkM" = (
 /obj/item/radio/intercom{
@@ -77318,7 +77309,7 @@
 	},
 /area/cargo/sorting)
 "lnU" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "lnW" = (
 /obj/structure/chair/comfy/black,
@@ -81856,15 +81847,12 @@
 /turf/closed/wall,
 /area/maintenance/port/fore)
 "lSn" = (
-/obj/machinery/pool/filter{
-	pixel_y = 24
-	},
 /obj/effect/turf_decal/loading_area{
 	dir = 4;
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "lSr" = (
 /obj/structure/cable{
@@ -94652,7 +94640,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 8
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "nKw" = (
 /obj/structure/bookcase/random/fiction,
@@ -96314,7 +96302,7 @@
 /obj/structure/pool/ladder{
 	pixel_x = -3
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "nXG" = (
 /obj/structure/disposalpipe/segment{
@@ -97162,7 +97150,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "oei" = (
 /obj/effect/turf_decal/tile/brown,
@@ -103166,7 +103154,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 4
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "oZD" = (
 /obj/machinery/vending/snack/random,
@@ -113739,7 +113727,7 @@
 /area/commons/fitness)
 "qEi" = (
 /obj/structure/pool/Lboard,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "qEs" = (
 /obj/effect/turf_decal/loading_area{
@@ -114295,7 +114283,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "qIO" = (
 /obj/effect/turf_decal/tile/purple{
@@ -114754,7 +114742,7 @@
 	dir = 2;
 	pixel_y = 17
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "qMN" = (
 /obj/structure/frame/machine,
@@ -121613,7 +121601,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "rMJ" = (
 /obj/structure/lattice/catwalk,
@@ -123382,7 +123370,6 @@
 	icon_state = "drain";
 	name = "drain"
 	},
-/obj/machinery/pool/controller,
 /turf/open/floor/plating/layeniaredder{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -130079,7 +130066,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 10
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "sWd" = (
 /obj/structure/window/reinforced{
@@ -131731,7 +131718,6 @@
 	},
 /area/maintenance/fore)
 "thL" = (
-/obj/machinery/pool/controller,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/siding/yellow,
@@ -136291,7 +136277,7 @@
 	dir = 1;
 	pixel_y = -21
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "tMH" = (
 /obj/machinery/camera/autoname{
@@ -152973,7 +152959,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/pool)
 "wmu" = (
 /obj/effect/turf_decal/stripes/yellow/line{
@@ -155705,7 +155691,7 @@
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 9
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "wGn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
@@ -157716,7 +157702,6 @@
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "wUK" = (
-/obj/machinery/pool/controller,
 /obj/effect/turf_decal/siding/yellow,
 /turf/open/floor/plasteel,
 /area/commons/fitness/pool)
@@ -158094,7 +158079,7 @@
 	icon_state = "ledge_pool";
 	name = "pool ledge"
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "wXs" = (
 /obj/machinery/door/airlock{
@@ -158781,7 +158766,7 @@
 /obj/structure/sign/poster/contraband/fun_police{
 	pixel_x = 32
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/security/prison)
 "xdw" = (
 /obj/structure/disposalpipe/segment{
@@ -162559,8 +162544,7 @@
 /turf/open/floor/engine,
 /area/engineering/main/reactor_core)
 "xHo" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/engineering/main/reactor_core)
 "xHr" = (
 /obj/structure/table/glass,

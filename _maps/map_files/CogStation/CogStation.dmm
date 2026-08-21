@@ -5377,7 +5377,6 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/commons/toilet/restrooms)
 "apy" = (
-/obj/machinery/pool/controller,
 /turf/open/floor/plasteel/white,
 /area/commons/fitness/cogpool)
 "apz" = (
@@ -6219,10 +6218,7 @@
 /turf/open/floor/plasteel,
 /area/security/checkpoint/customs/auxiliary)
 "asi" = (
-/obj/machinery/pool/filter{
-	pixel_y = 16
-	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/cogpool)
 "asj" = (
 /obj/effect/turf_decal/tile/red{
@@ -6312,14 +6308,14 @@
 /turf/open/floor/wood,
 /area/maintenance/fore)
 "ast" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/cogpool)
 "asv" = (
 /obj/structure/pool/ladder{
 	dir = 2;
 	pixel_y = 24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/cogpool)
 "asw" = (
 /obj/machinery/light_switch{
@@ -6597,8 +6593,7 @@
 /turf/open/floor/wood,
 /area/service/lawoffice)
 "atb" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/cogpool)
 "atc" = (
 /turf/closed/wall,
@@ -6991,7 +6986,7 @@
 /area/service/hydroponics)
 "auC" = (
 /obj/structure/pool/Lboard,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/commons/fitness/cogpool)
 "auG" = (
 /obj/effect/turf_decal/tile/neutral{
