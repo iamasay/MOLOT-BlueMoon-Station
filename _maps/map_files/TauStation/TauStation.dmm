@@ -9325,7 +9325,6 @@
 "diy" = (
 /obj/structure/closet/secure_closet/warden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/item/storage/box/prisoner,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
@@ -9501,7 +9500,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/door/firedoor,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -29347,7 +29345,6 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
 "kks" = (
@@ -36850,7 +36847,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/door/firedoor,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel,
 /area/service/lawoffice)
@@ -49820,7 +49816,6 @@
 	},
 /obj/structure/closet/firecloset,
 /obj/item/clothing/glasses/meson/engine,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /turf/open/floor/plasteel,
 /area/engineering/main)
@@ -57593,9 +57588,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 9
-	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/service)
 "tRi" = (
@@ -65190,7 +65182,6 @@
 	name = "warehouse shutters"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/effect/turf_decal/caution/stand_clear,
 /obj/effect/turf_decal/box,
 /turf/open/floor/plasteel,
@@ -67046,9 +67037,6 @@
 /turf/open/floor/plasteel,
 /area/engineering/atmos)
 "wSQ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},

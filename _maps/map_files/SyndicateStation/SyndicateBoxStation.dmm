@@ -4767,7 +4767,6 @@
 	},
 /obj/effect/turf_decal/stripes/yellow/line,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/mineral/plastitanium,
@@ -34724,9 +34723,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /turf/open/floor/mineral/plastitanium,
 /area/medical/virology)
 "bYb" = (
@@ -54788,9 +54784,6 @@
 /turf/open/space,
 /area/solars/starboard/fore)
 "jIx" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
