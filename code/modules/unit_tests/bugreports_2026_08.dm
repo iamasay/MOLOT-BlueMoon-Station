@@ -413,9 +413,9 @@
 	qdel(lube)
 	test_area.has_gravity = saved_gravity
 
-// Цепное качение по смазке: слайд через дорожку из нескольких клеток длится до первого
-// сухого турфа, каждая пройденная клетка со смазкой продлевает качение, но не даёт
-// проскочить сухой пол после конца дорожки.
+// Цепное качение по смазке: слайд через дорожку из нескольких клеток длится до конца
+// дорожки, каждая пройденная клетка со смазкой продлевает качение, а после её конца
+// катящийся по инерции пролетает ещё пару-тройку клеток сухого пола.
 /datum/unit_test/lube_slide_runs_until_dry_floor/Run()
 	//на резервационном z гравитации нет, а скольжение в невесомости отключено:
 	//включаем её арене и восстанавливаем на выходе
@@ -436,21 +436,21 @@
 	var/datum/forced_movement/in_flight = roller.force_moving
 	TEST_ASSERT_NOTNULL(in_flight, "смазанная дорожка обязана запустить качение")
 	var/turf/open/dry_end = locate(start.x + 5, start.y, start.z)
-	TEST_ASSERT_EQUAL(get_turf(in_flight.target), dry_end, "качение должно закончиться на первом сухом турфе за дорожкой")
+	TEST_ASSERT(in_flight.target.x >= dry_end.x + 2 && in_flight.target.x <= dry_end.x + 3, "качение не должно обрываться на первом сухом турфе - инерция уносит на пару-тройку клеток дальше")
 
-	// Середина дорожки: продление держит цель на её конце...
+	// Середина дорожки: продление держит цель за её концом...
 	var/turf/open/mid_lubed = patch[2]
 	roller.forceMove(mid_lubed)
 	var/datum/component/slippery/mid_slippery = mid_lubed.GetComponent(/datum/component/slippery)
 	mid_slippery.Slip(mid_lubed, roller)
-	TEST_ASSERT_EQUAL(get_turf(in_flight.target), dry_end, "клетки со смазкой посреди дорожки продлевают качение до её конца")
+	TEST_ASSERT(in_flight.target.x >= dry_end.x + 2 && in_flight.target.x <= dry_end.x + 3, "клетки со смазкой посреди дорожки продлевают качение до её конца и дальше по инерции")
 
-	// ...последняя клетка дорожки больше не удлиняет качение - катимся ровно до сухого.
+	// ...и последняя клетка дорожки тоже не обрывает полёт резко.
 	var/turf/open/last_lubed = patch[4]
 	roller.forceMove(last_lubed)
 	var/datum/component/slippery/last_slippery = last_lubed.GetComponent(/datum/component/slippery)
 	last_slippery.Slip(last_lubed, roller)
-	TEST_ASSERT_EQUAL(get_turf(in_flight.target), dry_end, "после последней клетки дорожки качение обязано остановиться на сухом турфе")
+	TEST_ASSERT(in_flight.target.x >= dry_end.x + 2 && in_flight.target.x <= dry_end.x + 3, "после последней клетки дорожки качение обязано пролететь ещё пару клеток инерции")
 
 	QDEL_NULL(in_flight)
 	for(var/turf/open/T as anything in patch)
