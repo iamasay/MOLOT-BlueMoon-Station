@@ -1,6 +1,6 @@
 /obj/item/mod/control/proc/update_hardlight()
 	if(is_active() && all_parts_deployed())
-		wearer.apply_bodypart_overlays(need_to_conseal, update = TRUE, effect_datum = hardlight_effect)
+		wearer.apply_bodypart_overlays(need_to_conseal, hardlight_color, update = TRUE, override = theme.hardlight_effect_override)
 
 /obj/item/mod/control/proc/remove_hardlight(var/index, need_update)
 	if(index)
@@ -17,7 +17,7 @@
 /datum/action/item_action/mod/hardlight_deploy/chooce_color/Trigger(trigger_flags)
 	var/chosen_colour = input(mod.wearer, "", "Choose Color", modsuit_color) as color|null
 	if(chosen_colour)
-		mod.hardlight_effect.apply_color(chosen_colour)
+		mod.hardlight_color = chosen_colour
 		mod.remove_hardlight(need_update = FALSE)
 		mod.update_hardlight() //обновится тут
 

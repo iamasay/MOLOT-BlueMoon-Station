@@ -48,7 +48,7 @@
 	/// Modules blacklisted from the MOD.
 	var/list/module_blacklist = list()
 	var/hardlight_color = MOD_STANDART_COLOR
-	var/datum/overlay_effect/hardlight_effect = /datum/overlay_effect/mod_effect
+	var/hardlight_effect_override
 	/// List of skins with their appropriate clothing flags.
 	var/list/skins = list(
 		"standard" = list(
@@ -107,9 +107,7 @@
 	modsuit.ui_theme = ui_theme
 	modsuit.cell_drain = cell_drain
 	modsuit.initial_modules += inbuilt_modules
-	modsuit.hardlight_effect = new hardlight_effect
-	var/datum/overlay_effect/mod_effect = modsuit.hardlight_effect
-	mod_effect.apply_color(hardlight_color)
+	modsuit.hardlight_color = hardlight_color
 	for(var/index in (modsuit.mod_parts + list(modsuit)))
 		if(index == MOD_PART_CELL)
 			continue
@@ -1008,15 +1006,15 @@
 
 /datum/mod_theme/inteq/infiltrator
 	name = "Infiltrator"
-	desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. "
-	extended_desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
+	desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. "
+	extended_desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
 	default_skin = "infiltrator"
 	armor = list(MELEE = 45, BULLET = 60, LASER = 45, ENERGY = 55, BOMB = 75, BIO = 100, RAD = 70, FIRE = 100, ACID = 100, WOUND = 55)
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	ui_theme = "inteq"
 	inbuilt_modules = list()
-	hardlight_effect = /datum/overlay_effect/mod_effect/white_noize
+	hardlight_effect_override = "static_base"
 	skins = list(
 		"infiltrator" = list(
 			HELMET_LAYER = NECK_LAYER,
