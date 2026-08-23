@@ -665,6 +665,7 @@
 /datum/reagent/lube/reaction_mob(mob/living/M, method = TOUCH, reac_volume, show_message = TRUE, touch_protection = 0, affected_bodypart)
 	..()
 	if(method != TOUCH && method != VAPOR)
+		return
 	if(reac_volume < min_turf_volume)
 		return
 	if(!ishuman(M))
