@@ -54,7 +54,7 @@
 	var/extended_desc
 	var/activation_step_time = MOD_ACTIVATION_STEP_TIME
 	var/list/need_to_conseal = list()
-	var/hardlight_color = MOD_STANDART_COLOR
+	var/datum/overlay_effect/hardlight_effect
 	var/alist/mod_parts = alist(
 		MOD_PART_HEAD = /obj/item/clothing/mod_part/head,
 		MOD_PART_CHEST = /obj/item/clothing/mod_part/suit,

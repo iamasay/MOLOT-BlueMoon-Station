@@ -34,17 +34,14 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 //Я не знаю, как иначе передавать эффекты, не сохраняя их. Поэтому создал переменные
 /mutable_appearance
 	var/color_tone
-	var/used_effect_icon
-	var/used_effect_state
+	var/datum/overlay_effect/used_effect_datum
 
 //Этот прок важен для пересоздания точно такого же оверлея
 //Он сохраняет наложенный эффект,цвет и т.д.
-/mutable_appearance/proc/copy_special_MA_params(layer, color, effect_icon, effect_state)
+/mutable_appearance/proc/copy_special_MA_params(layer, effect_datum)
 	var/list/params = list()
 	params += isnull(layer) ? src.name : layer
-	params += isnull(color) ? color_tone : color
-	params += isnull(effect_icon) ? used_effect_icon : effect_icon
-	params += isnull(effect_state) ? used_effect_state : effect_state
+	params += isnull(effect_datum) ? used_effect_datum : effect_datum
 	return params
 
 //---HUMAN PROCS---
@@ -54,70 +51,53 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	var/list/layers_for_apply_effect = list()
 
 //По сути, просто берёт иконку, красит её в цвет, в половину меняет прозрачность и накладывает эффект через блэнд.
-/mob/living/carbon/human/proc/get_MOD_overlay_icon(icon/A, safety = TRUE, color = MOD_STANDART_COLOR, effect_icon, effect_state)
-	var/icon/flat_icon = safety ? A : new(A)
-	flat_icon.ChangeOpacity(0.5)
-	flat_icon.Scale(A.Width(), A.Height())
-	if(effect_icon) //Может накладывать любой эффект по форме спрайта
-		var/icon/alpha_mask = new(effect_icon, effect_state)
+/mob/living/carbon/human/proc/get_overlayed_icon(icon/A, datum/overlay_effect/effect_datum)
+	var/icon/flat_icon = A
+	if(effect_datum.need_use_color)
+		flat_icon.ColorTone(effect_datum.color)
+	if(effect_datum.icon) //Может накладывать любой эффект по форме спрайта
+		var/icon/alpha_mask = effect_datum.pre_build_icon
 		var/icon/M = new(alpha_mask)
 		flat_icon.Blend(M, ICON_ADD)
 	return flat_icon
 
-/mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_icon, effect_state)
+/mob/living/carbon/human/proc/apply_overlay_on_bodypart(layer, color, effect_datum)
 	if(!(layer in layers_for_apply_effect))
-		layers_for_apply_effect[layer] = list(layer, color, effect_icon, effect_state)
+		layers_for_apply_effect[layer] = list(layer, color, effect_datum)
 
-//WORK IN PROCESS
-//TODO: заменить effect.icon и state на общий datum
-//убрать позорное обращение к индексу на что-то более красивое
-//уменьшить вложеность, разделив этот большой proc на много маленьких(читаемость отвратительна)
+/mob/living/carbon/human/proc/clear_old_cache_if_it_need()
+	if(GLOB.mutant_overlays_cache.len >= 30)
+		GLOB.mutant_overlays_cache.Cut(1, 15)
 
-/mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/tail_params)
-	//в этом proc-е происходит творческий беспорядок. Я уберу, правда.
-	if(!accessory_overlay)
-		return FALSE
-	var/icon/tail_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
-	var/icon/tail_with_effect
-	var/icon/initial_icon
-	var/color
-	if(tail_params[2])
-		color = BlendRGB(accessory_overlay.color, tail_params[2])
-	var/effect_icon = tail_params[3]
-	var/effect_icon_state = tail_params[4]
-	var/cache_list_key = "[accessory_overlay.icon][accessory_overlay.icon_state][effect_icon][effect_icon_state][color]"
-	if(cache_list_key in GLOB.mutant_overlays_cache)
-		initial_icon = GLOB.mutant_overlays_cache[cache_list_key]
-	else
-		tail_with_effect = get_MOD_overlay_icon(tail_icon, TRUE, tail_params[2], effect_icon, effect_icon_state)
-		if(tail_with_effect)
-			initial_icon = icon(accessory_overlay.icon, accessory_overlay.icon_state)
-			initial_icon.Blend(tail_icon, ICON_OVERLAY)
-			if(accessory_overlay.color && color)
-				initial_icon.ColorTone(color)
-			GLOB.mutant_overlays_cache[cache_list_key] = initial_icon
-			if(GLOB.mutant_overlays_cache.len >= 100)
-				GLOB.mutant_overlays_cache.Cut(1, 51)
-	return mutable_appearance(
-		initial_icon,
-		"",
-		accessory_overlay.layer,
-		accessory_overlay.plane,
-		accessory_overlay.alpha,
-		accessory_overlay.appearance_flags,
-		pixel_x = accessory_overlay.pixel_x,
-		pixel_y = accessory_overlay.pixel_y
-		)
+/mob/living/carbon/human/proc/get_overlay_from_cache(key)
+	return GLOB.mutant_overlays_cache[key]
 
-/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, color, update = TRUE, override)
-	var/list/target_layers = layers ? layers : OVERLAY_LAYERS //если подали на вход, то юзаем то, что подали. Если нет - то дефолт все.
-	var/icon_state = "scanline"
-	if(override)
-		icon_state = override
+/mob/living/carbon/human/proc/generate_accessory_cache_key(mutable_appearance/accessory_overlay, datum/overlay_effect/effect_datum)
+	return "[accessory_overlay?.icon][accessory_overlay?.icon_state][effect_datum?.name][effect_datum?.color]"
+
+/mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/overlay_params)
+	var/datum/overlay_effect/effect_datum = overlay_params[3]
+	var/cache_list_key = generate_accessory_cache_key(accessory_overlay, effect_datum)
+	var/icon/template = icon(accessory_overlay.icon, accessory_overlay.icon_state)
+	var/icon/cached_overlayed_icon = get_overlay_from_cache(cache_list_key)
+
+	clear_old_cache_if_it_need()
+	// accessory_overlay.blend_mode =
+	template = cached_overlayed_icon ? cached_overlayed_icon : get_overlayed_icon(template, effect_datum)
+
+	var/mutable_appearance/overlay_MA = mutable_appearance(icon = template, layer = accessory_overlay.layer, plane = accessory_overlay.plane, alpha = LIGHTING_PLANE_ALPHA_VISIBLE, appearance_flags = accessory_overlay.appearance_flags, color = effect_datum.color, pixel_x = accessory_overlay.pixel_x, pixel_y = accessory_overlay.pixel_y, blend_mode=BLEND_OVERLAY)
+	if(!overlays_standing[EFFECT_OVERLAY_LAYER])
+		overlays_standing[EFFECT_OVERLAY_LAYER] = list()
+	overlays_standing[EFFECT_OVERLAY_LAYER] += overlay_MA
+	GLOB.mutant_overlays_cache[cache_list_key] = overlay_MA
+	return overlay_MA
+
+/mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, update = TRUE, datum/overlay_effect/effect_datum)
+	var/list/target_layers = layers ? layers : OVERLAY_LAYERS
 	for(var/layer in target_layers)
-		apply_overlay_on_bodypart(layer, color, 'icons/effects/effects.dmi', icon_state)
+		apply_overlay_on_bodypart(layer, color, effect_datum)
 	if(update)
-		regenerate_icons()
+		update_mutant_bodyparts()
 
 /mob/living/carbon/human/proc/clear_bodypart_overlays(update = TRUE)
 	layers_for_apply_effect = list()
@@ -135,12 +115,12 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 /datum/species/proc/update_overlay_by_key(key, mob/living/carbon/human/H, mutable_appearance/accessory_overlay)
 
 	if(!H.layers_for_apply_effect[key])
-		return accessory_overlay // <--отдаёт то же самое, что попало на вход, т.к нет необходимости модифицировать
+		return FALSE
 
 	var/overlay_params = H.layers_for_apply_effect[key]
 	accessory_overlay = H.use_effect_by_params(accessory_overlay, overlay_params)
 
-	return accessory_overlay // <-- а тут уже с оверлеем, модифицированная версия
+	return accessory_overlay
 
 /datum/species/proc/save_part_appearance(mob/living/carbon/human/H, mutant_part_string, accessory_overlay)
 	if(!H.mutant_part_appearances[mutant_part_string])

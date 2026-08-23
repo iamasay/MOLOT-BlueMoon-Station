@@ -77,7 +77,7 @@ Will print: "/mob/living/carbon/human/death" (you can optionally embed it in a s
 #define LEGCUFF_LAYER			6
 #define HANDS_LAYER				5
 #define BODY_FRONT_LAYER		4
-#define SPECIAL_OVERLAYS_LAYER  3
+#define EFFECT_OVERLAY_LAYER    3
 #define ANTAG_LAYER				2		//stuff for things like cultism indicators (clock cult glow, cultist red halos, whatever else new that comes up)
 #define FIRE_LAYER				1		//If you're on fire
 #define TOTAL_LAYERS			44		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;

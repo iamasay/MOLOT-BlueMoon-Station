@@ -3553,6 +3553,7 @@
 #include "code\modules\mod\mod_clothes.dm"
 #include "code\modules\mod\mod_construction.dm"
 #include "code\modules\mod\mod_control.dm"
+#include "code\modules\mod\mod_effects.dm"
 #include "code\modules\mod\mod_hardlight.dm"
 #include "code\modules\mod\mod_paint.dm"
 #include "code\modules\mod\mod_theme.dm"
