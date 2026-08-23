@@ -12,6 +12,7 @@
 	wreckage = /obj/structure/mecha_wreckage/gygax
 	internal_damage_threshold = 35
 	normal_step_energy_drain = 6
+	bumpsmash = TRUE
 	infra_luminosity = 6
 	internals_req_access = list(ACCESS_ROBOTICS, ACCESS_MEDICAL)
 
