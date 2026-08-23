@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/mecha/medical/medigax
-	desc = "Gygax с отключённым перегрузом приводов и гладкой белой окраской, для медицинского использования. Эти экзокостюмы разработаны и произведены Vey-Med. (&copy; Все права защищены)."
+	desc = "Gygax с гладкой белой окраской, для медицинского использования. Эти экзокостюмы разработаны и произведены Vey-Med. (&copy; Все права защищены)."
 	name = "\improper Medical Gygax"
 	icon_state = "medigax"
 	allow_diagonal_movement = TRUE
