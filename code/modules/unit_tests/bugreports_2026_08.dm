@@ -380,6 +380,11 @@
 // если у него нет полноценной защиты от скольжения. Стоящего прямой пшик не трогает -
 // его ловит смазанный турф под ногами.
 /datum/unit_test/lube_reacts_on_lying_human/Run()
+	//на резервационном z гравитации нет, а скольжение в невесомости отключено:
+	//включаем её арене и восстанавливаем на выходе
+	var/area/test_area = get_area(run_loc_floor_bottom_left)
+	var/saved_gravity = test_area.has_gravity
+	test_area.has_gravity = STANDARD_GRAVITY
 	var/datum/reagent/lube/lube = new()
 
 	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human, run_loc_floor_bottom_left)
@@ -406,11 +411,17 @@
 	TEST_ASSERT_NULL(standing.force_moving, "стоящий не должен катиться от прямого пшика - его ловит турф")
 
 	qdel(lube)
+	test_area.has_gravity = saved_gravity
 
 // Цепное качение по смазке: слайд через дорожку из нескольких клеток длится до первого
 // сухого турфа, каждая пройденная клетка со смазкой продлевает качение, но не даёт
 // проскочить сухой пол после конца дорожки.
 /datum/unit_test/lube_slide_runs_until_dry_floor/Run()
+	//на резервационном z гравитации нет, а скольжение в невесомости отключено:
+	//включаем её арене и восстанавливаем на выходе
+	var/area/test_area = get_area(run_loc_floor_bottom_left)
+	var/saved_gravity = test_area.has_gravity
+	test_area.has_gravity = STANDARD_GRAVITY
 	var/turf/open/start = run_loc_floor_bottom_left
 	var/list/patch = list()
 	for(var/i in 1 to 4)
@@ -420,6 +431,7 @@
 		patch += T
 
 	var/mob/living/carbon/human/roller = allocate(/mob/living/carbon/human, start)
+	roller.setDir(EAST) //качение уходит по направлению взгляда - вдоль дорожки
 	TEST_ASSERT(start.handle_slip(roller, 80, null, SLIDE | GALOSHES_DONT_HELP), "test premise: смазанный турф обязан уронить бегуна")
 	var/datum/forced_movement/in_flight = roller.force_moving
 	TEST_ASSERT_NOTNULL(in_flight, "смазанная дорожка обязана запустить качение")
@@ -443,3 +455,4 @@
 	QDEL_NULL(in_flight)
 	for(var/turf/open/T as anything in patch)
 		T.ClearWet()
+	test_area.has_gravity = saved_gravity
