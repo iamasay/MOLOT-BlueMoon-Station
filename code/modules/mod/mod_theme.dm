@@ -463,7 +463,7 @@
 		Однако системы, используемые в этих костюмах, устарели более чем на несколько лет, \
 		что приводит к общему снижению ёмкости модулей."
 	default_skin = "security"
-	armor = list(MELEE = 30, BULLET = 25, LASER = 25, ENERGY = 45, BOMB = 25, BIO = 100, FIRE = 75, ACID = 75, WOUND = 30, RAD = 50)
+	armor = list(MELEE = 30, BULLET = 20, LASER = 20, ENERGY = 45, BOMB = 25, BIO = 100, FIRE = 75, ACID = 75, WOUND = 30, RAD = 50)
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 5
 	inbuilt_modules = list(/obj/item/mod/module/magnetic_harness)
@@ -506,7 +506,7 @@
 		По бокам костюма установлены теплоотводы, а для изоляции от \
 		коррозионных сред и внезапных ударов по суставам пользователя применены более совершенные технологии."
 	default_skin = "safeguard"
-	armor = list(MELEE = 30, BULLET = 25, LASER = 35, ENERGY = 45, BOMB = 25, BIO = 100, FIRE = 100, ACID = 75, WOUND = 30, RAD = 50) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 40"
+	armor = list(MELEE = 30, BULLET = 20, LASER = 30, ENERGY = 45, BOMB = 25, BIO = 100, FIRE = 100, ACID = 75, WOUND = 30, RAD = 50) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 15, LASER = 15, ENERGY = 15, BOMB = 40"
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -550,7 +550,7 @@
 		и блюспейс-обработку для поддержки широкого спектра модулей, а для скорости задействованы только лучшие приводы. \
 		Сходство с шлемом Gorlex Marauder — чистое совпадение."
 	default_skin = "magnate"
-	armor = list(MELEE = 30, BULLET = 40, LASER = 50, ENERGY = 25, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 100)
+	armor = list(MELEE = 30, BULLET = 35, LASER = 45, ENERGY = 25, BOMB = 50, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -634,7 +634,7 @@
 		С него свисает маленькая бирка с надписью: 'Собственность Gorlex Marauders при содействии Cybersun Industries. \
 		Все права защищены, вмешательство в костюм аннулирует гарантию."
 	default_skin = "syndicate"
-	armor = list(MELEE = 30, BULLET = 40, LASER = 30, ENERGY = 15, BOMB = 35, BIO = 100, FIRE = 100, ACID = 90, WOUND = 25, RAD = 100) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 20, LASER = 15"
+	armor = list(MELEE = 30, BULLET = 35, LASER = 25, ENERGY = 15, BOMB = 35, BIO = 100, FIRE = 100, ACID = 90, WOUND = 25, RAD = 100) // BLUEMOON EDIT - was "MELEE = 15, BULLET = 20, LASER = 15"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	ui_theme = "syndicate"
@@ -676,7 +676,7 @@
 		'Собственность Gorlex Marauders при содействии Cybersun Industries. \
 		Все права защищены, вмешательство в костюм аннулирует продолжительность жизни.'"
 	default_skin = "elite"
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 25, BOMB = 55, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 100)
+	armor = list(MELEE = 50, BULLET = 45, LASER = 45, ENERGY = 25, BOMB = 55, BIO = 100, FIRE = 100, ACID = 100, WOUND = 25, RAD = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -761,7 +761,7 @@
 		она сохраняет носителя в безопасности от суровой пустоты космоса, не жертвуя ни каплей скорости. \
 		Нося его, вы чувствуете крайнее почтение к тьме."
 	default_skin = "responsory"
-	armor = list(MELEE = 50, BULLET = 50, LASER = 45, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 90, WOUND = 10, RAD = 0)
+	armor = list(MELEE = 45, BULLET = 45, LASER = 45, ENERGY = 50, BOMB = 50, BIO = 100, FIRE = 100, ACID = 90, WOUND = 10, RAD = 0)
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
