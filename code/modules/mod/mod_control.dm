@@ -484,8 +484,14 @@
 				playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return
 		if(new_module.module_type == MODULE_ARMOR)
-			if(current_armor_module_installed >= max_armor_module_count)
-				balloon_alert(user, "Превышен лимит модулей брони!")
+			var/obj/item/mod/module/armor/armor_module = module
+			var/armor_by_type_num = 0
+			for(var/obj/item/mod/module/armor/also_module in modules)
+				if(armor_module.armor_type != also_module.armor_type)
+					continue
+				armor_by_type_num += 1
+			if(armor_by_type_num >= max_armor_module_count)
+				balloon_alert(user, "Превышен лимит модулей брони [armor_module.armor_type] типа!")
 				playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 				return
 	if(is_type_in_list(module, theme.module_blacklist))
