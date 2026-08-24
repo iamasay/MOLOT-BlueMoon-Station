@@ -149,7 +149,7 @@
 		else
 			return toggle_activate_fail()
 	if(do_after(wearer, activation_step_time, wearer, MOD_ACTIVATION_STEP_FLAGS, extra_checks = CALLBACK(src, PROC_REF(has_wearer))))
-		to_chat(wearer, span_notice("Systems [is_active() ? "shut down. Parts unsealed. Goodbye" : "started up. Parts sealed. Welcome"], [wearer]."))
+		send_modsuit_message(wearer, "СИСТЕМНОЕ ОПОВЕЩЕНИЕ", "Systems [is_active() ? "shut down. Parts unsealed. Goodbye" : "started up. Parts sealed. Welcome"], [wearer].")
 		if(ai)
 			to_chat(ai, span_notice("<b>SYSTEMS [is_active() ? "DEACTIVATED. GOODBYE" : "ACTIVATED. WELCOME"]: \"[ai]\"</b>"))
 		finish_activation(on = !is_active())

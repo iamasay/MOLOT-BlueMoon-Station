@@ -20,6 +20,20 @@
 	)
 	var/theme_category
 
+/obj/item/clothing/mod_part/equipped(mob/user, slot)
+	. = ..()
+	RegisterSignal(mod.wearer, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_dropped))
+
+/obj/item/clothing/mod_part/proc/on_dropped(mob/source, obj/item, force, new_location)
+	SIGNAL_HANDLER
+	if(!istype(item, /obj/item/clothing/mod_part))
+		return
+	UnregisterSignal(mod.wearer, COMSIG_MOB_UNEQUIPPED_ITEM)
+	if(new_location == null)//чтобы не путать со штатным свертыванием
+		return
+	mod.conceal(null, item)
+	mod.remove_hardlight()
+
 /obj/item/clothing/mod_part/proc/update_flags(list/used_skin)
 	var/list/category = used_skin[theme_category]
 	clothing_flags = category[UNSEALED_CLOTHING] || NONE
@@ -96,6 +110,12 @@
 	mutantrace_variation = STYLE_MUZZLE
 	theme_category = HELMET_FLAGS
 	slot_flags = ITEM_SLOT_HEAD
+	var/vision_flags
+	var/blockTracking = 0
+	var/darkness_view = 2
+	var/lighting_alpha
+	var/lighting_cutoff = null
+	var/list/color_cutoffs = null
 
 /obj/item/clothing/mod_part/head/update_flags(list/used_skin)
 	. = ..()
@@ -209,3 +229,6 @@
 	return clothing_flags & NOSLIP
 
 
+//Для инфильтратора
+//blockTracking = 1
+//SEND_SIGNAL(C, COMSIG_CARBON_REMOVE_LIMB, src, dismembered)

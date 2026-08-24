@@ -15,6 +15,8 @@
 #define MODULE_TOGGLE 2
 /// Actively usable module, you may only have one selected at a time.
 #define MODULE_ACTIVE 3
+//Почти как пассивный модуль, но их не может быть больше чем max_armor_module_count
+#define MODULE_ARMOR  4
 
 //Defines used by the theme for clothing flags and similar
 #define CONTROL_LAYER "control_layer"

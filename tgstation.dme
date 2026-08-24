@@ -3562,6 +3562,7 @@
 #include "code\modules\mod\mod_wires.dm"
 #include "code\modules\mod\modules\_module.dm"
 #include "code\modules\mod\modules\modules.dm"
+#include "code\modules\mod\modules\modules_armor.dm"
 #include "code\modules\mod\modules\modules_engineering.dm"
 #include "code\modules\mod\modules\modules_general.dm"
 #include "code\modules\mod\modules\modules_lustwish.dm"

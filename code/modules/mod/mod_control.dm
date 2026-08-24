@@ -71,6 +71,8 @@
 	COOLDOWN_DECLARE(cooldown_mod_move)
 	var/mob/living/carbon/human/wearer
 	var/can_install_pai = FALSE
+	var/current_armor_module_installed = 0
+	var/max_armor_module_count = 3
 
 /obj/item/mod/control/proc/get_mod_part_by_index(index)
 	return mod_parts[index]
@@ -481,6 +483,11 @@
 				balloon_alert(user, "[new_module] несовместим с [old_module]!")
 				playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return
+		if(new_module.module_type == MODULE_ARMOR)
+			if(current_armor_module_installed >= max_armor_module_count)
+				balloon_alert(user, "Превышен лимит модулей брони!")
+				playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
+				return
 	if(is_type_in_list(module, theme.module_blacklist))
 		if(user)
 			balloon_alert(user, "[src] не принимает [new_module]!")
