@@ -7,7 +7,7 @@
 	var/armor_type //MELEE, BULLET, LASER
 	var/armor_bonus = 3.5 //15 единиц брони. Is класс
 	var/need_sheets = 10
-	var/slowdown_bonus = 0.4
+	var/slowdown_bonus = 0.25
 	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	var/list/material_to_armor_list = list(
 		/obj/item/stack/sheet/durathread 			= MELEE,
