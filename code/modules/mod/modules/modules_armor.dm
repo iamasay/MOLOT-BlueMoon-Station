@@ -24,7 +24,13 @@
 	)
 	complexity = 2
 
-// examine_more
+/obj/item/mod/module/armor/examine_more(mob/user)
+	. = ..()
+	if(armor_type)
+		return
+	. += span_boldnotice("Сейчас доступны варианты:")
+	for(var/material in material_to_armor_list)
+		. += (span_alert("Материал [(material)] позволяет сделать защиту от:") + span_revenminor("[material_to_armor_list[material]]"))
 
 /obj/item/mod/module/armor/proc/add_armor_bonus()
 	for(var/index in mod.mod_parts)
@@ -62,6 +68,8 @@
 /obj/item/mod/module/armor/attackby(obj/item/I, mob/living/user, params)
 //Чекает в списке какую броню ставить, если это материал и меняет icon_state с названием
 	. = ..()
+	if(armor_type)
+		return
 	var/mob/living/carbon/C = user
 	if(!istype(I, /obj/item/stack/sheet))
 		return
