@@ -483,8 +483,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		var/obj/item/thing = C.get_item_by_slot(slot_id)
 		if(thing && (!thing.species_exception || !is_type_in_list(src,thing.species_exception)))
 			C.dropItemToGround(thing)
-	if(C.hud_used)
-		C.hud_used.update_locked_slots()
 
 	// this needs to be FIRST because qdel calls update_body which checks if we have DIGITIGRADE legs or not and if not then removes DIGITIGRADE from species_traits
 	if(C.dna.species.mutant_bodyparts["legs"] && (C.dna.features["legs"] == "Digitigrade" || C.dna.features["legs"] == "Avian"))
@@ -516,6 +514,12 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 	for(var/X in inherent_traits)
 		ADD_TRAIT(C, X, SPECIES_TRAIT)
+
+	if(C.hud_used)
+		if(ishuman(C))
+			var/mob/living/carbon/human/H = C
+			H.update_robotic_screenhud()
+		C.hud_used.update_locked_slots()
 
 	//lets remove those conflicting quirks
 	remove_blacklisted_quirks(C)
@@ -632,9 +636,6 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	if(ROBOTIC_LIMBS in species_traits)
 		for(var/obj/item/bodypart/B in C.bodyparts)
 			B.change_bodypart_status(initial(B.status), FALSE, TRUE)
-
-	if((TRAIT_ROBOTIC_ORGANISM in inherent_traits) && C.hud_used)
-		C.hud_used.coolant_display.clear()
 
 	SEND_SIGNAL(C, COMSIG_SPECIES_LOSS, src)
 
@@ -2483,6 +2484,13 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 					loc_temp = min(loc_temp, SHOWER_FREEZING_LOCAL_TEMP)
 				if("boiling")
 					loc_temp = max(loc_temp, SHOWER_BOILING_LOCAL_TEMP)
+
+	//LIQUIDS ADD - use liquids temperature when submerged
+	if(isturf(H.loc))
+		var/turf/liquid_turf = H.loc
+		if(liquid_turf.liquids && liquid_turf.liquids.liquid_state > LIQUID_STATE_PUDDLE)
+			var/submergment_percent = SUBMERGEMENT_PERCENT(H, liquid_turf.liquids)
+			loc_temp = (loc_temp*(1-submergment_percent)) + (liquid_turf.liquids.temp * submergment_percent)
 
 	//Body temperature is adjusted in two parts: first there your body tries to naturally preserve homeostasis (shivering/sweating), then it reacts to the surrounding environment
 	//Thermal protection (insulation) has mixed benefits in two situations (hot in hot places, cold in hot places)
