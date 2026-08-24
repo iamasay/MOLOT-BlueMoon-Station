@@ -1145,7 +1145,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 					extra_accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1]
 					extra_accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2]
 
-				standing += update_overlay_by_key(mutant_string, H, extra_accessory_overlay)
+				update_overlay_by_key(mutant_string, H, extra_accessory_overlay)
+				standing += extra_accessory_overlay
 
 			if(S.extra2) //apply the extra overlay, if there is one
 				var/mutable_appearance/extra2_accessory_overlay = mutable_appearance(S.icon, layer = -layernum)
@@ -1187,6 +1188,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 					extra2_accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1]
 					extra2_accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2]
 
+				update_overlay_by_key(mutant_string, H, extra2_accessory_overlay)
 				standing += extra2_accessory_overlay
 
 		H.overlays_standing[layernum] = standing

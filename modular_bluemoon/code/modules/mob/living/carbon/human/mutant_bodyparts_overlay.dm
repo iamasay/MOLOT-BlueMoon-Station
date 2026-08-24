@@ -120,8 +120,6 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	var/overlay_params = H.layers_for_apply_effect[key]
 	accessory_overlay = H.use_effect_by_params(accessory_overlay, overlay_params)
 
-	return accessory_overlay
-
 /datum/species/proc/save_part_appearance(mob/living/carbon/human/H, mutant_part_string, accessory_overlay)
 	if(!H.mutant_part_appearances[mutant_part_string])
 		H.mutant_part_appearances[mutant_part_string] = list()
