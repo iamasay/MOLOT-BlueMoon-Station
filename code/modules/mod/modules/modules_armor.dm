@@ -78,6 +78,7 @@
 	if(material.amount < need_sheets || !armor_type)
 		var/ballon_message = armor_type ? "Нужно 10 листов" : "Не подходящий материал!"
 		C.balloon_alert(C, ballon_message)
+		armor_type = null
 		return
 	if(do_after(user, 2 SECONDS, src))
 		name = "[armor_type] MOD armor"
