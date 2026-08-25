@@ -57,15 +57,11 @@
 
 /obj/item/mod/module/armor/on_install()
 	. = ..()
-	if(!armor_type)
-		return
 	mod.current_armor_module_installed += 1
 	add_armor_bonus()
 
 /obj/item/mod/module/armor/on_uninstall()
 	. = ..()
-	if(!armor_type)
-		return
 	mod.current_armor_module_installed -= 1
 	remove_armor_bonus()
 
