@@ -87,7 +87,6 @@
 	if(do_after(user, 2 SECONDS, src))
 		name = "[armor_type] MOD armor"
 		icon_state = "armor-[armor_type]"
-		desc = "Завершенный модуль брони для МОДа, который защищает от повреждений типа [armor_type]"
 		material.use(need_sheets)
 	else
 		armor_type = null
