@@ -1,5 +1,5 @@
 /// Default value for the max_complexity var on MODsuits
-#define DEFAULT_MAX_COMPLEXITY 25
+#define DEFAULT_MAX_COMPLEXITY 20
 
 /// Default cell drain per process on MODsuits
 #define DEFAULT_CHARGE_DRAIN 2
