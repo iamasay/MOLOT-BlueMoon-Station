@@ -42,7 +42,7 @@ GLOBAL_LIST_INIT(onelife_death_forms, init_onelife_death_forms())
 // Череп и кости
 /datum/onelife_death/bones
 	name = "Череп и кости"
-	death_sound = 'sound/effects/wounds/crack1.ogg'
+	death_sound = 'modular_citadel/sound/voice/scream_skeleton.ogg'
 	message = "От %TARGET% остаётся лишь хрустящая груда костей!"
 	leave_ash = FALSE
 
@@ -127,7 +127,7 @@ GLOBAL_LIST_INIT(onelife_death_forms, init_onelife_death_forms())
 // Гора песка (по мотивам песочного голема)
 /datum/onelife_death/sand
 	name = "Гора песка"
-	death_sound = 'sound/effects/shovel_dig.ogg'
+	death_sound = 'sound/weapons/thudswoosh.ogg'
 	message = "%TARGET% осыпается горой песка!"
 	leave_ash = FALSE
 
@@ -136,27 +136,74 @@ GLOBAL_LIST_INIT(onelife_death_forms, init_onelife_death_forms())
 	for(var/i in 1 to rand(3, 5))
 		new /obj/item/stack/ore/glass(get_turf(H)) //this is sand
 
+// Куча угля
+/datum/onelife_death/coal
+	name = "Куча угля"
+	death_sound = 'sound/effects/shovel_dig.ogg'
+	message = "%TARGET% с шорохом осыпается кучей угля!"
+	leave_ash = FALSE
+
+/datum/onelife_death/coal/crumble(mob/living/carbon/human/H)
+	. = ..()
+	new /obj/item/stack/sheet/mineral/coal(get_turf(H), rand(3, 6))
+
+// Кучка золота
+/datum/onelife_death/gold
+	name = "Кучка золота"
+	death_sound = 'sound/effects/cashregister.ogg'
+	message = "%TARGET% со звоном рассыпается горсткой золотых слитков!"
+	leave_ash = FALSE
+
+/datum/onelife_death/gold/crumble(mob/living/carbon/human/H)
+	. = ..()
+	new /obj/item/stack/sheet/mineral/gold(get_turf(H), rand(2, 4))
+
+// Кучка фарша
+/datum/onelife_death/meat
+	name = "Кучка фарша"
+	death_sound = 'sound/effects/meatslap.ogg'
+	message = "%TARGET% шлёпается кучей сырого фарша!"
+	leave_ash = FALSE
+
+/datum/onelife_death/meat/crumble(mob/living/carbon/human/H)
+	. = ..()
+	H.add_splatter_floor(get_turf(H))
+	for(var/i in 1 to rand(2, 4))
+		new /obj/item/reagent_containers/food/snacks/meat/slab(get_turf(H))
+
+// Груда железного лома
+/datum/onelife_death/scrap
+	name = "Железный лом"
+	death_sound = 'sound/effects/clang.ogg'
+	message = "%TARGET% с грохотом разваливается грудой железного лома!"
+	leave_ash = FALSE
+
+/datum/onelife_death/scrap/crumble(mob/living/carbon/human/H)
+	. = ..()
+	new /obj/effect/decal/remains/robot(get_turf(H))
+	new /obj/item/stack/rods(get_turf(H), rand(3, 5))
+
 /*
  * ОБЩАЯ МЕХАНИКА РАССЫПАНИЯ
  */
 
+/// Возвращает форму рассыпания Одной Жизни, выбранную носителем в настройках квирков,
+/// или null, если рассыпать нужно обычным образом. Вызывается из /mob/living/dust().
+/proc/onelife_get_death_form(mob/living/H)
+	if(!istype(H) || QDELETED(H) || !ishuman(H) || !HAS_TRAIT(H, TRAIT_ONELIFE))
+		return null
+	var/chosen_form_name = H.client?.prefs?.onelife_death_type || "Пепел"
+	var/form_type = GLOB.onelife_death_forms[chosen_form_name] || GLOB.onelife_death_forms["Пепел"]
+	return new form_type()
+
 /// Рассыпать носителя Одной Жизни в выбранную им форму смерти.
-/// Полный дроп вещей (включая застрявшее, импланты и проглоченное) делает сам
-/// dust(TRUE, TRUE) через /mob/living/proc/dust_spill_everything().
+/// Всю механику (полный дроп вещей, анимацию, форму) выполняет dust(TRUE, TRUE):
+/// полному дропу (включая застрявшее, импланты и проглоченное) служит
+/// /mob/living/proc/dust_spill_everything(), форме - onelife_get_death_form().
 /proc/onelife_crumble(mob/living/carbon/human/H)
 	if(!istype(H) || QDELETED(H))
 		return
-	var/chosen_form_name = H.client?.prefs?.onelife_death_type || "Пепел"
-	var/form_type = GLOB.onelife_death_forms[chosen_form_name] || GLOB.onelife_death_forms["Пепел"]
-	var/datum/onelife_death/form = new form_type()
-
-	H.death(TRUE) // уже мёртв - просто страховка от вызова на живом
-	H.dust_spill_everything()
-	if(H.buckled)
-		H.buckled.unbuckle_mob(H, force = TRUE)
-	H.dust_animation()
-	form.crumble(H)
-	QDEL_IN(H, 5)
+	H.dust(TRUE, TRUE)
 
 /// Снять с цели источник Одной Жизни: и квирк, и мутацию.
 /proc/remove_onelife_source(mob/living/target, message)
@@ -198,7 +245,9 @@ GLOBAL_LIST_INIT(onelife_death_forms, init_onelife_death_forms())
 	if(!QDELETED(quirk_holder))
 		UnregisterSignal(quirk_holder, list(COMSIG_MOB_DEATH, COMSIG_MOB_EMOTE))
 
-/datum/quirk/onelife/proc/get_rid_of_them(mob/user, datum/emote/emote)
+/datum/quirk/onelife/proc/get_rid_of_them(mob/user, gibbed)
+	if(gibbed) // при dust()/gib() рассыпанием управляет сам dust()
+		return
 	if(quirk_holder.stat == DEAD)
 		remove_signals()
 		onelife_crumble(quirk_holder)

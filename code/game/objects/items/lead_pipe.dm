@@ -17,7 +17,9 @@
 	attack_verb_continuous = list("бьёт", "лупит", "впечатывает")
 	attack_verb_simple = list("бьёшь", "лупишь", "впечатываешь")
 	pickup_sound = 'sound/items/handling/lead_pipe/lead_pipe_pickup.ogg'
-	hitsound = 'sound/effects/bang.ogg'
+	drop_sound = 'modular_bluemoon/krashly/sound/items/metal_drop.ogg'
+	throw_drop_sound = 'sound/items/handling/lead_pipe/lead_pipe_drop.ogg'
+	hitsound = 'sound/items/handling/lead_pipe/lead_pipe_hit.ogg'
 
 /datum/crafting_recipe/lead_pipe // BLUEMOON ADD - крафт из подручных материалов
 	name = "Свинцовая труба"

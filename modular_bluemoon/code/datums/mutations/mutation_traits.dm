@@ -1748,7 +1748,9 @@
 	if(!QDELETED(owner))
 		UnregisterSignal(owner, list(COMSIG_MOB_DEATH, COMSIG_MOB_EMOTE))
 
-/datum/mutation/human/bm/onelife/proc/get_rid_of_them(mob/user, datum/emote/emote)
+/datum/mutation/human/bm/onelife/proc/get_rid_of_them(mob/user, gibbed)
+	if(gibbed) // при dust()/gib() рассыпанием управляет сам dust()
+		return
 	if(owner.stat == DEAD)
 		remove_signals()
 		onelife_crumble(owner)

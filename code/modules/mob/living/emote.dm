@@ -913,7 +913,7 @@
 	muzzle_ignore = FALSE
 	restraint_check = FALSE
 
-/datum/emote/sound/human/blubbr/run_emote(mob/user, params)
+/datum/emote/sound/human/medic/run_emote(mob/user, params)
 	sound = pick('sound/magic/tf2/demoman_medic01.ogg', 'sound/magic/tf2/demoman_medic02.ogg', 'sound/magic/tf2/demoman_medic03.ogg', \
 				'sound/magic/tf2/engineer_medic01.ogg', 'sound/magic/tf2/engineer_medic01.ogg', 'sound/magic/tf2/engineer_medic01.ogg', \
 				'sound/magic/tf2/heavy_medic01.ogg', 'sound/magic/tf2/heavy_medic01.ogg', 'sound/magic/tf2/heavy_medic01.ogg', \
