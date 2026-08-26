@@ -35,10 +35,12 @@
 /obj/machinery/door/poddoor/shutters/window/armory/warden
 	name = "Blue Alert Shutters"
 	open_at_level = SEC_LEVEL_BLUE
+	id = "warden_shutters"
 
 /obj/machinery/door/poddoor/shutters/window/armory/officers
 	name = "Amber Alert Shutters"
 	open_at_level = SEC_LEVEL_AMBER
+	id = "officers_shutters"
 
 // ─── Кнопки ────────────────────────────────────────────────────────────────
 
