@@ -31789,12 +31789,6 @@
 /obj/effect/mapping_helpers/airlock/unres,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/factory)
-"cul" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/factory)
 "cun" = (
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
@@ -51159,28 +51153,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/treatment_center)
-"fod" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/machinery/power/apc/highcap/five_k{
-	areastring = "/area/ai_monitored/security/armory";
-	name = "Armory APC";
-	pixel_x = 1;
-	pixel_y = -23
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/security/armory)
 "foj" = (
 /obj/machinery/power/smes{
 	charge = 5e+006
@@ -82832,6 +82804,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plasteel,
 /area/commons/locker)
+"tNq" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/factory)
 "tNF" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/pipedispenser,
@@ -92845,6 +92823,28 @@
 	},
 /turf/open/floor/plasteel,
 /area/engineering/main)
+"yid" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/machinery/power/apc/highcap/five_k{
+	areastring = "/area/ai_monitored/security/armory";
+	name = "Armory APC";
+	pixel_x = 1;
+	pixel_y = -23
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ai_monitored/security/armory)
 "yie" = (
 /obj/effect/turf_decal/stripes/yellow/line{
 	dir = 4
@@ -114203,7 +114203,7 @@ cqd
 crs
 cxT
 duH
-cul
+tNq
 cAU
 css
 mMV
@@ -114460,7 +114460,7 @@ cqe
 crt
 cxT
 ctr
-cul
+tNq
 cAU
 cwo
 cxe
@@ -114717,7 +114717,7 @@ cqf
 cru
 cxT
 cts
-cul
+tNq
 gjp
 cwp
 cNm
@@ -114974,7 +114974,7 @@ cqg
 crv
 cxT
 ctt
-cul
+tNq
 cAU
 cwq
 cxg
@@ -121059,7 +121059,7 @@ afg
 fqu
 nrv
 lYq
-fod
+yid
 aeq
 ajy
 akH
