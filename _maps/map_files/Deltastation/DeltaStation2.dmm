@@ -6766,7 +6766,7 @@
 /area/security/prison)
 "aPn" = (
 /obj/structure/cable/white,
-/obj/effect/spawner/structure/window/plastitanium,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/security/prison)
 "aPo" = (
@@ -6781,7 +6781,7 @@
 	name = "Lockdown Shutters"
 	},
 /obj/structure/cable/white,
-/obj/effect/spawner/structure/window/plastitanium,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/security/prison)
 "aPu" = (
@@ -49147,7 +49147,7 @@
 	id = "PermaLockdown";
 	name = "Lockdown Shutters"
 	},
-/obj/effect/spawner/structure/window/plastitanium,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/security/prison)
 "haf" = (
@@ -52551,10 +52551,9 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/obj/machinery/door/poddoor/preopen{
-	id = "armoryblast";
-	name = "bridge blast door"
-	},
+/obj/machinery/door/poddoor/shutters/window/armory/warden,
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "hMK" = (
@@ -63688,25 +63687,19 @@
 	c_tag = "Armory South";
 	dir = 1
 	},
-/obj/machinery/button/door{
-	id = "armorywindow";
-	name = "Armory Shutters";
-	pixel_y = -23;
-	req_access_txt = "3";
-	pixel_x = -8
-	},
-/obj/machinery/button/door{
-	id = "armory3";
-	name = "Armory Shutters";
-	pixel_y = -23;
-	req_access_txt = "3";
-	pixel_x = 3
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/button/door/armory/warden{
+	pixel_y = -24;
+	pixel_x = -6
+	},
+/obj/machinery/button/door/armory/officers{
+	pixel_y = -24;
+	pixel_x = 6
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
@@ -66844,15 +66837,10 @@
 	req_access_txt = "3"
 	},
 /obj/machinery/door/window/brigdoor,
-/obj/machinery/door/poddoor/shutters{
-	id = "armorywindow"
-	},
-/obj/machinery/door/poddoor/preopen{
-	id = "armoryblast";
-	name = "bridge blast door"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/door/poddoor/shutters/window/armory/warden,
+/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "kMg" = (
@@ -73360,6 +73348,10 @@
 	},
 /turf/open/floor/plating,
 /area/security/warden)
+"mcj" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/security/prison)
 "mcs" = (
 /obj/structure/table/reinforced,
 /obj/structure/disposalpipe/segment{
@@ -83165,13 +83157,6 @@
 	req_access_txt = "3";
 	pixel_x = -7
 	},
-/obj/machinery/button/door{
-	id = "armoryblast";
-	name = "Armory Blast";
-	req_access_txt = "3";
-	pixel_x = 6;
-	pixel_y = 9
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
@@ -87378,17 +87363,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/security{
-	name = "Armory";
-	req_access_txt = "3"
-	},
-/obj/machinery/door/poddoor/preopen{
-	id = "armoryblast";
-	name = "bridge blast door"
-	},
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/poddoor/shutters/window/armory/officers,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "paP" = (
@@ -96504,6 +96483,14 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/button/door/armory/warden{
+	pixel_y = 24;
+	pixel_x = -6
+	},
+/obj/machinery/button/door/armory/officers{
+	pixel_y = 24;
+	pixel_x = 6
+	},
 /turf/open/floor/plasteel,
 /area/security/brig_briefing)
 "qXd" = (
@@ -101289,6 +101276,22 @@
 "rWs" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
+	},
+/obj/machinery/button/door/armory/officers{
+	pixel_x = 24;
+	pixel_y = -6
+	},
+/obj/machinery/button/door/armory/warden{
+	pixel_x = 24;
+	pixel_y = 6
+	},
+/obj/machinery/button/door/armory/officers{
+	pixel_x = -24;
+	pixel_y = -6
+	},
+/obj/machinery/button/door/armory/warden{
+	pixel_x = -24;
+	pixel_y = 6
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
@@ -126825,13 +126828,8 @@
 /area/cargo/storage)
 "xqe" = (
 /obj/effect/turf_decal/delivery,
-/obj/machinery/door/poddoor/shutters{
-	id = "armory3"
-	},
-/obj/machinery/door/poddoor/preopen{
-	id = "armoryblast";
-	name = "bridge blast door"
-	},
+/obj/machinery/door/poddoor/shutters/window/armory/officers,
+/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "xqi" = (
@@ -188621,10 +188619,10 @@ iYo
 aSC
 lZK
 tME
-aKV
+aFm
 aJA
 aSG
-aKV
+aFm
 aWh
 qBX
 tTP
@@ -188881,7 +188879,7 @@ xKL
 aPn
 aRe
 uDm
-aKV
+aFm
 aWf
 qBX
 aZw
@@ -189135,10 +189133,10 @@ ghl
 aSC
 lZK
 rja
-aKV
+aFm
 gZV
 gZV
-aKV
+aFm
 enn
 qBX
 aZw
@@ -189395,7 +189393,7 @@ vxs
 aPp
 mzQ
 gBw
-pVk
+mcj
 kzu
 roV
 aZw
@@ -189909,7 +189907,7 @@ aFm
 aFm
 nxE
 knW
-pVk
+mcj
 mHH
 qBX
 kQq
@@ -190166,7 +190164,7 @@ uOw
 aFm
 pjT
 cGA
-aKV
+aFm
 tIZ
 fnS
 qlx
