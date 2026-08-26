@@ -37,8 +37,8 @@ Will print: "/mob/living/carbon/human/death" (you can optionally embed it in a s
 //Human Overlays Indexes/////////
 //LOTS OF CIT CHANGES HERE. BE CAREFUL WHEN UPSTREAM ADDS MORE LAYERS
 
-#define MUTATIONS_LAYER          45 // mutations. Tk headglows, cold resistance glow, etc
-#define GENITALS_BEHIND_LAYER    44 // Some genitalia needs to be behind everything, such as with taurs
+#define MUTATIONS_LAYER           45 // mutations. Tk headglows, cold resistance glow, etc
+#define GENITALS_BEHIND_LAYER     44 // Some genitalia needs to be behind everything, such as with taurs
 #define BODY_BEHIND_LAYER         43 // certain mutantrace features, such as tail when looking south
 #define BODYPARTS_LAYER           42 // catch-all bodyparts flag
 #define MARKING_LAYER             41 // Matrixed body markings
@@ -84,6 +84,13 @@ Will print: "/mob/living/carbon/human/death" (you can optionally embed it in a s
 #define FIRE_LAYER                 1
 
 #define TOTAL_LAYERS              45
+
+/// Потолок общего кэша наборов конечностей (limb_icon_cache, см. cache_limb_icons).
+/// Двух тысяч записей хватает на популяцию прода с запасом: ключ разный у каждого
+/// сочетания вида, цвета, маркингов и состояния конечностей, но одновременно ЖИВЫХ
+/// сочетаний у ста игроков сотни, а не тысячи. Всё сверх - это осевшие рендеры превью
+/// из редактора персонажа и тела давно ушедших игроков.
+#define LIMB_ICON_CACHE_MAX 2000
 
 //Human Overlay Index Shortcuts for alternate_worn_layer, layers
 //Because I *KNOW* somebody will think layer+1 means "above"
