@@ -2077,19 +2077,14 @@
 /area/InteQ_ship/SOLVED)
 "gb" = (
 /obj/structure/table/reinforced/plastitanium,
-/obj/item/pinpointer/crew/centcom{
-	pixel_x = 12
-	},
-/obj/item/pinpointer/crew/centcom{
-	pixel_y = 6;
-	pixel_x = 6
-	},
-/obj/item/pinpointer/crew/centcom{
-	pixel_y = 12
-	},
-/obj/item/pinpointer/crew/centcom{
-	pixel_y = 16;
+/obj/item/sensor_device_siege{
+	pixel_y = -6;
 	pixel_x = -6
+	},
+/obj/item/sensor_device_siege,
+/obj/item/sensor_device_siege{
+	pixel_x = 6;
+	pixel_y = 6
 	},
 /turf/open/floor/engine,
 /area/InteQ_ship/ship7)
@@ -20065,7 +20060,7 @@ kW
 kW
 kW
 kW
-kW
+gb
 gV
 WO
 WO
@@ -61732,7 +61727,7 @@ WO
 WO
 WO
 gV
-kW
+gb
 kW
 kW
 kW
