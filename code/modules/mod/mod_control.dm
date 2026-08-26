@@ -461,9 +461,13 @@
 	var/list/used_skin = theme.skins[new_skin]
 	if(used_skin[CONTROL_LAYER])
 		alternate_worn_layer = used_skin[CONTROL_LAYER]
-	var/list/skin_updating = mod_parts.Copy() + src
-	for(var/obj/item/piece as anything in skin_updating)
+	var/list/skin_updating = mod_parts.Copy()
+	for(var/index in skin_updating)
+		if(index == MOD_PART_CELL)
+			continue
+		var/obj/item/clothing/mod_part/piece = skin_updating[index]
 		piece.icon_state = "[skin]-[initial(piece.icon_state)]"
+	src.icon_state = "[skin]-[initial(src.icon_state)]"
 	update_flags()
 	wearer?.regenerate_icons()
 
@@ -589,6 +593,23 @@
 		if(is_active())
 			INVOKE_ASYNC(src, PROC_REF(toggle_activate), wearer, TRUE)
 		return
+
+/obj/item/mod/control/AltClick(mob/user)
+	. = ..()
+	if(!wearer)
+		return
+	for(var/index in mod_parts)
+		var/obj/item/clothing/mod_part/part = mod_parts[index]
+		if(index == MOD_PART_CELL)
+			continue
+		if(part.loc == null)
+			if(do_after(wearer, activation_step_time, wearer, MOD_ACTIVATION_STEP_FLAGS, extra_checks = CALLBACK(src, PROC_REF(has_wearer))))
+				part.seal_part(seal = FALSE)
+				deploy(user, part)
+		else
+			if(do_after(wearer, activation_step_time, wearer, MOD_ACTIVATION_STEP_FLAGS, extra_checks = CALLBACK(src, PROC_REF(has_wearer))))
+				part.seal_part(seal = FALSE)
+				conceal(user, part)
 
 /obj/item/mod/control/proc/on_borg_charge(datum/source, amount)
 	SIGNAL_HANDLER

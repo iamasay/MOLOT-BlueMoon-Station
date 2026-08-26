@@ -69,6 +69,7 @@
 		поверхности костюма, полезных для хранения различных мелочей и штучек. Имеет модный кроваво-красный окрас."
 	icon_state = "storage_syndi"
 	complexity = 2 //на 1 меньше, чем обычная версия.
+	max_volume = DEFAULT_VOLUME_NORMAL * 8
 
 /obj/item/mod/module/storage/extended/syndicate
 	name = "MOD Blood-red Extended storage module"
