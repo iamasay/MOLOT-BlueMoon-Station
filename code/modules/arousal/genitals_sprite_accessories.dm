@@ -283,6 +283,7 @@
 	icon_state = "butt"
 	name = "butt"
 	color_src = "butt_color"
+	mutant_part_string = "butt"
 
 /datum/sprite_accessory/butt
 	icon = 'modular_splurt/icons/obj/genitals/butt_onmob.dmi'
@@ -297,6 +298,7 @@
 	icon_state = "belly"
 	name = "belly"
 	color_src = "belly_color"
+	mutant_part_string = "belly"
 
 //there literally shouldn't be any other ass types besides one because that'd be weird, this is just here to keep things consistent for the genital system.
 /datum/sprite_accessory/belly/pair

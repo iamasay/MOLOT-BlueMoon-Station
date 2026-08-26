@@ -13,6 +13,8 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 #define TESTICLES_APPEARANCE "testicles"
 #define VAGINA_APPEARANCE "vagina"
 #define BREASTS_APPEARANCE "breasts"
+#define BUTT_APPEARANCE "butt"
+#define BELLY_APPEARANCE "belly"
 
 #define OVERLAY_LAYERS list( \
 	SNOUT_APPEARANCE, \
@@ -23,11 +25,18 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 	TAUR_APPEARANCE, \
 	HORNS_APPEARANCE, \
 	HAIR_APPEARANCE, \
+)
+
+#define OVERLAY_GENITAL_LIST list( \
 	BREASTS_APPEARANCE, \
 	VAGINA_APPEARANCE, \
 	TESTICLES_APPEARANCE, \
 	PENIS_APPEARANCE, \
+	BREASTS_APPEARANCE, \
+	BUTT_APPEARANCE, \
+	BELLY_APPEARANCE, \
 )
+
 
 //-----MUTABLE_APPERANCE-----
 
@@ -77,25 +86,35 @@ GLOBAL_LIST_INIT(mutant_overlays_cache, list())
 
 /mob/living/carbon/human/proc/use_effect_by_params(mutable_appearance/accessory_overlay, list/overlay_params)
 	var/datum/overlay_effect/effect_datum = overlay_params[3]
+	var/layer = overlay_params[1]
 	var/cache_list_key = generate_accessory_cache_key(accessory_overlay, effect_datum)
 	var/icon/template = icon(accessory_overlay.icon, accessory_overlay.icon_state)
 	var/icon/cached_overlayed_icon = get_overlay_from_cache(cache_list_key)
 
 	clear_old_cache_if_it_need()
-	// accessory_overlay.blend_mode =
 	template = cached_overlayed_icon ? cached_overlayed_icon : get_overlayed_icon(template, effect_datum)
 
 	var/mutable_appearance/overlay_MA = mutable_appearance(icon = template, layer = accessory_overlay.layer, plane = accessory_overlay.plane, alpha = LIGHTING_PLANE_ALPHA_VISIBLE, appearance_flags = accessory_overlay.appearance_flags, color = effect_datum.color, pixel_x = accessory_overlay.pixel_x, pixel_y = accessory_overlay.pixel_y, blend_mode=BLEND_OVERLAY)
-	if(!overlays_standing[EFFECT_OVERLAY_LAYER])
-		overlays_standing[EFFECT_OVERLAY_LAYER] = list()
-	overlays_standing[EFFECT_OVERLAY_LAYER] += overlay_MA
+	overlay_MA.name = "[layer]_[accessory_overlay.icon_state]"
+
+	if(layer in OVERLAY_GENITAL_LIST)
+		if(!overlays_standing[GENITAL_EFFECT_LAYER])
+			overlays_standing[GENITAL_EFFECT_LAYER] = list()
+		overlays_standing[GENITAL_EFFECT_LAYER] += overlay_MA
+		GLOB.mutant_overlays_cache[cache_list_key] = overlay_MA
+		return overlay_MA
+
+	if(!overlays_standing[BODYPART_EFFECT_LAYER])
+		overlays_standing[BODYPART_EFFECT_LAYER] = list()
+	overlays_standing[BODYPART_EFFECT_LAYER] += overlay_MA
 	GLOB.mutant_overlays_cache[cache_list_key] = overlay_MA
 	return overlay_MA
 
 /mob/living/carbon/human/proc/apply_bodypart_overlays(list/layers, update = TRUE, datum/overlay_effect/effect_datum)
-	var/list/target_layers = layers ? layers : OVERLAY_LAYERS
+	var/list/target_layers = layers ? layers : (OVERLAY_LAYERS + OVERLAY_GENITAL_LIST)
+	var/datum/overlay_effect/target_datum = effect_datum ? effect_datum : new /datum/overlay_effect/mod_effect
 	for(var/layer in target_layers)
-		apply_overlay_on_bodypart(layer, color, effect_datum)
+		apply_overlay_on_bodypart(layer, color, target_datum)
 	if(update)
 		update_mutant_bodyparts()
 

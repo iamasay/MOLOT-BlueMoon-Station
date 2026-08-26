@@ -248,7 +248,6 @@
 		if(!do_after(user, 1 SECONDS, target = src))
 			balloon_alert(user, "прервано!")
 			return
-		balloon_alert(user, "батарея вытащена")
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		if(!user.put_in_hands(cell))
 			cell.forceMove(drop_location())
@@ -279,7 +278,6 @@
 			balloon_alert(user, "сначала отключите костюм!")
 			return FALSE
 		screwdriver.play_tool_sound(src, 100)
-		balloon_alert(user, "успешно!")
 		toggle_state(MOD_OPEN)
 	else
 		balloon_alert(user, "прервано!")
@@ -334,17 +332,14 @@
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return FALSE
 		if(cell)
-			balloon_alert(user, "изъятие батареи...")
 			if(!do_after(user, 1 SECONDS, target = src))
 				balloon_alert(user, "прервано!")
 				return FALSE
-			balloon_alert(user, "батарея изъята")
 			playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 			cell.forceMove(drop_location())
 			user.put_in_hands(cell)
 		attacking_item.moveToNullspace()
 		mod_parts[MOD_PART_CELL] = attacking_item
-		balloon_alert(user, "батарея установлена")
 		playsound(src, 'sound/machines/click.ogg', 50, TRUE, SILENCED_SOUND_EXTRARANGE)
 		update_cell_alert()
 		return TRUE
@@ -365,7 +360,7 @@
 	if(!is_active() || !wearer || . & EMP_PROTECT_CONTENTS)
 		return
 	selected_module = null
-	wearer.apply_damage(10 / severity, BURN, spread_damage=TRUE)
+	wearer.apply_damage(severity*0.2, BURN, spread_damage=TRUE)
 	to_chat(wearer, span_danger("Вы ощущаете как [src] нагревается из-за ЭМИ и обжигает вас!"))
 	if (wearer.stat < UNCONSCIOUS && prob(10))
 		wearer.emote("realagony")

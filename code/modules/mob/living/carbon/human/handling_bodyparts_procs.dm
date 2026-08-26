@@ -4,7 +4,7 @@
 	remove_overlay(BODY_ADJ_UPPER_LAYER)
 	remove_overlay(BODY_FRONT_LAYER)
 	remove_overlay(HORNS_LAYER)
-	remove_overlay(EFFECT_OVERLAY_LAYER)
+	remove_overlay(BODYPART_EFFECT_LAYER)
 
 /mob/living/carbon/human/proc/add_all_overlays()
 	apply_overlay(BODY_BEHIND_LAYER)
@@ -12,7 +12,7 @@
 	apply_overlay(BODY_ADJ_UPPER_LAYER)
 	apply_overlay(BODY_FRONT_LAYER)
 	apply_overlay(HORNS_LAYER)
-	apply_overlay(EFFECT_OVERLAY_LAYER)
+	apply_overlay(BODYPART_EFFECT_LAYER)
 
 /mob/living/carbon/human/proc/have_tauric_body()
 	if(dna.species.mutant_bodyparts["taur"] && dna.features["taur"] && dna.features["taur"] != "None")
