@@ -1014,6 +1014,7 @@
 	default_skin = "infiltrator"
 	armor = list(MELEE = 45, BULLET = 50, LASER = 45, ENERGY = 55, BOMB = 75, BIO = 100, RAD = 70, FIRE = 100, ACID = 100, WOUND = 55)
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	siemens_coefficient = 0
 	ui_theme = "inteq"
 	inbuilt_modules = list()

@@ -372,6 +372,16 @@
 	speed_move_bonus = 2
 	vulnerability_flags = SPRINGLOCK_VULN_REAGENTS | SPRINGLOCK_VULN_PUNCH | SPRINGLOCK_VULN_MOVEMENT // Больше уязвимостей, но имеет запас прочности
 
+/obj/item/mod/module/springlock/advanced/antagonist
+	name = "Reinforged MOD exoskeleton module"
+	desc = "Усиленная версия спиринг-механизма, крайне дорогая в сборке и установке, \
+	которую невозможно снять после монтажа. Не имеет тех же уязвимостей, что и младший собрат,\
+	однако, имеет повышенное потребление электроэнергии."
+	icon_state = "springlock_antag"
+	springlock_integrity = SPRINGLOCK_INTEGRITY_INDESTRUCTIBLE
+	vulnerability_flags = null
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 1.1
+	removable = FALSE //невозможно снять и использовать на других костюмах
 
 /**
  * Особый эмоут для антуража (кекв)

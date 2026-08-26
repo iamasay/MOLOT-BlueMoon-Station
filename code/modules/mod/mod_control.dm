@@ -376,6 +376,9 @@
 	quick_activation()
 
 /obj/item/mod/control/doStrip(mob/stripper, mob/owner)
+	if(wearer.infiltrator_active && wearer.stat == CONSCIOUS)
+		balloon_alert(stripper, "Отказано!")
+		return
 	if(!toggle_activate(stripper, force_deactivate = TRUE))
 		return
 	for(var/obj/item/part in mod_parts)

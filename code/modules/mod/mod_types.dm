@@ -312,7 +312,8 @@
 		/obj/item/mod/module/visor/night,
 		/obj/item/mod/module/holster,
 		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/springlock/advanced,
+		/obj/item/mod/module/springlock/advanced/antagonist, //нерушима
+		/obj/item/mod/module/infiltrator,
 	)
 
 INITIALIZE_IMMEDIATE(/obj/item/mod/control/pre_equipped/syndicate_empty)

@@ -191,6 +191,7 @@
 		update_hardlight()
 	update_speed()
 	update_icon_state()
+
 	wearer.update_inv_back()
 
 /obj/item/mod/control/update_icon_state()
