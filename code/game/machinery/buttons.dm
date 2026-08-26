@@ -10,6 +10,8 @@
 	var/device_type = null
 	var/id = null
 	var/initialized_button = 0
+	/// If FALSE, AI and cyborgs cannot use this button.
+	var/silicon_access = TRUE
 	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 10, BIO = 100, RAD = 100, FIRE = 90, ACID = 70)
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
@@ -123,6 +125,8 @@
 	return TRUE
 
 /obj/machinery/button/attack_ai(mob/user)
+	if(!silicon_access && !IsAdminGhost(user))
+		return
 	if(!panel_open)
 		return attack_hand(user)
 
@@ -296,11 +300,20 @@
 		if(istype(controller))
 			controller.id = vval
 
+/obj/machinery/button/door/vv_edit_var(vname, vval)
+	. = ..()
+	if(vname == NAMEOF(src, sync_doors))
+		var/obj/item/assembly/control/controller = device
+		if(istype(controller))
+			controller.sync_doors = vval
+
 /obj/machinery/button/door
 	name = "door button"
 	desc = "A door remote control switch."
 	var/normaldoorcontrol = FALSE
 	var/specialfunctions = OPEN // Bitflag, see assembly file
+	/// Should linked blast doors toggle together based on the first door's state
+	var/sync_doors = TRUE
 
 /obj/machinery/button/door/directional/north //Pixel offsets get overwritten on New()
 	dir = SOUTH
@@ -325,7 +338,9 @@
 			device = A
 			A.specialfunctions = specialfunctions
 		else
-			device = new /obj/item/assembly/control(src)
+			var/obj/item/assembly/control/control_device = new(src)
+			device = control_device
+			control_device.sync_doors = sync_doors
 	..()
 
 /obj/machinery/button/door/incinerator_vent_toxmix

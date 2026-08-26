@@ -91,7 +91,8 @@
 			lube_flags = SLIDE_ICE | GALOSHES_DONT_HELP
 		if(TURF_WET_SUPERLUBE)
 			intensity = 120
-			lube_flags = SLIDE | GALOSHES_DONT_HELP | SLIP_WHEN_CRAWLING
+			// BLUEMOON CHANGE - суперлубрикант отправляет в полёт в космос, а не катит 4 тайла
+			lube_flags = SLIDE | GALOSHES_DONT_HELP | SLIP_WHEN_CRAWLING | SLIDE_INTO_SPACE
 		else
 			qdel(parent.GetComponent(/datum/component/slippery))
 			return
@@ -133,7 +134,9 @@
 				O.make_unfrozen()
 		add_wet(TURF_WET_WATER, max_time_left())
 		dry(null, TURF_WET_ICE)
-	dry(null, ALL, FALSE, decrease)
+	// BLUEMOON ADDITION - суперсмазка не высыхает сама по себе, убрать её может только уборка.
+	// Сила порога - TURF_WET_LUBE: всё слабее высыхает, суперсмазка (сильнее) - нет.
+	dry(null, TURF_WET_LUBE, FALSE, decrease)
 	check()
 	last_process = world.time
 
