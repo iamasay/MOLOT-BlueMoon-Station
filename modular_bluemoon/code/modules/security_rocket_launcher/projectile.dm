@@ -18,7 +18,7 @@
 
 	var/explosion_damage = 50 //Лёгкий взрыв - это 30.
 	var/ignited = FALSE //уже разогналась?
-	var/minimum_range = 2 //дистанция в тайлах до активации двигателя
+	var/minimum_range = 1 //дистанция в тайлах до активации двигателя
 	var/turf/launch_origin
 
 /obj/item/projectile/bullet/security_missile/Initialize(mapload)
@@ -47,7 +47,9 @@
 		if(istype(fired_from, /obj/item/gun/ballistic/rocketlauncher/security))
 			var/obj/item/gun/ballistic/rocketlauncher/security/missile_launcher = fired_from
 			if(missile_launcher.self_targeting)
-				set_homing_target(fired_from)
+				//Целься в стрелка, а не в само оружие - у оружия в руках loc не является тайлом,
+				//и set_homing_target() просто откажется работать.
+				set_homing_target(istype(firer, /mob/living) ? firer : get_turf(fired_from))
 			else
 				initialize_radar()
 				process_radar()
