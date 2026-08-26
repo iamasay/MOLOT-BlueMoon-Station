@@ -1,0 +1,5 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - rscadd: Порт Factorio руки-манипулятора
+  - qol: Манипуляторы научились складывать вещи в холодильники
