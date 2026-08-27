@@ -1,7 +1,0 @@
-author: iamasay
-delete-after: true
-changes:
-  - rscadd: Система линковки модулей с частями МОДа
-  - bugfix: Исправлен черный список МОДа
-  - bugfix: Исправлен MOD paint Kit
-  - bugfix: Исправлен RAD Protection Module
