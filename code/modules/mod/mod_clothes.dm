@@ -49,7 +49,7 @@
 		for(var/obj/item/mod/module/module in linked_modules)
 			module.saved_state = module.active
 			module.on_deactivation()
-			return TRUE
+		return TRUE
 	else
 		for(var/obj/item/mod/module/module in linked_modules)
 			if(!module.saved_state)
