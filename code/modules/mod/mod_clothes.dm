@@ -73,8 +73,11 @@
 	if(!item)
 		return TRUE
 	overslot = item
-	if(item.type in overslot_blacklist)
-		return FALSE
+
+	for(var/type in overslot_blacklist)
+		if(istype(item, type))
+			return FALSE
+
 	return mod.wearer.transferItemToLoc(overslot, item, force = TRUE)
 
 /obj/item/clothing/mod_part/proc/seal_part(seal)
