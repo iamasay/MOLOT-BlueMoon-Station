@@ -1017,3 +1017,6 @@
   Linda-Astereih:
   - image: Исправлены спрайты Retractable claws. Исправлена анимация хвоста Large
       Cat (Painted Tip)
+  RG-TRK:
+  - rscadd: Added new cargo pack for DS-2
+  - qol: price improvements for few DS-2 cargo packs.
