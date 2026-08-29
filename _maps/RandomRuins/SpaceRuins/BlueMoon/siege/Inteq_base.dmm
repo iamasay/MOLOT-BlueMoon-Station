@@ -6624,8 +6624,9 @@
 /area/InteQ_ship)
 "sM" = (
 /obj/machinery/vending/wallmed/directional/east,
-/obj/machinery/sleeper/syndie/fullupgrade,
 /obj/machinery/light/cold/dim/directional/east,
+/obj/item/gun/medbeam/syndicate,
+/obj/structure/table/reinforced/plastitaniumglass,
 /turf/open/floor/engine,
 /area/InteQ_ship/ship7)
 "sN" = (
@@ -7001,7 +7002,7 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/item/clothing/suit/space/hardsuit/ert/alert/sol/adv,
+/obj/item/clothing/suit/space/hardsuit/ert/alert/sol,
 /turf/open/floor/plasteel/dark,
 /area/InteQ_ship/SOLVED)
 "uc" = (
@@ -8327,6 +8328,9 @@
 	pixel_y = 32
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
+	},
+/obj/effect/mob_spawn/human/inteqspace{
 	dir = 8
 	},
 /turf/open/floor/wood,
@@ -10501,7 +10505,7 @@
 /turf/open/floor/carpet/green,
 /area/InteQ_ship)
 "DQ" = (
-/obj/item/gun/ballistic/automatic/hellgate_c77,
+/obj/item/gun/ballistic/automatic/ak12,
 /turf/open/space/basic,
 /area/InteQ_ship)
 "DR" = (
@@ -12157,9 +12161,8 @@
 "IB" = (
 /obj/structure/displaycase{
 	req_one_access_txt = "152";
-	start_showpiece_type = /obj/item/gun/ballistic/automatic/pistol/deagle/camo
+	start_showpiece_type = /obj/item/gun/ballistic/automatic/pistol/deagle/gold
 	},
-/obj/item/gun/ballistic/automatic/pistol/deagle/gold,
 /turf/open/floor/wood/wood_large,
 /area/ruin/space/has_grav/bluemoon/inteq_forgotten_ship)
 "IC" = (
@@ -12404,6 +12407,7 @@
 /obj/item/clothing/gloves/combat,
 /obj/item/gun/ballistic/automatic/pistol,
 /obj/item/storage/belt/military,
+/obj/item/storage/firstaid/tactical/ert_second,
 /turf/open/floor/engine,
 /area/InteQ_ship/ship7)
 "Jk" = (
@@ -15015,6 +15019,7 @@
 /obj/item/clothing/gloves/combat,
 /obj/item/gun/ballistic/automatic/pistol,
 /obj/item/storage/belt/military,
+/obj/item/storage/firstaid/tactical/ert_second,
 /turf/open/floor/engine,
 /area/InteQ_ship/ship7)
 "Rt" = (
@@ -16365,6 +16370,9 @@
 	pixel_y = -32
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
+	},
+/obj/effect/mob_spawn/human/inteqspace{
 	dir = 8
 	},
 /turf/open/floor/wood,
