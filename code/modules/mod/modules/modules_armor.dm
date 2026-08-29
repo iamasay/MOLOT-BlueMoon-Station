@@ -108,7 +108,6 @@
 /obj/item/mod/module/armor/prebuild
 	name = "Base prebuild"
 	complexity = 0
-	slowdown_bonus = 0
 	removable = FALSE
 
 /obj/item/mod/module/armor/prebuild/Initialize(mapload)
