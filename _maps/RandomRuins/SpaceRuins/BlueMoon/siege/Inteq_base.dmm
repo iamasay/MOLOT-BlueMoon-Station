@@ -166,6 +166,10 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/InteQ_ship/ship6)
+"aC" = (
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plasteel/dark,
+/area/InteQ_ship/ship6)
 "aD" = (
 /obj/machinery/computer/med_data{
 	dir = 8
@@ -620,10 +624,6 @@
 /obj/structure/frame,
 /turf/open/floor/mineral/plastitanium,
 /area/InteQ_ship/SOLVED)
-"bN" = (
-/mob/living/simple_animal/hostile/syndicate/mecha_pilot/nanotrasen,
-/turf/open/floor/plasteel/dark,
-/area/InteQ_ship/ship3)
 "bO" = (
 /obj/machinery/door/firedoor,
 /obj/effect/decal/cleanable/dirt,
@@ -671,6 +671,13 @@
 /obj/item/crowbar/red,
 /turf/open/floor/plasteel/dark,
 /area/InteQ_ship)
+"bV" = (
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plating{
+	heat_capacity = 1e+006;
+	icon_state = "platingdmg2"
+	},
+/area/InteQ_ship/ship6)
 "bW" = (
 /obj/structure/closet/crate/wooden/shadow,
 /obj/machinery/light,
@@ -1291,6 +1298,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/mineral/plastitanium,
 /area/InteQ_ship/ship2)
+"dQ" = (
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/InteQ_ship/ship6)
 "dS" = (
 /obj/structure/sign/flag/inteq{
 	pixel_x = -32
@@ -4979,7 +4992,6 @@
 /obj/item/ammo_casing/spent,
 /obj/item/ammo_casing/spent,
 /obj/item/ammo_casing/spent,
-/mob/living/simple_animal/hostile/syndicate/mecha_pilot/nanotrasen,
 /turf/open/floor/mineral/plastitanium,
 /area/InteQ_ship/ship2)
 "of" = (
@@ -8247,6 +8259,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/InteQ_ship)
+"xF" = (
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plasteel/dark,
+/area/InteQ_ship/ship3)
 "xG" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -15209,6 +15225,12 @@
 	},
 /turf/open/floor/plasteel/rockvault/alien,
 /area/InteQ_ship)
+"RU" = (
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg1"
+	},
+/area/InteQ_ship/ship6)
 "RV" = (
 /obj/effect/turf_decal{
 	dir = 4
@@ -16709,6 +16731,13 @@
 /obj/item/clothing/glasses/hud/security/sunglasses/inteq,
 /turf/open/floor/pod/dark,
 /area/InteQ_ship/ship2)
+"Wn" = (
+/obj/machinery/light/red/dim/directional{
+	dir = 1
+	},
+/mob/living/simple_animal/hostile/nanotrasen/elite/akins,
+/turf/open/floor/plasteel/dark,
+/area/InteQ_ship/ship3)
 "Wo" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/vending/coffee,
@@ -48538,7 +48567,7 @@ jd
 Lz
 Ex
 Nr
-Ox
+Wn
 zL
 sZ
 vc
@@ -48962,7 +48991,7 @@ Nr
 Nr
 cw
 Nr
-bN
+OG
 Nr
 Nr
 Nr
@@ -49386,7 +49415,7 @@ ih
 TO
 TO
 EF
-OG
+xF
 OG
 LG
 OG
@@ -49601,7 +49630,7 @@ Nr
 Nr
 Nr
 OG
-OG
+xF
 Nr
 Qg
 Hc
@@ -54479,7 +54508,7 @@ qC
 lo
 TD
 cx
-Wu
+dQ
 yD
 cx
 aN
@@ -55109,7 +55138,7 @@ vB
 eW
 dI
 Kq
-cx
+aC
 cx
 UC
 lo
@@ -55122,13 +55151,13 @@ hk
 hk
 hk
 cx
-Zr
-cx
+RU
+aC
 Nz
 ln
 lo
 lq
-cx
+aC
 cx
 Pr
 lo
@@ -55321,7 +55350,7 @@ AM
 wF
 Pr
 Kq
-cx
+aC
 cx
 wE
 lo
@@ -55962,9 +55991,9 @@ Zr
 cx
 Nw
 cx
-cx
-cx
-cx
+aC
+aC
+aC
 cx
 cx
 AA
@@ -56612,7 +56641,7 @@ cx
 cx
 lo
 lq
-cx
+aC
 cx
 Pr
 lo
@@ -56817,7 +56846,7 @@ cx
 Yk
 vo
 hk
-cx
+aC
 aN
 eY
 pd
@@ -57235,7 +57264,7 @@ XO
 lo
 Jk
 cx
-hA
+bV
 yD
 cx
 aN
