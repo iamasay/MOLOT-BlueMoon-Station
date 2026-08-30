@@ -304,7 +304,7 @@ Charged extracts:
 	desc = "A charged yellow slime extract, infused with even more plasma. It almost hurts to touch."
 	rating = 7 //Roughly 1.5 times the original.
 	maxcharge = 50000 //2 times the normal one.
-	chargerate = 500 //1.5 times the normal rate.
+	chargerate = 250 //1.5 times the normal rate.
 
 /obj/item/slimepotion/spaceproof
 	name = "slime pressurization potion"

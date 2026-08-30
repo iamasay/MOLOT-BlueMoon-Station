@@ -734,7 +734,7 @@
 	desc = "Harvested from the necropolis, this autocharging energy cell can be crushed to provide a temporary 90% damage reduction bonus. Also useful for research."
 	self_recharge = 1
 	maxcharge = 15000 //only barely better than a normal power cell now
-	chargerate = 1500 //good recharge time doe
+	chargerate = 750 //good recharge time doe
 	icon = 'modular_sand/icons/obj/items_and_weapons.dmi'
 	icon_state = "argentcell"
 	ratingdesc = FALSE
