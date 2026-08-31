@@ -2585,6 +2585,12 @@
 	path = /obj/item/clothing/under/rank/rnd/roboticist/sleek
 	ckeywhitelist = list("deltarayx")
 
+/datum/gear/donator/bm/black_sneakers
+	name = "Black Sneakers"
+	slot = ITEM_SLOT_FEET
+	path = /obj/item/clothing/shoes/black_sneakers
+	ckeywhitelist = list("hartty")
+
 /datum/gear/donator/bm/wypmckit
 	name = "Arctic PMC kit"
 	slot = ITEM_SLOT_BACKPACK
