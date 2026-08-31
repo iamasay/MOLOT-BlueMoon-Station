@@ -28439,6 +28439,7 @@
 /area/medical/medbay/aft)
 "cmk" = (
 /obj/structure/table/optable,
+/obj/machinery/vitals_reader/directional/west,
 /turf/open/floor/plasteel/white/corner{
 	dir = 4
 	},
@@ -29507,6 +29508,7 @@
 "coG" = (
 /obj/structure/table/optable,
 /obj/effect/decal/cleanable/blood/old,
+/obj/machinery/vitals_reader/directional/east,
 /turf/open/floor/plasteel/white/corner{
 	dir = 1
 	},
@@ -65478,6 +65480,7 @@
 /area/hallway/primary/central)
 "lWL" = (
 /obj/machinery/stasis,
+/obj/machinery/vitals_reader/directional/south,
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
 "lWX" = (
