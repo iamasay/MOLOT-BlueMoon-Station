@@ -1,0 +1,10 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - rscadd: Два новых режима interact (help intent), harm
+  - rscadd: Добавлена активность взлома проводов в машине, открывающий interact режим
+  - rscadd: Добавлен emag_act, разблокирующий дамажущий режим и интерактивный режим
+  - bugfix: пофикшен баг, ломавший очередь задач
+  - bugfix: Предметы выпадают при удалении и разборе машины
+  - bugfix: fixed tgui crash blue screens
+  - sound: added objects` source soundeffects
