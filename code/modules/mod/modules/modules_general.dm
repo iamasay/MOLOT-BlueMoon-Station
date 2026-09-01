@@ -285,6 +285,8 @@
 /obj/item/mod/module/emp_shield/handle_emp_act(source, severity)
 	. = ..()
 	var/obj/item/stock_parts/cell/mod_cell = mod.get_cell()
+	if(!mod_cell)
+		return
 	var/can_bloow_up = FALSE
 	//Запись ниже выглядит примерно так: (18 * 100) = 1800, далее 1800 * 7 = 12600
 	//т.е только если МОД забит модулями подзавязку ЕМП будет очень быстро сажать батарею.

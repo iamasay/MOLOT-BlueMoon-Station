@@ -467,7 +467,7 @@
 	return mod_parts[MOD_PART_CELL]
 
 /obj/item/mod/control/proc/try_find_module_by_type(type)
-	for(var/obj/item/mod/module/module in modules)
+	for(var/obj/item/mod/module/module as anything in modules)
 		if(istype(module, type))
 			return module
 

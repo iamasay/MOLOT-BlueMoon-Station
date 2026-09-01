@@ -22,7 +22,7 @@
 	var/list/linked_modules = list()
 	var/theme_category
 
-/obj/item/clothing/obj_break(damage_flag)
+/obj/item/clothing/mod_part/obj_break(damage_flag)
 	return FALSE
 
 /obj/item/clothing/mod_part/equipped(mob/user, slot)
