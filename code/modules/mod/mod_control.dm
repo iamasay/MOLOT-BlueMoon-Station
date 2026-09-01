@@ -466,6 +466,11 @@
 /obj/item/mod/control/get_cell()
 	return mod_parts[MOD_PART_CELL]
 
+/obj/item/mod/control/proc/try_find_module_by_type(type)
+	for(var/obj/item/mod/module/module in modules)
+		if(istype(module, type))
+			return module
+
 /obj/item/mod/control/emp_act(severity)
 	. = ..()
 	to_chat(wearer, span_notice("Обнаружен [severity > 1 ? "слабый" : "сильный"] электромагнитный импульс!"))
