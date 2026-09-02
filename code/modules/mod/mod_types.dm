@@ -363,6 +363,17 @@
 		/obj/item/mod/module/armor/prebuild/laser,
 	)
 
+/obj/item/modsuit_modkit/souless
+	name = "Blueshield souless MODsuit theme Kit"
+	// icon_state = "souless"
+	new_theme = /datum/mod_theme/blueshied/souless
+	from_theme = /datum/mod_theme/blueshied
+
+/obj/item/modsuit_modkit/blacksec
+	name = "Blueshield blacksec MODsuit theme Kit"
+	new_theme = /datum/mod_theme/blueshied/blacksec
+	from_theme = /datum/mod_theme/blueshied
+
 /obj/item/choice_beacon/blueshied_suit
 	name = "blueshied Suit Beacon"
 	desc = "MOD или хардсьют"
