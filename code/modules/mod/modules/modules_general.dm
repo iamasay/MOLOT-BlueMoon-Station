@@ -93,7 +93,9 @@
 		return
 	//вещи лежат в contents самого костюма, а окно к ним даёт только компонент:
 	//снести компонент молча = запереть содержимое в МОДе навсегда
-	Storage.do_quick_empty(mod.drop_location())
+	if(mod.contents)
+		Storage.do_quick_empty(mod.drop_location())
+	Storage.RemoveComponent()
 	qdel(Storage)
 
 //PAI модуль
