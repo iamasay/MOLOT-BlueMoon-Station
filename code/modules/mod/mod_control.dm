@@ -131,6 +131,9 @@
 /obj/item/mod/control/proc/get_boots()
 	return mod_parts[MOD_PART_FEET]
 
+/obj/item/mod/control/get_cell()
+	return mod_parts[MOD_PART_CELL]
+
 //Проверяет, надет ли этот элемент одежды, а так же включён ли МОД
 /obj/item/mod/control/proc/check_module_ready_by_mod_index(mod_index)
 	var/obj/item/clothing/mod_part/part = get_mod_part_by_index(mod_index)
@@ -415,6 +418,7 @@
 	playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 	return FALSE
 
+//TODO: Вынести каждый кейс в отдельный proc. Эта функция становится трудночитаемой.
 /obj/item/mod/control/attackby(obj/item/attacking_item, mob/living/user, params)
 	var/obj/item/stock_parts/cell/cell = get_cell()
 	if(istype(attacking_item, /obj/item/weldingtool) && !is_open())
@@ -431,6 +435,11 @@
 		if(can_install_pai)
 			insert_pai(user, attacking_item)
 			return TRUE
+	if(istype(attacking_item, /obj/item/slimepotion))
+		var/obj/item/slimepotion/potion = attacking_item
+		for(var/obj/item/piece as anything in get_mod_parts(include_cell = FALSE))
+			potion.afterattack(piece, user)
+		return TRUE
 	if(istype(attacking_item, /obj/item/mod/module))
 		if(!is_open())
 			balloon_alert(user, "сначала откройте панель!")
@@ -462,9 +471,6 @@
 		update_access(user, attacking_item)
 		return TRUE
 	return ..()
-
-/obj/item/mod/control/get_cell()
-	return mod_parts[MOD_PART_CELL]
 
 /obj/item/mod/control/emp_act(severity)
 	. = ..()

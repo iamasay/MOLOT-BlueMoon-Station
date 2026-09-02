@@ -55,13 +55,21 @@
 	if(state == MODPART_CONSEALED)
 		for(var/obj/item/mod/module/module in linked_modules)
 			module.saved_state = module.active
+			if(module.module_type == MODULE_PASSIVE)
+				module.on_suit_deactivation()
+				continue
 			if(module.active)
 				module.on_deactivation()
 		return TRUE
 	else
 		for(var/obj/item/mod/module/module in linked_modules)
+			if(module.module_type == MODULE_PASSIVE)
+				module.on_suit_activation()
+				continue
+
 			if(!module.saved_state)
 				continue
+
 			module.on_activation()
 
 /obj/item/clothing/mod_part/proc/check_module_ready()

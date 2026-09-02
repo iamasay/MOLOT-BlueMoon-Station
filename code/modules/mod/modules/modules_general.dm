@@ -437,6 +437,7 @@
 
 /obj/item/mod/module/dna_lock/antag
 	name = "Advanced DNA Lock Module"
+	icon_state = "dnalock_ninja"
 	complexity = 1
 	individual_protect_from_emp = TRUE
 

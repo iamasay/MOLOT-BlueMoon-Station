@@ -317,6 +317,7 @@
 /obj/item/mod/control/pre_equipped/lustwish
 	slot_flags = ITEM_SLOT_BELT
 	theme = /datum/mod_theme/lustwish
+	custom_price = 500
 	initial_modules = list(
 		/obj/item/mod/module/nudity_lover,
 	)
