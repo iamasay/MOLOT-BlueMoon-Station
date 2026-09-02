@@ -631,6 +631,11 @@
 		),
 	)
 
+/datum/mod_theme/blueshied/souless
+	default_skin = "souless"
+
+/datum/mod_theme/blueshied/blacksec
+	default_skin = "blacksec"
 
 /datum/mod_theme/safeguard
 	name = "safeguard"
