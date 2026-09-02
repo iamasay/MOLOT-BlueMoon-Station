@@ -209,6 +209,8 @@
 	movedelay = CONFIG_GET(number/movedelay/run_delay)
 
 /obj/item/mod/control/Destroy()
+	if(theme)
+		theme = null
 	if(is_active())
 		STOP_PROCESSING(SSobj, src)
 	//unset_wearer звали только из equipped/dropped, а крио уносит надетый МОД
