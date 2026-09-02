@@ -1,0 +1,4 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - bugfix: Руки-манипуляторы перестали вылавливать гостов
