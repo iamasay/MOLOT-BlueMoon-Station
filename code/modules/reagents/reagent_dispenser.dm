@@ -12,8 +12,6 @@
 	var/reagent_id = /datum/reagent/water //The ID of the reagent that the dispenser uses
 	/// Can this dispenser be opened using a wrench?
 	var/openable = FALSE
-	/// Can this dispenser be climbed on top of?
-	var/climbable = FALSE
 	/// Is this dispenser slowly leaking its reagent?
 	var/leaking = FALSE
 	/// How much reagent to leak
