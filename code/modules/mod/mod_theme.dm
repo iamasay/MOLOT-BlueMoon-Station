@@ -250,7 +250,6 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
 	siemens_coefficient = 0
-	inbuilt_modules = list(/obj/item/mod/module/magboot/advanced)
 	hardlight_color = MOD_COMMAND_COLOR
 	skins = list(
 		"advanced" = list(
@@ -294,7 +293,6 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	cell_drain = DEFAULT_CHARGE_DRAIN * 2
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
-	inbuilt_modules = list(/obj/item/mod/module/orebag)
 	hardlight_color = MOD_CARGO_COLOR
 	skins = list(
 		"mining" = list(
@@ -334,7 +332,6 @@
 	default_skin = "medical"
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 100, FIRE = 60, ACID = 75, WOUND = 5, RAD = 0)
 	cell_drain = DEFAULT_CHARGE_DRAIN * 0.9 //медбей это про скорость и долговечность, но околонулевая защита.
-	inbuilt_modules = list(/obj/item/mod/module/quick_carry)
 	hardlight_color = MOD_MEDBAY_COLOR
 	skins = list(
 		"medical" = list(
@@ -422,7 +419,6 @@
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	cell_drain = DEFAULT_CHARGE_DRAIN
-	inbuilt_modules = list(/obj/item/mod/module/quick_carry/advanced)
 	hardlight_color = MOD_MEDBAY_COLOR
 	skins = list(
 		"rescue" = list(
@@ -465,7 +461,6 @@
 	armor = list(MELEE = 20, BULLET = 15, LASER = 5, ENERGY = 5, BOMB = 100, BIO = 100, FIRE = 100, ACID = 100, WOUND = 15, RAD = 40)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	inbuilt_modules = list(/obj/item/mod/module/reagent_scanner/advanced)
 	hardlight_color = MOD_RESEARCH_COLOR
 	skins = list(
 		"research" = list(
@@ -507,7 +502,6 @@
 	armor = list(MELEE = 30, BULLET = 20, LASER = 20, ENERGY = 45, BOMB = 25, BIO = 100, FIRE = 75, ACID = 75, WOUND = 30, RAD = 50)
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 5
-	inbuilt_modules = list(/obj/item/mod/module/magnetic_harness)
 	hardlight_color = MOD_SEC_COLOR
 	skins = list(
 		"security" = list(
@@ -957,7 +951,6 @@
 	cell_drain = DEFAULT_CHARGE_DRAIN * 2
 	slowdown_active = 1.2
 	ui_theme = "hackerman"
-	inbuilt_modules = list(/obj/item/mod/module/kinesis)
 	skins = list(
 		"prototype" = list(
 			HELMET_LAYER = null,
