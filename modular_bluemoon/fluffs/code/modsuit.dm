@@ -19,6 +19,7 @@
 		return
 	modsuit.theme = new_theme
 	modsuit.theme.setup_theme(modsuit, new_theme.default_skin)
+	modsuit.skin = new_theme.default_skin
 	if(modsuit.theme.name == new_theme.name)
 		new_theme = null
 		qdel(src)

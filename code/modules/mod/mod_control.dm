@@ -39,10 +39,8 @@
 	var/status_flags
 	var/datum/mod_theme/theme = /datum/mod_theme
 
-	/// Looks of the MOD.		//]
-	var/skin = "standard"		//]
-	/// Theme of the MOD TGUI	//] <-- перенести в mod_theme
-	var/ui_theme = "ntos"		//]
+	var/skin = "standard"
+	var/ui_theme = "ntos"
 
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
 	var/interface_break = FALSE
@@ -723,6 +721,8 @@
 		return
 	var/part_slowdown = (is_active() ? slowdown_active : slowdown_inactive) / length(parts)
 	for(var/obj/item/clothing/mod_part/part as anything in parts)
+		if(obj_flags & SPEED_POTION_EFFECT && !part.slowdown)
+			return FALSE //уже применялось, обновлять скорость не требуется. Иначе сбросится модификатор
 		part.slowdown = part_slowdown
 	wearer?.update_equipment_speed_mods()
 

@@ -56,6 +56,8 @@
 	update_modsuit_slot()
 
 /obj/item/mod/module/hypno_visor/on_suit_deactivation()
+	if(!mod.wearer)
+		return
 	active = FALSE
 	mod.wearer.cure_trauma_type(/datum/brain_trauma/induced_hypnosis, TRAUMA_RESILIENCE_MAGIC)
 	update_modsuit_slot()
@@ -67,5 +69,5 @@
 
 /obj/item/mod/module/hypno_visor/on_uninstall(deleting = FALSE)
 	. = ..()
-	if(isnull(overlay_state_inactive))
-		overlay_state_active = initial(overlay_state_inactive)
+	if(isnull(overlay_state_active))
+		overlay_state_active = initial(overlay_state_active)
