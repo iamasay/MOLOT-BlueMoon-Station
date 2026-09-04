@@ -1,4 +1,0 @@
-author: Herobrine998
-delete-after: true
-changes:
-  - bugfix: Исправлена скорость горения реагентов 0.1 -> 5
