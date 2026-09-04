@@ -15,7 +15,7 @@
 		)
 	var/list/overslot_blacklist = list(
 		/obj/item/clothing/suit/space,
-		/obj/item/clothing/head/helmet,
+		/obj/item/clothing/head/helmet/space,
 		/obj/item/clothing/mod_part,
 		//Сюда вписываем то, поверх чего должно быть невозможно развернуть элемент МОДа!
 	)
