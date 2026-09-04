@@ -50,7 +50,7 @@
 	if(!iscarbon(mod.wearer) || !(mod.wearer.client?.prefs.cit_toggles & HYPNO))
 		return to_chat(mod.wearer, span_warning("Разум сопротивляется гипно-эффектам: Отключение"))
 	if(hypno_message == "" || isnull(hypno_message))
-		hypno_message = "Подчиняйся"
+		hypno_message = "Чтобы настроить модуль нужно его вытащить и нажать рукой на нём кнопку."
 	active = TRUE
 	mod.wearer.gain_trauma(new /datum/brain_trauma/induced_hypnosis(hypno_message), TRAUMA_RESILIENCE_MAGIC)
 	update_modsuit_slot()
