@@ -4,7 +4,7 @@
 			Раньше они не имели наследования и друг от друга, а брали родителя от типа \
 			своего слота, т.е шлемов, ботинок и т.д. Вы не представляете, как же много макаронного кода \
 			это порождало."
-
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/obj/item/mod/control/mod
 	var/obj/item/clothing/overslot
 	var/list/seal_message = list(
@@ -21,9 +21,6 @@
 	)
 	var/list/linked_modules = list()
 	var/theme_category
-
-/obj/item/clothing/mod_part/obj_break(damage_flag)
-	return FALSE
 
 /obj/item/clothing/mod_part/equipped(mob/user, slot)
 	. = ..()
