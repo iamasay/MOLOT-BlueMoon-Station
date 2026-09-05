@@ -88,3 +88,15 @@
   - bugfix: Исправлен преф, автодементора при логине для админов
   - bugfix: Исправлен баг, когда при реконекте администратор возвращал себе менторку,
       даже если был дементорнут
+  iamasay:
+  - rscadd: Модуль гипноза в кинкомат
+  - rscadd: Респрайт medical MOD
+  - rscadd: респрайт Syndicate MOD
+  - rscadd: респрайт responsory MOD
+  - rscadd: респрайт blueshield MOD
+  - rscadd: два новых респрайта elite MOD
+  - code_imp: новый механ модкитов для МОДов
+  - bugfix: исправлены донат-киты кеткринов для МОДов
+  - bugfix: теперь достаточно кликнуть красным зельем по самому МОДу
+  - image: нарисован спрайт для Genital Hardlight Module
+  - image: нарисованы спрайты для радиального меню Genital Hardlight Module
