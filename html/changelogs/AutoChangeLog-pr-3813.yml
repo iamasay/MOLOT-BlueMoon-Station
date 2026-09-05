@@ -1,5 +1,0 @@
-author: Herobrine998
-delete-after: true
-changes:
-  - rscadd: Добавлен морг на базу интека (осада интека)
-  - bugfix: Защитниками осады интека считаются только игроки (carbon/human)
