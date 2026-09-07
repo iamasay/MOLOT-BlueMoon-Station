@@ -25,7 +25,7 @@
 	var/mob/living/carbon/human/wearer = mod.wearer
 	var/obj/item/item_to_drop
 	if(/obj/item/storage/backpack in chestplate.allowed) //тут надо будет заменить backpack на проверку по list/allowed_items, я просто не знаю как правильнее.
-		chestplate.allowed -= alallowed_itemslowed
+		chestplate.allowed -= allowed_items
 		item_to_drop = wearer.s_store
 		wearer.dropItemToGround(item_to_drop)
 
