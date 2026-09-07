@@ -91,6 +91,7 @@
 		span_hear("You hear a mechanical hiss."))
 	remove_hardlight()
 	piece.toggle_all_linked_modules(MODPART_CONSEALED)
+	piece.restore_normal_features()
 	playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 
 /obj/item/mod/control/proc/toggle_activate(mob/user, force_deactivate = FALSE)

@@ -9,19 +9,23 @@
 			её относительно корпуса пользователя для минимизации нагрузки на точки опоры."
 	icon_state = "harness"
 	complexity = 5
+	var/list/allowed = list(
+		/obj/item/storage/backpack,
+		/obj/item/gun,
+	)
 
 /obj/item/mod/module/backpack_harness/on_install()
 	. = ..()
 	var/obj/item/clothing/mod_part/suit/chestplate = mod.get_chestplate()
-	chestplate.allowed += /obj/item/storage/backpack
+	chestplate.allowed += allowed
 
 /obj/item/mod/module/backpack_harness/on_uninstall()
 	. = ..()
 	var/obj/item/clothing/mod_part/suit/chestplate = mod.get_chestplate()
 	var/mob/living/carbon/human/wearer = mod.wearer
 	var/obj/item/item_to_drop
-	if(/obj/item/storage/backpack in chestplate.allowed)
-		chestplate.allowed -= /obj/item/storage/backpack
+	if(/obj/item/storage/backpack in chestplate.allowed) //тут надо будет заменить backpack на проверку по list/allowed, я просто не знаю как правильнее.
+		chestplate.allowed -= allowed
 		item_to_drop = wearer.s_store
 		wearer.dropItemToGround(item_to_drop)
 
