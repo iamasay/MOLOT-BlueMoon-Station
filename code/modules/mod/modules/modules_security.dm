@@ -218,7 +218,6 @@
 	minimum_cell_charge = MOD_MINIMUM_CELL_CHARGE_SHIELD
 	incompatible_modules = list(
 		/obj/item/mod/module/anomaly_locked/antigrav,
-		/obj/item/mod/module/anomaly_locked/teleporter,
 		/obj/item/mod/module/armor,
 		)
 	var/max_charges = 2
@@ -229,6 +228,16 @@
 	var/used_modificator = MOD_DEFAULT_SHIELD_CELL_DRAIN_MODIFICATOR
 	var/need_drain_power = TRUE
 	var/datum/component/shielded/shield_comp
+
+/obj/item/mod/module/energy_shield/emp_act(severity)
+	. = ..()
+	if(. & EMP_PROTECT_SELF)
+		return
+	on_emp(src, severity)
+
+/obj/item/mod/module/energy_shield/proc/on_emp(datum/source, severity)
+	SIGNAL_HANDLER
+	on_deactivation()
 
 /obj/item/mod/module/energy_shield/proc/calculate_cell_drain(mob/living/source, real_attack, object, damage, attack_text, attack_type, armour_penetration, attacker, def_zone, return_list)
 	if(!need_drain_power)

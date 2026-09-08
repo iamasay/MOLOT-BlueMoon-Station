@@ -131,7 +131,11 @@
 
 /datum/action/cooldown/module_action/Trigger(trigger_flags, atom/target)
 	. = ..()
+	if(!linked_module.mod)
+		to_chat(owner, span_danger("Модуль изъят!"))
+		return qdel(src)
 	if(CHECK_BITFIELD(trigger_flags, TRIGGER_RIGHT_CLICK))
 		to_chat(owner, span_danger("Способность удалена с хотбара!"))
 		return Remove(owner) //удаляет тут, в remove есть qdel
 	linked_module?.on_select()
+	StartCooldown(linked_module.cooldown_time)

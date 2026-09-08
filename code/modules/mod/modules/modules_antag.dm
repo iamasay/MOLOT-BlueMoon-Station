@@ -118,7 +118,7 @@
 	Является разработкой Синдиката в соответствующем стиле, со встроенным микро-ядерным реактором, почти полностью \
 	покрывающим затраты щита."
 	icon_state = "syndie_energy_shield"
-	shield_state = "shield_red"
+	shield_state = "shield-red"
 	used_modificator = MOD_MINIMUM_CELL_CHARGE_SHIELD_ANTAG
 	recharge_delay = 17 SECONDS
 	max_charges = 5
@@ -150,3 +150,20 @@
 	icon_state = "cloak_traitor"
 	bumpoff = FALSE
 	stealth_alpha = 45
+
+
+/obj/item/mod/module/jump_jet/ninja
+	name = "Spider Clan Jump Module"
+	desc = "Идейное продолжение прыжкового модуля, но уже под началом специалистов из клана Паука.\
+	Скорость прыжков этого модуля настолько быстра, что сравнима с телепортацией и пользователь способен \
+	выбирать несколько целей одновременно, дабы прыгнуть дальше обычного."
+	icon_state = "jump_jet_ninja"
+	beam_icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
+	beam_state = "net_beam"
+	incompatible_modules = list()
+
+/obj/item/mod/module/jump_jet/inteq
+	name = "InteQ Jump Jet Module"
+	desc = ""
+	icon_state = "jump_jet_inteq"
+	incompatible_modules = list()

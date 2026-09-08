@@ -43,7 +43,7 @@
 	/// If we're allowed to use this module while the suit is disabled.
 	var/allowed_inactive = FALSE
 	/// Timer for the cooldown
-	COOLDOWN_DECLARE(cooldown_timer)
+	COOLDOWN_DECLARE(cooldown_current_timer)
 	/// BLUEMOON ADD Bitflag for exosuit fabricator sub-categories
 	var/mod_module_flags
 	/// Нужно для выдвижных модулей
@@ -145,6 +145,9 @@
 /obj/item/mod/module/proc/on_select()
 	if(!mod?.wearer) //the control's TGUI is reachable on an unworn suit; every module action below needs a wearer
 		return
+	if(COOLDOWN_FINISHED(src, cooldown_current_timer))
+		mod.balloon_alert(mod.wearer, "на перезарядке!")
+		return FALSE
 	if(!check_minimum_cell_charge() && active)
 		on_deactivation()
 		return mod.balloon_alert(mod.wearer, "Низкий заряд батареи!")
@@ -169,9 +172,6 @@
 	if(need_full_deploy && !mod.all_parts_deployed())
 		mod.balloon_alert(mod.wearer, "Разверните полностью!")
 		return FALSE
-	if(!COOLDOWN_FINISHED(src, cooldown_timer))
-		mod.balloon_alert(mod.wearer, "на перезарядке!")
-		return FALSE
 	if(!mod.is_active() || !cell?.charge)
 		mod.balloon_alert(mod.wearer, "обесточен!")
 		return FALSE
@@ -192,6 +192,7 @@
 			update_signal()
 			mod.balloon_alert(mod.wearer, "[src] активирован. Нажмите Alt+click по цели, чтобы использовать")
 	active = TRUE
+	COOLDOWN_START(src, cooldown_current_timer, cooldown_time)
 	mod.wearer.update_inv_back()
 	return TRUE
 
@@ -211,7 +212,7 @@
 /obj/item/mod/module/proc/on_use()
 	if(!mod.wearer)
 		return
-	if(!COOLDOWN_FINISHED(src, cooldown_timer))
+	if(!COOLDOWN_FINISHED(src, cooldown_current_timer))
 		return FALSE
 	if(!check_power(use_power_cost))
 		return FALSE
@@ -219,7 +220,7 @@
 		//specifically a to_chat because the user is phased out.
 		to_chat(mod.wearer, span_warning("Вы не можете активировать это сейчас!"))
 		return FALSE
-	COOLDOWN_START(src, cooldown_timer, cooldown_time)
+	COOLDOWN_START(src, cooldown_current_timer, cooldown_time)
 	addtimer(CALLBACK(mod.wearer, TYPE_PROC_REF(/mob, update_inv_back)), cooldown_time)
 	mod.wearer.update_inv_back()
 	return TRUE
@@ -301,7 +302,7 @@
 	if(!mod.is_active())
 		return
 	var/used_overlay
-	if(overlay_state_use && !COOLDOWN_FINISHED(src, cooldown_timer))
+	if(overlay_state_use && !COOLDOWN_FINISHED(src, cooldown_current_timer))
 		used_overlay = overlay_state_use
 	else if(overlay_state_active && active)
 		used_overlay = overlay_state_active
