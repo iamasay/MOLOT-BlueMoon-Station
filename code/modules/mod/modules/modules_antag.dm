@@ -106,3 +106,47 @@
 /obj/item/melee/baseball_bat/powerkick/attack(mob/living/target, mob/living/user)
 	. = ..()
 	doMove(drop_location()) //чтобы после одного использования уйти на кулдаун.
+
+/obj/item/mod/module/anti_magic/wizard
+	name = "Magic Neutralizer"
+	desc = "Свиток защищающий носителя от магии, при условии, что тот вставлен в костюм. Имеет печать Федерации магов."
+	icon_state = "magic_neutralizer"
+
+/obj/item/mod/module/energy_shield/syndie
+	name = "Cybersun Energy Shield module"
+	desc = "Одна из совершенных версий модулярных энергощитов, способная выдерживать до 5-ти попаданий. \
+	Является разработкой Синдиката в соответствующем стиле, со встроенным микро-ядерным реактором, почти полностью \
+	покрывающим затраты щита."
+	icon_state = "syndie_energy_shield"
+	shield_state = "shield_red"
+	used_modificator = MOD_MINIMUM_CELL_CHARGE_SHIELD_ANTAG
+	recharge_delay = 17 SECONDS
+	max_charges = 5
+
+/obj/item/mod/module/energy_shield/syndie/inteq
+	name = "InteQ Energy Shield module"
+	desc = "Украденный у Синдиката незавершенный модуль щита, доработанный уже в лабораториях ЧВК. Всё ещё достаточно сильный,\
+	однако не способен выдерживать столько же много попаданий, как старшая версия."
+	icon_state = "inteq_energy_shield"
+	shield_state = "shield-yellow"
+	minimum_cell_charge = MOD_ANTAG_SHIELD_CELL_DRAIN_MODIFICATOR
+	recharge_delay = 18 SECONDS
+	max_charges = 3
+
+/obj/item/mod/module/energy_shield/wizard
+	name = "Battlemage Shield"
+	desc = "Свиток благославленный лучшими монахами Федерации и защищающий носителя магическим силовым полем."
+	icon_state = "battlemage_shield"
+	shield_state = "at_shield1"
+	recharge_delay = 15 SECONDS //на 10 секунд лучше станционного и на 5 лучше дефолтного от рига.
+	need_drain_power = FALSE
+	max_charges = 3
+
+/obj/item/mod/module/stealth/adv
+	name = "Improved Cloaking module"
+	desc = "Улучшенная версия прототипа модуля визуальной маскировки для модулярного костюма, которая \
+	, к сожалению, не обрела массового производства. Маскировка этого модуля более стабильная и не сбивается \
+	при столкновениях."
+	icon_state = "cloak_traitor"
+	bumpoff = FALSE
+	stealth_alpha = 45

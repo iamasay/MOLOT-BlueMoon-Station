@@ -55,6 +55,7 @@
 	var/startup_with_suit = FALSE
 	var/saved_state
 	var/need_full_deploy = FALSE
+	var/minimum_cell_charge
 
 /obj/item/mod/module/Initialize(mapload)
 	. = ..()
@@ -131,10 +132,22 @@
 		if(ITEM_SLOT_BELT)
 			mod.wearer.update_inv_belt()
 
+/obj/item/mod/module/proc/check_minimum_cell_charge()
+	if(!minimum_cell_charge)
+		return TRUE
+	var/obj/item/stock_parts/cell/mod_cell = mod?.get_cell()
+	var/current_percent = mod_cell.percent()
+	if(current_percent <= minimum_cell_charge)
+		return FALSE
+	return TRUE
+
 /// Called when the module is selected from the TGUI
 /obj/item/mod/module/proc/on_select()
 	if(!mod?.wearer) //the control's TGUI is reachable on an unworn suit; every module action below needs a wearer
 		return
+	if(!check_minimum_cell_charge() && active)
+		on_deactivation()
+		return mod.balloon_alert(mod.wearer, "Низкий заряд батареи!")
 	if(((!mod.is_active() || mod.is_activating()) && !allowed_inactive))
 		mod.balloon_alert(mod.wearer, "Сначала активируйте костюм!")
 		return
@@ -232,6 +245,9 @@
 		if(!drain_power(active_power_cost * delta_time))
 			on_deactivation()
 			return FALSE
+		if(!check_minimum_cell_charge() && active)
+			on_deactivation()
+			return mod.balloon_alert(mod.wearer, "Низкий заряд батареи!")
 		on_active_process(delta_time)
 	else
 		drain_power(idle_power_cost * delta_time)

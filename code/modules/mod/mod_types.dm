@@ -431,6 +431,8 @@
 		/obj/item/mod/module/storage/extended/syndicate,
 		/obj/item/mod/module/storage_upgrader,
 		/obj/item/mod/module/jetpack/advanced,
+		/obj/item/mod/module/anti_magic/wizard,
+		/obj/item/mod/module/energy_shield/wizard,
 	)
 
 /obj/item/mod/control/pre_equipped/cargo

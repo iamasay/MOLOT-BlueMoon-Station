@@ -215,6 +215,7 @@
 	complexity = 5
 	module_type = MODULE_TOGGLE
 	need_full_deploy = TRUE
+	minimum_cell_charge = MOD_MINIMUM_CELL_CHARGE_SHIELD
 	incompatible_modules = list(
 		/obj/item/mod/module/anomaly_locked/antigrav,
 		/obj/item/mod/module/anomaly_locked/teleporter,
@@ -222,21 +223,46 @@
 		)
 	var/max_charges = 2
 	var/current_charges
-	var/recharge_delay = 200
+	var/recharge_delay = 25 SECONDS //на 5 больше, чем дефолт у рига.
 	var/recharge_rate = 1
 	var/shield_state = "shield-old"
+	var/used_modificator = MOD_DEFAULT_SHIELD_CELL_DRAIN_MODIFICATOR
+	var/need_drain_power = TRUE
 	var/datum/component/shielded/shield_comp
+
+/obj/item/mod/module/energy_shield/proc/calculate_cell_drain(mob/living/source, real_attack, object, damage, attack_text, attack_type, armour_penetration, attacker, def_zone, return_list)
+	if(!need_drain_power)
+		return
+	var/obj/item/stock_parts/cell/mod_cell = mod.get_cell()
+	var/charge_drain = (damage * armour_penetration) * used_modificator
+	mod_cell.use(charge_drain, FALSE)
 
 /obj/item/mod/module/energy_shield/on_activation()
 	. = ..()
 	if(!. || shield_comp) //чтобы не добавлять лишнего.
 		return
 	shield_comp = mod.wearer.AddComponent(/datum/component/shielded, current_charges, max_charges, recharge_delay, recharge_rate, mod.slot_flags, shield_state)
+	RegisterSignal(mod.wearer, COMSIG_LIVING_RUN_BLOCK, PROC_REF(calculate_cell_drain))
 
 /obj/item/mod/module/energy_shield/on_deactivation()
 	. = ..()
+	UnregisterSignal(mod.wearer, COMSIG_LIVING_RUN_BLOCK)
 	qdel(shield_comp)
 	shield_comp = null
+
+/obj/item/mod/module/energy_shield/ert
+	name = "HESP II Responce Team module"
+	desc = "Старшая модель энергощита для модулярных костюмов, способная выдерживать куда больше попаданий, чем\
+	гражданская версия. В неё встроен небольшой реактор, который компенсирует часть попаданий, тратя куда меньше \
+	энергии, держа поле включенным дольше. Сбоку есть гравировка, которая гласит о том, что данный модуль является \
+	собственностью ПАКТа."
+	icon_state = "ert_energy_shield"
+	minimum_cell_charge = MOD_MINIMUM_CELL_CHARGE_SHIELD_ERT
+	used_modificator = MOD_ERT_SHIELD_CELL_DRAIN_MODIFICATOR
+	recharge_delay = 18 SECONDS
+	max_charges = 4 //в два раза больше станционного
+
+//СДЕЛАТЬ ЗАРяДКУ МОДА ИНДУЦЕРОМ
 
 ///Criminal Capture
 

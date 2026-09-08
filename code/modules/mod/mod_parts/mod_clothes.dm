@@ -125,8 +125,9 @@
 
 	if(!istype(gloves_in_overslot, /obj/item/clothing/gloves))
 		return
-	saved_siemens_coefficient = siemens_coefficient
-	siemens_coefficient = gloves_in_overslot.siemens_coefficient //изоли
+	if(siemens_coefficient != 0)
+		saved_siemens_coefficient = siemens_coefficient
+		siemens_coefficient = gloves_in_overslot.siemens_coefficient //изоли
 
 	if(!istype(gloves_in_overslot, /obj/item/clothing/gloves/tackler))
 		return
