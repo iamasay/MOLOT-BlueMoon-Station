@@ -145,7 +145,7 @@
 /obj/item/mod/module/proc/on_select()
 	if(!mod?.wearer) //the control's TGUI is reachable on an unworn suit; every module action below needs a wearer
 		return
-	if(COOLDOWN_FINISHED(src, cooldown_current_timer))
+	if(!COOLDOWN_FINISHED(src, cooldown_current_timer))
 		mod.balloon_alert(mod.wearer, "на перезарядке!")
 		return FALSE
 	if(!check_minimum_cell_charge() && active)
