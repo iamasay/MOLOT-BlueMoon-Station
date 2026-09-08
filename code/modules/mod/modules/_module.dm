@@ -54,6 +54,7 @@
 	var/required_modpart_index
 	var/startup_with_suit = FALSE
 	var/saved_state
+	var/need_full_deploy = FALSE
 
 /obj/item/mod/module/Initialize(mapload)
 	. = ..()
@@ -152,6 +153,9 @@
 /// Called when the module is activated
 /obj/item/mod/module/proc/on_activation()
 	var/obj/item/stock_parts/cell/cell = mod.get_cell()
+	if(need_full_deploy && !mod.all_parts_deployed())
+		mod.balloon_alert(mod.wearer, "Разверните полностью!")
+		return FALSE
 	if(!COOLDOWN_FINISHED(src, cooldown_timer))
 		mod.balloon_alert(mod.wearer, "на перезарядке!")
 		return FALSE

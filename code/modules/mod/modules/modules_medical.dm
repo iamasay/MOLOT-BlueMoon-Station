@@ -142,6 +142,7 @@
 		встроенные системы безопасности. Оперативники в поле могут воспользоваться тем, что они называют 'Оглушающие Перчатки', способные подавать импульсы \
 		прямо в сердце жертвы для обездвиживания, или даже полностью остановить сердце при достаточной мощности."
 	complexity = 1
+	icon_state = "defibrillator_adv"
 	module_type = MODULE_ACTIVE
 	overlay_state_inactive = "module_defibrillator_combat"
 	overlay_state_active = "module_defibrillator_combat_active"

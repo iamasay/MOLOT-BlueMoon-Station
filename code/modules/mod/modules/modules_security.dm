@@ -204,6 +204,40 @@
 	playsound(get_turf(mod), 'sound/items/megaphone.ogg', 100, 0, 1)
 	drain_power(use_power_cost)
 
+/obj/item/mod/module/energy_shield
+	name = "LEEXP VER-I EnergyShield Module"
+	desc = "Первая массовая версия встроенных проекторов энергитического щита, защищающая пользователя от \
+	любых снарядов, тратя заряд батареи. Это Low-Effecticy-Experimental(LEEXP) модель из экспериментальной ветки, \
+	которая требует просто чудовищных затрат электроэнергии и способна посадить  мгновение ока даже блюспейс батарею. \
+	Более старшие модели, обычно, имеют встроенный реактор, способный компенсировать перепады напряжения, однако, \
+	это крайне дефицитная деталь, поэтому энергополе будет отключено как только заряд батареи упадёт ниже 50%."
+	icon_state = "bad_energy_shield"
+	complexity = 5
+	module_type = MODULE_TOGGLE
+	need_full_deploy = TRUE
+	incompatible_modules = list(
+		/obj/item/mod/module/anomaly_locked/antigrav,
+		/obj/item/mod/module/anomaly_locked/teleporter,
+		/obj/item/mod/module/armor,
+		)
+	var/max_charges = 2
+	var/current_charges
+	var/recharge_delay = 200
+	var/recharge_rate = 1
+	var/shield_state = "shield-old"
+	var/datum/component/shielded/shield_comp
+
+/obj/item/mod/module/energy_shield/on_activation()
+	. = ..()
+	if(!. || shield_comp) //чтобы не добавлять лишнего.
+		return
+	shield_comp = mod.wearer.AddComponent(/datum/component/shielded, current_charges, max_charges, recharge_delay, recharge_rate, mod.slot_flags, shield_state)
+
+/obj/item/mod/module/energy_shield/on_deactivation()
+	. = ..()
+	qdel(shield_comp)
+	shield_comp = null
+
 ///Criminal Capture
 
 ///Mirage grenade dispenser

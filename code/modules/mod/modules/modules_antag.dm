@@ -83,3 +83,26 @@
 	if(!storage_module_datum || !old_max_volume)
 		return
 	storage_module_datum.max_volume = old_max_volume
+
+/obj/item/mod/module/power_kick
+	name = "MOD PowerKick Module"
+	desc = "Модуль, устанавливающийся в ботинки костюма и позволяющий пинать цель \
+			с силой, отправляющей ту в полёт."
+	icon_state = "power_kick"
+	module_type = MODULE_ACTIVE
+	cooldown_time = 15 SECONDS
+	device = /obj/item/melee/baseball_bat/powerkick
+
+/obj/item/melee/baseball_bat/powerkick
+	name = "Powerkick Boots"
+	desc = "Отправьте кого-нибудь в полёт!"
+	icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
+	lefthand_file = null //не должно отображаться в руках
+	righthand_file = null
+	icon_state = "power_kick"
+	force = 35
+	wound_bonus = 12
+
+/obj/item/melee/baseball_bat/powerkick/attack(mob/living/target, mob/living/user)
+	. = ..()
+	doMove(drop_location()) //чтобы после одного использования уйти на кулдаун.
