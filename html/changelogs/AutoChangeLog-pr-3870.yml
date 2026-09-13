@@ -1,8 +1,0 @@
-author: RG-TRK
-delete-after: true
-changes:
-  - qol: Tarkoff received various QOL things and was made to be always available unlike
-      earlier when i has certain low chance to spawn
-  - bugfix: fixed fire slector on M90
-  - map: modified all tarkoff defcons so it would use new R&D network and like of
-      Tarkoff survivors would be a bit more easier.
