@@ -4,6 +4,8 @@
 	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
 	allow_duplicates = FALSE
 	id = "tarkoff-base"
+	always_place = TRUE
+
 
 /datum/map_template/ruin/space/tarkoff/New()
 	var/num = rand(0, 3)
