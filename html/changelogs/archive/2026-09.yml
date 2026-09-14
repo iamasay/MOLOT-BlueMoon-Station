@@ -311,3 +311,7 @@
   - bugfix: fixed fire slector on M90
   - map: modified all tarkoff defcons so it would use new R&D network and like of
       Tarkoff survivors would be a bit more easier.
+2026-09-14:
+  Silver-Paws:
+  - admin: 'Фикс выдачи/отнятия менторских прав: переход с SQL-системы на SSplayer_ranks
+      для хранения менторки в памяти.'

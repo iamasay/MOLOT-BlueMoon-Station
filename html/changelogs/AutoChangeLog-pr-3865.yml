@@ -1,5 +1,0 @@
-author: Silver-Paws
-delete-after: true
-changes:
-  - admin: 'Фикс выдачи/отнятия менторских прав: переход с SQL-системы на SSplayer_ranks
-      для хранения менторки в памяти.'
