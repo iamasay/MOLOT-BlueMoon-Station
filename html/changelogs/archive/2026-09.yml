@@ -312,6 +312,12 @@
   - map: modified all tarkoff defcons so it would use new R&D network and like of
       Tarkoff survivors would be a bit more easier.
 2026-09-14:
+  DuLL-FoX:
+  - bugfix: Исправлена компиляция карт с научным доплером.
+  - bugfix: Устранены ошибки инициализации исследовательских машин.
+  - bugfix: Исправлены ошибки интерфейсов Clockwork Slab, RPD и Jukebox.
+  - server: Исправлен запуск CI, раздельное сохранение логов карт и обнаружение ошибок
+      TGUI.
   Silver-Paws:
   - admin: 'Фикс выдачи/отнятия менторских прав: переход с SQL-системы на SSplayer_ranks
       для хранения менторки в памяти.'
