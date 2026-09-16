@@ -1,0 +1,4 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - bugfix: Исправлено выставление времени ожидания в манипуляторе
