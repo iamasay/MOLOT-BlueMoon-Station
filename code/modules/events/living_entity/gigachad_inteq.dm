@@ -1,9 +1,11 @@
 /datum/round_event_control/gigachad_inteq
 	name = "InteQ Sledgehammer Mutant"
 	typepath = /datum/round_event/gigachad_inteq
+	min_players = 20
 	max_occurrences = 2
 	weight = 15
 	category = EVENT_CATEGORY_ENTITIES
+	severity = DIRECTOR_SEVERITY_MODERATE
 
 /datum/round_event/gigachad_inteq/announce(fake)
 	send_fax_to_area(new /obj/item/paper/fax_CC_message/escapee/gigachad_inteq_announce, /area/security, "Психиатрический Отдел Nanotrasen", FALSE)
@@ -77,6 +79,12 @@
 	AIStatus = AI_ON
 	speak = list("БЕГАЮЩИЕ ГВОЗДИ!!!", "БЕГИ, СУКА, БЕГИ!!!", "КАК ОРЕХ ЩА РАСКОЛЮ!!!")
 	loot = list(/obj/item/storage/belt/military/inteq, /obj/item/clothing/head/helmet/swat/inteq, /obj/item/clothing/shoes/combat/coldres, /obj/effect/gibspawner/generic, /obj/effect/gibspawner/generic/animal, /obj/effect/gibspawner/human/bodypartless, /obj/effect/gibspawner/human)
+	faction = list(ROLE_INTEQ)
+	random_loot = list(
+		/obj/item/inteq_sledgehammer = 15,
+		/obj/item/broken/inteq_sledgehammer = 65,
+		null = 20
+	)
 
 /mob/living/simple_animal/hostile/gigachad_inteq/space
 	name = "InteQ Space Agent"
@@ -92,7 +100,11 @@
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	spacewalk = TRUE
-	faction = list(ROLE_INTEQ)
+	random_loot = list(
+		/obj/item/clothing/suit/space/hardsuit/syndi/elite/inteq = 15,
+		/obj/item/broken/inteq_elite = 65,
+		null = 20
+	)
 
 /mob/living/simple_animal/hostile/gigachad_inteq/shooter
 	name = "InteQ Machinegunner"
@@ -107,7 +119,11 @@
 	casingtype = /obj/item/ammo_casing/n762
 	retreat_distance = 5
 	minimum_distance = 5
-	faction = list(ROLE_INTEQ)
+	random_loot = list(
+		/obj/item/gun/ballistic/automatic/m2a1 = 5,
+		/obj/item/broken/hmg = 45,
+		null = 50
+	)
 
 /mob/living/simple_animal/hostile/gigachad_inteq/shooter/sniper
 	name = "InteQ Buffed sniper"
@@ -122,6 +138,11 @@
 	ranged_cooldown = 150
 	check_friendly_fire = 1
 	speak = list("ДА ЁБ ТВОЮ МАТЬ! ОПЯТЬ КЛИН!!!", "А ЭТО ЧЁ? ПРОБИВНЫЕ? ЭТО НАМ НАДО!!!", "МАГАЗИН ГДЕ? БЛЯ! ГДЕ МАГАЗИН МОЙ!!!")
+	random_loot = list(
+		/obj/item/gun/ballistic/automatic/sniper_rifle = 15,
+		/obj/item/broken/sniper_rifle = 45,
+		null = 40
+	)
 
 /obj/item/ammo_casing/p50/inteqsniper
 	name = "cheap .50 bullet casing"
@@ -143,9 +164,11 @@
 /datum/round_event_control/space_mosquito
 	name = "Space Mosquito"
 	typepath = /datum/round_event/space_mosquito
+	min_players = 15
 	max_occurrences = 2
-	weight = 30
+	weight = 15
 	category = EVENT_CATEGORY_ENTITIES
+	severity = DIRECTOR_SEVERITY_MODERATE
 
 /datum/round_event/space_mosquito/announce(fake)
 	send_fax_to_area(new /obj/item/paper/fax_CC_message/escapee/mosquito_announce, /area/security, "Психиатрический Отдел Nanotrasen", FALSE)
@@ -233,7 +256,7 @@
 	projectiletype = /obj/item/projectile/bullet/a308
 	projectilesound = 'modular_bluemoon/sound/weapons/carcannon1.ogg'
 	var/alt_projectilesound = 'modular_bluemoon/sound/weapons/rocketlaunch.ogg'
-	var/alternative_fire = /obj/item/projectile/bullet/a84mm/he
+	var/alternative_fire = /obj/item/projectile/bullet/a84mm
 	var/list_sound = list('modular_bluemoon/sound/creatures/drone_speech.ogg', 'modular_bluemoon/sound/creatures/drone_target_search.ogg','modular_bluemoon/sound/creatures/drone_up.ogg','modular_bluemoon/sound/creatures/drone_up2.ogg')
 	icon = 'modular_bluemoon/icons/mob/dron.dmi'
 	icon_dead = "crash"
@@ -247,10 +270,15 @@
 /mob/living/simple_animal/hostile/malf_drone/experimental/Initialize(mapload)
 	. = ..()
 	update_icon(UPDATE_OVERLAYS)
+	// Уникальный лут смерти декларативно через элемент; общий скраповый дроп остался в drop_loot() родителя
+	AddElement(/datum/element/death_drops, list(
+		/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack,
+		/obj/item/robot_module/syndicate/inteq,
+	))
 
 /mob/living/simple_animal/hostile/malf_drone/experimental/update_overlays()
 	. = ..()
-	if(stat != CONSCIOUS || AIStatus == AI_OFF)
+	if(stat != CONSCIOUS || get_effective_ai_status() == AI_OFF)
 		return
 	. += mutable_appearance(icon, "scan")
 
@@ -314,12 +342,6 @@
 	icon_state = "all"
 	anchored = TRUE
 	duration = 10
-
-/mob/living/simple_animal/hostile/malf_drone/experimental/drop_loot()
-	. = ..()
-	var/turf/T = get_turf(src)
-	new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack(T)
-	new /obj/item/robot_module/syndicate/inteq(T)
 
 /mob/living/simple_animal/hostile/alien/queen/king
 	icon = 'modular_bluemoon/icons/mob/king.dmi'

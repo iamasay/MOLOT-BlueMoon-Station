@@ -16,15 +16,28 @@
 
 /obj/machinery/component_printer/Initialize(mapload)
 	. = ..()
-
-	techweb = SSresearch.science_tech
-
 	materials = AddComponent( \
 		/datum/component/remote_materials, \
 		"component_printer", \
 		mapload, \
 		mat_container_flags = BREAKDOWN_FLAGS_LATHE, \
 	)
+	if(mapload)
+		return INITIALIZE_HINT_LATELOAD
+	AddComponent(/datum/component/techweb_holder)
+	RegisterSignal(src, COMSIG_ATOM_TECHWEB_CHANGED, PROC_REF(on_techweb_changed))
+	SEND_SIGNAL(src, COMSIG_ATOM_SET_TECHWEB, find_rnd_network_for_object(src))
+
+/obj/machinery/component_printer/LateInitialize()
+	. = ..()
+	AddComponent(/datum/component/techweb_holder)
+	RegisterSignal(src, COMSIG_ATOM_TECHWEB_CHANGED, PROC_REF(on_techweb_changed))
+	SEND_SIGNAL(src, COMSIG_ATOM_SET_TECHWEB, find_rnd_network_for_object(src))
+
+/obj/machinery/component_printer/proc/on_techweb_changed(datum/source, datum/techweb/new_web)
+	SIGNAL_HANDLER
+
+	techweb = new_web
 
 /obj/machinery/component_printer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -34,7 +47,7 @@
 
 /obj/machinery/component_printer/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/sheetmaterials)
+		get_asset_datum(/datum/asset/spritesheet_batched/sheetmaterials)
 	)
 
 /obj/machinery/component_printer/ui_act(action, list/params)
@@ -178,7 +191,7 @@
 
 /obj/machinery/debug_component_printer/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/sheetmaterials)
+		get_asset_datum(/datum/asset/spritesheet_batched/sheetmaterials)
 	)
 
 /obj/machinery/debug_component_printer/ui_act(action, list/params)
@@ -246,7 +259,7 @@
 
 /obj/machinery/module_duplicator/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/sheetmaterials)
+		get_asset_datum(/datum/asset/spritesheet_batched/sheetmaterials)
 	)
 
 /obj/machinery/module_duplicator/ui_act(action, list/params)

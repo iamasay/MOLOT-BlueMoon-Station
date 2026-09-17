@@ -15,6 +15,25 @@
 	icon_state = "blahaj"
 	attack_verb = list("gnawed", "gnashed", "chewed")
 	squeak_override = list('modular_bluemoon/sound/voice/rawr.ogg' = 1)
+	can_random_spawn = FALSE
+
+/obj/item/toy/plush/bm/shark/box_reskinnable
+	name = "Reskinnable Shark Plushie"
+	icon_state = "blahaj-uni"
+	can_random_spawn = TRUE
+	unique_reskin = list(
+		RESKIN_EMPTY
+	)
+
+/obj/item/toy/plush/bm/shark/box_reskinnable/Initialize(mapload, set_snowflake_id)
+	// Возвращаем вид изначальной игрушки
+	name = /obj/item/toy/plush/bm/shark::name
+	icon_state = /obj/item/toy/plush/bm/shark::icon_state
+	// Записываем все подтипы в рескины
+	for(var/sub_type in subtypesof(/obj/item/toy/plush/bm/shark) - type)
+		unique_reskin[sub_type:name] = list("name" = sub_type:name, RESKIN_ICON_STATE = sub_type:icon_state)
+
+	return ..()
 
 /obj/item/toy/plush/bm/shark/grey
 	name = "Shark Grey Plushie"
@@ -748,6 +767,18 @@
 	squeak_override = list('modular_citadel/sound/voice/hiss.ogg' = 1)
 	can_you_fuck_plush = FALSE
 
+/obj/item/toy/plush/bm/vox
+	name = "Vox plushie"
+	desc = "Тот самый пернатый ублюдок, которого все ненавидят, но только не вы."
+	icon_state = "vox"
+	squeak_override = list('modular_splurt/sound/voice/shriek1.ogg' = 1)
+
+/obj/item/toy/plush/bm/expie
+	name = "Expie plushie"
+	desc = "Бедняга, все время получающий по морде, ломающий кости, взрывающийся на мине."
+	icon_state = "expie"
+	squeak_override = list('modular_bluemoon/sound/voice/expiebark2.ogg' = 1)
+
 /obj/item/toy/plush/bm/oldman
 	name = "Old Man plushie"
 	desc = "Вам хочется врезать ему."
@@ -948,3 +979,70 @@ GLOBAL_VAR_INIT(plush_reijo_mickie_active, 0)
 	desc = "An autistic presence has entered the room."
 	icon_state = "voronka"
 	squeak_override = list('modular_splurt/sound/voice/caw.ogg' = 1)
+
+/obj/item/toy/plush/bm/vulpix
+	name = "Business Red Fox plushie"
+	desc = "Мягкая и приятная на ощупь игрушка важного рыжего лиса в пальто."
+	icon_state = "vulpix"
+	squeak_override = list('sound/fox/Voice/fox_trill_2.ogg' = 1)
+
+#define BASIC_GIZI_SKIN "Gizi Plushie"
+#define ALT_GIZI_SKIN "Gizi-mini Plushie"
+
+/obj/item/toy/plush/bm/gizi
+	name = BASIC_GIZI_SKIN
+	desc = "Игрушка от которой пахнет сигаретным дымом и вайбом старого времени."
+	icon_state = "gizi"
+	item_state = "gizi"
+	squeak_override = list('modular_bluemoon/sound/plush/gizi.ogg' = 1)
+	always_reskinnable = TRUE
+	unique_reskin = list(
+		BASIC_GIZI_SKIN = list(RESKIN_ICON_STATE = "gizi"),
+		ALT_GIZI_SKIN = list(RESKIN_ICON_STATE = "gizi_mini"),
+	)
+
+/obj/item/toy/plush/bm/gizi/reskin_obj(mob/user)
+	. = ..()
+	name = current_skin
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_hands()
+
+#undef BASIC_GIZI_SKIN
+#undef ALT_GIZI_SKIN
+
+#define BASIC_ARIRAL_SKIN "Ariral Plushie"
+#define ALT_ARIRAL_SKIN "Ariral-mini Plushie"
+
+/obj/item/toy/plush/bm/ariral
+	name = BASIC_ARIRAL_SKIN
+	desc = "Voiding..."
+	icon_state = "ariral"
+	item_state = "ariral"
+	squeak_override = list('modular_bluemoon/sound/plush/gizi.ogg' = 1)
+	always_reskinnable = TRUE
+	unique_reskin = list(
+		BASIC_ARIRAL_SKIN = list(RESKIN_ICON_STATE = "ariral"),
+		ALT_ARIRAL_SKIN = list(RESKIN_ICON_STATE = "ariral_mini"),
+	)
+
+/obj/item/toy/plush/bm/ariral/reskin_obj(mob/user)
+	. = ..()
+	name = current_skin
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_hands()
+
+#undef BASIC_ARIRAL_SKIN
+#undef ALT_ARIRAL_SKIN
+
+/obj/item/toy/plush/bm/tau
+	name = "Tau Plushie"
+	desc = "Sauce"
+	icon_state = "tau"
+	squeak_override = list('modular_bluemoon/sound/emotes/snakedies.ogg' = 1)
+	can_you_fuck_plush = FALSE
+
+/obj/item/toy/plush/bm/tau/emag_act()
+	. = ..()
+	icon_state = "tau_alt" //so much true/// it's a crime https://klipy.com/gifs/true-true-true-1

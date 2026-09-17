@@ -43,12 +43,19 @@
 	cam_screen.del_on_map_removal = FALSE
 	cam_screen.screen_loc = "[map_name]:1,1"
 	cam_plane_masters = list()
+	var/list/_cam_pm_by_plane = list()
 	for(var/plane in subtypesof(/atom/movable/screen/plane_master))
-		var/atom/movable/screen/instance = new plane()
+		var/atom/movable/screen/plane_master/instance = new plane()
 		instance.assigned_map = map_name
 		instance.del_on_map_removal = FALSE
 		instance.screen_loc = "[map_name]:CENTER"
-		cam_plane_masters += instance
+		var/plane_key = "[instance.plane]"
+		var/atom/movable/screen/plane_master/displaced = _cam_pm_by_plane[plane_key]
+		_cam_pm_by_plane[plane_key] = instance
+		if(displaced)
+			qdel(displaced)
+	for(var/key in _cam_pm_by_plane)
+		cam_plane_masters += _cam_pm_by_plane[key]
 	cam_background = new
 	cam_background.assigned_map = map_name
 	cam_background.del_on_map_removal = FALSE
@@ -77,6 +84,8 @@
 		// an audible terminal_on click.
 		if(is_living)
 			concurrent_users += user_ref
+		for(var/atom/movable/screen/plane_master/PM as anything in cam_plane_masters)
+			PM.backdrop(user)
 		// Register map objects
 		user.client.register_map_obj(cam_screen)
 		for(var/plane in cam_plane_masters)
@@ -115,8 +124,15 @@
 
 	if(action == "switch_camera")
 		var/c_tag = params["name"]
-		var/list/cameras = get_available_cameras()
-		var/obj/machinery/camera/selected_camera = cameras[c_tag]
+		//точечный поиск по кэшу сетей вместо пересборки всего списка на каждый клик
+		var/obj/machinery/camera/selected_camera
+		for(var/network_name in network)
+			var/list/network_cameras = GLOB.cameranet.get_cameras_by_network(network_name)
+			selected_camera = network_cameras?[c_tag]
+			if(selected_camera)
+				break
+		if(selected_camera && !is_station_level(selected_camera.z))
+			selected_camera = null //фильтр не-станционных камер, как в get_available_cameras
 		active_camera = selected_camera
 		playsound(src, get_sfx("terminal_type"), 25, FALSE)
 
@@ -184,20 +200,12 @@
 
 // Returns the list of cameras accessible from this computer
 /datum/computer_file/program/secureye/proc/get_available_cameras()
-	var/list/L = list()
-	for (var/obj/machinery/camera/cam in GLOB.cameranet.cameras)
-		if(!is_station_level(cam.loc.z))//Only show station cameras. // BLUEMOON CHANGES
-			continue
-		L.Add(cam)
 	var/list/camlist = list()
-	for(var/obj/machinery/camera/cam in L)
-		if(!cam.network)
-			stack_trace("Camera in a cameranet has no camera network")
-			continue
-		if(!(islist(cam.network)))
-			stack_trace("Camera in a cameranet has a non-list camera network")
-			continue
-		var/list/tempnetwork = cam.network & network
-		if(tempnetwork.len)
-			camlist["[cam.c_tag]"] = cam
+	for(var/network_name in network)
+		var/list/network_cameras = GLOB.cameranet.get_cameras_by_network(network_name)
+		for(var/tag in network_cameras)
+			var/obj/machinery/camera/cam = network_cameras[tag]
+			if(!is_station_level(cam.z))//Only show station cameras. // BLUEMOON CHANGES
+				continue
+			camlist[tag] = cam
 	return camlist

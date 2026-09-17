@@ -97,7 +97,21 @@
 
 	add_verb(src, /mob/living/proc/lay_down) //CITADEL EDIT gimmie rest verb kthx
 	add_verb(src, /mob/living/silicon/robot/proc/rest_style)
+	init_unconscious_appearance()
 
+/mob/living/silicon/robot/init_unconscious_appearance()
+	var/image/static_overlay = image('icons/effects/effects.dmi', null, "static_base")
+	static_overlay.blend_mode = BLEND_INSET_OVERLAY
+	var/image/static_image = image('icons/mob/robots.dmi', src, "robot")
+	static_image.appearance_flags |= KEEP_TOGETHER
+	static_image.overlays += static_overlay
+	static_image.override = TRUE
+	static_image.name = "unknown cyborg"
+	var/datum/atom_hud/alternate_appearance/basic/unconscious_obscurity/AA = add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/unconscious_obscurity, "[REF(src)]_unconscious", static_image, NONE)
+	if(AA)
+		for(var/mob/living/viewer in GLOB.mob_living_list)
+			if(viewer.stat == UNCONSCIOUS && viewer != src)
+				AA.add_hud_to(viewer)
 /mob/living/silicon/robot/proc/create_modularInterface()
 	if(!modularInterface)
 		modularInterface = new /obj/item/modular_computer/tablet/integrated(src)
@@ -210,14 +224,30 @@
 		return //won't work if dead
 	alert_control.ui_interact(src)
 
-/mob/living/silicon/robot/proc/ionpulse()
+/**
+ * Ионные двигатели борга. `charge = FALSE` отвечает "потянем ли", ничего не тратя.
+ *
+ * Заряд снимался на каждый вызов, а зовут их за один шаг дважды - с ручного пути и с
+ * ньютоновского - плюс на каждую проверку неподвижности из do_after. Расход выходил вдвое
+ * с лишним против заявленного; та же болезнь, что и у джетпаков.
+ */
+/mob/living/silicon/robot/proc/ionpulse(charge = TRUE)
 	if(!ionpulse_on)
+		return
+
+	// Ячейку у борга вынимают на ходу, а сюда заходят с каждой проверки Process_Spacemove -
+	// без этого дальше был бы рантайм на каждом тике.
+	if(!cell)
 		return
 
 	if(cell.charge <= 10)
 		toggle_ionpulse()
 		return
 
+	if(!charge || last_ionpulse_time == world.time)
+		return TRUE
+
+	last_ionpulse_time = world.time
 	cell.charge -= 10
 	return TRUE
 
@@ -753,12 +783,19 @@
 	set_module = /obj/item/robot_module/syndicate/inteq
 	cell = /obj/item/stock_parts/cell/hyper
 	typing_indicator_state = /obj/effect/overlay/typing_indicator/additional/syndbot
-	upgrades = list(/obj/item/borg/upgrade/vtec)
 
 /mob/living/silicon/robot/modules/inteq/Initialize(mapload)
 	. = ..()
 	radio = new /obj/item/radio/borg/inteq(src)
 	laws = new /datum/ai_laws/inteq_override()
+	// upgrades stores installed objects, never type paths. A type path here used
+	// to reach qdel() during robot teardown and also meant the advertised VTEC
+	// was never activated.
+	var/obj/item/borg/upgrade/vtec/preinstalled_vtec = new(src)
+	if(!preinstalled_vtec.activate(src, src))
+		qdel(preinstalled_vtec)
+	else
+		add_to_upgrades(preinstalled_vtec)
 	addtimer(CALLBACK(src, PROC_REF(show_playstyle)), 5, TIMER_DELETE_ME)
 
 /mob/living/silicon/robot/modules/inteq/create_modularInterface()
@@ -920,6 +957,9 @@
 
 	if(see_override)
 		see_invisible = see_override
+	var/turf/mob_turf = get_turf(src)
+	if(mob_turf && is_hilbert_hotel_zlevel(mob_turf.z))
+		sight = initial(sight)
 	sync_lighting_plane_alpha()
 
 /mob/living/silicon/robot/update_stat()
@@ -972,14 +1012,18 @@
 	module.transform_to(/obj/item/robot_module)
 
 	// Remove upgrades.
-	for(var/obj/item/borg/upgrade/I in upgrades)
-		I.deactivate(src)
-		I.forceMove(get_turf(src))
+	// forceMove() сам поднимает COMSIG_MOVABLE_MOVED -> remove_from_upgrades(), а тот
+	// уже зовёт deactivate() и вычищает апгрейд из upgrades. Свой вызов deactivate()
+	// здесь давал второй проход по спискам модуля - см. "list index out of bounds"
+	// у xwelding/rped в прод-раунде 10150. Идём по копии: обработчик правит upgrades.
+	for(var/obj/item/borg/upgrade/upgrade as anything in upgrades.Copy())
+		upgrade.forceMove(get_turf(src))
 
 	upgrades.Cut()
 
 	vtec = 0
 	vtec_disabled = FALSE
+	vtec_drain = 0
 	ionpulse = FALSE
 	revert_shell()
 
@@ -1072,7 +1116,10 @@
 ///Called when an upgrade is moved outside the robot. So don't call this directly, use forceMove etc.
 /mob/living/silicon/robot/proc/remove_from_upgrades(obj/item/borg/upgrade/old_upgrade)
 	SIGNAL_HANDLER
-	if(loc == src)
+	// Проверять надо loc переехавшего апгрейда, а не свой: у моба loc это турф,
+	// и условие никогда не выполнялось - апгрейд снимался даже при перемещении
+	// внутри киборга.
+	if(old_upgrade.loc == src)
 		return
 	old_upgrade.deactivate(src)
 	upgrades -= old_upgrade
@@ -1170,7 +1217,7 @@
 	return TRUE
 
 /datum/action/innate/custom_holoform
-	name = "Select Custom Holoform"
+	name = "Выбор облика"
 	desc = "Выбрать один из существующих аватаров для использования в качестве голоформы."
 	icon_icon = 'icons/mob/actions/actions_silicon.dmi'
 	button_icon_state = "custom_holoform"
@@ -1186,12 +1233,13 @@
 		if(istype(S, /mob/living/silicon/pai))
 			var/mob/living/silicon/pai/P = S
 			P.chassis = "custom"
+			P.update_icon()
 		else if(istype(S, /mob/living/silicon/ai))
 			var/mob/living/silicon/ai/A = S
 			if(A.client?.prefs?.custom_holoform_icon)
 				A.holo_icon = A.client.prefs.get_filtered_holoform(HOLOFORM_FILTER_AI)
 			else
-				A.holo_icon = getHologramIcon(icon('icons/mob/ai.dmi', "female"))
+				A.holo_icon = getHologramIcon(icon('icons/mob/AI.dmi', "female"))
 
 	return TRUE
 
@@ -1200,6 +1248,7 @@
 
 	if(!deployed || !mind || !mainframe)
 		return
+	mainframe.UnregisterSignal(src, COMSIG_LIVING_DEATH)
 	mainframe.redeploy_action.Grant(mainframe)
 	mainframe.redeploy_action.last_used_shell = src
 	mind.transfer_to(mainframe)
@@ -1324,29 +1373,53 @@
 	if(repairs)
 		heal_bodypart_damage(repairs, repairs - 1)
 
+/**
+ * Позы отдыха, у которых на текущем шасси реально есть спрайт: подпись в меню -> суффикс icon_state.
+ *
+ * update_rest_icon() присваивает "[cyborg_base_icon]-[resting_state]" вслепую, поэтому
+ * поза без спрайта делала борга целиком невидимым (Ratge и Belly up - как раз такая пара).
+ */
+/mob/living/silicon/robot/proc/available_rest_styles()
+	///подпись в меню -> суффикс icon_state, спрайт зовётся "базовая_иконка-суффикс"
+	var/static/list/base_styles = list(
+		"Лежать" = "rest",
+		"Сидеть" = "sit",
+		"Пузом кверху" = "bellyup",
+	)
+	///дополнительные позы модулей с drakerest
+	var/static/list/drake_styles = list(
+		"Дремать" = "rest_deep",
+		"Лежать, виляя" = "rest_alt",
+		"Сидеть, виляя" = "sit_alt",
+	)
+
+	. = list()
+	if(!module)
+		return
+
+	var/list/candidates = base_styles.Copy()
+	if(module.drakerest)
+		candidates += drake_styles
+
+	var/list/available_states = icon_states(icon)
+	for(var/pose_name in candidates)
+		if("[module.cyborg_base_icon]-[candidates[pose_name]]" in available_states)
+			.[pose_name] = candidates[pose_name]
+
 /mob/living/silicon/robot/proc/rest_style()
 	set name = "Switch Rest Style"
 	set category = "Robot Commands"
 	set desc = "Выбрать позу отдыха."
 
-	var/list/poses = list("Resting", "Sitting", "Belly up")
-	if(module.drakerest)
-		poses.Add("Napping", "Resting Wag", "Sitting Wag")
+	var/list/poses = available_rest_styles()
+	if(!length(poses))
+		to_chat(src, span_warning("У этого шасси нет ни одной позы отдыха."))
+		return
 
-	var/choice = tgui_input_list(usr, "Select resting pose", "Pose", poses)
-	switch(choice)
-		if("Resting")
-			resting_state = "rest"
-		if("Sitting")
-			resting_state = "sit"
-		if("Belly up")
-			resting_state = "bellyup"
-		if("Napping")
-			resting_state = "rest_deep"
-		if("Resting Wag")
-			resting_state = "rest_alt"
-		if("Sitting Wag")
-			resting_state = "sit_alt"
+	var/choice = tgui_input_list(usr, "Выберите позу отдыха", "Поза", poses)
+	if(!choice || !poses[choice])
+		return
+	resting_state = poses[choice]
 	update_icons()
 
 /mob/living/silicon/robot/verb/viewmanifest()

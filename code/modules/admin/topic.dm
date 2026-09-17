@@ -40,6 +40,14 @@
 		else
 			to_chat(usr, "Ticket [ahelp_ref] has been deleted!")
 
+	else if(href_list["mentorticket"])
+		var/mentorticket_ref = href_list["mentorticket"]
+		var/datum/mentor_ticket/MT = locate(mentorticket_ref)
+		if(MT)
+			MT.Action(href_list["mentorticket_action"])
+		else
+			to_chat(usr, "Mentor ticket [mentorticket_ref] has been deleted!")
+
 	else if(href_list["ahelp_tickets"])
 		GLOB.ahelp_tickets.BrowseTickets(text2num(href_list["ahelp_tickets"]))
 
@@ -191,6 +199,22 @@
 				else
 					message_admins("[key_name_admin(usr)] tried to create a revenant. Unfortunately, there were no candidates available.")
 					log_admin("[key_name(usr)] failed to create a revenant.")
+			if("massshooter")
+				var/mob/mob_for_role
+				if(alert(usr, "Вы уверены, что собираетесь создать мажорного антагониста \"Массшутер\"?", , "Да.", "Ой, я случайно...") != "Да.")
+					return
+				if(alert(usr, "Запустить голосование среди призраков или выбрать конкретного?", , "Голосование", "Конкретный") == "Конкретный")
+					var/list/cand = get_all_ghost_role_eligible(TRUE, TRUE)
+					mob_for_role = tgui_input_list(usr, "Кто?", , cand, null)
+					if(QDELETED(mob_for_role) || !isobserver(mob_for_role) || !mob_for_role.client || jobban_isbanned(mob_for_role, "pacifist"))
+						to_chat(usr, span_warning("Этот кандидат недоступен для данной роли."))
+						return
+				if(src.makeMassShooter(mob_for_role))
+					message_admins("[key_name(usr)] created a Mass Shooter.[mob_for_role ? " Admin granted role to player <b>[mob_for_role.ckey]</b>" : ""]")
+					log_admin("[key_name(usr)] created a Mass Shooter.[mob_for_role ? " Admin granted role to player <b>[mob_for_role.ckey]</b>" : ""]")
+				else
+					message_admins("[key_name_admin(usr)] tried to create a Mass Shooter. Unfortunately, there were no candidates available.")
+					log_admin("[key_name(usr)] failed to create a Mass Shooter.")
 
 //			if("qareen")	Temporary removed. - Gardelin0
 //				if(src.makeQareen())
@@ -1558,6 +1582,13 @@
 			return tgui_alert(usr, "The game has already started.")
 
 		dynamic_mode_options(usr)
+
+	else if(href_list["director_panel"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/datum/director_panel/panel = new
+		panel.ui_interact(usr)
 	/* BLUEMOON REMOVAL START - мы используем GLOB.round_type
 	else if(href_list["f_dynamic_force_extended"])
 		if(!check_rights(R_ADMIN))
@@ -2278,7 +2309,8 @@
 			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 
-		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
+		var/datum/log_viewer/LV = new(M)
+		LV.ui_interact(usr)
 	else if(href_list["languagemenu"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -2570,6 +2602,15 @@
 			return
 		usr.client?.cmd_gc_health_help()
 
+	else if(href_list["gc_reftrack_mode"])
+		if(!check_rights(R_DEBUG))
+			return
+		var/new_reftrack_mode = clamp(text2num(href_list["gc_reftrack_mode"]), GC_REFTRACK_OFF, GC_REFTRACK_ALL)
+		SSgarbage.reftrack_mode = new_reftrack_mode
+		message_admins("[key_name_admin(usr)] переключил режим авто-скана ссылок GC на [new_reftrack_mode] ([new_reftrack_mode == GC_REFTRACK_OFF ? "выкл" : new_reftrack_mode == GC_REFTRACK_FLAGGED ? "помеченные типы" : "все warnfail"]).")
+		log_admin("[key_name(usr)] переключил режим авто-скана ссылок GC на [new_reftrack_mode]")
+		usr.client?.cmd_gc_health_panel()
+
 	else if(href_list["gc_toggle_notify"])
 		if(!check_rights(R_DEBUG))
 			return
@@ -2760,6 +2801,20 @@
 			return
 		INVOKE_ASYNC(entry, TYPE_PROC_REF(/datum/gc_failure_viewer/gc_failure_entry, trigger_world_scan), owner, null)
 
+	else if(href_list["viewgcfailure_refcount"])
+		var/datum/gc_failure_viewer/gc_failure_entry/entry = locate(href_list["viewgcfailure_refcount"])
+		if(!istype(entry))
+			to_chat(usr, span_warning("GC failure entry больше не существует."))
+			return
+		if(!entry.datum_ref)
+			to_chat(usr, span_warning("Нет ссылки на объект."))
+			return
+		var/datum/refcount_target = entry.resolve_target()
+		if(isnull(refcount_target))
+			to_chat(usr, span_notice("[entry.type_path]: объект уже собран или удалён."))
+			return
+		to_chat(usr, span_notice("[entry.type_path]: внешних ссылок сейчас: [EXTERNAL_REFCOUNT(refcount_target)]."))
+
 	else if(href_list["viewgcfailure_refscan"])
 		var/datum/gc_failure_viewer/gc_failure_entry/entry = locate(href_list["viewgcfailure_refscan"])
 		if(!istype(entry))
@@ -2771,8 +2826,8 @@
 		var/response = tgui_alert(usr, "Сканирование ссылок пройдёт по всем GLOB-переменным, подсистемам и соседним объектам. Это может вызвать лаг на несколько секунд. Продолжить?", "Сканирование ссылок", list("Да", "Нет"))
 		if(response != "Да")
 			return
-		var/datum/D = locate(entry.datum_ref)
-		if(!D || D.type != text2path(entry.type_path))
+		var/datum/D = entry.resolve_target()
+		if(!D)
 			to_chat(usr, span_warning("Объект больше не существует, сканирование невозможно."))
 			return
 		entry.build_reference_info(D)
@@ -2988,63 +3043,41 @@
 		return
 	if (!check_rights(0))
 		return
+	ckey = ckey(ckey)
 	if(!ckey)
 		return
 	var/client/C = GLOB.directory[ckey]
 	if(C)
 		if(check_rights_for(C, R_ADMIN,0))
-			to_chat(usr, "<span class='danger'>The client chosen is an admin! Cannot mentorize.</span>")
+			to_chat(usr, span_danger("Выбранный клиент является администратором. Нельзя назначить его ментором."))
 			return
-	if(SSdbcore.Connect())
-		var/datum/db_query/query_get_mentor = SSdbcore.NewQuery(
-			"SELECT id FROM [format_table_name("mentor")] WHERE ckey = :ckey",
-			list("ckey" = ckey)
-		)
-		if(!query_get_mentor.warn_execute())
-			return
-		if(query_get_mentor.NextRow())
-			to_chat(usr, "<span class='danger'>[ckey] is already a mentor.</span>")
-			return
-		var/datum/db_query/query_add_mentor = SSdbcore.NewQuery(
-			"INSERT INTO [format_table_name("mentor")] (id, ckey) VALUES (:id, :ckey)",
-			list("id" = null, "ckey" = ckey)
-		)
-		if(!query_add_mentor.warn_execute())
-			return
-		var/datum/db_query/query_add_admin_log = SSdbcore.NewQuery({"
-			INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-			VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'add mentor', :mentor_ckey, CONCAT('Admin removed: ', :mentor_ckey))
-			"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "mentor_ckey" = ckey)
-		)
-		if(!query_add_admin_log.warn_execute())
-			return
-	else
-		to_chat(usr, "<span class='danger'>Failed to establish database connection. The changes will last only for the current round.</span>")
-	new /datum/mentors(ckey)
-	to_chat(usr, "<span class='adminnotice'>New mentor added.</span>")
+	if(GLOB.mentor_datums[ckey])
+		to_chat(usr, span_danger("[ckey] уже является ментором."))
+		return
+	if(!SSplayer_ranks.add_player_to_group(usr.client, ckey, "mentor"))
+		return
+	message_admins("[key_name_admin(usr)] выдал [ckey] права ментора.")
+	log_admin_private("[key_name(usr)] выдал [ckey] права ментора.")
+	to_chat(usr, span_adminnotice("Права ментора выданы."))
 
 /datum/admins/proc/removeMentor(ckey)
 	if(!usr.client)
 		return
 	if (!check_rights(0))
 		return
+	ckey = ckey(ckey)
 	if(!ckey)
 		return
 	var/client/C = GLOB.directory[ckey]
 	if(C)
 		if(check_rights_for(C, R_ADMIN,0))
-			to_chat(usr, "<span class='danger'>The client chosen is an admin, not a mentor! Cannot de-mentorize.</span>")
+			to_chat(usr, span_danger("Выбранный клиент является администратором, а не ментором. Нельзя снять с него права ментора."))
 			return
-		C.remove_mentor_verbs()
-		C.mentor_datum = null
-		GLOB.mentors -= C
-	if(SSdbcore.Connect())
-		var/datum/db_query/query_remove_mentor = SSdbcore.NewQuery("DELETE FROM [format_table_name("mentor")] WHERE ckey = '[ckey]'")
-		if(!query_remove_mentor.warn_execute())
-			return
-		var/datum/db_query/query_add_admin_log = SSdbcore.NewQuery("INSERT INTO `[format_table_name("admin_log")]` (`id` ,`datetime` ,`adminckey` ,`adminip` ,`log` ) VALUES (NULL , NOW( ) , '[usr.ckey]', '[usr.client.address]', 'Removed mentor [ckey]');")
-		if(!query_add_admin_log.warn_execute())
-			return
-	else
-		to_chat(usr, "<span class='danger'>Failed to establish database connection. The changes will last only for the current round.</span>")
-	to_chat(usr, "<span class='adminnotice'>Mentor removed.</span>")
+	if(!GLOB.mentor_datums[ckey])
+		to_chat(usr, span_danger("[ckey] не является ментором."))
+		return
+	if(!SSplayer_ranks.remove_player_from_group(usr.client, ckey, "mentor"))
+		return
+	message_admins("[key_name_admin(usr)] снял с [ckey] права ментора.")
+	log_admin_private("[key_name(usr)] снял с [ckey] права ментора.")
+	to_chat(usr, span_adminnotice("Права ментора сняты."))

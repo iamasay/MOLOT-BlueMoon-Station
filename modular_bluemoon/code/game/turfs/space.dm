@@ -4,6 +4,8 @@
 	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
 	allow_duplicates = FALSE
 	id = "tarkoff-base"
+	always_place = TRUE
+
 
 /datum/map_template/ruin/space/tarkoff/New()
 	var/num = rand(0, 3)
@@ -18,6 +20,42 @@
 			suffix = "defcon2.dmm"
 	. = ..()
 
+/datum/map_template/ruin/space/listeningstation
+	name = "Listening Station"
+	id = "listeningstation"
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/listening/"
+	description = "Listening stations form the backbone of the syndicate's information gathering operations. \
+	Assignment to these stations is dreaded by most agents, as it entails long and lonely shifts listening to nearby stations chatter incessently about the most meaningless things."
+	allow_duplicates = FALSE
+	unpickable = TRUE
+	suffix = "inteq_listening_default.dmm"
+	var/variant_chosen = FALSE
+
+/datum/map_template/ruin/space/listeningstation/New()
+	. = ..()
+	SSticker?.OnRoundstart(CALLBACK(src, PROC_REF(late_spawn)))
+
+/datum/map_template/ruin/space/listeningstation/proc/choose_variant()
+	if(variant_chosen)
+		return
+	variant_chosen = TRUE
+	if(GLOB.round_type == ROUNDTYPE_EXTENDED)
+		suffix = prob(50) ? "syndie_listening_default.dmm" : "syndie_listening_siege.dmm"
+	else
+		suffix = pick("inteq_listening_default.dmm", "inteq_listening_cult.dmm", "inteq_listening_syndicate.dmm")
+	mappath = prefix + suffix
+	preload_size(mappath)
+
+/datum/map_template/ruin/space/listeningstation/proc/late_spawn()
+	var/list/space_levels = SSmapping.levels_by_trait(ZTRAIT_SPACE_RUINS)
+	if(!length(space_levels))
+		return
+	try_to_place(pick(space_levels), list(/area/space))
+
+/datum/map_template/ruin/space/listeningstation/try_to_place(z, allowed_areas, forced_turf)
+	choose_variant()
+	. = ..()
+
 //DS2.
 /datum/map_template/ruin/space/deepspacetwo
 	name = "Deep Space Two"
@@ -27,34 +65,14 @@
 	always_place = TRUE
 	id = "ds2-base"
 
-/datum/map_template/ruin/station/forgottenship
-	name = "SCSBC-12"
-	description = "InteQ хотели бы напомнить своим сотрудникам, что любой линейный крейсер будет обслуживаться соответствующим образом, как и экипаж."
-	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
-	suffix = "forgotten_ship.dmm"
-	allow_duplicates = FALSE
-	always_place = FALSE
-	cost = 1000
-	id = "forgottenship"
-
 /datum/map_template/ruin/station/forgottenship/sol
 	name = "SCSBC-13"
 	description = "SolFed хотели бы напомнить своим сотрудникам, что любой линейный крейсер будет обслуживаться соответствующим образом, как и экипаж."
 	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
 	suffix = "sol_ship.dmm"
 	allow_duplicates = FALSE
-	always_place = FALSE
-	cost = 1000
+	cost = 10
 	id = "forgottenship_sol"
-
-/datum/map_template/ruin/space/forgottenship/nothing
-	name = "SCSBC-14"
-	description = "Nobody хотели бы напомнить своим сотрудникам, что любой линейный крейсер будет обслуживаться соответствующим образом, как и экипаж."
-	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
-	suffix = "nothing_ship.dmm"
-	allow_duplicates = FALSE
-	always_place = TRUE
-	id = "forgottenship_nothing"
 
 /datum/map_template/ruin/space/abductorcrush
 	name = "Crushed Abductor Ship"
@@ -64,3 +82,84 @@
 	allow_duplicates = FALSE
 	always_place = TRUE
 	id = "abductorcrush"
+
+/datum/map_template/ruin/space/allamericandiner
+	name = "Space Cafe"
+	description = "Космическое кафе. Ничего необычного"
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "allamericandiner.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "allamericandiner"
+
+/datum/map_template/ruin/space/anomaly_research
+	name = "Anomaly Reserch"
+	description = "Здесь изучали что то аномальное."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "anomaly_research.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "anomaly_research"
+
+/datum/map_template/ruin/space/atmosasteroidruin
+	name = "Atmo Asteroid"
+	description = "Сварите темной материи. Чт?."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "atmosasteroidruin.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "atmosasteroidruin"
+
+/datum/map_template/ruin/space/commsbuoy_nt
+	name = "Comsboy"
+	description = "Обнаружена незаонная трансляция фурри комиксов."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "commsbuoy_nt.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "commsbuoy_nt"
+
+/datum/map_template/ruin/space/dangerous_research
+	name = "Dangerous Research"
+	description = "Мне кажеться здесь изучали что то плохое."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "dangerous_research.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "dangerous_research"
+
+/datum/map_template/ruin/space/hilbertresearchfacility
+	name = "Hilbertresearchfacility"
+	description = "Was?."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "hilbertresearchfacility.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "hilbertresearchfacility"
+
+/datum/map_template/ruin/space/Lutertenship
+	name = "Lutertenship"
+	description = "Мы вольные торговцы. Определенно."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "Lutertenship.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "Lutertenship"
+
+/datum/map_template/ruin/space/piratefort
+	name = "Piratefort"
+	description = "Вы кто такие? Мы вас не звали. Идите нахуй."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "piratefort.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "piratefort"
+
+/datum/map_template/ruin/space/whiteshipruin_box
+	name = "Whiteshipruin Box"
+	description = "Я не помню что тут."
+	prefix = "_maps/RandomRuins/SpaceRuins/BlueMoon/"
+	suffix = "whiteshipruin_box.dmm"
+	allow_duplicates = FALSE
+	always_place = TRUE
+	id = "whiteshipruin_box"

@@ -29,7 +29,9 @@
 //THIS SHOULD ALWAYS BE THE LOWEST ONE!
 //KEEP IT UPDATED
 
-#define CHANNEL_HIGHEST_AVAILABLE 991 //CIT CHANGE - COMPENSATES FOR VORESOUND CHANNELS
+#define CHANNEL_EVENT_MUSIC 990
+
+#define CHANNEL_HIGHEST_AVAILABLE 989 //CIT CHANGE - COMPENSATES FOR VORESOUND CHANNELS
 
 // BLUEMOON EDIT END
 
@@ -854,3 +856,14 @@ GLOBAL_LIST_EMPTY(sfx_datum_by_key)
 #define SFX_DRAWER_CLOSE "drawer_close"
 #define SFX_ROLLING_PIN_ROLLING "rolling_pin_rolling"
 #define SFX_KNIFE_SLICE "knife_slice"
+#define SFX_BANDAGE_BEGIN "bandage_begin"
+#define SFX_BANDAGE_END "bandage_end"
+#define SFX_REMOTE_MODE_SWITCH "remote_mode_switch"
+#define SFX_REMOTE_ACTION "remote_action"
+#define SFX_WRITING_PEN "writing_pen"
+
+/// Сколько разных пар (envdry, envwet) держит кэш эха sound_echo_for(). Пар в коде ровно
+/// две: дефолтная и та, что подставляет audiovisual_redirect. Запас - на звук с ручным
+/// ревербом; всё сверх запаса строится как раньше, и это оставляет кэш ограниченным при
+/// любом вызывающем.
+#define SOUND_ECHO_CACHE_MAX 16

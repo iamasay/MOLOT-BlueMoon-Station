@@ -418,7 +418,7 @@
 	playsound(K.firer, 'sound/magic/fireball.ogg', 20, 1)
 	var/list/hitlist = list()
 	for(var/turf/T in getline(KA.loc, target.loc) - get_turf(K.firer))
-		new /obj/effect/hotspot(T)
+		T.ensure_hotspot()
 		T.hotspot_expose(700,50,1)
 		for(var/mob/living/L in T.contents)
 			if(L in hitlist || (L == K.firer))
@@ -510,16 +510,10 @@
 	range = 50
 	hitsound_wall = "ricochet"
 	log_override = FALSE
-
-/obj/item/projectile/kinetic/etenmm/prehit_pierce(atom/target)
-	. = call(/obj/item/projectile/proc/prehit_pierce)(src, target)
-	if(. == PROJECTILE_PIERCE_PHASE)
-		return
-	if(kinetic_gun)
-		var/list/mods = kinetic_gun.modkits
-		for(var/obj/item/borg/upgrade/modkit/modkit in mods)
-			modkit.projectile_prehit(src, target, kinetic_gun)
 	// Ballistic round — skip /obj/item/projectile/kinetic pressure scaling.
+	// Раньше это делалось через call(/obj/item/projectile/proc/prehit_pierce)(src, target):
+	// такой вызов идёт как глобальный прок с src == null и падает на первом же попадании.
+	ignores_pressure_penalty = TRUE
 
 /obj/item/projectile/kinetic/etenmm/on_range()
 	qdel(src)

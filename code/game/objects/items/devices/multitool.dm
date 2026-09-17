@@ -59,7 +59,11 @@
 	if(selected_io || buffer)
 		. += "<span class='notice'>Activate [src] to detach the data wire or clear buffer.</span>"
 	if(buffer)
-		. += "<span class='notice'>Its buffer contains <b>[buffer]</b>.</span>"
+		if(istype(buffer, /datum/techweb))
+			var/datum/techweb/web = buffer
+			. += "<span class='notice'>В буффере находится: тех-сеть <b>[web.organization]</b>.</span>"
+		else
+			. += "<span class='notice'>Its buffer contains <b>[buffer]</b>.</span>"
 
 /obj/item/multitool/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] puts the [src] to [user.ru_ego()] chest. It looks like [user.ru_who()] trying to pulse [user.ru_ego()] heart off!</span>")
@@ -328,9 +332,8 @@
 /obj/item/multitool/advanced
 	name = "advanced multitool"
 	desc = "The reproduction of an abductor's multitool, this multitool is a classy silver."
-//	icon = 'icons/obj/advancedtools.dmi' BLUEMOON COMMENT OUT use of own .dmi file
-	icon = 'modular_bluemoon/icons/obj/advancedtools_black.dmi'
-	icon_state = "multitool"
+	icon = 'icons/obj/advancedtools.dmi'
+	icon_state = "adv_multitool"
 	toolspeed = 0.2
 	show_wires = TRUE
 

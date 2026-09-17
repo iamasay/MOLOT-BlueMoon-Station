@@ -52,10 +52,10 @@
 	if(istype(mover, /obj/structure/blob))
 		return TRUE
 
-/mob/living/simple_animal/hostile/blob/Process_Spacemove(movement_dir = 0, continuous_move = FALSE)
+/mob/living/simple_animal/hostile/blob/Process_Spacemove(movement_dir = 0)
 	for(var/obj/structure/blob/B in range(1, src))
 		return TRUE
-	return ..(movement_dir, continuous_move)
+	return ..(movement_dir)
 
 /mob/living/simple_animal/hostile/blob/proc/blob_chat(msg)
 	var/spanned_message = say_quote(msg)
@@ -113,6 +113,15 @@
 				break
 	if(factory && z != factory.z)
 		death()
+
+///Приказ оверлорда "сбор у точки" (Rally Spores). Мигрированная спора
+///получает точку как combat contact - контроллер переводит её в SEARCH-марш
+///к месту сбора, а цель по дороге она захватит собственным восприятием.
+/mob/living/simple_animal/hostile/blob/blobspore/proc/receive_rally_order(turf/rally_turf)
+	if(!rally_turf)
+		return
+	LoseTarget()
+	ai_controller?.receive_combat_contact(null, rally_turf, AI_CONTACT_ALLY)
 
 /mob/living/simple_animal/hostile/blob/blobspore/proc/Zombify(mob/living/carbon/human/H)
 	is_zombie = 1

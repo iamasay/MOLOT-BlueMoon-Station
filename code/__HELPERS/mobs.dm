@@ -182,13 +182,15 @@
 		"arachnid_mandibles"	= pick(GLOB.arachnid_mandibles_list),
 		"taur"				= "None",
 		"mam_body_markings" = list(),
+		"allow_emissives" = FALSE,
+		"emissive_parts" = list(),
 		"mam_ears" 			= snowflake_ears_list ? pick(snowflake_ears_list) : "None",
 		"mam_snouts"		= snowflake_mam_snouts_list ? pick(snowflake_mam_snouts_list) : "None",
 		"mam_tail"			= snowflake_mam_tails_list ? pick(snowflake_mam_tails_list) : "None",
 		"mam_tail_animated" = "None",
-		"xenodorsal" 		= "Standard",
-		"xenohead" 			= "Standard",
-		"xenotail" 			= "Xenomorph Tail",
+		"xenodorsal"		= "None",
+		"xenohead"			= "None",
+		"xenotail"			= "Xenomorph Tail",
 		"hardsuit_with_tail" = FALSE,
 		"genitals_use_skintone"	= FALSE,
 		"has_cock"			= FALSE,
@@ -561,6 +563,9 @@ GLOBAL_LIST_EMPTY(species_datums)
 
 #define IS_IN_STASIS(mob) (mob.has_status_effect(/datum/status_effect/grouped/stasis))
 
+#define IS_BOLA_ENSNARED(mob) (mob.has_status_effect(/datum/status_effect/bola_snared))
+#define IS_BEARTRAP_ENSNARED(mob) (mob.has_status_effect(/datum/status_effect/beartrap_ensnared))
+
 /proc/set_criminal_status(mob/living/user, datum/data/record/target_records , criminal_status, comment, user_rank, list/authcard_access = list(), user_name)
 	var/status = criminal_status
 	var/old_status = target_records.fields["criminal"] // BLUEMOON ADD - логгирование
@@ -595,6 +600,14 @@ GLOBAL_LIST_EMPTY(species_datums)
 		if("discharged", SEC_RECORD_STATUS_DISCHARGED)
 			status = SEC_RECORD_STATUS_DISCHARGED
 	target_records.fields["criminal"] = status
+	// Атрибуция активности антагов для директора: объявление в розыск/на казнь означает,
+	// что СБ уже занята этим персонажем. Ищем разум по имени записи - смена личности (агент-ID)
+	// уводит от атрибуции, это приемлемая цена дешёвого поиска на редком ручном действии.
+	if(status == SEC_RECORD_STATUS_ARREST || status == SEC_RECORD_STATUS_EXECUTE)
+		for(var/datum/mind/wanted_mind as anything in SSticker.minds)
+			if(wanted_mind.name == their_name)
+				SSdirector.bump_antag_activity(wanted_mind, DIRECTOR_ACTIVITY_WANTED)
+				break
 	log_admin("[key_name_admin(user)] set secstatus of [their_rank] [their_name] to [status], comment: [comment]")
 	target_records.fields["comments"] += "Set to [status] by [user_name || user.name] ([user_rank]) on [GLOB.current_date_string] [STATION_TIME_TIMESTAMP("hh:mm:ss", world.time)], comment: [comment]"
 	// BLUEMOON EDIT - логгирование

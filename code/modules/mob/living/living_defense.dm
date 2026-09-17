@@ -80,7 +80,7 @@
 /mob/living/bullet_act(obj/item/projectile/P, def_zone, piercing_hit = FALSE)
 	var/totaldamage = P.damage
 	var/final_percent = 0
-	if(P.original != src || P.firer != src) //try to block or reflect the bullet, can't do so when shooting oneself
+	if(P.original != src || P.firer != src)
 		var/list/returnlist = list()
 		var/returned = mob_run_block(P, P.damage, "the [P.name]", ATTACK_TYPE_PROJECTILE, P.armour_penetration, P.firer, def_zone, returnlist)
 		final_percent = returnlist[BLOCK_RETURN_PROJECTILE_BLOCK_PERCENTAGE]
@@ -93,6 +93,7 @@
 			P.on_hit(src, final_percent, def_zone, piercing_hit)
 			return BULLET_ACT_BLOCK
 		totaldamage = block_calculate_resultant_damage(totaldamage, returnlist)
+
 	var/armor = run_armor_check(def_zone, P.flag, null, null, P.armour_penetration, null)
 
 	// BLUEMOON ADD START - больших и тяжёлых существ проблематично нормально оглушить
@@ -101,15 +102,121 @@
 			totaldamage *= 0.75
 	// BLUEMOON ADD END
 
+	if(P.damage_type == STAMINA && HAS_TRAIT(src, TRAIT_DISABLER_RESISTANCE))
+		totaldamage = -totaldamage
+
 	if(!P.nodamage)
-		apply_damage(totaldamage, P.damage_type, def_zone, armor, wound_bonus = P.wound_bonus, bare_wound_bonus = P.bare_wound_bonus, sharpness = P.sharpness)
-		if(P.dismemberment)
-			check_projectile_dismemberment(P, def_zone)
+		// BLUEMOON ADD START - GAMMA two-bucket damage formula with randomization
+		// Bucket 1: BR% — стандартная броня с рандомом ±10%
+		// Bucket 2: BRC% — мультипликативная защита, только для BULLET
+		var/armor_roll = armor * rand(90, 110) * 0.01
+
+		var/armor_factor = 1 - min(armor_roll * 0.01, 0.9)
+
+		// BRC — второй бакет, только для пуль, снижается пробитием
+		var/brc_factor = 1.0
+		if(P.flag == BULLET)
+			var/brc_effective = brc_mitigation * (1 - min(P.armour_penetration * 0.01, 1.0))
+			var/brc_roll = brc_effective * rand(90, 110) * 0.01
+			brc_factor = 1 - min(brc_roll * 0.01, 0.9)
+
+		totaldamage = totaldamage * armor_factor * brc_factor
+
+		// BLUEMOON ADD START - Проверка пробития BR/BRC.
+		// Пуля пробивает навылет, только если снимает И BR-бакет (остаточная броня armor уже = 0),
+		// И BRC-бакет (AP >= brc_mitigation).
+		// Если формально не пробила — конвертация урона 60/40: 60% урона уходит в стамину,
+		// 40% так и остаётся HP-уроном. При провале AP-чека срабатывает
+		// прок полного пробития по разнице уровней BR пули и BRC брони (см. ниже).
+		var/penetrated = TRUE
+		if(P.flag == BULLET)
+			penetrated = (armor <= 0) && (P.armour_penetration >= brc_mitigation)
+
+			// BLUEMOON ADD START - прок полного пробития по уровню BR пули
+			// Шанс пробить навылет несмотря на формальный провал AP-чека. Суммарная защита в классах =
+			// остаточная BR-броня (armor_level) + BRC (brc_level). Гарантия при BR пули >= суммарной защите − 2 класса,
+			// дальше −10% за каждый класс разницы: BR_8 vs BRC 50 (10 ур.) = 100%, BR_1 vs броня 40 + BRC 10 (9 ур.) = 40%.
+			if(!penetrated)
+				var/bullet_br = clamp(round(P.armour_penetration / 5), 0, 20)
+				var/brc_level = clamp(round(brc_mitigation / 5), 0, 20)
+				var/armor_level = clamp(round(armor / 5), 0, 20)
+				var/pierce_chance = clamp(120 - (brc_level + armor_level - bullet_br) * 10, 0, 100)
+				if(prob(pierce_chance))
+					penetrated = TRUE
+			// BLUEMOON ADD END
+
+		if(!penetrated && P.flag == BULLET && totaldamage >= 1.0)
+			var/kinetic_stam = totaldamage * 0.60
+			totaldamage = totaldamage * 0.40
+			if(kinetic_stam >= 1.0)
+				apply_damage(kinetic_stam, STAMINA, def_zone, 0)
+		// BLUEMOON ADD END
+
+		var/absorbed_damage = P.damage - totaldamage
+
+		// BLUEMOON ADD START - получаем bodypart для оценки текущего состояния зоны (заброневая травма масштабируется от него)
+		var/obj/item/bodypart/hit_bodypart = null
+		var/zone_damage_fraction = 0
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			hit_bodypart = H.get_bodypart(check_zone(def_zone))
+			if(hit_bodypart && hit_bodypart.max_damage > 0)
+				zone_damage_fraction = clamp(hit_bodypart.get_damage() / hit_bodypart.max_damage, 0, 1)
+		// BLUEMOON ADD END
+
+		// Частичное пробитие — остаточная травма от поглощённой части (стамина уже учтена выше, здесь только раны/пeрелом)
+		var/final_wound_bonus = P.wound_bonus
+		if(P.flag == BULLET && absorbed_damage >= 1.0)
+			// BLUEMOON ADD START - заброневая травма при частичном пробитии.
+			// Шанс растёт линейно с долей уже накопленного урона зоны — побитая конечность легче травмируется снова
+			var/partial_wound_chance = 5 + (zone_damage_fraction * 35)
+			if(prob(partial_wound_chance))
+				var/partial_wound_bonus = round(absorbed_damage * 0.08)
+				if(partial_wound_bonus > 0)
+					final_wound_bonus += partial_wound_bonus
+			// BLUEMOON ADD END
+
+			// BLUEMOON ADD START - дополнительный НЕЗАВИСИМЫЙ шанс на перелом (WOUND_BLUNT) при частичном пробитии.
+			// Пуля прошла навылет (PIERCE), но по касательной задела кость - оба ранения могут сосуществовать.
+			// Используем painless_wound_roll т.к. урон по кости уже учтён через totaldamage ниже, нам нужен только сам ролл.
+			if(hit_bodypart && absorbed_damage >= 1.0)
+				var/bone_chip_chance = 8 + (zone_damage_fraction * 30) + (absorbed_damage * 0.4)
+				bone_chip_chance = clamp(bone_chip_chance, 0, 60)
+				if(prob(bone_chip_chance))
+					// can_dismember = FALSE: это скол кости от поглощённой части, не сквозное попадание.
+					hit_bodypart.painless_wound_roll(WOUND_BLUNT, max(absorbed_damage, WOUND_MINIMUM_DAMAGE), 0, 0, SHARP_NONE, FALSE)
+			// BLUEMOON ADD END
+
+		if(totaldamage >= 1.0)
+			// BLUEMOON ADD START - частичное пробитие пулей оставляет пулевую дырку (WOUND_PIERCE), а не перелом,
+			// если патрон сам не задавал sharpness явно (не перетираем дробь/спецбоеприпасы с осознанным SHARP_EDGED и т.п.)
+			var/applied_sharpness = P.sharpness
+			if(P.flag == BULLET && applied_sharpness == SHARP_NONE)
+				applied_sharpness = SHARP_POINTY
+			apply_damage(totaldamage, P.damage_type, def_zone, 0, wound_bonus = final_wound_bonus, bare_wound_bonus = P.bare_wound_bonus, sharpness = applied_sharpness)
+			// BLUEMOON ADD END
+			if(P.dismemberment)
+				var/original_damage = P.damage
+				P.damage = totaldamage
+				check_projectile_dismemberment(P, def_zone)
+				P.damage = original_damage
+		// BLUEMOON ADD END
+
+	// Пересчёт final_percent с учётом обоих бакетов для on_hit отображения
 	var/missing = 100 - final_percent
-	var/armor_ratio = armor * 0.01
 	if(missing > 0)
-		final_percent += missing * armor_ratio
+		// BLUEMOON EDIT START - учитываем оба бакета в отображении блока
+		var/armor_block_portion = missing * min(armor * 0.01, 0.9)
+		var/after_armor = missing - armor_block_portion
+		var/brc_block_portion = 0
+		if(P.flag == BULLET)
+			var/brc_effective_display = brc_mitigation * (1 - min(P.armour_penetration * 0.01, 1.0))
+			brc_block_portion = after_armor * min(brc_effective_display * 0.01, 0.9)
+		final_percent += armor_block_portion + brc_block_portion
+		// BLUEMOON EDIT END
+
 	return P.on_hit(src, final_percent, def_zone) ? BULLET_ACT_HIT : BULLET_ACT_BLOCK
+
 
 /mob/living/proc/check_projectile_dismemberment(obj/item/projectile/P, def_zone)
 	return FALSE
@@ -224,17 +331,17 @@
 		if(user.grab_state) //only the first upgrade is instantaneous
 			var/old_grab_state = user.grab_state
 			var/grab_upgrade_time = instant ? 0 : 30
-			visible_message("<span class='danger'>[user] starts to tighten [user.ru_ego()] grip on [src]!</span>", \
-				"<span class='userdanger'>[user] starts to tighten [user.ru_ego()] grip on you!</span>", target = user,
-				target_message = "<span class='danger'>You start to tighten your grip on [src]!</span>")
+			visible_message("<span class='danger'>[user] начинает усиливать захват на [src]!</span>", \
+				"<span class='userdanger'>[user] начинает усиливать захват на вас!</span>", target = user,
+				target_message = "<span class='danger'>Вы начинаете усиливать захват на [src]!</span>")
 			switch(user.grab_state)
 				if(GRAB_AGGRESSIVE)
-					log_combat(user, src, "attempted to neck grab", addition="neck grab")
+					log_combat(user, src, "попытался взять в захват за шею", addition="neck grab")
 				if(GRAB_NECK)
-					log_combat(user, src, "attempted to strangle", addition="kill grab")
+					log_combat(user, src, "попытался задушить", addition="kill grab")
 			if(!do_mob(user, src, grab_upgrade_time))
 				return FALSE
-			if(!user.pulling || user.pulling != src || user.grab_state != old_grab_state || user.a_intent != INTENT_GRAB)
+			if(!user.pulling || user.pulling != src || user.grab_state != old_grab_state)
 				return FALSE
 			if(user.voremode && user.grab_state == GRAB_AGGRESSIVE)
 				return FALSE
@@ -243,30 +350,30 @@
 			if(GRAB_AGGRESSIVE)
 				var/add_log = ""
 				if(HAS_TRAIT(user, TRAIT_PACIFISM))
-					visible_message("<span class='danger'>[user] has firmly gripped [src]!</span>",
-						"<span class='danger'>[user] has firmly gripped you!</span>", target = user,
-						target_message = "<span class='danger'>You have firmly gripped [src]!</span>")
-					add_log = " (pacifist)"
+					visible_message("<span class='danger'>[user] крепко держит [src] в захвате!</span>",
+						"<span class='danger'>[user] крепко держит вас в захвате!</span>", target = user,
+						target_message = "<span class='danger'>Вы крепко держите [src] в захвате!</span>")
+					add_log = " (пацифист)"
 				else
-					visible_message("<span class='danger'>[user] has grabbed [src] aggressively!</span>", \
-									"<span class='userdanger'>[user] has grabbed you aggressively!</span>", target = user, \
-									target_message = "<span class='danger'>You have grabbed [src] aggressively!</span>")
+					visible_message("<span class='danger'>[user] берёт [src] в агрессивный захват!</span>", \
+									"<span class='userdanger'>[user] берёт вас в агрессивный захват!</span>", target = user, \
+									target_message = "<span class='danger'>Вы берёте [src] в агрессивный захват!</span>")
 					update_mobility()
 				stop_pulling()
-				log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
+				log_combat(user, src, "взял в агрессивный захват", addition="aggressive grab[add_log]")
 			if(GRAB_NECK)
-				log_combat(user, src, "grabbed", addition="neck grab")
-				visible_message("<span class='danger'>[user] has grabbed [src] by the neck!</span>",\
-								"<span class='userdanger'>[user] has grabbed you by the neck!</span>", target = user, \
-								target_message = "<span class='danger'>You have grabbed [src] by the neck!</span>")
+				log_combat(user, src, "взял за шею", addition="neck grab")
+				visible_message("<span class='danger'>[user] хватает [src] за шею!</span>",\
+								"<span class='userdanger'>[user] хватает вас за шею!</span>", target = user, \
+								target_message = "<span class='danger'>Вы хватаете [src] за шею!</span>")
 				update_mobility() //we fall down
 				if(!buckled && !density)
 					Move(user.loc)
 			if(GRAB_KILL)
-				log_combat(user, src, "strangled", addition="kill grab")
-				visible_message("<span class='danger'>[user] is strangling [src]!</span>", \
-								"<span class='userdanger'>[user] is strangling you!</span>", target = user, \
-								target_message = "<span class='danger'>You are strangling [src]!</span>")
+				log_combat(user, src, "задушил", addition="kill grab")
+				visible_message("<span class='danger'>[user] душит [src]!</span>", \
+								"<span class='userdanger'>[user] душит вас!</span>", target = user, \
+								target_message = "<span class='danger'>Вы душите [src]!</span>")
 				update_mobility() //we fall down
 				if(!buckled && !density)
 					Move(user.loc)
@@ -541,12 +648,47 @@
 
 
 //called when the mob receives a bright flash
-/mob/living/proc/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/tiled/flash, override_protection = 0)
+/mob/living/proc/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/tiled/flash, override_protection = 0, duration = 25)
 	if((override_protection || get_eye_protection() < intensity) && (override_blindness_check || !(HAS_TRAIT(src, TRAIT_BLIND))))
-		overlay_fullscreen("flash", type)
-		addtimer(CALLBACK(src, PROC_REF(clear_fullscreen), "flash", 25), 25, TIMER_DELETE_ME)
+		flash_overlay(type, duration)
 		return TRUE
 	return FALSE
+
+/// Обработчик создания оверлея ослепления и отслеживания. Тут же создаётся таймер для него и отслеживается, был ли такой создан до вызова
+/mob/living/proc/flash_overlay(type = /atom/movable/screen/fullscreen/tiled/flash, duration = 25)
+	var/atom/movable/screen/fullscreen/flash_screen
+	if(fullscreens)
+		flash_screen = fullscreens["flash"]
+	var/remaining = timeleft(flash_overlay_timer_id)
+	var/timer_active = flash_overlay_timer_id && !isnull(remaining) && flash_overlay_screen == flash_screen
+
+	// Скрин эффект flash могут поменять другие вещи вне этого прока. Перепроверим или таймер принадлежит все ещё к нужному flash
+	if(flash_overlay_timer_id && !timer_active)
+		deltimer(flash_overlay_timer_id)
+		flash_overlay_timer_id = null
+		flash_overlay_screen = null
+
+	if(timer_active && remaining >= duration)
+		return flash_screen // Текущий таймер уже дольше новой вспышки? Оставляем эффект и таймер без изменений.
+	if(timer_active)
+		deltimer(flash_overlay_timer_id)
+		flash_overlay_timer_id = null
+		flash_overlay_screen = null
+
+	flash_screen = overlay_fullscreen("flash", type)
+	flash_overlay_screen = flash_screen
+	flash_overlay_timer_id = addtimer(CALLBACK(src, PROC_REF(clear_flash_overlay), flash_screen, duration), duration, TIMER_STOPPABLE | TIMER_DELETE_ME)
+	return flash_screen
+
+/// Очищает оверлей вспышки, если callback итога прока flash_overlay() принадлежит к этому скрин-объекту
+/mob/living/proc/clear_flash_overlay(atom/movable/screen/fullscreen/flash_screen, duration)
+	if(flash_overlay_screen != flash_screen)
+		return
+	flash_overlay_timer_id = null
+	flash_overlay_screen = null
+	if(!fullscreens || fullscreens["flash"] != flash_screen)
+		return
+	clear_fullscreen("flash", duration)
 
 //called when the mob receives a loud bang
 /mob/living/proc/soundbang_act()
@@ -561,7 +703,6 @@
 	if(!used_item)
 		used_item = get_active_held_item()
 	..()
-	floating_need_update = TRUE
 
 
 /mob/living/proc/getBruteLoss_nonProsthetic()

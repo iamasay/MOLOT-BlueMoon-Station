@@ -1,11 +1,21 @@
+#define FUGITIVE_MIN_GROUP_SIZE 4
+#define FUGITIVE_WALDO_CHANCE 30
+
 /datum/round_event_control/fugitives
 	name = "Spawn Fugitives"
 	typepath = /datum/round_event/ghost_role/fugitives
 	max_occurrences = 1
 	min_players = 15
-	weight = 45
+	weight = 7 // прижат к середине пула: веса 10 у дешёвых гост-ролей делали их дефолтом раунда
 	earliest_start = 30 MINUTES //deadchat sink, lets not even consider it early on.
 	category = EVENT_CATEGORY_INVASION
+	severity = DIRECTOR_SEVERITY_GHOST // антаги из призраков - гост-пул, а не общий MAJOR
+	cost = 8
+	intensity = 10 // беглецы прячутся, охотники приходят позже - самый мягкий гост-антаг
+	director_ghost_jobban = ROLE_TRAITOR
+	director_ghost_preference = ROLE_TRAITOR
+	// Живёт в эксте (вместе с хранителем диска): конфликт беглецов и охотников не направлен
+	// на экипаж (правила: в эксте антагонисты мирные, визиты гост-ролей легитимны).
 	description = "Fugitives will hide on the station, followed by hunters."
 
 /datum/round_event/ghost_role/fugitives
@@ -22,15 +32,8 @@
 		message_admins("No valid spawn locations found, aborting...")
 		return MAP_ERROR
 	var/turf/landing_turf = pick(possible_spawns)
-	var/list/possible_backstories = list()
 	var/list/candidates = get_candidates(ROLE_TRAITOR, null, ROLE_TRAITOR)
-	if(candidates.len >= 1) //solo refugees
-		if(prob(30))
-			possible_backstories.Add("waldo") //less common as it comes with magicks and is kind of immershun shattering
-		else //For accurate deadchat feedback
-			minimum_required = 4
-	if(candidates.len >= 4)//group refugees
-		possible_backstories.Add("prisoner", "cultist", "synth")
+	var/list/possible_backstories = get_backstories(candidates.len)
 	if(!possible_backstories.len)
 		return NOT_ENOUGH_PLAYERS
 
@@ -62,6 +65,20 @@
 	addtimer(CALLBACK(src, PROC_REF(spawn_hunters)), 10 MINUTES)
 	role_name = "fugitive hunter"
 	return SUCCESSFUL_SPAWN
+
+/// При 1-3 согласившихся нужен одиночный сценарий: прежний ролл отменял 70% таких
+/// опросов уже после согласия игроков. При полном составе Waldo остаётся редким.
+/datum/round_event/ghost_role/fugitives/proc/get_backstories(candidate_count)
+	var/list/backstories = list()
+	if(candidate_count <= 0)
+		return backstories
+	if(candidate_count < FUGITIVE_MIN_GROUP_SIZE)
+		backstories += "waldo"
+		return backstories
+	backstories += list("prisoner", "cultist", "synth")
+	if(prob(FUGITIVE_WALDO_CHANCE))
+		backstories += "waldo"
+	return backstories
 
 /datum/round_event/ghost_role/fugitives/proc/gear_fugitive(mob/dead/selected, turf/landing_turf, backstory) //spawns normal fugitive
 	var/datum/mind/player_mind = new /datum/mind(selected.key)
@@ -117,3 +134,6 @@
 	if(!ship.load(T))
 		CRASH("Loading [backstory] ship failed!")
 	priority_announce("Неизвестный корабль обнаружен недалеко от станции.")
+
+#undef FUGITIVE_MIN_GROUP_SIZE
+#undef FUGITIVE_WALDO_CHANCE

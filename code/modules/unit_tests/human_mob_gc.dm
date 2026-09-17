@@ -32,6 +32,32 @@
 	saved_images = null
 	human = null
 
+/// Общая картинка переживает снятие одной внешности, но отпускает удаляемого владельца.
+/datum/unit_test/gc_alternate_appearance_shared_image/Run()
+	var/mob/target = allocate(/mob)
+	var/mob/first_viewer = allocate(/mob)
+	var/mob/second_viewer = allocate(/mob)
+	var/image/shared_image = image('icons/mob/hud.dmi', target, "")
+	var/datum/atom_hud/alternate_appearance/basic/first = allocate(/datum/atom_hud/alternate_appearance/basic, "shared_first", shared_image, FALSE)
+	var/datum/atom_hud/alternate_appearance/basic/second = allocate(/datum/atom_hud/alternate_appearance/basic, "shared_second", shared_image, FALSE)
+	first.add_hud_to(first_viewer)
+	second.add_hud_to(second_viewer)
+
+	qdel(first)
+	TEST_ASSERT_NULL(first.target, "Удалённая внешность удерживает владельца")
+	TEST_ASSERT_NULL(first.theImage, "Удалённая внешность удерживает картинку")
+	TEST_ASSERT_EQUAL(shared_image.loc, target, "Снятие одной внешности скрыло общую картинку живого владельца")
+	TEST_ASSERT_EQUAL(second.theImage, shared_image, "Вторая внешность потеряла общую картинку")
+	TEST_ASSERT_EQUAL(target.hud_list["shared_second"], shared_image, "Владелец потерял картинку второй внешности")
+	TEST_ASSERT(second.hudusers[second_viewer], "Вторая внешность потеряла своего зрителя")
+
+	qdel(target)
+	TEST_ASSERT(QDELETED(second), "Удаление владельца не удалило оставшуюся внешность")
+	TEST_ASSERT_NULL(shared_image.loc, "Общая картинка удерживает удалённого владельца")
+	TEST_ASSERT_NULL(second.target, "Удалённая внешность удерживает удалённого владельца")
+	TEST_ASSERT_NULL(second.theImage, "Удалённая внешность удерживает общую картинку")
+	TEST_ASSERT(!length(second.hudusers), "Удалённая внешность удерживает зрителей")
+
 /// Test: Destroy() properly clears last_mind reference
 /datum/unit_test/gc_human_last_mind_cleanup
 	parent_type = /datum/unit_test/gc_rewrite_base
@@ -102,17 +128,18 @@
 	configure_immediate_gc()
 
 	var/mob/living/carbon/human/human = allocate(/mob/living/carbon/human, run_loc_floor_bottom_left)
-	var/obj/item/bodypart/chest/chest = human.get_bodypart(BODY_ZONE_CHEST)
-	TEST_ASSERT_NOTNULL(chest, "Human has no chest bodypart")
+	var/obj/item/bodypart/l_arm/arm = human.get_bodypart(BODY_ZONE_L_ARM)
+	TEST_ASSERT_NOTNULL(arm, "Human has no left arm bodypart")
 
-	// Apply a wound to create the reference cycle
-	var/datum/wound/slash/moderate/wound = new()
-	wound.apply_wound(chest)
+	// A disabling arm wound runs set_disabled() when removed. During carbon
+	// teardown that used to read held_items after mob/Destroy() had nulled it.
+	var/datum/wound/blunt/severe/wound = new()
+	wound.apply_wound(arm, silent = TRUE)
 
 	TEST_ASSERT(LAZYLEN(human.all_wounds) > 0, "Wound was not applied to human")
-	TEST_ASSERT(LAZYLEN(chest.wounds) > 0, "Wound was not applied to chest bodypart")
+	TEST_ASSERT(LAZYLEN(arm.wounds) > 0, "Wound was not applied to arm bodypart")
 
-	chest = null
+	arm = null
 	wound = null
 	allocated -= human
 	qdel(human)

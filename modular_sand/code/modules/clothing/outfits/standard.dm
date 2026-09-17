@@ -20,6 +20,7 @@
 	item_state = "darkcarapace"
 	blood_overlay_type = "armor"
 	armor = list("melee" = 95, "bullet" = 95, "laser" = 95, "energy" = 95, "bomb" = 95, "bio" = 95, "rad" = 100, "fire" = 98, "acid" = 98)
+	brc_mitigation_bonus = 30  // BLUEMOON ADD
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/debug
 	name = "Bluespace Tech Helmet"
@@ -30,6 +31,7 @@
 	name = "Bluespace Tech Hardsuit"
 	desc = "A specialised hardsuit for Bluespace agents."
 	armor = list("melee" = 99, "bullet" = 99, "laser" = 99, "energy" = 99, "bomb" = 99, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
+	brc_mitigation_bonus = 30  // BLUEMOON ADD
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/debug
 
 /obj/item/storage/backpack/holding/duffel/debug
@@ -89,13 +91,14 @@
 	box = /obj/item/storage/box/debugtools
 	suit_store = /obj/item/gun/energy/pulse
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/axe=1,\
-		/obj/item/storage/part_replacer/bluespace/tier5=1,\
-		/obj/item/debug/human_spawner=1,\
-		/obj/item/gun/energy/taser/debug=1,\
-		/obj/item/clothing/glasses/debug,\
-		/obj/item/clothing/mask/gas/welding/up,\
-		/obj/item/tank/internals/oxygen,\
+		/obj/item/melee/transforming/energy/axe,
+		/obj/item/storage/part_replacer/bluespace/tier5,
+		/obj/item/debug/human_spawner,
+		/obj/item/gun/energy/taser/debug,
+		/obj/item/gun/magic/wand/dust/debug,
+		/obj/item/clothing/glasses/debug,
+		/obj/item/clothing/mask/gas/welding/up,
+		/obj/item/tank/internals/oxygen,
 		)
 	implants = list(/obj/item/implant/mindshield, /obj/item/implant/deathrattle/centcom, /obj/item/implant/weapons_auth, /obj/item/implant/radio/centcom)
 
@@ -115,12 +118,13 @@
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = ITEM_SLOT_SUITSTORE
 	backpack_contents = list(
-		/obj/item/melee/transforming/energy/axe=1,\
-		/obj/item/storage/part_replacer/bluespace/tier5=1,\
-		/obj/item/debug/human_spawner=1,\
-		/obj/item/gun/energy/pulse=1,\
-		/obj/item/storage/lockbox/anti_singulo=1,\
-		/obj/item/gun/energy/taser/debug,\
+		/obj/item/melee/transforming/energy/axe,
+		/obj/item/storage/part_replacer/bluespace/tier5,
+		/obj/item/debug/human_spawner,
+		/obj/item/gun/energy/pulse,
+		/obj/item/storage/lockbox/anti_singulo,
+		/obj/item/gun/energy/taser/debug,
+		/obj/item/gun/magic/wand/dust/debug,
 		)
 	implants = list(/obj/item/implant/mindshield, /obj/item/implant/deathrattle/centcom, /obj/item/implant/weapons_auth, /obj/item/implant/radio/centcom)
 

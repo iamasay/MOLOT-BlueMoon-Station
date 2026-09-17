@@ -9,6 +9,8 @@
 	pickup_sound = 'sound/items/handling/cloth_pickup.ogg'
 	slot_flags = ITEM_SLOT_OCLOTHING
 	body_parts_covered = CHEST
+	var/brc_mitigation_bonus = 0  // BLUEMOON ADD - BRC бонус брони
+	var/brc_worn = FALSE  // BLUEMOON ADD - был ли бонус фактически применён при надевании
 	var/blood_overlay_type = "suit"
 	var/togglename = null
 	var/suittoggled = FALSE
@@ -33,7 +35,7 @@
 		var/obj/item/clothing/under/U = M.w_uniform
 		//SANDSTORM EDIT
 		if(istype(U) && !CHECK_BITFIELD(U.flags_inv, HIDEACCESSORY))
-			for(var/obj/item/clothing/accessory/attached as anything in U.attached_accessories)
+			for(var/obj/item/clothing/accessory/attached as anything in U.accessories_attached)
 				if(CHECK_BITFIELD(attached.flags_inv, HIDEACCESSORY) || !attached.above_suit)
 					continue
 				. += attached.build_worn_icon()

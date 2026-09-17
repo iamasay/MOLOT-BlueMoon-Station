@@ -289,8 +289,8 @@
 		if(!click_params || !click_params["icon-x"] || !click_params["icon-y"])
 			return
 		//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
-		I.pixel_x = clamp(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
-		I.pixel_y = clamp(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
+		I.pixel_x = I.base_pixel_x + clamp(text2num(click_params["icon-x"]) - 16, -(world.icon_size/2), world.icon_size/2)
+		I.pixel_y = I.base_pixel_y + clamp(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
 		AfterPutItemOnTable(I, user)
 		return TRUE
 
@@ -805,8 +805,16 @@
 	var/obj/item/tank/internals/tank = null // баллон внутри
 	var/obj/item/clothing/mask/mask = null // маска внутри
 
+/obj/structure/table/optable/loaded
+	tank = /obj/item/tank/internals/anesthetic
+	mask = /obj/item/clothing/mask/breath/medical
+
 /obj/structure/table/optable/Initialize(mapload)
 	. = ..()
+	if(ispath(tank))
+		tank = new tank(src)
+	if(ispath(mask))
+		mask = new mask(src)
 	register_context()
 
 
@@ -910,6 +918,23 @@
 	check_patient()
 	M.pixel_y = M.get_standard_pixel_y_offset()
 
+/obj/structure/table/optable/post_unbuckle_mob(mob/living/M)
+	. = ..()
+	if(patient == M)
+		eject_patient()
+
+/obj/structure/table/optable/proc/eject_patient()
+	if(isnull(patient))
+		return
+	SEND_SIGNAL(src, COMSIG_MACHINE_EJECT_OCCUPANT, patient)
+	UnregisterSignal(patient, COMSIG_MOVABLE_MOVED)
+	patient = null
+
+/obj/structure/table/optable/proc/patient_moved(...)
+	SIGNAL_HANDLER
+	if(patient?.loc != loc)
+		eject_patient()
+
 /obj/structure/table/optable/process()
 	if(mask?.loc != patient || tank?.loc != src || patient?.loc != loc)
 		stop_process()
@@ -924,7 +949,7 @@
 		visible_message(span_notice("[mask] срывается и возвращается на место по втягивающемуся шлангу."))
 		patient.transferItemToLoc(mask, src, TRUE)
 	patient.internal = null
-	patient = null
+	eject_patient()
 
 /obj/structure/table/optable/Destroy()
 	if(tank)
@@ -936,6 +961,7 @@
 	if(patient)
 		if(patient.internal == tank)
 			patient.internal = null
+		UnregisterSignal(patient, COMSIG_MOVABLE_MOVED)
 		patient = null
 	if(computer)
 		computer.table = null
@@ -984,10 +1010,17 @@
 	var/mob/living/carbon/human/H = locate() in loc
 	if(H)
 		if(!CHECK_MOBILITY(H, MOBILITY_STAND))
-			patient = H
+			if(patient != H)
+				patient = H
+				RegisterSignal(patient, COMSIG_MOVABLE_MOVED, PROC_REF(patient_moved))
+				SEND_SIGNAL(src, COMSIG_MACHINERY_SET_OCCUPANT, patient)
 			return TRUE
+		else if(patient == H)
+			eject_patient()
+			return FALSE
 	else
-		patient = null
+		if(!isnull(patient))
+			eject_patient()
 		return FALSE
 
 /*
@@ -1093,7 +1126,8 @@
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "rack_parts"
 	flags_1 = CONDUCT_1
-	custom_materials = list(/datum/material/iron=2000)
+	custom_materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*3)
+	var/buildstackamount = 3
 	var/building = FALSE
 	// MODULAR_JUICY-ADD - Делаем дефолтный путь к объекту в виде переменной, чтобы можно было передать что за тип конструкции
 	var/obj/construction_type = /obj/structure/rack
@@ -1105,12 +1139,12 @@
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "rack_parts"
 	flags_1 = CONDUCT_1
-	custom_materials = list(/datum/material/iron=2000)
+	custom_materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*5)
 	var/building = FALSE
 
 /obj/item/rack_parts/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_WRENCH)
-		new /obj/item/stack/sheet/metal(user.loc)
+		new /obj/item/stack/sheet/metal(drop_location(), buildstackamount)
 		qdel(src)
 	else
 		. = ..()
@@ -1137,7 +1171,7 @@
 
 /obj/item/shelf_parts/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_WRENCH)
-		new /obj/item/stack/sheet/metal(user.loc)
+		new /obj/item/stack/sheet/metal(drop_location(), 5)
 		qdel(src)
 	else
 		. = ..()

@@ -84,7 +84,7 @@
 	suit = /obj/item/clothing/suit/toggle/labcoat/cmo
 	l_hand = /obj/item/storage/firstaid/regular
 	suit_store = /obj/item/flashlight/pen/paramedic
-	backpack_contents = list(/obj/item/modular_computer/tablet/preset/advanced/command=1)
+	backpack_contents = list(/obj/item/modular_computer/tablet/preset/advanced/command = 1, /obj/item/storage/hypospraykit/regular = 1)
 	box = /obj/item/storage/box/survival/command
 	accessory = list(/obj/item/clothing/accessory/permit/special/chief_medic)
 
@@ -109,17 +109,14 @@
 	suit_store = /obj/item/flashlight/pen/paramedic
 	neck = /obj/item/clothing/neck/cloak/syndiecap
 
+	no_custom_backpack = TRUE
 	backpack = /obj/item/storage/backpack/duffelbag/syndie/med
 	satchel = /obj/item/storage/backpack/duffelbag/syndie/med
 	duffelbag = /obj/item/storage/backpack/duffelbag/syndie/med
 	box = /obj/item/storage/box/survival/syndie
 	pda_slot = ITEM_SLOT_BELT
-	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/syndicate_uplink_high=1)
-	accessory = list(/obj/item/clothing/accessory/permit/special/chief_medic)
-
-	backpack = /obj/item/storage/backpack/medic
-	satchel = /obj/item/storage/backpack/satchel/med
-	duffelbag = /obj/item/storage/backpack/duffelbag/med
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1,/obj/item/syndicate_uplink/station=1)
+	accessory = list(/obj/item/clothing/accessory/permit/special/chief_medic, /obj/item/clothing/accessory/permit/special/syndie_station)
 
 /datum/outfit/job/cmo/hardsuit
 	name = "Chief Medical Officer (Hardsuit)"

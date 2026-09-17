@@ -232,11 +232,17 @@
 
 /datum/sprite_accessory/tails/human/corvid
 	name = "Corvid"
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
 	icon_state = "crow"
+	matrixed_sections = MATRIX_RED
+	color_src = MATRIXED
 
 /datum/sprite_accessory/tails_animated/human/corvid
 	name = "Corvid"
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
 	icon_state = "crow"
+	matrixed_sections = MATRIX_RED
+	color_src = MATRIXED
 
 /datum/sprite_accessory/tails/human/cow
 	name = "Cow"
@@ -533,11 +539,17 @@
 
 /datum/sprite_accessory/tails/human/straighttail
 	name = "Straight Tail"
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
 	icon_state = "straighttail"
+	matrixed_sections = MATRIX_RED
+	color_src = MATRIXED
 
 /datum/sprite_accessory/tails_animated/human/straighttail
 	name = "Straight Tail"
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
 	icon_state = "straighttail"
+	matrixed_sections = MATRIX_RED
+	color_src = MATRIXED
 
 /datum/sprite_accessory/tails/human/squirrel
 	name = "Squirrel"
@@ -846,6 +858,16 @@
 /datum/sprite_accessory/tails_animated/mam_tails_animated/fox
 	name = "Fox"
 	icon_state = "fox"
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/tails/mam_tails/fox/alt_three
+	name = "Fox (Alt 3)"
+	icon_state = "foxann"
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/tails_animated/mam_tails_animated/fox/alt_three
+	name = "Fox (Alt 3)"
+	icon_state = "foxann"
 	matrixed_sections = MATRIX_RED_GREEN
 
 /datum/sprite_accessory/tails/mam_tails/hawk

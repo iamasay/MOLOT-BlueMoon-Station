@@ -326,7 +326,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		else if(ishuman(sacrificial))
 			playsound(sacrificial, 'sound/magic/disintegrate.ogg', 100, TRUE)
 			var/mob/living/carbon/human/H = sacrificial
-			H.spew_organ(2, 6)
+			H.spew_organ(2, 6, exclude_brain = TRUE)
 	return TRUE
 
 /obj/effect/rune/empower
@@ -933,7 +933,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 									  "<span class='cultlarge'>Your link to the world fades. Your form breaks apart.</span>")
 			for(var/obj/item/I in new_human)
 				new_human.dropItemToGround(I, TRUE)
-			new_human.dust()
+			new_human.dust(TRUE)
 	else if(choice == "Ascend as a Dark Spirit")
 		affecting = user
 		affecting.add_atom_colour(RUNE_COLOR_DARKRED, ADMIN_COLOUR_PRIORITY)
@@ -1035,7 +1035,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 			var/image/A = image('icons/mob/mob.dmi',M,"cultist", ABOVE_MOB_LAYER)
 			A.override = 1
 			add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/noncult, "human_apoc", A, FALSE)
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/atom, remove_alt_appearance),"human_apoc",TRUE), duration)
+			addtimer(CALLBACK(M, TYPE_PROC_REF(/atom/movable, remove_alt_appearance),"human_apoc",TRUE), duration)
 			images += A
 			SEND_SOUND(M, pick(sound('sound/ambience/antag/bloodcult.ogg'),sound('sound/spookoween/ghost_whisper.ogg'),sound('sound/spookoween/ghosty_wind.ogg')))
 		else
@@ -1043,13 +1043,13 @@ structure_check() searches for nearby cultist structures required for the invoca
 			var/image/B = image('icons/mob/mob.dmi',M,construct, ABOVE_MOB_LAYER)
 			B.override = 1
 			add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/noncult, "mob_apoc", B, FALSE)
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/atom, remove_alt_appearance),"mob_apoc",TRUE), duration)
+			addtimer(CALLBACK(M, TYPE_PROC_REF(/atom/movable, remove_alt_appearance),"mob_apoc",TRUE), duration)
 			images += B
 		if(!iscultist(M))
 			if(M.client)
 				var/image/C = image('icons/effects/cult_effects.dmi',M,"bloodsparkles", ABOVE_MOB_LAYER)
 				add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/cult, "cult_apoc", C, FALSE)
-				addtimer(CALLBACK(M, TYPE_PROC_REF(/atom, remove_alt_appearance),"cult_apoc",TRUE), duration)
+				addtimer(CALLBACK(M, TYPE_PROC_REF(/atom/movable, remove_alt_appearance),"cult_apoc",TRUE), duration)
 				images += C
 		else
 			to_chat(M, "<span class='cultlarge'>An Apocalypse Rune was invoked in the [place.name], it is no longer available as a summoning site!</span>")

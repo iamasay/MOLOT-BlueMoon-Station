@@ -226,19 +226,17 @@
 	icon_state = "hardhat0_hahun_helmet"
 	item_state = "hardhat0_hahun_helmet"
 	hat_type = "hahun_helmet"
-	actions_types = list(/datum/action/item_action/toggle_helmet_light, /datum/action/item_action/toggle_welding_screen)
-	flags_inv = HIDEEYES | HIDEFACE | HIDEEARS | HIDEHAIR
+	actions_types = list(/datum/action/item_action/toggle_helmet_light, /datum/action/item_action/toggle_welding_screen/hahun_hood)
+	dynamic_hair_suffix = ""
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEEYES|HIDEFACE
+	visor_flags_inv = HIDEEYES|HIDEFACE
+	visor_icon = 'modular_bluemoon/fluffs/icons/mob/large-worn-icons/32x48/head.dmi'
+	visor_icon_state = "hahun_visor"
+	straps = FALSE
 
-/obj/item/clothing/head/hardhat/weldhat/hahun/worn_overlays(isinhands, icon_file, used_state, style_flags = NONE)
-	. = list()
-	SEND_SIGNAL(src, COMSIG_ITEM_WORN_OVERLAYS, isinhands, icon_file, used_state, style_flags, .)
-	if(!isinhands)
-		if(damaged_clothes)
-			. += mutable_appearance('icons/effects/item_damage.dmi', "damagedhelmet")
-		if(blood_DNA)
-			. += mutable_appearance('icons/effects/blood.dmi', "helmetblood", color = blood_DNA_to_color(), blend_mode = blood_DNA_to_blend())
-		if(!up)
-			. += mutable_appearance('modular_bluemoon/fluffs/icons/mob/large-worn-icons/32x48/head.dmi', "hahun_visor")
+/datum/action/item_action/toggle_welding_screen/hahun_hood
+	icon_icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	button_icon_state = "hahun_visor"
 
 /////////////////////////////////////////////////////
 
@@ -447,6 +445,34 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	unique_reskin = null
 
+/obj/item/clothing/head/donator/bm/mark40k_helmet
+	name = "Mark40k Armored Head plates"
+	desc = "Система развёртываемых плит, предназначенных для вкручивания в голову или свободного ношения, правда будет болтаться на голове!"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "mark40k_helmet"
+	item_state = "mark40k_helmet"
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	clothing_flags = ALLOWINTERNALS
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	unique_reskin = null
+
+/obj/item/clothing/head/donator/bm/mark50k_helmet
+	name = "Mark50k Armored Head plates"
+	desc = "Система развёртываемых плит, предназначенных для вкручивания в голову или свободного ношения, правда будет болтаться на голове!"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "mark50k_helmet"
+	item_state = "mark50k_helmet"
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	lefthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	righthand_file = 'modular_bluemoon/fluffs/icons/mob/inhands/clothing_left.dmi'
+	clothing_flags = ALLOWINTERNALS
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	unique_reskin = null
+
 ///////////////////////////////////////////////
 
 /obj/item/clothing/head/donator/bm/chetky_cap
@@ -548,3 +574,176 @@
 	icon_state = "renory_helmet"
 	item_state = "ygloves"
 	flags_inv = HIDEFACIALHAIR|HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/donator/bm/stupid_cap
+	name = "Propeller beanie"
+	desc = "У нее есть мотоhчик! Она крутится... вж-ж-ж..."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "stupid_cap"
+	item_state = "stupid_cap"
+
+/obj/item/modkit/concord_riot_helmet_kit
+	name = "Concord light riot helmet Kit"
+	desc = "A modkit for making a riot helmet into a Concord light riot helmet."
+	icon_state = "riot-helmet_kit"
+	product = /obj/item/clothing/head/helmet/riot/concord_riot_helmet
+	fromitem = list(/obj/item/clothing/head/helmet/riot)
+
+/obj/item/clothing/head/helmet/riot/concord_riot_helmet
+	DONATE_ITEM_TOOLTIP_PARENT
+	name = "Concord light riot helmet"
+	desc = "Котелок для защиты пустой и не очень балды от летящих в неё камней, бит, клинков и прочей гадости, с которой только можно столкнуться при подавлении беспорядков. Прочное забрало-визор обеспечивает защиту глупой головы владельца не только от внешних факторов, не только подавляет лучи глупенькости из миниатюрного мозга, но ещё и излучает ауру стиля, на зависть окружающим."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/large-worn-icons/32x64/head.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/large-worn-icons/32x64/head.dmi'
+	icon_state = "lapkee-helmet"
+	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
+	visor_flags_inv = HIDEFACE|HIDESNOUT
+
+/obj/item/clothing/head/donator/bm/custom_helmet
+    name = "Custom helmet"
+    desc = "An old helmet, well-built by an enthusiast. It looks like the real thing, but feels like a model because of how light it is. The plates have been removed, as has the electronics."
+    icon = 'modular_bluemoon/icons/obj/clothing/head/helmet.dmi'
+    mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/head/helmet.dmi'
+    icon_state = "custom_helmet"
+    item_state = "custom_helmet"
+    toggle_message = "You pull the NVG down on"
+    alt_toggle_message = "You push the NVG up on"
+    can_toggle = 1
+    flags_inv = HIDEEARS|HIDEHAIR
+    actions_types = list(/datum/action/item_action/toggle)
+    visor_flags_inv = HIDEFACE
+    toggle_cooldown = 0
+    flags_cover = HEADCOVERSEYES
+    visor_flags_cover = HEADCOVERSEYES
+    clothing_flags = null
+    dog_fashion = null
+    mutantrace_variation = STYLE_MUZZLE
+    active_sound = 'sound/machines/closet_open.ogg'
+
+/obj/item/clothing/head/donator/bm/custom_helmet/attack_self(mob/user)
+    if(can_toggle && !user.incapacitated())
+        if(world.time > cooldown + toggle_cooldown)
+            cooldown = world.time
+            up = !up
+            flags_1 ^= visor_flags
+            flags_inv ^= visor_flags_inv
+            flags_cover ^= visor_flags_cover
+            icon_state = "[replacetext("[icon_state]", "_up", "")][up ? "_up" : ""]"
+            to_chat(user, "[up ? alt_toggle_message : toggle_message] \the [src]")
+
+            user.update_inv_head()
+            if(iscarbon(user))
+                var/mob/living/carbon/C = user
+                C.head_update(src, forced = 1)
+
+            if(active_sound)
+                if(up)
+                    playsound(src.loc, "[active_sound]", 100, 0, 4)
+
+/obj/item/clothing/head/donator/bm/commando_beret
+	name = "Commando beret"
+	desc = "In memory of Kovak."
+	icon_state = "commando_beret"
+	item_state = "commando_beret"
+	unique_reskin = list(
+		"Black" = list("icon_state" = "commando_beret", "item_state" = "commando_beret"),
+		"Khaki" = list("icon_state" = "commando_beret_khaki", "item_state" = "commando_beret_khaki"),
+		"Olive" = list("icon_state" = "commando_beret_olive", "item_state" = "commando_beret_olive"),
+		"red" = list("icon_state" = "commando_beret_red", "item_state" = "commando_beret_red")
+	)
+
+/obj/item/clothing/head/donator/bm/hounskull_with_aventail
+	name = "Hounskull With Aventail"
+	desc = "A steel hounskull bascinet with a thick maille aventail secured to the inside. Just as a froggemund befits a knight in the tournaments, an aventailed bascinet befits a knight on the battlefield; unmatched in coverage, durability, and weight."
+	icon = 'icons/obj/clothing/hats.dmi'
+	mob_overlay_icon = 'icons/mob/clothing/head.dmi'
+	icon_state = "visaventail"
+	item_state = "visaventail"
+
+/obj/item/clothing/head/helmet/riot/melatonin_helmet
+	DONATE_ITEM_TOOLTIP_PARENT
+	name = "Refurbished Concord Riot Helmet"
+	desc = "Списанный и устаревший шлем противоударной защиты, некогда принадлежавший Небульскому Конкорду. Сам он выглядит как старая, возможно, дефектная модель, которую кропотливо восстанавливали вручную. Его защитные «уши» заметно отличаются по материалу и состоянию от остального корпуса — очевидно, их пришлось переделать, чтобы подогнать под анатомию Ликантропа. Несмотря на кустарный ремонт, шлем выглядит исключительно надежным и крепким. Внутри установлена простая операционная система, выводящая интерфейс на минималистичный дисплей теплого желтого оттенка, а само забрало оснащено функцией автоматического поднятия, избавляя от необходимости открывать его вручную."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "melatonin_helmet"
+	item_state = "melatonin_helmet"
+	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
+	visor_flags_inv = HIDEFACE|HIDESNOUT
+
+/obj/item/modkit/melatonin_riot_kit
+	name = "Refurbished Concord Riot Helmet Kit"
+	desc = "A modkit for making a riot helmet into a Refurbished Concord Riot Helmet."
+	icon = 'modular_bluemoon/fluffs/icons/obj/storage.dmi'
+	icon_state = "melatonin_modkit"
+	product = /obj/item/clothing/head/helmet/riot/melatonin_helmet
+	fromitem = list(/obj/item/clothing/head/helmet/riot)
+
+/obj/item/clothing/head/helmet/sec/tau
+	DONATE_ITEM_TOOLTIP_PARENT
+	name = "Gugnir Helmet"
+	desc = " Gungnir helmet with a binocular module. Typically used in conjunction with the Jaeger combat exoskeleton. The protective plates are heavily damaged and offer reduced protection; plate replacement is recommended."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	anthro_mob_worn_overlay = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "tau"
+	item_state = "tau"
+
+/obj/item/modkit/tau_helmet_kit
+	name = "Gugnir Helmet Kit"
+	desc = "A modkit for making a helmet into a Gugnir Helmet."
+	icon = 'modular_splurt/icons/obj/clothing/reinforcekits.dmi'
+	icon_state = "sec_armor_kit"
+	product = /obj/item/clothing/head/helmet/sec/tau
+	fromitem = list(/obj/item/clothing/head/helmet/sec)
+
+/obj/item/clothing/head/donator/bm/pumpkin_cat
+	name = "Pumpkin With Ears"
+	desc = "Strange pumpkin with cat ears on top"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	icon_state = "pumpkin_cat"
+	item_state = "pumpkin_cat"
+	flags_inv = HIDEFACIALHAIR|HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/donator/bm/kumiko_ncr_helmet
+	name = "NCR ranger helmet"
+	desc = "Matching helmet for the NCR Ranger duster."
+	icon_state = "ranger"
+	item_state = "ranger"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	flags_inv = HIDEFACIALHAIR|HIDEFACE|HIDEEYES|HIDEEARS|HIDEHAIR
+	unique_reskin = list(
+		"Ranger" = list(
+			"icon_state" = "ranger",
+			"item_state" = "ranger",
+			"name" = "NCR ranger helmet"
+		),
+		"Desert" = list(
+			"icon_state" = "oldranger",
+			"item_state" = "oldranger",
+			"name" = "NCR desert ranger helmet"
+		)
+	)
+
+/obj/item/clothing/head/helmet/riot/kumiko_ncr_riot_helmet
+	name = "NCR elite desert ranger helmet"
+	desc = "NCR ranger riot helmet"
+	icon_state = "desert_ranger"
+	item_state = "desert_ranger"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	flags_inv = HIDEFACIALHAIR|HIDEFACE|HIDEEYES|HIDEEARS|HIDEHAIR
+
+/obj/item/clothing/head/helmet/alt/kumiko_ncr_bulletproof_helmet
+	name = "Custom NCR ranger helmet"
+	desc = "NCR ranger bulletproof helmet"
+	icon_state = "rangercustom"
+	item_state = "rangercustom"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
+	flags_inv = HIDEFACIALHAIR|HIDEFACE|HIDEEYES|HIDEEARS|HIDEHAIR

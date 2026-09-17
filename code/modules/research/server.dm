@@ -1,3 +1,13 @@
+/// Общий множитель выработки сервера.
+///
+/// Убывающую отдачу от количества серверов считает SSresearch.calculate_server_coefficient()
+/// - sqrt(100/N) на всю ферму. Здесь раньше висела ВТОРАЯ такая кривая, персональная: сервера
+/// с четвёртого получали ещё и личный штраф по позиции в списке. Две кривые перемножались, и
+/// суммарный доход фермы переставал расти - пятый сервер давал станции МЕНЬШЕ очков, чем четыре
+/// (≈40*ig против 46*ig). Отсюда и жалобы "чинится доп. серверами... а нет, не чинится".
+/// Оставлен только прежний бонус, чтобы выработка одиночного сервера не изменилась.
+#define RESEARCH_SERVER_OUTPUT_MULTIPLIER 1.2
+
 /obj/machinery/rnd/server
 	name = "\improper R&D Server"
 	desc = "A computer system running a deep neural network that processes arbitrary information to produce data useable in the development of new technologies. In layman's terms, it makes research points."
@@ -8,6 +18,8 @@
 
 	idle_power_usage = 500
 	var/datum/techweb/stored_research
+	var/network_id = RND_NETWORK_AUTO			//AUTO: станция — science_tech, иначе — автономная изолированная сеть (дефолт)
+	var/techweb_type = /datum/techweb/isolated	//Тип техвеба нестанционной сети (фракционные подтипы)
 	//Code for point mining here.
 	var/working = TRUE			//temperature should break it.
 	var/server_id = 0
@@ -25,15 +37,22 @@
 	. = ..()
 	GLOB.rndservers_list += src
 	SSresearch.servers |= src
-	stored_research = SSresearch.science_tech
 	alarmloop = new(src, !working)
 
 	server_id = "[copytext(md5("[world.timeofday][rand()][src]"), 1, 5)]" // Генерируем серверу уникальный айди
 	name += " ([uppertext(server_id)])"
+	if(mapload)
+		return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/rnd/server/LateInitialize()
+	. = ..()
+	AddComponent(/datum/component/techweb_holder)
+	RegisterSignal(src, COMSIG_ATOM_TECHWEB_CHANGED, PROC_REF(on_techweb_changed))
+	SEND_SIGNAL(src, COMSIG_ATOM_SET_TECHWEB, SSresearch.get_rnd_network_for(src, network_id, techweb_type))
 
 /obj/machinery/rnd/server/process()
 	if(!(machine_stat & NOPOWER) && working)
-		produce_heat(base_mining_income[1])
+		produce_heat() //аргументов не принимает: раньше сюда уходил ключ ассоциативного списка
 	if(get_env_temp() >= (temp_tolerance_high + 50) || get_env_temp() <= temp_tolerance_low)
 		if(working)
 			working = FALSE
@@ -68,6 +87,55 @@
 	income_gen = 1 + ((tot_rating - 1) * 0.2)
 	if(obj_flags & EMAGGED) // Если емагнуто, то будет отрицательное
 		income_gen *= -1
+
+/obj/machinery/rnd/server/proc/on_techweb_changed(datum/source, datum/techweb/new_web)
+	SIGNAL_HANDLER
+
+	stored_research = new_web
+
+/// BLUEMOON ADD: сеть ближайшего РНД-сервера на том же Z-уровне, что и источник, либо null.
+/proc/find_nearest_rnd_techweb(atom/source)
+	var/turf/source_turf = get_turf(source)
+	if(!source_turf)
+		return null
+	var/obj/machinery/rnd/server/nearest
+	var/best_dist = INFINITY
+	for(var/obj/machinery/rnd/server/S as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/rnd/server))
+		var/turf/server_turf = get_turf(S)
+		if(!server_turf || server_turf.z != source_turf.z)
+			continue
+		var/dist = get_dist(source_turf, server_turf)
+		if(dist <= best_dist)
+			best_dist = dist
+			nearest = S
+	return nearest?.stored_research
+
+/// BLUEMOON ADD: авто-подключение устройства к сети: сервер на том же Z-уровне,
+/// иначе на станции — глобальная научная сеть (как раньше), вне станции — null (подключается вручную).
+/proc/find_rnd_network_for_object(atom/source)
+	var/datum/techweb/nearest = find_nearest_rnd_techweb(source)
+	if(nearest)
+		return nearest
+	var/turf/source_turf = get_turf(source)
+	if(source_turf && is_station_level(source_turf.z))
+		return SSresearch.science_tech
+	return null
+//BLUEMOON ADD END
+
+/obj/machinery/rnd/server/attackby(obj/item/W, mob/user, params)
+	. = ..()
+	if(. || !istype(W))
+		return
+	//BLUEMOON ADD: клик предметом с исследовательской сетью перепривязывает его к сети сервера
+	if(istype(W, /obj/item/computermath) || istype(W, /obj/item/strangerock))
+		var/datum/techweb/current_web = W.vars["linked_techweb"]
+		if(current_web == stored_research)
+			to_chat(user, span_notice("[W] уже подключён к [stored_research.organization]."))
+		else
+			W.vars["linked_techweb"] = stored_research
+			to_chat(user, span_notice("Вы подключаете [W] к сети сервера [stored_research.organization]."))
+		return TRUE
+	return .
 
 /obj/machinery/rnd/server/power_change()
 	. = ..()
@@ -105,13 +173,29 @@
 	set_machine_stat(machine_stat & ~EMPED)
 	refresh_working()
 
+/obj/machinery/rnd/server/syndicate
+	network_id = RND_NETWORK_SYNDICATE
+	techweb_type = /datum/techweb/syndicate_isolated
+	heating_power = 0
+
+/obj/machinery/rnd/server/tarkoff
+	network_id = RND_NETWORK_TARKON
+	techweb_type = /datum/techweb/tarkoff
+	heating_power = 0
+
+/obj/machinery/rnd/server/inteq
+	network_id = RND_NETWORK_INTEQ
+	techweb_type = /datum/techweb/inteq
+	heating_power = 0
+
 /obj/machinery/rnd/server/proc/mine()
 	. = base_mining_income.Copy()
-	var/turf/open/floor/circuit/c_floor = get_turf(src)
-	var/effectiveness = get_exponential_multiplier() // Чем больше серверов - тем меньше доход от сервера
-	var/penalty = max((get_env_temp() - temp_tolerance_high), 0) * temp_penalty_coefficient * (c_floor ? 1 : 2)
-	for(var/i in .)
-		.[i] = max(((.[i] * income_gen) - penalty) * effectiveness, 0)
+	//Раньше множитель штрафа зависел от "схемного пола" под сервером, но DM не проверяет тип при
+	//присваивании турфа в типизированную переменную - ветка была истинной на любом полу и не
+	//работала ни дня. Включать скрытую механику задним числом - отдельное балансное решение.
+	var/penalty = max((get_env_temp() - temp_tolerance_high), 0) * temp_penalty_coefficient
+	for(var/point_type as anything in .)
+		.[point_type] = max(((.[point_type] * income_gen) - penalty) * RESEARCH_SERVER_OUTPUT_MULTIPLIER, 0)
 
 /obj/machinery/rnd/server/proc/get_env_temp()
 	var/datum/gas_mixture/environment = loc.return_air()
@@ -124,16 +208,6 @@
 			var/datum/gas_mixture/env = L.return_air()
 			env.adjust_heat((heating_power * heat_gen)*0.8)
 			air_update_turf()
-
-/// Прок считает экспоненту серверов в зависимости от их количества. Больше - меньше эффективности выработки.
-/obj/machinery/rnd/server/proc/get_exponential_multiplier()
-	var/position = GLOB.rndservers_list.Find(src)
-	// Первые 3 сервера получат бонус, остальные получат штраф по логарифмической кривой
-	if(position <= 3)
-		return 1.2
-	var/exponent = 0.35
-	var/effectiveness = 1 / (1 + ((position - 4) ** exponent)) // 4-й сервер будет работать с эффективностью 1.0
-	return effectiveness
 
 /proc/fix_noid_research_servers()
 	var/list/no_id_servers = list()
@@ -188,7 +262,7 @@
 	add_fingerprint(usr)
 	usr.set_machine(src)
 	if(!src.allowed(usr) && !(obj_flags & EMAGGED))
-		to_chat(usr, "<span class='danger'>You do not have the required access level.</span>")
+		to_chat(usr, "<span class='danger'>Доступ запрещён.</span>")
 		return
 
 	if(href_list["main"])
@@ -224,9 +298,11 @@
 				var/i = 1
 				for(var/obj/machinery/rnd/server/S in GLOB.machines)
 					var/turf/T = get_turf(S) // Ищем координаты
+					var/web_info = S.stored_research ? S.stored_research.organization : "НЕ ПОДКЛЮЧЕН"
 					dat += "[i]. Server: [uppertext(S.server_id)]<br>"
 					dat += "___Path: C:\\RND\\SERVER_[i]<br>"
 					dat += "___Income stream: <b>[S.income_gen]</b> RP/tick<br>"
+					dat += "___Research network: <b>[web_info]</b><br>"
 					dat += "___Server location: ([T.x], [T.y], [T.z])<br><br>"
 					i++
 				dat += "Total servers detected: <b>[total_servers]</b><br>"
@@ -254,3 +330,5 @@
 	obj_flags |= EMAGGED
 	to_chat(user, "<span class='notice'>You disable the security protocols.</span>")
 	return TRUE
+
+#undef RESEARCH_SERVER_OUTPUT_MULTIPLIER

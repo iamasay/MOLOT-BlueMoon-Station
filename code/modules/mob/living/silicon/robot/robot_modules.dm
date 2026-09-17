@@ -189,6 +189,9 @@
 				EG.update_icon()
 			else
 				EG.charge_tick = 0
+		else if(istype(I, /obj/item/gun/ballistic/revolver/grenadelauncher/cyborg))
+			var/obj/item/gun/ballistic/revolver/grenadelauncher/cyborg/GL = I
+			GL.recharge_from_station(coeff)
 
 	R.toner = R.tonermax
 
@@ -252,25 +255,37 @@
 
 /obj/item/robot_module/proc/do_transform_animation()
 	var/mob/living/silicon/robot/R = loc
+	if(!transform_target_is_valid(R))
+		return FALSE
 	if(R.hat)
 		R.hat.forceMove(get_turf(R))
 		R.hat = null
 	R.cut_overlays()
 	R.setDir(SOUTH)
-	do_transform_delay()
+	return do_transform_delay(R)
 
-/obj/item/robot_module/proc/do_transform_delay()
-	var/mob/living/silicon/robot/R = loc
+/obj/item/robot_module/proc/transform_target_is_valid(mob/living/silicon/robot/R)
+	return istype(R) && !QDELETED(src) && !QDELETED(R) && loc == R && R.module == src
+
+/obj/item/robot_module/proc/do_transform_delay(mob/living/silicon/robot/R)
+	if(!transform_target_is_valid(R))
+		return FALSE
 	var/prev_locked_down = R.locked_down
 	sleep(1)
+	if(!transform_target_is_valid(R))
+		return FALSE
 	flick("[cyborg_base_icon]_transform", R)
 	R.mob_transforming = TRUE
 	R.SetLockdown(1)
 	R.anchored = TRUE
 	sleep(1)
+	if(!transform_target_is_valid(R))
+		return FALSE
 	for(var/i in 1 to 4)
 		playsound(R, pick('sound/items/drill3.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, 1, -1)
 		sleep(7)
+		if(!transform_target_is_valid(R))
+			return FALSE
 	if(!prev_locked_down)
 		R.SetLockdown(0)
 	R.setDir(SOUTH)
@@ -282,6 +297,7 @@
 	if(R.hud_used)
 		R.hud_used.update_robot_modules_display()
 	SSblackbox.record_feedback("tally", "cyborg_modules", 1, R.module)
+	return TRUE
 
 /**
   * check_menu: Checks if we are allowed to interact with a radial menu
@@ -958,7 +974,7 @@
 			dogborg = TRUE
 		if("Kittyborg")
 			cyborg_base_icon = "engi"
-			cyborg_icon_override = 'modular_bluemoon/icons/mob/kittycatborgs/kittyborg/kittyborg_engi.dmi'
+			cyborg_icon_override = 'modular_bluemoon/icons/mob/kittycatborgs/kittyborg/Kittyborg_engi.dmi'
 			moduleselect_alternate_icon = 'modular_citadel/icons/ui/screen_cyborg.dmi'
 			dogborg = TRUE
 		if("Dullahan (Taur)")
@@ -999,9 +1015,11 @@
 	hat_offset = 3
 
 /obj/item/robot_module/security/do_transform_animation()
-	..()
+	if(!..())
+		return FALSE
 	to_chat(loc, span_userdanger("Выбрав охранный модуль, вы все ещё следуете своим законам и стандартам силиконов, а не Космическому Закону. \
 	Для Crewsimov это значит, что вы следуете приказам преступников до тех пор, пока содержание закона 1 не допустит обратного."))
+	return TRUE
 
 /obj/item/robot_module/security/be_transformed_to(obj/item/robot_module/old_module)
 	var/mob/living/silicon/robot/R = loc
@@ -1231,7 +1249,9 @@
 		if("Feline") // SPLURT Addon (ChompS Port)
 			cyborg_base_icon = "vixsec"
 			sleeper_overlay = "vixsec-sleeper"
-			cyborg_icon_override = 'modular_citadel/icons/mob/widerobot.dmi'
+			// vixsec* лежат в splurt-файле, как и у остальных Feline-модулей; в citadel-файле
+			// их нет вовсе - борг был невидим, а меню поз отдыха выдавало "нет ни одной позы".
+			cyborg_icon_override = 'modular_splurt/icons/mob/widerobot.dmi'
 			dogborg = TRUE
 		if("Raptor V-4") // SPLURT Addon (ChompS Port)
 			cyborg_base_icon = "secraptor"
@@ -1261,7 +1281,7 @@
 			dogborg = TRUE
 		if("Kittyborg")
 			cyborg_base_icon = "sec"
-			cyborg_icon_override = 'modular_bluemoon/icons/mob/kittycatborgs/kittyborg/kittyborg_sec.dmi'
+			cyborg_icon_override = 'modular_bluemoon/icons/mob/kittycatborgs/kittyborg/Kittyborg_sec.dmi'
 			moduleselect_alternate_icon = 'modular_citadel/icons/ui/screen_cyborg.dmi'
 			dogborg = TRUE
 		if("Dragon") // WhiteMoon Port (Dragonborg)
@@ -1307,9 +1327,11 @@
 	hat_offset = -2
 
 /obj/item/robot_module/peacekeeper/do_transform_animation()
-	..()
+	if(!..())
+		return FALSE
 	to_chat(loc, span_userdanger("При законах ASIMOV/CREWSIMOV, вы блюститель ПОРЯДКА. \
 	Вы не охранный модуль и от вас ожидается следование приказам с минимальным вредом в процессе исполнения. Вы следуете своим законам и политике силиконов, а не Космическому Закону."))
+	return TRUE
 
 /obj/item/robot_module/peacekeeper/be_transformed_to(obj/item/robot_module/old_module)
 	var/mob/living/silicon/robot/R = loc
@@ -2388,7 +2410,7 @@
 		/obj/item/card/emag,
 		/obj/item/pinpointer/syndicate_cyborg,
 		/obj/item/stack/medical/gauze/cyborg,
-		/obj/item/gun/medbeam,
+		/obj/item/gun/medbeam/syndicate,
 		/obj/item/organ_storage)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg/medical,

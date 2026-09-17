@@ -23,6 +23,7 @@
 		"Recruit",
 		"Rookie",
 		"Russian Officer",
+		"SAARE Recruit",
 		"Slutcurity"
 		)
 
@@ -49,7 +50,6 @@
 
 	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/rank/security/officer/peacekeeper
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/helmet/blueshirt
@@ -75,8 +75,8 @@
 	//belt = /obj/item/modular_computer/pda/syndicate/no_deto
 
 	ears = /obj/item/radio/headset/headset_sec/alt
-	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/rank/security/officer/peacekeeper
+	mask = /obj/item/clothing/mask/gas/sechailer
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/helmet/sec
 	suit = /obj/item/clothing/suit/armor/vest/alt
@@ -84,13 +84,14 @@
 	l_pocket = /obj/item/storage/bag/security
 	r_pocket = /obj/item/assembly/flash/handheld
 	//suit_store = /obj/item/gun/energy/e_gun/advtaser
-	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/holosign_creator/security, /obj/item/storage/ifak, /obj/item/choice_beacon/pkbaton, /obj/item/syndicate_uplink_high)
+	backpack_contents = list(/obj/item/reagent_containers/spray/pepper, /obj/item/holosign_creator/security, /obj/item/storage/ifak, /obj/item/choice_beacon/pkbaton, /obj/item/syndicate_uplink/station)
 
+	no_custom_backpack = TRUE
 	backpack = /obj/item/storage/backpack/duffelbag/syndie/ammo
 	satchel = /obj/item/storage/backpack/duffelbag/syndie/ammo
 	duffelbag = /obj/item/storage/backpack/duffelbag/syndie/ammo
 	box = /obj/item/storage/box/survival/syndie
-	accessory = list(/obj/item/clothing/accessory/permit/special/security, /obj/item/clothing/accessory/badge/deputy)
+	accessory = list(/obj/item/clothing/accessory/permit/special/security, /obj/item/clothing/accessory/badge/deputy, /obj/item/clothing/accessory/permit/special/syndie_station)
 	pda_slot = ITEM_SLOT_BELT
 
 /datum/outfit/plasmaman/peacekeeper

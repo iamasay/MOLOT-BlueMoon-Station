@@ -41,8 +41,19 @@
 	var/upgrades = 0
 
 	var/internal_light = TRUE //Whether it can light up when an AI views it
+	// LightUp: свечение камеры
+	glow_icon = 'icons/obj/machines/camera.dmi'
+	glow_icon_state = null
+	exposure_icon = 'icons/effects/exposures.dmi'
+	exposure_icon_state = null
 	///Represents a signel source of camera alarms about movement or camera tampering
 	var/datum/alarm_handler/alarm_manager
+
+	///кэш get_visible_turfs(): турфы в зоне видимости; переживает апдейты
+	///нескольких чанков (камера у границы состоит в 2-4 чанках)
+	var/list/cached_visible_turfs
+	///TRUE = зона видимости могла измениться, кэш пересчитается при следующем запросе
+	var/visibility_cache_dirty = TRUE
 
 /obj/machinery/camera/preset/toxins //Bomb test site in space
 	name = "Hardened Bomb-Test Camera"
@@ -52,6 +63,7 @@
 	use_power = NO_POWER_USE //Test site is an unpowered area
 	invuln = TRUE
 	light_range = 10
+	light_flags = LIGHT_NO_RANGE_CAP // статичная камера тест-полигона: внешний свет выше базового капа
 	start_active = TRUE
 
 /obj/machinery/camera/Initialize(mapload, obj/structure/camera_assembly/CA)
@@ -65,6 +77,7 @@
 		assembly = new(src)
 		assembly.state = 4
 	GLOB.cameranet.cameras += src
+	GLOB.cameranet.invalidate_camera_cache()
 	GLOB.cameranet.addCamera(src)
 	if (isturf(loc))
 		myarea = get_area(src)
@@ -80,11 +93,24 @@
 	for(var/i in network)
 		network -= i
 		network += "[idnum][i]"
+	GLOB.cameranet.invalidate_camera_cache()
 
 /obj/machinery/camera/Destroy()
 	if(can_use())
 		toggle_cam(null, 0) //kick anyone viewing out and remove from the camera chunks
 	GLOB.cameranet.cameras -= src
+	GLOB.cameranet.invalidate_camera_cache()
+	// toggle_cam не зовётся для выключенных/EMP-нутых камер, а радиус удаления в
+	// majorChunkChange (8) уже скана при создании чанка (16 от центра) - добираем
+	// все чанки вручную, иначе chunk.cameras держит удалённую камеру
+	for(var/key in GLOB.cameranet.chunks)
+		var/datum/camerachunk/chunk = GLOB.cameranet.chunks[key]
+		if(src in chunk.cameras)
+			chunk.cameras -= src
+			chunk.hasChanged()
+	// Подсветка камеры малф-ИИ: lit_cameras нигде не чистится по qdel камеры
+	for(var/mob/living/silicon/ai/AI in GLOB.ai_list)
+		AI.lit_cameras -= src
 	cancelCameraAlarm()
 	if(isarea(myarea))
 		LAZYREMOVE(myarea.cameras, src)
@@ -101,6 +127,7 @@
 			update_icon()
 			var/list/previous_network = network
 			network = list()
+			GLOB.cameranet.invalidate_camera_cache()
 			GLOB.cameranet.removeCamera(src)
 			set_machine_stat(machine_stat | EMPED)
 			set_light(0)
@@ -112,6 +139,7 @@
 					triggerCameraAlarm() //camera alarm triggers even if multiple EMPs are in effect.
 					if(emped == thisemp) //Only fix it if the camera hasn't been EMP'd again
 						network = previous_network
+						GLOB.cameranet.invalidate_camera_cache()
 						set_machine_stat(machine_stat & ~EMPED)
 						update_icon()
 						if(can_use())
@@ -291,6 +319,11 @@
 	else
 		icon_state = "[initial(icon_state)][in_use_lights > 0 ? "_in_use" : ""]"
 
+/obj/machinery/camera/update_overlays()
+	. = ..()
+	if(status && in_use_lights > 0)
+		. += emissive_appearance(icon, "[initial(icon_state)]_in_use", src, alpha = src.alpha)
+
 /obj/machinery/camera/proc/toggle_cam(mob/user, displaymessage = 1)
 	status = !status
 	if(can_use())
@@ -333,11 +366,11 @@
 
 /obj/machinery/camera/proc/triggerCameraAlarm()
 	alarm_on = TRUE
-	alarm_manager.send_alarm(ALARM_CAMERA, src, src)
+	alarm_manager?.send_alarm(ALARM_CAMERA, src, src) // свормер зовёт тревогу на уже разобранной камере
 
 /obj/machinery/camera/proc/cancelCameraAlarm()
 	alarm_on = FALSE
-	alarm_manager.clear_alarm(ALARM_CAMERA)
+	alarm_manager?.clear_alarm(ALARM_CAMERA)
 
 /obj/machinery/camera/proc/can_use()
 	if(!status)
@@ -349,11 +382,47 @@
 /obj/machinery/camera/proc/can_see()
 	var/list/see = null
 	var/turf/pos = get_turf(src)
+	//камера в нуль-пространстве (носитель уехал в контейнер, борг в процессе удаления):
+	//get_hear()/range() от null падали на чтении luminosity
+	if(isnull(pos))
+		return list()
 	if(isXRay())
 		see = range(view_range, pos)
 	else
 		see = get_hear(view_range, pos)
 	return see
+
+/**
+ * Видимые турфы камеры с кэшем. can_see() (view-хак) на каждую камеру чанка
+ * при каждом апдейте был главным потребителем get_hear на проде: пролёт
+ * AI-глаза пересчитывал ~18 камер на чанк, хотя менялась в лучшем случае одна.
+ * Инвалидация - mark_visibility_dirty() из majorChunkChange (двери/стены
+ * рядом, вкл/выкл камеры), апгрейда XRay и Moved.
+ *
+ * Портативные камеры (борг/мех/бодикам - loc не турф) не кэшируются:
+ * их зона меняется каждым шагом носителя.
+ */
+/obj/machinery/camera/proc/get_visible_turfs()
+	if(!isturf(loc))
+		return compute_visible_turfs()
+	if(visibility_cache_dirty || isnull(cached_visible_turfs))
+		cached_visible_turfs = compute_visible_turfs()
+		visibility_cache_dirty = FALSE
+	return cached_visible_turfs
+
+///пересчёт без кэша: только турфы из can_see()
+/obj/machinery/camera/proc/compute_visible_turfs()
+	var/list/visible_turfs = list()
+	for(var/turf/visible_turf in can_see())
+		visible_turfs += visible_turf
+	return visible_turfs
+
+/obj/machinery/camera/proc/mark_visibility_dirty()
+	visibility_cache_dirty = TRUE
+
+/obj/machinery/camera/Moved(atom/OldLoc, Dir)
+	. = ..()
+	visibility_cache_dirty = TRUE
 
 /atom/proc/auto_turn()
 	//Automatically turns based on nearby walls.
@@ -385,9 +454,18 @@
 			if(cam == src)
 				return
 	if(on)
-		set_light(AI_CAMERA_LUMINOSITY, 0.8)
+		// LightUp: свечение камеры при подсветке ИИ — используем ламповую плоскость
+		glow_icon_state = initial(icon_state)
+		exposure_icon_state = "circle"
+		glow_icon = 'icons/obj/machines/camera.dmi'
+		exposure_icon = 'icons/effects/exposures.dmi'
+		glow_colored = FALSE
+		set_light(AI_CAMERA_LUMINOSITY, 0.8, light_color)
 	else
 		set_light(0)
+		glow_icon_state = null
+		exposure_icon_state = null
+		delete_lights()
 
 /obj/machinery/camera/get_remote_view_fullscreens(mob/user)
 	if(view_range == short_range) //unfocused

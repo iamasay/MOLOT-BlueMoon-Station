@@ -4,6 +4,8 @@
 	icon = 'modular_bluemoon/icons/obj/food/pet_bowl.dmi'
 	icon_state = "pet_bowl"
 	// interaction_flags_item = NONE
+	flags_1 = CONDUCT_1
+	item_flags = NO_PIXEL_RANDOM_DROP
 	resistance_flags = NONE
 	possible_transfer_amounts = list(5, 10, 15, 20, 25, 30, 40, 50, 80)
 	reagent_flags = OPENCONTAINER
@@ -12,13 +14,15 @@
 	ingMax = 6
 	custom_materials = list(/datum/material/iron = 500)
 	w_class = WEIGHT_CLASS_NORMAL
+	nutrition_check = FALSE
 
 /obj/item/reagent_containers/food/snacks/customizable/pet_bowl/Initialize(mapload)
 	. = ..()
-	pixel_x = base_pixel_x
-	pixel_y = base_pixel_y
-	item_flags |= NO_PIXEL_RANDOM_DROP
 	register_context()
+
+/obj/item/reagent_containers/food/snacks/customizable/pet_bowl/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/liquids_interaction) // LIQUIDS ADD - allow scooping liquids from turfs
 
 /obj/item/reagent_containers/food/snacks/customizable/pet_bowl/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	. = ..()
@@ -166,7 +170,6 @@
 		empty_bowl()
 	else
 		if(!reagents?.has_reagent(/datum/reagent/consumable/nutriment))
-			cut_overlays()
 			var/datum/reagent/r = reagents.get_master_reagent()
 			name = "[initial(name)] of [replacetext(r.glass_name, "glass of ", "")]"
 	update_icon()

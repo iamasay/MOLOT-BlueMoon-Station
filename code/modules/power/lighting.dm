@@ -18,6 +18,7 @@
 	icon_state = "tube-construct-item"
 	result_path = /obj/structure/light_construct
 	inverse = TRUE
+	allow_mouse_position = FALSE
 
 /obj/item/wallframe/light_fixture/small
 	name = "small light fixture frame"
@@ -194,10 +195,15 @@
 	var/on = FALSE					// 1 if on, 0 if off
 	var/on_gs = FALSE
 	var/static_power_used = 0
-	var/brightness = 8			// luminosity when on, also used in power calculation
-	var/bulb_power = 0.79			// basically the alpha of the emitted light source
-	var/bulb_colour = "#cae2fa"	// befault colour of the light.
+	/// Область, которой сейчас записан static_power_used. Снимать вклад обязательно с неё:
+	/// get_area(src) в момент снятия может быть уже другой (перелёт шаттла, смена области турфа).
+	var/area/static_power_area
+	var/brightness = 5			// luminosity when on, also used in power calculation - снижено для комфорта глаз
+	var/bulb_power = 0.85
+	var/bulb_colour = LIGHT_COLOR_STATION_HALL
 	var/cone_angle = LIGHTING_WALL_TUBE_CONE_ANGLE // Directional cone: light shines away from the wall
+	glow_icon_state = "tube"
+	exposure_icon_state = "cone"
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
 	var/flickering = FALSE
 	var/light_type = /obj/item/light/tube		// the type of light item
@@ -213,9 +219,9 @@
 	var/nightshift_enabled = FALSE	//Currently in night shift mode?
 	var/nightshift_allowed = TRUE	//Set to FALSE to never let this light get switched to night mode.
 	var/nightshift_level = 0
-	var/nightshift_brightness = 8
-	var/nightshift_light_power = 0.47
-	var/nightshift_light_color = "#A9BFFF" // More saturated than the daytime bulb tone so late-night interpolation reads visibly blue.
+	var/nightshift_brightness = 7
+	var/nightshift_light_power = 0.42
+	var/nightshift_light_color = LIGHT_COLOR_STATION_HALL_NIGHT
 	var/nightshift_update_queued = FALSE
 	var/last_overlay_alpha_bucket = -1
 	var/last_overlay_color
@@ -225,10 +231,10 @@
 	var/fire_mode = FALSE // if true, the light swaps over to emergency colour
 	var/no_emergency = FALSE	// if true, this light cannot ever have an emergency mode
 
-	var/bulb_emergency_brightness_mul = 0.25	// multiplier for this light's base brightness in emergency power mode
+	var/bulb_emergency_brightness_mul = 0.33	// multiplier for this light's base brightness in emergency power mode
 	var/bulb_emergency_colour = "#ff4e4e"	// determines the colour of the light while it's in emergency mode
-	var/bulb_emergency_pow_mul = 0.75	// the multiplier for determining the light's power in emergency mode
-	var/bulb_emergency_pow_min = 0.5	// the minimum value for the light's power in emergency mode
+	var/bulb_emergency_pow_mul = 0.80	// the multiplier for determining the light's power in emergency mode
+	var/bulb_emergency_pow_min = 0.60	// the minimum value for the light's power in emergency mode
 	var/hijacked = FALSE	// if true, the light is in a hijacked area
 	/**
 	 * Light can be connected to its individual light switch by tapping it with light switch frame.
@@ -250,6 +256,7 @@
 
 /obj/machinery/light/directional/north //Pixel offsets get overwritten on New()
 	dir = NORTH
+	pixel_y = 12
 
 /obj/machinery/light/directional/south
 	dir = SOUTH
@@ -282,9 +289,12 @@
 	icon_state = "bulb"
 	base_state = "bulb"
 	fitting = "bulb"
-	brightness = 5
+	brightness = 4
 	nightshift_brightness = 4
-	bulb_colour = "#dcdeff"
+	bulb_colour = LIGHT_COLOR_STATION_OFFICE
+	nightshift_light_color = LIGHT_COLOR_STATION_OFFICE_NIGHT
+	glow_icon_state = "bulb"
+	exposure_icon_state = "circle"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/light/bulb
 	cone_angle = LIGHTING_WALL_BULB_CONE_ANGLE
@@ -312,7 +322,7 @@
 
 /obj/machinery/light/afterShuttleMove(turf/oldT, list/movement_force, shuttle_dir, shuttle_preferred_direction, move_dir, rotation)
 	. = ..()
-	// Upgrade light source queue priority to FORCE_UPDATE — guarantees FULL path
+	// Upgrade light source queue priority to FORCE_UPDATE - guarantees FULL path
 	// with view() recalculation regardless of position detection result.
 	if(light && !QDELETED(light))
 		light.force_update()
@@ -345,28 +355,39 @@
 	set_layer_by_dir() // BLUEMOON ADD START
 	mark_apc_light_cache_dirty()
 	var/area/current_area = get_base_area(src)
+	if(current_area?.area_light_color)
+		bulb_colour = current_area.area_light_color
+	if(current_area?.area_nightlight_color)
+		nightshift_light_color = current_area.area_nightlight_color
 	sync_nightshift_from_current_apc(current_area)
 	spawn(2)
 		switch(fitting)
 			if("tube")
-				brightness = 9
+				brightness = 7
 				if(prob(2))
 					break_light_tube(1)
 			if("bulb")
-				brightness = 5
+				brightness = 4
 				if(prob(5))
 					break_light_tube(1)
 		spawn(1)
 			update(0)
 
 /obj/machinery/light/Destroy()
+	unpark_flicker()
 	stop_damage_flicker()
 	stop_power_loss_sequence()
 	var/area/A = get_area(src)
 	if(A)
 		on = FALSE
+	// on = FALSE выше идёт мимо update(), поэтому on_gs оставался TRUE и вклад лампы в
+	// static_light области не снимался никогда - область платила за снесённый плафон до
+	// конца раунда. Снимаем явно.
+	on_gs = FALSE
+	bill_static_power(0)
 	mark_apc_light_cache_dirty(A)
 	nightshift_update_queued = FALSE
+	GLOB.nightshift_light_queue -= src
 	QDEL_NULL(cell)
 	return ..()
 
@@ -465,9 +486,18 @@
 	if(icon_changed)
 		update_icon()
 	else if(overlay_changed)
-		update_overlays()
+		// update_overlays() только СОБИРАЕТ список и возвращает его - применяет собранное
+		// update_appearance(). Прямой вызов строил два mutable_appearance и выбрасывал их
+		// вместе со списком: смена альфа-бакета или цвета зоны (найтшифт, тревога) до
+		// спрайта лампы не доезжала, а аллокации платились. Ветка icon_changed выше этим
+		// не болела - update_icon() применяет.
+		update_appearance(UPDATE_OVERLAYS)
 
 /obj/machinery/light/proc/interpolate_light_value(start_value, end_value, t)
+	if(t <= 0)
+		return start_value
+	if(t >= 1)
+		return end_value
 	return round(start_value + (end_value - start_value) * t, 0.01)
 
 /obj/machinery/light/proc/blend_light_color(from_color, to_color, t)
@@ -514,7 +544,7 @@
 		M.color = last_overlay_color || get_overlay_color(get_base_area(src))
 		M.dir = dir
 		. += M
-		var/mutable_appearance/emissive_overlay = mutable_appearance(overlayicon, base_state, EMISSIVE_UNBLOCKABLE_LAYER, EMISSIVE_UNBLOCKABLE_PLANE)
+		var/mutable_appearance/emissive_overlay = mutable_appearance(overlayicon, base_state, FLOAT_LAYER, EMISSIVE_PLANE)
 		emissive_overlay.alpha = overlay_alpha
 		emissive_overlay.color = M.color
 		emissive_overlay.dir = dir
@@ -530,7 +560,7 @@
 			stop_power_loss_sequence()
 			set_light(0, l_cone_angle = 0)
 	if(emergency_mode && !has_power())
-		return // Active emergency lighting — handled by emergency_flicker_tick()
+		return // Active emergency lighting - handled by emergency_flicker_tick()
 	emergency_mode = FALSE
 	if(on)
 		var/BR = brightness
@@ -583,10 +613,35 @@
 	if(on != on_gs)
 		on_gs = on
 		if(on)
-			static_power_used = brightness * 20 * (hijacked ? 2 : 1) //20W per unit luminosity
-			addStaticPower(static_power_used, STATIC_LIGHT)
+			bill_static_power(brightness * 20 * (hijacked ? 2 : 1)) //20W per unit luminosity
 		else
-			removeStaticPower(static_power_used, STATIC_LIGHT)
+			bill_static_power(0)
+
+/**
+ * Переносит вклад лампы в static_light на ТЕКУЩУЮ область, сняв его с той, куда он был записан.
+ *
+ * addStaticPower/removeStaticPower (power.dm) резолвят область через get_area(src) на момент
+ * вызова, а лампа помнила только число и флаг on_gs - без области. Пары "начислили/сняли" в
+ * разных областях достаточно, чтобы область осталась с вечным фантомным потреблением, а APC
+ * платит за него из ячейки напрямую (lastused_light -> cell.use). На шаттле с маленькой
+ * батареей это и выглядело как "шаттлы разряжаются": пока турф отдан подстилающему космосу,
+ * гашение лампы списывало ватты с /area/space, а область шаттла оставалась с +160 Вт на каждый
+ * погасший плафон. Плюс Destroy() статику не снимал вовсе - снесённый горящий плафон оставлял
+ * своё потребление области навсегда.
+ */
+/obj/machinery/light/proc/bill_static_power(watts)
+	if(static_power_area)
+		static_power_area.addStaticPower(-static_power_used, STATIC_LIGHT)
+		static_power_area = null
+	static_power_used = 0
+	if(!watts)
+		return
+	var/area/current_area = get_area(src)
+	if(!current_area)
+		return
+	static_power_used = watts
+	static_power_area = current_area
+	current_area.addStaticPower(watts, STATIC_LIGHT)
 
 /obj/machinery/light/update_atom_colour()
 	. = ..()
@@ -606,7 +661,7 @@
 		cell.charge = min(cell.maxcharge, cell.charge + LIGHT_EMERGENCY_POWER_USE) //Recharge emergency power automatically while not using it
 	if(emergency_mode)
 		if(!use_emergency_power(LIGHT_EMERGENCY_DRAIN_RATE))
-			// Cell exhausted — turn off emergency mode
+			// Cell exhausted - turn off emergency mode
 			clear_emergency_state(FALSE)
 			return PROCESS_KILL
 		update() //Disables emergency mode and sets the color to normal
@@ -735,7 +790,7 @@
 	qdel(src)
 
 /obj/machinery/light/attacked_by(obj/item/I, mob/living/user, attackchain_flags = NONE, damage_multiplier = 1)
-	..()
+	. = ..()
 	if(status == LIGHT_BROKEN || status == LIGHT_EMPTY)
 		if(on && (I.flags_1 & CONDUCT_1))
 			if(prob(12))
@@ -792,14 +847,29 @@
 
 // returns whether this light has emergency power
 // can also return if it has access to a certain amount of that power
+// Если APC еще запитан (power_light), аварийка доступна без траты батарейки
 /obj/machinery/light/proc/has_emergency_power(pwr)
-	if(no_emergency || !cell)
+	if(no_emergency)
+		return FALSE
+	if(status != LIGHT_OK)
+		return FALSE
+	var/area/A = get_area(src)
+	if(A?.power_light)
+		return TRUE
+	if(!cell)
 		return FALSE
 	if(pwr ? cell.charge >= pwr : cell.charge)
-		return status == LIGHT_OK
+		return TRUE
+	return FALSE
 
 // attempts to use power from the installed emergency cell, returns true if it does and false if it doesn't
+// Если APC еще жив (power_light), батарейка не тратится - аварийка питается от APC пока он заряжен
 /obj/machinery/light/proc/use_emergency_power(pwr = LIGHT_EMERGENCY_POWER_USE)
+	var/area/A = get_area(src)
+	if(A?.power_light)
+		// APC еще запитан - светим без расхода батарейки
+		set_light(brightness * bulb_emergency_brightness_mul, bulb_emergency_pow_mul, bulb_emergency_colour, l_cone_angle = cone_angle, l_cone_dir = turn(dir, 180))
+		return TRUE
 	if(!has_emergency_power(pwr))
 		return FALSE
 	if(cell.charge > 300) //it's meant to handle 120 W, ya doofus
@@ -924,7 +994,7 @@
 
 /obj/machinery/light/proc/break_light_tube(skip_sound_and_sparks = 0)
 	if(status == LIGHT_EMPTY || status == LIGHT_BROKEN)
-		return
+		return FALSE
 	stop_damage_flicker()
 	if(!skip_sound_and_sparks)
 		if(status == LIGHT_OK || status == LIGHT_BURNED)
@@ -933,6 +1003,7 @@
 			do_sparks(3, TRUE, src)
 	status = LIGHT_BROKEN
 	update()
+	return TRUE
 
 /obj/machinery/light/proc/fix()
 	if(status == LIGHT_OK)
@@ -988,6 +1059,63 @@
 	sleep(1)
 	qdel(src)
 
+// --- Парковка мерцания на z-уровнях без наблюдателей ---
+
+/// Как часто единственный на весь мир сторож проверяет, не появились ли зрители
+/// у припаркованных ламп
+#define LIGHT_FLICKER_PARK_POLL_INTERVAL (5 SECONDS)
+
+/// Лампы, чьи цепочки мерцания остановлены до появления клиентов на их z-уровне.
+/// Раньше цепочка перевзводилась и на пустом уровне: обесточенная область оставляла
+/// десятки вечных таймеров, которые никто не видел.
+GLOBAL_LIST_EMPTY(parked_flicker_lights)
+/// id таймера сторожа; он живёт только пока список парковки не пуст
+GLOBAL_VAR(parked_flicker_watchdog_id)
+
+/// Ставит лампу на паузу вместо перевзвода цепочки мерцания
+/obj/machinery/light/proc/park_flicker()
+	GLOB.parked_flicker_lights |= src
+	// Таймер, из колбека которого мы сюда попали, уже отработал - его id протух
+	damage_flicker_timer_id = null
+	power_loss_timer_id = null
+	if(!isnull(GLOB.parked_flicker_watchdog_id))
+		return
+	GLOB.parked_flicker_watchdog_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_parked_flicker_lights)), LIGHT_FLICKER_PARK_POLL_INTERVAL, TIMER_STOPPABLE)
+
+/// Снимает лампу с парковки: её состояние сменилось или лампа уничтожается
+/obj/machinery/light/proc/unpark_flicker()
+	GLOB.parked_flicker_lights -= src
+
+/// Возобновляет ту цепочку мерцания, в которой лампа находится сейчас. Первый тик
+/// разбрасывается по времени: иначе целый обесточенный уровень стартовал бы одним тиком.
+/obj/machinery/light/proc/resume_parked_flicker()
+	if(emergency_mode)
+		power_loss_timer_id = addtimer(CALLBACK(src, PROC_REF(emergency_flicker_tick)), rand(1, LIGHT_EMERGENCY_FLICKER_INTERVAL), TIMER_STOPPABLE)
+		return
+	if(damage_flickering)
+		damage_flicker_timer_id = addtimer(CALLBACK(src, PROC_REF(damage_flicker_tick)), rand(1, LIGHT_FLICKER_INTERVAL_NORMAL), TIMER_STOPPABLE)
+
+/// Единственный сторож припаркованных ламп: один таймер вместо личной цепочки у каждой
+/proc/wake_parked_flicker_lights()
+	GLOB.parked_flicker_watchdog_id = null
+	// Список правится прямо в цикле, поэтому идём по копии
+	for(var/obj/machinery/light/parked as anything in GLOB.parked_flicker_lights.Copy())
+		if(QDELETED(parked))
+			GLOB.parked_flicker_lights -= parked
+			continue
+		if(!parked.emergency_mode && !parked.damage_flickering)
+			// Пока лампа стояла на паузе, её состояние сменилось (починили, обесточили,
+			// вырубили аварийку) - возобновлять больше нечего
+			GLOB.parked_flicker_lights -= parked
+			continue
+		if(!parked.has_z_viewers())
+			continue
+		GLOB.parked_flicker_lights -= parked
+		parked.resume_parked_flicker()
+	if(!length(GLOB.parked_flicker_lights))
+		return
+	GLOB.parked_flicker_watchdog_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(wake_parked_flicker_lights)), LIGHT_FLICKER_PARK_POLL_INTERVAL, TIMER_STOPPABLE)
+
 // --- Damage flickering ---
 
 /// Checks if light should start or stop flickering based on damage ratio
@@ -1024,7 +1152,7 @@
 	if(had_base_power && on && status == LIGHT_OK)
 		update(FALSE, TRUE)
 
-/// One tick of the damage flicker cycle — varies light power, may cause dropout
+/// One tick of the damage flicker cycle - varies light power, may cause dropout
 /obj/machinery/light/proc/damage_flicker_tick()
 	if(!damage_flickering || !on || status != LIGHT_OK)
 		stop_damage_flicker()
@@ -1035,8 +1163,11 @@
 	var/base_interval = severe ? LIGHT_FLICKER_INTERVAL_SEVERE : LIGHT_FLICKER_INTERVAL_NORMAL
 
 	if(!has_z_viewers())
-		var/next_interval = base_interval * (LIGHT_INTERVAL_JITTER_MIN + rand() * LIGHT_INTERVAL_JITTER_RANGE)
-		damage_flicker_timer_id = addtimer(CALLBACK(src, PROC_REF(damage_flicker_tick)), next_interval, TIMER_STOPPABLE)
+		// Никого нет - паркуемся до прихода зрителей, но сперва возвращаем номинал:
+		// иначе лампа так и осталась бы висеть на случайной яркости прошлого тика
+		if(!isnull(damage_flicker_base_power))
+			set_light(l_power = damage_flicker_base_power)
+		park_flicker()
 		return
 
 	// Determine dropout chance and power variance
@@ -1044,12 +1175,12 @@
 	var/power_variance = severe ? LIGHT_FLICKER_POWER_VARIANCE_SEVERE : LIGHT_FLICKER_POWER_VARIANCE
 
 	if(prob(dropout_prob))
-		// Dropout — power drops sharply for a brief moment
+		// Dropout - power drops sharply for a brief moment
 		var/dropout_power = damage_flicker_base_power * LIGHT_FLICKER_DROPOUT_POWER
 		set_light(l_power = dropout_power)
 		damage_flicker_timer_id = addtimer(CALLBACK(src, PROC_REF(damage_flicker_recover)), LIGHT_FLICKER_DROPOUT_DURATION, TIMER_STOPPABLE)
 	else
-		// Normal flicker — vary power around base
+		// Normal flicker - vary power around base
 		var/power_mod = damage_flicker_base_power * (1 + rand(-100, 100) / 100 * power_variance)
 		power_mod = clamp(power_mod, damage_flicker_base_power * LIGHT_FLICKER_POWER_CLAMP_MIN, damage_flicker_base_power * LIGHT_FLICKER_POWER_CLAMP_MAX)
 		set_light(l_power = power_mod)
@@ -1063,11 +1194,11 @@
 		stop_damage_flicker()
 		return
 	if(!has_z_viewers())
-		var/ratio = obj_integrity / max_integrity
-		var/severe = ratio <= LIGHT_DAMAGE_FLICKER_SEVERE
-		var/base_interval = severe ? LIGHT_FLICKER_INTERVAL_SEVERE : LIGHT_FLICKER_INTERVAL_NORMAL
-		var/next_interval = base_interval * (LIGHT_INTERVAL_JITTER_MIN + rand() * LIGHT_INTERVAL_JITTER_RANGE)
-		damage_flicker_timer_id = addtimer(CALLBACK(src, PROC_REF(damage_flicker_tick)), next_interval, TIMER_STOPPABLE)
+		// Обязательно снимаем провал яркости перед парковкой, иначе лампа застынет
+		// в промежуточной фазе мерцания до самого прихода зрителей
+		if(!isnull(damage_flicker_base_power))
+			set_light(l_power = damage_flicker_base_power)
+		park_flicker()
 		return
 	// Restore to slightly varied power and continue the cycle
 	set_light(l_power = damage_flicker_base_power)
@@ -1085,13 +1216,14 @@
 		return
 	stop_damage_flicker()
 	power_loss_stage = 1
-	// Stage 1: Death flicker — rapid dim/off cycling over 0.5s
+	// Stage 1: Death flicker - rapid dim/off cycling over 0.5s
 	death_flicker_tick(0)
 
 /// Stops any ongoing power loss animation and resets state
 /obj/machinery/light/proc/stop_power_loss_sequence()
 	if(!power_loss_stage)
 		return
+	unpark_flicker()
 	if(power_loss_timer_id)
 		deltimer(power_loss_timer_id)
 		power_loss_timer_id = null
@@ -1099,6 +1231,7 @@
 
 /obj/machinery/light/proc/clear_emergency_state(stop_processing_if_unpowered = TRUE)
 	emergency_mode = FALSE
+	unpark_flicker()
 	if(power_loss_timer_id)
 		deltimer(power_loss_timer_id)
 		power_loss_timer_id = null
@@ -1111,25 +1244,29 @@
 /// Returns TRUE if any clients are on this light's z-level
 /obj/machinery/light/proc/has_z_viewers()
 	var/our_z = z
-	if(!our_z || !SSmobs?.initialized)
+	// SSmobs объявлена SS_NO_INIT, её initialized не станет TRUE никогда - раскладку
+	// клиентов по z хранят эти списки, по их наличию и проверяем.
+	if(!our_z || !length(SSmobs.clients_by_zlevel))
 		return TRUE
-	return our_z <= length(SSmobs.clients_by_zlevel) && length(SSmobs.clients_by_zlevel[our_z])
+	var/has_living_viewer = our_z <= length(SSmobs.clients_by_zlevel) && length(SSmobs.clients_by_zlevel[our_z])
+	var/has_dead_viewer = our_z <= length(SSmobs.dead_players_by_zlevel) && length(SSmobs.dead_players_by_zlevel[our_z])
+	return has_living_viewer || has_dead_viewer
 
-/// One step of the death flicker — rapidly toggles light dim/off
+/// One step of the death flicker - rapidly toggles light dim/off
 /obj/machinery/light/proc/death_flicker_tick(step)
 	if(!power_loss_stage)
 		return
 	if(!has_z_viewers())
 		step = LIGHT_DEATH_FLICKER_STEPS
 	if(step >= LIGHT_DEATH_FLICKER_STEPS)
-		// Death flicker done — go dark
+		// Death flicker done - go dark
 		power_loss_stage = 2
 		on = FALSE
 		set_light(0, l_cone_angle = 0)
 		// Handle static power accounting since we bypass update()
 		if(on_gs)
 			on_gs = FALSE
-			removeStaticPower(static_power_used, STATIC_LIGHT)
+			bill_static_power(0)
 		update_icon()
 		// Schedule emergency activation after a random delay
 		var/delay = rand(LIGHT_EMERGENCY_DELAY_MIN, LIGHT_EMERGENCY_DELAY_MAX)
@@ -1150,7 +1287,7 @@
 	if(!has_emergency_power(LIGHT_EMERGENCY_POWER_USE) || turned_off())
 		power_loss_stage = 0
 		power_loss_timer_id = null
-		// No emergency power — just do normal update to handle emergency mode
+		// No emergency power - just do normal update to handle emergency mode
 		update()
 		return
 	power_loss_stage = 3
@@ -1172,8 +1309,9 @@
 		clear_emergency_state()
 		return
 	if(!has_z_viewers())
-		var/next_interval = LIGHT_EMERGENCY_FLICKER_INTERVAL * (LIGHT_INTERVAL_JITTER_MIN + rand() * LIGHT_INTERVAL_JITTER_RANGE)
-		power_loss_timer_id = addtimer(CALLBACK(src, PROC_REF(emergency_flicker_tick)), next_interval, TIMER_STOPPABLE)
+		// Возвращаем аварийку на номинал и паркуемся до прихода зрителей
+		set_light(brightness * bulb_emergency_brightness_mul, max(bulb_emergency_pow_min, bulb_emergency_pow_mul * (cell.charge / cell.maxcharge)), bulb_emergency_colour, l_cone_angle = cone_angle, l_cone_dir = turn(dir, 180))
+		park_flicker()
 		return
 	// Vary emergency power ±10%
 	var/charge_ratio = cell.charge / cell.maxcharge
@@ -1296,9 +1434,14 @@
 	icon = 'icons/obj/lighting.dmi'
 	base_state = "floor"		// base description and icon_state
 	icon_state = "floor"
-	brightness = 5
-	nightshift_brightness = 4
+	brightness = 6
+	nightshift_brightness = 6
+	bulb_colour = LIGHT_COLOR_STATION_HALL
+	nightshift_light_color = LIGHT_COLOR_STATION_HALL_NIGHT
+	glow_icon_state = "floor"
+	exposure_icon_state = "floor_circle"
 	layer = 2.5
+	plane = FLOOR_PLANE
 	light_type = /obj/item/light/bulb
 	fitting = "floor" //making deconstruction give out the right type.
 	cone_angle = 0 // Floor lights emit omnidirectional light
@@ -1320,12 +1463,13 @@
 		return
 	emergency_mode = TRUE
 	set_light(6, 3, bulb_emergency_colour, l_cone_angle = cone_angle, l_cone_dir = turn(dir, 180))
-	RegisterSignal(current_area, COMSIG_AREA_POWER_CHANGE, PROC_REF(update), override = TRUE)
+	//смена питания области доезжает до ламп штатным machinery power_change();
+	//прежняя регистрация на COMSIG_AREA_POWER_CHANGE (сигнал тогда никем не
+	//слался) подставляла бы область в аргумент trigger и крутила счётчик
+	//перегорания - не возвращать её
 
 /obj/machinery/light/proc/emergency_lights_off(area/current_area, obj/machinery/power/apc/current_apc)
 	set_light(0, 0, 0, l_cone_angle = 0) //you, sir, are off!
-	if(current_apc)
-		RegisterSignal(current_area, COMSIG_AREA_POWER_CHANGE, PROC_REF(update), override = TRUE)
 
 /obj/machinery/light/broken
 	status = LIGHT_BROKEN

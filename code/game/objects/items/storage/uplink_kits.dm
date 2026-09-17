@@ -168,7 +168,7 @@
 	new /obj/item/chameleon(src) //its not the original cloaking device, but it will do.
 	new /obj/item/gun/ballistic/revolver(src)
 	new /obj/item/implanter/freedom(src)
-	new /obj/item/stack/telecrystal(src) //The failsafe/self destruct isn't an item we can physically include in the kit, but 1 TC is technically enough to buy the equivalent.
+	new /obj/item/stack/telecrystal/inteq(src) //The failsafe/self destruct isn't an item we can physically include in the kit, but 1 TC is technically enough to buy the equivalent.
 
 /obj/item/storage/box/syndie_kit
 	name = "box"
@@ -587,10 +587,21 @@
 
 /obj/item/storage/box/syndie_kit/scarp
 
+/obj/item/storage/box/syndie_kit/scarp/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_w_class = WEIGHT_CLASS_BULKY
+	STR.max_combined_w_class = 30
+	STR.max_items = 8
+
 /obj/item/storage/box/syndie_kit/scarp/PopulateContents()
-	new /obj/item/book/granter/martial/carp(src)
-	new /obj/item/clothing/suit/hooded/carp_costume(src)
-	new /obj/item/staff/bostaff(src)
+	new /obj/item/gun/ballistic/automatic/speargun(src)
+	new /obj/item/storage/bag/harpoon_quiver(src)
+	new /obj/item/clothing/suit/space/hardsuit/carp(src)
+	new /obj/item/clothing/mask/gas/carp(src)
+	new /obj/item/clothing/gloves/combat(src)
+	new /obj/item/grenade/spawnergrenade/spesscarp(src)
+	new /obj/item/toy/plush/carpplushie/dehy_carp(src)
 
 /obj/item/storage/box/syndie_kit/sleepytime/cardpack/PopulateContents()
 	. = ..()

@@ -16,6 +16,10 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/H = host_mob
+		//носитель уничтожается: human/Destroy удаляет physiology раньше содержимого,
+		//где умирают наниты - возвращать модификаторы некому
+		if(isnull(H.physiology))
+			return
 		H.physiology.stun_mod *= 2
 
 /datum/nanite_program/adrenaline
@@ -48,6 +52,8 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/H = host_mob
+		if(isnull(H.physiology)) //см. nervous - "Cannot read null.armor" при смерти носителя
+			return
 		H.physiology.armor.melee -= 35
 		H.physiology.armor.bullet -= 35
 
@@ -68,6 +74,8 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/H = host_mob
+		if(isnull(H.physiology)) //см. nervous - тот же путь смерти носителя
+			return
 		H.physiology.armor.laser -= 35
 		H.physiology.armor.energy -= 35
 
@@ -87,6 +95,8 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/H = host_mob
+		if(isnull(H.physiology)) //см. nervous - тот же путь смерти носителя
+			return
 		H.physiology.bleed_mod *= 10
 
 /datum/nanite_program/conductive
@@ -112,7 +122,7 @@
 
 /datum/nanite_program/mindshield/enable_passive_effect()
 	. = ..()
-	if(!host_mob.mind.has_antag_datum(/datum/antagonist/rev, TRUE)) //won't work if on a rev, to avoid having implanted revs.
+	if(!host_mob.mind?.has_antag_datum(/datum/antagonist/rev, TRUE)) //won't work if on a rev, to avoid having implanted revs.
 		ADD_TRAIT(host_mob, TRAIT_MINDSHIELD, "nanites")
 		host_mob.sec_hud_set_implants()
 

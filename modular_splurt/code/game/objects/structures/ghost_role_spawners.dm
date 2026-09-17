@@ -7,7 +7,8 @@
 	return ..()
 
 /obj/effect/mob_spawn/human/ash_walker/western
-	job_description = "Western Ashwalker's"
+	// Без апострофа: job_description служит ключом GLOB.mob_spawners и уезжает в href лобби.
+	job_description = "Western Ashwalker"
 	short_desc = "Вы магмовый скиталец ЖЕНСКОГО пола. Ваше племя поклоняется материнскому Тендрилу."
 	flavour_text = "Ваш прошлый дом и материнский Тендрил были разрушены чужаками с Холодных Звёзд и те из ваших сородичей, кто остались \
 	в живых, покинули южные моря на поиски нового дома. Эти земли хороши для вашего нового дома, ибо обилие Тендрилов дарует этим землям \
@@ -44,7 +45,7 @@
 	H.update_body()
 
 /obj/effect/mob_spawn/human/ash_walker/eastern
-	job_description = "Eastern Ashwalker's"
+	job_description = "Eastern Ashwalker"
 	short_desc = "Вы магмовый скиталец МУЖСКОГО пола. Ваше племя поклоняется материнскому Тендрилу."
 	flavour_text = "Ваше племя поклоняется матери Некрополю, как вашей Спасительнице и Наставнице. Священные стены дворца Некрополя \
 	дали вашему Тендрилу и вашему Роду защиту. Испокон веков, ваша священная обитель дарует вам Дар Перерождения, из цикла в цикл за \
@@ -139,7 +140,7 @@
 	icon_state = "sleeper"
 	short_desc = "Вы - член обслуживающего персонала космического отеля."
 	flavour_text = "Вы нанялись в качестве персонала общего профиля для уборки, готовки, обслуживания гостей и всего, что прикажет менеджер на время пребывания на борту космического отеля. Ни в коем случае не грубите, не хамите и не ругайтесь с посетителями. Помните, что в вашем случае, клиент всегда прав."
-	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или установки телепада)."
+	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или установки телепада). Помните, что отель - запасная станция на случай экстренных ситуаций. КЗ и НРП действует на территории отеля и он не защищен от нападения агентов враждебных организаций."
 	assignedrole = "Hotel Staff"
 	death = FALSE
 	roundstart = FALSE
@@ -167,14 +168,16 @@
 	mob_name = "hotel security member"
 	job_description = "Hotel Security"
 	short_desc = "Вы - охранник космического отеля."
-	flavour_text = "Вы были назначены в этот отель, чтобы защищать интересы компании Nanotrasen, недавно выкупившей его. Ведите себя вежливо, не размахивайте оружием и бронёй, не грубите посетителям."
-	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или установки телепада). Не ведите себя как СБ со станции - вы обычный гражданский и не обучены для борьбы с террористами, предателями, аномалиями и другими неординарными сущностями."
+	flavour_text = "Вы были назначены в этот отель, чтобы защищать интересы компании Nanotrasen, недавно выкупившей его. Ведите себя вежливо,\
+	не размахивайте оружием и бронёй, не грубите посетителям - в первую очередь, вы не должны мешать наслаждаться пребыванием и отпугивать адекватных клиентов."
+	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или для установки телепада). Вы можете вести себя как СБ со станции и \
+	полностью подчиняетесь КЗ и НРП СБ. Любых преступников, или нарушителей порядка вам следует передавать на станцию для вынесения и исполнения приговора. Вам нужно помнить, \
+	что отель не защищен от нападения агентов вражеских организаций."
 	id_job = "Hotel Security"
 	uniform = /obj/item/clothing/under/rank/security/officer/blueshirt
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	head = /obj/item/clothing/head/helmet/blueshirt
-	back = /obj/item/storage/backpack/satchel/sec
 	belt = /obj/item/storage/belt/security/full
 	id = /obj/item/card/id/away/hotel/splurt/security
 
@@ -184,8 +187,9 @@
 	job_description = "Hotel Manager"
 	short_desc = "Вы - менеджер космического отеля."
 	flavour_text = "Вы управляете одним из объектов успешной сети Космических Отелей. Недавно ваша материнская компания была выкуплена Nanotrasen и вам поручили обслуживать некоторые из их станций; в результате вы получили в свое распоряжение набор модных технологий! Защищайте интересы своей материнской компании и следите за тем, чтобы ваш персонал работал на должном уровне, и постарайтесь сделать так, чтобы ваши гости были довольны!"
-	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или установки телепада)."
-	objectives = "Don't abandon your assigned hotel. Cater to visiting guests. Maintain good corporate relations and remember: The customer is always right!"
+	important_info = "Персоналу отеля запрещается покидать его (кроме неординарных случаев или установки телепада). Отель - это запасная станция на случай экстренных ситуаций. Вам нужно помнить, \
+	что отель не защищен от нападения агентов вражеских организаций."
+	objectives = "Не покидайте назначенный вам отель. Оказывайте должное внимание гостям. Поддерживайте хорошие корпоративные отношения и помните: клиент всегда прав!"
 	id_job = "Hotel Manager"
 	uniform = /obj/item/clothing/under/suit/black
 	suit = /obj/item/clothing/suit/toggle/lawyer/black
@@ -234,6 +238,32 @@
 	loadout_enabled = TRUE
 	category = "inteq"
 
+/datum/outfit/inteqspace/inteq_crew/post_equip(mob/living/carbon/human/H)
+	H.faction |= ROLE_INTEQ
+	GLOB.inteq_pact_siege.register_defender(H)
+
+	var/obj/item/radio/R = H.ears
+	R.set_frequency(FREQ_GHOST_INTEQ)
+	R.freqlock = TRUE
+	R.independent = TRUE
+
+/obj/effect/mob_spawn/human/inteqspace/comms
+	name = "InteQ Field Comms Agent"
+	short_desc = "Вы Офицер Прослушки InteQ. Ваш приказ - поддерживать целостность своего объекта и оказывать информационную поддержку доступным агентам. Вы находитесь на враждебной территории, сохраняйте незаметность."
+	flavour_text = "InteQ счел нужным оказать поддержку полевым агентам в системе. Приведите объект под вашей ответственностью к успеху, который планировался, либо умрите - стараясь."
+	important_info = "Используйте коммуникационное оборудование для оказания поддержки любым полевым агентам."
+	can_load_appearance = TRUE
+	outfit = /datum/outfit/inteqspace/inteq_comms
+	antagonist_type = /datum/antagonist/ghost_role/inteq/comms
+
+/datum/outfit/inteqspace/inteq_comms/post_equip(mob/living/carbon/human/H)
+	H.faction |= ROLE_INTEQ
+
+	var/obj/item/radio/R = H.ears
+	R.set_frequency(FREQ_GHOST_INTEQ)
+	R.freqlock = TRUE
+	R.independent = TRUE
+
 /obj/effect/mob_spawn/human/inteqspace/engineer
 	name = "InteQ Field Engineer"
 	short_desc = "Вы - Полевой Инженер Авангарда InteQ, очнувшийся на захваченной базе в враждебном космосе."
@@ -242,23 +272,9 @@
 	can_load_appearance = TRUE
 	outfit = /datum/outfit/inteqspace/inteq_engineer
 
-/obj/effect/mob_spawn/human/inteqspace/dyson_gate
-	name = "InteQ Dyson Sphere Crew Member"
-	short_desc = "Вы - Оперативник  InteQ на обшивке Дайсон Сферы, и на вашей части базы произошло ЧП."
-	flavour_text = "Вы являетесь частью персонала,что обслуживает аванпост на обшивке Дайсон Сферы. За вашу смену произошло много ЧП и сейчас на базе орудуют монстры, что явились снаружи. \
-					ПАКТ каким то образом смогли получить коды от Гейта и начали развертывать свои силы."
-	important_info = "Востановите ваш аванпост и приготовтесь отражать нападение. Не нападайте на лагерь ПАКТа, пока они сами не нападут."
-
-/datum/outfit/inteqspace/inteq_crew/post_equip(mob/living/carbon/human/H)
-	H.faction |= ROLE_INTEQ
-
-	var/obj/item/radio/R = H.ears
-	R.set_frequency(FREQ_GHOST_INTEQ)
-	R.freqlock = TRUE
-	R.independent = TRUE
-
 /datum/outfit/inteqspace/inteq_engineer/post_equip(mob/living/carbon/human/H)
 	H.faction |= ROLE_INTEQ
+	GLOB.inteq_pact_siege.register_defender(H)
 
 	var/obj/item/radio/R = H.ears
 	R.set_frequency(FREQ_GHOST_INTEQ)
@@ -296,17 +312,12 @@
 
 /datum/outfit/inteqspace/inteq_captain/post_equip(mob/living/carbon/human/H)
 	H.faction |= ROLE_INTEQ
+	GLOB.inteq_pact_siege.register_defender(H)
 
 	var/obj/item/radio/R = H.ears
 	R.set_frequency(FREQ_GHOST_INTEQ)
 	R.freqlock = TRUE
 	R.independent = TRUE
-
-/obj/effect/mob_spawn/human/inteqspace/captain/dyson_gate
-	name = "InteQ Dyson Sphere Captain"
-	short_desc = "Вы -Глава Авангарда InteQ в отпуске, и проходите его в выделенной для вас Зоне."
-	flavour_text = "Прошло уже три дня, как вы развлекались с одной из «игрушек», что вы прихватили из карцеров на базе. Но сейчас там обьявлен полный карантин и вам туда не пройти. Вы можете продолжить свой неожиданный отпуск или подняться выше, на орбитальную часть, где находиться аванпост с остатками сил."
-	important_info = "Не пытайтесь проникнуть в подземную часть базы, где обьявлена биологическая тревога. Не напдайте на лагерь ПАКТа, пока они сами не нападут."
 
 /obj/effect/mob_spawn/human/inteqspace/captain/Destroy()
 	new/obj/structure/fluff/empty_sleeper/syndicate/captain(get_turf(src))
@@ -383,6 +394,26 @@
 
 	id = /obj/item/card/id/inteq/captain_id
 	backpack_contents = list(/obj/item/documents/syndicate/red, /obj/item/paper/fluff/ruins/forgottenship/password)
+	implants = list(/obj/item/implant/deathrattle/inteqcrew, /obj/item/implant/weapons_auth)
+
+/datum/outfit/inteqspace/inteq_comms
+	name = "InteQ Field Comms Agent"
+
+	suit = /obj/item/clothing/suit/armor/inteq/honorable_vanguard
+	uniform = /obj/item/clothing/under/inteq
+	shoes = /obj/item/clothing/shoes/combat/swat/knife
+	gloves = /obj/item/clothing/gloves/combat
+
+	head = /obj/item/clothing/head/HoS/pmc_leader_beret
+	mask = /obj/item/clothing/mask/gas/inteq
+	ears = /obj/item/radio/headset/inteq/alt/leader
+	belt = /obj/item/storage/belt/military/assault/inteq_captain
+
+	l_pocket = /obj/item/extinguisher/mini
+	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
+
+	id = /obj/item/card/id/inteq/captain_id
+	backpack_contents = list(/obj/item/documents/syndicate/red)
 	implants = list(/obj/item/implant/deathrattle/inteqcrew, /obj/item/implant/weapons_auth)
 
 // Ghost Cafe Spawner (VR Version)

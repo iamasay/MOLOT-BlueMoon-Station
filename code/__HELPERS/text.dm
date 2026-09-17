@@ -175,11 +175,25 @@
 // Used to get a properly sanitized input, of max_length
 // no_trim is self explanatory but it prevents the input from being trimed if you intend to parse newlines or whitespace.
 /proc/stripped_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
-	return finalize_stripped_input(input(user, message, title, default) as text|null, max_length, no_trim)
+	var/mob/prompt_mob = begin_native_prompt(user)
+	var/user_input = input(user, message, title, default) as text|null
+	end_native_prompt(prompt_mob)
+	return finalize_stripped_input(user_input, max_length, no_trim)
+
+/**
+  * stripped_input but reflects to the user instead if it's too big and returns null.
+  */
+/proc/stripped_input_or_reflect(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/mob/prompt_mob = begin_native_prompt(user)
+	var/user_input = input(user, message, title, default) as text|null
+	end_native_prompt(prompt_mob)
+	return stripped_text_or_reflect(user, user_input, max_length, no_trim)
 
 // Used to get a properly sanitized multiline input, of max_length
 /proc/stripped_multiline_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/mob/prompt_mob = begin_native_prompt(user)
 	var/name = input(user, message, title, default) as message|null
+	end_native_prompt(prompt_mob)
 	if(isnull(name)) // Return null if canceled.
 		return null
 	return finalize_stripped_input(name, max_length, no_trim)
@@ -188,14 +202,53 @@
   * stripped_multiline_input but reflects to the user instead if it's too big and returns null.
   */
 /proc/stripped_multiline_input_or_reflect(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/mob/prompt_mob = begin_native_prompt(user)
 	var/name = input(user, message, title, default) as message|null
-	if(isnull(name)) // Return null if canceled.
+	end_native_prompt(prompt_mob)
+	return stripped_text_or_reflect(user, name, max_length, no_trim)
+
+/proc/stripped_text_or_reflect(mob/user, message = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	if(!length(message)) // Return null if canceled.
 		return null
-	if(length(name) > max_length)
-		to_chat(user, name)
-		to_chat(user, "<span class='danger'>^^^----- The preceeding message has been DISCARDED for being over the maximum length of [max_length]. It has NOT been sent! -----^^^</span>")
+	if(length(message) > max_length)
+		reflect_discarded_message(user, message, max_length)
 		return null
-	return finalize_stripped_input(name, max_length, no_trim)
+	return finalize_stripped_input(message, max_length, no_trim)
+
+/// Echoes a rejected over-long message back so the sender can copy it out, then explains
+/// why it was dropped. The echo is always encoded: it is raw player text going straight
+/// into a chat window, so an unencoded copy would let the sender inject markup at himself.
+/proc/reflect_discarded_message(mob/user, message, max_length)
+	to_chat(user, html_encode(message))
+	to_chat(user, span_danger("^^^----- The preceding message has been DISCARDED for being over the maximum length of [max_length]. It has NOT been sent! -----^^^"))
+
+/// Length guard for text whose sink sanitizes on its own - say() and whisper() call
+/// sanitize() internally, so encoding here as well would escape the message twice
+/// ("<" -> "&lt;" -> "&amp;lt;") and the player would read literal entities in chat.
+/// Control characters are still stripped, since those survive html_encode() and break
+/// the DM<->TGUI round-trip. Returns null when there is nothing left to send.
+/proc/raw_text_or_reflect(mob/user, message = "", max_length = MAX_MESSAGE_LEN)
+	if(!length(message)) // Return null if canceled.
+		return null
+	message = strip_control_chars(message)
+	if(!length(message))
+		return null
+	if(length(message) > max_length)
+		reflect_discarded_message(user, message, max_length)
+		return null
+	return message
+
+/// raw_text_or_reflect() fed by a native BYOND prompt, for callers that must not encode.
+/// multiline picks `as message` over `as text`, matching stripped_multiline_input().
+/proc/raw_input_or_reflect(mob/user, message = "", title = "", default = "", max_length = MAX_MESSAGE_LEN, multiline = FALSE)
+	var/mob/prompt_mob = begin_native_prompt(user)
+	var/user_input
+	if(multiline)
+		user_input = input(user, message, title, default) as message|null
+	else
+		user_input = input(user, message, title, default) as text|null
+	end_native_prompt(prompt_mob)
+	return raw_text_or_reflect(user, user_input, max_length)
 
 #define NO_CHARS_DETECTED 0
 #define SPACES_DETECTED 1
@@ -506,29 +559,42 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 			return
 	return FALSE
 
-/proc/parsemarkdown_basic_step1(t, limited=FALSE)
+/proc/parsemarkdown_basic_step1(t, limited=FALSE, barebones=FALSE)
 	if(length(t) <= 0)
 		return
 
 	// This parses markdown with no custom rules
 
 	// Escape backslashed
-
-	t = replacetext(t, "$", "$-")
-	t = replacetext(t, "\\\\", "$1")
-	t = replacetext(t, "\\**", "$2")
-	t = replacetext(t, "\\*", "$3")
-	t = replacetext(t, "\\__", "$4")
-	t = replacetext(t, "\\_", "$5")
-	t = replacetext(t, "\\^", "$6")
-	t = replacetext(t, "\\((", "$7")
-	t = replacetext(t, "\\))", "$8")
-	t = replacetext(t, "\\|", "$9")
-	t = replacetext(t, "\\%", "$0")
+	if(!barebones)
+		t = replacetext(t, "$", "$-")
+		t = replacetext(t, "\\\\", "$1")
+		t = replacetext(t, "\\**", "$2")
+		t = replacetext(t, "\\*", "$3")
+		t = replacetext(t, "\\__", "$4")
+		t = replacetext(t, "\\_", "$5")
+		t = replacetext(t, "\\^", "$6")
+		t = replacetext(t, "\\((", "$7")
+		t = replacetext(t, "\\))", "$8")
+		t = replacetext(t, "\\|", "$9")
+		t = replacetext(t, "\\%", "$0")
 
 	// Escape  single characters that will be used
 
 	t = replacetext(t, "!", "$a")
+
+	// Parse colour (Twilight Axis style: -=RRGGBB text =- )
+	if(!barebones)
+		var/regex/hexgex = regex(@"(?<=-=)(.{6})")
+		while(hexgex.Find(t))
+			var/endblock = findtext(t, "=-", hexgex.index)
+			if(!endblock)
+				break
+			var/c_code = sanitize_hexcolor(hexgex.match, 6, TRUE)
+			var/prefix = copytext(t, 1, hexgex.index - 2)
+			var/middle = copytext(t, hexgex.index + 6, endblock)
+			var/suffix = copytext(t, endblock + 2)
+			t = prefix + "<font color='[c_code]'>" + middle + "</font>" + suffix
 
 	// Parse hr and small
 
@@ -588,25 +654,31 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	// Parse headers
 
-	t = replacetext(t, regex("^#(?!#) ?(.+)$", "gm"), "<h2>$1</h2>")
-	t = replacetext(t, regex("^##(?!#) ?(.+)$", "gm"), "<h3>$1</h3>")
-	t = replacetext(t, regex("^###(?!#) ?(.+)$", "gm"), "<h4>$1</h4>")
-	t = replacetext(t, regex("^#### ?(.+)$", "gm"), "<h5>$1</h5>")
+	if(!barebones)
+		t = replacetext(t, regex("^#(?!#) ?(.+)$", "gm"), "<h2>$1</h2>")
+		t = replacetext(t, regex("^##(?!#) ?(.+)$", "gm"), "<h3>$1</h3>")
+		t = replacetext(t, regex("^###(?!#) ?(.+)$", "gm"), "<h4>$1</h4>")
+		t = replacetext(t, regex("^#### ?(.+)$", "gm"), "<h5>$1</h5>")
 
 	// Parse most rules
 
-	t = replacetext(t, regex("\\*(\[^\\*\]*)\\*", "g"), "<i>$1</i>")
-	t = replacetext(t, regex("_(\[^_\]*)_", "g"), "<i>$1</i>")
-	t = replacetext(t, "<i></i>", "!")
-	t = replacetext(t, "</i><i>", "!")
-	t = replacetext(t, regex("\\!(\[^\\!\]+)\\!", "g"), "<b>$1</b>")
-	t = replacetext(t, regex("\\^(\[^\\^\]+)\\^", "g"), "<font size=\"4\">$1</font>")
-	t = replacetext(t, regex("\\|(\[^\\|\]+)\\|", "g"), "<center>$1</center>")
-	t = replacetext(t, "!", "</i><i>")
+	if(!barebones)	//Barebones swaps * for + and | for bold and italics respectively, used in say / emote code.
+		t = replacetext(t, regex("\\*(\[^\\*\]*)\\*", "g"), "<i>$1</i>")
+		t = replacetext(t, regex("_(\[^_\]*)_", "g"), "<i>$1</i>")
+		t = replacetext(t, "<i></i>", "!")
+		t = replacetext(t, "</i><i>", "!")
+		t = replacetext(t, regex("\\!(\[^\\!\]+)\\!", "g"), "<b>$1</b>")
+		t = replacetext(t, regex("\\^(\[^\\^\]+)\\^", "g"), "<font size=\"4\">$1</font>")
+		t = replacetext(t, regex("\\|(\[^\\|\]+)\\|", "g"), "<center>$1</center>")
+		t = replacetext(t, "!", "</i><i>")
+	else
+		t = replacetext(t, regex("\\+(\[^\\+\]+)\\+", "g"), "<b>$1</b>")
+		t = replacetext(t, regex("\\|(\[^\\|\]+)\\|", "g"), "<i>$1</i>")
+		t = replacetext(t, regex("\\_(\[^\\_\]+)\\_", "g"), "<u>$1</u>")
 
 	return t
 
-/proc/parsemarkdown_basic_step2(t)
+/proc/parsemarkdown_basic_step2(t, hyperlink=FALSE)
 	if(length(t) <= 0)
 		return
 
@@ -628,11 +700,14 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 	t = replacetext(t, "$0", "%")
 	t = replacetext(t, "$-", "$")
 
+	if(hyperlink)
+		t = replacetext(t, regex(@"https?:\/\/[^\s$.?#].[^\s]*", "gi"), "<a href=\"$0\">$0</a>")
+
 	return t
 
-/proc/parsemarkdown_basic(t, limited=FALSE)
-	t = parsemarkdown_basic_step1(t, limited)
-	t = parsemarkdown_basic_step2(t)
+/proc/parsemarkdown_basic(t, limited=FALSE, barebones=FALSE, hyperlink=FALSE)
+	t = parsemarkdown_basic_step1(t, limited, barebones)
+	t = parsemarkdown_basic_step2(t, hyperlink)
 	return t
 
 /proc/parsemarkdown(t, mob/user=null, limited=FALSE)
@@ -649,6 +724,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 	t = replacetext(t, regex("%f(?:ield)?(?=\\s|$)", "igm"), "<span class=\"paper_field\"></span>")
 
 	t = parsemarkdown_basic_step2(t)
+	// Keep hyperlink off for paper; flavor texts enable it explicitly via parsemarkdown_basic(..., hyperlink=TRUE)
 
 	// Manage whitespace
 

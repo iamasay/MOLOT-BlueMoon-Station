@@ -35,13 +35,8 @@
 
 	faction = list("shark")
 
-/mob/living/simple_animal/hostile/shark/Process_Spacemove(var/movement_dir = 0, continuous_move = FALSE)
+/mob/living/simple_animal/hostile/shark/Process_Spacemove(var/movement_dir = 0)
 	return TRUE   //No drifting in space for space sharks....either!
-
-/mob/living/simple_animal/hostile/shark/FindTarget()
-	. = ..()
-	if(.)
-		emote("me", 1, "growls at [.]!")
 
 /mob/living/simple_animal/hostile/shark/AttackingTarget()
 	. =..()

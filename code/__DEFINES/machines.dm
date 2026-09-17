@@ -6,6 +6,8 @@
 #define STATIC_EQUIP 	5
 #define STATIC_LIGHT	6
 #define STATIC_ENVIRON	7
+/// Maps a dynamic power channel (EQUIP/LIGHT/ENVIRON) onto its static counterpart.
+#define DYNAMIC_TO_STATIC_CHANNEL(channel) ((channel) + TOTAL)
 
 //Power use
 #define NO_POWER_USE 0
@@ -74,8 +76,8 @@
 #define PROGRAM_LAPTOP (1<<1)
 #define PROGRAM_TABLET (1<<2)
 #define PROGRAM_PDA (1<<3)
-#define PROGRAM_ON_TABLETS PROGRAM_TABLET | PROGRAM_PDA
-#define PROGRAM_ON_COMPUTERS PROGRAM_CONSOLE | PROGRAM_LAPTOP
+#define PROGRAM_ON_TABLETS (PROGRAM_TABLET | PROGRAM_PDA)
+#define PROGRAM_ON_COMPUTERS (PROGRAM_CONSOLE | PROGRAM_LAPTOP)
 //program_flags
 #define PROGRAM_REQUIRES_NTNET (1<<0)
 #define PROGRAM_ON_NTNET_STORE (1<<1)
@@ -190,3 +192,10 @@
 #define LOGIN_TYPE_AI 2
 #define LOGIN_TYPE_ROBOT 3
 #define LOGIN_TYPE_ADMIN 4
+
+// Конвейеры. Позиция свитча и состояние ленты - один и тот же набор значений: свитч кладёт
+// свою позицию в last_command ленты, а лента разворачивает её в movedir. Числа завязаны на
+// иконки ("conveyor[operating * verted]"), менять их нельзя.
+#define CONVEYOR_BACKWARDS -1
+#define CONVEYOR_OFF 0
+#define CONVEYOR_FORWARD 1

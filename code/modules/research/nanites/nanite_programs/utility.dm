@@ -161,7 +161,9 @@
 	var/points = 1
 	if(!host_mob.client) //less brainpower
 		points *= 0.25
-	SSresearch.science_tech.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
+	var/datum/techweb/web = find_rnd_network_for_object(src)
+	if(web)
+		web.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
 
 /datum/nanite_program/researchplus
 	name = "Neural Network"
@@ -194,7 +196,9 @@
 	var/points = round(SSnanites.neural_network_count / 12, 0.1)
 	if(!C.client) //less brainpower
 		points *= 0.25
-	SSresearch.science_tech.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
+	var/datum/techweb/web = find_rnd_network_for_object(src)
+	if(web)
+		web.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = points))
 
 /datum/nanite_program/access
 	name = "Subdermal ID"
@@ -243,7 +247,7 @@
 	for(var/mob/living/L in oview(5, host_mob))
 		if(!prob(25))
 			continue
-		if(!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) && !HAS_TRAIT(L, TRAIT_COMPATIBLE_WITH_NANOMACHINES))
+		if(HAS_TRAIT(L, TRAIT_NANITES_IMMUNITY) || (!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) && !HAS_TRAIT(L, TRAIT_COMPATIBLE_WITH_NANITES)))
 			continue
 		target_hosts += L
 	if(!target_hosts.len)
@@ -267,7 +271,7 @@
 /datum/nanite_program/nanite_sting/on_trigger(comm_message)
 	var/list/mob/living/target_hosts = list()
 	for(var/mob/living/L in oview(1, host_mob))
-		if((!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) && !HAS_TRAIT(L, TRAIT_COMPATIBLE_WITH_NANOMACHINES)) || SEND_SIGNAL(L, COMSIG_HAS_NANITES) || !L.Adjacent(host_mob))
+		if(HAS_TRAIT(L, TRAIT_NANITES_IMMUNITY) || (!(L.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)) && !HAS_TRAIT(L, TRAIT_COMPATIBLE_WITH_NANITES)) || SEND_SIGNAL(L, COMSIG_HAS_NANITES) || !L.Adjacent(host_mob))
 			continue
 		target_hosts += L
 	if(!target_hosts.len)
@@ -327,7 +331,13 @@
 
 /datum/nanite_program/dermal_button/on_mob_remove()
 	. = ..()
-	qdel(button)
+	QDEL_NULL(button)
+
+/datum/nanite_program/dermal_button/Destroy()
+	// Кнопка и программа держат друг друга: без явного разрыва обе уходили в харддел
+	// с одной внешней ссылкой (прод-раунд 10151).
+	QDEL_NULL(button)
+	return ..()
 
 /datum/nanite_program/dermal_button/proc/press()
 	if(activated)
@@ -349,7 +359,14 @@
 	name = _name
 	button_icon_state = "nanite_[_icon]"
 
+/datum/action/innate/nanite_button/Destroy()
+	// Обратную ссылку рвём сами: программа уже не обязана нас пережить.
+	program = null
+	return ..()
+
 /datum/action/innate/nanite_button/Activate()
+	if(QDELETED(program))
+		return
 	program.press()
 
 /datum/nanite_program/lockout

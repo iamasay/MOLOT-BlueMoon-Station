@@ -48,6 +48,8 @@ SUBSYSTEM_DEF(mapping)
 	var/max_plane_offset = 0
 
 	var/loading_ruins = FALSE
+	/// Имя z-уровня, который грузится прямо сейчас. Только для чёрного ящика МК, см. map_template.dm.
+	var/loading_template
 	var/list/turf/unused_turfs = list()				//Not actually unused turfs they're unused but reserved for use for whatever requests them. "[zlevel_of_turf]" = list(turfs)
 	var/list/datum/turf_reservations		//list of turf reservations
 	var/list/used_turfs = list()				//list of turf = datum/turf_reservation
@@ -62,6 +64,11 @@ SUBSYSTEM_DEF(mapping)
 	var/station_start  // should only be used for maploading-related tasks
 	var/space_levels_so_far = 0
 	var/list/z_list
+	/// Кэш гравитации по z (индекс = номер z-уровня): max(setting) включённых
+	/// генераторов на уровне, иначе ZTRAIT_GRAVITY. Горячий путь has_gravity()
+	/// читает его вместо обхода GLOB.gravity_generators + level_trait().
+	/// Пересчёт - calculate_z_level_gravity(), зовётся из update_list() генератора.
+	var/list/gravity_by_z_level = list()
 	var/datum/space_level/transit
 	var/datum/space_level/empty_space
 	var/num_of_res_levels = 1
@@ -90,6 +97,13 @@ SUBSYSTEM_DEF(mapping)
 /datum/controller/subsystem/mapping/PreInit()
 	if(!obfuscation_secret)
 		obfuscation_secret = md5(GUID())		//HAH! Guess this!
+
+/datum/controller/subsystem/mapping/last_task()
+	if(loading_template)
+		return "грузится z-уровень [loading_template]"
+	if(loading_ruins)
+		return "расстановка руин"
+	return "z-уровней [world.maxz], резервных [num_of_res_levels]"
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	HACK_LoadMapConfig()
@@ -250,6 +264,7 @@ SUBSYSTEM_DEF(mapping)
 	clearing_reserved_turfs = SSmapping.clearing_reserved_turfs
 
 	z_list = SSmapping.z_list
+	gravity_by_z_level = SSmapping.gravity_by_z_level
 
 /datum/controller/subsystem/mapping/proc/LoadGroup(list/errorList, name, path, files, list/traits, list/default_traits, silent = FALSE, orientation = SOUTH)
 	. = list()
@@ -421,12 +436,33 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		to_chat(world, "<span class='boldannounce'>Map rotation has chosen [VM.map_name] for next round!</span>")
 
 /datum/controller/subsystem/mapping/proc/changemap(var/datum/map_config/VM)
-	if(!VM.MakeNextMap())
-		next_map_config = load_map_config(default_to_box = TRUE)
-		message_admins("Failed to set new map with next_map.json for [VM.map_name]! Using default as backup!")
-		return
+	var/datum/map_config/selected_map = VM
+	if(VM.map_variants?.len) // Напрямую считываем по переменной-листу, есть ли несколько карт на выбор
+		var/variant_path = pick(VM.map_variants)
+		selected_map = load_map_config(variant_path)
+		if(!selected_map || selected_map.defaulted)
+			log_world("ERROR: Failed to load random map variant: [variant_path]")
+			message_admins("Failed to load random map variant: [variant_path]")
+			selected_map = global.config.defaultmap
+			if(!selected_map || selected_map.map_variants?.len)
+				selected_map = load_map_config(default_to_box = TRUE)
+			message_admins("Using default map [selected_map.map_name] after map variant failure.")
 
-	next_map_config = VM
+	// Если случилось так, что карту не выбрало - по любым причинам - загружаем дефолт.
+	if(!selected_map.MakeNextMap())
+		var/datum/map_config/default_map = global.config.defaultmap
+		if(!default_map || default_map.map_variants?.len)
+			default_map = load_map_config(default_to_box = TRUE) // Если дефолтная мапа это рандомный список - застрахуемся боксом
+
+		if(default_map != selected_map && default_map.MakeNextMap())
+			selected_map = default_map
+			message_admins("Failed to set next_map.json for the selected map. Using default map [selected_map.map_name].")
+		else
+			log_world("ERROR: Failed to set next_map.json for [selected_map.map_name] and its default fallback.")
+			message_admins("Failed to set next_map.json for [selected_map.map_name] and its default fallback.")
+			return FALSE
+
+	next_map_config = selected_map
 
 	. = TRUE
 

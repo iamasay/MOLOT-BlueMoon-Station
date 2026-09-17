@@ -2,8 +2,8 @@ import { useBackend } from '../backend';
 import { Box, Button, Grid, LabeledList, ProgressBar, Section } from '../components';
 import { Window } from '../layouts';
 
-export const DnaVault = (props, context) => {
-  const { act, data } = useBackend(context);
+export const DnaVault = (props) => {
+  const { act, data } = useBackend();
   const {
     completed,
     used,
@@ -21,35 +21,35 @@ export const DnaVault = (props, context) => {
       width={350}
       height={400}>
       <Window.Content>
-        <Section title="DNA Vault Database">
+        <Section title="База данных ДНК хранилища">
           <LabeledList>
-            <LabeledList.Item label="Human DNA">
+            <LabeledList.Item label="ДНК: гуманоиды">
               <ProgressBar
                 value={dna / dna_max}>
-                {dna + ' / ' + dna_max + ' Samples'}
+                {dna + ' / ' + dna_max + ' образцов'}
               </ProgressBar>
             </LabeledList.Item>
-            <LabeledList.Item label="Plant DNA">
+            <LabeledList.Item label="ДНК: растения">
               <ProgressBar
                 value={plants / plants_max}>
-                {plants + ' / ' + plants_max + ' Samples'}
+                {plants + ' / ' + plants_max + ' образцов'}
               </ProgressBar>
             </LabeledList.Item>
-            <LabeledList.Item label="Animal DNA">
+            <LabeledList.Item label="ДНК: животные">
               <ProgressBar
                 value={animals / animals_max}>
-                {animals + ' / ' + animals_max + ' Samples'}
+                {animals + ' / ' + animals_max + ' образцов'}
               </ProgressBar>
             </LabeledList.Item>
           </LabeledList>
         </Section>
         {!!(completed && !used) && (
-          <Section title="Personal Gene Therapy">
+          <Section title="Персональная генная терапия">
             <Box
               bold
               textAlign="center"
               mb={1}>
-              Applicable Gene Therapy Treatments
+              Доступные курсы генной терапии
             </Box>
             <Grid>
               <Grid.Column>

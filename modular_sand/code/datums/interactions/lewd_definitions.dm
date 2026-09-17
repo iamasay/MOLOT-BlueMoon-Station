@@ -117,7 +117,10 @@
 				return HAS_UNEXPOSED_GENITAL
 	return FALSE
 
-/mob/living/proc/has_penis()
+/mob/living/proc/has_penis(strapon_over_penis = FALSE)
+	// нужно для тех ситуаций/механик/интеракций, когда при наличии страпона мы игнорируем наличие пениса.
+	if(strapon_over_penis && (has_strapon() == HAS_EXPOSED_GENITAL))
+		return FALSE
 	var/mob/living/carbon/C = src
 	if(has_penis && !istype(C))
 		return TRUE
@@ -142,10 +145,10 @@
 	return null
 
 /mob/living/proc/can_penetrating_genital_cum()
-	return has_penis()
+	return has_penis(TRUE)
 
 /mob/living/proc/get_penetrating_genital_name(long = FALSE)
-	return has_penis() ? (long ? pick(GLOB.dick_nouns) : pick("член", "пенис")) : "страпон"
+	return has_penis(TRUE) ? (long ? pick(GLOB.dick_nouns) : pick("член", "пенис")) : "страпон"
 
 /mob/living/proc/has_balls()
 	var/mob/living/carbon/C = src
@@ -322,11 +325,15 @@
 	else
 		moans = GLOB.lewd_moans_male
 
+	var/list/preferred_moans = client?.prefs?.use_custom_moan_sounds ? client.prefs.custom_moan_sounds : null
+	if(LAZYLEN(preferred_moans))
+		moans = preferred_moans
+
 	// Pick a sound from the list.
 	var/sound = pick(moans)
 
 	// If the sound is repeated, get a new from a list without it.
-	if (lastmoan == sound)
+	if (lastmoan == sound && length(moans) > 1)
 		sound = pick(LAZYCOPY(moans) - lastmoan)
 
 	if(isalien(src))
@@ -370,7 +377,7 @@
 			// BLUEMOON ADD END
 			if(!last_genital)
 				if(has_penis())
-					if(!istype(partner))
+					if(!istype(partner) || has_strapon())
 						target_orifice = null
 					switch(target_orifice)
 						if(CUM_TARGET_MOUTH)
@@ -427,8 +434,8 @@
 							else
 								silicon_sex = src
 								silicon_sex.do_climax_silicon(silicon_sex, src, TRUE) // BLUEMOON EDIT END
-
-							if(partner.has_breasts(REQUIRE_EXPOSED))
+							var/partner_has_breasts = partner.has_breasts()
+							if(partner_has_breasts == HAS_EXPOSED_GENITAL || partner_has_breasts == TRUE)
 								message = "кончает на грудь [partner_name]."
 							else
 								message = "кончает на грудину и торс [partner_name]."
@@ -600,7 +607,7 @@
 			else
 				switch(last_genital.type)
 					if(/obj/item/organ/genital/penis)
-						if(!istype(partner))
+						if(!istype(partner) || has_strapon())
 							target_orifice = null
 
 						switch(target_orifice)

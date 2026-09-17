@@ -22,7 +22,11 @@
 /atom/movable/screen/movable/action_button/Destroy()
 	if(our_hud)
 		var/mob/viewer = our_hud.mymob
-		our_hud.hide_action(src)
+		our_hud.floating_actions -= src
+		if(location != SCRN_OBJ_DEFAULT)
+			our_hud.hide_action(src)
+		else
+			screen_loc = null
 		viewer?.client?.screen -= src
 		linked_action?.viewers -= our_hud
 		viewer?.update_action_buttons()
@@ -44,24 +48,45 @@
 	return TRUE
 
 /atom/movable/screen/movable/action_button/Click(location,control,params)
-	if (!can_use(usr))
+	var/mob/user = usr
+	if(!can_use(user))
 		return
 
 	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, CTRL_CLICK))
+		var/datum/hud/our_hud = user.hud_used
+		if(src.location == SCRN_OBJ_IN_PALETTE)
+			our_hud.position_action(src, SCRN_OBJ_IN_LIST)
+		else
+			our_hud.position_action(src, SCRN_OBJ_IN_PALETTE)
+		save_position()
+		return TRUE
 	if(LAZYACCESS(modifiers, SHIFT_CLICK))
-		var/datum/hud/our_hud = usr.hud_used
+		var/datum/hud/our_hud = user.hud_used
 		our_hud.position_action(src, SCRN_OBJ_DEFAULT)
 		return TRUE
 	if(LAZYACCESS(modifiers, ALT_CLICK))
-		begin_creating_bind(usr)
+		begin_creating_bind(user)
 		return TRUE
-	var/mob/clicker = usr
-	if(!clicker.CheckActionCooldown())
+	if(!user.CheckActionCooldown())
 		return
-	clicker.DelayNextAction(1)
+	user.DelayNextAction(1)
 	if(!linked_action)
 		return
-	linked_action.Trigger()
+	var/trigger_flags = NONE
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		TOGGLE_BITFIELD(trigger_flags, TRIGGER_RIGHT_CLICK)
+	
+	// SFX
+	if(user.client)
+		if(CHECK_BITFIELD(user.client.prefs.sound_toggles, SOUND_BUTTONS))
+			SEND_SOUND(user, sound(get_sfx(SFX_REMOTE_ACTION) || get_sfx(SFX_TERMINAL_TYPE), volume = 60))
+		transform = turn(matrix() * 0.9, pick(-8, 8))
+		alpha = 200
+		animate(src, transform = matrix(), time = 0.4 SECONDS, alpha = 255)
+
+	linked_action.Trigger(trigger_flags)
+
 	return TRUE
 
 /atom/movable/screen/movable/action_button/proc/begin_creating_bind(mob/user)
@@ -102,7 +127,10 @@
 /atom/movable/screen/movable/action_button/MouseEntered(location, control, params)
 	. = ..()
 	if(!QDELETED(src))
-		openToolTip(usr, src, params, title = name, content = desc, theme = actiontooltipstyle)
+		var/extra_desc = desc || ""
+		var/ctrl_hint = (src.location == SCRN_OBJ_IN_PALETTE) ? "<br><b>Ctrl-click</b> to restore to hotbar" : "<br><b>Ctrl-click</b> to hide in Show Buttons"
+		extra_desc = "[extra_desc][ctrl_hint]"
+		openToolTip(usr, src, params, title = name, content = extra_desc, theme = actiontooltipstyle)
 
 /atom/movable/screen/movable/action_button/MouseExited(location, control, params)
 	closeToolTip(usr)
@@ -151,7 +179,10 @@
 			position_info = SCRN_OBJ_IN_PALETTE
 
 	user.client.prefs.action_buttons_screen_locs["[name]_[id]"] = position_info
-	user.client.prefs.queue_save_pref(1 SECONDS, TRUE)
+	// На диск уходит санированная КОПИЯ: потолки числа записей и длины строк иначе
+	// действовали только на чтении, и файл рос без ограничений. Живой список не трогаем -
+	// по нему кнопки ищут позиции в этом раунде.
+	user.client.prefs.save_single_pref("action_buttons_screen_locs", sanitize_action_button_positions(user.client.prefs.action_buttons_screen_locs))
 
 /atom/movable/screen/movable/action_button/proc/load_position()
 	var/mob/user = our_hud?.mymob
@@ -173,7 +204,7 @@
 	if(!user?.client)
 		return
 	user.client.prefs.action_buttons_screen_locs -= "[name]_[id]"
-	user.client.prefs.queue_save_pref(1 SECONDS, TRUE)
+	user.client.prefs.save_single_pref("action_buttons_screen_locs", sanitize_action_button_positions(user.client.prefs.action_buttons_screen_locs))
 
 /**
  * This is a silly proc used in hud code code to determine what icon and icon state we should be using
@@ -224,7 +255,7 @@
 	hud_used.palette_actions.refresh_actions()
 
 /atom/movable/screen/button_palette
-	desc = "<b>Drag</b> buttons to move them<br><b>Shift-click</b> any button to reset it<br><b>Alt-click</b> this to reset all buttons"
+	desc = "<b>Drag</b> buttons to move them<br><b>Shift-click</b> any button to reset it<br><b>Ctrl-click</b> button to hide/show in palette<br><b>Alt-click</b> this to reset all buttons"
 	icon = 'icons/hud/64x16_actions.dmi'
 	icon_state = "screen_gen_palette"
 	screen_loc = ui_action_palette
@@ -342,7 +373,9 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	our_group.refresh_actions()
 	update_appearance()
 
-	if(!usr.client)
+	// usr тут может не быть вовсе: сюда приходят и через удаление моба (qdel -> HideFrom ->
+	// hide_action -> remove_action), а не только по клику игрока.
+	if(!usr?.client)
 		return
 
 	if(expanded)

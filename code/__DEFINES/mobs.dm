@@ -15,12 +15,12 @@
 #define BLOOD_VOLUME_MAX_LETHAL		2150
 #define BLOOD_VOLUME_EXCESS			2100
 #define BLOOD_VOLUME_MAXIMUM		2000
-#define BLOOD_VOLUME_SLIME_SPLIT	1120
-#define BLOOD_VOLUME_NORMAL			560
-#define BLOOD_VOLUME_SAFE			475
-#define BLOOD_VOLUME_OKAY			336
-#define BLOOD_VOLUME_BAD			224
-#define BLOOD_VOLUME_SURVIVE		122
+#define BLOOD_VOLUME_SLIME_SPLIT	1680
+#define BLOOD_VOLUME_NORMAL			840
+#define BLOOD_VOLUME_SAFE			712
+#define BLOOD_VOLUME_OKAY			504
+#define BLOOD_VOLUME_BAD			336
+#define BLOOD_VOLUME_SURVIVE		183
 
 // Sizes of mobs, used by mob/living/var/mob_size
 #define MOB_SIZE_TINY 0
@@ -203,6 +203,12 @@
 // Slime extract crossing. Controls how many extracts is required to feed to a slime to core-cross.
 #define SLIME_EXTRACT_CROSSING_REQUIRED 10
 
+// How long a slime waits before re-scanning view() for prey after a scan that found no targets.
+// Keeps idle pens from paying a full view(7) scan every Life tick.
+#define SLIME_HUNT_SCAN_COOLDOWN (4 SECONDS)
+/// world.time gate between aimless wander steps of a slime with no target and no leader.
+#define SLIME_WANDER_COOLDOWN (4 SECONDS)
+
 // Slime commands defines
 #define SLIME_FRIENDSHIP_FOLLOW 			3 // Min friendship to order it to follow
 #define SLIME_FRIENDSHIP_STOPEAT 			5 // Min friendship to order it to stop eating someone
@@ -247,6 +253,10 @@
 #define SLIDE_ICE			 (1<<4)
 #define SLIP_WHEN_CRAWLING	 (1<<5)	// clown planet ruin amongst others
 #define SLIP_WHEN_JOGGING	 (1<<6)	// slips prevented by walking are also dodged if the mob is nor sprinting or fatigued... unless this flag is on.
+// BLUEMOON ADD - скольжение не глохнет на 4 тайлах: жертва улетает, пока не во что-то не врежется
+#define SLIDE_INTO_SPACE	 (1<<7)
+/// На сколько тайлов вперёд планирует траекторию скольжение с SLIDE_INTO_SPACE
+#define SLIDE_INTO_SPACE_RANGE 14
 
 
 #define MAX_CHICKENS 50
@@ -361,6 +371,15 @@
 // / If you examine the same atom twice in this timeframe, we call examine_more() instead of examine()
 #define EXAMINE_MORE_TIME	1 SECONDS
 
+/// Maximum range a player can use the deregulated glow-examine verb to inspect a glowing (emissive)
+/// character in total darkness, even beyond normal see_in_dark / view() range.
+#define EXAMINE_GLOW_MAX_RANGE	10
+
+/// How far into darkness a character with active emissive (body-part) glow can see, so that distant
+/// glowing characters are delivered to the client and their emissive pixels render at any radius.
+/// Matches the client view radius (15x15 -> 7), plus margin so the whole on-screen glow shows.
+#define EMISSIVE_DARKSIGHT_RANGE	8
+
 #define SILENCE_RANGED_MESSAGE	(1<<0)
 
 // Body position defines.
@@ -425,3 +444,12 @@
 #define PAIN_LOW 1 // TRAIT_BLUEMOON_HIGH_PAIN_THRESHOLD
 #define PAIN_MEDIUM 2 // drunkenness
 #define PAIN_FULL 3
+
+// Уровни искажения речи (текста) в проценте если рот прикрыт
+#define MUFFLE_NONE 0 // Нет искажений
+#define MUFFLE_LOW 45 // Речь разборчивая, но приглушенная
+#define MUFFLE_MEDIUM 75 // Явно невнятная, слова узнаваемы
+#define MUFFLE_HIGH 90 // Почти не разборчиво
+
+// Специальная константа для полной немоты
+#define MUFFLE_MUTE 255 // Запрещает издавать любые звуки

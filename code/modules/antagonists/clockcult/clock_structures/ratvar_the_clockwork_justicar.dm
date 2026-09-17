@@ -58,7 +58,7 @@
 		T = get_step(T, dir) //please don't run into a window like a bird, ratvar
 	forceMove(T)
 
-/obj/structure/destructible/clockwork/massive/ratvar/Process_Spacemove(movement_dir = 0, continuous_move = FALSE)
+/obj/structure/destructible/clockwork/massive/ratvar/Process_Spacemove(movement_dir = 0)
 	return clashing
 
 /obj/structure/destructible/clockwork/massive/ratvar/process()
@@ -158,7 +158,7 @@
 		base_victory_chance *= 2
 	switch(winner)
 		if("Ratvar")
-			send_to_playing_players("<span class='heavy_brass'><font size=5>\"[pick("СДОХНИ.", "ГНИЙ ВЕКАМИ, КАК Я!.", "ПОГИБНИ, ЯЗЫЧНИК.", "СДОХНИ, МОНСТР, ТЫ НЕ МЕСТО В ЭТОМ МИРЕ.")]\"</font></span>\n\
+			send_to_playing_players("<span class='heavy_brass'><font size=5>\"[pick("СДОХНИ.", "ГНИ ВЕКАМИ, КАК Я!", "ПОГИБНИ, ЯЗЫЧНИК.", "СДОХНИ, МОНСТР, ТЕБЕ НЕ МЕСТО В ЭТОМ МИРЕ!")]\"</font></span>\n\
 			<span class='cult'><font size=5>\"<b>[pick("Нееет...", "Не умру. К т-", "Умру. Ратв-", "Sas tyen re-")]\"</b></font></span>")
 			sound_to_playing_players('sound/magic/clockwork/anima_fragment_attack.ogg')
 			sound_to_playing_players('sound/magic/abomscream.ogg', 50)

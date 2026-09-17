@@ -41,12 +41,19 @@
 	cam_screen.del_on_map_removal = FALSE
 	cam_screen.screen_loc = "[map_name]:1,1"
 	cam_plane_masters = list()
+	var/list/_cam_pm_by_plane = list()
 	for(var/plane in subtypesof(/atom/movable/screen/plane_master))
-		var/atom/movable/screen/instance = new plane()
+		var/atom/movable/screen/plane_master/instance = new plane()
 		instance.assigned_map = map_name
 		instance.del_on_map_removal = FALSE
 		instance.screen_loc = "[map_name]:CENTER"
-		cam_plane_masters += instance
+		var/plane_key = "[instance.plane]"
+		var/atom/movable/screen/plane_master/displaced = _cam_pm_by_plane[plane_key]
+		_cam_pm_by_plane[plane_key] = instance
+		if(displaced)
+			qdel(displaced)
+	for(var/key in _cam_pm_by_plane)
+		cam_plane_masters += _cam_pm_by_plane[key]
 	cam_background = new
 	cam_background.assigned_map = map_name
 	cam_background.del_on_map_removal = FALSE
@@ -85,6 +92,9 @@
 		// Turn on the console
 		if(length(concurrent_users) == 1 && is_living)
 			playsound(src, 'sound/machines/terminal_on.ogg', 25, FALSE)
+		// Актуализируем фильтры plane masters под этого наблюдателя
+		for(var/atom/movable/screen/plane_master/PM as anything in cam_plane_masters)
+			PM.backdrop(user)
 		// Register map objects
 		user.client.register_map_obj(cam_screen)
 		for(var/plane in cam_plane_masters)
@@ -125,8 +135,15 @@
 
 	if(action == "switch_camera")
 		var/c_tag = params["name"]
-		var/list/cameras = get_available_cameras()
-		var/obj/machinery/camera/selected_camera = cameras[c_tag]
+		//точечный поиск по кэшу сетей вместо пересборки всего списка на каждый клик
+		var/obj/machinery/camera/selected_camera
+		for(var/network_name in network)
+			var/list/network_cameras = GLOB.cameranet.get_cameras_by_network(network_name)
+			selected_camera = network_cameras?[c_tag]
+			if(selected_camera)
+				break
+		if(selected_camera && selected_camera.z != z && (is_away_level(z) || is_away_level(selected_camera.z)))
+			selected_camera = null //фильтр away-уровней, как в get_available_cameras
 		active_camera = selected_camera
 		playsound(src, get_sfx("terminal_type"), 25, FALSE)
 
@@ -193,22 +210,15 @@
 
 // Returns the list of cameras accessible from this computer
 /obj/item/camera_bug/proc/get_available_cameras()
-	var/list/L = list()
-	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
-		if((is_away_level(z) || is_away_level(C.z)) && (C.z != z))//if on away mission, can only receive feed from same z_level cameras
-			continue
-		L.Add(C)
 	var/list/D = list()
-	for(var/obj/machinery/camera/C in L)
-		if(!C.network)
-			stack_trace("Camera in a cameranet has no camera network")
-			continue
-		if(!(islist(C.network)))
-			stack_trace("Camera in a cameranet has a non-list camera network")
-			continue
-		var/list/tempnetwork = C.network & network
-		if(tempnetwork.len)
-			D["[C.c_tag]"] = C
+	var/console_away = is_away_level(z)
+	for(var/network_name in network)
+		var/list/network_cameras = GLOB.cameranet.get_cameras_by_network(network_name)
+		for(var/tag in network_cameras)
+			var/obj/machinery/camera/C = network_cameras[tag]
+			if(C.z != z && (console_away || is_away_level(C.z)))//if on away mission, can only receive feed from same z_level cameras
+				continue
+			D[tag] = C
 	return D
 
 #undef DEFAULT_MAP_SIZE

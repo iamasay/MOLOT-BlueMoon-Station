@@ -103,6 +103,9 @@
 		return
 	. += (-b - root) / bottom
 
+/// TRUE if the value is a real finite number (filters NaN via self-compare and both infinities).
+#define IS_FINITE(a) (isnum(a) && (a) == (a) && (a) < INFINITY && (a) > -INFINITY)
+
 #define TODEGREES(radians) ((radians) * 57.2957795)
 
 #define TORADIANS(degrees) ((degrees) * 0.0174532925)
@@ -114,9 +117,6 @@
 // Will filter out extra rotations and negative rotations
 // E.g: 540 becomes 180. -180 becomes 180.
 #define SIMPLIFY_DEGREES(degrees) (MODULUS((degrees), 360))
-
-/// Opposite direction in degrees (drift / stabilization)
-#define REVERSE_ANGLE(degrees) (SIMPLIFY_DEGREES((degrees) + 180))
 
 #define GET_ANGLE_OF_INCIDENCE(face, input) (MODULUS((face) - (input), 360))
 

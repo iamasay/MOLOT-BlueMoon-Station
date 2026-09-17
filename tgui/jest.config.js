@@ -4,7 +4,7 @@ module.exports = {
     '<rootDir>/packages/**/__tests__/*.{js,ts,tsx}',
     '<rootDir>/packages/**/*.{spec,test}.{js,ts,tsx}',
   ],
-  testEnvironment: 'jsdom',
+  testEnvironment: '<rootDir>/scripts/jest/environment.cjs',
   testRunner: require.resolve('jest-circus/runner'),
   transform: {
     '^.+\\.(js|cjs|ts|tsx)$': require.resolve('babel-jest'),
@@ -12,6 +12,10 @@ module.exports = {
   moduleNameMapper: {
     '\\.(svg|png|jpg|jpeg|gif|ogg|wav|mp3)$': '<rootDir>/scripts/jest/fileMock.js',
   },
+  // marked ships ESM-only; let babel transform it instead of skipping it.
+  transformIgnorePatterns: [
+    '[\\\\/]node_modules[\\\\/](?!marked[\\\\/])',
+  ],
   moduleFileExtensions: ['js', 'cjs', 'ts', 'tsx', 'json'],
   resetMocks: true,
 };

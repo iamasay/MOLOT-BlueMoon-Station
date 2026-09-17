@@ -6,8 +6,8 @@
 	faction = "Station"
 	head_announce = list(RADIO_CHANNEL_COMMAND)
 	supervisors = "Центрального Командования"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	selection_color = "#aac1ee"
 	minimal_player_age = 7
 	exp_requirements = 1500
@@ -63,7 +63,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit_store = /obj/item/kitchen/knife/combat
 	r_pocket = /obj/item/sensor_device_command
-	backpack_contents = list(/obj/item/storage/firstaid/regular, /obj/item/storage/box/death_alert, /obj/item/storage/box/blue_shield_hs, /obj/item/storage/box/sec_kit,  /obj/item/choice_beacon/hosgun, /obj/item/choice_beacon/bsbaton)
+	backpack_contents = list(/obj/item/storage/firstaid/regular, /obj/item/storage/box/death_alert, /obj/item/choice_beacon/blueshied_suit, /obj/item/storage/box/sec_kit,  /obj/item/choice_beacon/hosgun, /obj/item/choice_beacon/bsbaton)
 	accessory = list(/obj/item/clothing/accessory/permit/special/blueshield, /obj/item/clothing/accessory/badge/holo)
 
 	backpack = /obj/item/storage/backpack/blueshield
@@ -88,13 +88,14 @@
 	suit = /obj/item/clothing/suit/armor/vest/blueshield
 	shoes = /obj/item/clothing/shoes/jackboots/tall_default
 	suit_store = /obj/item/kitchen/knife/combat
-	l_pocket = /obj/item/sensor_device_command
-	backpack_contents = list(/obj/item/storage/firstaid/regular, /obj/item/storage/box/death_alert, /obj/item/storage/box/blue_shield_hs, /obj/item/storage/box/sec_kit,  /obj/item/choice_beacon/hosgun, /obj/item/choice_beacon/bsbaton, /obj/item/syndicate_uplink_high)
+	backpack_contents = list(/obj/item/storage/firstaid/regular, /obj/item/storage/box/death_alert, /obj/item/choice_beacon/blueshied_suit, /obj/item/storage/box/sec_kit,  /obj/item/choice_beacon/hosgun, /obj/item/choice_beacon/bsbaton, /obj/item/syndicate_uplink/station)
+
+	no_custom_backpack = TRUE
 	backpack = /obj/item/storage/backpack/duffelbag/syndie
 	satchel = /obj/item/storage/backpack/duffelbag/syndie
 	duffelbag = /obj/item/storage/backpack/duffelbag/syndie
 	box = /obj/item/storage/box/survival/syndie
-	accessory = list(/obj/item/clothing/accessory/permit/special/blueshield, /obj/item/clothing/accessory/badge/holo)
+	accessory = list(/obj/item/clothing/accessory/permit/special/blueshield, /obj/item/clothing/accessory/badge/holo, /obj/item/clothing/accessory/permit/special/syndie_station)
 	pda_slot = ITEM_SLOT_BELT
 
 /datum/outfit/plasmaman/blueshield
@@ -143,7 +144,7 @@
 //BLUEMOON CHANGE однородность для cqc с ограниченой зоной использования
 ///Subtype of CQC. Only used for the Blueshield.
 /datum/martial_art/cqc/restricted/blueshield
-	name = "Close Quarters Combat, Blueshield Edition"
+	name = "CQC (Blueshield edition)"
 	valid_areas = list(/area/command, /area/command/bridge, /area/command/meeting_room, /area/command/meeting_room/council,
 								/area/command/heads_quarters/captain, /area/command/heads_quarters/ce, /area/command/heads_quarters/ce/private,
 								/area/command/heads_quarters/cmo, /area/command/heads_quarters/cmo/private, /area/command/heads_quarters/hop,

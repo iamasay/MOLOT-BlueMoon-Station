@@ -17,6 +17,36 @@
 #define MAGIC 	"magic"
 #define WOUND 	"wound"
 
+// BLUEMOON ADD START - BR (Bullet Rating) классы пробития для пуль.
+#define BULLET_BR0   0
+#define BULLET_BR1   5
+#define BULLET_BR2   10
+#define BULLET_BR3   15
+#define BULLET_BR4   20
+#define BULLET_BR5   25
+#define BULLET_BR6   30
+#define BULLET_BR7   35
+#define BULLET_BR8   40
+#define BULLET_BR9   45
+#define BULLET_BR10  50
+#define BULLET_BR11  55
+#define BULLET_BR12  60
+#define BULLET_BR13  65
+#define BULLET_BR14  70
+#define BULLET_BR15  75
+#define BULLET_BR16  80
+#define BULLET_BR17  85
+#define BULLET_BR18  90
+#define BULLET_BR19  95
+#define BULLET_BR20  100
+
+// BRC бонус костюмов (brc_mitigation_bonus) — общая шкала уровней // BLUEMOON ADD
+#define BRC_MITIGATION_5	5
+#define BRC_MITIGATION_10	10
+#define BRC_MITIGATION_15	15
+#define BRC_MITIGATION_20	20
+#define BRC_MITIGATION_25	25
+
 /proc/getArmor(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 0, acid = 0, magic = 0, wound = 0)
 	. = locate(ARMORID)
 	if (!.)
@@ -106,18 +136,21 @@ GLOBAL_LIST_INIT(armor_by_type, generate_armor_type_cache())
 /datum/armor/proc/generate_new_with_modifiers(list/modifiers)
 	var/datum/armor/new_armor = new
 
-	var/all_keys = ARMOR_LIST_ALL()
+	var/list/all_keys = ARMOR_LIST_ALL()
 	if(ARMOR_ALL in modifiers)
 		var/modifier_all = modifiers[ARMOR_ALL]
 		if(!modifier_all)
 			return src
 		for(var/mod in all_keys)
 			new_armor.vars[mod] = vars[mod] + modifier_all
+		new_armor.tag = null // Don't put custom armor into locate() cache
 		return new_armor
 
+	for(var/mod in all_keys)
+		new_armor.vars[mod] = vars[mod]
 	for(var/modifier in modifiers)
 		if(modifier in all_keys)
-			new_armor.vars[modifier] = vars[modifier] + modifiers[modifier]
+			new_armor.vars[modifier] += modifiers[modifier]
 		else
 			stack_trace("Attempt to call generate_new_with_modifiers with illegal modifier '[modifier]'! Ignoring it")
 	new_armor.tag = null // Don't put custom armor into locate() cache

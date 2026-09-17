@@ -23,6 +23,14 @@
 
 		// It may not be a default on cit, but this is meant to be default here at least.
 		long_strip_menu = TRUE
+
+	if(current_version < 75)
+		toggles |= SOUND_EMOTE
+
+	if(current_version < 76)
+		mentor_toggles |= SOUND_MENTORHELP
+		toggles |= SOUND_FAX
+
 	. = ..()
 
 /datum/preferences/save_preferences(bypass_cooldown, silent)
@@ -31,11 +39,22 @@
 		return FALSE
 	WRITE_FILE(.["favorite_interactions"],	favorite_interactions)
 
+	WRITE_FILE(.["custom_verb_consent"], custom_verb_consent)
+
+	WRITE_FILE(.["show_heart_over_self"], show_heart_over_self)
+	WRITE_FILE(.["interaction_effect"], interaction_effect)
+	WRITE_FILE(.["block_partner_pixel_shift"], block_partner_pixel_shift)
+	WRITE_FILE(.["panel_tab_toggles"], panel_tab_toggles)
+	WRITE_FILE(.["dynamic_window_size"], dynamic_window_size)
+	WRITE_FILE(.["compact_custom_tab"], compact_custom_tab)
+
 	WRITE_FILE(.["use_arousal_multiplier"],	use_arousal_multiplier)
 	WRITE_FILE(.["arousal_multiplier"],		arousal_multiplier)
 	WRITE_FILE(.["use_moaning_multiplier"],	use_moaning_multiplier)
 	WRITE_FILE(.["moaning_multiplier"],		moaning_multiplier)
-	// Bluemoon prefs root (must run last — см. modular_bluemoon/preferences_savefile.dm)
+	WRITE_FILE(.["use_custom_moan_sounds"],	use_custom_moan_sounds)
+	WRITE_FILE(.["custom_moan_sounds"],		custom_moan_sounds)
+	// Bluemoon prefs root (must run last вЂ” СЃРј. modular_bluemoon/preferences_savefile.dm)
 	WRITE_FILE(.["favorite_tracks"], favorite_tracks)
 	WRITE_FILE(.["playlists"], playlists)
 	WRITE_FILE(.["favorite_paintings_md5"], favorite_paintings_md5)
@@ -53,10 +72,14 @@
 	.["arousal_multiplier"] >>		arousal_multiplier
 	.["use_moaning_multiplier"] >>	use_moaning_multiplier
 	.["moaning_multiplier"] >>		moaning_multiplier
+	.["use_custom_moan_sounds"] >>	use_custom_moan_sounds
+	.["custom_moan_sounds"] >>		custom_moan_sounds
 
 	favorite_interactions = SANITIZE_LIST(favorite_interactions)
 
 	for(var/interaction in favorite_interactions)
+		if(findtext(interaction, CUSTOM_INTERACTION_PREFIX))
+			continue
 		var/datum/interaction/interaction_path = ispath(interaction) ? interaction : text2path(interaction)
 		if(!interaction_path)
 			LAZYREMOVE(favorite_interactions, interaction)
@@ -65,20 +88,77 @@
 			LAZYREMOVE(favorite_interactions, interaction)
 			continue
 
+	.["custom_verb_consent"] >> custom_verb_consent
+	custom_verb_consent = sanitize_integer(custom_verb_consent, 0, 1, TRUE)
+
+	.["show_heart_over_self"] >> show_heart_over_self
+	show_heart_over_self = sanitize_integer(show_heart_over_self, 0, 1, initial(show_heart_over_self))
+
+	.["interaction_effect"] >> interaction_effect
+	if(!(interaction_effect in GLOB.interaction_effects_list))
+		interaction_effect = initial(interaction_effect)
+	.["block_partner_pixel_shift"] >> block_partner_pixel_shift
+	block_partner_pixel_shift = sanitize_integer(block_partner_pixel_shift, 0, 1, initial(block_partner_pixel_shift))
+
+	.["panel_tab_toggles"] >> panel_tab_toggles
+	panel_tab_toggles = sanitize_integer(panel_tab_toggles, 0, ALL_INTERACTION_MENU_TABS, initial(panel_tab_toggles))
+	.["dynamic_window_size"] >> dynamic_window_size
+	dynamic_window_size = sanitize_integer(dynamic_window_size, 0, 1, initial(dynamic_window_size))
+	.["compact_custom_tab"] >> compact_custom_tab
+	compact_custom_tab = sanitize_integer(compact_custom_tab, 0, 1, initial(compact_custom_tab))
+
 	use_arousal_multiplier = sanitize_integer(use_arousal_multiplier, 0, 1, initial(use_arousal_multiplier))
 	arousal_multiplier = sanitize_integer(arousal_multiplier, 0, 300, initial(arousal_multiplier))
 	use_moaning_multiplier = sanitize_integer(use_moaning_multiplier, 0, 1, initial(use_moaning_multiplier))
 	moaning_multiplier = sanitize_integer(moaning_multiplier, 0, 100, initial(moaning_multiplier))
+	use_custom_moan_sounds = sanitize_integer(use_custom_moan_sounds, 0, 1, initial(use_custom_moan_sounds))
+	var/list/valid_moan_paths = GLOB.lewd_moans_male + GLOB.lewd_moans_female + GLOB.lewd_softmoans_female + GLOB.lewd_purr_sounds + GLOB.lewd_meow_sounds + GLOB.lewd_fox_sounds + GLOB.lewd_dog_sounds + GLOB.lewd_bird_sounds + GLOB.lewd_robot_sounds + GLOB.lewd_insect_sounds + GLOB.lewd_scream_female + GLOB.lewd_scream_male + GLOB.lewd_scream_gachi
+	for(var/name in GLOB.lewd_other_animal_sounds)
+		valid_moan_paths += GLOB.lewd_other_animal_sounds[name]
+	custom_moan_sounds = SANITIZE_LIST(custom_moan_sounds) & valid_moan_paths
 	.["favorite_tracks"] >> favorite_tracks
-	favorite_tracks = SANITIZE_LIST(favorite_tracks)
+	favorite_tracks = sanitize_jukebox_track_list(favorite_tracks)
 	.["favorite_paintings_md5"] >> favorite_paintings_md5
 	favorite_paintings_md5 = SANITIZE_LIST(favorite_paintings_md5)
 	.["playlists"] >> playlists
-	// Strip control chars from playlist-name keys so a broken name can't make a
-	// playlist permanently unselectable/undeletable through the jukebox UI.
-	playlists = sanitize_assoc_keys(playlists)
+	playlists = sanitize_jukebox_playlists(playlists)
 	.["metadollar_minute_pool"] >> metadollar_minute_pool
 	metadollar_minute_pool = isnum(metadollar_minute_pool) ? clamp(round(metadollar_minute_pool), 0, 500) : 0
 	.["metadollar_pending_items"] >> metadollar_pending_items
 	metadollar_pending_items = SANITIZE_LIST(metadollar_pending_items)
 	return .
+
+/datum/preferences/proc/sand_character_pref_load(savefile/S)
+	S["custom_interactions"] >> custom_interactions
+	if(isnull(custom_interactions))
+		// Legacy-данные лежали в корне сейвфайла — переносим их в текущий слот персонажа.
+		// Миграция выполняется один раз: маркер в корне запрещает копировать список в новые слоты.
+		var/current_dir = S.cd
+		S.cd = "/"
+		var/migrated = FALSE
+		S["custom_interactions_migrated"] >> migrated
+		var/list/legacy_custom_interactions
+		S["custom_interactions"] >> legacy_custom_interactions
+		if(!migrated && islist(legacy_custom_interactions))
+			custom_interactions = legacy_custom_interactions
+			S.cd = current_dir
+			WRITE_FILE(S["custom_interactions"], custom_interactions)
+			S.cd = "/"
+			WRITE_FILE(S["custom_interactions_migrated"], TRUE)
+		S.cd = current_dir
+	custom_interactions = SANITIZE_LIST(custom_interactions)
+	for(var/i in length(custom_interactions) to 1 step -1)
+		var/datum/interaction/custom/custom = custom_interactions[i]
+		if(!istype(custom))
+			custom_interactions.Cut(i, i + 1)
+			continue
+		custom.sanitize_values()
+		if(!custom.name || !custom.message)
+			custom_interactions.Cut(i, i + 1)
+			continue
+	var/max_customs = get_custom_interaction_limit()
+	if(length(custom_interactions) > max_customs)
+		custom_interactions.Cut(max_customs + 1)
+
+/datum/preferences/proc/sand_character_pref_save(savefile/S)
+	WRITE_FILE(S["custom_interactions"], custom_interactions)

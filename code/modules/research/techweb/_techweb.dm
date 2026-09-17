@@ -23,6 +23,17 @@
 	var/list/last_bitcoins = list()								//Current per-second production, used for display only.
 	var/list/discovered_mutations = list()                           //Mutations discovered by genetics, this way they are shared and cant be destroyed by destroying a single console
 	var/list/tiers = list()										//Assoc list, id = number, 1 is available, 2 is all reqs are 1, so on
+	/// Газы, чей первый за раунд синтез уже засчитан. id газа = TRUE. Учёт живёт
+	/// на техвебе, а не в ещё одном глобальном списке: открытие принадлежит науке
+	/// и вместе с ней переносится на диск или в чужую сеть.
+	var/list/synthesized_gases = list()
+	//BLUEMOON ADD START: пул задач Problem Computer'ов — свой у каждой РНД-сети.
+	//У станции, Синдиката, ИнтеКью и каждой изолированной сети («хермиты») свои 5 задач.
+	var/problem_computer_max_charges = 5
+	var/problem_computer_charges = 5
+	var/problem_computer_charge_time = 90 SECONDS
+	var/problem_computer_last_charge_time = 0
+	//BLUEMOON ADD END
 
 /datum/techweb/New()
 	hidden_nodes = SSresearch.techweb_nodes_hidden.Copy()
@@ -30,6 +41,28 @@
 		var/datum/techweb_node/DN = SSresearch.techweb_node_by_id(i)
 		research_node(DN, TRUE, FALSE)
 	return ..()
+
+//BLUEMOON ADD START: пул задач сети дозревает лениво — без таймеров и подсистемы.
+//Каждая сеть копит свои задачи независимо от остальных.
+/datum/techweb/proc/get_problem_computer_charges()
+	if(problem_computer_charges < problem_computer_max_charges)
+		var/elapsed = world.time - problem_computer_last_charge_time
+		if(elapsed >= problem_computer_charge_time)
+			var/gained = round(elapsed / problem_computer_charge_time)
+			problem_computer_charges = min(problem_computer_max_charges, problem_computer_charges + gained)
+			// Засчитываем только целые периоды: остаток времени не теряем.
+			problem_computer_last_charge_time += gained * problem_computer_charge_time
+	return problem_computer_charges
+
+/datum/techweb/proc/get_problem_computer_max_charges()
+	return problem_computer_max_charges
+
+/datum/techweb/proc/consume_problem_computer_charge()
+	if(get_problem_computer_charges() > 0)
+		problem_computer_charges -= 1
+		return TRUE
+	return FALSE
+//BLUEMOON ADD END
 
 /datum/techweb/admin
 	id = "ADMIN"
@@ -71,6 +104,32 @@
 	research_node(Node, TRUE)
 
 //BLUEMOON ADD END
+
+/datum/techweb/isolated
+	id = "ISOLATED"
+	organization = "Isolated"
+
+/datum/techweb/syndicate_isolated
+	id = "SYNDICATE_NET"
+	organization = "Syndicate"
+
+/datum/techweb/syndicate_isolated/New()
+	. = ..()
+	var/datum/techweb_node/syndicate_basic/Node = new()
+	research_node(Node, TRUE)
+
+/datum/techweb/tarkoff
+	id = "TAPKOV_NET" //ikr im really funny
+	organization = "Tarkoff"
+
+/datum/techweb/inteq
+	id = "INTEQ_NET"
+	organization = "InteQ"
+
+/datum/techweb/inteq/New()
+	. = ..()
+	var/datum/techweb_node/syndicate_basic/Node = new()
+	research_node(Node, TRUE)
 
 /datum/techweb/science	//Global science techweb for RND consoles.
 	id = "SCIENCE"
@@ -208,6 +267,51 @@
 	else
 		research_points[type] += amount
 	return TRUE
+
+/// Засчитывает первый за раунд синтез газа и разово начисляет за него очки.
+/// Платится за первый синтез, а не за объём: плата за объём превратила бы атмос
+/// в ферму очков и обесценила бы остальную науку, поэтому наградой сделана
+/// широта освоенного. Возвращает TRUE, только если открытие новое и оплачено.
+/datum/techweb/proc/discover_gas_synthesis(gas_id)
+	if(!gas_id || synthesized_gases[gas_id])
+		return FALSE
+	var/datum/gas/gas = GLOB.gas_data.datums[gas_id]
+	if(!gas)
+		return FALSE
+	// Отметка ставится и сырью тоже: иначе кислород будет искать себе награду
+	// на каждом пожаре до конца раунда.
+	synthesized_gases[gas_id] = TRUE
+	var/awarded_points = 0
+	switch(gas.tier)
+		if(GAS_TIER_BASIC)
+			awarded_points = GAS_DISCOVERY_RESEARCH_BASIC
+		if(GAS_TIER_ADVANCED)
+			awarded_points = GAS_DISCOVERY_RESEARCH_ADVANCED
+		if(GAS_TIER_EXOTIC)
+			awarded_points = GAS_DISCOVERY_RESEARCH_EXOTIC
+	if(!awarded_points)
+		return FALSE
+	// Очки идут сразу в баланс, а не в next_income: награда за открытие обязана
+	// быть видна тому, кто его сделал, а не через фазу дохода подсистемы.
+	add_point_type(TECHWEB_POINT_TYPE_GENERIC, awarded_points, FALSE)
+	log_game("Техвеб [id]: первый за раунд синтез газа [gas.name] ([gas_id]), уровень [gas.tier], начислено [awarded_points] очков.")
+	return TRUE
+
+/// Точка входа для атмоса: сообщить, что газ синтезирован. Проверка готовности
+/// науки держится в одном месте - реакции идут и до, и после её инициализации.
+/proc/register_gas_synthesis(gas_id)
+	if(!SSresearch || !SSresearch.science_tech)
+		return FALSE
+	return SSresearch.science_tech.discover_gas_synthesis(gas_id)
+
+/// То же для машин, отдающих сразу смесь (HFR). Смесь обязана содержать только
+/// свежий выхлоп, иначе открытием засчитается транзитный газ.
+/proc/register_gas_synthesis_from_mixture(datum/gas_mixture/mixture)
+	if(!mixture || !SSresearch || !SSresearch.science_tech)
+		return
+	var/datum/techweb/science_web = SSresearch.science_tech
+	for(var/gas_id in mixture.get_gases())
+		science_web.discover_gas_synthesis(gas_id)
 
 /datum/techweb/proc/modify_point_type(type, amount, income = TRUE)
 	if(!SSresearch.point_types[type])

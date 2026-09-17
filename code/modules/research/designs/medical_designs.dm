@@ -34,6 +34,26 @@
 	category = list("Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_ENGINEERING
 
+/datum/design/hypovialsmall_bluespace
+	name = "Small Bluespace Hypovial"
+	desc = "A bluespace hypovial, powered by experimental bluespace technology and Element Cuban combined with the Compound Pete. Can hold up to 120 units."
+	id = "hypovial_bs"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/glass = 1000, /datum/material/plasma = 1000, /datum/material/diamond = 85, /datum/material/bluespace = 85)
+	build_path = /obj/item/reagent_containers/glass/bottle/vial/small/bluespace
+	category = list("Medical Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/hypoviallarge_bluespace
+	name = "Large Bluespace Hypovial"
+	desc = "A bluespace hypovial, powered by experimental bluespace technology and Element Cuban combined with the Compound Pete. Can hold up to 240 units."
+	id = "large_hypovial_bs"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/glass = 2000, /datum/material/plasma = 2000, /datum/material/diamond = 170, /datum/material/bluespace = 170)
+	build_path = /obj/item/reagent_containers/glass/bottle/vial/large/bluespace
+	category = list("Medical Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
 /datum/design/ultimatebeaker
 	name = "Ultimate Beaker"
 	desc = "An ultimate beaker, made by extrapolating on bluespace technology with dark matter combined. Can hold up to 900 units."
@@ -391,6 +411,26 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000)
 	build_path = /obj/item/wallframe/defib_mount
+	category = list("Equipment")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/vitals_display
+	name = "Vitals Display Frame"
+	desc = "A wall-mounted screen that displays the vitals of a nearby patient. Connects to stasis beds, operating tables, sleepers and other holding machines using a multitool."
+	id = "vitals_display"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 8000, /datum/material/glass = 4000, /datum/material/gold = 500)
+	build_path = /obj/item/wallframe/status_display/vitals
+	category = list("Equipment")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/vitals_display_advanced
+	name = "Advanced Vitals Display Frame"
+	desc = "A vitals display frame that performs a more detailed scan of the patient than the basic display."
+	id = "vitals_display_advanced"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 8000, /datum/material/glass = 4000, /datum/material/gold = 1000, /datum/material/silver = 500)
+	build_path = /obj/item/wallframe/status_display/vitals/advanced
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 

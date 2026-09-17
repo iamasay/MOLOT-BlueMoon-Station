@@ -52,7 +52,7 @@
 /datum/unit_test/proc/assert_live_light_matches_fixture(obj/machinery/light/test_light, message_prefix = "Fixture")
 	drain_nightshift_lighting_work()
 	TEST_ASSERT(test_light.light, "[message_prefix] should have a live light source.")
-	TEST_ASSERT_EQUAL(test_light.light.light_power, test_light.light_power, "[message_prefix] light source power should match the fixture state.")
+	TEST_ASSERT(abs(test_light.light.light_power - test_light.light_power) < 0.001, "[message_prefix] light source power should match the fixture state. Expected [test_light.light.light_power] to be close to [test_light.light_power].")
 	TEST_ASSERT_EQUAL(lowertext(test_light.light.light_color), lowertext(test_light.light_color), "[message_prefix] light source color should match the fixture state.")
 
 /datum/unit_test/nightshift_profile/Run()
@@ -81,13 +81,13 @@
 	assert_live_light_matches_fixture(default_light, "Deep-night fixture")
 	var/list/deep_night_overlays = default_light.update_overlays()
 
-	TEST_ASSERT_EQUAL(default_light.light_color, "#A9BFFF", "Default nightshift lighting should use the configured deep-night tint.")
+	TEST_ASSERT_EQUAL(lowertext(default_light.light_color), lowertext(LIGHT_COLOR_STATION_HALL_NIGHT), "Default nightshift lighting should use the configured deep-night tint.")
 	TEST_ASSERT_EQUAL(default_light.light_power, default_light.nightshift_light_power, "Deep night should reach the configured nightshift power.")
-	TEST_ASSERT_EQUAL(lowertext(default_light.light.light_color), lowertext("#A9BFFF"), "Deep-night emitted light should use the configured tint.")
+	TEST_ASSERT_EQUAL(lowertext(default_light.light.light_color), lowertext(LIGHT_COLOR_STATION_HALL_NIGHT), "Deep-night emitted light should use the configured tint.")
 	TEST_ASSERT_EQUAL(default_light.light.light_power, default_light.nightshift_light_power, "Deep-night emitted light should reach the configured nightshift power.")
 	TEST_ASSERT(length(deep_night_overlays) >= 2, "Lit fixtures should add both visible and emissive nightshift overlays.")
 	for(var/mutable_appearance/O as anything in deep_night_overlays)
-		TEST_ASSERT_EQUAL(lowertext(O.color), lowertext("#A9BFFF"), "Deep-night overlays should visibly carry the nightshift tint.")
+		TEST_ASSERT_EQUAL(lowertext(O.color), lowertext(LIGHT_COLOR_STATION_HALL_NIGHT), "Deep-night overlays should visibly carry the nightshift tint.")
 
 	default_light.nightshift_level = 0.2
 	default_light.switchcount = 0
@@ -108,7 +108,7 @@
 	assert_live_light_matches_fixture(warm_light, "Warm-night fixture")
 
 	TEST_ASSERT_EQUAL(warm_light.light_color, warm_light.bulb_colour, "Warm lights with a null nightshift tint should keep their own bulb colour.")
-	TEST_ASSERT_EQUAL(warm_light.light_power, warm_light.nightshift_light_power, "Warm lights should still dim to the configured nightshift power.")
+	TEST_ASSERT(abs(warm_light.light_power - warm_light.nightshift_light_power) < 0.001, "Warm lights should still dim to the configured nightshift power. Expected [warm_light.light_power] to be close to [warm_light.nightshift_light_power].")
 
 	var/turf/third_turf = locate(run_loc_floor_bottom_left.x + 2, run_loc_floor_bottom_left.y, run_loc_floor_bottom_left.z)
 	var/obj/machinery/light/small/default_bulb = allocate(/obj/machinery/light/small, third_turf)
@@ -121,7 +121,7 @@
 	assert_live_light_matches_fixture(default_bulb, "Default small bulb at night")
 
 	TEST_ASSERT_EQUAL(default_bulb.light_color, default_bulb.nightshift_light_color, "Default small bulbs should inherit the stronger deep-night tint.")
-	TEST_ASSERT_EQUAL(lowertext(default_bulb.light.light_color), lowertext("#A9BFFF"), "Default small bulbs should emit the stronger deep-night tint.")
+	TEST_ASSERT_EQUAL(lowertext(default_bulb.light.light_color), lowertext(LIGHT_COLOR_STATION_OFFICE_NIGHT), "Default small bulbs should emit the stronger deep-night tint.")
 
 /datum/unit_test/nightshift_queueing/Run()
 	GLOB.nightshift_apc_queue.Cut()
@@ -175,6 +175,7 @@
 	test_apc.light_cache_dirty = FALSE
 	qdel(test_light, force = TRUE)
 	TEST_ASSERT(test_apc.light_cache_dirty, "Deleting a light in the APC area should dirty the APC light cache.")
+	TEST_ASSERT_NULL(test_apc.cached_area_lights, "Deleting a light should immediately release the APC's cached reference.")
 	qdel(test_apc, force = TRUE)
 	test_area.power_apc = original_area_apc
 
@@ -265,6 +266,15 @@
 
 	TEST_ASSERT_EQUAL(test_light.switchcount, 7, "Silent nightshift interpolation should not increment bulb aging.")
 
+/// Отмечает завершение отложенного update(0) из Initialize, сохраняя обычную инициализацию лампы.
+/obj/machinery/light/nightshift_relight_test
+	var/startup_update_complete = FALSE
+
+/obj/machinery/light/nightshift_relight_test/update(trigger = TRUE, silent = FALSE)
+	. = ..()
+	if(!trigger && !silent)
+		startup_update_complete = TRUE
+
 /datum/unit_test/nightshift_relight_resync
 	var/list/original_station_areas
 	var/list/original_apcs_list
@@ -272,6 +282,7 @@
 	var/original_can_fire
 	var/original_power_light
 	var/original_lightswitch
+	var/original_requires_power
 	var/area/test_area
 	var/turf/light_turf
 	var/obj/machinery/power/apc/test_apc
@@ -283,7 +294,7 @@
 	SSnightshift.can_fire = FALSE
 	sleep(world.tick_lag)
 	SSnightshift.nightshift_refresh_running = FALSE
-	SSnightshift.nightshift_refresh_generation++ // Invalidate any running async refresh
+	SSnightshift.nightshift_refresh_generation++ // Отменяем незавершённое асинхронное обновление.
 	test_area = get_area(run_loc_floor_bottom_left)
 	light_turf = locate(run_loc_floor_bottom_left.x + 1, run_loc_floor_bottom_left.y, run_loc_floor_bottom_left.z)
 	original_station_areas = GLOB.the_station_areas.Copy()
@@ -291,6 +302,11 @@
 	original_area_apc = test_area.power_apc
 	original_power_light = test_area.power_light
 	original_lightswitch = test_area.lightswitch
+	original_requires_power = test_area.requires_power
+	// Без requires_power = FALSE форс power_light/lightswitch ниже недолговечен: во время
+	// sleep/дренажей теста успевает выстрелить SSmachines, и АПЦ без сети через autoset
+	// гасит световой канал области обратно (см. коммент в nightshift_admin_controls).
+	test_area.requires_power = FALSE
 	GLOB.the_station_areas = list(test_area.type)
 	GLOB.nightshift_apc_queue.Cut()
 	GLOB.nightshift_light_queue.Cut()
@@ -301,8 +317,10 @@
 	test_apc.update()
 	test_area.power_light = TRUE
 	test_area.lightswitch = TRUE
-	test_light = allocate(/obj/machinery/light, light_turf)
-	sleep(4) // Wait for Initialize's spawn(2) { prob(2) break_light_tube; spawn(1) { update(0) }} to finish
+	test_light = allocate(/obj/machinery/light/nightshift_relight_test, light_turf)
+	// Фиксированный sleep не гарантирует завершение вложенных spawn на загруженном CI.
+	// Ждём последний update из Initialize, чтобы случайное разбитие не произошло после ремонта.
+	TEST_ASSERT(wait_for_var(test_light, "startup_update_complete", TRUE, 5 SECONDS), "Лампа не завершила отложенную инициализацию.")
 	test_light.status = LIGHT_OK
 	test_light.on = test_light.has_power()
 	test_light.switchcount = 0
@@ -317,6 +335,7 @@
 	test_area.power_apc = original_area_apc
 	test_area.power_light = original_power_light
 	test_area.lightswitch = original_lightswitch
+	test_area.requires_power = original_requires_power
 	if(original_area_apc && !QDELETED(original_area_apc))
 		original_area_apc.area = test_area
 		original_area_apc.register_area_apc()
@@ -325,6 +344,8 @@
 
 /datum/unit_test/nightshift_relight_resync/proc/prime_deep_night_fixture()
 	test_light.status = LIGHT_OK
+	// update APC вызывает power_change лампы: исключаем случайное перегорание при подготовке.
+	test_light.switchcount = -1
 	test_apc.update()
 	test_light.on = test_light.has_power()
 	test_light.switchcount = 0
@@ -341,11 +362,11 @@
 	drain_nightshift_lighting_work()
 	TEST_ASSERT(test_light.nightshift_enabled, "[message_prefix] should keep the fixture in nightshift mode.")
 	TEST_ASSERT_EQUAL(test_light.nightshift_level, 1, "[message_prefix] should restore the full nightshift level from the APC.")
-	TEST_ASSERT_EQUAL(lowertext(test_light.light_color), lowertext("#A9BFFF"), "[message_prefix] fixture color should match the deep-night tint.")
+	TEST_ASSERT_EQUAL(lowertext(test_light.light_color), lowertext(LIGHT_COLOR_STATION_HALL_NIGHT), "[message_prefix] fixture color should match the deep-night tint.")
 	TEST_ASSERT_EQUAL(test_light.light_power, test_light.nightshift_light_power, "[message_prefix] fixture power should match the deep-night power.")
 	assert_live_light_matches_fixture(test_light, message_prefix)
 	if(test_light.light)
-		TEST_ASSERT_EQUAL(lowertext(test_light.light.light_color), lowertext("#A9BFFF"), "[message_prefix] emitted light should match the deep-night tint.")
+		TEST_ASSERT_EQUAL(lowertext(test_light.light.light_color), lowertext(LIGHT_COLOR_STATION_HALL_NIGHT), "[message_prefix] emitted light should match the deep-night tint.")
 		TEST_ASSERT_EQUAL(test_light.light.light_power, test_light.nightshift_light_power, "[message_prefix] emitted light should match the deep-night power.")
 
 /datum/unit_test/nightshift_relight_resync/Run()
@@ -368,6 +389,7 @@
 	test_light.on = FALSE
 	test_light.set_light(0, l_cone_angle = 0)
 	drain_nightshift_lighting_work()
+	test_light.switchcount = -1
 	test_light.fix()
 	assert_deep_night_emission("Fixture repair")
 
@@ -562,11 +584,18 @@
 	assert_repeat_check_is_stable()
 
 	SSsecurity_level.set_level(SEC_LEVEL_BLUE)
+	wait_for_light_state(TRUE)
+	TEST_ASSERT_EQUAL(GLOB.security_level, SEC_LEVEL_BLUE, "Уровень безопасности должен смениться на синий.")
+	TEST_ASSERT(SSnightshift.nightshift_active, "Синий код должен сохранять ночное освещение.")
+	TEST_ASSERT(test_apc.nightshift_lights, "Синий код должен сохранять ночной режим APC.")
+	TEST_ASSERT(test_light.nightshift_enabled, "Синий код должен сохранять ночной режим светильников.")
+
+	SSsecurity_level.set_level(SEC_LEVEL_AMBER)
 	wait_for_light_state(FALSE)
-	TEST_ASSERT_EQUAL(GLOB.security_level, SEC_LEVEL_BLUE, "Security level should change to blue.")
-	TEST_ASSERT(!SSnightshift.nightshift_active, "Blue code should disable nightshift immediately.")
-	TEST_ASSERT(!test_apc.nightshift_lights, "Blue code should disable nightshift on the APC.")
-	TEST_ASSERT(!test_light.nightshift_enabled, "Blue code should disable nightshift on lights.")
+	TEST_ASSERT_EQUAL(GLOB.security_level, SEC_LEVEL_AMBER, "Уровень безопасности должен смениться на янтарный.")
+	TEST_ASSERT(!SSnightshift.nightshift_active, "Янтарный код должен сразу отключать ночное освещение.")
+	TEST_ASSERT(!test_apc.nightshift_lights, "Янтарный код должен отключать ночной режим APC.")
+	TEST_ASSERT(!test_light.nightshift_enabled, "Янтарный код должен отключать ночной режим светильников.")
 
 	SSsecurity_level.set_level(SEC_LEVEL_GREEN)
 	wait_for_light_state(TRUE)
@@ -628,6 +657,9 @@
 	var/original_round_start_time
 	var/original_area_apc
 	var/original_nightshift_public_area
+	var/original_requires_power
+	var/original_lightswitch
+	var/original_power_light
 	var/area/test_area
 	var/obj/machinery/power/apc/test_apc
 	var/obj/machinery/light/test_light
@@ -657,9 +689,21 @@
 	original_round_start_time = SSticker.round_start_time
 	original_area_apc = test_area.power_apc
 	original_nightshift_public_area = test_area.nightshift_public_area
+	original_requires_power = test_area.requires_power
+	original_lightswitch = test_area.lightswitch
+	original_power_light = test_area.power_light
 
 	GLOB.the_station_areas = list(test_area.type)
 	test_area.nightshift_public_area = NIGHTSHIFT_AREA_FORCED
+	// Вывод области из симуляции питания на время теста: дренажи спят (sleep/CHECK_TICK), и на
+	// нагруженном CI между тиками успевает выстрелить SSmachines - АПЦ без сети (и тестовый, и
+	// маповый) через autoset гасит световой канал, area.power_light падает, power_change() тушит
+	// лампу (световой датум умирает, цвет замерзает на бульбовом). requires_power = FALSE
+	// останавливает process() ВСЕХ АПЦ области, явные lightswitch/power_light дают лампе
+	// стабильное питание независимо от исхода прошлых интерливов.
+	test_area.requires_power = FALSE
+	test_area.lightswitch = TRUE
+	test_area.power_light = TRUE
 	GLOB.nightshift_apc_queue.Cut()
 	GLOB.nightshift_light_queue.Cut()
 
@@ -674,6 +718,14 @@
 	test_light.on = TRUE
 	test_light.switchcount = 0
 	test_light.update(FALSE, TRUE)
+
+	// Прогрев кэша ламп АПЦ - последний шаг подготовки, и он обязателен.
+	// Создание лампы помечает кэш грязным, а перестройка в ensure_light_cache()
+	// содержит CHECK_TICK. То есть "немедленный" админский рефреш на холодном
+	// кэше засыпает прямо посреди раздачи флагов лампам, и успела лампа принять
+	// флаг до ассерта или нет - решает загрузка тика. Это и был остаточный флак
+	// теста: ассерт видел 0, а через несколько тиков поле уже 1.
+	test_apc.get_cached_area_lights()
 
 	SSnightshift.nightshift_active = FALSE
 	SSnightshift.high_security_mode = FALSE
@@ -714,6 +766,9 @@
 	SSticker.round_start_time = original_round_start_time
 	test_area.power_apc = original_area_apc
 	test_area.nightshift_public_area = original_nightshift_public_area
+	test_area.requires_power = original_requires_power
+	test_area.lightswitch = original_lightswitch
+	test_area.power_light = original_power_light
 	return ..()
 
 /datum/unit_test/nightshift_admin_controls/proc/expected_color(level)
@@ -726,17 +781,50 @@
 		return test_light.bulb_power
 	return test_light.interpolate_light_value(test_light.bulb_power, test_light.nightshift_light_power, level)
 
+/// Снимок состояния связки АПЦ-лампа для сообщений об ошибке. Строится ТОЛЬКО при падении:
+/// TEST_ASSERT_* подставляют message внутрь ветки Fail, так что на зелёном прогоне это ноль.
+/// Нужен, чтобы отличать три известные подписи флака этого теста друг от друга - см.
+/// историю в project_flaky_dm_tests: расхождение флагов АПЦ и лампы это очередь,
+/// застывший bulb_colour с мёртвым световым датумом это потеря питания.
+/datum/unit_test/nightshift_admin_controls/proc/fixture_diagnostics()
+	var/list/parts = list()
+	parts += "APC: lights=[test_apc.nightshift_lights] level=[test_apc.nightshift_level] queued=[test_apc.nightshift_refresh_queued]"
+	parts += "light: enabled=[test_light.nightshift_enabled] level=[test_light.nightshift_level] allowed=[test_light.nightshift_allowed] queued=[test_light.nightshift_update_queued]"
+	// ЧИТАТЬ КЭШ НАПРЯМУЮ. get_cached_area_lights() перестраивает его через
+	// ensure_light_cache(), а там CHECK_TICK - то есть диагностика засыпала и
+	// сама доводила состояние до правильного прямо перед тем, как его напечатать.
+	// Три сессии разбора смотрели на почищенную ею картину и потому не сходились.
+	parts += "light in APC cache: [(test_light in test_apc.cached_area_lights) ? "yes" : "NO"] (cache size [length(test_apc.cached_area_lights)], dirty=[test_apc.light_cache_dirty])"
+	// Питание области и состояние лампы: подпись "цвет застыл + световой датум мёртв"
+	// означает, что лампу погасили мимо ночной смены, и без этих полей неизвестно,
+	// кто именно - канал области, статус плафона или последовательность гашения.
+	parts += "area: requires_power=[test_area.requires_power] lightswitch=[test_area.lightswitch] power_light=[test_area.power_light]"
+	parts += "lamp: on=[test_light.on] status=[test_light.status] loss_stage=[test_light.power_loss_stage] emergency=[test_light.emergency_mode] switchcount=[test_light.switchcount] datum=[test_light.light ? "жив" : "МЁРТВ"]"
+	parts += "APC power: operating=[test_apc.operating] lighting=[test_apc.lighting] shorted=[test_apc.shorted] failure_timer=[test_apc.failure_timer]"
+	parts += "queues: apc=[length(GLOB.nightshift_apc_queue)] light=[length(GLOB.nightshift_light_queue)]"
+	parts += "light queued globally: [(test_light in GLOB.nightshift_light_queue) ? "yes" : "no"]"
+	parts += "SSnightshift: active=[SSnightshift.nightshift_active] can_fire=[SSnightshift.can_fire] refresh_running=[SSnightshift.nightshift_refresh_running]"
+	return parts.Join(" | ")
+
 /datum/unit_test/nightshift_admin_controls/proc/assert_fixture_state(message_prefix, expected_enabled, expected_level)
 	var/expected_color_value = expected_color(expected_level)
 	var/expected_power_value = expected_power(expected_level)
-	TEST_ASSERT_EQUAL(test_apc.nightshift_lights, expected_enabled, "[message_prefix] APC nightshift state should match the expected mode.")
-	TEST_ASSERT_EQUAL(test_light.nightshift_enabled, expected_enabled, "[message_prefix] fixture nightshift flag should match the expected mode.")
-	TEST_ASSERT_EQUAL(test_light.nightshift_level, expected_level, "[message_prefix] fixture nightshift level should update immediately.")
-	TEST_ASSERT_EQUAL(lowertext(test_light.light_color), expected_color_value, "[message_prefix] fixture light color should update immediately.")
-	TEST_ASSERT_EQUAL(test_light.light_power, expected_power_value, "[message_prefix] fixture light power should update immediately.")
-	TEST_ASSERT(test_light.light, "[message_prefix] fixture should keep a live light datum.")
-	TEST_ASSERT_EQUAL(lowertext(test_light.light.light_color), expected_color_value, "[message_prefix] live emitted light color should update immediately.")
-	TEST_ASSERT_EQUAL(test_light.light.light_power, expected_power_value, "[message_prefix] live emitted light power should update immediately.")
+	TEST_ASSERT_EQUAL(test_apc.nightshift_lights, expected_enabled, "[message_prefix] APC nightshift state should match the expected mode. [fixture_diagnostics()]")
+	// Снимок ровно того значения, которое сравнивал ассерт. Прошлое падение
+	// Захваченное значение печатается рядом с перечитанным: именно это
+	// расхождение (0 при сравнении, 1 при отчёте) и вывело на то, что диагностика
+	// сама спала в CHECK_TICK и успевала починить лампу до печати.
+	var/light_flag_at_check = test_light.nightshift_enabled
+	TEST_ASSERT_EQUAL(light_flag_at_check, expected_enabled, "[message_prefix] fixture nightshift flag should match the expected mode. Захвачено при сравнении: [light_flag_at_check], перечитано при отчёте: [test_light.nightshift_enabled], лампа [REF(test_light)]. [fixture_diagnostics()]")
+	TEST_ASSERT_EQUAL(test_light.nightshift_level, expected_level, "[message_prefix] fixture nightshift level should update immediately. [fixture_diagnostics()]")
+	// Диагностика и здесь: в CI (layenia, 2026-08-13) падали именно эти строки -
+	// цвет застыл на прошлом значении, световой датум мёртв, а флаги выше прошли.
+	// Без снимка питания такое падение неотличимо от застрявшей очереди.
+	TEST_ASSERT_EQUAL(lowertext(test_light.light_color), expected_color_value, "[message_prefix] fixture light color should update immediately. [fixture_diagnostics()]")
+	TEST_ASSERT_EQUAL(test_light.light_power, expected_power_value, "[message_prefix] fixture light power should update immediately. [fixture_diagnostics()]")
+	TEST_ASSERT(test_light.light, "[message_prefix] fixture should keep a live light datum. [fixture_diagnostics()]")
+	TEST_ASSERT_EQUAL(lowertext(test_light.light.light_color), expected_color_value, "[message_prefix] live emitted light color should update immediately. [fixture_diagnostics()]")
+	TEST_ASSERT_EQUAL(test_light.light.light_power, expected_power_value, "[message_prefix] live emitted light power should update immediately. [fixture_diagnostics()]")
 	var/list/current_overlays = test_light.update_overlays()
 	TEST_ASSERT(length(current_overlays) >= 2, "[message_prefix] lit fixtures should expose visible and emissive overlays.")
 	for(var/mutable_appearance/O as anything in current_overlays)
@@ -777,3 +865,63 @@
 	TEST_ASSERT(!SSnightshift.admin_solar_time_override, "Clearing solar time should restore normal progression.")
 	TEST_ASSERT_EQUAL(SSticker.gametime_offset, 21 HOURS, "Clearing solar time should restore the pre-override offset.")
 	assert_fixture_state("Solar Clear", TRUE, auto_level)
+
+// ===== Реентерабельность дренажа ночных очередей =====
+
+/// Пробник: его update() один раз симулирует конкурентный проход fire() по тем же
+/// очередям (вложенный process_nightshift_queues) и подбрасывает "позднюю" лампу,
+/// встающую в очередь посреди внешнего прохода.
+/obj/machinery/light/nightshift_reentrant_drain_probe
+	var/nested_drain_armed = FALSE
+	var/obj/machinery/light/late_arrival
+
+/obj/machinery/light/nightshift_reentrant_drain_probe/update(trigger = TRUE, silent = FALSE)
+	if(nested_drain_armed)
+		nested_drain_armed = FALSE
+		SSlighting.process_nightshift_queues(TRUE)
+		if(late_arrival && !QDELETED(late_arrival))
+			late_arrival.queue_nightshift_update()
+	return ..()
+
+/// Регресс на прежний k-индексный проход с хвостовым Cut: конкурентный дренаж посреди
+/// внешнего прохода выкидывал вставшую во время него лампу из очереди необработанной,
+/// с застрявшим nightshift_update_queued = TRUE - она навсегда теряла обновления цвета
+/// (флак nightshift_admin_controls на layenia). Ассерты только на source-local state
+/// (флаги конкретных ламп), не на длины глобальных очередей.
+/datum/unit_test/nightshift_queue_reentrant_drain
+	var/list/saved_apc_queue
+	var/list/saved_light_queue
+
+/datum/unit_test/nightshift_queue_reentrant_drain/New()
+	..()
+	saved_apc_queue = GLOB.nightshift_apc_queue.Copy()
+	saved_light_queue = GLOB.nightshift_light_queue.Copy()
+	GLOB.nightshift_apc_queue.Cut()
+	GLOB.nightshift_light_queue.Cut()
+
+/datum/unit_test/nightshift_queue_reentrant_drain/Destroy()
+	GLOB.nightshift_apc_queue += saved_apc_queue
+	GLOB.nightshift_light_queue += saved_light_queue
+	return ..()
+
+/datum/unit_test/nightshift_queue_reentrant_drain/Run()
+	var/obj/machinery/light/filler = allocate(/obj/machinery/light, run_loc_floor_bottom_left)
+	var/obj/machinery/light/nightshift_reentrant_drain_probe/probe = allocate(/obj/machinery/light/nightshift_reentrant_drain_probe, run_loc_floor_top_right)
+	var/obj/machinery/light/late = allocate(/obj/machinery/light, run_loc_floor_bottom_left)
+
+	TEST_ASSERT(filler.queue_nightshift_update(), "Обычная лампа должна вставать в очередь")
+	TEST_ASSERT(probe.queue_nightshift_update(), "Пробник должен вставать в очередь")
+	probe.late_arrival = late
+	probe.nested_drain_armed = TRUE
+
+	SSlighting.process_nightshift_queues(TRUE)
+
+	TEST_ASSERT(!probe.nested_drain_armed, "Пробник должен был отыграть вложенный дренаж во время внешнего прохода")
+	TEST_ASSERT(!filler.nightshift_update_queued, "Флаг обычной лампы должен быть снят дренажем")
+	TEST_ASSERT(!probe.nightshift_update_queued, "Флаг пробника должен быть снят дренажем")
+	TEST_ASSERT(!late.nightshift_update_queued, "Поздняя лампа не должна остаться с висящим nightshift_update_queued вне очереди")
+
+	// Застрявший флаг раньше навсегда блокировал повторную постановку - проверяем, что путь жив.
+	TEST_ASSERT(late.queue_nightshift_update(), "Поздняя лампа должна снова вставать в очередь после дренажа")
+	SSlighting.process_nightshift_queues(TRUE)
+	TEST_ASSERT(!late.nightshift_update_queued, "Повторно поставленная лампа должна быть обработана следующим дренажем")

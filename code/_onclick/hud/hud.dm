@@ -50,6 +50,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/rest_icon
 	var/atom/movable/screen/throw_icon
 	var/atom/movable/screen/module_store_icon
+	var/atom/movable/screen/ammo_counter //BLUEMOON ADDITION
 
 	var/list/static_inventory = list() //the screen objects which are static
 	var/list/toggleable_inventory = list() //the screen objects which can be hidden
@@ -94,8 +95,23 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/datum/action_group/listed/listed_actions
 	var/list/floating_actions
 
-	var/atom/movable/screen/healths
+	/// HUD здоровья обычных mob/living/carbon/human
+	var/atom/movable/screen/healths/healths
+	/// Вариант HUD здоровья для синтетов isrobotic()
+	var/atom/movable/screen/healths/robot/healths_synth
 	var/atom/movable/screen/healthdoll
+
+	/// UI element for hunger
+	var/atom/movable/screen/hunger
+	/// UI element for thirst
+	var/atom/movable/screen/thirst
+	/// UI элемент для "голода" синтетов
+	var/atom/movable/screen/hunger/robotic/charge
+
+	/// Extra inventory slots visible?
+	var/extra_shown = FALSE
+	/// Equipped item screens that don't show up even if using the initial toggle
+	var/list/extra_inventory = list()
 
 	var/atom/movable/screen/wanted/wanted_lvl
 	// subtypes can override this to force a specific UI style
@@ -119,10 +135,19 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	for(var/mytype in subtypesof(/atom/movable/screen/plane_master))
 		var/atom/movable/screen/plane_master/instance = new mytype(null, src)
-		plane_masters["[instance.plane]"] = instance
+		var/plane_key = "[instance.plane]"
+		//WALL_PLANE, ABOVE_WALL_PLANE и GAME_PLANE объявлены одним и тем же
+		//числом (-3), так что на ключ "-3" претендуют три плейн-мастера. Кто
+		//победит - не меняем (последний из subtypesof, как и раньше), но
+		//вытесненного обязаны добить: в plane_masters его уже нет, а Destroy()
+		//чистит именно этот список. Каждый созданный HUD оставлял по два
+		//бессмертных плейн-мастера - перепись прода давала +315 wall и
+		//+315 above_wall за один интервал.
+		var/atom/movable/screen/plane_master/displaced = plane_masters[plane_key]
+		plane_masters[plane_key] = instance
+		if(displaced)
+			qdel(displaced)
 		instance.backdrop(mymob)
-
-	owner.overlay_fullscreen("see_through_darkness", /atom/movable/screen/fullscreen/special/see_through_darkness)
 
 	for(var/mytype in subtypesof(/atom/movable/plane_master_controller))
 		var/atom/movable/plane_master_controller/controller_instance = new mytype(null, src)
@@ -174,11 +199,14 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	QDEL_LIST(infodisplay)
 
 	healths = null
+	healths_synth = null
 	healthdoll = null
-	wanted_lvl = null
 
 	hunger = null
 	thirst = null
+	charge = null
+
+	wanted_lvl = null
 
 	lingchemdisplay = null
 	devilsouldisplay = null
@@ -187,6 +215,10 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	alien_plasma_display = null
 	alien_queen_finder = null
 	combo_display = null
+
+	// AMM COUNTER PORT
+	ammo_counter = null
+	//
 
 	for(var/key in plane_masters)
 		var/atom/movable/screen/P = plane_masters[key]
@@ -200,10 +232,31 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	mymob = null
 
 	QDEL_NULL(screentip_text)
-	last_screentip_atom = null
-	last_screentip_held = null
+	set_screentip_cache(null, null)
 
 	return ..()
+
+/// Updates the strong screentip cache references and makes them self-clearing on qdel.
+/datum/hud/proc/set_screentip_cache(atom/new_atom, obj/item/new_held_item)
+	if(last_screentip_atom == new_atom && last_screentip_held == new_held_item)
+		return
+	if(last_screentip_atom)
+		UnregisterSignal(last_screentip_atom, COMSIG_PARENT_QDELETING)
+	if(last_screentip_held && last_screentip_held != last_screentip_atom)
+		UnregisterSignal(last_screentip_held, COMSIG_PARENT_QDELETING)
+
+	last_screentip_atom = new_atom
+	last_screentip_held = new_held_item
+
+	if(last_screentip_atom)
+		RegisterSignal(last_screentip_atom, COMSIG_PARENT_QDELETING, PROC_REF(on_screentip_cache_target_qdeleting))
+	if(last_screentip_held && last_screentip_held != last_screentip_atom)
+		RegisterSignal(last_screentip_held, COMSIG_PARENT_QDELETING, PROC_REF(on_screentip_cache_target_qdeleting))
+
+/datum/hud/proc/on_screentip_cache_target_qdeleting(datum/source)
+	SIGNAL_HANDLER
+	if(source == last_screentip_atom || source == last_screentip_held)
+		set_screentip_cache(null, null)
 
 /mob/proc/create_mob_hud()
 	if(!client || hud_used)
@@ -215,6 +268,12 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 /mob/proc/set_hud_used(datum/hud/new_hud)
 	hud_used = new_hud
 	new_hud.build_action_groups()
+
+/mob/living/set_hud_used(datum/hud/new_hud)
+	. = ..()
+	//новый HUD - пустые элементы здоровья, дедуп в update_health_hud() обязан
+	//пропустить первую отрисовку
+	cached_health_hud_signature = ""
 
 //Version denotes which style should be displayed. blank or 0 means "next version"
 /datum/hud/proc/show_hud(version = 0, mob/viewmob)
@@ -231,7 +290,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	if(!display_hud_version)	//If 0 or blank, display the next hud version
 		display_hud_version = hud_version + 1
 	if(display_hud_version > HUD_VERSIONS)	//If the requested version number is greater than the available versions, reset back to the first version
-		display_hud_version = 1
+		display_hud_version = HUD_STYLE_STANDARD
 
 	switch(display_hud_version)
 		if(HUD_STYLE_STANDARD)	//Default HUD
@@ -295,7 +354,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	hud_version = display_hud_version
 	persistent_inventory_update(screenmob)
-	screenmob.update_action_buttons(1)
+	screenmob.update_action_buttons(TRUE)
 	reorganize_alerts()
 
 	// ensure observers get an accurate and up-to-date view
@@ -370,6 +429,11 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 		var/atom/movable/screen/inventory/hand/H = hand_slots[h]
 		if(H)
 			static_inventory -= H
+			//Выписать из static_inventory мало: этот список - единственное, что
+			//обходит QDEL_LIST в hud/Destroy, так что каждая пересборка рук
+			//(смена числа рук, смена стиля интерфейса) оставляла старые слоты
+			//жить до конца раунда.
+			qdel(H)
 	hand_slots = list()
 	var/atom/movable/screen/inventory/hand/hand_box
 	for(var/i in 1 to mymob.held_items.len)
@@ -498,6 +562,43 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 			button = action.viewers[src]
 		else
 			position_action(button, button.location)
+
+// Called after updating extra inventory
+/datum/hud/proc/extra_inventory_update()
+	return
+
+/proc/ui_style_modular(ui_style, variant = "base")
+	var/static/cache = list()
+
+	var/check = LAZYACCESSASSOC(cache, ui_style, variant)
+	if(check)
+		return check
+
+	switch(ui_style)
+		if('icons/mob/screen_plasmafire.dmi')
+			. = "modular_sand/icons/hud/screen_plasmafire/"
+		if('icons/mob/screen_slimecore.dmi')
+			. = "modular_sand/icons/hud/screen_slimecore/"
+		if('icons/mob/screen_operative.dmi')
+			. = "modular_sand/icons/hud/screen_operative/"
+		if('icons/mob/screen_clockwork.dmi')
+			. = "modular_sand/icons/hud/screen_clockwork/"
+		if('icons/mob/screen_glass.dmi')
+			. = "modular_sand/icons/hud/screen_glass/"
+		if('icons/mob/screen_trasenknox.dmi')
+			. = "modular_sand/icons/hud/screen_trasenknox/"
+		if('icons/mob/screen_detective.dmi')
+			. = "modular_sand/icons/hud/screen_detective/"
+		if('modular_sand/icons/hud/screen_liteweb/base.dmi')
+			. = "modular_sand/icons/hud/screen_liteweb/"
+		if('modular_sand/icons/hud/screen_corru/base.dmi')
+			. = "modular_sand/icons/hud/screen_corru/"
+		else
+			. = "modular_sand/icons/hud/screen_midnight/"
+
+	. = file("[.][variant].dmi")
+	LAZYADDASSOC(cache, ui_style, variant)
+	cache[ui_style][variant] = .
 
 /datum/action_group
 	/// The hud we're owned by

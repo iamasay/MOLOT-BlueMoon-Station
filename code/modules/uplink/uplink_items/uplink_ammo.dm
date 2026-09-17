@@ -11,7 +11,7 @@
 	name = "Ammo Box - .45-70 GOVT"
 	desc = "Содержит 10 дополнительных патронов .45-70 GOVT. Калибр крайне редкий, поэтому и цена соответствующая."
 	item = /obj/item/ammo_box/g4570
-	cost = 5
+	cost = 2
 	purchasable_from = (UPLINK_NUKE_OPS | UPLINK_SYNDICATE)
 
 /datum/uplink_item/ammo/pistol
@@ -126,25 +126,40 @@
 			Сказать, что они полностью нелетальные - было бы враньём."
 	item = /obj/item/ammo_box/magazine/m12g/stun
 
+/datum/uplink_item/ammo/shotgun/flechette
+	name = "12g flechette Drum"
+	desc = "Альтернативный барабан на 8 картечных флешет для дробовика Bulldog. \
+			Кто то подумал что засунуть гвозди в картридж было хорошей идеей.. И чёрт подери был прав!"
+	item = /obj/item/ammo_box/magazine/m12g/flechette
+
+/datum/uplink_item/ammo/shotgun/frangible
+	name = "12g frangible slug Drum"
+	desc = "Альтернативный барабан на 8 анти-материальных пулевых патронов для дробовика Bulldog. \
+			Пусть они не так хороши против плоти, но зато дверь на против вылетит со стилем."
+	item = /obj/item/ammo_box/magazine/m12g/frangible
+	cost = 1
+
 /datum/uplink_item/ammo/revolver
 	name = ".357 Speed Loader"
 	desc = "Быстрозарядник на семь патронов .357 Magnum, можно дозарядить отдельными пулями. \
 			Подходит для револьвера Syndicate. Когда действительно нужно, чтобы куча народу перестала шевелиться."
 	item = /obj/item/ammo_box/a357
 	cost = 3
-	purchasable_from = ~UPLINK_CLOWN_OPS
+	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/ammo/revolver/ap
 	name = ".357 Armor Piercing Speed Loader"
 	desc = "Быстрозарядник на семь бронебойных патронов .357 AP Magnum для револьвера Syndicate. \
 			Прошибает как горячий нож сквозь масло."
 	item = /obj/item/ammo_box/a357/ap
+	purchasable_from =  ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/ammo/revolver/dumdum
 	name = ".357 DumDum Speed Loader"
 	desc = "Быстрозарядник на семь разрывных патронов .357 DumDum Magnum для револьвера Syndicate. \
 			Рви и кромсай."
 	item = /obj/item/ammo_box/a357/dumdum
+	purchasable_from =  ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/ammo/a40mm
 	name = "40mm Grenade"
@@ -240,16 +255,16 @@
 
 /datum/uplink_item/ammo/rocket/basic
 	name = "84mm HE Rocket"
-	desc = "Маломощная осколочная ракета 84mm. Отправим вас на тот свет со стилем!"
+	desc = "Мощная осколочная ракета 84mm. Отправляйте на тот свет со стилем!"
 	item = /obj/item/ammo_casing/caseless/rocket
-	cost = 4
+	cost = 2
 
 /datum/uplink_item/ammo/rocket/hedp
 	name = "84mm HEDP Rocket"
 	desc = "Мощная кумулятивно-осколочная ракета 84mm HEDP. Крайне эффективна против бронированных целей \
 			и всех, кто стоит рядом. Вселяйте страх в сердца врагов."
 	item = /obj/item/ammo_casing/caseless/rocket/hedp
-	cost = 6
+	cost = 4
 
 /datum/uplink_item/ammo/pistolaps
 	name = "9mm Handgun Magazine"

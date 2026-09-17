@@ -1,5 +1,5 @@
 import { createSearch } from 'common/string';
-import { Fragment } from 'inferno';
+import { Fragment, useState } from 'react';
 
 import { useBackend, useLocalState } from '../backend';
 import {
@@ -43,8 +43,8 @@ const statusStyles = {
   'Сняты Обвинения': 'discharged',
 };
 
-export const SecurityRecords = (properties, context) => {
-  const { data } = useBackend(context);
+export const SecurityRecords = (properties) => {
+  const { data } = useBackend();
   const { loginState, currentPage } = data;
 
   if (!loginState.logged_in) {
@@ -92,8 +92,8 @@ export const SecurityRecords = (properties, context) => {
   );
 };
 
-const TempNotice = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const TempNotice = (_properties) => {
+  const { act, data } = useBackend();
   const { temp } = data;
   if (!temp) {
     return null;
@@ -113,8 +113,8 @@ const TempNotice = (_properties, context) => {
   );
 };
 
-const NavigationTabs = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const NavigationTabs = (_properties) => {
+  const { act, data } = useBackend();
   const { currentPage, general } = data;
   return (
     <Tabs>
@@ -144,12 +144,12 @@ const NavigationTabs = (_properties, context) => {
 
 // ============= LIST PAGE =============
 
-const PageRecordList = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const PageRecordList = (_properties) => {
+  const { act, data } = useBackend();
   const { records, isPrinting } = data;
-  const [searchText, setSearchText] = useLocalState(context, 'searchText', '');
-  const [sortId, _setSortId] = useLocalState(context, 'sortId', 'name');
-  const [sortOrder, _setSortOrder] = useLocalState(context, 'sortOrder', true);
+  const [searchText, setSearchText] = useState('');
+  const [sortId, _setSortId] = useLocalState('sortId', 'name');
+  const [sortOrder, _setSortOrder] = useLocalState('sortOrder', true);
 
   const filteredRecords = (records || [])
     .filter(
@@ -169,7 +169,7 @@ const PageRecordList = (_properties, context) => {
     });
 
   return (
-    <Fragment>
+    <>
       <Flex mb="0.5rem">
         <Flex.Item>
           <Button
@@ -226,13 +226,13 @@ const PageRecordList = (_properties, context) => {
           </Table.Row>
         ))}
       </Table>
-    </Fragment>
+    </>
   );
 };
 
-const SortButton = (properties, context) => {
-  const [sortId, setSortId] = useLocalState(context, 'sortId', 'name');
-  const [sortOrder, setSortOrder] = useLocalState(context, 'sortOrder', true);
+const SortButton = (properties) => {
+  const [sortId, setSortId] = useLocalState('sortId', 'name');
+  const [sortOrder, setSortOrder] = useLocalState('sortOrder', true);
   const { id, children } = properties;
   return (
     <Table.Cell>
@@ -261,8 +261,8 @@ const SortButton = (properties, context) => {
 
 // ============= MAINTENANCE PAGE =============
 
-const PageMaintenance = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const PageMaintenance = (_properties) => {
+  const { act, data } = useBackend();
   const { canDeleteAll } = data;
   return (
     <Box>
@@ -284,10 +284,10 @@ const PageMaintenance = (_properties, context) => {
 
 // ============= ALL LOGS PAGE =============
 
-const PageAllLogs = (_properties, context) => {
-  const { data } = useBackend(context);
+const PageAllLogs = (_properties) => {
+  const { data } = useBackend();
   const { allLogs } = data;
-  const [searchLogs, setSearchLogs] = useLocalState(context, 'searchLogs', '');
+  const [searchLogs, setSearchLogs] = useState('');
 
   const logs = allLogs || [];
   const filteredLogs = logs.filter(
@@ -297,7 +297,7 @@ const PageAllLogs = (_properties, context) => {
   );
 
   return (
-    <Fragment>
+    <>
       <Flex mb="0.5rem">
         <Flex.Item grow="1">
           <Input
@@ -335,18 +335,18 @@ const PageAllLogs = (_properties, context) => {
           </Box>
         )}
       </Section>
-    </Fragment>
+    </>
   );
 };
 
 // ============= RECORD VIEW PAGE =============
 
-const PageRecordView = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const PageRecordView = (_properties) => {
+  const { act, data } = useBackend();
   const { general, security, isPrinting, canDeleteLogs } = data;
 
   return (
-    <Fragment>
+    <>
       <Button
         icon="arrow-left"
         content="Назад к списку"
@@ -355,14 +355,14 @@ const PageRecordView = (_properties, context) => {
       />
       <ViewGeneral />
       <ViewSecurity />
-    </Fragment>
+    </>
   );
 };
 
 // ----- General Section -----
 
-const ViewGeneral = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const ViewGeneral = (_properties) => {
+  const { act, data } = useBackend();
   const { general, isPrinting, canEditRank } = data;
 
   if (!general || general.empty) {
@@ -377,7 +377,7 @@ const ViewGeneral = (_properties, context) => {
     <Section
       title="Общие данные"
       buttons={
-        <Fragment>
+        <>
           <Button
             disabled={isPrinting}
             icon={isPrinting ? 'spinner' : 'print'}
@@ -405,7 +405,7 @@ const ViewGeneral = (_properties, context) => {
             content="Удалить всё"
             onClick={() => act('delete_general')}
           />
-        </Fragment>
+        </>
       }>
       <Flex>
         <Flex.Item grow="1">
@@ -497,8 +497,8 @@ const ViewGeneral = (_properties, context) => {
   );
 };
 
-const PhotoBox = (properties, context) => {
-  const { act } = useBackend(context);
+const PhotoBox = (properties) => {
+  const { act } = useBackend();
   const { photoData, label, side } = properties;
   return (
     <Box display="inline-block" textAlign="center" mr="0.5rem" mb="0.5rem">
@@ -542,8 +542,8 @@ const PhotoBox = (properties, context) => {
 
 // ----- Security Section -----
 
-const ViewSecurity = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const ViewSecurity = (_properties) => {
+  const { act, data } = useBackend();
   const { security, isPrinting, canDeleteLogs, hasCentcomAuth } = data;
 
   if (!security || security.empty) {
@@ -561,7 +561,7 @@ const ViewSecurity = (_properties, context) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Section
         title="Данные безопасности"
         buttons={
@@ -592,6 +592,9 @@ const ViewSecurity = (_properties, context) => {
           />
         </Box>
         <Box mt="0.75rem">
+          <FinesTable fines={security.fines || []} isPrinting={isPrinting} />
+        </Box>
+        <Box mt="0.75rem">
           <LabeledList>
             <LabeledList.Item label="Заметки">
               {security.notes}
@@ -606,23 +609,15 @@ const ViewSecurity = (_properties, context) => {
       </Section>
       <ActionLogs />
       <CommentsSection />
-    </Fragment>
+    </>
   );
 };
 
-const CriminalStatusSelector = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const CriminalStatusSelector = (_properties) => {
+  const { act, data } = useBackend();
   const { security } = data;
-  const [showStatusPicker, setShowStatusPicker] = useLocalState(
-    context,
-    'showStatusPicker',
-    false
-  );
-  const [statusReason, setStatusReason] = useLocalState(
-    context,
-    'statusReason',
-    ''
-  );
+  const [showStatusPicker, setShowStatusPicker] = useState(false);
+  const [statusReason, setStatusReason] = useState('');
 
   const currentStatus = security.criminal || 'Ничего';
   const currentStyle = statusStyles[currentStatus];
@@ -692,8 +687,8 @@ const CriminalStatusSelector = (_properties, context) => {
   );
 };
 
-const CrimeTable = (properties, context) => {
-  const { act } = useBackend(context);
+const CrimeTable = (properties) => {
+  const { act } = useBackend();
   const { title, crimes, addAction, deleteAction, hasCentcomAuth } = properties;
 
   return (
@@ -766,8 +761,81 @@ const CrimeTable = (properties, context) => {
   );
 };
 
-const ActionLogs = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const FinesTable = (properties) => {
+  const { act } = useBackend();
+  const { fines, isPrinting } = properties;
+  const formatTime = (decisecs) => {
+    if (!decisecs || decisecs <= 0) return 'ПРОСРОЧЕНО';
+    const totalSec = Math.floor(decisecs / 10);
+    const mins = Math.floor(totalSec / 60);
+    const secs = totalSec % 60;
+    return `${mins}м ${secs}с`;
+  };
+  return (
+    <Section
+      title={`Штрафы (${fines.length})`}
+      level={2}
+      buttons={
+        <Button
+          icon="plus"
+          color="yellow"
+          content="Выписать штраф"
+          onClick={() => act('fine_add')}
+        />
+      }>
+      {fines.length === 0 ? (
+        <Box color="label" italic>
+          Нет выписанных штрафов.
+        </Box>
+      ) : (
+        <Table>
+          <Table.Row bold header>
+            <Table.Cell>Статья</Table.Cell>
+            <Table.Cell>Подробности</Table.Cell>
+            <Table.Cell>Выписал</Table.Cell>
+            <Table.Cell>Время</Table.Cell>
+            <Table.Cell textAlign="center">Сумма</Table.Cell>
+            <Table.Cell textAlign="center">Оплачено</Table.Cell>
+            <Table.Cell textAlign="center">Остаток</Table.Cell>
+            <Table.Cell textAlign="center">Таймер</Table.Cell>
+            <Table.Cell textAlign="center">Действия</Table.Cell>
+          </Table.Row>
+          {fines.map((fine) => (
+            <Table.Row key={fine.dataId} className={fine.time_left === 0 && fine.fine > 0 ? 'candystripe' : ''}>
+              <Table.Cell bold color={fine.time_left === 0 && fine.fine > 0 ? 'bad' : undefined}>{fine.name}</Table.Cell>
+              <Table.Cell>{fine.details}</Table.Cell>
+              <Table.Cell color="label">{fine.author}</Table.Cell>
+              <Table.Cell color="label">{fine.time}</Table.Cell>
+              <Table.Cell textAlign="center" color="yellow">{fine.total} кр.</Table.Cell>
+              <Table.Cell textAlign="center" color="good">{fine.paid} кр.</Table.Cell>
+              <Table.Cell textAlign="center" color={fine.fine > 0 ? 'bad' : 'good'}>{fine.fine} кр.</Table.Cell>
+              <Table.Cell textAlign="center" color={fine.time_left === 0 && fine.fine > 0 ? 'bad' : fine.time_left < 3000 ? 'average' : 'good'}>
+                {fine.fine === 0 ? 'ОПЛАЧЕН' : formatTime(fine.time_left)}
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                <Button
+                  icon="print"
+                  tooltip="Печать квитанции"
+                  disabled={isPrinting}
+                  onClick={() => act('fine_print_receipt', { cdataid: fine.dataId })}
+                />
+                <Button.Confirm
+                  icon="trash"
+                  color="bad"
+                  tooltip="Снять штраф (ГСБ/Смотритель/Капитан)"
+                  onClick={() => act('fine_remove', { cdataid: fine.dataId })}
+                />
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table>
+      )}
+    </Section>
+  );
+};
+
+const ActionLogs = (_properties) => {
+  const { act, data } = useBackend();
   const { security, isPrinting, canDeleteLogs } = data;
   const logs = security.logs || [];
 
@@ -775,7 +843,7 @@ const ActionLogs = (_properties, context) => {
     <Section
       title={'Логи действий (' + logs.length + ')'}
       buttons={
-        <Fragment>
+        <>
           <Button
             disabled={isPrinting}
             icon={isPrinting ? 'spinner' : 'print'}
@@ -791,7 +859,7 @@ const ActionLogs = (_properties, context) => {
               onClick={() => act('delete_logs')}
             />
           )}
-        </Fragment>
+        </>
       }>
       {logs.length === 0 ? (
         <Box color="label" italic>
@@ -819,8 +887,8 @@ const ActionLogs = (_properties, context) => {
   );
 };
 
-const CommentsSection = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const CommentsSection = (_properties) => {
+  const { act, data } = useBackend();
   const { security } = data;
   const comments = security.comments || [];
 
@@ -851,7 +919,7 @@ const CommentsSection = (_properties, context) => {
                 [Удалено]
               </Box>
             ) : (
-              <Fragment>
+              <>
                 <Box
                   fontSize="0.85rem"
                   dangerouslySetInnerHTML={{ __html: comment.text }}
@@ -862,7 +930,7 @@ const CommentsSection = (_properties, context) => {
                   mt="0.25rem"
                   onClick={() => act('delete_comment', { id: comment.id })}
                 />
-              </Fragment>
+              </>
             )}
           </Box>
         ))

@@ -24,7 +24,7 @@
 ////////////////////////
 
 /obj/item/modkit/hahun_jukebox
-	name = "Irrelian Jukebox"
+	name = "Irellian jukebox"
 	desc = "A modkit for making a jukebox into an acradorian version."
 	product = /obj/item/jukebox/hahun
 	fromitem = list(/obj/item/jukebox)
@@ -97,6 +97,47 @@
 	for(var/path in list(/obj/item/sign/flag/imperium, /obj/item/sign/flag/imperium/gray))
 		for(var/i = 1 to 3)
 			new path(src)
+
+/obj/item/sign/flag/marine
+	icon = 'modular_bluemoon/fluffs/icons/obj/flags.dmi'
+	unique_reskin = list(
+		"United Americas" = list(
+			RESKIN_ICON_STATE = "folded_ua",
+			RESKIN_ITEM_STATE = "folded_ua",
+			sign_path = /obj/structure/sign/flag/marine/ua
+		),
+		"USCMC" = list(
+			RESKIN_ICON_STATE = "folded_uscmc",
+			RESKIN_ITEM_STATE = "folded_uscmc",
+			sign_path = /obj/structure/sign/flag/marine/uscmc)
+	)
+
+/obj/structure/sign/flag/marine
+	icon = 'modular_bluemoon/fluffs/icons/obj/flags.dmi'
+
+/obj/item/sign/flag/marine/ua
+	name = "folded flag of United Americas"
+	desc = "folded flag of United Americas, abbreviated as the UA."
+	icon_state = "folded_ua"
+	sign_path = /obj/structure/sign/flag/marine/ua
+
+/obj/structure/sign/flag/marine/ua
+	name = "flag of United Americas"
+	desc = "flag of United Americas. Why did they need to unite them?"
+	icon_state = "flag_ua"
+	item_flag = /obj/item/sign/flag/marine/ua
+
+/obj/item/sign/flag/marine/uscmc
+	name = "folded USCMC flag"
+	desc = "folded flag of United States Colonial Marine Corps. There some sign at corner: \"Delta one love\"."
+	icon_state = "folded_uscmc"
+	sign_path = /obj/structure/sign/flag/marine/uscmc
+
+/obj/structure/sign/flag/marine/uscmc
+	name = "USCMC flag"
+	desc = "flag of United States Colonial Marine Corps. Commonly known as just the Colonial Marines, was the United Americas' primary \"force-in-readiness\". They specialized in force projection, being able to operate independently in environments far from home for extended periods thanks to their technological prowess and sizeable space fleet at their disposal."
+	icon_state = "flag_uscmc"
+	item_flag = /obj/item/sign/flag/marine/uscmc
 
 ////////////////////////
 
@@ -187,3 +228,33 @@
 		qdel(src)
 
 ////////////////////////
+
+/obj/item/modkit/kumiko_ncr_riot_helmet
+	name = "NCR riot helmet kit"
+	desc = "A modkit for making a riot helmet into ncr riot helmet."
+	product = /obj/item/clothing/head/helmet/riot/kumiko_ncr_riot_helmet
+	fromitem = list(/obj/item/clothing/head/helmet/riot)
+
+/obj/item/modkit/kumiko_ncr_bulletproof_helmet
+	name = "NCR plate bulletproof helmet kit"
+	desc = "A modkit for making a bulletproof helmet into ncr bulletproof helmet."
+	product = /obj/item/clothing/head/helmet/alt/kumiko_ncr_bulletproof_helmet
+	fromitem = list(/obj/item/clothing/head/helmet/alt)
+
+/obj/item/modkit/kumiko_ncr_armor_vest
+	name = "NCR armor vest kit"
+	desc = "A modkit for making a plate carrier into a ncr duster."
+	product = /obj/item/clothing/suit/armor/vest/alt/kumiko_ncr_ranger
+	fromitem = list(/obj/item/clothing/suit/armor/vest/alt)
+
+/obj/item/modkit/kumiko_ncr_bulletproof
+	name = "NCR ranger bulletproof kit"
+	desc = "A modkit for making a bulletproof armor into a ncr ranger duster."
+	product = /obj/item/clothing/suit/armor/bulletproof/kumiko_ncr_custom
+	fromitem = list(/obj/item/clothing/suit/armor/bulletproof)
+
+/obj/item/modkit/kumiko_ncr_riot
+	name = "NCR ranger riot kit"
+	desc = "A modkit for making a riot armor into a ncr ranger duster."
+	product = /obj/item/clothing/suit/armor/riot/kumiko_ncr_elite_desert
+	fromitem = list(/obj/item/clothing/suit/armor/riot)

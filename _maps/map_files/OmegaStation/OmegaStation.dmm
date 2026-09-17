@@ -2676,9 +2676,8 @@
 /turf/open/floor/wood,
 /area/command/heads_quarters/captain/private)
 "afo" = (
-/obj/item/radio/intercom{
+/obj/item/radio/intercom/command{
 	dir = 8;
-	freerange = 1;
 	name = "Captain's Intercom";
 	pixel_x = 26
 	},
@@ -8610,7 +8609,7 @@
 	id = "detectivewindows";
 	name = "HoS Privacy Blast door"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plating,
 /area/command/heads_quarters/hos)
 "aqz" = (
@@ -12115,6 +12114,7 @@
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/engineering/hfr,
 /turf/open/floor/plasteel/dark/corner{
 	dir = 4
 	},
@@ -31409,10 +31409,7 @@
 	},
 /area/engineering/atmos)
 "bhX" = (
-/obj/machinery/pool/filter{
-	pixel_y = 16
-	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/maintenance/starboard/aft)
 "bhZ" = (
 /obj/machinery/light_switch{
@@ -33953,7 +33950,6 @@
 	name = "Station Intercom";
 	pixel_x = 28
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/item/radio/intercom{
 	name = "Station Intercom";
 	pixel_x = 28
@@ -34129,7 +34125,6 @@
 	},
 /area/science/xenobiology)
 "cGA" = (
-/obj/machinery/pool/controller,
 /turf/open/floor/wood,
 /area/maintenance/starboard/aft)
 "cLO" = (
@@ -36001,7 +35996,6 @@
 /turf/open/floor/wood,
 /area/maintenance/starboard/aft)
 "iUa" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
 	},
@@ -37359,7 +37353,7 @@
 	dir = 1;
 	pixel_y = -24
 	},
-/turf/open/pool,
+/turf/open/pool/water,
 /area/maintenance/starboard/aft)
 "nmv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -37536,8 +37530,7 @@
 /turf/open/floor/plasteel/dark/corner,
 /area/maintenance/disposal/incinerator)
 "nXb" = (
-/obj/machinery/pool/drain,
-/turf/open/pool,
+/turf/open/pool/water,
 /area/maintenance/starboard/aft)
 "oaV" = (
 /obj/structure/grille,
@@ -37843,7 +37836,7 @@
 /area/maintenance/starboard/aft)
 "pjU" = (
 /obj/structure/grille,
-/obj/machinery/atmospherics/pipe/simple/yellow/hidden{
+/obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 6
 	},
 /turf/closed/wall/r_wall,
@@ -38564,6 +38557,10 @@
 	},
 /obj/effect/turf_decal/stripes/yellow/line,
 /obj/machinery/atmospherics/pipe/simple/green/visible,
+/turf/open/floor/plasteel,
+/area/engineering/atmos)
+"rQW" = (
+/obj/machinery/atmospherics/components/binary/crystallizer,
 /turf/open/floor/plasteel,
 /area/engineering/atmos)
 "rVj" = (
@@ -41450,6 +41447,13 @@
 	icon_state = "wood-broken2"
 	},
 /area/maintenance/starboard/aft)
+"usn" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/electrolyzer,
+/turf/open/floor/plasteel,
+/area/engineering/atmos)
 "uuj" = (
 /obj/machinery/plantgenes{
 	pixel_y = 6
@@ -41529,7 +41533,7 @@
 /turf/open/floor/plasteel/airless/solarpanel,
 /area/solars/starboard/fore)
 "uCY" = (
-/turf/open/pool,
+/turf/open/pool/water,
 /area/maintenance/starboard/aft)
 "uDp" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible{
@@ -73219,7 +73223,7 @@ vuh
 asw
 jxc
 mae
-hqX
+usn
 wqL
 diG
 aPQ
@@ -73476,7 +73480,7 @@ qFw
 asw
 jxc
 mae
-hqX
+usn
 bpB
 qoT
 eaf
@@ -73991,7 +73995,7 @@ bhS
 jxc
 mae
 hqX
-diG
+rQW
 diG
 yba
 idD

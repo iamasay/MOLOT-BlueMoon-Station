@@ -106,7 +106,9 @@
 	recalculateChannels()
 
 /obj/item/radio/Destroy()
-	remove_radio_all(src) //Just to be sure
+	remove_radio(src, frequency)
+	for(var/ch_name in secure_radio_connections)
+		remove_radio(src, secure_radio_connections[ch_name])
 	QDEL_NULL(wires)
 	QDEL_NULL(keyslot)
 	return ..()
@@ -411,11 +413,15 @@
 	for (var/ch_name in channels)
 		channels[ch_name] = 0
 	on = FALSE
-	spawn(200)
-		if(emped == curremp) //Don't fix it if it's been EMP'd again
-			emped = 0
-			if (!istype(src, /obj/item/radio/intercom)) // intercoms will turn back on on their own
-				on = TRUE
+	addtimer(CALLBACK(src, PROC_REF(end_emp_effect), curremp), 20 SECONDS)
+
+///Окончание действия ЭМИ: сабтипы с внешним питанием (интерком) переопределяют
+///и сверяются с сетью вместо безусловного включения.
+/obj/item/radio/proc/end_emp_effect(curremp)
+	if(emped != curremp) //Don't fix it if it's been EMP'd again
+		return
+	emped = 0
+	on = TRUE
 
 ///////////////////////////////
 //////////Borg Radios//////////

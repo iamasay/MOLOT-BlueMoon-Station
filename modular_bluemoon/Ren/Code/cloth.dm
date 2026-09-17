@@ -77,7 +77,7 @@
 	item_state = "hardsuit0-iron_tombstone"
 	icon_state = "hardsuit0-iron_tombstone"
 	hardsuit_type = "iron_tombstone"
-	armor = list(MELEE = 50, BULLET = 70, LASER = 10,ENERGY = 10, BOMB = 40, BIO = 70, RAD = 10, FIRE = 10, ACID = 10, WOUND = 30)
+	armor = list(MELEE = 50, BULLET = 75, LASER = 25, ENERGY = 10, BOMB = 40, BIO = 70, RAD = 10, FIRE = 10, ACID = 10, WOUND = 30)
 	flash_protect = 2
 	strip_delay = 90
 	equip_delay_self = 15
@@ -94,24 +94,34 @@
 	icon_state = "hardsuit-iron_tombstone"
 	tail_state = "syndicate-elite"
 	hardsuit_type = "iron_tombstone"
-	armor = list(MELEE = 50, BULLET = 70, LASER = 10,ENERGY = 10, BOMB = 40, BIO = 70, RAD = 10, FIRE = 10, ACID = 10, WOUND = 30)
+	armor = list(MELEE = 50, BULLET = 75, LASER = 25, ENERGY = 10, BOMB = 40, BIO = 70, RAD = 10, FIRE = 10, ACID = 10, WOUND = 30)
+	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	allowed = list(/obj/item/gun, /obj/item/ammo_box,/obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
 	strip_delay = 120
 	equip_delay_self = 20
-	slowdown = 0.3
+	slowdown = 0.25
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/iron_tombstone
 	actions_types = list(/datum/action/item_action/toggle_helmet)
-	mutantrace_variation = STYLE_DIGITIGRADE
+	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
 
 // -----------------------------------------------[Космодесантник]-------------------------------------------
 // Взрыв при экипировке
 /obj/item/clothing/suit/space/syndicate/darktemplar/equipped(mob/user, slot)
 	..()
+	if(slot == ITEM_SLOT_OCLOTHING && brc_mitigation_bonus > 0 && isliving(user))
+		user.brc_mitigation += brc_mitigation_bonus
+		brc_worn = TRUE
 	if(slot == ITEM_SLOT_OCLOTHING)
 		if(!IS_INTEQ(user))
 			to_chat(user, "<span class='danger'><B>Запуск проверки генетического кода</B><br> Обнаружены неавторизованные сигнатуры. <B>ПРОИЗВОДИТСЯ ОЧИСТКА</B></span>")
 			playsound(get_turf(src), 'sound/machines/nuke/confirm_beep.ogg', 65, 1, 1)
 			addtimer(CALLBACK(src, PROC_REF(explode)), 3 SECONDS)
+
+/obj/item/clothing/suit/space/syndicate/darktemplar/dropped(mob/user)  // BLUEMOON ADD
+	..()
+	if(brc_worn && isliving(user))
+		user.brc_mitigation = max(0, user.brc_mitigation - brc_mitigation_bonus)
+		brc_worn = FALSE
 
 /obj/item/clothing/suit/space/syndicate/darktemplar/proc/explode()
 	do_sparks(3, 1, src)
@@ -163,6 +173,7 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	alternate_screams = SPASEMAR_SCREAMS
 	armor = list(MELEE = 50, BULLET = 50, LASER = 35, ENERGY = 30, BOMB = 60, BIO = 100, RAD = 100, FIRE = 100, ACID = 100, WOUND = 20)
+	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	equip_sound = 'modular_bluemoon/Ren/Sound/equp.ogg'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC
 	anthro_mob_worn_overlay = 'modular_bluemoon/Ren/Icons/Mob/clothing_digi.dmi'
@@ -212,6 +223,7 @@
 	ADD_TRAIT(owner, TRAIT_NOHARDCRIT, GENETIC_MUTATION)
 	ADD_TRAIT(owner, TRAIT_STUNIMMUNE, GENETIC_MUTATION)
 	ADD_TRAIT(owner, TRAIT_PUSHIMMUNE, GENETIC_MUTATION)
+	ADD_TRAIT(owner, TRAIT_HEAVY_MELEE, GENETIC_MUTATION)
 	var/size = get_size(owner)
 	owner.update_size(size * 1.35)
 	owner.visible_message("<span class='danger'>[owner] Внезапно становится больше!</span>", "<span class='notice'>Всё вокруг неожиданно уменьшается..</span>")
@@ -222,6 +234,7 @@
 		REMOVE_TRAIT(owner, TRAIT_NOHARDCRIT, GENETIC_MUTATION)
 		REMOVE_TRAIT(owner, TRAIT_STUNIMMUNE, GENETIC_MUTATION)
 		REMOVE_TRAIT(owner, TRAIT_PUSHIMMUNE, GENETIC_MUTATION)
+		REMOVE_TRAIT(owner, TRAIT_HEAVY_MELEE, GENETIC_MUTATION)
 	return ..()
 
 /obj/item/autosurgeon/syndicate/inteq/astartes
@@ -279,14 +292,20 @@
 /obj/item/clothing/suit/armor/hank/run_block(mob/living/owner, atom/object, damage, attack_text, attack_type, armour_penetration, mob/attacker, def_zone, final_block_chance, list/block_return)
 	. = ..()
 	if((!IS_INTEQ(owner)) && (owner.client))
-		return BULLET_ACT_HIT
+		return .
 	if(owner.incapacitated(FALSE, TRUE))
-		return BULLET_ACT_HIT
+		return .
 	if(!CHECK_ALL_MOBILITY(owner, MOBILITY_USE|MOBILITY_STAND))
-		return BULLET_ACT_HIT
+		return .
 	if(!isturf(owner.loc))
-		return BULLET_ACT_HIT
-	if((attack_type & ATTACK_TYPE_PROJECTILE) && (rand(3) != 1))
+		return .
+	if(attack_type & ATTACK_TYPE_PROJECTILE)
+		var/obj/item/active_hand = owner.get_active_held_item()
+		var/obj/item/inactive_hand = owner.get_inactive_held_item()
+		if(active_hand && inactive_hand)
+			return .
+		if((active_hand || inactive_hand) && !prob(50))
+			return .
 		owner.visible_message(pick("<span class='danger'>[owner] чудом уворачивается от пули, выгнувшись спиной в последний момент!</span>", "<span class='danger'>[owner] ловко уходит в сторону, предугадав траекторию выстрела!</span>", "<span class='danger'>[owner] делает резкий рывок, едва успевая уйти из под огня!</span>"))
 		playsound(src, pick('sound/weapons/bulletflyby.ogg', 'sound/weapons/bulletflyby2.ogg', 'sound/weapons/bulletflyby3.ogg'), 75, 1)
 		return BLOCK_SUCCESS | BLOCK_PHYSICAL_EXTERNAL
@@ -330,6 +349,8 @@
 	darkness_view = 3
 	flash_protect = -3
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+	lighting_cutoff = LIGHTING_CUTOFF_HIGH
+	color_cutoffs = list(30, 20, 5)
 	vision_flags = SEE_TURFS|SEE_MOBS|SEE_OBJS
 	glass_colour_type = /datum/client_colour/glass_colour/orange
 
@@ -340,6 +361,8 @@
 		return
 	vision_flags = NONE
 	darkness_view = 0
+	lighting_cutoff = 0
+	color_cutoffs = null
 	flash_protect = 0
 	thermal_overload()
 
@@ -392,30 +415,32 @@
 /obj/item/tank/jetpack/suit/fast
 	full_speed = TRUE
 
-/obj/item/clothing/head/helmet/space/hardsuit/security/explorer
-	name = "Expedition hardsuit helmet"
-	desc = "Армированный шлем, в котором не страшно сунуть свой нос даже в самые опасные заброшенные станции и обломки кораблей."
-	icon_state = "hardsuit0-explorer"
-	item_state = "hardsuit0-explorer"
-	hardsuit_type = "explorer"
-	armor = list(MELEE = 20, BULLET = 40, LASER = 20, ENERGY = 50, BOMB = 30, BIO = 100, RAD = 50, FIRE = 75, ACID = 75, WOUND = 50)
-	mob_overlay_icon = 'modular_sand/icons/mob/clothing/head.dmi'
-	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
-	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/head_muzzled.dmi'
-	brightness_on = 12 // Эу ты куда прёш на дальнем свете
+// /obj/item/clothing/head/helmet/space/hardsuit/security/explorer
+// 	name = "Expedition hardsuit helmet"
+// 	desc = "Армированный шлем, в котором не страшно сунуть свой нос даже в самые опасные заброшенные станции и обломки кораблей."
+// 	icon_state = "hardsuit0-explorer"
+// 	item_state = "hardsuit0-explorer"
+// 	hardsuit_type = "explorer"
+// 	armor = list(MELEE = 20, BULLET = 40, LASER = 20, ENERGY = 50, BOMB = 30, BIO = 100, RAD = 50, FIRE = 75, ACID = 75, WOUND = 50)
+// 	mob_overlay_icon = 'modular_sand/icons/mob/clothing/head.dmi'
+// 	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
+// 	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/head_muzzled.dmi'
+// 	brightness_on = 12 // Эу ты куда прёш на дальнем свете
 
-/obj/item/clothing/suit/space/hardsuit/security/explorer
-	name = "Expedition hardsuit"
-	desc = "Армированный костюм, в котором не страшно ступить даже в самые опасные заброшенные станции и обломки кораблей."
-	icon_state = "hardsuit-explorer"
-	item_state = "hardsuit-explorer"
-	armor = list(MELEE = 20, BULLET = 40, LASER = 20, ENERGY = 50, BOMB = 30, BIO = 100, RAD = 50, FIRE = 75, ACID = 75, WOUND = 50) // сниженная защита от лазеров и пуль - ценой повешенной мобильности и защиты от бомб
-	mob_overlay_icon = 'modular_sand/icons/mob/clothing/suit.dmi'
-	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
-	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/explorer
-	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/suit_digi.dmi' // у нас забрали джет, терпим.
-	unique_reskin = list()
-	tail_state = "bombsuit_sci"
+// /obj/item/clothing/suit/space/hardsuit/security/explorer
+// 	name = "Expedition hardsuit"
+// 	desc = "Армированный костюм, в котором не страшно ступить даже в самые опасные заброшенные станции и обломки кораблей."
+// 	icon_state = "hardsuit-explorer"
+// 	item_state = "hardsuit-explorer"
+// 	armor = list(MELEE = 20, BULLET = 40, LASER = 20, ENERGY = 50, BOMB = 30, BIO = 100, RAD = 50, FIRE = 75, ACID = 75, WOUND = 50) // сниженная защита от лазеров и пуль - ценой повешенной мобильности и защиты от бомб
+// 	mob_overlay_icon = 'modular_sand/icons/mob/clothing/suit.dmi'
+// 	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
+// 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/explorer
+// 	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/suit_digi.dmi' // у нас забрали джет, терпим.
+// 	unique_reskin = list()
+// 	tail_state = "bombsuit_sci"
+
+
 
 //-----------------------------------------------------------[Одежда FTU]---------------------------------------------------------------------------------------
 ///Боевой риг
@@ -425,6 +450,7 @@
 	icon_state = "hardsuit0-ftu_combat"
 	item_state = "hardsuit0-ftu_combat"
 	hardsuit_type = "ftu_combat"
+	brightness_on = 5
 	mob_overlay_icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
 	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/Ren/Icons/Mob/clothing_digi.dmi'
@@ -441,7 +467,7 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/Ren/Icons/Mob/clothing_digi.dmi'
 	equip_sound = 'modular_bluemoon/Ren/Sound/equp.ogg'
 	slowdown = 0.1
-	jetpack = /obj/item/tank/jetpack/suit/fast
+	jetpack = /obj/item/tank/jetpack/suit
 	unique_reskin = list()
 
 ///Инженерный риг
@@ -485,6 +511,7 @@
 	cold_protection = CHEST|GROIN|ARMS
 	heat_protection = CHEST|GROIN|ARMS
 	armor = list(MELEE = 30, BULLET = 60, LASER = 25, ENERGY = 20, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 30)
+	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/vest/ftu/ComponentInitialize()
 	. = ..()

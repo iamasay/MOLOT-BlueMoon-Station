@@ -1,14 +1,16 @@
-// .45 (M1911 & C20r)
-
-/obj/item/projectile/bullet/c45
+/* /obj/item/projectile/bullet/c45
 	name = ".45 bullet"
 	damage = 30
-	wound_bonus = 6
-	wound_falloff_tile = -10
+	armour_penetration = BULLET_BR3
+	wound_bonus = 15
+	bare_wound_bonus = 20
+	wound_falloff_tile = -10 */ // уже есть в другом файле
 
 /obj/item/projectile/bullet/c45_cleaning
 	name = ".45 bullet"
 	damage = 45
+	armour_penetration = BULLET_BR7
+	sharpness = SHARP_EDGED
 
 /obj/item/projectile/bullet/c45_cleaning/on_hit(atom/target, blocked = FALSE)
 	. = ..()
@@ -66,22 +68,23 @@
 				cleaned_human.wash_cream()
 				cleaned_human.regenerate_icons()
 
-// 4.6x30mm (Autorifles)
-
 /obj/item/projectile/bullet/c46x30mm
 	name = "4.6x30mm bullet"
-	damage = 19
-	wound_bonus = -5
-	bare_wound_bonus = 5
-	embed_falloff_tile = -4
+	damage = 16.5
+	armour_penetration = BULLET_BR4
+	wound_bonus = 15
+	bare_wound_bonus = 10
+	embed_falloff_tile = -1
 
 /obj/item/projectile/bullet/c46x30mm_ap
 	name = "4.6x30mm armor-piercing bullet"
 	damage = 15
-	armour_penetration = 40
+	armour_penetration = BULLET_BR8
+	wound_bonus = -2
 	embedding = null
 
 /obj/item/projectile/bullet/incendiary/c46x30mm
 	name = "4.6x30mm incendiary bullet"
 	damage = 15.5
+	armour_penetration = BULLET_BR5
 	fire_stacks = 1

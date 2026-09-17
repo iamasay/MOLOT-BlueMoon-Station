@@ -69,7 +69,7 @@
 
 /obj/machinery/nuclearbomb/selfdestruct/Initialize(mapload)
 	. = ..()
-	if(SSevents.holidays && SSevents.holidays[PRIDE_MONTH] && prob(10))
+	if(SSholidays.holidays && SSholidays.holidays[PRIDE_MONTH] && prob(10))
 		name = "station-wide gender-reveal terminal"
 		desc = "For when the whole sector deserves to know a gender. But of whom? Don't ask."
 
@@ -78,7 +78,7 @@
 
 /obj/machinery/nuclearbomb/syndicate/Initialize(mapload)
 	. = ..()
-	if(SSevents.holidays && SSevents.holidays[PRIDE_MONTH] && prob(50))
+	if(SSholidays.holidays && SSholidays.holidays[PRIDE_MONTH] && prob(50))
 		name = "tactical gender-reveal device"
 		desc = "\"But whose gender is it revealing?\" you ponder. Don't worry. That comes later."
 
@@ -592,7 +592,7 @@
 		disarm()
 		return
 	if(is_station_level(bomb_location.z))
-		var/datum/round_event_control/E = locate(/datum/round_event_control/scrubber_overflow/beer) in SSevents.control
+		var/datum/round_event_control/E = locate(/datum/round_event_control/scrubber_overflow/beer) in SSdirector.event_controls()
 		if(E)
 			E.runEvent()
 		addtimer(CALLBACK(src, PROC_REF(really_actually_explode)), 110)
@@ -617,6 +617,7 @@
 	var/datum/effect_system/foam_spread/foam = new
 	foam.set_up(200, get_turf(src), R)
 	foam.start()
+	qdel(R)
 	disarm()
 
 /obj/machinery/nuclearbomb/beer/really_actually_explode()
@@ -711,7 +712,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 			if(!(process_tick % 30))
 				visible_message("<span class='notice'>[src] sleeps soundly. Sleep tight, disky.</span>")
 		if(last_disk_move < world.time - 5000 && prob((world.time - 5000 - last_disk_move)*0.0001 / max(disk_comfort_level,1)))
-			var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
+			var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSdirector.event_controls()
 			if(istype(loneop) && loneop.occurrences < loneop.max_occurrences)
 				loneop.weight += 1
 				if(loneop.weight % 5 == 0 && SSticker.totalPlayers > 1 && (CONFIG_GET(flag/admin_disk_inactive_msg))) //players count now
@@ -721,7 +722,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	else
 		lastlocation = newturf
 		last_disk_move = world.time
-		var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
+		var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSdirector.event_controls()
 		if(istype(loneop) && loneop.occurrences < loneop.max_occurrences && prob(loneop.weight))
 			loneop.weight = max(loneop.weight - 1, 0)
 			if(loneop.weight % 5 == 0 && SSticker.totalPlayers > 1)
@@ -772,7 +773,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 
 /obj/item/disk/nuclear/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is going delta! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	playsound(src, 'sound/machines/alarm.ogg', 50, -1, TRUE)
+	playsound(src, 'sound/machines/alarm.ogg', 80, -1, FALSE)
 	for(var/i in 1 to 100)
 		addtimer(CALLBACK(user, TYPE_PROC_REF(/atom, add_atom_colour), (i % 2)? "#00FF00" : "#FF0000", ADMIN_COLOUR_PRIORITY), i)
 	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), 101)
@@ -781,8 +782,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 /obj/item/disk/nuclear/proc/manual_suicide(mob/living/user)
 	user.remove_atom_colour(ADMIN_COLOUR_PRIORITY)
 	user.visible_message("<span class='suicide'>[user] is destroyed by the nuclear blast!</span>")
-	user.adjustOxyLoss(200)
-	user.death(0)
+	user.gib(TRUE, drop_items = TRUE)
 
 /obj/item/disk/nuclear/fake
 	fake = TRUE
@@ -791,7 +791,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	name = "cheap plastic imitation of the nuclear authentication disk"
 	desc = "How anyone could mistake this for the real thing is beyond you."
 	stationloving = FALSE
-	resistance_flags = NONE
+	resistance_flags = FLAMMABLE
 	armor = null
 
 /obj/item/disk/nuclear/fake/obvious/mail

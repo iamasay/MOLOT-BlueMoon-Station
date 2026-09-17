@@ -264,20 +264,27 @@
 	icon = 'modular_bluemoon/fluffs/icons/obj/storage.dmi'
 	icon_state = "nebula_box"
 
-/obj/item/storage/box/lapkee_kit/PopulateContents()
-	new /obj/item/modkit/star_dust_kit(src)
-	new /obj/item/modkit/nebular_kit(src)
-	new /obj/item/modkit/katana_kit(src)
-	new /obj/item/modkit/nebular_t_kit(src)
-	new /obj/item/modkit/supernova_kit(src)
-	new /obj/item/modkit/pulsar_knife_kit(src)
-	new /obj/item/clothing/under/donator/bm/concord(src)
-	new /obj/item/modkit/quasar_kit(src)
-	new /obj/item/modkit/comet_kit(src)
-	new /obj/item/modkit/neutron_kit(src)
-	new /obj/item/modkit/spectral_kit(src)
-	new /obj/item/modkit/pulsar_kit(src)
-
+/obj/item/storage/box/lapkee_kit/PopulateContents() // я заебался ебаться с тем что мне лапки пишет названия предметов из сски, а не кастомных, пропишу тут в комментах
+	new /obj/item/clothing/under/donator/bm/concord(src) // Форма
+	new /obj/item/clothing/neck/donator/bm/concord_cloak(src) // плащ
+	new /obj/item/modkit/star_dust_kit(src) // противогаз
+	new /obj/item/modkit/lapkee_carrier_kit(src) // плитка
+	new /obj/item/modkit/concord_riot_helmet_kit(src) // шлем
+	new /obj/item/modkit/white_belt_kit(src) // пояс
+	new /obj/item/modkit/nebular_kit(src) // пистоль - энфорсер
+	new /obj/item/modkit/comet_kit(src) // WT-550 PDW
+	new /obj/item/modkit/nebular_t_kit(src) // тазер
+	new /obj/item/modkit/spectral_kit(src) // температурка
+	new /obj/item/modkit/quasar_kit(src) // АЕГ - advanced energy gun
+	new /obj/item/modkit/neutron_kit(src) // x-ray
+	new /obj/item/modkit/black_hole_kit(src) // super-short shotgun
+	new /obj/item/modkit/black_hole_kit(src) // super-short shotgun
+	new /obj/item/modkit/pulsar_kit(src) // riot дробаш
+	new /obj/item/modkit/supernova_kit(src) // комбат дробаш
+	new /obj/item/modkit/katana_kit(src) // стан-катана
+	new /obj/item/modkit/pulsar_knife_kit(src) // ножик-режик
+	new /obj/item/modkit/lapkee_arm_shield_kit(src) // имплант щита
+	new /obj/item/modsuit_modkit/lapkee(src) //модсьют
 //////////////////////////////////////////////////
 
 /obj/item/storage/backpack/satchel/sport_abibas_bag
@@ -287,3 +294,140 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/storage.dmi'
 	icon_state = "abibas_back"
 	item_state = "abibas_back"
+
+/obj/item/modkit/white_belt_kit
+	name = "White security belt Kit"
+	desc = "A modkit for making a brig officer webbing into a White security belt."
+	icon_state = "belt_kit"
+	product = /obj/item/storage/belt/security/webbing/ds/lapkee_belt
+	fromitem = list(/obj/item/storage/belt/security/webbing/ds)
+
+/obj/item/storage/belt/security/webbing/ds/lapkee_belt
+	DONATE_ITEM_TOOLTIP_PARENT
+	name = "White security belt"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/belt.dmi'
+	icon_state = "lapkee_belt"
+	item_state = "lapkee_belt"
+	content_overlays = TRUE
+
+/obj/item/melee/baton/get_belt_overlay()
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/lapkee_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi', "lapkee_baton")
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/melatonin_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi', "melatonin_baton")
+	return ..()
+
+/obj/item/melee/baton/stunsword/get_belt_overlay()
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/lapkee_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi',"lapkee_stunsword")
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/melatonin_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi',"melatonin_stunsword")
+
+	return ..()
+
+/obj/item/melee/baton/stunsword/stunkatana/get_belt_overlay()
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/lapkee_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi',"lapkee_stunsword")
+
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/melatonin_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi',"melatonin_stunsword")
+
+	return ..()
+
+
+//////////////////////////////////////////////////
+// Принадлежит shizalrp
+/obj/item/storage/box/donator/bm/personal_ward
+	name = "Personal Ward Box"
+	desc = "Коробка с модификациями оружия."
+	icon_state = "secbox_xl"
+
+/obj/item/storage/box/donator/bm/personal_ward/PopulateContents()
+	var/static/items_inside = list(
+		/obj/item/modkit/cz_75,
+		/obj/item/modkit/cz_75_auto,
+		/obj/item/modkit/warder_9r,
+	)
+	generate_items_inside(items_inside, src)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/obj/item/storage/backpack/wypmcbackpack
+	name = "Arctic PMC packed radiostation"
+	desc = "Judging by the camouflage and various types of seals, this portable radio station featuring an integrated backpack for storing various items belongs to a private military organization."
+	icon_state = "wypmc_backpack"
+	item_state = "wypmc_backpack"
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/accessories.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/accessories.dmi'
+	force = 11
+
+
+/obj/item/storage/box/kumiko_ncr_case
+	name = "NCR ranger case"
+	desc = "Old NCR ranger case issued to a single ranger. The engraving on the lid reads: 'Patrolling the Mojave almost makes you wish for a nuclear winter.'"
+	icon_state = "ammobox"
+
+/obj/item/storage/box/kumiko_ncr_case/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_combined_w_class = 21
+
+/obj/item/storage/box/kumiko_ncr_case/PopulateContents()
+	new /obj/item/clothing/suit/donator/bm/kumiko_ncr_duster(src)
+	new	/obj/item/modkit/kumiko_ncr_riot(src)
+	new	/obj/item/modkit/kumiko_ncr_bulletproof(src)
+	new	/obj/item/modkit/kumiko_ncr_armor_vest(src)
+	new	/obj/item/clothing/head/donator/bm/kumiko_ncr_helmet(src)
+	new	/obj/item/modkit/kumiko_ncr_riot_helmet(src)
+	new	/obj/item/modkit/kumiko_ncr_bulletproof_helmet(src)
+
+/obj/item/storage/belt/security/webbing/ds/melatonin_belt
+	DONATE_ITEM_TOOLTIP_PARENT
+	name = "Lycanthrope's Heavy Tactical Belt"
+	desc = "Массивный тактический пояс, который когда-то служил обычным утяжеленным ремнем. Со временем он оброс модификациями: к нему добавились прочная кожаная кобура, дополнительный поддерживающий ремень, подсумки для патронов и незаметные ножны для складного клинка. Вся эта конструкция выглядит исключительно надежной, хоть и неоправданно тяжелой. На крупной металлической пряжке по центру выгравирован оскал свирепого волка."
+	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi'
+	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/belt.dmi'
+	icon_state = "melatonin_belt"
+	item_state = "melatonin_belt"
+
+/obj/item/melee/baton/stunsword/melatonin/get_belt_overlay()
+	if(istype(loc, /obj/item/storage/belt/security/webbing/ds/melatonin_belt))
+		return mutable_appearance('modular_bluemoon/fluffs/icons/obj/clothing/belts.dmi',"melatonin_stunsword")
+
+	return ..()
+
+/obj/item/modkit/melatonin_belt_kit
+	name = "Lycanthrope's Heavy Tactical Belt Kit"
+	desc = "A modkit for making a brig officer webbing into a Lycanthrope's Heavy Tactical Belt."
+	icon = 'modular_bluemoon/fluffs/icons/obj/storage.dmi'
+	icon_state = "melatonin_modkit"
+	product = /obj/item/storage/belt/security/webbing/ds/melatonin_belt
+	fromitem = list(/obj/item/storage/belt/security/webbing/ds)
+
+/obj/item/storage/box/melatonin_kit
+	name = "Melatonin weapon case"
+	desc = "Кейс с полным набором оружейных китов Melatonin. Содержит киты для модификации стандартного вооружения в кастомное."
+	icon = 'modular_bluemoon/fluffs/icons/obj/storage.dmi'
+	icon_state = "melatonin_box"
+
+/obj/item/storage/box/melatonin_kit/PopulateContents()
+	new /obj/item/modkit/melatonin_belt_kit(src)
+	new /obj/item/modkit/melatonin_shotgun_kit(src)
+	new /obj/item/modkit/melatonin_enforcer_kit(src)
+	new /obj/item/modkit/melatonin_gasmask_kit(src)
+	new /obj/item/modkit/melatonin_riot_kit(src)
+	new /obj/item/modkit/melatonin_stunsword_kit(src)
+	new /obj/item/modkit/melatonin_carrier_kit(src)
+	new /obj/item/modkit/melatonin_shotgun_hair_of_dog_kit(src)
+
+/obj/item/storage/box/tau_box
+	name = "Tau modkits box"
+	desc = "Набор стиля"
+	icon = 'modular_bluemoon/fluffs/icons/obj/storage.dmi'
+	icon_state = "tau_box"
+
+/obj/item/storage/box/tau_box/PopulateContents()
+	new /obj/item/modkit/tau_helmet_kit(src)
+	new /obj/item/modkit/tau_armor_kit(src)
+	new /obj/item/toy/plush/bm/tau(src)

@@ -4,6 +4,7 @@
 	icon_state = "bluespace"
 	density = TRUE
 	aSignal = /obj/item/assembly/signaler/anomaly/bluespace
+	raw_core = /obj/item/raw_anomaly_core/bluespace
 	///range from which we can teleport someone
 	var/teleport_range = 1
 	///Distance we can teleport someone passively
@@ -21,6 +22,8 @@
 /obj/effect/anomaly/bluespace/detonate()
 	var/turf/T = pick(get_area_turfs(impact_area))
 	if(!T)
+		return
+	if(is_centcom_level(T.z)) // Мы обойдёмся без меж-секторных телепортов из сектора ЦК (Гкафе, тандердомы), если аномалия вдруг появится
 		return
 
 	// Calculate new position (searches through beacons in world)
@@ -78,6 +81,7 @@
 ///Bigger, meaner, immortal bluespace anomaly
 /obj/effect/anomaly/bluespace/big
 	immortal = TRUE
+	drops_core = FALSE
 	teleport_range = 2
 	teleport_distance = 12
 	aSignal = null

@@ -114,6 +114,12 @@
 /datum/wave_explosion/Destroy()
 	if(running)
 		stop(FALSE)
+	// New() записал нас в реестр всех волновых взрывов, а снимала оттуда только
+	// stop() - и то лишь из active_wave_explosions. Реестр держит жёсткую ссылку,
+	// поэтому каждый волновой взрыв за раунд гарантированно уходил в харддел.
+	SSexplosions.wave_explosions -= src
+	SSexplosions.active_wave_explosions -= src
+	SSexplosions.currentrun -= src
 	return ..()
 
 /datum/wave_explosion/proc/start(list/turf/_starting)
@@ -178,9 +184,7 @@
 				baseshakeamount = sqrt((sqrt(power_initial) - dist)*0.1)
 			// If inside the blast radius + world.view - 2
 			if(dist <= round(2 * sqrt(power_initial) + world.view - 2, 1))
-				M.playsound_local(closest_to[M], null, 100, 1, frequency, max_distance = 5, S = explosion_sound)
-				if(baseshakeamount > 0)
-					shake_camera(M, 25, clamp(baseshakeamount, 0, 10))
+				generate_explosion_near_sounds(M, closest_to[M], dist, 2 * sqrt(power_initial), sqrt(power_initial), frequency, 5, explosion_sound)
 			// You hear a far explosion if you're outside the blast radius. Small bombs shouldn't be heard all over the station.
 			else if(dist <= far_dist)
 				var/far_volume = clamp(far_dist, 30, 50) // Volume is based on explosion size and dist

@@ -107,6 +107,12 @@
 	//Species
 	for(var/spath in subtypesof(/datum/species))
 		var/datum/species/S = new spath()
+		// Вид без id - почти всегда опечатка в пути модульного оверрайда: DM создаёт тип из
+		// определения прока, и такой фантом ложился в список по ключу null. Дальше он ронял
+		// любой пикер видов рантаймом "Null in a tgui_input_list() items".
+		if(isnull(S.id))
+			stack_trace("Вид [spath] не имеет id и пропущен: скорее всего опечатка в пути типа")
+			continue
 		GLOB.species_list[S.id] = spath
 		GLOB.species_datums[S.id] = S
 
@@ -129,6 +135,7 @@
 	init_keybindings()
 	GLOB.emote_list = init_emote_list()
 	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
+	init_attackby_recipes()
 
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(init_ref_coin_values)) //so the current procedure doesn't sleep because of UNTIL()
 

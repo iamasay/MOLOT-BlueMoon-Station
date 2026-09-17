@@ -400,7 +400,7 @@
 	if(AmountImmobilized() > amount)
 		SetImmobilized(amount, FALSE, ignore_canstun)
 	if(AmountDazed() > amount)
-		SetImmobilized(amount, FALSE, ignore_canstun)
+		SetDazed(amount, FALSE, ignore_canstun)
 	if(AmountStaggered() > amount)
 		SetStaggered(amount, FALSE, ignore_canstun)
 	if(updating)
@@ -603,6 +603,13 @@
 	ADD_TRAIT(src, TRAIT_NEARSIGHT, source)
 
 /mob/living/proc/cure_husk(source)
+	// Снятие хаска с не-хаска обязано быть no-op. Иначе всё, что зовёт cure_husk()
+	// "на всякий случай" (скелет в become_husk, лечение ожогов, пробуждение
+	// бладсакера), гоняет полный update_body() + update_hair() на каждый вызов.
+	// В проде это был мёртвый цикл updatehealth -> become_husk("burn") ->
+	// cure_husk() на каждом трупе-скелете: 12% всего времени SSmobs.
+	if(!HAS_TRAIT(src, TRAIT_HUSK))
+		return FALSE
 	REMOVE_TRAIT(src, TRAIT_HUSK, source)
 	if(!HAS_TRAIT(src, TRAIT_HUSK))
 		REMOVE_TRAIT(src, TRAIT_DISFIGURED, "husk")

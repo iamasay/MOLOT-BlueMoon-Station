@@ -72,8 +72,7 @@
 		playlewdinteractionsound(get_turf(src), pick('modular_sand/sound/interactions/bang4.ogg',
 							'modular_sand/sound/interactions/bang5.ogg',
 							'modular_sand/sound/interactions/bang6.ogg'), 70, 1, -1)
-		if(!HAS_TRAIT(user, TRAIT_LEWD_JOB))
-			new /obj/effect/temp_visual/heart(user.loc)
+		user.try_play_interaction_effect()
 
 
 	else if(user.a_intent == INTENT_HARM)
@@ -187,9 +186,9 @@
 
 	// BLUEMOON EDIT START
 	var/genital_data = list(
-		"M_has_penis" = M.has_penis(),
+		"M_has_penis" = M.has_penis(TRUE),
 		"M_penis_desc" = "какой-то",
-		"target_has_penis" = portal_target.has_penis(),
+		"target_has_penis" = portal_target.has_penis(TRUE),
 		"target_penis_desc" = "какой-то"
 	)
 

@@ -137,7 +137,7 @@
 	message_admins("INTEGRAL BITCH [user.ckey] взаимодействует с [src].")
 	log_admin("INTEGRAL BITCH [user.ckey] взаимодействует с [src].")
 	if(upgraded)
-		if(user_job == "Roboticist" || user_job == "Research Director" || user_job == "Scientist" || user_job == "Expeditor" || user.mind?.has_antag_datum(/datum/antagonist))
+		if(user_job == "Roboticist" || user_job == "Research Director" || user_job == "Scientist" || user_job == "Vanguard Operative" || user.mind?.has_antag_datum(/datum/antagonist))
 			ui_interact(user)
 			return
 		else
@@ -215,7 +215,7 @@
 		categories += list(category_data)
 
 	data["categories"] = categories
-	data["clone_config_status"] = CONFIG_GET(flag/ic_printing)
+	data["clone_config_status"] = CONFIG_GET(flag/ic_printing) || debug
 
 	super_data_cashe = data
 

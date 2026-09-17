@@ -31,14 +31,14 @@ GLOBAL_LIST_INIT(huds, alist(
 	ANTAG_HUD_FUGITIVE = new/datum/atom_hud/antag(),
 	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_SPACECOP = new/datum/atom_hud/antag(),
-	ANTAG_HUD_GANGSTER = new/datum/atom_hud/antag/hidden(),
+	ANTAG_HUD_GANGSTER = new/datum/atom_hud/antag/gangster(),
 	ANTAG_HUD_SLAVER = new/datum/atom_hud/antag(),
 	DATA_HUD_ANTAGTARGET = new/datum/atom_hud/data/human/antagtarget(),
 	ANTAG_HUD_ZOMBIE = new/datum/atom_hud/antag(),
 	))
 
 /datum/atom_hud
-	var/list/atom/hudatoms = list() //list of all atoms which display this hud
+	var/list/atom/movable/hudatoms = list() //list of all atoms which display this hud
 	var/list/hudusers = list() //list with all mobs who can see the hud
 	var/list/hud_icons = list() //these will be the indexes for the atom's hud_list
 
@@ -49,9 +49,12 @@ GLOBAL_LIST_INIT(huds, alist(
 	GLOB.all_huds += src
 
 /datum/atom_hud/Destroy()
-	for(var/v in hudusers)
+	// По копиям: remove_hud_from()/remove_from_hud() вырезают элемент из того же списка, по
+	// которому идёт for-in, и обход перескакивает через соседа - половина подписчиков ушла бы
+	// в мир с чужими картинками в client.images.
+	for(var/v in hudusers.Copy())
 		remove_hud_from(v)
-	for(var/v in hudatoms)
+	for(var/v in hudatoms.Copy())
 		remove_from_hud(v)
 	GLOB.all_huds -= src
 	return ..()
@@ -60,36 +63,57 @@ GLOBAL_LIST_INIT(huds, alist(
 	if(!M || !hudusers[M])
 		return
 	if(absolute || !--hudusers[M])
-		UnregisterSignal(M, COMSIG_PARENT_QDELETING)
+		if(!(M in hudatoms)) // сигнал общий на обе роли - снимаем только когда обе кончились
+			UnregisterSignal(M, COMSIG_PARENT_QDELETING)
 		hudusers -= M
 		if(next_time_allowed[M])
 			next_time_allowed -= M
 		if(queued_to_see[M])
 			queued_to_see -= M
 		else
-			for(var/atom/A in hudatoms)
+			for(var/atom/movable/A in hudatoms)
 				remove_from_single_hud(M, A)
 
-/datum/atom_hud/proc/remove_from_hud(atom/A)
+/datum/atom_hud/proc/remove_from_hud(atom/movable/A)
 	if(!A)
 		return FALSE
 	for(var/mob/M in hudusers)
 		remove_from_single_hud(M, A)
 	hudatoms -= A
+	if(!hudusers[A]) // сигнал общий на обе роли - снимаем только когда обе кончились
+		UnregisterSignal(A, COMSIG_PARENT_QDELETING)
 	return TRUE
 
-/datum/atom_hud/proc/remove_from_single_hud(mob/M, atom/A) //unsafe, no sanity apart from client
+/datum/atom_hud/proc/remove_from_single_hud(mob/M, atom/movable/A, list/hud_icon_keys = hud_icons) //unsafe, no sanity apart from client
 	if(!M || !M.client || !A || !A.hud_list)
 		return
-	for(var/i in hud_icons)
-		M.client.images -= A.hud_list[i]
+	// Симметрично add_to_single_hud: один `-=` на весь набор иконок вместо
+	// отдельного вычитания на каждую. У диагностического худа иконок 11, и каждое
+	// вычитание - это проход по client.images, который у госта с тремя продвинутыми
+	// худами исчисляется тысячами изображений.
+	var/client/their_client = M.client
+	var/list/atom_hud_list = A.hud_list
+	var/list/local_hud_icons = hud_icon_keys
+	if(length(local_hud_icons) == 1)
+		var/hud_image = atom_hud_list[local_hud_icons[1]]
+		if(hud_image)
+			their_client.images -= hud_image
+		return
+	var/list/to_remove
+	for(var/i in local_hud_icons)
+		var/hud_image = atom_hud_list[i]
+		if(!hud_image)
+			continue
+		LAZYADD(to_remove, hud_image)
+	if(to_remove)
+		their_client.images -= to_remove
 
 /datum/atom_hud/proc/add_hud_to(mob/M)
 	if(!M)
 		return
 	if(!hudusers[M])
 		hudusers[M] = 1
-		RegisterSignal(M, COMSIG_PARENT_QDELETING, PROC_REF(unregister_mob))
+		RegisterSignal(M, COMSIG_PARENT_QDELETING, PROC_REF(unregister_mob), override = TRUE)
 		if(next_time_allowed[M] > world.time)
 			if(!queued_to_see[M])
 				addtimer(CALLBACK(src, PROC_REF(show_hud_images_after_cooldown), M), next_time_allowed[M] - world.time)
@@ -100,9 +124,16 @@ GLOBAL_LIST_INIT(huds, alist(
 	else
 		hudusers[M]++
 
+/// Общий обработчик qdel для обеих ролей (huduser и hudatom).
+/// Раньше hudatoms не имели авто-снятия вовсе: remove_from_all_data_huds покрывает
+/// только /datum/atom_hud/data, а из antag/abductor/прочих худов удалённый атом
+/// не выпадал никогда - худ держал труп до конца раунда.
 /datum/atom_hud/proc/unregister_mob(datum/source, force)
 	SIGNAL_HANDLER
-	remove_hud_from(source, TRUE)
+	if(hudusers[source])
+		remove_hud_from(source, TRUE)
+	if(source in hudatoms)
+		remove_from_hud(source)
 
 /datum/atom_hud/proc/show_hud_images_after_cooldown(M)
 	if(queued_to_see[M])
@@ -110,10 +141,12 @@ GLOBAL_LIST_INIT(huds, alist(
 		next_time_allowed[M] = world.time + ADD_HUD_TO_COOLDOWN
 		push_all_atoms_to_user(M)
 
-/datum/atom_hud/proc/add_to_hud(atom/A)
+/datum/atom_hud/proc/add_to_hud(atom/movable/A)
 	if(!A)
 		return FALSE
 	hudatoms |= A
+	// override: атом может уже быть зарегистрирован как huduser этим же худом.
+	RegisterSignal(A, COMSIG_PARENT_QDELETING, PROC_REF(unregister_mob), override = TRUE)
 	for(var/mob/M in hudusers)
 		if(!queued_to_see[M])
 			add_to_single_hud(M, A)
@@ -122,10 +155,10 @@ GLOBAL_LIST_INIT(huds, alist(
 /// Override to gate which atoms of this hud are visible to which mobs.
 /// Returning FALSE skips the atom in BOTH the per-call add_to_single_hud
 /// path and the batched collect_hud_images_for path. Default: always show.
-/datum/atom_hud/proc/should_show_to(mob/M, atom/A)
+/datum/atom_hud/proc/should_show_to(mob/M, atom/movable/A)
 	return TRUE
 
-/datum/atom_hud/proc/add_to_single_hud(mob/M, atom/A) //unsafe, no sanity apart from client
+/datum/atom_hud/proc/add_to_single_hud(mob/M, atom/movable/A, list/hud_icon_keys = hud_icons) //unsafe, no sanity apart from client
 	if(!M || !A)
 		return
 	var/client/their_client = M.client
@@ -136,7 +169,7 @@ GLOBAL_LIST_INIT(huds, alist(
 	var/list/atom_hud_list = A.hud_list
 	if(!atom_hud_list)
 		return
-	var/list/local_hud_icons = hud_icons
+	var/list/local_hud_icons = hud_icon_keys
 	if(length(local_hud_icons) == 1)
 		var/hud_image = atom_hud_list[local_hud_icons[1]]
 		if(hud_image)
@@ -172,7 +205,7 @@ GLOBAL_LIST_INIT(huds, alist(
 	var/list/local_hud_icons = hud_icons
 	if(!length(local_hud_icons))
 		return
-	for(var/atom/A as anything in hudatoms)
+	for(var/atom/movable/A as anything in hudatoms)
 		if(!A)
 			continue
 		if(!should_show_to(M, A))

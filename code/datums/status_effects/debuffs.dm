@@ -381,7 +381,7 @@
 
 /datum/status_effect/vtec_disabled
 	id = "vtec_disable"
-	tick = FALSE
+	tick_interval = -1 //конечная duration истекает в process(), сам tick() не нужен
 
 /datum/status_effect/vtec_disabled/on_creation(mob/living/new_owner, set_duration)
 	if(isnum(set_duration))
@@ -893,9 +893,13 @@
 
 /datum/status_effect/neck_slice/tick()
 	var/mob/living/carbon/human/H = owner
+	if(QDELETED(H))
+		qdel(src)
+		return
 	var/obj/item/bodypart/throat = H.get_bodypart(BODY_ZONE_HEAD)
 	if(H.stat == DEAD || !throat)
 		H.remove_status_effect(/datum/status_effect/neck_slice)
+		return
 	if(prob(10))
 		H.emote(pick("gasp", "gag", "choke"))
 		H.adjustBruteLoss(50)

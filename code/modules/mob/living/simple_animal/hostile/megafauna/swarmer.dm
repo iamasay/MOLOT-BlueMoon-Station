@@ -48,6 +48,8 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 	health = 750
 	maxHealth = 750 //""""low-ish"""" HP because it's a passive boss, and the swarm itself is the real foe
 	mob_biotypes = MOB_ROBOTIC
+	del_on_death = TRUE
+	deathmessage = "falls to pieces, leaving an odd prosthesis behind."
 	achievement_type = /datum/award/achievement/boss/swarmer_beacon_kill
 	crusher_achievement_type = /datum/award/achievement/boss/swarmer_beacon_crusher
 	score_achievement_type = /datum/award/score/swarmer_beacon_score
@@ -88,6 +90,16 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 		call_help_cooldown = world.time + call_help_cooldown_amt
 		summon_backup(25) //long range, only called max once per 15 seconds, so it's not deathlag
 
+/mob/living/simple_animal/hostile/megafauna/swarmer_swarm_beacon/death(gibbed, list/force_grant)
+	if(health > 0 || stat == DEAD)
+		return
+	visible_message(span_danger("[src] распадается на части, разбрасывая вокруг обломки и блюспейс-кристаллы!"))
+	playsound(loc, 'sound/effects/explosion_distant.ogg', 100, TRUE)
+	new /obj/effect/gibspawner/robot(drop_location(), src, get_static_viruses())
+	for(var/i in 1 to 5)
+		new /obj/item/stack/ore/bluespace_crystal(loc)
+	return ..()
+
 
 /obj/item/gps/internal/swarmer_beacon
 	icon_state = null
@@ -122,16 +134,6 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 	return GetUncappedAISwarmerType()
 
 
-/mob/living/simple_animal/hostile/swarmer/ai/resource/handle_automated_action()
-	. = ..()
-	if(.)
-		if(!stop_automated_movement)
-			if(health < maxHealth*0.25)
-				StartAction(100)
-				RepairSelf()
-				return
-
-
 /mob/living/simple_animal/hostile/swarmer/ai/Move(atom/newloc)
 	if(newloc)
 		if(newloc.z == z) //so these actions are Z-specific
@@ -151,13 +153,13 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 
 /mob/living/simple_animal/hostile/swarmer/ai/proc/StartAction(deci = 0)
 	stop_automated_movement = TRUE
-	AIStatus = AI_OFF
+	toggle_ai(AI_OFF)
 	addtimer(CALLBACK(src, PROC_REF(EndAction)), deci)
 
 
 /mob/living/simple_animal/hostile/swarmer/ai/proc/EndAction()
 	stop_automated_movement = FALSE
-	AIStatus = AI_ON
+	toggle_ai(AI_ON)
 
 
 
@@ -207,25 +209,6 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 	else
 		add_type_to_ignore(target.type)
 		return FALSE
-
-
-/mob/living/simple_animal/hostile/swarmer/ai/resource/handle_automated_action()
-	. = ..()
-	if(.)
-		if(!stop_automated_movement)
-			if(GLOB.AISwarmers.len < GetTotalAISwarmerCap() && resources >= 50)
-				StartAction(100) //so they'll actually sit still and use the verbs
-				CreateSwarmer()
-				return
-
-			if(resources > 5)
-				if(prob(5)) //lower odds, as to prioritise reproduction
-					StartAction(10) //not a typo
-					CreateBarricade()
-					return
-				if(prob(5))
-					CreateTrap()
-					return
 
 
 //So swarmers can learn what is and isn't food

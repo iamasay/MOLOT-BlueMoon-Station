@@ -42,7 +42,7 @@
 			костюм подарит рефлексы своего прошлого владельца. Увернуться от пули ещё никогда не было так стильно."
 	item = /obj/item/storage/box/inteq_kit/hank
 	cost = 13
-	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE)
+	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/suits/iron_tombstone
 	name = "Iron tombstone"
@@ -50,14 +50,14 @@
 			Теперь эта пятнадцати килограммовая пластина сбережёт твоё личико от недружественного огня."
 	item = /obj/item/clothing/suit/space/hardsuit/iron_tombstone
 	cost = 10
-	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE)
+	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 /datum/uplink_item/suits/quet
 	name = "Quiet kid kit"
 	desc = "Тебя выгоняют из дома на самоубийственную миссию, а менять толстовку с кепкой на каску с бронежилетом не хочется? Наборы из гибких пластин помогут с этим и будут отлично сидеть под любой одеждой."
 	item = /obj/item/storage/box/inteq_kit/quetkid
 	cost = 3
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE)
+	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS | UPLINK_SYNDICATE | UPLINK_SYNDICATE_PACT_CREW)
 
 ///Оружие
 /datum/uplink_item/inteq/angle_grinder
@@ -116,9 +116,10 @@
 		if("stealth") // 31 tc
 			new /obj/item/gun/energy/kinetic_accelerator/crossbow(src)
 			new /obj/item/pen/sleepy(src)
-			new /obj/item/healthanalyzer/rad_laser(src)
+			new /obj/item/camera_bug(src)
 			new /obj/item/chameleon(src)
 			new /obj/item/soap/inteq(src)
+			new /obj/item/clothing/shoes/chameleon/noslip(src)
 			new /obj/item/clothing/glasses/thermal/syndi(src)
 
 		if("bond") // 29 tc
@@ -135,14 +136,14 @@
 			new /obj/item/reagent_containers/syringe/stimulants(src)
 			new /obj/item/clothing/neck/tie/red(src)
 
-		if("screwed") // 29 tc
+/* 		if("screwed") // 29 tc
 			new /obj/item/sbeacondrop/bomb(src)
 			new /obj/item/sbeacondrop/bomb (src)
 			new /obj/item/grenade/syndieminibomb(src)
 			new /obj/item/sbeacondrop/powersink(src)
 			new /obj/item/clothing/suit/space/syndicate/black/orange(src)
 			new /obj/item/clothing/head/helmet/space/syndicate/orange(src)
-			new /obj/item/encryptionkey/inteq(src)
+			new /obj/item/encryptionkey/inteq(src) */
 
 		if("guns") // 30 tc now
 			new /obj/item/gun/ballistic/revolver/inteq(src)
@@ -167,16 +168,16 @@
 			new /obj/item/clothing/glasses/phantomthief/syndicate(src)
 			new /obj/item/reagent_containers/syringe/stimulants(src)
 
-		if("baseball") // 44~ tc
+		if("baseball") // 41~ tc
 			new /obj/item/melee/baseball_bat/ablative/inteq(src) //Lets say 12 tc, lesser sleeping carp
-			new /obj/item/clothing/glasses/sunglasses(src) //Lets say 2 tc
+			new /obj/item/clothing/glasses/sunglasses(src)
 			new /obj/item/card/emag(src) //6 tc
 			new /obj/item/clothing/shoes/sneakers/noslip(src) //2tc
 			new /obj/item/encryptionkey/inteq(src) //1tc
-			new /obj/item/autosurgeon/syndicate/anti_drop(src) //Lets just say 7~
-			new /obj/item/clothing/under/inteq/baseball(src) //3tc
-			new /obj/item/clothing/head/soft/inteq/baseball(src) //Lets say 4 tc
-			new /obj/item/reagent_containers/hypospray/medipen/stimulants(src) //lets say 5tc
+			new /obj/item/autosurgeon/syndicate/anti_drop(src) //12tc
+			new /obj/item/clothing/under/inteq/baseball(src) //1tc
+			new /obj/item/clothing/head/soft/inteq/baseball(src) //1tc
+			new /obj/item/reagent_containers/hypospray/medipen/stimulants(src) //4tc
 
 
 		if("implant") // 67+ tc holy shit what the fuck this is a lottery disguised as fun boxes isn't it?
@@ -196,11 +197,13 @@
 			new /obj/item/ai_module/toyAI(src)
 			new /obj/item/multitool/ai_detect(src)
 			new /obj/item/flashlight/emp(src)
+			new /obj/item/implanter/emp(src)
 			new /obj/item/emagrecharge(src)
+			new /obj/item/assembly/flash/handheld(src)
 			new	/obj/item/implanter/hijack(src)
 			new /obj/item/storage/toolbox/inteq/cooler(src)
 
-		if("lordsingulo") // "36" tc aka 23 tc
+/* 		if("lordsingulo") // "36" tc aka 23 tc
 			new /obj/item/sbeacondrop(src) // 14 kinda useless
 			new /obj/item/clothing/suit/space/syndicate/black/orange(src)
 			new /obj/item/clothing/head/helmet/space/syndicate/orange(src)
@@ -210,7 +213,7 @@
 			new /obj/item/encryptionkey/inteq(src) //2
 			new /obj/item/flashlight/emp(src) //2
 			new /obj/item/jammer(src) //5
-
+ */
 		if("sabotage") // ~28 tc now
 			new /obj/item/grenade/plastic/c4 (src)
 			new /obj/item/grenade/plastic/c4 (src)
@@ -225,7 +228,7 @@
 			new /obj/item/pizzabox/bomb
 
 		if("darklord") //20 tc + tk + summon item close enough for now
-			new /obj/item/dualsaber(src)
+			new /obj/item/melee/transforming/energy/sword/saber/red/darklord(src)
 			new /obj/item/dnainjector/telemut/darkbundle(src)
 			new /obj/item/clothing/suit/hooded/chaplain_hoodie(src)
 			new /obj/item/encryptionkey/inteq(src)
@@ -244,10 +247,10 @@
 
 		if("metaops") // 30 tc
 			new /obj/item/clothing/suit/space/hardsuit/syndi/inteq(src) // 8 tc
-			new /obj/item/gun/ballistic/automatic/shotgun/aa12(src) // 8 tc
+			new /obj/item/gun/ballistic/automatic/shotgun/bulldog(src) // 8 tc
 			new /obj/item/implanter/explosive(src) // 2 tc
-			new /obj/item/ammo_box/magazine/aa12/small(src) // 2 tc
-			new /obj/item/ammo_box/magazine/aa12/small(src) // 2 tc
+			new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
+			new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
 			new /obj/item/grenade/plastic/c4 (src) // 1 tc
 			new /obj/item/grenade/plastic/c4 (src) // 1 tc
 			new /obj/item/card/emag(src) // 6 tc
@@ -273,7 +276,13 @@
 			new /obj/item/lipstick/black/death(src) // 12 tc
 			new /obj/item/storage/box/syndie_kit/chemical (src) //  6
 			new /obj/item/gun/syringe/syndicate(src) //  3
-			new /obj/item/storage/fancy/cigarettes/derringer(src) //  6
+			new /obj/item/storage/fancy/cigarettes/derringer(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)
+			new /obj/item/reagent_containers/syringe/piercing(src)//  6
 
 		if("launchman") // 29 tc worth
 			new /obj/item/storage/briefcase/launchpad(src) // 6

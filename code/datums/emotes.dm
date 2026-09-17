@@ -84,7 +84,9 @@
             if(!M.client || isnewplayer(M))
                 continue
             var/T = get_turf(user)
-            if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
+            // prefs может ещё не быть в первые тики после входа.
+            var/chat_toggles = M.client.prefs ? M.client.prefs.chat_toggles : TOGGLES_DEFAULT_CHAT
+            if(M.stat == DEAD && (chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
                 M.show_message(dchatmsg)
 
     if(emote_type == EMOTE_AUDIBLE)
@@ -215,11 +217,12 @@
 
 /datum/emote/sound/can_run_emote(mob/living/user, status_check, intentional = FALSE)
 	. = ..()
-
 	// Check parent return
 	if(!.)
 		return FALSE
 
+	if(!emote_cooldown)
+		user?.nextsoundemote = initial(user?.nextsoundemote)
 	// Check cooldown
 	if(user?.nextsoundemote >= world.time)
 		return FALSE
@@ -230,7 +233,10 @@
 /datum/emote/sound/run_emote(mob/user, params)
 	. = ..()
 	if(. && !(user?.is_muzzled() && !muzzle_ignore))
-		playsound(user.loc, sound, emote_volume, emote_pitch_variance, emote_range, emote_falloff_exponent, emote_frequency, emote_channel, emote_check_pressure, emote_ignore_walls, emote_falloff_distance, emote_wetness, emote_dryness, emote_distance_multiplier, emote_distance_multiplier_min_range)
+		if(user.client?.prefs && !(user.client.prefs.toggles & SOUND_EMOTE))
+			return TRUE
+		var/vol = round(emote_volume * (user.client?.prefs?.get_sound_volume("emote")) / 100)
+		playsound(user.loc, sound, vol, emote_pitch_variance, emote_range, emote_falloff_exponent, emote_frequency, emote_channel, emote_check_pressure, emote_ignore_walls, emote_falloff_distance, emote_wetness, emote_dryness, emote_distance_multiplier, emote_distance_multiplier_min_range)
 
 		//Cooldown.
 		user.nextsoundemote = world.time + emote_cooldown

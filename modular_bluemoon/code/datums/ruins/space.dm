@@ -94,9 +94,11 @@
 /datum/round_event_control/mannequinrise
 	name = "Unknown Mannequin event"
 	typepath = /datum/round_event/mannequinrise
+	min_players = 15
 	max_occurrences = 2
 	weight = 15
 	category = EVENT_CATEGORY_ENTITIES
+	severity = DIRECTOR_SEVERITY_MODERATE // одиночный сбежавший экспонат, не станционная угроза
 
 /datum/round_event/mannequinrise/announce(fake)
 	send_fax_to_area(new /obj/item/paper/fax_CC_message/escapee/mannequinrise, /area/security, "Отдел Эзотерики Триглава", FALSE)

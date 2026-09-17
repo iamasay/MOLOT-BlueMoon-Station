@@ -19,12 +19,19 @@
 
 /// The menu itself, only var is target which is the mob you are interacting with
 /datum/component/interaction_menu_granter
-	var/mob/living/target
+	/// Открытые панели взаимодействия, по одной на цель
+	var/list/panels = list()
 	var/list/hidden_interactions = list()
 	var/mob/living/auto_interaction_target
 	var/datum/interaction/currently_active_interaction
 	var/next_interaction_time
 	var/auto_interaction_pace = 1 SECONDS
+	// BLUEMOON ADD
+	var/pixel_shift_x = 0
+	var/pixel_shift_y = 0
+	var/pixel_shift_speed = 30
+	var/pixel_shift_animating = FALSE
+	// BLUEMOON ADD
 
 /datum/component/interaction_menu_granter/process(delta_time)
 	if(QDELETED(parent) || !isliving(parent))
@@ -42,7 +49,7 @@
 	if(world.time <= next_interaction_time)
 		return
 	next_interaction_time = world.time + auto_interaction_pace
-	var/interaction_key = "[currently_active_interaction.type]"
+	var/interaction_key = currently_active_interaction.custom_interaction_key || "[currently_active_interaction.type]"
 	var/check_hidden = hidden_interactions && (interaction_key in hidden_interactions) \
 		? !!hidden_interactions[interaction_key] \
 		: FALSE
@@ -55,6 +62,8 @@
 		auto_interaction_target = null
 		currently_active_interaction = null
 		return PROCESS_KILL
+	if(!auto_interaction_target?.client?.prefs?.block_partner_pixel_shift)
+		play_pixel_shift_animation(granter)
 
 /datum/component/interaction_menu_granter/Initialize(...)
 	if(!ismob(parent))
@@ -72,9 +81,10 @@
 
 /datum/component/interaction_menu_granter/Destroy(force, ...)
 	STOP_PROCESSING(SSinteractions, src)
-	if(target)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-		target = null
+	for(var/datum/interaction_menu_panel/panel as anything in panels)
+		UnregisterSignal(panel.panel_target, COMSIG_PARENT_QDELETING)
+		qdel(panel)
+	panels = null
 	auto_interaction_target = null
 	currently_active_interaction = null
 	return ..()
@@ -93,19 +103,33 @@
 	// Don't cancel admin quick spawn
 	if(isobserver(clicked) && check_rights_for(clicker.client, R_SPAWN))
 		return FALSE
-	// Changing targets!!
-	if(target)
-		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	target = clicked
-	RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(on_target_deleted))
-	ui_interact(clicker)
+	open_panel(clicker, clicked)
 	return COMSIG_MOB_CANCEL_CLICKON
+
+/datum/component/interaction_menu_granter/proc/open_panel(mob/living/user, mob/living/panel_target)
+	if(QDELETED(panel_target))
+		return
+	for(var/datum/interaction_menu_panel/panel as anything in panels)
+		if(panel.panel_target == panel_target)
+			panel.ui_interact(user, SStgui.get_open_ui(user, panel))
+			return
+	var/datum/interaction_menu_panel/panel = new(src, user, panel_target)
+	panels += panel
+	RegisterSignal(panel_target, COMSIG_PARENT_QDELETING, PROC_REF(on_target_deleted))
+	panel.ui_interact(user)
 
 /// Such a shame
 /datum/component/interaction_menu_granter/proc/on_target_deleted(datum/source, ...)
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
-	target = null
-	SStgui.close_user_uis(parent, src)
+	for(var/i = length(panels) to 1 step -1)
+		var/datum/interaction_menu_panel/panel = panels[i]
+		if(panel.panel_target == source)
+			panels.Cut(i, i + 1)
+			qdel(panel)
+
+/datum/component/interaction_menu_granter/proc/panel_ui_close(datum/interaction_menu_panel/panel, mob/living/user)
+	UnregisterSignal(panel.panel_target, COMSIG_PARENT_QDELETING)
+	panels -= panel
+	qdel(panel)
 
 /datum/component/interaction_menu_granter/ui_state(mob/living/user)
 	// Funny admin, don't you dare be the extra funny now.
@@ -131,9 +155,15 @@
 			return 0
 
 /datum/component/interaction_menu_granter/ui_data(mob/living/user)
-	. = ..()
+	return panel_ui_data(null, user)
+
+/datum/component/interaction_menu_granter/proc/panel_ui_data(datum/interaction_menu_panel/panel, mob/living/user)
+	. = list()
+	var/mob/living/target = panel?.panel_target
 	//Getting player
 	var/mob/living/self = parent
+	if(!self)
+		return
 	//Getting info
 	.["isTargetSelf"] = target == self // Why all of these?
 	.["user"] = self // Because people may have the same name
@@ -141,11 +171,16 @@
 	.["selfAttributes"] = self.list_interaction_attributes(self)
 	.["lust"] = self.get_lust()
 	.["maxLust"] = self.get_climax_threshold() // BLUEMOON EDIT
+	if(ishuman(self))
+		var/mob/living/carbon/human/H = self
+		.["force_naked_flavor"] = H.force_naked_flavor
+	else
+		.["force_naked_flavor"] = null
 
 	.["max_distance"] = 0
 	.["user_is_blacklisted"] = SSinteractions.is_blacklisted(self)
 	var/required_from_user = NONE
-	var/user_has_penis = self.has_penis()
+	var/user_has_penis = self.has_penis(TRUE)
 	if(self.has_mouth())
 		required_from_user |= INTERACTION_REQUIRE_MOUTH
 	if(self.has_hands())
@@ -165,6 +200,9 @@
 			required_from_user |= INTERACTION_REQUIRE_KNOT
 		if(findtext(shape_desc, "двойн"))
 			required_from_user |= INTERACTION_REQUIRE_DOUBLE_PENIS
+	var/user_has_breasts = self.has_breasts()
+	if(user_has_breasts)
+		required_from_user |= INTERACTION_REQUIRE_BREASTS
 	var/user_has_belly = self.has_belly()
 	if(user_has_belly)
 		required_from_user |= INTERACTION_REQUIRE_BELLY
@@ -213,7 +251,6 @@
 			required_from_user_exposed |= INTERACTION_REQUIRE_VAGINA
 			required_from_user_unexposed |= INTERACTION_REQUIRE_VAGINA
 
-	var/user_has_breasts = self.has_breasts()
 	switch(user_has_breasts)
 		if(HAS_EXPOSED_GENITAL)
 			required_from_user_exposed |= INTERACTION_REQUIRE_BREASTS
@@ -298,15 +335,15 @@
 		.["required_from_target_exposed"] = .["required_from_user_exposed"]
 		.["required_from_target_unexposed"] = .["required_from_user_unexposed"]
 		.["target_num_feet"] = .["user_num_feet"]
-	else
+	else if(target)
 		.["theirAttributes"] = target.list_interaction_attributes(self)
 
 		// Always TRUE if has key, 2 if cliented, FALSE if nobody owns it
 		.["target_has_active_player"] = target.ckey ? (target.client ? 2 : TRUE) : FALSE
-		.["max_distance"] = get_dist(self, target)
+		.["max_distance"] = is_lewd_portal_relay_interaction(self, target) ? 0 : get_dist(self, target)
 		.["target_is_blacklisted"] = SSinteractions.is_blacklisted(target)
 		var/required_from_target = NONE
-		var/target_has_penis = target.has_penis()
+		var/target_has_penis = target.has_penis(TRUE)
 		if(target.has_mouth())
 			required_from_target |= INTERACTION_REQUIRE_MOUTH
 		if(target.has_hands())
@@ -437,6 +474,7 @@
 			.["theyAllowLewd"] = !!(target.client.prefs.toggles & VERB_CONSENT)
 			.["theyAllowExtreme"] = !!pref_to_num(target.client.prefs.extremepref)
 			.["theyAllowUnholy"] = !!pref_to_num(target.client.prefs.unholypref) //SPLURT EDIT
+			.["theyAllowUnholyHard"] = !!pref_to_num(target.client.prefs.unholyhardpref)
 			.["theyAllowRanged"] = !!(target.client.prefs.toggles & RANGED_VERBS_CONSENT)
 		if(HAS_TRAIT(user, TRAIT_ESTROUS_DETECT))
 			.["theirLust"] = target.get_lust()
@@ -451,7 +489,7 @@
 	.["auto_interaction_pace"] = auto_interaction_pace
 	.["is_auto_target_self"] = auto_interaction_target == self
 	.["auto_interaction_target"] = auto_interaction_target
-	.["currently_active_interaction"] = currently_active_interaction?.type
+	.["currently_active_interaction"] = currently_active_interaction?.custom_interaction_key || currently_active_interaction?.type
 
 	//Get their genitals
 	var/list/genitals = list()
@@ -507,6 +545,71 @@
 		.["arousal_multiplier"] =		prefs.arousal_multiplier
 		.["use_moaning_multiplier"] = 	prefs.use_moaning_multiplier
 		.["moaning_multiplier"] = 		prefs.moaning_multiplier
+		.["use_custom_moan_sounds"] = 	prefs.use_custom_moan_sounds
+
+		var/list/regular_moans
+		var/list/soft_moans = list()
+		var/list/scream_gendered
+		if(self.gender == FEMALE || (self.gender == PLURAL && isfeminine(self)))
+			regular_moans = GLOB.lewd_moans_female
+			soft_moans = GLOB.lewd_softmoans_female
+			scream_gendered = GLOB.lewd_scream_female
+		else
+			regular_moans = GLOB.lewd_moans_male
+			scream_gendered = GLOB.lewd_scream_male
+		var/list/moan_options = list()
+		var/moan_index = 0
+		for(var/moan_file in regular_moans)
+			moan_index++
+			moan_options += list(list("key" = "[moan_file]", "label" = "Стон [moan_index]", "group" = "	Громкие стоны"))
+		moan_index = 0
+		for(var/moan_file in soft_moans)
+			moan_index++
+			moan_options += list(list("key" = "[moan_file]", "label" = "Стон [moan_index]", "group" = "Тихие стоны"))
+		var/emote_index = 0
+		for(var/sound_file in GLOB.lewd_purr_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Мурчание [emote_index]", "group" = "Мурчание"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_meow_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Мяуканье [emote_index]", "group" = "Мяуканье"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_fox_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Лиса [emote_index]", "group" = "Лисьи"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_dog_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Собака [emote_index]", "group" = "Собачьи"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_bird_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Птица [emote_index]", "group" = "Птичьи"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_robot_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Робот [emote_index]", "group" = "Роботы"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_insect_sounds)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Насекомое [emote_index]", "group" = "Насекомые"))
+		emote_index = 0
+		for(var/sound_file in scream_gendered)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Крик [emote_index]", "group" = "Крики"))
+		emote_index = 0
+		for(var/sound_file in GLOB.lewd_scream_gachi)
+			emote_index++
+			moan_options += list(list("key" = "[sound_file]", "label" = "Гачи [emote_index]", "group" = "Гачи"))
+		for(var/sound_name in GLOB.lewd_other_animal_sounds)
+			var/sound_file = GLOB.lewd_other_animal_sounds[sound_name]
+			moan_options += list(list("key" = "[sound_file]", "label" = "[sound_name]", "group" = "Другие"))
+		.["available_moan_sounds"] = moan_options
+		var/list/custom_moan_keys = list()
+		for(var/saved_moan in SANITIZE_LIST(prefs.custom_moan_sounds))
+			custom_moan_keys += "[saved_moan]"
+		.["custom_moan_sounds"] = custom_moan_keys
 
 	//Let's get their favorites!
 		.["favorite_interactions"] = 	SANITIZE_LIST(prefs.favorite_interactions)
@@ -521,13 +624,15 @@
 		.["noncon_pref"] = 				pref_to_num(prefs.nonconpref)
 		.["vore_pref"] = 				pref_to_num(prefs.vorepref)
 		.["mobsex_pref"] = 				pref_to_num(prefs.mobsexpref)	//Hentai
-		.["hornyantags_pref"] = 		pref_to_num(prefs.hornyantagspref)	//Hentai
 		.["extreme_pref"] = 			pref_to_num(prefs.extremepref)
 		.["extreme_harm"] = 			pref_to_num(prefs.extremeharm)
 		.["unholy_pref"] =				pref_to_num(prefs.unholypref)
+		.["unholy_hard_pref"] =			pref_to_num(prefs.unholyhardpref)
+		.["tattoo_pref"] =				pref_to_num(prefs.tattoopref)
 
 	//Getting preferences
 		.["verb_consent"] = 			!!CHECK_BITFIELD(prefs.toggles, VERB_CONSENT)
+		.["custom_verb_consent"] = 		prefs.custom_verb_consent
 		.["ranged_verb_pref"] = 		!!CHECK_BITFIELD(prefs.toggles, RANGED_VERBS_CONSENT)
 		.["lewd_verb_sounds"] = 		!!CHECK_BITFIELD(prefs.toggles, LEWD_VERB_SOUNDS)
 		.["arousable"] = 				prefs.arousable
@@ -556,6 +661,65 @@
 		.["cum_onto_pref"] = 			!!CHECK_BITFIELD(prefs.cit_toggles, CUM_ONTO)
 		.["sex_jitter"] = 				!!CHECK_BITFIELD(prefs.cit_toggles, SEX_JITTER)	//By Gardelin0
 		.["no_disco_dance"] = 			!CHECK_BITFIELD(prefs.cit_toggles, NO_DISCO_DANCE) //By SmiLeY
+		.["show_heart_over_self"] = 		prefs.show_heart_over_self
+		.["interaction_effect"] = 			prefs.interaction_effect
+		.["block_partner_pixel_shift"] = 	prefs.block_partner_pixel_shift
+
+		.["tab_interactions_enabled"] = 		!!CHECK_BITFIELD(prefs.panel_tab_toggles, TAB_INTERACTIONS)
+		.["tab_genital_options_enabled"] = 	!!CHECK_BITFIELD(prefs.panel_tab_toggles, TAB_GENITAL_OPTIONS)
+		.["tab_character_prefs_enabled"] = 	!!CHECK_BITFIELD(prefs.panel_tab_toggles, TAB_CHARACTER_PREFS)
+		.["tab_sex_animations_enabled"] = 		!!CHECK_BITFIELD(prefs.panel_tab_toggles, TAB_SEX_ANIMATIONS)
+		.["tab_custom_enabled"] = 				!!CHECK_BITFIELD(prefs.panel_tab_toggles, TAB_CUSTOM)
+		.["dynamic_window_size"] = 				prefs.dynamic_window_size
+		.["compact_custom_tab"] = 				prefs.compact_custom_tab
+
+	var/list/custom_interactions_sent = list()
+	if(self.client?.prefs?.custom_verb_consent && (!target || self == target || target.client?.prefs?.custom_verb_consent))
+		var/list/customs_mob = list()
+		if(LAZYLEN(self.client.prefs.custom_interactions))
+			customs_mob[self] += self.client.prefs.custom_interactions
+		if(target && self != target && LAZYLEN(target.client.prefs.custom_interactions))
+			customs_mob[target] += target.client.prefs.custom_interactions
+
+		for(var/mob/living/customs_owner as anything in customs_mob)
+			var/list/customs = customs_mob[customs_owner]
+			var/i = 0
+			for(var/datum/interaction/custom/custom as anything in customs)
+				i++
+				if(!custom || !custom.name || !custom.message)
+					continue
+				if(!custom.pass_requirement_gate(customs_owner, target || customs_owner))
+					continue
+				custom_interactions_sent += list(build_custom_interaction_entry(custom, "[CUSTOM_INTERACTION_PREFIX][customs_owner.ckey]:[i]", customs_owner.real_name))
+	.["custom_interactions_list"] = custom_interactions_sent
+
+	var/list/own_customs = list()
+	if(self.client?.prefs?.custom_interactions)
+		for(var/i in 1 to length(self.client.prefs.custom_interactions))
+			var/datum/interaction/custom/custom = self.client.prefs.custom_interactions[i]
+			own_customs += list(list(
+				"key" = "[CUSTOM_INTERACTION_PREFIX][self.ckey]:[i]",
+				"name" = custom.name,
+				"message" = custom.message,
+				"interaction_type" = custom.interaction_type,
+				"type_label" = custom.get_type_label(),
+				"arousal_level" = custom.arousal_level,
+				"arousal_label" = custom.get_arousal_label(),
+				"partner_arousal_level" = custom.partner_arousal_level,
+				"partner_arousal_label" = custom.get_arousal_label(custom.partner_arousal_level),
+				"self_orgasm" = custom.self_orgasm,
+				"partner_orgasm" = custom.partner_orgasm,
+				"scope" = custom.scope,
+				"scope_label" = custom.get_scope_label(),
+				"required_body_parts" = custom.required_body_parts,
+				"requires_tail" = custom.requires_tail,
+				"requires_telekinesis" = custom.requires_telekinesis,
+				"max_distance" = custom.max_distance,
+				"sound_keys" = custom.sound_keys,
+				"sound_labels" = custom.get_sound_labels(),
+			))
+	.["own_custom_interactions"] = own_customs
+	.["max_custom_interactions"] = self.client.prefs.get_custom_interaction_limit()
 
 /datum/component/interaction_menu_granter/ui_static_data(mob/living/user)
 	. = ..()
@@ -577,6 +741,10 @@
 			else if(O.interaction_flags & INTERACTION_FLAG_UNHOLY_CONTENT)
 				interaction["type"] = INTERACTION_UNHOLY
 			//SPLURT EDIT END
+			//BLUEMOON ADD START
+			else if(O.interaction_flags & INTERACTION_FLAG_UNHOLY_HARD)
+				interaction["type"] = INTERACTION_UNHOLY_HARD
+			//BLUEMOON ADD END
 			else
 				interaction["type"] = INTERACTION_LEWD
 			interaction["require_user_num_feet"] = O.require_user_num_feet
@@ -598,6 +766,17 @@
 		sent_interactions += list(interaction)
 	.["interactions"] = sent_interactions
 	.["interaction_speeds"] = GLOB.interaction_speeds
+	.["interaction_effects_list"] = GLOB.interaction_effects_list
+
+	var/list/custom_sound_options = list()
+	for(var/sound_key in GLOB.custom_interaction_sounds)
+		var/list/sound_data = GLOB.custom_interaction_sounds[sound_key]
+		custom_sound_options += list(list(
+			"key" = sound_key,
+			"label" = sound_data["label"],
+			"group" = sound_data["group"],
+		))
+	.["custom_interaction_sounds"] = custom_sound_options
 
 /proc/num_to_pref(num)
 	switch(num)
@@ -608,9 +787,14 @@
 		else
 			return "No"
 
-/datum/component/interaction_menu_granter/ui_act(action, params)
-	if(..())
+/datum/component/interaction_menu_granter/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
 		return
+	return panel_ui_act(null, action, params)
+
+/datum/component/interaction_menu_granter/proc/panel_ui_act(datum/interaction_menu_panel/panel, action, params)
+	var/mob/living/target = panel?.panel_target
 	var/mob/living/parent_mob = parent
 	switch(action)
 		if("toggle_hidden_interaction")
@@ -623,23 +807,37 @@
 
 			var/current = hidden_interactions[interaction_key]
 			hidden_interactions[interaction_key] = !current
-			SStgui.update_uis(src)
+			refresh_interaction_panels()
 			return TRUE
+		if("pixel_shift")
+			if(params["type"] == "set")
+				src.pixel_shift_x = clamp(round(text2num(params["dx"])), -PIXEL_SHIFT_MAXIMUM, PIXEL_SHIFT_MAXIMUM)
+				src.pixel_shift_y = clamp(round(text2num(params["dy"])), -PIXEL_SHIFT_MAXIMUM, PIXEL_SHIFT_MAXIMUM)
+				src.pixel_shift_speed = clamp(round(text2num(params["speed"])), 1, 60)
+				if(params["play_animation"])
+					play_pixel_shift_animation(parent_mob)
+				return TRUE
+			if(params["type"] == "reset")
+				src.pixel_shift_x = 0
+				src.pixel_shift_y = 0
+				return TRUE
+			return FALSE
 		if("interact")
 			var/interaction_key = params["interaction"]
-			var/datum/interaction/o = SSinteractions.interactions[interaction_key]
-			if(!o)
-				return FALSE
-
 			var/is_hidden = hidden_interactions && (interaction_key in hidden_interactions) \
 				? !!hidden_interactions[interaction_key] \
 				: FALSE
+			var/datum/interaction/o = SSinteractions.interactions[interaction_key] || SSinteractions.get_custom_interaction(parent_mob, target, interaction_key)
+			if(!o)
+				return FALSE
 
 			if(o == currently_active_interaction)
 				to_chat(parent_mob, span_notice("Включена автоматическая интеракция."))
 				return TRUE
 
 			o.do_action(parent_mob, target, TRUE, is_hidden)
+			if(!target?.client?.prefs?.block_partner_pixel_shift)
+				play_pixel_shift_animation(parent_mob)
 			return TRUE
 		if("interaction_pace")
 			var/speed = params["speed"]
@@ -648,7 +846,8 @@
 			src.auto_interaction_pace = speed
 			return TRUE
 		if("toggle_auto_interaction")
-			var/datum/interaction/o = SSinteractions.interactions[params["interaction"]]
+			var/interaction_key = params["interaction"]
+			var/datum/interaction/o = SSinteractions.interactions[interaction_key] || SSinteractions.get_custom_interaction(parent_mob, target, interaction_key)
 			if(!o || (currently_active_interaction == o) && (auto_interaction_target == target))
 				auto_interaction_target = null
 				currently_active_interaction = null
@@ -659,17 +858,16 @@
 				START_PROCESSING(SSinteractions, src)
 			return TRUE
 		if("favorite")
-			var/datum/interaction/interaction = SSinteractions.interactions[params["interaction"]]
-			if(!interaction)
+			var/interaction_key = params["interaction"]
+			if(!(interaction_key in SSinteractions.interactions) && !findtext(interaction_key, CUSTOM_INTERACTION_PREFIX))
 				return FALSE
-			var/client/C = parent_mob?.client
-			if(!C?.prefs)
+			var/datum/preferences/prefs = parent_mob?.client?.prefs
+			if(!prefs)
 				return FALSE
-			var/datum/preferences/prefs = C.prefs
-			if(interaction.type in prefs.favorite_interactions)
-				LAZYREMOVE(prefs.favorite_interactions, interaction.type)
+			if(interaction_key in prefs.favorite_interactions)
+				LAZYREMOVE(prefs.favorite_interactions, interaction_key)
 			else
-				LAZYADD(prefs.favorite_interactions, interaction.type)
+				LAZYADD(prefs.favorite_interactions, interaction_key)
 			prefs.save_preferences(bypass_cooldown = TRUE, silent = TRUE)
 			return TRUE
 		if("genital")
@@ -742,17 +940,16 @@
 					else
 						prefs.mobsexpref = value
 
-				if("hornyantags_pref") //Hentai
-					if(prefs.hornyantagspref == value)
-						return FALSE
-					else
-						prefs.hornyantagspref = value
-
 				if("unholy_pref")
 					if(prefs.unholypref == value)
 						return FALSE
 					else
 						prefs.unholypref = value
+				if("unholy_hard_pref")
+					if(prefs.unholyhardpref == value)
+						return FALSE
+					else
+						prefs.unholyhardpref = value
 				if("extreme_pref")
 					if(prefs.extremepref == value)
 						return FALSE
@@ -765,32 +962,55 @@
 						return FALSE
 					else
 						prefs.extremeharm = value
+				if("tattoo_pref")
+					if(prefs.tattoopref == value)
+						return FALSE
+					else
+						prefs.tattoopref = value
 				else
 					return FALSE
 			prefs.save_character()
 			return TRUE
 		if("pref")
 			var/datum/preferences/prefs = parent_mob.client.prefs
+			// Имя переменной, которую тронула ветка: в savefile уходит только этот ключ. Ветки на
+			// переменных, отличных от cit_toggles, переставляют имя сами.
+			var/dirty_var = "cit_toggles"
 			switch(params["pref"])
 				if("use_arousal_multiplier")
 					prefs.use_arousal_multiplier = !prefs.use_arousal_multiplier
+					dirty_var = "use_arousal_multiplier"
 				if("arousal_multiplier")
 					prefs.arousal_multiplier = params["amount"]
+					dirty_var = "arousal_multiplier"
 				if("use_moaning_multiplier")
 					prefs.use_moaning_multiplier = !prefs.use_moaning_multiplier
+					dirty_var = "use_moaning_multiplier"
 				if("moaning_multiplier")
 					prefs.moaning_multiplier = params["amount"]
+					dirty_var = "moaning_multiplier"
+				if("use_custom_moan_sounds")
+					prefs.use_custom_moan_sounds = !prefs.use_custom_moan_sounds
+					dirty_var = "use_custom_moan_sounds"
 
 				if("verb_consent")
 					TOGGLE_BITFIELD(prefs.toggles, VERB_CONSENT)
+					dirty_var = "toggles"
+				if("custom_verb_consent")
+					prefs.custom_verb_consent = !prefs.custom_verb_consent
+					dirty_var = "custom_verb_consent"
 				if("ranged_verb_pref")
 					TOGGLE_BITFIELD(prefs.toggles, RANGED_VERBS_CONSENT)
+					dirty_var = "toggles"
 				if("lewd_verb_sounds")
 					TOGGLE_BITFIELD(prefs.toggles, LEWD_VERB_SOUNDS)
+					dirty_var = "toggles"
 				if("arousable")
 					prefs.arousable = !prefs.arousable
+					dirty_var = "arousable"
 				if("sexknotting")
 					prefs.sexknotting = !prefs.sexknotting
+					dirty_var = "sexknotting"
 				if("genital_examine")
 					TOGGLE_BITFIELD(prefs.cit_toggles, GENITAL_EXAMINE)
 				if("vore_examine")
@@ -841,9 +1061,43 @@
 				if("sex_jitter") //By Gardelin0
 					TOGGLE_BITFIELD(prefs.cit_toggles, SEX_JITTER)
 				//
+				if("show_heart_over_self")
+					prefs.show_heart_over_self = !prefs.show_heart_over_self
+					dirty_var = "show_heart_over_self"
+				if("interaction_effect")
+					var/effect = params["effect"]
+					if(effect in GLOB.interaction_effects_list)
+						prefs.interaction_effect = effect
+					dirty_var = "interaction_effect"
+				if("block_partner_pixel_shift")
+					prefs.block_partner_pixel_shift = !prefs.block_partner_pixel_shift
+					dirty_var = "block_partner_pixel_shift"
+				//
+
+				if("tab_interactions_enabled")
+					TOGGLE_BITFIELD(prefs.panel_tab_toggles, TAB_INTERACTIONS)
+					dirty_var = "panel_tab_toggles"
+				if("tab_genital_options_enabled")
+					TOGGLE_BITFIELD(prefs.panel_tab_toggles, TAB_GENITAL_OPTIONS)
+					dirty_var = "panel_tab_toggles"
+				if("tab_character_prefs_enabled")
+					TOGGLE_BITFIELD(prefs.panel_tab_toggles, TAB_CHARACTER_PREFS)
+					dirty_var = "panel_tab_toggles"
+				if("tab_sex_animations_enabled")
+					TOGGLE_BITFIELD(prefs.panel_tab_toggles, TAB_SEX_ANIMATIONS)
+					dirty_var = "panel_tab_toggles"
+				if("tab_custom_enabled")
+					TOGGLE_BITFIELD(prefs.panel_tab_toggles, TAB_CUSTOM)
+					dirty_var = "panel_tab_toggles"
+				if("dynamic_window_size")
+					prefs.dynamic_window_size = !prefs.dynamic_window_size
+					dirty_var = "dynamic_window_size"
+				if("compact_custom_tab")
+					prefs.compact_custom_tab = !prefs.compact_custom_tab
+					dirty_var = "compact_custom_tab"
 				else
 					return FALSE
-			prefs.save_preferences()
+			prefs.save_pref_var(dirty_var)
 			return TRUE
 		if("genitals_menu")
 			switch(params["who"])
@@ -863,5 +1117,264 @@
 					else
 						to_chat(parent_mob, span_warning("Unavailable for this mob."))
 						return FALSE
+		if("force_naked_flavor")
+			if(ishuman(parent_mob))
+				var/mob/living/carbon/human/H = parent_mob
+				H.force_naked_flavor = !H.force_naked_flavor
+				if(H.force_naked_flavor)
+					H.balloon_alert_to_viewers("Доступны картинки и описание голого тела")
+					// относительно тихий ненавязчивый звук стабильной громкости в пределах 5 тайлов
+					playsound(H, 'sound/magic/staff_healing.ogg', 10, FALSE, falloff_exponent = 1, ignore_walls = FALSE, distance_multiplier_min_range = 5)
+				return TRUE
+			else
+				to_chat(parent_mob, span_warning("Unavailable for non-humanoid mob."))
+				return FALSE
+		if("custom_create")
+			return custom_create(parent_mob, params)
+		if("custom_edit")
+			return custom_edit(parent_mob, params)
+		if("custom_delete")
+			return custom_delete(parent_mob, params)
+		if("custom_preview_sound")
+			var/list/sound_data = GLOB.custom_interaction_sounds[params["sound_key"]]
+			var/soundfile = sound_data?["file"]
+			if(!soundfile)
+				return FALSE
+			parent_mob.playsound_local(get_turf(parent_mob), soundfile, 50, FALSE)
+			return TRUE
+		if("preview_moan_sound")
+			var/moan_file = resolve_moan_sound_key(params["sound_key"])
+			if(!moan_file)
+				return FALSE
+			parent_mob.playsound_local(get_turf(parent_mob), moan_file, 50, FALSE)
+			return TRUE
+		if("set_custom_moan_sounds")
+			var/datum/preferences/prefs = parent_mob.client?.prefs
+			if(!prefs)
+				return FALSE
+			var/list/requested = params["sound_keys"]
+			var/list/resolved = list()
+			if(islist(requested))
+				for(var/moan_key in requested)
+					var/moan_file = resolve_moan_sound_key(moan_key)
+					if(moan_file)
+						resolved += moan_file
+			prefs.custom_moan_sounds = resolved
+			prefs.save_pref_var("custom_moan_sounds")
+			return TRUE
+
+/datum/component/interaction_menu_granter/proc/resolve_moan_sound_key(moan_key)
+	if(!istext(moan_key))
+		return null
+	for(var/candidate in (GLOB.lewd_moans_male + GLOB.lewd_moans_female + GLOB.lewd_softmoans_female + GLOB.lewd_purr_sounds + GLOB.lewd_meow_sounds + GLOB.lewd_fox_sounds + GLOB.lewd_dog_sounds + GLOB.lewd_bird_sounds + GLOB.lewd_robot_sounds + GLOB.lewd_insect_sounds + GLOB.lewd_scream_female + GLOB.lewd_scream_male + GLOB.lewd_scream_gachi))
+		if("[candidate]" == moan_key)
+			return candidate
+	for(var/name in GLOB.lewd_other_animal_sounds)
+		var/candidate = GLOB.lewd_other_animal_sounds[name]
+		if("[candidate]" == moan_key)
+			return candidate
+	return null
+
+//BLUEMOON ADD START
+/datum/component/interaction_menu_granter/proc/play_pixel_shift_animation(mob/living/mob)
+	if(!mob || pixel_shift_animating || (!pixel_shift_x && !pixel_shift_y))
+		return
+
+	pixel_shift_animating = TRUE
+
+	var/matrix/original = matrix(mob.transform)
+	var/matrix/target = matrix(original)
+	target.Translate(clamp(pixel_shift_x, -PIXEL_SHIFT_MAXIMUM, PIXEL_SHIFT_MAXIMUM), clamp(pixel_shift_y, -PIXEL_SHIFT_MAXIMUM, PIXEL_SHIFT_MAXIMUM))
+	var/distance = abs(pixel_shift_x) + abs(pixel_shift_y)
+	var/duration = max(round(distance * 10 / pixel_shift_speed), 2)
+	animate(mob, transform = target, time = duration, easing = SINE_EASING | EASE_OUT, flags = ANIMATION_PARALLEL)
+	animate(mob, transform = original, time = duration, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
+	addtimer(CALLBACK(src, PROC_REF(pixel_shift_animation_finished)), duration * 2)
+//BLUEMOON ADD END
+
+/datum/component/interaction_menu_granter/proc/pixel_shift_animation_finished()
+	pixel_shift_animating = FALSE
+
+/datum/component/interaction_menu_granter/proc/build_custom_interaction_entry(datum/interaction/custom/custom, key, owner_name)
+	var/list/interaction = list()
+	interaction["key"] = key
+	interaction["desc"] = custom.name
+	interaction["type"] = custom.get_interaction_type_num()
+	interaction["interactionFlags"] = custom.get_interaction_flags()
+	interaction["maxDistance"] = custom.max_distance
+	interaction["isCustom"] = TRUE
+	var/list/details = list()
+	details += list(list("info" = "Вариант персонажа [owner_name]", "icon" = "user", "color" = "green"))
+	var/type_label = custom.get_type_label()
+	if(type_label != "Действие")
+		details += list(list("info" = "Тип: [type_label]", "icon" = "tag", "color" = "teal"))
+	if(custom.required_body_parts)
+		details += list(list("info" = "Требует: [custom.get_body_parts_label()]", "icon" = "person", "color" = "orange"))
+	if(custom.requires_tail)
+		details += list(list("info" = "Нужен хвост у кого-то из пары", "icon" = "paw", "color" = "purple"))
+	if(custom.requires_telekinesis)
+		details += list(list("info" = "Нужен телекинез у кого-то из пары", "icon" = "brain", "color" = "purple"))
+	if(length(custom.sound_keys))
+		details += list(list("info" = "Звук: [jointext(custom.get_sound_labels(), ", ")]", "icon" = "volume-up", "color" = "blue"))
+	interaction["additionalDetails"] = details
+	return interaction
+
+/datum/component/interaction_menu_granter/proc/custom_create(mob/living/user, params)
+	var/datum/preferences/prefs = user.client?.prefs
+	if(!prefs)
+		return FALSE
+	var/name = copytext(strip_html(params["name"]), 1, MAX_CUSTOM_INTERACTION_NAME_LENGTH + 1)
+	var/message = copytext(strip_html(params["message"]), 1, MAX_CUSTOM_INTERACTION_MESSAGE_LENGTH + 1)
+	if(!name || !message)
+		to_chat(user, span_warning("Название и текст кастомного интеракта не могут быть пустыми."))
+		return FALSE
+	var/interaction_type = sanitize_inlist(params["interaction_type"], CUSTOM_INTERACTION_TYPES, CUSTOM_INTERACTION_TYPE_NORMAL)
+	var/max_customs = prefs.get_custom_interaction_limit()
+	if(length(prefs.custom_interactions) >= max_customs)
+		to_chat(user, span_warning("Достигнут лимит из [max_customs] кастомных интерактов."))
+		return FALSE
+	var/datum/interaction/custom/custom = new
+	custom.name = name
+	custom.message = message
+	custom.interaction_type = interaction_type
+	custom.arousal_level = clamp(round(text2num(params["arousal_level"])), CUSTOM_AROUSAL_NONE, CUSTOM_AROUSAL_MAX)
+	custom.partner_arousal_level = clamp(round(text2num(params["partner_arousal_level"])), CUSTOM_AROUSAL_NONE, CUSTOM_AROUSAL_MAX)
+	custom.self_orgasm = text2num(params["self_orgasm"]) ? TRUE : FALSE
+	custom.partner_orgasm = text2num(params["partner_orgasm"]) ? TRUE : FALSE
+	custom.scope = sanitize_inlist(params["scope"], CUSTOM_INTERACTION_SCOPES, CUSTOM_INTERACTION_SCOPE_BOTH)
+	custom.required_body_parts = sanitize_integer(text2num(params["required_body_parts"]), 0, CUSTOM_INTERACTION_BODY_PART_MASK, 0) & CUSTOM_INTERACTION_BODY_PART_MASK
+	custom.requires_tail = text2num(params["requires_tail"]) ? TRUE : FALSE
+	custom.requires_telekinesis = text2num(params["requires_telekinesis"]) ? TRUE : FALSE
+	custom.max_distance = sanitize_integer(text2num(params["max_distance"]), 1, 3, 1)
+	custom.sound_keys = islist(params["sound_keys"]) ? params["sound_keys"] : list()
+	custom.sanitize_sound_keys()
+	LAZYADD(prefs.custom_interactions, custom)
+	prefs.save_character(bypass_cooldown = TRUE, silent = TRUE)
+	log_custom_interaction(user, "создал", custom)
+	refresh_interaction_panels()
+	return TRUE
+
+/datum/component/interaction_menu_granter/proc/custom_edit(mob/living/user, params)
+	var/datum/preferences/prefs = user.client?.prefs
+	if(!prefs)
+		return FALSE
+	var/index = text2num(copytext(params["key"], findlasttext(params["key"], ":") + 1))
+	if(!index || index > length(prefs.custom_interactions))
+		return FALSE
+	var/datum/interaction/custom/custom = prefs.custom_interactions[index]
+	var/name = copytext(strip_html(params["name"]), 1, MAX_CUSTOM_INTERACTION_NAME_LENGTH + 1)
+	var/message = copytext(strip_html(params["message"]), 1, MAX_CUSTOM_INTERACTION_MESSAGE_LENGTH + 1)
+	if(!name || !message)
+		to_chat(user, span_warning("Название и текст кастомного интеракта не могут быть пустыми."))
+		return FALSE
+	custom.name = name
+	custom.message = message
+	custom.interaction_type = sanitize_inlist(params["interaction_type"], CUSTOM_INTERACTION_TYPES, CUSTOM_INTERACTION_TYPE_NORMAL)
+	custom.arousal_level = clamp(round(text2num(params["arousal_level"])), CUSTOM_AROUSAL_NONE, CUSTOM_AROUSAL_MAX)
+	custom.partner_arousal_level = clamp(round(text2num(params["partner_arousal_level"])), CUSTOM_AROUSAL_NONE, CUSTOM_AROUSAL_MAX)
+	custom.self_orgasm = text2num(params["self_orgasm"]) ? TRUE : FALSE
+	custom.partner_orgasm = text2num(params["partner_orgasm"]) ? TRUE : FALSE
+	custom.scope = sanitize_inlist(params["scope"], CUSTOM_INTERACTION_SCOPES, CUSTOM_INTERACTION_SCOPE_BOTH)
+	custom.required_body_parts = sanitize_integer(text2num(params["required_body_parts"]), 0, CUSTOM_INTERACTION_BODY_PART_MASK, 0) & CUSTOM_INTERACTION_BODY_PART_MASK
+	custom.requires_tail = text2num(params["requires_tail"]) ? TRUE : FALSE
+	custom.requires_telekinesis = text2num(params["requires_telekinesis"]) ? TRUE : FALSE
+	custom.max_distance = sanitize_integer(text2num(params["max_distance"]), 1, 3, 1)
+	custom.sound_keys = islist(params["sound_keys"]) ? params["sound_keys"] : list()
+	custom.sanitize_sound_keys()
+	prefs.save_character(bypass_cooldown = TRUE, silent = TRUE)
+	log_custom_interaction(user, "изменил", custom)
+	refresh_interaction_panels()
+	return TRUE
+
+/datum/component/interaction_menu_granter/proc/custom_delete(mob/living/user, params)
+	var/datum/preferences/prefs = user.client?.prefs
+	if(!prefs)
+		return FALSE
+	var/index = text2num(copytext(params["key"], findlasttext(params["key"], ":") + 1))
+	if(!index || index > length(prefs.custom_interactions))
+		return FALSE
+	var/datum/interaction/custom/custom = prefs.custom_interactions[index]
+	LAZYREMOVE(prefs.custom_interactions, custom)
+	prefs.save_character(bypass_cooldown = TRUE, silent = TRUE)
+	log_custom_interaction(user, "удалил", custom)
+	if(currently_active_interaction == custom)
+		auto_interaction_target = null
+		currently_active_interaction = null
+		STOP_PROCESSING(SSinteractions, src)
+	qdel(custom)
+	refresh_interaction_panels()
+	return TRUE
+
+/datum/component/interaction_menu_granter/proc/log_custom_interaction(mob/living/user, action, datum/interaction/custom/custom)
+	var/log_text = "[user.ckey] ([user.real_name]) [action] кастомный интеракт \"[custom.name]\" (тип: [custom.get_type_label()], текст: \"[custom.message]\")"
+	log_admin(log_text)
+
+/// Обновляет все открытые панели взаимодействия
+/// (удаление/изменение кастомов должно немедленно отражаться везде).
+/datum/component/interaction_menu_granter/proc/refresh_interaction_panels()
+	for(var/datum/interaction_menu_panel/panel as anything in panels)
+		SStgui.update_uis(panel)
+	SStgui.update_uis(src)
+
+/datum/component/interaction_menu_granter/proc/panel_ui_interact(datum/interaction_menu_panel/panel, mob/living/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, panel, ui)
+	if(!ui)
+		ui = new(user, panel, "MobInteraction", "Interactions")
+		ui.open()
+
+/// Прокси-датум, владеющий окном панели взаимодействия на конкретную цель.
+/// Позволяет держать несколько панелей одновременно (по одной на цель).
+/datum/interaction_menu_panel
+	/// Компонент, которому принадлежит панель
+	var/datum/component/interaction_menu_granter/granter
+	/// Пользователь, открывший панель
+	var/mob/living/panel_user
+	/// Цель, на которую открыта панель
+	var/mob/living/panel_target
+
+/datum/interaction_menu_panel/New(datum/component/interaction_menu_granter/granter, mob/living/user, mob/living/target)
+	src.granter = granter
+	panel_user = user
+	panel_target = target
+	return ..()
+
+/datum/interaction_menu_panel/Destroy(force, ...)
+	granter = null
+	panel_user = null
+	panel_target = null
+	return ..()
+
+/datum/interaction_menu_panel/ui_state(mob/living/user)
+	if(QDELETED(granter))
+		return GLOB.never_state
+	return granter.ui_state(user)
+
+/datum/interaction_menu_panel/ui_interact(mob/living/user, datum/tgui/ui)
+	if(QDELETED(granter))
+		return
+	granter.panel_ui_interact(src, user, ui)
+
+/datum/interaction_menu_panel/ui_data(mob/living/user)
+	if(QDELETED(granter))
+		return list()
+	return granter.panel_ui_data(src, user)
+
+/datum/interaction_menu_panel/ui_static_data(mob/living/user)
+	if(QDELETED(granter))
+		return list()
+	return granter.ui_static_data(user)
+
+/datum/interaction_menu_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	if(QDELETED(granter))
+		return FALSE
+	return granter.panel_ui_act(src, action, params)
+
+/datum/interaction_menu_panel/ui_close(mob/living/user)
+	if(QDELETED(granter))
+		return
+	granter.panel_ui_close(src, user)
 
 #undef INTERACTION_UNHOLY //SPLURT Edit

@@ -96,7 +96,7 @@
 /turf/open/floor/plating/airless,
 /area/awaymission/challenge/main)
 "aG" = (
-/mob/living/simple_animal/hostile/syndicate/melee/anthro,
+/mob/living/simple_animal/hostile/inteq/melee,
 /turf/open/floor/carpet,
 /area/awaymission/challenge/start)
 "aH" = (
@@ -416,7 +416,7 @@
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "ce" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/space/anthro/cat,
+/mob/living/simple_animal/hostile/inteq/ranged/space,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "cf" = (
@@ -435,7 +435,7 @@
 /area/awaymission/challenge/end)
 "ch" = (
 /obj/structure/chair/comfy/black,
-/mob/living/simple_animal/hostile/syndicate/real_syndicate{
+/mob/living/simple_animal/hostile/syndicate{
 	desc = "It's HIM.";
 	name = "John Syndicate";
 	environment_smash = 0
@@ -462,7 +462,7 @@
 /turf/open/floor/wood,
 /area/awaymission/challenge/end)
 "cl" = (
-/mob/living/simple_animal/hostile/syndicate/melee/sword/anthro,
+/mob/living/simple_animal/hostile/inteq/melee/sword,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "cn" = (
@@ -491,6 +491,7 @@
 /obj/structure/table/wood,
 /obj/item/paper/fluff/gateway,
 /obj/item/folder/blue,
+/obj/item/disk/gatereward,
 /turf/open/floor/carpet,
 /area/awaymission/challenge/end)
 "cs" = (
@@ -520,10 +521,6 @@
 	pixel_y = -3
 	},
 /turf/open/floor/wood,
-/area/awaymission/challenge/end)
-"cu" = (
-/mob/living/simple_animal/hostile/syndicate/melee/sword/anthro,
-/turf/open/floor/circuit,
 /area/awaymission/challenge/end)
 "cv" = (
 /obj/structure/chair{
@@ -577,7 +574,7 @@
 /turf/open/floor/circuit,
 /area/awaymission/challenge/end)
 "cF" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/smg/anthro,
+/mob/living/simple_animal/hostile/inteq/ranged/smg,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "cG" = (
@@ -668,7 +665,7 @@
 /turf/open/floor/plating,
 /area/awaymission/challenge/end)
 "dm" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/space/anthro/cat,
+/mob/living/simple_animal/hostile/inteq/ranged/space,
 /turf/open/floor/circuit,
 /area/awaymission/challenge/end)
 "dn" = (
@@ -712,12 +709,8 @@
 "zn" = (
 /turf/open/space/basic,
 /area/awaymission/challenge/end)
-"Db" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/stormtrooper/anthro/fox,
-/turf/open/floor/wood,
-/area/awaymission/challenge/end)
 "Hr" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/smg/anthro,
+/mob/living/simple_animal/hostile/inteq/ranged/smg,
 /turf/open/floor/circuit,
 /area/awaymission/challenge/end)
 "Lm" = (
@@ -740,7 +733,7 @@
 /turf/open/floor/plating/airless,
 /area/awaymission/challenge/main)
 "OT" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/stormtrooper/anthro/fox,
+/mob/living/simple_animal/hostile/inteq/ranged/shotgun/space/stormtrooper,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "Pv" = (
@@ -764,11 +757,22 @@
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 "QE" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/anthro,
+/mob/living/simple_animal/hostile/inteq/ranged,
 /turf/open/floor/carpet,
 /area/awaymission/challenge/start)
+"Xm" = (
+/obj/structure/table/reinforced,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/recharger{
+	pixel_y = 4
+	},
+/obj/item/disk/gatereward,
+/turf/open/floor/mineral/plastitanium,
+/area/awaymission/challenge/end)
 "Zw" = (
-/mob/living/simple_animal/hostile/syndicate/melee/space/anthro/lizard,
+/mob/living/simple_animal/hostile/inteq/space,
 /turf/open/floor/plasteel/dark,
 /area/awaymission/challenge/end)
 
@@ -26882,7 +26886,7 @@ aA
 aA
 bP
 go
-OT
+cd
 cd
 cd
 cx
@@ -27139,7 +27143,7 @@ aF
 Mx
 bP
 PS
-cd
+OT
 cd
 cd
 cx
@@ -27155,7 +27159,7 @@ cd
 cd
 cd
 cd
-cF
+cd
 do
 bP
 aa
@@ -27652,7 +27656,7 @@ bC
 aF
 aF
 bP
-bR
+Xm
 cb
 cb
 cb
@@ -27915,7 +27919,7 @@ bP
 bP
 bP
 cD
-cF
+cd
 cd
 cn
 cL
@@ -29156,7 +29160,7 @@ al
 au
 aq
 at
-au
+QE
 az
 aE
 aH
@@ -29413,7 +29417,7 @@ au
 al
 ar
 au
-QE
+au
 ax
 aA
 aA
@@ -30996,7 +31000,7 @@ bP
 bZ
 cj
 cj
-Db
+cj
 bP
 cn
 cd
@@ -31005,7 +31009,7 @@ cn
 cn
 cn
 cn
-cu
+cn
 cn
 cn
 cn
