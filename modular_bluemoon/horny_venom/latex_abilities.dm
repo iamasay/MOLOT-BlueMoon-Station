@@ -15,6 +15,8 @@
 	var/delay
 	var/datum/antagonist/living_latex/my_living_latex
 	var/is_internal_ability = FALSE //если эта способность должна быть доступна только изнутри захваченного моба
+	var/datum/overlay_effect/overlay_prebuild
+	var/datum/overlay_effect/overlay_prebuild_static
 
 /datum/action/cooldown/latexmob/proc/update_stage()
 	if(!owner)
@@ -69,6 +71,10 @@
 		can_absorb_alive = TRUE
 	if(stage == 3)
 		pick_only_simplemob = FALSE
+
+/datum/action/cooldown/latexmob/venomAction/proc/prepare_overlay()
+	overlay_prebuild = new /datum/overlay_effect/latexmob_fullbody_animated
+	overlay_prebuild_static = new /datum/overlay_effect/latexmob_fullbody_static
 
 /datum/action/cooldown/latexmob/venomAction/Activate()
 	. = ..()

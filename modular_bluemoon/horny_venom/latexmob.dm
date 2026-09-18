@@ -215,13 +215,25 @@
 
 /obj/effect/temp_visual/latexmob
 	icon = 'modular_bluemoon/horny_venom/icons/sybm_icons.dmi'
-	duration = 12
+	duration = 1.2 SECONDS
 
 /obj/effect/temp_visual/latexmob/venom_in
 	icon_state = "synt_on"
 
 /obj/effect/temp_visual/latexmob/venom_out
 	icon_state = "synt_off"
+
+/datum/overlay_effect/latexmob_fullbody_animated
+	name = "Latex capturing overlay"
+	icon = 'modular_bluemoon/horny_venom/icons/fullbody_effect.dmi'
+	icon_state = "anim_latex"
+	need_use_color = FALSE
+
+/datum/overlay_effect/latexmob_fullbody_static
+	name = "Latex after capturing overlay"
+	icon = 'modular_bluemoon/horny_venom/icons/fullbody_effect.dmi'
+	icon_state = "static_latex"
+	need_use_color = FALSE
 
 /obj/effect/mob_spawn/horny_venom/attack_ghost(mob/user, latejoinercalling)
 	if(GLOB.master_mode == "Extended")
