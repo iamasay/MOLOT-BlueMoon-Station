@@ -1,0 +1,5 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - bugfix: Исправлена одна из причин harddel обезьян - возобновление движения после
+      удаления.
