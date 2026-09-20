@@ -193,6 +193,7 @@
 #include "player_report_regressions.dm"
 #include "process_memory.dm"
 #include "projectiles.dm"
+#include "qareen_chalk.dm"
 #include "weather.dm"
 #include "weather_datum_lifecycle.dm"
 // #include "rcd.dm"
@@ -394,6 +395,7 @@
 #include "tile_pipe_placement.dm"
 #include "update_icon_short_circuit.dm"
 #include "vent_label_numbering.dm"
+#include "weeds_growth.dm"
 
 
 #ifdef AI_BEHAVIOR_SCENE_BENCH
