@@ -223,6 +223,16 @@
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
+/datum/design/alienrcd
+	name = "ARCD"
+	desc = "Улучшенный РЦД работающий даже на расстоянии"
+	id = "alien_rcd"
+	build_path = /obj/item/construction/rcd/arcd
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 2000, /datum/material/silver = 1500, /datum/material/plasma = 500, /datum/material/titanium = 1500)
+	category = list("Tool Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
 /datum/design/alienhemostat
 	name = "Alien Hemostat"
 	desc = "An advanced hemostat obtained through Abductor technology."
