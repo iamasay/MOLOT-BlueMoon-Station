@@ -310,7 +310,7 @@
 			return .
 		if(!owner.UseStaminaBuffer(STAMINA_COST_DODGE_PROJECTILE, warn = TRUE))
 			return .
-		owner.balloon_alert_to_viewers("[A] уклоняется от снаряда!", "Вы уклоняетесь от снаряда!")
+		owner.balloon_alert_to_viewers("[owner] уклоняется от снаряда!", "Вы уклоняетесь от снаряда!")
 		playsound(src, pick('sound/weapons/bulletflyby.ogg', 'sound/weapons/bulletflyby2.ogg', 'sound/weapons/bulletflyby3.ogg'), 75, 1)
 		return BLOCK_SUCCESS | BLOCK_PHYSICAL_EXTERNAL
 	return ..()
