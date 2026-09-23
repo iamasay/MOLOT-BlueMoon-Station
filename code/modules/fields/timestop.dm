@@ -238,13 +238,18 @@
 
 /datum/proximity_monitor/advanced/timestop/proc/create_illusion(mob/living/L)
 	var/list/invisible_whitelist = list(/obj/effect/timestop, /atom/movable/lighting_object)
+
+	var/atoms_counter = 0
 	for(var/atom/movable/movable_neaby in oview(10, L.loc))
+		if(atoms_counter >= 1500)
+			return
 		if(movable_neaby.invisibility && !(movable_neaby in invisible_whitelist))
 			continue
 		var/image/temp_image = image(getFlatIcon(movable_neaby), movable_neaby.loc, layer = movable_neaby.layer, dir = movable_neaby.dir)
 		temp_image.appearance = movable_neaby.appearance
 		L.client.images += temp_image
 		mirage_images += temp_image
+		atoms_counter++
 
 //you don't look quite right, is something the matter?
 /datum/proximity_monitor/advanced/timestop/proc/into_the_negative_zone(atom/A)
