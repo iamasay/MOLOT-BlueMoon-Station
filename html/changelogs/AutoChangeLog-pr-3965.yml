@@ -1,0 +1,5 @@
+author: Silver-Paws
+delete-after: true
+changes:
+  - bugfix: Каркасам RCD больше не мешают ставиться лампы, трубы и другие не мешающие
+      проходу объекты.
