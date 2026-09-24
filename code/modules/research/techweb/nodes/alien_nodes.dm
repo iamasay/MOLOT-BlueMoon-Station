@@ -35,5 +35,5 @@
 	description = "Reverse engineered alien tools." // BLUEMOON CHANGE
 	informing_radio_channels = list(RADIO_CHANNEL_ENGINEERING, RADIO_CHANNEL_SCIENCE)
 	prereq_ids = list("alientech", "exp_tools")
-	design_ids = list("alien_wrench", "alien_wirecutters", "alien_screwdriver", "alien_crowbar", "alien_welder", "alien_multitool")
+	design_ids = list("alien_wrench", "alien_wirecutters", "alien_screwdriver", "alien_crowbar", "alien_welder", "alien_multitool", "alien_rcd")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
