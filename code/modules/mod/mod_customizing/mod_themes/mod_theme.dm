@@ -228,6 +228,7 @@
 		Все права защищены, вмешательство в костюм аннулирует гарантию."
 	default_skin = "syndicate"
 	armor = /datum/armor/mod/syndicate_simple
+	compatible_with_armor_modules = TRUE //синди можно, у него статы не высокие
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	ui_theme = "syndicate"
 	hardlight_color = MOD_SYNDICATE_COLOR
