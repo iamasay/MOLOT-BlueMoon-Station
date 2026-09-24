@@ -1,4 +1,0 @@
-author: FinkRLD
-delete-after: true
-changes:
-  - qol: Введена механика денежных переводов между игроками в диалоговом окне PDA-messenger
