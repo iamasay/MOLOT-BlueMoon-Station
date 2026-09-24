@@ -37,7 +37,7 @@
 	maxHealth = 777
 	health = 777
 	a_intent = INTENT_HARM
-	speed = 0
+	speed = -0.5
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomp"
 	attack_sound = 'sound/magic/demon_attack1.ogg'
@@ -49,10 +49,10 @@
 	obj_damage = 50
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1 | HEAR_1
-	melee_damage_upper = 35
-	melee_damage_lower = 35
+	melee_damage_upper = 45
+	melee_damage_lower = 40
 	mob_size = MOB_SIZE_LARGE
-	armour_penetration = 30
+	armour_penetration = 50
 	pixel_x = -16
 	maptext_height = 64
 	maptext_width = 64
