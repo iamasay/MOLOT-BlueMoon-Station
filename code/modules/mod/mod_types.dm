@@ -54,6 +54,7 @@
 /obj/item/mod/control/pre_equipped/mining
 	theme = /datum/mod_theme/cargo_default/mining
 	equip_cell = /obj/item/stock_parts/cell/high/plus
+	complexity_max = ANTAG_MAX_COMPLEXITY
 	initial_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/welding,
@@ -104,6 +105,7 @@
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/armor/prebuild/bullet,
 		/obj/item/mod/module/armor/prebuild/laser,
+		/obj/item/mod/module/jetpack,
 	)
 
 /obj/item/mod/control/pre_equipped/security/catcrin
