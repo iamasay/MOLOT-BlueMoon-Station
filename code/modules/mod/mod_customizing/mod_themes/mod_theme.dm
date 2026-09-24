@@ -248,6 +248,7 @@
 		Все права защищены, вмешательство в костюм аннулирует продолжительность жизни.'"
 	default_skin = "elite"
 	armor = /datum/armor/mod/syndicate_elite
+	compatible_with_armor_modules = TRUE
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	ui_theme = "syndicate"
@@ -378,6 +379,7 @@
 	встроенная кобура - прятать оружие, оно не помещается в рюкзак. "
 	default_skin = "inteqe"
 	armor = /datum/armor/mod/inteq_traitor
+	compatible_with_armor_modules = TRUE
 	skins = list(
 		"inteqe" = MOD_PRESET_DEFAULT,
 	)
