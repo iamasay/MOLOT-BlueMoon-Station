@@ -182,7 +182,7 @@
 	. = min(., max(minimum_speed, existing - SSI.config_entry_value))
 
 /datum/movespeed_modifier/dragon_rage
-	multiplicative_slowdown = -0.5
+	multiplicative_slowdown = -0.2
 
 /datum/movespeed_modifier/dragon_depression
 	multiplicative_slowdown = 5
