@@ -1,6 +1,0 @@
-author: Silver-Paws
-delete-after: true
-changes:
-  - bugfix: Юротдел получил своё название в latejoin меню и свой цвет в манифест меню.
-  - spellcheck: Переводы для манифест экипаж и latejoin меню.
-  - code_imp: Добавлен ассоциативный словарь с переводом отделов станции.
