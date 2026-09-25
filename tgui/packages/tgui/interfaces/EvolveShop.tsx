@@ -2,7 +2,6 @@ import { useBackend } from '../backend';
 import {
   Box,
   Button,
-  Icon,
   NoticeBox,
   Section,
   Stack,
@@ -148,7 +147,7 @@ export const EvolveShop = (props, context) => {
   );
 };
 
-const StageSection = (props, context) => {
+const StageSection = (props) => {
   const { title, actionLabel, onEvolve, children } = props;
 
   return (
