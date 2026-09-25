@@ -1,9 +1,9 @@
 import { useBackend } from '../backend';
-import { Box, Button, Icon, LabeledList, Tabs, NoticeBox, Section, Stack, BlockQuote, ProgressBar, Flex, Divider, Collapsible} from '../components';
+import {Button,Section, BlockQuote, ProgressBar, Flex, Divider} from '../components';
 import { Window } from '../layouts';
 
 
-type InjectMenu = {
+type InjectMenu_list = {
   subject: string;
   reagents: Reagent[];
   time_to_next_injection: number;
@@ -17,7 +17,7 @@ type Reagent = {
 
 
 export const InjectMenu = (props, context) => {
-  const { act, data } = useBackend<InjectMenu>(context);
+  const { act, data } = useBackend<InjectMenu_list>(context);
   return (
     <Window width={500} height={300}>
       <Window.Content scrollable>
