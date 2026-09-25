@@ -208,14 +208,9 @@
 	ability_owner_mind.transfer_to(latexmob)
 	LL.grant_abilities(latexmob)
 
-/datum/action/cooldown/latexmob/proc/apply_animated_overlay(mob/living/carbon/human/target, list/target_bodyparts_list)
-	target.apply_bodypart_overlays(target_bodyparts_list, TRUE, overlay_prebuild)
-
 /datum/action/cooldown/latexmob/proc/enter_in_host(datum/antagonist/living_latex/my_living_latex, mob/living/carbon/owner, delay, mob/living/carbon/human/target_host, datum/action/cooldown/latexmob/latexmob_action_ref)
-	var/list/all_body_list = GLOB.mutant_overlay_layers + GLOB.mutant_overlay_genital_layers
-	for(var/element in all_body_list)
-		if(do_after(target_host, 3 SECONDS, target_host))
-			apply_animated_overlay(target_host, list(element))
+	var/obj/effect/temp_visual/latexmob/effect =  new /obj/effect/temp_visual/latexmob/venom_in (target_host.loc)
+	effect.dir = target_host.dir
 	if(do_after(owner, delay, owner))
 		my_living_latex.merging(target_host) //выполняет слияние хоста с латексным и даёт ссылку на моба внутри хоста.
 		return
