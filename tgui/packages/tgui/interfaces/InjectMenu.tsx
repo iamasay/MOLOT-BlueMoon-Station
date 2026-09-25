@@ -20,8 +20,8 @@ type Reagent = {
   name: string;
 };
 
-export const InjectMenu = (props, context) => {
-  const { act, data } = useBackend<InjectMenuList>(context);
+export const InjectMenu = () => {
+  const { act, data } = useBackend<InjectMenuList>();
 
   return (
     <Window width={500} height={300}>

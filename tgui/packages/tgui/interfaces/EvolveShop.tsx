@@ -1,15 +1,15 @@
 import { useBackend } from '../backend';
 import {
+  BlockQuote,
   Box,
   Button,
+  Collapsible,
+  Divider,
+  Flex,
   NoticeBox,
+  ProgressBar,
   Section,
   Stack,
-  BlockQuote,
-  ProgressBar,
-  Flex,
-  Divider,
-  Collapsible,
 } from '../components';
 import { Window } from '../layouts';
 
@@ -27,8 +27,8 @@ type Ability = {
   can_purchase: boolean;
 };
 
-export const EvolveShop = (props, context) => {
-  const { act, data } = useBackend<EvolveShopContext>(context);
+export const EvolveShop = () => {
+  const { act, data } = useBackend<EvolveShopContext>();
 
   return (
     <Window width={900} height={520}>
