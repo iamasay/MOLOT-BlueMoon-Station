@@ -1,0 +1,4 @@
+author: Pelmenik123
+delete-after: true
+changes:
+  - rscadd: Прослушка больше не может появится в одном секторе с ДС-2
