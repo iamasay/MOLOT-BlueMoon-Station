@@ -1,0 +1,5 @@
+author: iamasay
+delete-after: true
+changes:
+  - rscadd: у транзитной трубы теперь 50хп
+  - bugfix: транзитные трубы больше не прикручиваются при установке рпедом
