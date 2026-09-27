@@ -212,7 +212,6 @@
 // #include "security_officer_distribution.dm"
 // #include "serving_tray.dm"
 #include "shared_list_diet.dm"
-#include "shuttle_hijack.dm"
 #include "shuttle_move_atmos_exposure.dm"
 #include "signal_teardown.dm"
 // #include "siunit.dm"

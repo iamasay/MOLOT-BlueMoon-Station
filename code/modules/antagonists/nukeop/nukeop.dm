@@ -277,10 +277,6 @@
 	name = "Syndicate Disk Keeper"
 	nukeop_outfit = /datum/outfit/syndicate/lone
 	is_syndicate = TRUE
-	// Защитник диска - одиночка, которому ещё и караулить диск, поэтому прошивку
-	// автопилота он вскрывает крупным блоком: HIJACKED (5) стадий закрываются двумя
-	// попытками вместо пяти, и весь взлом занимает секунды, а не минуты у консоли.
-	hijack_stages_per_attempt = 3
 
 /datum/antagonist/nukeop/lone/syndicate/equip_op()
 	. = ..()

@@ -36,10 +36,8 @@
 	if(hijack_announce)
 		. += "<span class='danger'>Security systems present on console. Any unauthorized tampering will result in an emergency announcement.</span>"
 	if(user?.mind?.get_hijack_speed())
-		var/stage = SSshuttle.emergency.hijack_status
-		var/stage_step = user.mind.hijack_stages_per_attempt()
-		. += "<span class='danger'>ALT-ЛКМ по консоли - попытка взлома шаттла. Потребуется несколько попыток (стадия [stage]/[HIJACKED], попыток осталось: [CEILING(max(HIJACKED - stage, 0) / stage_step, 1)]).</span>"
-		. += "<span class='notice'>Одна попытка перехватывает [stage_step] из [HIJACKED] стадий навигационной прошивки за [CEILING(hijack_stage_time / user.mind.get_hijack_speed() / 10, 1)] с, после чего консоль уходит в автоматический таймаут на [hijack_stage_cooldown/10] с.</span>"
+		. += "<span class='danger'>ALT-ЛКМ по консоли - попытка взлома шаттла. Потребуется несколько попыток (стадия [SSshuttle.emergency.hijack_status]/[HIJACKED]).</span>"
+		. += "<span class='notice'>Одна попытка перехватывает одну стадию навигационной прошивки за [CEILING(hijack_stage_time / user.mind.get_hijack_speed() / 10, 1)] с, после чего консоль уходит в автоматический таймаут на [hijack_stage_cooldown/10] с.</span>"
 		if(hijack_announce)
 			. += "<span class='warning'>Стоит заранее занять оборону: каждая попытка сопровождается объявлением на весь экипаж.</span>"
 
@@ -178,13 +176,9 @@
 			[TIME_LEFT] seconds", system_error, alert=TRUE)
 		. = TRUE
 
-/obj/machinery/computer/emergency_shuttle/proc/increase_hijack_stage(mob/user)
+/obj/machinery/computer/emergency_shuttle/proc/increase_hijack_stage()
 	var/obj/docking_port/mobile/emergency/shuttle = SSshuttle.emergency
-	// Часть взломщиков (защитник диска) закрывает за попытку сразу несколько стадий, поэтому
-	// статус прижимаем к HIJACKED: выше он невалиден, ветки в announce_hijack_stage() на него
-	// не существует, и ветка escape-таймера не отличила бы захват от промежуточной стадии.
-	var/stages = user?.mind ? user.mind.hijack_stages_per_attempt() : 1
-	shuttle.hijack_status = min(shuttle.hijack_status + max(stages, 1), HIJACKED)
+	shuttle.hijack_status = min(shuttle.hijack_status + 1, HIJACKED)
 	if(hijack_announce)
 		announce_hijack_stage()
 	hijack_last_stage_increase = world.time
@@ -218,7 +212,7 @@
 	say("Перехват управления начат.")
 	. = FALSE
 	if(do_after(user, hijack_stage_time * (1 / user.mind.get_hijack_speed()), target = src))
-		increase_hijack_stage(user)
+		increase_hijack_stage()
 		. = TRUE
 		to_chat(user, "<span class='notice'>Вы перепрограммировали часть кода [src] - консоль уходит в таймаут на [hijack_stage_cooldown/10] секунд.</span>")
 	hijack_hacking = FALSE

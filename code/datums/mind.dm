@@ -1915,12 +1915,6 @@ GLOBAL_LIST(objective_choices)
 	for(var/datum/antagonist/A in antag_datums)
 		. = max(., A.hijack_speed())
 
-/// Sets our hijack reach to the biggest per-attempt stage count our antag datums allow.
-/datum/mind/proc/hijack_stages_per_attempt()
-	. = 1
-	for(var/datum/antagonist/A in antag_datums)
-		. = max(., A.hijack_stages_per_attempt())
-
 /datum/mind/proc/has_objective(objective_type)
 	for(var/datum/antagonist/A in antag_datums)
 		for(var/O in A.objectives)
