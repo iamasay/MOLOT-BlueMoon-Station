@@ -117,8 +117,8 @@
 	self_species = new /datum/species/jelly/roundstartslime/living_latex
 	evolution_store = ev_store
 	available_abilities += new /datum/action/cooldown/latexmob/evolution_store
-	set_name(usr)
-	grant_abilities(usr)
+	set_name(owner.current)
+	grant_abilities(owner.current)
 
 /datum/antagonist/living_latex/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	. = ..()
