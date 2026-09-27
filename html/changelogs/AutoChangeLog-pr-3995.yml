@@ -1,0 +1,5 @@
+author: Silver-Paws
+delete-after: true
+changes:
+  - bugfix: Аномалии без собственного raw core корректно дропают целые ядра при обезвреживании
+      сигналом.
