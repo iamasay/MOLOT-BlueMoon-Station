@@ -292,6 +292,8 @@ GENETICS SCANNER
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/latexOrgan/latex_organ = locate(/obj/item/organ/latexOrgan) in H.internal_organs
+		if(!latex_organ)
+			return
 		latex_organ.update_hiding_state()
 		if(latex_organ && !latex_organ.is_hiding)
 			msg += "\n<span class='alert'>Обнаружена паразитическая форма жизни внутри пациента!</span>"
