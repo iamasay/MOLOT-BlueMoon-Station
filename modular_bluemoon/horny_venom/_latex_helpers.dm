@@ -190,6 +190,8 @@
 	var/obj/item/organ/latexOrgan/OrganToRemove = get_latexOrgan_if_captured_by_LL(host_body)
 	if(OrganToRemove)
 		OrganToRemove.Remove()
+		OrganToRemove.ObserverBackseat = null
+		qdel(OrganToRemove)
 	else
 		stack_trace("exit_from_host: no latexOrgan in [host_body]")
 	ability_owner_mind.transfer_to(latexmob)
