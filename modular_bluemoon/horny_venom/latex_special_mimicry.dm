@@ -29,7 +29,7 @@
 		var/datum/component/latex_mimicry/component = locate(/datum/component/latex_mimicry) in mimic_object.datum_components
 		if(component)
 			//exiting_from_object_animation()
-			forceMove(mimic_object.loc)
+			forceMove(get_turf(mimic_object))
 			qdel(mimic_object)
 		else
 			//что-то опять пошло не так

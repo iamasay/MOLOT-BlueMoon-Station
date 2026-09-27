@@ -141,32 +141,19 @@
 
 /mob/proc/LL_apply_animated_latex_overlay_with_progressbar(icon_file, icon_state, delay, mob/absorb_target)
 	var/mob/owner_mob = src
-	var/mutable_appearance/overlay = absorb_target.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE)
-	var/start_time = world.time
-	var/finished = TRUE
-	var/datum/progressbar/progbar
-	var/list/overlays_to_del = list(overlay)
-	progbar = new(owner_mob, delay, absorb_target)
-	while(world.time < start_time + delay)
-		stoplag(1)
+	var/mutable_appearance/overlay = absorb_target.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, LIGHTING_PLANE_ALPHA_INVISIBLE)
+
+	if(do_after(src, delay, absorb_target) && get_dist(absorb_target, owner_mob) > 1 && animate(overlay, delay, alpha = 255))
+
+		if(QDELETED(overlay) || QDELETED(owner_mob) || QDELETED(absorb_target))
+			return FALSE
+
 		if(get_dist(absorb_target, owner_mob) > 1)
 			owner_mob.balloon_alert(owner_mob, "Вы слишком далеко!")
-			finished = FALSE
-			break
-		if(QDELETED(overlay) || QDELETED(owner_mob) || QDELETED(absorb_target))
-			finished = FALSE
-			break
-		var/elapsed = world.time - start_time
-		progbar.update(elapsed)
-		// Линейная интерполяция: alpha = 0 + (elapsed / delay) * 255
-		var/alpha = round(255 * elapsed / delay)
-		alpha = max(0, min(255, alpha))  // ограничиваем диапазон
-		overlay = absorb_target.LL_apply_latex_overlay(DEFAULT_LL_OVERLAY_ICON, DEFAULT_LL_OVERLAY_ICON_STATE, alpha)
-		overlays_to_del += overlay
-	for(var/target in overlays_to_del)
-		absorb_target.cut_overlay(target) //их там реально много собирается
-	progbar.end_progress()
-	return finished
+			return FALSE
+
+	absorb_target.cut_overlay(overlay)
+	return TRUE
 
 /datum/action/cooldown/latexmob/proc/can_LL_absorb_alive(mob/living/owner, can_absorb_alive, mob/living/target_host)
 	if (!target_host)
