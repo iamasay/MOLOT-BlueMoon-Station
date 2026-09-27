@@ -738,9 +738,15 @@ This is here to make the tiles around the station mininuke change when it's arme
 		if(control.occurrences >= control.max_occurrences)
 			continue
 		control.weight += 1
-		if(control.weight % 5 == 0 && SSticker.totalPlayers > 1 && (CONFIG_GET(flag/admin_disk_inactive_msg)))
-			message_admins("[src] is stationary in [ADMIN_VERBOSEJMP(where)]. The weight of [control.name] is now [control.weight].")
+		// Вес растёт на единицу каждый тик, то есть примерно раз в пару секунд. Логировать
+		// каждое изменение - значит писать в лог по две сотни строк за лежащий диск.
+		if(control.weight % 10)
+			continue
 		log_game("[src] is stationary for too long in [loc_name(where)], and has increased the weight of the [control.name] event to [control.weight].")
+		// В админ-чат рост веса идёт только если админ сам включил флаг: лежащий диск -
+		// обычно скучная рутина, а не повод для сообщений.
+		if(SSticker.totalPlayers > 1 && CONFIG_GET(flag/admin_disk_inactive_msg))
+			message_admins("[src] is stationary in [ADMIN_VERBOSEJMP(where)]. The weight of [control.name] is now [control.weight].")
 
 /// -1 к весу, пока диск носят: оперативник должен прилетать по лежащему диску, а не
 /// через полчаса после того, как его давно унесли (жалоба прода "спавнится рандомно").
@@ -749,8 +755,10 @@ This is here to make the tiles around the station mininuke change when it's arme
 		if(control.occurrences >= control.max_occurrences || !prob(control.weight))
 			continue
 		control.weight = max(control.weight - 1, 0)
-		if(control.weight % 5 == 0 && SSticker.totalPlayers > 1)
-			message_admins("[src] is on the move (currently in [ADMIN_VERBOSEJMP(where)]). The weight of [control.name] is now [control.weight].")
+		// Затухание веса в админ-чат не выводится вовсе: сообщение о том, что вес упал с 5
+		// до 4, не сообщает админу ничего, а флага-гейта у него, в отличие от роста, нет.
+		if(control.weight % 10)
+			continue
 		log_game("[src] being on the move has reduced the weight of the [control.name] event to [control.weight].")
 
 /obj/item/disk/nuclear/examine(mob/user)
