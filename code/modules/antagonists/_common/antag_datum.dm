@@ -38,6 +38,11 @@ GLOBAL_LIST_EMPTY(antagonists_to_remind) // BLUEMOON ADD - список анта
 
 	/// If above 0, this is the multiplier for the speed at which we hijack the shuttle. Do not directly read, use hijack_speed().
 	var/hijack_speed = 0
+	/// Сколько стадий навигационного протокола закрывает одна успешная попытка взлома
+	/// консоли аварийного шаттла. Больше единицы - взломщик вскрывает прошивку крупным
+	/// блоком и укладывается в меньшее число попыток (HIJACKED стадий всего).
+	/// Do not directly read, use hijack_stages_per_attempt().
+	var/hijack_stages_per_attempt = 1
 	/// The battlecry this antagonist shouts when suiciding with C4/X4.
 	var/suicide_cry = ""
 	/// The typepath for the outfit to show in the preview for the preferences menu.
@@ -511,6 +516,14 @@ GLOBAL_LIST_EMPTY(antagonists_to_remind) // BLUEMOON ADD - список анта
 	if(!isnull(H?.hijack_speed_override))
 		return H.hijack_speed_override
 	return hijack_speed
+
+/**
+ * Gets how many navigational stages a single successful hijack attempt closes.
+ * Defaults to hijack_stages_per_attempt var, override for stuff like the syndicate
+ * disk keeper, who has no time to sit through all HIJACKED stages one by one.
+ */
+/datum/antagonist/proc/hijack_stages_per_attempt()
+	return hijack_stages_per_attempt
 
 /**
  * Gets our threat level. Override this proc for custom functionality/dynamic threat level.

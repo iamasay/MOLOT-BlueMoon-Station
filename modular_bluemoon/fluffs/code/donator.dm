@@ -640,7 +640,7 @@
 	name = "Upgraded Size Tool"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/melee/sizetool/upgraded
-	ckeywhitelist = list("enotzlodey", "herobrine998", "nyaaaa")
+	ckeywhitelist = list("enotzlodey", "herobrine998", "nyaaaa", "thevelocipony")
 
 /datum/gear/donator/bm/pet_alta
 	name = "Alta Cat"

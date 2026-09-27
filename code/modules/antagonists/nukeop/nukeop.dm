@@ -277,13 +277,17 @@
 	name = "Syndicate Disk Keeper"
 	nukeop_outfit = /datum/outfit/syndicate/lone
 	is_syndicate = TRUE
+	// Защитник диска - одиночка, которому ещё и караулить диск, поэтому прошивку
+	// автопилота он вскрывает крупным блоком: HIJACKED (5) стадий закрываются двумя
+	// попытками вместо пяти, и весь взлом занимает секунды, а не минуты у консоли.
+	hijack_stages_per_attempt = 3
 
 /datum/antagonist/nukeop/lone/syndicate/equip_op()
 	. = ..()
 	if(!.)
 		return
 	if(GLOB.round_type == ROUNDTYPE_EXTENDED || GLOB.round_type == ROUNDTYPE_DYNAMIC_LIGHT) // round_type, не master_mode: тот мутирует при смене режима мидгеймом
-		priority_announce("Приветствую, Станция. Мы отправляем к вам Специалиста по Защите Ядерного Диска ввиду того, что заметили недостаточную его безопасность. Bстречайте.", "Фрегат [title] ССО Синдиката")
+		priority_announce("Приветствую, [GLOB.station_name]. Мы отправляем к вам Специалиста по Защите Ядерного Диска. По окончанию смены нам понадобится ваш шаттл для возвращения оперативника на базу.", "Фрегат [title] ССО Синдиката")
 
 /datum/antagonist/nukeop/lone/syndicate/forge_objectives()
 	. = ..()
