@@ -1,6 +1,0 @@
-author: RG-TRK
-delete-after: true
-changes:
-  - rscadd: Added 357 speedload to DS-2 cargo
-  - bugfix: previous coder mistake where you could order debug esword from DS-2 cargo
-      was fixed.
