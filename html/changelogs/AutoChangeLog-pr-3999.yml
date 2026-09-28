@@ -1,7 +1,0 @@
-author: LimaTheSecond
-delete-after: true
-changes:
-  - rscadd: Шлем бриг-медика теперь поддерживает крепление seclite, как и остальные
-      полевые шлемы СБ.
-  - image: Спрайты secmed_helmet-flight и secmed_helmet-flight-on теперь используются
-      шлемом бриг-медика.
