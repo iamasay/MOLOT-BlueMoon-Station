@@ -32,8 +32,8 @@
 
 /obj/item/clothing/suit/armor/abductor/vest/Initialize(mapload)
 	. = ..()
-	stealth_armor = new()
-	combat_armor = new() //ПЕРЕПРОВЕРИТЬ МОЖЕТ СЛОМАТЬСЯ
+	stealth_armor = new /datum/armor/abductor/vest/stealth()
+	combat_armor = new /datum/armor/abductor/vest/combat() //ПЕРЕПРОВЕРИТЬ МОЖЕТ СЛОМАТЬСЯ
 
 /obj/item/clothing/suit/armor/abductor/vest/proc/toggle_nodrop()
 	if(HAS_TRAIT_FROM(src, TRAIT_NODROP, ABDUCTOR_VEST_TRAIT))

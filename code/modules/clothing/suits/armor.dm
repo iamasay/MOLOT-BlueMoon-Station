@@ -164,7 +164,7 @@
 	name = "makeshift plate carrier"
 	desc = "A hand-sown combat rig made from armor vests and security belts. Trades some protection for utility."
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor = /datum/armor/suits_armor
+	armor = /datum/armor/security_vest
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	strip_delay = 60
 

@@ -116,7 +116,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	strip_delay = 80
 	dog_fashion = null
-	armor = /datum/armor/head/military
+	armor = /datum/armor/head/military_steel
 	can_toggle = TRUE
 	toggle_message = "You pull the visor down on"
 	alt_toggle_message = "You push the visor up on"

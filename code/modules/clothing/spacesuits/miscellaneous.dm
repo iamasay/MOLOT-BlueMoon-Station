@@ -443,7 +443,7 @@ Contains:
 	item_state = "s_suit"
 	tail_state = "syndicate-winter"
 	desc = "A lightweight space suit with the basic ability to protect the wearer from the vacuum of space during emergencies."
-	armor = /datum/armor/hardsuit/ert/eva
+	armor = /datum/armor/suit/heva
 
 /obj/item/clothing/head/helmet/space/eva
 	name = "EVA helmet"
@@ -451,7 +451,7 @@ Contains:
 	item_state = "space"
 	desc = "A lightweight space helmet with the basic ability to protect the wearer from the vacuum of space during emergencies."
 	flash_protect = 0
-	armor = /datum/armor/hardsuit/ert/eva
+	armor = /datum/armor/suit/heva
 
 //Radiation
 /obj/item/clothing/head/helmet/space/rad
@@ -532,7 +532,6 @@ Contains:
 /obj/item/clothing/head/helmet/space/hardsuit/carp/Initialize(mapload)
 	. = ..()
 	teleport = new()
-	ADD_TRAIT(user, TRAIT_NODROP, LOCKED_HELMET_TRAIT)
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
