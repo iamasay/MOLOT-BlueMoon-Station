@@ -38,7 +38,7 @@
 	var/mob/living/carbon/human/human = mob
 	equip_inteq_hitchhiker(human)
 	if(human.client)
-		if(alert(human, "Загрузить внешность, расу и имя с ваших сохранённых персонажей?", "Внешность", "Да", "Нет") == "Да")
+		if(alert(human, "Загрузить внешность, расу и имя вашего персонажа?", "Внешность", "Да", "Нет") == "Да")
 			human.load_client_appearance(human.client, FALSE)
 
 /datum/shuttle_event/simple_spawner/player_controlled/human/hitchhiker/inteq/on_batch_npc_spawn(mob/living/mob)

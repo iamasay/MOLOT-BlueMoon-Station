@@ -193,11 +193,7 @@
 	l_pocket = /obj/item/melee/transforming/plasmasword
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	internals_slot = ITEM_SLOT_RPOCKET
-	belt = /obj/item/storage/belt/military/inteq
-	belt_contents = list(/obj/item/ammo_box/magazine/ak12/ap=3,\
-		/obj/item/grenade/plastic/x4=1,\
-		/obj/item/grenade/clusterbuster=1,\
-		/obj/item/grenade/syndieminibomb=2)
+	belt = /obj/item/storage/belt/military/inteq/full
 	r_hand = /obj/item/gun/ballistic/automatic/ak12
 	backpack_contents = list(/obj/item/storage/box/survival/command=1,\
 		/obj/item/tank/jetpack/oxygen/harness=1,\
