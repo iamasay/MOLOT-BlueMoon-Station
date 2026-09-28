@@ -166,7 +166,6 @@
 					/obj/item/ammo_box/a357,
 					/obj/item/ammo_box/a357)
 	crate_name = "deep space crate"
-/obj/item/ammo_box/a357
 
 /datum/supply_pack/ds/acr
 	name = "Ящик с ACR"
