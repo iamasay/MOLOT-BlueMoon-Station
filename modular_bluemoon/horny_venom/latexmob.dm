@@ -1,4 +1,4 @@
-/datum/species/jelly/roundstartslime/living_latex
+/datum/species/jelly/living_latex
 	name = "Unknown latex lifeform" //Мы не знаем что это такое, если мы знали что это такое, мы не знаем что это такое
 	default_color = "2c2c2c"
 	say_mod = "states"
@@ -18,7 +18,7 @@
 	var/mergingDelay = DEBUG_MERGING_DELAY
 	var/hide_latexorgan_on_healscan = FALSE
 	var/datum/species/old_host_spec
-	var/datum/species/jelly/roundstartslime/living_latex/self_species
+	var/datum/species/jelly/living_latex/self_species
 	var/datum/evolution_store
 	var/list/available_abilities = list(
 		new /datum/action/cooldown/latexmob/venomAction,
@@ -114,7 +114,7 @@
 /datum/antagonist/living_latex/on_gain()
 	. = ..()
 	var/datum/evolution_store/ev_store = new(src)
-	self_species = new /datum/species/jelly/roundstartslime/living_latex
+	self_species = new /datum/species/jelly/living_latex
 	evolution_store = ev_store
 	available_abilities += new /datum/action/cooldown/latexmob/evolution_store
 	set_name(owner.current)
