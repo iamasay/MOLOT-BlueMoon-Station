@@ -157,7 +157,7 @@
 					/obj/item/ammo_box/magazine/smgm45)
 	crate_name = "deep space crate"
 
-/datum/supply_pack/ds/357sl
+/datum/supply_pack/ds/r357sl
 	name = "Ящик с скоростными зарядниками 357го калибра."
 	desc = "Ваш представитель опять потерял свои аммуницию к служебному револьверу после попойки в баре? НЕ БЕДА! Закажите ещё 4 сейчас всего за..."
 	cost = 15000
