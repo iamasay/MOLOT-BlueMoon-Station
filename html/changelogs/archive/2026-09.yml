@@ -650,6 +650,8 @@
       полевые шлемы СБ.
   - image: Спрайты secmed_helmet-flight и secmed_helmet-flight-on теперь используются
       шлемом бриг-медика.
+  - balance: В набор InteQ Operative - Full Kit добавлены плазменная сабля и тактическая
+      аптечка.
   RG-TRK:
   - rscadd: Added 357 speedload to DS-2 cargo
   - bugfix: previous coder mistake where you could order debug esword from DS-2 cargo
