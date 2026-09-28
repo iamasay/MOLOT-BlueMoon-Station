@@ -188,7 +188,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 40, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
+	armor = /datum/armor/plate_crusader
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
@@ -204,7 +204,7 @@
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACE
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 40, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
+	armor = /datum/armor/plate_crusader
 
 /obj/item/clothing/head/helmet/plate/crusader/blue
 	icon_state = "crusader-blue"
@@ -219,7 +219,7 @@
 	icon_state = "prophet"
 	mob_overlay_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
 	flags_1 = NONE
-	armor = list(MELEE = 60, BULLET = 60, LASER = 60, ENERGY = 50, BOMB = 70, BIO = 50, RAD = 50, FIRE = 60, ACID = 60) //religion protects you from disease and radiation, honk.
+	armor = /datum/armor/plate_crusader
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 
@@ -278,7 +278,7 @@
 	desc = "Metal boots, they look heavy."
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 40, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60) //does this even do anything on boots?
+	armor = /datum/armor/plate_crusader
 	clothing_flags = NOSLIP
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT

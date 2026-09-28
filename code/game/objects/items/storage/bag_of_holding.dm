@@ -7,7 +7,7 @@
 	item_state = "holdingpack"
 	resistance_flags = FIRE_PROOF
 	item_flags = NO_MAT_REDEMPTION
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 60, ACID = 50)
+	armor = /datum/armor/fireacid_proof
 	component_type = /datum/component/storage/concrete/bluespace/bag_of_holding
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	verb_say = "states"

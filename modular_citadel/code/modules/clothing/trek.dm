@@ -27,7 +27,7 @@
 		/obj/item/reagent_containers/glass/bottle/vial,/obj/item/reagent_containers/glass/beaker,
 		/obj/item/reagent_containers/pill,/obj/item/storage/pill_bottle, /obj/item/restraints/handcuffs,/obj/item/hypospray
 		)
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
+
 	brc_mitigation_bonus = 0  // BLUEMOON ADD
 
 /obj/item/clothing/suit/storage/trek/ds9/equipped(mob/user, slot)  // BLUEMOON ADD
@@ -48,7 +48,7 @@
 	icon_state = "trek_ds9_coat_adm"
 	item_state = "trek_ds9_coat_adm"
 	permeability_coefficient = 0.01
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50,ENERGY = 50, BOMB = 50, BIO = 50, RAD = 50, FIRE = 50, ACID = 50)
+	armor = /datum/armor/admiral_ds9
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 //MODERN ish Joan sqrl sprites. I think
@@ -80,7 +80,7 @@
 		/obj/item/reagent_containers/glass/beaker,
 		/obj/item/storage/pill_bottle,
 		/obj/item/taperecorder)
-	armor = list(MELEE = 35, BULLET = 30, LASER = 30, ENERGY = 40, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
+	armor = /datum/armor/fedcoat
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	var/unbuttoned = FALSE
 
@@ -122,17 +122,17 @@
 /obj/item/clothing/suit/storage/fluff/fedcoat/medsci
 	icon_state = "fedblue"
 	item_state = "fedblue"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 50, RAD = 0, FIRE = 0, ACID = 45)
+	armor = /datum/armor/fedcoat/medsci
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/eng
 	icon_state = "fedeng"
 	item_state = "fedeng"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 20, FIRE = 30, ACID = 45)
+	armor = /datum/armor/fedcoat/eng
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/capt
 	icon_state = "fedcapt"
 	item_state = "fedcapt"
-	armor = list(MELEE = 50, BULLET = 40, LASER = 50, ENERGY = 50, BOMB = 25, BIO = 0, RAD = 0, FIRE = 100, ACID = 90, WOUND = 30)
+	armor = /datum/armor/fedcoat/capt
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 //"modern" ones for fancy
@@ -162,7 +162,7 @@
 		/obj/item/reagent_containers/glass/beaker,
 		/obj/item/storage/pill_bottle,
 		/obj/item/taperecorder)
-	armor = list("melee" = 50, "bullet" = 40, "laser" = 50, "energy" = 50, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 90, "wound" = 30)
+	armor = /datum/armor/fedcoat/capt
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/equipped(mob/user, slot)  // BLUEMOON ADD
@@ -181,23 +181,23 @@
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/medsci
 	icon_state = "fedmodernblue"
 	item_state = "fedmodernblue"
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 50, "rad" = 0, "fire" = 0, "acid" = 45, "wound" = 0)
+	armor = /datum/armor/labcoat/med
 
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/eng
 	icon_state = "fedmoderneng"
 	item_state = "fedmoderneng"
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 20, "fire" = 30, "acid" = 45, "wound" = 0)
+	armor = /datum/armor/labcoat/eng
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/sec
 	icon_state = "fedmodernsec"
 	item_state = "fedmodernsec"
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 30, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "wound" = 10)
+	armor = /datum/armor/labcoat/sec
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 
 /obj/item/clothing/head/caphat/formal/fedcover
 	name = "Federation Officer's Cap"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 30,ENERGY = 10, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 25)
+	armor = /datum/armor/fedcover/black
 	desc = "An officer's cap that demands discipline from the one who wears it."
 	icon = 'modular_citadel/icons/obj/clothing/trek_item_icon.dmi'
 	icon_state = "fedcapofficer"
@@ -208,22 +208,22 @@
 /obj/item/clothing/head/caphat/formal/fedcover/medsci
 	icon_state = "fedcapsci"
 	item_state = "fedcapsci"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 50, RAD = 0, FIRE = 0, ACID = 45, WOUND = 0)
+	armor = /datum/armor/fedcover/medsci
 
 /obj/item/clothing/head/caphat/formal/fedcover/eng
 	icon_state = "fedcapeng"
 	item_state = "fedcapeng"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 20, FIRE = 30, ACID = 45, WOUND = 0)
+	armor = /datum/armor/fedcover/eng
 
 /obj/item/clothing/head/caphat/formal/fedcover/sec
 	icon_state = "fedcapsec"
 	item_state = "fedcapsec"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 25, ENERGY = 10, BOMB = 25, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 20)
+	armor = /datum/armor/fedcover/sec
 
 /obj/item/clothing/head/caphat/formal/fedcover/black
 	icon_state = "fedcapblack"
 	item_state = "fedcapblack"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 30,ENERGY = 10, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 25)
+	armor = /datum/armor/fedcover/black
 
 //orvilike caps
 /obj/item/clothing/head/kepi/orvi
@@ -233,19 +233,19 @@
 
 /obj/item/clothing/head/kepi/orvi/command
 	icon_state = "kepi_com"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 30,ENERGY = 10, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 25)
+	armor = /datum/armor/fedcover/black
 
 /obj/item/clothing/head/kepi/orvi/sec
 	icon_state = "kepi_sec"
-	armor = list(MELEE = 40, BULLET = 30, LASER = 25, ENERGY = 10, BOMB = 25, BIO = 10, RAD = 0, FIRE = 50, ACID = 60, WOUND = 20)
+	armor = /datum/armor/head/head_of_sec
 
 /obj/item/clothing/head/kepi/orvi/eng
 	icon_state = "kepi_eng"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 20, FIRE = 30, ACID = 45, WOUND = 0)
+	armor = /datum/armor/fedcover/eng
 
 /obj/item/clothing/head/kepi/orvi/medsci
 	icon_state = "kepi_medsci"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 50, RAD = 0, FIRE = 0, ACID = 45, WOUND = 0)
+	armor = /datum/armor/fedcover/medsci
 
 /obj/item/clothing/head/kepi/orvi/service
 	icon_state = "kepi_srv"

@@ -6,7 +6,7 @@
 	flags_inv = HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	w_class = WEIGHT_CLASS_NORMAL
 	item_state = "gas_alt"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, RAD = 0, FIRE = 0, ACID = 0)
+	armor = /datum/armor/mask/gas
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	flags_cover = MASKCOVERSEYES | MASKCOVERSMOUTH
@@ -35,7 +35,7 @@
 	desc = "Improved gas mask utilized by atmospheric technicians. It's flameproof!"
 	icon_state = "gas_atmos"
 	item_state = "gas_atmos"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, RAD = 0, FIRE = 100, ACID = 10)
+	armor = /datum/armor/mask/gas/atmos
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/mask/gas/atmos/captain
@@ -71,7 +71,7 @@
 	custom_materials = list(/datum/material/iron=4000, /datum/material/glass=2000)
 	flash_protect = 2
 	tint = 2
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 100, ACID = 55)
+	armor = /datum/armor/mask/gas/welding
 	actions_types = list(/datum/action/item_action/toggle)
 	flags_inv = HIDEEYES|HIDEFACE //BM Changes
 	flags_cover = MASKCOVERSEYES
@@ -98,7 +98,7 @@
 	desc = "A modernised version of the classic design, this mask will not only filter out toxins but it can also be connected to an air supply."
 	icon_state = "plaguedoctor"
 	item_state = "gas_mask"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 5, ENERGY = 5, BOMB = 0, BIO = 100, RAD = 0, FIRE = 0, ACID = 0)
+	armor = /datum/armor/mask/gas/bio_proof
 
 /obj/item/clothing/mask/gas/plaguedoctor/jason
 	name = "Jason Mask"

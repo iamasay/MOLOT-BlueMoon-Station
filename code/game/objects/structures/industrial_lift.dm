@@ -140,7 +140,7 @@ GLOBAL_LIST_EMPTY(lifts)
 	icon_state = "catwalk"
 	density = FALSE
 	anchored = TRUE
-	armor = list(MELEE = 50, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 80, ACID = 50)
+	armor = /datum/armor/structure_default
 	max_integrity = 50
 	layer = LATTICE_LAYER //under pipes
 	plane = FLOOR_PLANE

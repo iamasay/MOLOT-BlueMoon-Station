@@ -193,4 +193,3 @@
 	extinguish_efficiency = 5
 	action_speed = 15
 	damp_threshold = 0.8
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 20, BIO = 20, RAD = 20, FIRE = 50, ACID = 50) //items don't provide armor to wearers unlike clothing yet.

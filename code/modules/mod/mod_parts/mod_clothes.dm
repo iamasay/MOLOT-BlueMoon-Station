@@ -6,7 +6,6 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
 	icon_state = "helmet"
 	item_state = "helmet"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = HEAD
 	heat_protection = HEAD
 	cold_protection = HEAD
@@ -58,7 +57,6 @@
 	icon_state = "chestplate"
 	item_state = "chestplate"
 	tail_state = ""
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 	cold_protection = CHEST|GROIN|LEGS|ARMS
@@ -92,7 +90,6 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
 	icon_state = "gauntlets"
 	item_state = "gauntlets"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = HANDS|ARMS
 	heat_protection = HANDS|ARMS
 	cold_protection = HANDS|ARMS
@@ -157,7 +154,6 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/modsuit/mod_clothing_anthro.dmi'
 	icon_state = "boots"
 	item_state = "boots"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
 	body_parts_covered = FEET|LEGS
 	heat_protection = FEET|LEGS
 	cold_protection = FEET|LEGS

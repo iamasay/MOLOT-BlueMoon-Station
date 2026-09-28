@@ -16,7 +16,7 @@
 	slowdown = -0.5
 	clothing_flags = NOSLIP
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
-	armor = list(MELEE = 40, BULLET = 30, LASER = 20,ENERGY = 30, BOMB = 30, BIO = 30, RAD = 30, FIRE = 100, ACID = 100)
+	armor = /datum/armor/head/space_ninja
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET

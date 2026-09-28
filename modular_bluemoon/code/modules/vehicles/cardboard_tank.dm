@@ -120,7 +120,6 @@
 	anchored = FALSE
 	max_integrity = CARDBOARD_TANK_INTEGRITY
 	damage_deflection = 7
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
 	movedelay = 1
 	default_driver_move = FALSE
 	key_type = null

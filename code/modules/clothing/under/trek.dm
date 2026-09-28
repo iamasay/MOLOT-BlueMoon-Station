@@ -108,7 +108,7 @@
 
 /obj/item/clothing/under/trek/sec/orv
 	desc = "An uniform worn by security officers since 2420s."
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 30, ACID = 30, WOUND = 10)
+	armor = /datum/armor/syndie_lawyer
 	icon_state = "orv_sec"
 
 /obj/item/clothing/under/trek/medsci/orv
@@ -129,7 +129,7 @@
 
 /obj/item/clothing/under/trek/command/orv/sec
 	name = "security command uniform"
-	armor = list(MELEE = 10, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
+	armor = /datum/armor/syndie_lawyer
 	desc = "An uniform worn by Heads of Security since 2550s."
 	icon_state = "orv_com_sec"
 

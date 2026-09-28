@@ -58,7 +58,6 @@
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_TRACK_HUD, DIAG_CIRCUIT_HUD) //diagnostic hud overlays
 	max_integrity = 50
 	pass_flags = 0
-	armor = list(MELEE = 50, BULLET = 70, LASER = 70, ENERGY = 100, BOMB = 10, BIO = 100, RAD = 100, FIRE = 0, ACID = 0)
 	anchored = FALSE
 	var/can_anchor = TRUE
 	var/detail_color = COLOR_ASSEMBLY_BLACK

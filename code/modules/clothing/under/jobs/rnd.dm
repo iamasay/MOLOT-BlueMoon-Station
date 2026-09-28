@@ -3,7 +3,7 @@
 	name = "research director's vest suit"
 	icon_state = "director"
 	item_state = "lb_suit"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 35, WOUND = 5)
+	armor = /datum/armor/suit/research_director
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/rnd/research_director/skirt
@@ -21,7 +21,7 @@
 	name = "research director's tan suit"
 	icon_state = "rdwhimsy"
 	item_state = "rdwhimsy"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 5)
+	armor = /datum/armor/suit/research_director
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -41,7 +41,7 @@
 	name = "research director's turtleneck"
 	icon_state = "rdturtle"
 	item_state = "p_suit"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, RAD = 0, FIRE = 0, ACID = 0, WOUND = 5)
+	armor = /datum/armor/suit/research_director
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -62,11 +62,11 @@
 	icon_state = "toxins"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 5)
+	armor = /datum/armor/suit/sci
 
 /obj/item/clothing/under/rank/rnd/scientist/utility/syndicate
 	desc = "A utility uniform worn by Science staff."
-	armor = list(MELEE = 10, BULLET = 5, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 50, RAD = 0, FIRE = 50, ACID = 40, WOUND = 10)
+	armor = /datum/armor/suit/sci_syndie
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/rank/rnd/scientist/util

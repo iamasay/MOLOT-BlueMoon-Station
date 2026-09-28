@@ -168,7 +168,7 @@ Class Procs:
 
 /obj/machinery/Initialize(mapload)
 	if(!armor)
-		armor = list(MELEE = 25, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 70)
+		armor = /datum/armor/default_machinery
 	. = ..()
 	set_is_operational(!(machine_stat & (NOPOWER|BROKEN|MAINT)))
 	SSmachines.register_machine(src)

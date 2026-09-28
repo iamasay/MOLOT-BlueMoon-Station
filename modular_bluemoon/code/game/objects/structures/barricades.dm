@@ -375,7 +375,7 @@
 	desc = "A small barricade made from metal posting, designed to stop you from going places you aren't supposed to."
 	icon_state = "railing_0"
 	max_integrity = 150
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 25, BIO = 100, RAD = 100, FIRE = 100, ACID = 25)
+	armor = /datum/armor/deployable_barricade
 	stack_type = /obj/item/stack/rods
 	destroyed_stack_amount = 2
 	barricade_type = "railing"
@@ -447,7 +447,7 @@
 	desc = "A durable and easily mounted barricade made from metal plates, often used for rapid fortification. Repairing it requires a welder."
 	icon_state = "metal_0"
 	max_integrity = 200
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 25, BIO = 100, RAD = 100, FIRE = 50, ACID = 75)
+	armor = /datum/armor/deployable_barricade
 	stack_type = /obj/item/stack/sheet/metal
 	stack_amount = 2
 	destroyed_stack_amount = 1

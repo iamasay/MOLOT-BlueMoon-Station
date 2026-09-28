@@ -27,7 +27,6 @@
 	flags_1 = CONDUCT_1
 	attack_verb = list("attacked", "stabbed", "poked")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 30)
 	sharpness = SHARP_POINTY
 	var/datum/reagent/forkload //used to eat omelette
 
@@ -75,7 +74,6 @@
 	throw_range = 5
 	attack_verb_simple = list("whack", "spoon", "tap")
 	attack_verb_continuous = list("whacks", "spoons", "taps")
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 0)
 	custom_materials = list(/datum/material/iron=120)
 	tool_behaviour = TOOL_MINING
 	toolspeed = 25 // Literally 25 times worse than the base pickaxe
@@ -94,7 +92,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
+	armor = /datum/armor/fireacid_proof
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -131,7 +129,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
+	armor = /datum/armor/fireacid_proof
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -295,7 +293,7 @@
 	force = 8
 	throwforce = 12//fuck git
 	attack_verb = list("shanked", "shivved")
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
+	armor = /datum/armor/fireacid_proof
 	custom_materials = list(/datum/material/glass=400)
 
 /obj/item/kitchen/knife/shiv/carrot
@@ -313,7 +311,6 @@
 	desc = "A makeshift plasma glass shiv."
 	force = 9
 	throwforce = 13
-	armor = list(MELEE = 25, BULLET = 25, LASER = 25, ENERGY = 25, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT *4, /datum/material/plasma=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/titanium
@@ -324,7 +321,6 @@
 	throwforce = 14
 	throw_range = 7
 	wound_bonus = 7
-	armor = list(MELEE = 25, BULLET = 25, LASER = 25, ENERGY = 25, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50)
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT * 4, /datum/material/titanium=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/plastitanium
@@ -338,7 +334,6 @@
 	throw_range = 8
 	wound_bonus = 6
 	bare_wound_bonus = 16
-	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 50, BIO = 0, RAD = 0, FIRE = 75, ACID = 75)
 	custom_materials = list(/datum/material/glass= SHEET_MATERIAL_AMOUNT * 4, /datum/material/alloy/plastitanium= SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/carrot/suicide_act(mob/living/carbon/user)

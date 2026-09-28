@@ -671,7 +671,7 @@
 	desc = "A modified helmet to allow space pirates to intimidate their customers whilst staying safe from the void. Comes with some additional protection."
 	icon_state = "spacepirate"
 	item_state = "space_pirate_helmet"
-	armor = list(MELEE = 20, BULLET = 40, LASER = 30, ENERGY = 25, BOMB = 50, BIO = 100, RAD = 50, FIRE = 80, ACID = 80, WOUND = 20)
+	armor = /datum/armor/pirate_eve
 	strip_delay = 40
 	equip_delay_other = 20
 	//species_restricted = list("Vox")
@@ -687,7 +687,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/melee/transforming/energy/sword/pirate, /obj/item/clothing/glasses/cover/eyepatch, /obj/item/reagent_containers/food/drinks/bottle/rum)
 	slowdown = 0
-	armor = list(MELEE = 20, BULLET = 40, LASER = 30,ENERGY = 25, BOMB = 50, BIO = 100, RAD = 50, FIRE = 80, ACID = 80, WOUND = 20)
+	armor = /datum/armor/pirate_eve
 	strip_delay = 40
 	equip_delay_other = 20
 	//species_restricted = list("Vox")

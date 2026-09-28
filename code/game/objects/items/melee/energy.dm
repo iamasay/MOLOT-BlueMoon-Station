@@ -2,7 +2,7 @@
 	hitsound_on = 'sound/weapons/blade1.ogg'
 	heat = 3500
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 100, ACID = 30)
+	armor = /datum/armor/fireacid_proof
 	resistance_flags = FIRE_PROOF
 	var/brightness_on = 3
 	var/sword_color

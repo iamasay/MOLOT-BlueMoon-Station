@@ -105,7 +105,7 @@
 	item_state = "det_suit"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	armor = list(MELEE = 25, BULLET = 10, LASER = 25, ENERGY = 10, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 45)
+	armor = /datum/armor/det_suit
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
@@ -176,7 +176,7 @@
 
 /obj/item/clothing/suit/toggle/lawyer/black/syndie
 	desc = "A snappy dress jacket. Suspiciously has no tags or branding."
-	armor = list(MELEE = 10, BULLET = 10, LASER = 10, ENERGY = 10, BOMB = 10, BIO = 10, RAD = 10, FIRE = 40, ACID = 40)
+	armor = /datum/armor/syndie_lawyer
 
 //Mime
 /obj/item/clothing/suit/suspenders
@@ -204,7 +204,7 @@
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS
 	allowed = list(/obj/item/tank/internals, /obj/item/melee/curator_whip)
-	armor = list(MELEE = 25, BULLET = 10, LASER = 25, ENERGY = 10, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 45)
+	armor = /datum/armor/det_suit
 	cold_protection = CHEST|ARMS
 	heat_protection = CHEST|ARMS
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON

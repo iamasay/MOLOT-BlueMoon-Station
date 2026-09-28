@@ -281,7 +281,7 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	icon_state = "ipai"
 	item_state = "ipai"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
+	armor = /datum/armor/suit
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	clothing_flags = ALLOWINTERNALS
@@ -397,7 +397,6 @@
 	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
 	icon_state = "empire_head"
 	item_state = "empire_head"
-	armor = list(MELEE = 20, BULLET = 5, LASER = 10,ENERGY = 0, BOMB = 40, BIO = 0, RAD = 0, FIRE = 5, ACID = 0, WOUND = 20)
 	flags_inv = HIDEHAIR|HIDEEARS
 	var/adjusted = FALSE
 	var/list/poly_colors = list("#2A2A2A","#A52F29")
@@ -438,10 +437,8 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	icon_state = "gosei"
 	item_state = "gosei"
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 0)
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
-	clothing_flags = ALLOWINTERNALS
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	unique_reskin = null
 

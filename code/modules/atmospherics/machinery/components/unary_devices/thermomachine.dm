@@ -7,7 +7,7 @@
 
 	density = TRUE
 	max_integrity = 300
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 100, BOMB = 0, BIO = 100, RAD = 100, FIRE = 80, ACID = 30)
+	armor = /datum/armor/default_machinery
 	layer = OBJ_LAYER
 	plane = GAME_PLANE
 	circuit = /obj/item/circuitboard/machine/thermomachine
