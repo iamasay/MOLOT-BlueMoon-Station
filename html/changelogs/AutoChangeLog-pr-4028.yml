@@ -1,0 +1,4 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - code_imp: Инклюды tgstation.dme отсортированы, CI проверяет их порядок.
