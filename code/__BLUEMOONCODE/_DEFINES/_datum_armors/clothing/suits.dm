@@ -1,4 +1,6 @@
 /datum/armor/suit
+
+// [AUTO] Используется: code\modules\antagonists\abductor\equipment\abduction_gear.dm:903, code\modules\antagonists\changeling\powers\mutations.dm:551, code\modules\antagonists\changeling\powers\mutations.dm:568, code\modules\antagonists\cult\cult_items.dm:402, code\modules\awaymissions\mission_code\snowdin.dm:510, code\modules\clothing\chameleon.dm:330, code\modules\clothing\chameleon.dm:366, code\modules\clothing\chameleon.dm:394, code\modules\clothing\chameleon.dm:423, code\modules\clothing\chameleon.dm:454, code\modules\clothing\chameleon.dm:479, code\modules\clothing\chameleon.dm:497, code\modules\clothing\chameleon.dm:532, code\modules\clothing\chameleon.dm:554, code\modules\clothing\chameleon.dm:685, ... +58 more
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -103,6 +105,8 @@
 
 
 /datum/armor/suit/expeditor_vest
+
+// [AUTO] Используется: code\modules\jobs\job_types\research\expeditor.dm:123, code\modules\jobs\job_types\research\expeditor.dm:150
 	melee = 40
 	bullet = 40
 	laser = 30
@@ -116,6 +120,8 @@
 
 
 /datum/armor/suit/heck_suit
+
+// [AUTO] Используется: code\modules\mining\equipment\explorer_gear.dm:174, code\modules\mining\equipment\explorer_gear.dm:216
 	melee = 70
 	bullet = 40
 	laser = 10
@@ -130,6 +136,8 @@
 
 
 /datum/armor/suit/heva
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:446, code\modules\clothing\spacesuits\miscellaneous.dm:454, code\modules\mining\equipment\explorer_gear.dm:249, code\modules\mining\equipment\explorer_gear.dm:259
 	melee = 20
 	bullet = 20
 	laser = 20
@@ -143,6 +151,8 @@
 
 
 /datum/armor/suit/plasmaman_security
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\Plasmaman\security.dm:6
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -156,6 +166,8 @@
 
 
 /datum/armor/suit/plasmaman_rd
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\Plasmaman\medsci.dm:24
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -169,6 +181,8 @@
 
 
 /datum/armor/suit/engineering_plasmman
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\Plasmaman\engineering.dm:6
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -182,6 +196,8 @@
 
 
 /datum/armor/suit/captain
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\command.dm:6, code\modules\clothing\under\jobs\command.dm:11, code\modules\clothing\under\jobs\command.dm:19, code\modules\clothing\under\jobs\command.dm:74, code\modules\clothing\under\jobs\Plasmaman\civilian_service.dm:60
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -195,6 +211,8 @@
 
 
 /datum/armor/suit/head_of_sec
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\security.dm:244
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -208,6 +226,8 @@
 
 
 /datum/armor/suit/research_director
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\rnd.dm:6, code\modules\clothing\under\jobs\rnd.dm:24, code\modules\clothing\under\jobs\rnd.dm:44
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -220,6 +240,8 @@
 	rad = 0
 
 /datum/armor/suit/engineering
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\engineering.dm:45, code\modules\clothing\under\jobs\engineering.dm:66, code\modules\clothing\under\jobs\Plasmaman\engineering.dm:6
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -285,6 +307,8 @@
 
 
 /datum/armor/suit/atmosperic_tech
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\engineering.dm:26
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -310,6 +334,8 @@
 	rad = 0
 
 /datum/armor/suit/ash_walker
+
+// [AUTO] Используется: code\modules\clothing\under\costume.dm:120
 	melee = 25
 	bullet = 5
 	laser = 0
@@ -322,6 +348,8 @@
 	rad = 0
 
 /datum/armor/suit/flakjack
+
+// [AUTO] Используется: code\modules\clothing\suits\miscellaneous.dm:1230
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -334,6 +362,8 @@
 	rad = 0
 
 /datum/armor/suit/abductor
+
+// [AUTO] Используется: code\modules\antagonists\abductor\equipment\abduction_gear.dm:903
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -347,6 +377,8 @@
 
 
 /datum/armor/suit/syndicate/coldres
+
+// [AUTO] Используется: code\modules\awaymissions\mission_code\snowdin.dm:510
 	melee = 20
 	bullet = 10
 	laser = 0
@@ -360,6 +392,8 @@
 
 
 /datum/armor/suit/chameleon
+
+// [AUTO] Используется: code\modules\clothing\chameleon.dm:330, code\modules\clothing\chameleon.dm:366, code\modules\clothing\chameleon.dm:394, code\modules\clothing\chameleon.dm:423, code\modules\clothing\chameleon.dm:454, code\modules\clothing\chameleon.dm:479, code\modules\clothing\chameleon.dm:497, code\modules\clothing\chameleon.dm:532, code\modules\clothing\chameleon.dm:554, code\modules\clothing\chameleon.dm:685
 	melee = 10
 	bullet = 10
 	laser = 10
@@ -372,6 +406,8 @@
 	rad = 0
 
 /datum/armor/suit/changeling
+
+// [AUTO] Используется: code\modules\antagonists\changeling\powers\mutations.dm:551, code\modules\antagonists\changeling\powers\mutations.dm:568
 	melee = 70
 	bullet = 60
 	laser = 30
@@ -384,6 +420,8 @@
 	rad = 0
 
 /datum/armor/suit/janitor
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\civilian\civilian.dm:192
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -396,6 +434,8 @@
 	rad = 0
 
 /datum/armor/suit/chief_medical
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\medical.dm:7, code\modules\clothing\under\jobs\medical.dm:34, code\modules\clothing\under\jobs\medical.dm:53
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -408,6 +448,8 @@
 	rad = 0
 
 /datum/armor/suit/reactive_rd
+
+// [AUTO] Используется: code\modules\clothing\suits\reactive_armour.dm:39
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -444,6 +486,8 @@
 	rad = 100
 
 /datum/armor/suit/security_officer
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\security.dm:22, code\modules\clothing\under\jobs\security.dm:38, code\modules\clothing\under\jobs\security.dm:154, code\modules\clothing\under\jobs\security.dm:192
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -493,6 +537,8 @@
 	rad = 10
 
 /datum/armor/suit/sci
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\rnd.dm:65, code\modules\clothing\under\jobs\rnd.dm:69
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -505,6 +551,8 @@
 	rad = 0
 
 /datum/armor/suit/research
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\rnd.dm:6, code\modules\clothing\under\jobs\rnd.dm:24, code\modules\clothing\under\jobs\rnd.dm:44
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -517,6 +565,8 @@
 	rad = 0
 
 /datum/armor/suit/sci_syndie
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\rnd.dm:69
 	melee = 10
 	bullet = 5
 	laser = 0
@@ -529,6 +579,8 @@
 	rad = 0
 
 /datum/armor/suit/captain_util
+
+// [AUTO] Используется: code\modules\clothing\under\jobs\command.dm:6, code\modules\clothing\under\jobs\command.dm:11, code\modules\clothing\under\jobs\command.dm:19, code\modules\clothing\under\jobs\command.dm:74
 	melee = 10
 	bullet = 5
 	laser = 0
@@ -567,6 +619,8 @@
 
 
 /datum/armor/suit/emergency_firesuit
+
+// [AUTO] Используется: code\modules\clothing\suits\utility.dm:24
 	melee = 15
 	bullet = 5
 	laser = 20

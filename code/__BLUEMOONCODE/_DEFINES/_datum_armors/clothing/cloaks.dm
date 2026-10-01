@@ -1,4 +1,6 @@
 /datum/armor/cloak
+
+// [AUTO] Используется: code\modules\clothing\suits\cloaks.dm:136, code\modules\clothing\suits\cloaks.dm:145, code\modules\clothing\suits\cloaks.dm:154, code\modules\clothing\suits\cloaks.dm:167
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -11,6 +13,8 @@
 	rad = 0
 
 /datum/armor/cloak/goliath
+
+// [AUTO] Используется: code\modules\clothing\suits\cloaks.dm:136, code\modules\clothing\suits\cloaks.dm:145
 	melee = 35
 	bullet = 10
 	laser = 25
@@ -24,6 +28,8 @@
 
 
 /datum/armor/cloak/drake
+
+// [AUTO] Используется: code\modules\clothing\suits\cloaks.dm:154, code\modules\clothing\suits\cloaks.dm:167
 	melee = 70
 	bullet = 20
 	laser = 35

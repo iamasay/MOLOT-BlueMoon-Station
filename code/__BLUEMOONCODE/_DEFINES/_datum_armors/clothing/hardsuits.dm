@@ -1,4 +1,6 @@
 /datum/armor/hardsuit/plasmaman/security
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\plasmamen.dm:190
 	melee = 40
 	bullet = 30
 	laser = 30
@@ -23,6 +25,8 @@
 	rad = 100
 
 /datum/armor/hardsuit/shielded_swat
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:1099, code\modules\clothing\spacesuits\hardsuit.dm:1112, code\modules\clothing\spacesuits\miscellaneous.dm:25, code\modules\clothing\spacesuits\miscellaneous.dm:43
 	melee = 80
 	bullet = 80
 	laser = 50
@@ -36,6 +40,8 @@
 
 
 /datum/armor/hardsuit/syndi/elite
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:438, code\modules\clothing\spacesuits\hardsuit.dm:457
 	melee = 60
 	bullet = 60
 	laser = 50
@@ -61,6 +67,8 @@
 
 
 /datum/armor/hardsuit/blue_shied
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:658, code\modules\clothing\spacesuits\hardsuit.dm:671
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -73,6 +81,8 @@
 	rad = 50
 
 /datum/armor/hardsuit/captain
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:787, code\modules\clothing\spacesuits\hardsuit.dm:803
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -86,6 +96,8 @@
 
 
 /datum/armor/hardsuit/security/hos
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:748, code\modules\clothing\spacesuits\hardsuit.dm:756
 	melee = 50
 	bullet = 25
 	laser = 50
@@ -98,6 +110,8 @@
 	rad = 50
 
 /datum/armor/hardsuit/ert
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:276, code\modules\clothing\spacesuits\miscellaneous.dm:296, code\modules\clothing\spacesuits\miscellaneous.dm:326, code\modules\clothing\spacesuits\miscellaneous.dm:335, code\modules\clothing\spacesuits\miscellaneous.dm:376, code\modules\clothing\spacesuits\miscellaneous.dm:390, code\modules\clothing\spacesuits\miscellaneous.dm:584, code\modules\clothing\spacesuits\miscellaneous.dm:609
 	melee = 50
 	bullet = 25
 	laser = 50
@@ -111,6 +125,8 @@
 
 
 /datum/armor/hardsuit/ert/red
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:376, code\modules\clothing\spacesuits\miscellaneous.dm:390
 	melee = 70
 	bullet = 55
 	laser = 50
@@ -136,6 +152,8 @@
 
 
 /datum/armor/hardsuit/old_inquisitor
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:643, code\modules\clothing\spacesuits\miscellaneous.dm:651
 	melee = 55
 	bullet = 40
 	laser = 40
@@ -148,6 +166,8 @@
 	rad = 80
 
 /datum/armor/hardsuit/paranormal_old
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:671, code\modules\clothing\spacesuits\miscellaneous.dm:679
 	melee = 55
 	bullet = 40
 	laser = 40
@@ -200,6 +220,8 @@
 
 
 /datum/armor/hardsuit
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:8, code\modules\clothing\spacesuits\hardsuit.dm:118, code\modules\clothing\spacesuits\hardsuit.dm:199, code\modules\clothing\spacesuits\hardsuit.dm:210, code\modules\clothing\spacesuits\hardsuit.dm:222, code\modules\clothing\spacesuits\hardsuit.dm:232, code\modules\clothing\spacesuits\hardsuit.dm:244, code\modules\clothing\spacesuits\hardsuit.dm:255, code\modules\clothing\spacesuits\hardsuit.dm:272, code\modules\clothing\spacesuits\hardsuit.dm:305, code\modules\clothing\spacesuits\hardsuit.dm:340, code\modules\clothing\spacesuits\hardsuit.dm:424, code\modules\clothing\spacesuits\hardsuit.dm:438, code\modules\clothing\spacesuits\hardsuit.dm:457, code\modules\clothing\spacesuits\hardsuit.dm:532, ... +63 more
 	melee = 10
 	bullet = 15
 	laser = 15
@@ -278,6 +300,8 @@
 
 
 /datum/armor/hardsuit/engie
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:199, code\modules\clothing\spacesuits\hardsuit.dm:210
 	melee = 30
 	bullet = 15
 	laser = 15
@@ -291,6 +315,8 @@
 
 
 /datum/armor/hardsuit/atmos
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:222, code\modules\clothing\spacesuits\hardsuit.dm:232
 	melee = 30
 	bullet = 15
 	laser = 15
@@ -304,6 +330,8 @@
 
 
 /datum/armor/hardsuit/chief_engineer
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:244, code\modules\clothing\spacesuits\hardsuit.dm:255
 	melee = 40
 	bullet = 15
 	laser = 25
@@ -317,6 +345,8 @@
 
 
 /datum/armor/hardsuit/mining
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:272, code\modules\clothing\spacesuits\hardsuit.dm:305
 	melee = 20
 	bullet = 15
 	laser = 15
@@ -330,6 +360,8 @@
 
 
 /datum/armor/hardsuit/syndi
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:340, code\modules\clothing\spacesuits\hardsuit.dm:424, code\modules\clothing\spacesuits\hardsuit.dm:438, code\modules\clothing\spacesuits\hardsuit.dm:457, code\modules\clothing\spacesuits\hardsuit.dm:983, code\modules\clothing\spacesuits\hardsuit.dm:1069, code\modules\clothing\spacesuits\hardsuit.dm:1087, code\modules\clothing\spacesuits\miscellaneous.dm:522, code\modules\clothing\spacesuits\miscellaneous.dm:559
 	melee = 50
 	bullet = 50
 	laser = 40
@@ -343,6 +375,8 @@
 
 
 /datum/armor/hardsuit/wizard
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:532, code\modules\clothing\spacesuits\hardsuit.dm:552
 	melee = 40
 	bullet = 40
 	laser = 40
@@ -356,6 +390,8 @@
 
 
 /datum/armor/hardsut/medical
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:576, code\modules\clothing\spacesuits\hardsuit.dm:600
 	melee = 15
 	bullet = 15
 	laser = 15
@@ -369,6 +405,8 @@
 
 
 /datum/armor/hardsuit/rd
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:612, code\modules\clothing\spacesuits\hardsuit.dm:648
 	melee = 20
 	bullet = 15
 	laser = 15
@@ -382,6 +420,8 @@
 
 
 /datum/armor/hardsuit/security
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:688, code\modules\clothing\spacesuits\hardsuit.dm:711, code\modules\clothing\spacesuits\hardsuit.dm:748, code\modules\clothing\spacesuits\hardsuit.dm:756
 	melee = 35
 	bullet = 20
 	laser = 40
@@ -395,6 +435,8 @@
 
 
 /datum/armor/hardsuit/clown
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:820, code\modules\clothing\spacesuits\hardsuit.dm:830
 	melee = 25
 	bullet = 5
 	laser = 20
@@ -408,6 +450,8 @@
 
 
 /datum/armor/hardsuit/prototype_ancient
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:848, code\modules\clothing\spacesuits\hardsuit.dm:858
 	melee = 40
 	bullet = 5
 	laser = 10
@@ -421,6 +465,8 @@
 
 
 /datum/armor/hardsuit/mason_rig
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:872, code\modules\clothing\spacesuits\hardsuit.dm:886
 	melee = 50
 	bullet = 15
 	laser = 15
@@ -434,6 +480,8 @@
 
 
 /datum/armor/hardsuit/soviet
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:956, code\modules\clothing\spacesuits\hardsuit.dm:966
 	melee = 40
 	bullet = 30
 	laser = 30
@@ -447,6 +495,8 @@
 
 
 /datum/armor/hardsuit/shield_ctf
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:1014, code\modules\clothing\spacesuits\hardsuit.dm:1046
 	melee = 0
 	bullet = 30
 	laser = 30
@@ -460,6 +510,8 @@
 
 
 /datum/armor/hardsuit/lava_knight
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\hardsuit.dm:1130, code\modules\clothing\spacesuits\hardsuit.dm:1176
 	melee = 50
 	bullet = 10
 	laser = 10
@@ -473,6 +525,8 @@
 
 
 /datum/armor/hardsuit/mkI_swat
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:62
 	melee = 40
 	bullet = 30
 	laser = 30
@@ -486,6 +540,8 @@
 
 
 /datum/armor/hardsuit/centcomm_officer
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:134, code\modules\clothing\spacesuits\miscellaneous.dm:150
 	melee = 80
 	bullet = 80
 	laser = 50
@@ -499,6 +555,8 @@
 
 
 /datum/armor/hardsuit/pirate
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:227, code\modules\clothing\spacesuits\miscellaneous.dm:250
 	melee = 20
 	bullet = 40
 	laser = 30
@@ -512,6 +570,8 @@
 
 
 /datum/armor/hardsuit/ert/engi
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:326, code\modules\clothing\spacesuits\miscellaneous.dm:335
 	melee = 60
 	bullet = 45
 	laser = 45
@@ -525,6 +585,8 @@
 
 
 /datum/armor/hardsuit/ert/paranormal
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:584, code\modules\clothing\spacesuits\miscellaneous.dm:609
 	melee = 75
 	bullet = 25
 	laser = 50
@@ -551,6 +613,8 @@
 
 
 /datum/armor/hardsuit/rad_eva
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:462, code\modules\clothing\spacesuits\miscellaneous.dm:473
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -564,6 +628,8 @@
 
 
 /datum/armor/hardsuit/eagle_freedom
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:483, code\modules\clothing\spacesuits\miscellaneous.dm:496
 	melee = 20
 	bullet = 40
 	laser = 30
@@ -577,6 +643,8 @@
 
 
 /datum/armor/hardsuit/emergency_fragile
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:687, code\modules\clothing\spacesuits\miscellaneous.dm:698
 	melee = 5
 	bullet = 0
 	laser = 0
@@ -590,6 +658,8 @@
 
 
 /datum/armor/hardsuit/space_hunter
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\miscellaneous.dm:733
 	melee = 60
 	bullet = 40
 	laser = 40
@@ -603,6 +673,8 @@
 
 
 /datum/armor/hardsuit/plasmaman
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\plasmamen.dm:8, code\modules\clothing\spacesuits\plasmamen.dm:45, code\modules\clothing\spacesuits\plasmamen.dm:190, code\modules\clothing\spacesuits\plasmamen.dm:249, code\modules\clothing\spacesuits\plasmamen.dm:262, code\modules\clothing\spacesuits\plasmamen.dm:312, code\modules\clothing\under\miscellaneous.dm:133
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -616,6 +688,8 @@
 
 
 /datum/armor/hardsuit/plasmaman/rd
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\plasmamen.dm:249
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -629,6 +703,8 @@
 
 
 /datum/armor/hardsuit/plasmaman/engineering
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\plasmamen.dm:262
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -642,6 +718,8 @@
 
 
 /datum/armor/hardsuit/plasmaman/captain
+
+// [AUTO] Используется: code\modules\clothing\spacesuits\plasmamen.dm:312
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -655,6 +733,8 @@
 
 
 /datum/armor/cult/hardsuit
+
+// [AUTO] Используется: code\modules\antagonists\cult\cult_items.dm:422, code\modules\antagonists\cult\cult_items.dm:440, code\modules\antagonists\cult\cult_items.dm:471, code\modules\antagonists\cult\cult_items.dm:485
 	melee = 70
 	bullet = 50
 	laser = 30
@@ -668,6 +748,8 @@
 
 
 /datum/armor/cult/hardsuit/shielded
+
+// [AUTO] Используется: code\modules\antagonists\cult\cult_items.dm:471, code\modules\antagonists\cult\cult_items.dm:485
 	melee = 75
 	bullet = 50
 	laser = 50
