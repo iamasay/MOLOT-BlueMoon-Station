@@ -368,6 +368,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/sound_volume_instruments = 100
 	var/sound_volume_jukeboxes = 100
 	var/sound_volume_personal_jukeboxes = 100
+	var/sound_volume_heretic_dance = 100
+	var/sound_volume_heretic_sky = 100
 	var/sound_volume_emote = 100
 	var/sound_volume_mentorhelp = 100
 	var/sound_volume_fax = 100
@@ -6846,7 +6848,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/static/video_regex = regex("\\.(webm|mp4)(\[?#]|$)", "i")
 	if(findtext(link, video_regex))
 		return "<video src='[link]' autoplay loop muted playsinline style='border: 1px solid black; object-fit: contain;' width='[width]' height='[height]'></video>"
-	return "<img src='[link]' style='border: 1px solid black; object-fit: contain;' width='[width]' height='[height]'>"
+	return "<img src='[link]' referrerpolicy='no-referrer' style='border: 1px solid black; object-fit: contain;' width='[width]' height='[height]'>"
 
 /datum/preferences/proc/mob_size_name_to_num(body_weight_name)
 	switch(body_weight_name)
