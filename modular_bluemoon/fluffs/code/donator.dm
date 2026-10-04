@@ -622,13 +622,11 @@
 	name = "Doctor K plushie"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/toy/plush/bm/doctor_k
-	ckeywhitelist = list("sanecman")
 
 /datum/gear/donator/bm/legax_kit
 	name = "Legax Gravpulser Kit"
 	slot = ITEM_SLOT_BACKPACK
 	path = /obj/item/modkit/legax
-	ckeywhitelist = list("sanecman")
 
 /datum/gear/donator/bm/emagged_jukebox
 	name = "Emagged Jukebox"
