@@ -1,6 +1,0 @@
-author: FelixRuin
-delete-after: true
-changes:
-  - rscadd: добавлены ERVOS костюмы в синих аварийных ящиках [способны защищать от
-      давления, но лопаются от космоса]
-  - rscadd: добавлен заказ 3 ERVOS костюмов во вкладке Emergency в терминале карго
