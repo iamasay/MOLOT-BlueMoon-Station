@@ -1,0 +1,10 @@
+author: ARZUMATA
+delete-after: true
+changes:
+  - rscadd: Два BLINDFOLDED режима для повязок для lewd-игр с депривацией зрения
+  - rscadd: Blindfold повязка так-же работает теперь с Latex Adjustment Override
+  - rscadd: Добавлена сенсорная депривация слуха через TRAIT_HEARING_DEPRIVED
+  - rscadd: Добавлены Kink Earmuffs в KinkMate для lewd-игр со слухом
+  - bugfix: Персонажи больше не покрываются выделениями если стоит запрет
+  - bugfix: Убран лимит на количество вибраторов внутри персонажа
+  - bugfix: Вибратор на спину теперь не нацепить
