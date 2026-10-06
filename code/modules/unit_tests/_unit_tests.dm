@@ -45,6 +45,8 @@
 #define UNIT_TEST_PASSED 0
 #define UNIT_TEST_FAILED 1
 #define UNIT_TEST_SKIPPED 2
+/// Shard weight of a test with no recorded wall time, in seconds
+#define UNIT_TEST_DEFAULT_WALL 0.1
 
 #define TEST_PRE 0
 #define TEST_DEFAULT 1
@@ -141,6 +143,7 @@
 #include "gc_rewrite.dm"
 #include "ghost_follow_link_identity.dm"
 #include "healium_nerf.dm"
+#include "harddel_round_10417.dm"
 #include "harddel_round_9813.dm"
 #include "harddel_round_9824.dm"
 #include "harddel_round_9827.dm"
@@ -249,6 +252,7 @@
 #include "mod_suit_fixes.dm"
 #include "modular_map_loader.dm" //SPLURT EDIT
 #include "nightshift.dm"
+#include "ntnet_responses.dm"
 // #include "ntnetwork_tests.dm"
 // #include "outfit_sanity.dm"
 // #include "pills.dm"
@@ -267,6 +271,10 @@
 // #include "reagent_mod_procs.dm"
 #include "reagent_recipe_collisions.dm"
 #include "recursive_hotpaths.dm"
+#include "refactor_changeturf.dm"
+#include "refactor_living.dm"
+#include "refactor_linda.dm"
+#include "refactor_turfside.dm"
 #include "resist.dm"
 #include "riot_shield_implant.dm"
 #include "runechat_sanity.dm"
@@ -280,6 +288,7 @@
 #include "shuttle_move_atmos_exposure.dm"
 #include "signal_teardown.dm"
 // #include "siunit.dm"
+#include "slippery_worn_items.dm"
 #include "sort_tim.dm"
 #include "space_cleaner_gentle.dm"
 #include "spatial_grid.dm"

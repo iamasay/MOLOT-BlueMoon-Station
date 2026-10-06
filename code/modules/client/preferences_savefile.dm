@@ -173,9 +173,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			ENABLE_BITFIELD(mentor_toggles, DEMENTOR_ON_LOGIN)
 			DISABLE_BITFIELD(mentor_toggles, (1<<6))
 
-	if(current_version < 81) // BLUEMOON ADD - звук дыхания из баллона
-		toggles |= SOUND_BREATHING
-
 	if(current_version < 82) // BLUEMOON ADD - звук кнопок способностей включён по умолчанию
 		sound_toggles |= SOUND_BUTTONS
 
@@ -1604,6 +1601,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["jumpsuit_style"] 					>> jumpsuit_style
 	S["uplink_loc"] 						>> uplink_spawn_loc
 	S["custom_speech_verb"] 				>> custom_speech_verb
+	S["custom_speech_verb_ru"]				>> custom_speech_verb_ru
 	S["custom_tongue"] 						>> custom_tongue
 	S["feature_mcolor"] 					>> features["mcolor"]
 	S["feature_lizard_tail"] 				>> features["tail_lizard"]
@@ -2094,7 +2092,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["belly_visibility"] = sanitize_inlist(features["belly_visibility"], safe_visibilities, GEN_VISIBLE_NO_UNDIES)
 	features["anus_visibility"] = sanitize_inlist(features["anus_visibility"], safe_visibilities, GEN_VISIBLE_NO_UNDIES)
 
-	custom_speech_verb = sanitize_inlist(custom_speech_verb, GLOB.speech_verbs, "default")
+	custom_speech_verb_ru = sanitize_integer(custom_speech_verb_ru, 0, 1, initial(custom_speech_verb_ru))
+	if(!(custom_speech_verb in GLOB.speech_verbs) && !(custom_speech_verb in GLOB.speech_verbs_ru))
+		custom_speech_verb = GLOB.speech_verbs[1]
 	custom_tongue = sanitize_inlist(custom_tongue, GLOB.roundstart_tongues, "default")
 
 	security_records = copytext_char(security_records, 1, MAX_FLAVOR_LEN)
@@ -2390,6 +2390,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["uplink_loc"]							, uplink_spawn_loc)
 	WRITE_FILE(S["species"]								, pref_species.id)
 	WRITE_FILE(S["custom_speech_verb"]					, custom_speech_verb)
+	WRITE_FILE(S["custom_speech_verb_ru"]				, custom_speech_verb_ru)
 	WRITE_FILE(S["custom_tongue"]						, custom_tongue)
 	WRITE_FILE(S["bark_id"]								, bark_id)
 	WRITE_FILE(S["bark_speed"]							, bark_speed)
@@ -2414,8 +2415,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_deco_wings"]					, features["deco_wings"])
 	WRITE_FILE(S["feature_horns_color"]					, features["horns_color"])
 	WRITE_FILE(S["feature_wings_color"]					, features["wings_color"])
-	WRITE_FILE(S["feature_insect_fluff_color"], features["insect_fluff_color"])
-	WRITE_FILE(S["feature_insect_markings_color"], features["insect_markings_color"])
+	WRITE_FILE(S["feature_insect_fluff_color"]			, features["insect_fluff_color"])
+	WRITE_FILE(S["feature_insect_markings_color"]		, features["insect_markings_color"])
 	WRITE_FILE(S["feature_insect_wings"]				, features["insect_wings"])
 	WRITE_FILE(S["feature_insect_fluff"]				, features["insect_fluff"])
 	WRITE_FILE(S["feature_insect_markings"]				, features["insect_markings"])
