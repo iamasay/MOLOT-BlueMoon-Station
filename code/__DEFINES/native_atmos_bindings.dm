@@ -260,10 +260,19 @@
 	var/area/base = get_base_area(source)
 	// Space can span an entire z-level; treating a mis-mapped pressurized turf
 	// there as one compartment would close every registered firedoor on the
-	// level instead of localizing the breach.
-	if(!base || istype(base, /area/space))
+	// level instead of localizing the breach. Outdoor areas are the same open
+	// field: their firelocks still close one by one on the pressure drop.
+	if(!base || istype(base, /area/space) || base.outdoors)
 		return
 	queue_decompression_base(base)
+
+/// Ареал, который через проём без файрлока кормит стравливаемый ареал, течёт вместе с ним: этаж над тоннелем, зал без дверей между зонами.
+/datum/controller/subsystem/air/proc/spread_decompression(turf/open/feeding, turf/open/drained)
+	if(!decompression_handled_at[get_base_area(drained)])
+		return
+	if(drained.air.return_pressure() >= WARNING_LOW_PRESSURE)
+		return
+	queue_decompression_area(feeding)
 
 /// Леджерная часть постановки зоны в декомп-очередь, отдельно от гарда космоса
 /// выше: тестам нужна ровно она - зона юнит-тестовой резервации это /area/space.
@@ -319,22 +328,8 @@
 
 /datum/controller/subsystem/air/proc/process_decompression_areas_auxtools(resumed)
 	if(!resumed)
-		// Отжившие записи кулдауна снимаются здесь же, раз фаза всё равно
-		// трогает журнал: истёкший гейт уже ничего не блокирует, а без чистки
-		// список растёт весь раунд и держит сильные ссылки на снесённые зоны
-		// (шаттлы, руины, комнаты Гильберта) - им не собраться сборщиком.
-		var/list/handled = decompression_handled_at
-		for(var/i = length(handled); i > 0; i--)
-			var/area/base = handled[i]
-			if(world.time >= handled[base] + DECOMPRESSION_AREA_ALARM_COOLDOWN)
-				handled.Cut(i, i + 1)
-		// Та же уборка для неподтверждённых замеров: за пределами окна запись уже
-		// ничего не подтвердит, а ссылку на снесённую зону держит.
-		var/list/pending = decompression_pending
-		for(var/i = length(pending); i > 0; i--)
-			var/area/base = pending[i]
-			if(times_fired - pending[base] > DECOMPRESSION_PENDING_WINDOW_FIRES)
-				pending.Cut(i, i + 1)
+		values_cut_under(decompression_handled_at, world.time - DECOMPRESSION_AREA_ALARM_COOLDOWN, 1)
+		values_cut_under(decompression_pending, times_fired - DECOMPRESSION_PENDING_WINDOW_FIRES)
 		currentrun = decompression_areas.Copy()
 		decompression_areas.Cut()
 		num_decompression_areas = 0

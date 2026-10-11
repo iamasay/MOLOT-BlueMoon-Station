@@ -550,7 +550,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_changeling__suit_armor_changeling
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
-	flags_inv = HIDEJUMPSUIT|HIDETAUR
+	flags_inv = HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 	cold_protection = 0
 	heat_protection = 0
 

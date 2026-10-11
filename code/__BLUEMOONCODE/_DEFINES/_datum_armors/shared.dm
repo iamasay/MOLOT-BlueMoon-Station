@@ -209,3 +209,41 @@
 	acid = 0
 	magic = 0
 	wound = 0
+
+// Используется (и наследниками без собственного armor):
+//   /obj/structure/sign/tram_plate — modular_bluemoon/code/game/objects/structures/tram_signage.dm
+//   /obj/machinery/transport — modular_bluemoon/code/modules/transport/_transport_machinery.dm
+//   /obj/machinery/computer/tram_controls — modular_bluemoon/code/modules/transport/tram/tram_controls.dm
+//   /obj/structure/thermoplastic — modular_bluemoon/code/modules/transport/tram/tram_floors.dm
+//   /obj/structure/tram — modular_bluemoon/code/modules/transport/tram/tram_structures.dm
+// (Схожая броня: /datum/armor/profiles/structure/closet/crate/coffin/meatcoffin; другой профиль, не объединять.)
+/datum/armor/profiles/shared/transport
+	melee = 40
+	bullet = 10
+	laser = 10
+	energy = 0
+	bomb = 45
+	bio = 0
+	rad = 0
+	fire = 90
+	acid = 100
+	magic = 0
+	wound = 0
+
+// Используется (и наследниками без собственного armor):
+//   /obj/structure/transport/linear — modular_bluemoon/code/modules/transport/transport_module.dm
+//   /obj/machinery/transport/tram_controller — modular_bluemoon/code/modules/transport/tram/tram_cabinet.dm
+//   /obj/machinery/transport/power_rectifier — modular_bluemoon/code/modules/transport/tram/tram_power.dm
+// (Схожая броня: /datum/armor/profiles/shield/riot/ratvarian; другой профиль, не объединять.)
+/datum/armor/profiles/shared/transport_reinforced
+	melee = 80
+	bullet = 90
+	laser = 0
+	energy = 0
+	bomb = 70
+	bio = 0
+	rad = 0
+	fire = 100
+	acid = 100
+	magic = 0
+	wound = 0

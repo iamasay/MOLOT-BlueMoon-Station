@@ -43,15 +43,16 @@
 	desc = "The helmet of the Blueshield. You can't keep the thought of that cat out of your mind."
 	icon_state = "blueshieldhelm"
 	item_state = "blueshieldhelm"
-	can_flashlight = 1
 	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80
+	can_flashlight = TRUE
 
 /obj/item/clothing/head/helmet/sec/blueshield
 	name = "blueshield helmet"
 	desc = "Reinforced Blueshield Security gear. Protects the head from impacts. You where this because you are boring."
 	icon_state = "barney_helm"
 	item_state = "barney_helm"
-	can_flashlight = 1
 	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80
+	can_flashlight = TRUE
+

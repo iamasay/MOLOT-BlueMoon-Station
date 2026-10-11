@@ -6,6 +6,7 @@
 	bubble_icon = "robot"
 	var/obj/item/modular_computer/pda/silicon/aiPDA
 	var/flash_protect = FALSE
+	var/datum/armor/borg_plating_armor
 
 /mob/living/silicon/robot/get_cell()
 	return cell
@@ -89,7 +90,7 @@
 	diag_hud_set_borgcell()
 	logevent("System brought online.")
 
-	alert_control = new(src, list(ALARM_ATMOS, ALARM_FIRE, ALARM_POWER, ALARM_CAMERA, ALARM_BURGLAR, ALARM_MOTION), list(z))
+	alert_control = new(src, list(ALARM_ATMOS, ALARM_FIRE, ALARM_POWER, ALARM_CAMERA, ALARM_BURGLAR, ALARM_MOTION), SSmapping.get_connected_levels(z).Copy())
 	RegisterSignal(alert_control.listener, COMSIG_ALARM_TRIGGERED, PROC_REF(alarm_triggered))
 	RegisterSignal(alert_control.listener, COMSIG_ALARM_CLEARED, PROC_REF(alarm_cleared))
 	alert_control.listener.RegisterSignal(src, COMSIG_LIVING_PREDEATH, TYPE_PROC_REF(/datum/alarm_listener, prevent_alarm_changes))
@@ -158,6 +159,11 @@
 		alert_control.ui_interact(src)
 
 	return
+
+/mob/living/silicon/robot/getarmor(def_zone, type)
+	if(borg_plating_armor && type)
+		return borg_plating_armor.getRating(type)
+	return ..()
 
 /mob/living/silicon/robot/proc/pick_module()
 	if(module.type != /obj/item/robot_module)
@@ -1025,6 +1031,7 @@
 	vtec_disabled = FALSE
 	vtec_drain = 0
 	ionpulse = FALSE
+	SEND_SIGNAL(src, COMSIG_ROBOT_RESET_MODULE)
 	revert_shell()
 
 	return TRUE

@@ -311,7 +311,7 @@
 
 // Используется (и наследниками без собственного armor):
 //   /obj/structure/light_construct — code/modules/power/lighting.dm
-// (Схожая броня: /datum/armor/profiles/shared/structure/industrial_lift__lattice; другой профиль, не объединять.)
+// (Схожая броня: /datum/armor/profiles/structure/lattice; другой профиль, не объединять.)
 /datum/armor/profiles/structure/light_construct
 	melee = 50
 	bullet = 10

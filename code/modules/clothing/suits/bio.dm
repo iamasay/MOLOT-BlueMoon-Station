@@ -26,7 +26,7 @@
 	slowdown = 1
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/pen, /obj/item/flashlight/pen, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray)
 	armor_type = /datum/armor/profiles/shared/clothing/head_bio_hood__suit_bio_suit
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAUR
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = ACID_PROOF

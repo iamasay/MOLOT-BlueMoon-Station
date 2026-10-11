@@ -68,7 +68,7 @@
 	cold_protection = CHEST|GROIN|LEGS
 	heat_protection = CHEST|GROIN|LEGS
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	flags_inv = HIDETAUR
+	flags_inv = HIDETAUR|HIDETAIL
 	armor_type = /datum/armor/profiles/clothing/suit/armor/clockwork
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	allowed = list(/obj/item/clockwork, /obj/item/clothing/glasses/wraith_spectacles, /obj/item/clothing/glasses/judicial_visor, /obj/item/mmi/posibrain/soul_vessel, /obj/item/reagent_containers/food/drinks/bottle/holyoil)

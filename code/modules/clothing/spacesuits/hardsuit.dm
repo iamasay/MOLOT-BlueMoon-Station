@@ -299,7 +299,7 @@
 	item_state = "mining_hardsuit"
 	hardsuit_type = "mining"
 	tail_state = "engineer"
-	flags_inv = HIDEGLOVES | HIDEJUMPSUIT | HIDESHOES | HIDETAUR
+	flags_inv = HIDEGLOVES | HIDEJUMPSUIT | HIDESHOES | HIDETAUR | HIDETAIL
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
 	armor_type = /datum/armor/profiles/clothing/hardsuit/mining/suit
@@ -1160,7 +1160,7 @@
 	. = ..()
 	if(!isinhands)
 		var/mutable_appearance/energy_overlay = mutable_appearance(icon_file, "knight_cydonia_overlay", EMISSIVE_LAYER)
-		energy_overlay.plane = EMISSIVE_PLANE
+		SET_PLANE_EXPLICIT(energy_overlay, EMISSIVE_PLANE, src)
 		energy_overlay.color = energy_color
 		. += energy_overlay
 
@@ -1194,7 +1194,7 @@
 	. = ..()
 	if(!isinhands)
 		var/mutable_appearance/energy_overlay = mutable_appearance(icon_file, "knight_cydonia_overlay", EMISSIVE_LAYER)
-		energy_overlay.plane = EMISSIVE_PLANE
+		SET_PLANE_EXPLICIT(energy_overlay, EMISSIVE_PLANE, src)
 		energy_overlay.color = energy_color
 		. += energy_overlay
 

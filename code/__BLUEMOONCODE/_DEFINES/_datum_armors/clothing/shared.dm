@@ -195,6 +195,8 @@
 //   /obj/item/clothing/mask/surgical/aesthetic — code/modules/clothing/masks/miscellaneous.dm
 //   /obj/item/clothing/shoes/combat/coldres/nano — modular_bluemoon/code/modules/clothing/nanosuit/nanosuit.dm
 //   /obj/item/clothing/suit/space/hardsuit/rd/hev/cosmetic — modular_splurt/code/modules/clothing/spacesuits/hardsuit.dm
+//   /obj/item/clothing/head/helmet/space/ervos — modular_bluemoon/code/modules/clothing/spacesuits/ervos.dm
+//   /obj/item/clothing/suit/space/ervos — modular_bluemoon/code/modules/clothing/spacesuits/ervos.dm
 // (Схожая броня: /datum/armor/profiles/clothing/mask/gas/plaguedoctor; другой профиль, не объединять.)
 /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
 	melee = 0
@@ -788,3 +790,35 @@
 	acid = 50
 	magic = 0
 	wound = 10
+
+// Используется (и наследниками без собственного armor):
+//   /obj/structure/heretic_rust_formation — modular_bluemoon/code/modules/antagonists/heretic/rust.dm
+// (Схожая броня: /datum/armor/profiles/machinery/door; другой профиль, не объединять.)
+/datum/armor/profiles/shared/heretic_rust
+	melee = 20
+	bullet = 30
+	laser = 30
+	energy = 30
+	bomb = 0
+	bio = 100
+	rad = 100
+	fire = 80
+	acid = 0
+	magic = 0
+	wound = 0
+
+// Используется (и наследниками без собственного armor):
+//   /obj/structure/heretic_rust_ascension_heart — modular_bluemoon/code/modules/antagonists/heretic/rust.dm
+// (Схожая броня: /datum/armor/profiles/structure/plasticflaps; другой профиль, не объединять.)
+/datum/armor/profiles/shared/heretic_rust_reinforced
+	melee = 20
+	bullet = 20
+	laser = 20
+	energy = 20
+	bomb = 20
+	bio = 100
+	rad = 100
+	fire = 50
+	acid = 50
+	magic = 0
+	wound = 0

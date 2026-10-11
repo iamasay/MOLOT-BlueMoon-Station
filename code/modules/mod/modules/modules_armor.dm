@@ -45,14 +45,14 @@
 	if(!mod.theme.compatible_with_armor_modules)
 		on_uninstall()
 		return
-	for(var/obj/item/part as anything in mod.get_mod_parts(include_cell = FALSE, include_mod = TRUE))
+	for(var/obj/item/clothing/mod_part/part as anything in mod.get_mod_parts(include_cell = FALSE))
 		var/datum/armor/part_armor = part.get_armor()
 		part.set_armor(part_armor.modifyRating(arglist(list("[armor_module_type]" = armor_bonus))))
 	mod.slowdown_active += slowdown_bonus
 	mod.slowdown_inactive += slowdown_bonus
 
 /obj/item/mod/module/armor/proc/remove_armor_bonus()
-	for(var/obj/item/part as anything in mod.get_mod_parts(include_cell = FALSE, include_mod = TRUE))
+	for(var/obj/item/clothing/mod_part/part as anything in mod.get_mod_parts(include_cell = FALSE))
 		var/datum/armor/part_armor = part.get_armor()
 		part.set_armor(part_armor.modifyRating(arglist(list("[armor_module_type]" = -armor_bonus))))
 	mod.slowdown_active -= slowdown_bonus

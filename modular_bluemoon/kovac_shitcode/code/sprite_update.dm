@@ -49,6 +49,7 @@
 	name = "6b79 helmet"
 	icon_state = "russian_green_helmet"
 	item_state = "russian_green_helmet"
+	can_flashlight = TRUE
 	desc = "One of the newest NRI helmets, also widely spread asross space corporations security forces."
 	icon = 'modular_bluemoon/kovac_shitcode/icons/rus/obj_rus.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/rus/mob_rus.dmi'
@@ -66,6 +67,7 @@
 	name = "blast helmet"
 	icon_state = "blast_helmet"
 	item_state = "blast_helmet"
+	can_flashlight = TRUE
 	desc = "Generic heavy troopers helmet. Reinforced parts and plates were replaced with simpler parts."
 
 /obj/item/clothing/suit/chaplain/clownpriest
@@ -122,6 +124,17 @@
 /obj/item/storage/backpack/rucksack/tan
 	icon_state = "rucksack_tan"
 	item_state = "rucksack_tan"
+
+/obj/item/storage/backpack/rucksack/ert
+
+/obj/item/storage/backpack/rucksack/ert/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_volume = STORAGE_VOLUME_BAG_OF_HOLDING
+
+/obj/item/storage/backpack/rucksack/ert/green
+	icon_state = "rucksack_green"
+	item_state = "rucksack_green"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -6,10 +6,9 @@
 // Category: structures/shared. Mixed categories use shared.dm.
 
 // Используется (и наследниками без собственного armor):
-//   /obj/structure/industrial_lift — code/game/objects/structures/industrial_lift.dm
 //   /obj/structure/lattice — code/game/objects/structures/lattice.dm
 // (Схожая броня: /datum/armor/profiles/structure/light_construct; другой профиль, не объединять.)
-/datum/armor/profiles/shared/structure/industrial_lift__lattice
+/datum/armor/profiles/structure/lattice
 	melee = 50
 	bullet = 0
 	laser = 0

@@ -1092,11 +1092,9 @@
 /atom/proc/handle_atom_del(atom/A)
 	SEND_SIGNAL(src, COMSIG_ATOM_CONTENTS_DEL, A)
 
-//called when the turf the atom resides on is ChangeTurfed
+/// Called by ChangeTurf on the new turf, which passes it on only to decals and transport modules lying on it.
 /atom/proc/HandleTurfChange(turf/T)
-	for(var/a in src)
-		var/atom/A = a
-		A.HandleTurfChange(T)
+	return
 
 //the vision impairment to give to the mob whose perspective is set to that atom (e.g. an unfocused camera giving you an impaired vision when looking through it)
 /atom/proc/get_remote_view_fullscreens(mob/user)
@@ -1459,10 +1457,11 @@
 /atom/proc/update_filters()
 	filters = null
 	filter_data = sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
-	for(var/f in filter_data)
-		var/list/data = filter_data[f]
+	for(var/filter_name in filter_data)
+		var/list/data = filter_data[filter_name]
 		var/list/arguments = data.Copy()
 		arguments -= "priority"
+		arguments["name"] = filter_name
 		filters += filter(arglist(arguments))
 	UNSETEMPTY(filter_data)
 
@@ -1495,10 +1494,11 @@
 /atom/proc/get_filter(name)
 	if(!length(filter_data) || !filter_data[name])
 		return
-	var/filter_index = filter_data.Find(name)
-	if(!filter_index || filter_index > length(filters))
-		return
-	return filters[filter_index]
+	// Движок не принимает пустую строку как имя фильтра.
+	if(name == "")
+		var/filter_index = filter_data.Find(name)
+		return filter_index && filter_index <= length(filters) ? filters[filter_index] : null
+	return filters[name]
 
 /// Returns the indice in filters of the given filter name.
 /// If it is not found, returns null.
@@ -1525,8 +1525,10 @@
 	filter_data = null
 	filters = null
 
-/atom/proc/intercept_zImpact(atom/movable/AM, levels = 1)
-	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, AM, levels)
+/// Шанс перехватить падение. falling_movables — вся группа, что летит вместе.
+/atom/proc/intercept_zImpact(list/falling_movables, levels = 1)
+	SHOULD_CALL_PARENT(TRUE)
+	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, falling_movables, levels)
 
 ///Sets the custom materials for an item.
 /atom/proc/set_custom_materials(list/materials, multiplier = 1)

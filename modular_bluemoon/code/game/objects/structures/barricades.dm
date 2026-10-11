@@ -148,7 +148,7 @@
 		span_userdanger("The barbed wire on [src] tears into your legs!")
 	)
 	playsound(src, 'sound/weapons/slice.ogg', 50, TRUE)
-	jumper.emote("agony")
+	jumper.emote("realagony")
 
 	var/hit_a_leg = FALSE
 	if(iscarbon(jumper))

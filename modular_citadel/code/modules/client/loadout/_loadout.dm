@@ -98,6 +98,8 @@ GLOBAL_LIST_EMPTY(loadout_whitelist_ids)
 	// BLUEMOON EDIT START - превью для вещей в лодауте
 	// Автоматически гененерируемая base64 иконка для превью в лодауте
 	var/base64icon
+	/// Готовый HTML превью: строка на килобайты, в строке меню её нельзя интерполировать заново
+	var/preview_html
 	// Возможный оверрайд иконки
 	var/item_icon = null
 	// Возможный оверрайд стейта иконки
@@ -116,6 +118,15 @@ GLOBAL_LIST_EMPTY(loadout_whitelist_ids)
 	//энкод делается лениво при первом запросе UI через get_base64icon(),
 	//меню лодаута рендерит одну подкатегорию за раз - первый показ дешёвый
 	// BLUEMOON EDIT END
+
+/// Добивает цвета полихромного предмета до числа его слоёв начальными цветами.
+/datum/gear/proc/pad_polychromic_colors(list/user_gear)
+	var/list/colors = user_gear[LOADOUT_COLOR]
+	if(!islist(colors))
+		colors = list()
+		user_gear[LOADOUT_COLOR] = colors
+	for(var/index in length(colors) + 1 to length(loadout_initial_colors))
+		colors += loadout_initial_colors[index]
 
 ///Ленивая генерация base64-превью с общим кэшем по паре иконка:стейт.
 ///Возвращает null, если у предмета нет иконки или энкод упал.
@@ -137,6 +148,14 @@ GLOBAL_LIST_EMPTY(loadout_whitelist_ids)
 		stack_trace("Loadout icon generation failed for [name] ([type]): [e]")
 		base64icon = null // Item will work without preview icon
 	return base64icon
+
+/// Превью для строки меню лодаута, "" если иконки нет
+/datum/gear/proc/get_preview_html()
+	if(!isnull(preview_html))
+		return preview_html
+	var/icon_data = get_base64icon()
+	preview_html = icon_data ? "<center><img src='data:image/png;base64,[icon_data]'></center>" : ""
+	return preview_html
 
 
 //a comprehensive donator check proc is intentionally not implemented due to the fact that we (((might))) have job-whitelists for donator items in the future and I like to stay on the safe side.

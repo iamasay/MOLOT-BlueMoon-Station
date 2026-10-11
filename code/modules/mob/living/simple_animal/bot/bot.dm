@@ -185,7 +185,6 @@
 	bot_core = new bot_core_type(src)
 
 	//Adds bot to the diagnostic HUD system
-	prepare_huds()
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.all_huds)
 		diag_hud.add_to_hud(src)
 	diag_hud_set_bothealth()
@@ -1089,7 +1088,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			MA.icon = path_image_icon
 			MA.icon_state = path_image_icon_state
 			MA.layer = ABOVE_OPEN_TURF_LAYER
-			MA.plane = 0
+			SET_PLANE(MA, GAME_PLANE, T)
 			MA.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 			MA.color = path_image_color
 			MA.dir = direction
@@ -1098,11 +1097,12 @@ Pass a positive integer as an argument to override a bot's default speed.
 			path[T] = I
 			path_images += I
 
+	var/bot_z_group = get_hud_z_group_cached()
 	for(var/datum/atom_hud/H as anything in path_huds_watching_me)
 		if(!H || !length(path_images))
 			continue
 		for(var/mob/viewer as anything in H.hudusers)
-			if(!H.queued_to_see[viewer])
+			if(!H.queued_to_see[viewer] && viewer.get_hud_view_group_cached() == bot_z_group)
 				H.add_to_single_hud(viewer, src, path_icon_keys)
 
 

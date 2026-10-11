@@ -84,6 +84,10 @@ There are several things that need to be remembered:
 		if(update_genitals)
 			update_genitals()
 
+/mob/living/carbon/human/set_plane_offset(new_offset)
+	. = ..()
+	update_genitals()
+
 /mob/living/carbon/human/update_fire()
 	..((fire_stacks > 3) ? "Standing" : "Generic_mob_burning")
 
@@ -781,8 +785,8 @@ There are several things that need to be remembered:
 								center = !isnull(T) ? T.center : TRUE
 								dimension_x = T?.dimension_x || 64
 								dimension_y = T?.dimension_y || 32
-								suit.flags_inv &= ~HIDETAUR
-								suit.taur_flags_inv_changed |= HIDETAUR
+								suit.flags_inv &= ~(HIDETAUR|HIDETAIL)
+								suit.taur_flags_inv_changed |= HIDETAUR|HIDETAIL
 								taur_builded = TRUE
 								break
 
@@ -1043,8 +1047,10 @@ use_mob_overlay_icon: if FALSE, it will always use the default_icon_file even if
 
 
 //produces a key based on the human's limbs
-/mob/living/carbon/human/generate_icon_render_key()
+/mob/living/carbon/human/generate_icon_render_key(plane_offset = LIMB_PLANE_OFFSET(src))
 	. = "[dna.species.mutant_bodyparts["limbs_id"]]"
+	if(plane_offset)
+		. += "-floor[plane_offset]"
 	. += "[dna.features["color_scheme"]]"
 
 	if(dna.check_mutation(HULK))

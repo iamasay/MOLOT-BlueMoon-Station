@@ -127,7 +127,7 @@
 	l_pocket = /obj/item/pinpointer/nuke/syndicate
 	id = /obj/item/card/id/inteq
 	belt = /obj/item/gun/ballistic/automatic/pistol
-	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
+	backpack_contents = list(/obj/item/storage/box/survival/command=1,\
 		/obj/item/kitchen/knife/combat/survival)
 
 	var/tc = 30
@@ -187,25 +187,47 @@
 /datum/outfit/inteq/full
 	name = "InteQ Operative - Full Kit"
 
-	glasses = /obj/item/clothing/glasses/night/syndicate
+	glasses = /obj/item/clothing/glasses/syndicate_eyepatch
 	mask = /obj/item/clothing/mask/gas/sechailer
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite/inteq
-	r_pocket = /obj/item/tank/internals/emergency_oxygen/engi
+	suit_store = /obj/item/tank/internals/doubleoxygen
+	l_pocket = /obj/item/melee/transforming/plasmasword
+	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	internals_slot = ITEM_SLOT_RPOCKET
-	belt = /obj/item/storage/belt/military/inteq
+	belt = /obj/item/storage/belt/military/inteq/full
 	r_hand = /obj/item/gun/ballistic/automatic/ak12
-	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
-		/obj/item/tank/jetpack/oxygen/harness=1,\
-		/obj/item/gun/ballistic/automatic/pistol=1,\
-		/obj/item/kitchen/knife/combat/survival)
+	backpack_contents = list(/obj/item/storage/box/survival/command=1,\
+		/obj/item/storage/firstaid/tactical=1,\
+		/obj/item/reagent_containers/hypospray/medipen/stimulants=1)
+
+	cybernetic_implants = list(
+		/obj/item/organ/cyberimp/eyes/hud/medical,
+		/obj/item/organ/cyberimp/chest/nutrimentextreme,
+		/obj/item/organ/heart/bioaegis/t3/antag,
+		/obj/item/organ/liver/bioaegis/t3/antag,
+		/obj/item/organ/lungs/bioaegis/t3/antag,
+	)
+
+	tc = null
+	uplink_type = null
 
 /datum/outfit/inteq/full/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	. = ..()
 	if(visualsOnly)
 		return
-	// Elite InteQ hardsuit neutralizes the wearer in equipped() unless IS_INTEQ — faction is normally set in post_equip, too late for the suit slot.
 	if(!(ROLE_INTEQ in H.faction))
 		H.faction |= ROLE_INTEQ
+
+/datum/outfit/inteq/full/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	if(visualsOnly)
+		return
+	var/obj/item/tank/jetpack/suit/J = H.back
+	if(istype(J))
+		J.on = TRUE
+		J.icon_state = "jetpack-on"
+		J.item_state = "jetpack-on"
+		J.update_icon()
 
 /// Silent holder for martyr objective on inteq/full when the mob is not a nuke operative (ghost hitchhikers). Do not use datum/antagonist/traitor — it rolls random classes and corrupts minds.
 /datum/antagonist/inteq_martyr_objective_holder
@@ -256,7 +278,7 @@
 	internals_slot = ITEM_SLOT_RPOCKET
 	belt = /obj/item/storage/belt/military/inteq
 	back = /obj/item/storage/backpack/security/inteq
-	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
+	backpack_contents = list(/obj/item/storage/box/survival/command=1,\
 	/obj/item/tank/jetpack/oxygen/harness=1,\
 	/obj/item/gun/ballistic/automatic/pistol=1,\
 	/obj/item/kitchen/knife/combat/survival)

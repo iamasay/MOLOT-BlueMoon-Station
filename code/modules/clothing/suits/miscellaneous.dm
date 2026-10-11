@@ -120,7 +120,13 @@
 	desc = "A set of denim overalls."
 	icon_state = "overalls"
 	item_state = "overalls"
+	color = "#2D3866"
 	body_parts_covered = CHEST|GROIN|LEGS
+
+/obj/item/clothing/suit/apron/chef/plain
+	name = "apron"
+	desc = "A basic apron."
+	icon_state = "plain"
 
 /obj/item/clothing/suit/apron/purple_bartender
 	name = "purple bartender apron"
@@ -395,7 +401,7 @@
 	strip_delay = 120
 	slowdown = 0.5
 	obj_flags = IMMUTABLE_SLOW
-	flags_inv = HIDESHOES|HIDEJUMPSUIT|HIDETAUR
+	flags_inv = HIDESHOES|HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 
 /obj/item/clothing/suit/ran
 	name = "shikigami costume"
@@ -403,7 +409,7 @@
 	icon_state = "ran_suit"
 	item_state = "ran_suit"
 	body_parts_covered = CHEST|GROIN|LEGS
-	flags_inv = HIDEJUMPSUIT|HIDETAUR
+	flags_inv = HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 	cold_protection = CHEST|GROIN|LEGS //fluffy tails!
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT //Bleh, same as winter coat
 	heat_protection = CHEST|GROIN|LEGS

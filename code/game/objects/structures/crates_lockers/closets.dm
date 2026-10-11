@@ -110,7 +110,7 @@
 			. += "off"
 			. += "sparking"
 		//Overlay is similar enough for both that we can use the same mask for both
-		. += emissive_appearance(icon, "locked", alpha = src.alpha)
+		. += emissive_appearance(icon, "locked", alpha = src.alpha, offset_spokesman = src)
 		. += locked ? "locked" : "unlocked"
 
 /// Animates the closet door opening and closing
