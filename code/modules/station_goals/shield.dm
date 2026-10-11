@@ -129,7 +129,7 @@ GLOBAL_VAR_INIT(shield_coverage_cache_expiry, 0)
 	anchored = FALSE
 	density = TRUE
 	use_power = FALSE
-	armor_type = /datum/armor/profiles/shared/machinery/standard
+	armor_type = /datum/armor/machinery_standard
 	var/mode = "NTPROBEV0.8"
 	var/active = FALSE
 	var/static/gid = 1

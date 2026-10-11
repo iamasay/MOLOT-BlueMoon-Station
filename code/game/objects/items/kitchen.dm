@@ -94,7 +94,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
+	armor_type = /datum/armor/clothing_and_general_objects
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -131,7 +131,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
+	armor_type = /datum/armor/clothing_and_general_objects
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -307,7 +307,7 @@
 	custom_materials = null
 
 /obj/item/kitchen/knife/shiv/plasma
-	armor_type = /datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium
+	armor_type = /datum/armor/plasma_and_titanium
 	name = "plasma shiv"
 	icon_state = "plasmashiv"
 	item_state = "plasmashiv"
@@ -317,7 +317,7 @@
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT *4, /datum/material/plasma=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/titanium
-	armor_type = /datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium
+	armor_type = /datum/armor/plasma_and_titanium
 	name = "titanium shiv"
 	icon_state = "titaniumshiv"
 	item_state = "titaniumshiv"
@@ -328,7 +328,7 @@
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT * 4, /datum/material/titanium=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/plastitanium
-	armor_type = /datum/armor/profiles/kitchen/knife/shiv/plastitanium
+	armor_type = /datum/armor/plastitanium
 	name = "plastitanium shiv"
 	icon_state = "plastitaniumshiv"
 	item_state = "plastitaniumshiv"

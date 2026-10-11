@@ -64,7 +64,7 @@
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
 	strip_mod = 1.5
-	armor_type = /datum/armor/profiles/shared/clothing/gloves/combat_and_martial_arts
+	armor_type = /datum/armor/combat_and_martial_arts
 
 // copypaste from /obj/item/clothing/gloves/poly_evening
 /obj/item/clothing/gloves/toggled/hug/poly_evening

@@ -14,7 +14,7 @@
 	item_state = "goatpelt"
 	color = "#ffd700"
 	body_parts_covered = HEAD
-	armor_type = /datum/armor/profiles/clothing/head/goatpelt/king
+	armor_type = /datum/armor/king
 	dog_fashion = null
 	resistance_flags = FIRE_PROOF
 

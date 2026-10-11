@@ -369,7 +369,7 @@
 	desc = "A small barricade made from metal posting, designed to stop you from going places you aren't supposed to."
 	icon_state = "railing_0"
 	max_integrity = 150
-	armor_type = /datum/armor/profiles/structure/deployable_barricade/guardrail
+	armor_type = /datum/armor/guardrail
 	stack_type = /obj/item/stack/rods
 	destroyed_stack_amount = 2
 	barricade_type = "railing"
@@ -441,7 +441,7 @@
 	desc = "A durable and easily mounted barricade made from metal plates, often used for rapid fortification. Repairing it requires a welder."
 	icon_state = "metal_0"
 	max_integrity = 200
-	armor_type = /datum/armor/profiles/structure/deployable_barricade/metal
+	armor_type = /datum/armor/metal
 	stack_type = /obj/item/stack/sheet/metal
 	stack_amount = 2
 	destroyed_stack_amount = 1

@@ -2,7 +2,7 @@
 #define IC_COMPLEXITY_BASE		75
 
 /obj/item/electronic_assembly
-	armor_type = /datum/armor/profiles/electronic_assembly
+	armor_type = /datum/armor/electronic_assembly
 	name = "electronic assembly"
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	desc = "It's a case, for building small electronics with."

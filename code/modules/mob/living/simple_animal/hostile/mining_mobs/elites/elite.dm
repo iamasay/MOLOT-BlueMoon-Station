@@ -155,7 +155,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 /obj/structure/elite_tumor
 	name = "pulsing tumor"
 	desc = "An odd, pulsing tumor sticking out of the ground.  You feel compelled to reach out and touch it..."
-	armor_type = /datum/armor/profiles/shared/secure_and_special_objects
+	armor_type = /datum/armor/secure_and_special_objects
 	resistance_flags = INDESTRUCTIBLE
 	var/activity = TUMOR_INACTIVE
 	var/boosted = FALSE

@@ -1,14 +1,4 @@
-// Armor-only migration baseline: 2adb5057517d582402686140b63c11a10e2f55c2
-// Deliberate exceptions: ordinary kitchen forks and spoons have no armor.
-// Identical profiles share a datum; similar profiles remain separate.
-// Consumers list explicit armor assignments; descendants without overrides inherit them.
-
-// Category: machinery/other. Mixed categories use shared.dm.
-
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/ai_slipper — code/game/machinery/ai_slipper.dm
-// (Схожая броня: /datum/armor/profiles/machinery/holopad; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/ai_slipper
+/datum/armor/ai_slipper
 	melee = 50
 	bullet = 20
 	laser = 20
@@ -21,10 +11,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/bfl_lens — modular_bluemoon/code/modules/station_goals/bfl.dm
-// (Схожая броня: /datum/armor/profiles/machinery/atmospherics/standard; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/bfl_lens
+/datum/armor/bfl_lens
 	melee = 0
 	bullet = 0
 	laser = 100
@@ -37,11 +24,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/camera — code/game/machinery/camera/camera.dm
-//   /obj/machinery/camera — code/game/machinery/camera/motion.dm
-// (Схожая броня: /datum/armor/profiles/structure/light_construct; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/camera
+/datum/armor/camera
 	melee = 50
 	bullet = 20
 	laser = 20
@@ -54,10 +37,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/field/generator — code/modules/power/singularity/field_generator.dm
-// (Схожая броня: /datum/armor/profiles/structure/sign/barsign; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/field/generator
+/datum/armor/generator
 	melee = 25
 	bullet = 10
 	laser = 100
@@ -70,10 +50,7 @@
 	magic = 0
 	wound = 100
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/firealarm — code/game/machinery/firealarm.dm
-// (Схожая броня: /datum/armor/profiles/machinery/space_heater; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/firealarm
+/datum/armor/firealarm
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -86,10 +63,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/holopad — code/game/machinery/hologram.dm
-// (Схожая броня: /datum/armor/profiles/machinery/ai_slipper; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/holopad
+/datum/armor/holopad
 	melee = 50
 	bullet = 20
 	laser = 20
@@ -102,10 +76,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/igniter — code/game/machinery/igniter.dm
-// (Схожая броня: /datum/armor/profiles/vehicle/sealed/mecha/combat/honker/dark; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/igniter
+/datum/armor/igniter
 	melee = 50
 	bullet = 30
 	laser = 70
@@ -118,10 +89,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/navbeacon — code/game/machinery/navbeacon.dm
-// (Схожая броня: /datum/armor/profiles/vehicle/sealed/mecha/combat/durand/zeus; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/navbeacon
+/datum/armor/navbeacon
 	melee = 70
 	bullet = 70
 	laser = 70
@@ -134,10 +102,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/newscaster — code/modules/newscaster/newscaster_machine.dm
-// (Схожая броня: /datum/armor/profiles/shared/sign__structure_sign; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/newscaster
+/datum/armor/newscaster
 	melee = 50
 	bullet = 0
 	laser = 0
@@ -150,10 +115,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/requests_console — code/game/machinery/requests_console.dm
-// (Схожая броня: /datum/armor/profiles/machinery/porta_turret; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/requests_console
+/datum/armor/requests_console
 	melee = 70
 	bullet = 30
 	laser = 30
@@ -166,10 +128,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/space_heater — code/game/machinery/spaceheater.dm
-// (Схожая броня: /datum/armor/profiles/machinery/firealarm; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/space_heater
+/datum/armor/space_heater
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -182,10 +141,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/vitals_reader — code/game/machinery/wall_vitals.dm
-// (Схожая броня: /datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/vitals_reader
+/datum/armor/vitals_reader
 	melee = 30
 	bullet = 20
 	laser = 20

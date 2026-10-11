@@ -494,7 +494,7 @@
 	item_flags = DROPDEL
 	clothing_flags = STOPSPRESSUREDAMAGE //Not THICKMATERIAL because it's organic tissue, so if somebody tries to inject something into it, it still ends up in your blood. (also balance but muh fluff)
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/oxygen)
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_changeling__suit_space_changeling //No armor at all.
+	armor_type = /datum/armor/spacesuit_changeling //No armor at all.
 	mutantrace_variation = STYLE_DIGITIGRADE
 
 /obj/item/clothing/suit/space/changeling/Initialize(mapload)
@@ -515,7 +515,7 @@
 	desc = "A covering of pressure and temperature-resistant organic tissue with a glass-like chitin front."
 	item_flags = DROPDEL
 	clothing_flags = STOPSPRESSUREDAMAGE
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_changeling__suit_space_changeling
+	armor_type = /datum/armor/spacesuit_changeling
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
 /obj/item/clothing/head/helmet/space/changeling/Initialize(mapload)
@@ -548,7 +548,7 @@
 	tail_state = "lingarmor"
 	item_flags = DROPDEL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_changeling__suit_armor_changeling
+	armor_type = /datum/armor/clothing_changeling
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	flags_inv = HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 	cold_protection = 0
@@ -565,7 +565,7 @@
 	desc = "A tough, hard covering of black chitin with transparent chitin in front."
 	icon_state = "lingarmorhelmet"
 	item_flags = DROPDEL
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_changeling__suit_armor_changeling
+	armor_type = /datum/armor/clothing_changeling
 	flags_inv = HIDEEARS|HIDEHAIR|HIDEEYES|HIDEFACIALHAIR|HIDEFACE
 
 /obj/item/clothing/head/helmet/changeling/Initialize(mapload)
@@ -644,7 +644,7 @@
 	cold_protection = HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/shared/clothing/gloves/martial_arts_extended
+	armor_type = /datum/armor/martial_arts_extended
 
 /obj/item/clothing/gloves/claws/Initialize(mapload)
 	. = ..()
@@ -676,7 +676,7 @@
 	return ..()
 
 /obj/item/clothing/gloves/fingerless/pugilist/cling // switches between lesser GotNS and Big Punchy Rib Breaky Hands
-	armor_type = /datum/armor/profiles/shared/clothing/gloves/martial_arts_extended
+	armor_type = /datum/armor/martial_arts_extended
 	name = "hewn bone gauntlets"
 	icon_state = "ling_gauntlets"
 	item_state = "ling_gauntlets"

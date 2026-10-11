@@ -4,7 +4,7 @@
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "plasticflaps"
 	// Soft plastic strips — airtight, not a mech bunker. Walls fall in ~2 punches; these should too.
-	armor_type = /datum/armor/profiles/structure/plasticflaps
+	armor_type = /datum/armor/plasticflaps
 	density = FALSE
 	can_astar_pass = CANASTARPASS_ALWAYS_PROC
 	anchored = TRUE

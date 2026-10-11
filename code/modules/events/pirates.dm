@@ -679,7 +679,7 @@
 	desc = "A modified helmet to allow space pirates to intimidate their customers whilst staying safe from the void. Comes with some additional protection."
 	icon_state = "spacepirate"
 	item_state = "space_pirate_helmet"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_pirate_eva__suit_space_pirate_eva
+	armor_type = /datum/armor/pirate_spacesuit_eva
 	strip_delay = 40
 	equip_delay_other = 20
 	//species_restricted = list("Vox")
@@ -695,7 +695,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/melee/transforming/energy/sword/pirate, /obj/item/clothing/glasses/cover/eyepatch, /obj/item/reagent_containers/food/drinks/bottle/rum)
 	slowdown = 0
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_pirate_eva__suit_space_pirate_eva
+	armor_type = /datum/armor/pirate_spacesuit_eva
 	strip_delay = 40
 	equip_delay_other = 20
 	//species_restricted = list("Vox")

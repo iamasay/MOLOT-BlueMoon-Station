@@ -11,7 +11,7 @@
 #define PIPE_HIDDEN_LEVEL 1
 
 /obj/machinery/atmospherics
-	armor_type = /datum/armor/profiles/machinery/atmospherics/standard
+	armor_type = /datum/armor/atmospheric_standard
 	anchored = TRUE
 	move_resist = INFINITY				//Moving a connected machine without actually doing the normal (dis)connection things will probably cause a LOT of issues.
 	idle_power_usage = 0

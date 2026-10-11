@@ -4,7 +4,7 @@
 	locked = TRUE
 	icon_state = "secure"
 	max_integrity = 250
-	armor_type = /datum/armor/profiles/shared/structure/closet/crate_secure__secure_closet
+	armor_type = /datum/armor/crate_secure_and_secure_closet
 	secure = TRUE
 	var/melee_min_damage = 20
 

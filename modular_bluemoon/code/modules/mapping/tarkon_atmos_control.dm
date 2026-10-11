@@ -1,7 +1,7 @@
 // Port Tarkon Atmos Control
 
 /obj/machinery/air_sensor/tarkon
-	armor_type = /datum/armor/profiles/shared/machinery/air_sensor/base__tarkon
+	armor_type = /datum/armor/base_and_tarkon
 	name = "gas sensor"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "gsensor1"

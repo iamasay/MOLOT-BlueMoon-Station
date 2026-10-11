@@ -10,7 +10,7 @@
 	flags_1 = CONDUCT_1
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	layer = BELOW_OBJ_LAYER
-	armor_type = /datum/armor/profiles/structure/grille
+	armor_type = /datum/armor/grille
 	max_integrity = 50
 	attack_hand_is_action = TRUE
 	attack_hand_speed = 8

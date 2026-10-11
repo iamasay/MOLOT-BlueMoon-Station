@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
 /obj/item/mod/control
-	armor_type = /datum/armor/profiles/shared/modsuit_parts_and_control
+	armor_type = /datum/armor/modsuit_parts_and_control
 	name = "MOD control unit"
 	desc = "Управляющий блок Модульного Внешнего Устройства — питаемый костюм на спине, защищающий от различных условий окружающей среды."
 	icon_state = "control"

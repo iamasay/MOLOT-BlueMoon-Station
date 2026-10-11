@@ -4,7 +4,7 @@
 	icon = 'icons/obj/vehicles.dmi'
 	icon_state = "fuckyou"
 	max_integrity = 300
-	armor_type = /datum/armor/profiles/vehicle
+	armor_type = /datum/armor/vehicle
 	density = TRUE
 	anchored = FALSE
 	layer = 5

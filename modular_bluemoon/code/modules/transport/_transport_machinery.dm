@@ -1,5 +1,5 @@
 /obj/machinery/transport
-	armor_type = /datum/armor/profiles/shared/transport
+	armor_type = /datum/armor/transport
 	max_integrity = 400
 	integrity_failure = 0.1
 	/// ID of the transport we're associated with for filtering commands

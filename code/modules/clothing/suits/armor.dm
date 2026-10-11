@@ -9,7 +9,7 @@
 	max_integrity = 250
 	resistance_flags = NONE
 	tail_state = "none"
-	armor_type = /datum/armor/profiles/shared/clothing/security_and_syndicate_basic
+	armor_type = /datum/armor/security_and_syndicate_basic
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD - BRC бонус брони
 
@@ -40,7 +40,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	cold_protection = CHEST|GROIN|ARMS
 	heat_protection = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/secjacket__vest_dragoncora
+	armor_type = /datum/armor/secjacket_and_vest_dragoncora
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/secjacket
@@ -104,7 +104,7 @@
 	item_state = "greatcoat"
 	tail_state = "none"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor_hos__hooded_teshari_beltcloak_jobs_hos
+	armor_type = /datum/armor/hos_coats
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
@@ -141,7 +141,7 @@
 	cold_protection = CHEST|ARMS
 	heat_protection = CHEST|ARMS
 	strip_delay = 80
-	armor_type = /datum/armor/profiles/clothing/suit/armor/hos/platecarrier
+	armor_type = /datum/armor/platecarrier
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	unique_reskin = list(
@@ -164,7 +164,7 @@
 	name = "makeshift plate carrier"
 	desc = "A hand-sown combat rig made from armor vests and security belts. Trades some protection for utility."
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/security_and_syndicate_basic
+	armor_type = /datum/armor/security_and_syndicate_basic
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	strip_delay = 60
 
@@ -221,7 +221,7 @@
 	icon_state = "capcarapace"
 	item_state = "armor"
 	body_parts_covered = CHEST|GROIN
-	armor_type = /datum/armor/profiles/shared/clothing/suit/command
+	armor_type = /datum/armor/command
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	dog_fashion = null
 	resistance_flags = FIRE_PROOF
@@ -237,7 +237,7 @@
 	icon_state = "capformal"
 	item_state = "capspacesuit"
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/suit/command
+	armor_type = /datum/armor/command
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	togglename = "buttons"
 
@@ -275,7 +275,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor_type = /datum/armor/profiles/clothing/suit/armor/riot
+	armor_type = /datum/armor/suit_riot
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 	blocks_shove_knockdown = TRUE
 	mutantrace_variation = STYLE_DIGITIGRADE
@@ -305,7 +305,7 @@
 	item_state = "bonearmor"
 	tail_state = ""
 	blood_overlay_type = "armor"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/bone
+	armor_type = /datum/armor/bone
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS
 
@@ -315,7 +315,7 @@
 	icon_state = "bulletproof"
 	item_state = "armor"
 	blood_overlay_type = "armor"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/bulletproof
+	armor_type = /datum/armor/bulletproof
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS
 	strip_delay = 70
@@ -355,7 +355,7 @@
 	desc = "An insidious combat vest designed using Syndicate nanofibers to absorb the supreme majority of kinetic blows. Although it doesn't look like it'll do too much for energy impacts."
 	icon_state = "infiltrator"
 	item_state = "infiltrator"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/infiltrator
+	armor_type = /datum/armor/suit_infiltrator
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	strip_delay = 80
@@ -376,7 +376,7 @@
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/clothing/suit/armor/centcom
+	armor_type = /datum/armor/centcom
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/heavy
@@ -390,7 +390,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	slowdown = 3
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
-	armor_type = /datum/armor/profiles/clothing/suit/armor/heavy
+	armor_type = /datum/armor/heavy
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/tdome
@@ -399,7 +399,7 @@
 	clothing_flags = THICKMATERIAL
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor_type = /datum/armor/profiles/clothing/suit/armor/tdome
+	armor_type = /datum/armor/tdome
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/tdome/red
@@ -421,7 +421,7 @@
 	desc = "A classic suit of plate armour, highly effective at stopping melee attacks."
 	icon_state = "knight_green"
 	item_state = "knight_green"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/riot/knight
+	armor_type = /datum/armor/suit_knight
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	slowdown = 0.5
 	flags_inv = HIDEGLOVES|HIDESHOES
@@ -466,7 +466,7 @@
 	councilmen that wish to flaunt their opulence towards the unwashed masses."
 	icon_state = "military"
 	dog_fashion = null
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_military__suit_armor_vest_knight_military
+	armor_type = /datum/armor/military
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(
 		/obj/item/banner,
@@ -481,7 +481,7 @@
 	name = "Golden Plate Armor"
 	desc = "This bulky set of armor is coated with a shiny layer of gold. It seems to almost reflect all light sources."
 	icon_state = "warlord"
-	armor_type = /datum/armor/profiles/shared/clothing/knight_warlord
+	armor_type = /datum/armor/knight_warlord
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	w_class = WEIGHT_CLASS_BULKY
 	clothing_flags = THICKMATERIAL
@@ -498,7 +498,7 @@
 	max_integrity = 200
 	resistance_flags = FLAMMABLE
 	clothing_flags = null
-	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/durathread
+	armor_type = /datum/armor/vest_suit_durathread
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/vest/russian
@@ -555,7 +555,7 @@
 	icon_state = "h2armor"
 	item_state = null
 	material_flags = MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_elder_atmosian__suit_armor_elder_atmosian
+	armor_type = /datum/armor/elder_atmosian
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS

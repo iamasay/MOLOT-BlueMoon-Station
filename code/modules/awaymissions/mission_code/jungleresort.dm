@@ -19,7 +19,7 @@
 	icon_state = "whip"
 
 /obj/item/clothing/suit/hooded/wintercoat/captain/jungle
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/captain/jungle
+	armor_type = /datum/armor/jungle
 
 /obj/item/clothing/head/rice_hat/cursed // this was a stupid idea lmao
 	name = "cursed rice hat"

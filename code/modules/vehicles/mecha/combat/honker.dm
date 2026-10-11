@@ -6,7 +6,7 @@
 	max_integrity = 140
 	deflect_chance = 60
 	internal_damage_threshold = 60
-	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/honker
+	armor_type = /datum/armor/honker
 	max_temperature = 25000
 	operation_req_access = list(ACCESS_THEATRE)
 	internals_req_access = list(ACCESS_ROBOTICS, ACCESS_THEATRE)

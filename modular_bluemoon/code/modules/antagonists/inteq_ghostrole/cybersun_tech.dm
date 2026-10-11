@@ -10,7 +10,7 @@
 	item_state = "syndie_helm"
 	hardsuit_type = "cybersun"
 
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/cybersun/helmet__suit
+	armor_type = /datum/armor/cybersun
 	strip_delay = 600
 	actions_types = list()
 	mutantrace_variation = STYLE_MUZZLE
@@ -27,7 +27,7 @@
 	tail_state = "hos"
 	hardsuit_type = "cybersun"
 
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/cybersun/helmet__suit
+	armor_type = /datum/armor/cybersun
 	strip_delay = 600
 	slowdown = 0
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/cybersun

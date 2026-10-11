@@ -10,7 +10,7 @@
 	name = "space electrolyzer"
 	desc = "Thanks to the fast and dynamic response of our electrolyzers, on-site hydrogen production is guaranteed. Warranty void if used by clowns."
 	max_integrity = 250
-	armor_type = /datum/armor/profiles/machinery/electrolyzer
+	armor_type = /datum/armor/electrolyzer
 	circuit = /obj/item/circuitboard/machine/electrolyzer
 	use_power = NO_POWER_USE
 	var/obj/item/stock_parts/cell/cell

@@ -117,7 +117,7 @@
 
 /obj/item/clothing/under/costume/gladiator/ash_walker
 	desc = "This gladiator uniform appears to be covered in ash and fairly dated."
-	armor_type = /datum/armor/profiles/clothing/under/costume/gladiator/ash_walker
+	armor_type = /datum/armor/ash_walker
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/costume/maid

@@ -7,7 +7,7 @@
 	icon_state = "lattice"
 	density = FALSE
 	anchored = TRUE
-	armor_type = /datum/armor/profiles/structure/lattice
+	armor_type = /datum/armor/lattice
 	max_integrity = 50
 	layer = LATTICE_LAYER //under pipes
 	plane = FLOOR_PLANE

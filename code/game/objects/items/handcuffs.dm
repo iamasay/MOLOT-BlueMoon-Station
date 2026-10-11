@@ -42,7 +42,7 @@
 	throw_range = 5
 	custom_materials = list(/datum/material/iron=500)
 	breakouttime = 600 //Deciseconds = 60s = 1 minute
-	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
+	armor_type = /datum/armor/clothing_and_general_objects
 	var/cuffsound = 'sound/weapons/handcuffs.ogg'
 	var/trashtype = null //for disposable cuffs
 

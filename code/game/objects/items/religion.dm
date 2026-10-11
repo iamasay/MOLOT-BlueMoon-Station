@@ -188,7 +188,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor_type = /datum/armor/profiles/shared/clothing/crusader_plate
+	armor_type = /datum/armor/crusader_plate
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
@@ -204,7 +204,7 @@
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACE
-	armor_type = /datum/armor/profiles/shared/clothing/crusader_plate
+	armor_type = /datum/armor/crusader_plate
 
 /obj/item/clothing/head/helmet/plate/crusader/blue
 	icon_state = "crusader-blue"
@@ -219,7 +219,7 @@
 	icon_state = "prophet"
 	mob_overlay_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
 	flags_1 = NONE
-	armor_type = /datum/armor/profiles/clothing/head/helmet/plate/crusader/prophet
+	armor_type = /datum/armor/prophet
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 
@@ -278,7 +278,7 @@
 	desc = "Metal boots, they look heavy."
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
-	armor_type = /datum/armor/profiles/shared/clothing/crusader_plate
+	armor_type = /datum/armor/crusader_plate
 	clothing_flags = NOSLIP
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT

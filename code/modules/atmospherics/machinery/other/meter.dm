@@ -9,7 +9,7 @@
 	idle_power_usage = 2
 	active_power_usage = 4
 	max_integrity = 150
-	armor_type = /datum/armor/profiles/machinery/meter
+	armor_type = /datum/armor/meter
 	var/frequency = 0
 	var/atom/target
 	var/id_tag

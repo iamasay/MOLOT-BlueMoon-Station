@@ -6,7 +6,7 @@
 	max_integrity = 200
 	health_regen = 1
 	point_return = 25
-	armor_type = /datum/armor/profiles/structure/blob/factory
+	armor_type = /datum/armor/factory
 	var/list/spores = list()
 	var/mob/living/simple_animal/hostile/blob/blobbernaut/naut = null
 	var/max_spores = 3

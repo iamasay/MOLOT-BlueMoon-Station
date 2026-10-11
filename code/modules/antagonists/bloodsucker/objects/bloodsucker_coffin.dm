@@ -54,7 +54,7 @@
 	resistance_flags = NONE
 	max_integrity = 100
 	integrity_failure = 0.5
-	armor_type = /datum/armor/profiles/structure/closet/crate/coffin/blackcoffin
+	armor_type = /datum/armor/blackcoffin
 
 /obj/structure/closet/crate/coffin/meatcoffin
 	name = "meat coffin"
@@ -69,7 +69,7 @@
 	material_drop = /obj/item/reagent_containers/food/snacks/meat/slab
 	material_drop_amount = 3
 	integrity_failure = 0.57
-	armor_type = /datum/armor/profiles/structure/closet/crate/coffin/meatcoffin
+	armor_type = /datum/armor/meatcoffin
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
@@ -85,7 +85,7 @@
 	material_drop_amount = 5
 	max_integrity = 200
 	integrity_failure = 0.25
-	armor_type = /datum/armor/profiles/structure/closet/crate/coffin/metalcoffin
+	armor_type = /datum/armor/metalcoffin
 
 //////////////////////////////////////////////
 

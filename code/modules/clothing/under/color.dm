@@ -77,7 +77,7 @@
 /obj/item/clothing/under/color/grey/glorf
 	name = "ancient jumpsuit"
 	desc = "A terribly ragged and frayed grey jumpsuit. It looks like it hasn't been washed in over a decade."
-	armor_type = /datum/armor/profiles/shared/clothing/under/tactical
+	armor_type = /datum/armor/tactical
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/under/color/grey/glorf/run_block(mob/living/owner, atom/object, damage, attack_text, attack_type, armour_penetration, mob/attacker, def_zone, final_block_chance, list/block_return)

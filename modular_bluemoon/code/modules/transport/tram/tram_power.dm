@@ -8,7 +8,7 @@
 	power_channel = ENVIRON
 	anchored = TRUE
 	density = FALSE
-	armor_type = /datum/armor/profiles/shared/transport_reinforced
+	armor_type = /datum/armor/transport_reinforced
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	max_integrity = 750
 	pixel_y = 32

@@ -362,7 +362,7 @@
 	allowed = list(/obj/item/melee/sickly_blade, /obj/item/forbidden_book, /obj/item/living_heart)
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/eldritch
 	// slightly better than normal cult robes
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/cultrobes/eldritch
+	armor_type = /datum/armor/eldritch
 	brc_mitigation_bonus = 15  // BLUEMOON ADD - балахон теперь реально превосходит бронежилет
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	alternate_screams = BLOOD_SCREAMS
@@ -390,7 +390,7 @@
 	flags_inv = NONE
 	flags_cover = NONE
 	desc = "Чёрный капюшон, который словно поглощает свет. Руны на ткани вспыхивают и ускользают из памяти."
-	armor_type = /datum/armor/profiles/shared/clothing/head_hooded_cult_hoodie_void__suit_hooded_cultrobes_void
+	armor_type = /datum/armor/void
 	obj_flags = NONE | EXAMINE_SKIP
 
 /obj/item/clothing/suit/hooded/cultrobes/void
@@ -402,7 +402,7 @@
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/void
 	flags_inv = NONE
 	// slightly worse than normal cult robes
-	armor_type = /datum/armor/profiles/shared/clothing/head_hooded_cult_hoodie_void__suit_hooded_cultrobes_void
+	armor_type = /datum/armor/void
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/void_cloak
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 

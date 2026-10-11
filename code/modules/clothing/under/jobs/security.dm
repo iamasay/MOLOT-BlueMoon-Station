@@ -19,7 +19,7 @@
 	desc = "A tactical security jumpsuit for officers complete with Nanotrasen belt buckle."
 	icon_state = "rsecurity"
 	item_state = "r_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
+	armor_type = /datum/armor/light_duty
 	unique_reskin = list(
 		"Standart" = list("icon_state" = "rsecurity"),
 		"Blue" = list("icon_state" = "security_black"),
@@ -35,7 +35,7 @@
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/security/officer/util/syndicate
-	armor_type = /datum/armor/profiles/clothing/under/rank/security/officer/util/syndicate
+	armor_type = /datum/armor/under_syndicate
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/rank/security/officer/grey
@@ -151,7 +151,7 @@
 	desc = "A formal security suit for officers complete with Nanotrasen belt buckle."
 	icon_state = "rwarden"
 	item_state = "r_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
+	armor_type = /datum/armor/light_duty
 	alt_covers_chest = FALSE
 
 /obj/item/clothing/under/rank/security/warden/grey
@@ -189,7 +189,7 @@
 	desc = "Someone who wears this means business."
 	icon_state = "detective"
 	item_state = "det"
-	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
+	armor_type = /datum/armor/light_duty
 
 /obj/item/clothing/under/rank/security/detective/brown
 	name = "dark boiled suit"
@@ -241,7 +241,7 @@
 	desc = "A security jumpsuit decorated for those few with the dedication to achieve the position of Head of Security."
 	icon_state = "rhos"
 	item_state = "r_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/hos_and_orville_security
+	armor_type = /datum/armor/hos_and_orville_security
 	strip_delay = 60
 	alt_covers_chest = FALSE
 

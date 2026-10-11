@@ -4,7 +4,7 @@
 	icon_state = "wizard"
 	gas_transfer_coefficient = 0.01 // IT'S MAGICAL OKAY JEEZ +1 TO NOT DIE
 	permeability_coefficient = 0.01
-	armor_type = /datum/armor/profiles/shared/clothing/head_wizard__suit_wizrobe
+	armor_type = /datum/armor/wizrobe
 	strip_delay = 50
 	equip_delay_other = 50
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -76,7 +76,7 @@
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	body_parts_covered = CHEST|ARMS|LEGS
-	armor_type = /datum/armor/profiles/shared/clothing/head_wizard__suit_wizrobe
+	armor_type = /datum/armor/wizrobe
 	allowed = list(/obj/item/teleportation_scroll)
 	flags_inv = HIDEJUMPSUIT
 	strip_delay = 50
@@ -311,7 +311,7 @@
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/wizard
-	armor_type = /datum/armor/profiles/clothing/hardsuit/shielded/wizard/suit
+	armor_type = /datum/armor/wizard_suit
 	slowdown = 0
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	allowed = list(/obj/item/teleportation_scroll, /obj/item/tank/internals)
@@ -330,7 +330,7 @@
 	item_state = "battlemage"
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/clothing/hardsuit/shielded/wizard/helmet
+	armor_type = /datum/armor/wizard_helmet
 	actions_types = null //No inbuilt light
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/magic_flags = SPELL_WIZARD_HAT|SPELL_CULT_HELMET

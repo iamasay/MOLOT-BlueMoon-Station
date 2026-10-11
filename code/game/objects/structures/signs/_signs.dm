@@ -21,7 +21,7 @@
 	sign_change_name = "Blank Sign"
 
 /obj/item/sign
-	armor_type = /datum/armor/profiles/shared/sign__structure_sign
+	armor_type = /datum/armor/sign_and_structure_sign
 	name = "sign backing"
 	desc = "A plastic sign backing, use a pen to change the decal. It can be placed on a wall."
 	icon = 'icons/obj/decals.dmi'

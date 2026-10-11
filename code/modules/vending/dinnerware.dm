@@ -1,5 +1,5 @@
 /obj/machinery/vending/dinnerware
-	armor_type = /datum/armor/profiles/shared/machinery/vending_durable
+	armor_type = /datum/armor/vending_durable
 	name = "\improper Plasteel Chef's Dinnerware Vendor"
 	desc = "A kitchen and restaurant equipment vendor."
 	product_slogans = "Мм, продукты!;Еда и аксессуары для еды.;Берите тарелки!;Вам нравятся вилки?;Мне нравятся вилки.;Ух, посуда.;Вам это правда не нужно?;Может, ты передумаешь?"

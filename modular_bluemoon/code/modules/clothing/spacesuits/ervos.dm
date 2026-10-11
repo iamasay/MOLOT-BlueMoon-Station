@@ -10,7 +10,7 @@
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/head/ervos.dmi'
 	lefthand_file = 'modular_bluemoon/icons/mob/inhands/clothing_lefthand.dmi'
 	righthand_file = 'modular_bluemoon/icons/mob/inhands/clothing_righthand.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
+	armor_type = /datum/armor/bio100
 
 /obj/item/clothing/suit/space/ervos
 	name = "ERVOS"
@@ -23,7 +23,7 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/suits/armor_digi.dmi'
 	lefthand_file = 'modular_bluemoon/icons/mob/inhands/clothing_lefthand.dmi'
 	righthand_file = 'modular_bluemoon/icons/mob/inhands/clothing_righthand.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
+	armor_type = /datum/armor/bio100
 	slowdown = 2
 
 /obj/item/clothing/suit/space/ervos/equipped()

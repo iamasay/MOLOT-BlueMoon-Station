@@ -415,7 +415,7 @@
 	return
 
 /obj/machinery/mailmat
-	armor_type = /datum/armor/profiles/shared/machinery/mailmat__vending
+	armor_type = /datum/armor/mailmat_and_vending
 	name = "Mail Dispenser"
 	desc = "<i>Postman Pat, Postman Pat, Postman Pat and his black and white cat, All the birds are singing, And the day is just beginning, Pat feels he's a really happy man, Pat feels he's a really happy man, Pat feels he's a really happy man!</i>"
 	icon = 'icons/obj/vending.dmi'

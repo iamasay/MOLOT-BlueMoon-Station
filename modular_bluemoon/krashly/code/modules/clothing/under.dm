@@ -72,7 +72,7 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/krashly/icons/mob/clothing/under_digidrated.dmi'
 	icon_state = "inteq"
 	item_state = "inteq"
-	armor_type = /datum/armor/profiles/shared/clothing/under/inteq__syndicate__syndicate_skirt
+	armor_type = /datum/armor/inteq_and_syndicate
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/inteq/Initialize(mapload)

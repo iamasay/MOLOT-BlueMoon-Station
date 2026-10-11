@@ -7,7 +7,7 @@
 	dir_in = 1 //Facing North.
 	max_integrity = 250
 	deflect_chance = 15
-	armor_type = /datum/armor/profiles/shared/mecha/gygax_reticence_and_medigax
+	armor_type = /datum/armor/gygax_reticence_and_medigax
 	max_temperature = 25000
 	wreckage = /obj/structure/mecha_wreckage/gygax
 	internal_damage_threshold = 35

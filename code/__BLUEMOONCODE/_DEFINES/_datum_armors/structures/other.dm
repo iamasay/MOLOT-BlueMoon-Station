@@ -1,14 +1,4 @@
-// Armor-only migration baseline: 2adb5057517d582402686140b63c11a10e2f55c2
-// Deliberate exceptions: ordinary kitchen forks and spoons have no armor.
-// Identical profiles share a datum; similar profiles remain separate.
-// Consumers list explicit armor assignments; descendants without overrides inherit them.
-
-// Category: structures/other. Mixed categories use shared.dm.
-
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob — code/modules/antagonists/blob/blob/theblob.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/gloves/combat_and_martial_arts; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob
+/datum/armor/blob
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -21,10 +11,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/core — code/modules/antagonists/blob/blob/blobs/core.dm
-// (Схожая броня: /datum/armor/profiles/machinery/porta_turret/syndicate/shuttle; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/core
+/datum/armor/core
 	melee = 30
 	bullet = 30
 	laser = 20
@@ -37,10 +24,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/factory — code/modules/antagonists/blob/blob/blobs/factory.dm
-// (Схожая броня: /datum/armor/profiles/structure/blob/resource; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/factory
+/datum/armor/factory
 	melee = 10
 	bullet = 20
 	laser = 15
@@ -53,10 +37,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/node — code/modules/antagonists/blob/blob/blobs/node.dm
-// (Схожая броня: /datum/armor/profiles/stack/sheet/rglass; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/node
+/datum/armor/node
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -69,10 +50,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/resource — code/modules/antagonists/blob/blob/blobs/resource.dm
-// (Схожая броня: /datum/armor/profiles/structure/table/plasmaglass; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/resource
+/datum/armor/resource
 	melee = 10
 	bullet = 10
 	laser = 0
@@ -85,10 +63,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/shield — code/modules/antagonists/blob/blob/blobs/shield.dm
-// (Схожая броня: /datum/armor/profiles/structure/blob/shield/reflective; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/shield
+/datum/armor/shield
 	melee = 25
 	bullet = 50
 	laser = 25
@@ -101,10 +76,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/blob/shield/reflective — code/modules/antagonists/blob/blob/blobs/shield.dm
-// (Схожая броня: /datum/armor/profiles/structure/blob/shield; другой профиль, не объединять.)
-/datum/armor/profiles/structure/blob/shield/reflective
+/datum/armor/reflective
 	melee = 25
 	bullet = 25
 	laser = 50
@@ -117,10 +89,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/carp_rift — code/modules/mob/living/simple_animal/hostile/space_dragon.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/hardsuit/ancient/mason/helmet__suit; другой профиль, не объединять.)
-/datum/armor/profiles/structure/carp_rift
+/datum/armor/carp_rift
 	melee = 30
 	bullet = 30
 	laser = 30
@@ -133,10 +102,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/checkoutmachine — code/game/objects/items/crab17.dm
-// (Схожая броня: /datum/armor/profiles/machinery/porta_turret/syndicate/shuttle; другой профиль, не объединять.)
-/datum/armor/profiles/structure/checkoutmachine
+/datum/armor/checkoutmachine
 	melee = 80
 	bullet = 30
 	laser = 30
@@ -149,10 +115,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/cloth_pile — code/modules/mob/living/carbon/human/species_types/golems.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/hardsuit/iron_tombstone/helmet__suit; другой профиль, не объединять.)
-/datum/armor/profiles/structure/cloth_pile
+/datum/armor/cloth_pile
 	melee = 90
 	bullet = 90
 	laser = 25
@@ -165,10 +128,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/deployable_barricade/guardrail — modular_bluemoon/code/game/objects/structures/barricades.dm
-// (Схожая броня: /datum/armor/profiles/shared/machinery/button__turnstile; другой профиль, не объединять.)
-/datum/armor/profiles/structure/deployable_barricade/guardrail
+/datum/armor/guardrail
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -181,10 +141,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/deployable_barricade/metal — modular_bluemoon/code/game/objects/structures/barricades.dm
-// (Схожая броня: /datum/armor/profiles/shared/machinery/button__turnstile; другой профиль, не объединять.)
-/datum/armor/profiles/structure/deployable_barricade/metal
+/datum/armor/metal
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -197,10 +154,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/displaycase — code/game/objects/structures/displaycase.dm
-// (Схожая броня: /datum/armor/profiles/stack/sheet/plasmarglass; другой профиль, не объединять.)
-/datum/armor/profiles/structure/displaycase
+/datum/armor/displaycase
 	melee = 30
 	bullet = 0
 	laser = 0
@@ -213,10 +167,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/fireaxecabinet — code/game/objects/structures/fireaxe.dm
-// (Схожая броня: /datum/armor/profiles/shared/machinery_disposal__structure_disposalpipe; другой профиль, не объединять.)
-/datum/armor/profiles/structure/fireaxecabinet
+/datum/armor/fireaxecabinet
 	melee = 50
 	bullet = 20
 	laser = 0
@@ -229,10 +180,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/grille — code/game/objects/structures/grille.dm
-// (Схожая броня: /datum/armor/profiles/electronic_assembly; другой профиль, не объединять.)
-/datum/armor/profiles/structure/grille
+/datum/armor/grille
 	melee = 50
 	bullet = 70
 	laser = 70
@@ -245,10 +193,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/holosign — code/game/objects/structures/holosign.dm
-// (Схожая броня: /datum/armor/profiles/clothing/suit/hooded/cultrobes/eldritch; другой профиль, не объединять.)
-/datum/armor/profiles/structure/holosign
+/datum/armor/holosign
 	melee = 0
 	bullet = 50
 	laser = 50
@@ -261,10 +206,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/ice_stasis — code/modules/research/xenobiology/crossbreeding/_misc.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/head_helmet_space_rad__suit_space_rad; другой профиль, не объединять.)
-/datum/armor/profiles/structure/ice_stasis
+/datum/armor/ice_stasis
 	melee = 30
 	bullet = 50
 	laser = -50
@@ -277,10 +219,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/inflatable — modular_bluemoon/code/game/objects/structures/inflatable.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/chameleon; другой профиль, не объединять.)
-/datum/armor/profiles/structure/inflatable
+/datum/armor/inflatable
 	melee = 0
 	bullet = 30
 	laser = 20
@@ -293,10 +232,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/legionturret — code/modules/mob/living/simple_animal/hostile/megafauna/legion.dm
-// (Схожая броня: /datum/armor/profiles/clothing/suit/caution; другой профиль, не объединять.)
-/datum/armor/profiles/structure/legionturret
+/datum/armor/legionturret
 	melee = 0
 	bullet = 0
 	laser = 100
@@ -309,10 +245,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/light_construct — code/modules/power/lighting.dm
-// (Схожая броня: /datum/armor/profiles/structure/lattice; другой профиль, не объединять.)
-/datum/armor/profiles/structure/light_construct
+/datum/armor/light_construct
 	melee = 50
 	bullet = 10
 	laser = 10
@@ -325,10 +258,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/marker_beacon — code/modules/mining/equipment/marker_beacons.dm
-// (Схожая броня: /datum/armor/profiles/structure/grille; другой профиль, не объединять.)
-/datum/armor/profiles/structure/marker_beacon
+/datum/armor/marker_beacon
 	melee = 50
 	bullet = 75
 	laser = 75
@@ -341,10 +271,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/mineral_door — code/game/objects/structures/mineral_doors.dm
-// (Схожая броня: /datum/armor/profiles/machinery/portable_atmospherics; другой профиль, не объединять.)
-/datum/armor/profiles/structure/mineral_door
+/datum/armor/mineral_door
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -357,10 +284,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/particle_accelerator — code/modules/power/singularity/particle_accelerator/particle_accelerator.dm
-// (Схожая броня: /datum/armor/profiles/shared/mecha/gygax_reticence_and_medigax; другой профиль, не объединять.)
-/datum/armor/profiles/structure/particle_accelerator
+/datum/armor/particle_accelerator
 	melee = 30
 	bullet = 20
 	laser = 20
@@ -373,10 +297,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/plasticflaps — code/game/objects/structures/plasticflaps.dm
-// (Схожая броня: /datum/armor/profiles/clothing/hardsuit/corpus/suit; другой профиль, не объединять.)
-/datum/armor/profiles/structure/plasticflaps
+/datum/armor/plasticflaps
 	melee = 10
 	bullet = 10
 	laser = 10
@@ -389,10 +310,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/projected_forcefield — code/game/objects/items/devices/forcefieldprojector.dm
-// (Схожая броня: /datum/armor/profiles/clothing/head/helmet/cbrn/sec; другой профиль, не объединять.)
-/datum/armor/profiles/structure/projected_forcefield
+/datum/armor/projected_forcefield
 	melee = 0
 	bullet = 25
 	laser = 25
@@ -405,10 +323,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/reagent_dispensers/urbanismbarrel — modular_bluemoon/code/modules/awaymissions/urbanism.dm
-// (Схожая броня: /datum/armor/profiles/structure/barricade/urbanism; другой профиль, не объединять.)
-/datum/armor/profiles/structure/reagent_dispensers/urbanismbarrel
+/datum/armor/urbanismbarrel
 	melee = 60
 	bullet = 50
 	laser = 10
@@ -421,10 +336,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/shuttle — code/game/shuttle_engines.dm
-// (Схожая броня: /datum/armor/profiles/shared/machinery/standard; другой профиль, не объединять.)
-/datum/armor/profiles/structure/shuttle
+/datum/armor/structure_shuttle
 	melee = 50
 	bullet = 10
 	laser = 10
@@ -437,11 +349,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/sign/barsign — code/game/objects/structures/barsigns.dm
-//   /obj/structure/sign/barsign — modular_bluemoon/code/game/objects/structures/barsigns.dm
-// (Схожая броня: /datum/armor/profiles/structure/table/reinforced; другой профиль, не объединять.)
-/datum/armor/profiles/structure/sign/barsign
+/datum/armor/barsign
 	melee = 20
 	bullet = 20
 	laser = 20
@@ -454,10 +362,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/urbanismbillboard — modular_bluemoon/code/modules/awaymissions/urbanism.dm
-// (Схожая броня: /datum/armor/profiles/structure/urbanismcars; другой профиль, не объединять.)
-/datum/armor/profiles/structure/urbanismbillboard
+/datum/armor/urbanismbillboard
 	melee = 80
 	bullet = 80
 	laser = 70
@@ -470,10 +375,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/urbanismcars — modular_bluemoon/code/modules/awaymissions/urbanism.dm
-// (Схожая броня: /datum/armor/profiles/shared/structure/urbanism_reinforced; другой профиль, не объединять.)
-/datum/armor/profiles/structure/urbanismcars
+/datum/armor/urbanismcars
 	melee = 70
 	bullet = 60
 	laser = 50
@@ -486,10 +388,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/structure/urbanismtire — modular_bluemoon/code/modules/awaymissions/urbanism.dm
-// (Схожая броня: /datum/armor/profiles/structure/barricade/urbanism; другой профиль, не объединять.)
-/datum/armor/profiles/structure/urbanismtire
+/datum/armor/urbanismtire
 	melee = 20
 	bullet = 40
 	laser = 10

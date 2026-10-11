@@ -385,7 +385,7 @@
 		/obj/item/tank/internals/emergency_oxygen,
 		/obj/item/tank/internals/plasmaman,
 		)
-	armor_type = /datum/armor/profiles/shared/clothing/suit/medical_coats
+	armor_type = /datum/armor/medical_coats
 	togglename = "buttons"
 	body_parts_covered = CHEST|ARMS
 

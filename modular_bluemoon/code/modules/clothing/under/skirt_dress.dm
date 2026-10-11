@@ -5,7 +5,7 @@
 	item_state = "capspacehelmet"
 	body_parts_covered = CHEST|ARMS
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
+	armor_type = /datum/armor/light_duty
 	alternate_worn_layer = DRESS_LAYER
 
 /obj/item/clothing/under/bm/gothrevskirt

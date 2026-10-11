@@ -40,7 +40,7 @@
 	icon_state = "blackops"
 	item_state = "blackops"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-	armor_type = /datum/armor/profiles/clothing/suit/blackops
+	armor_type = /datum/armor/blackops
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 

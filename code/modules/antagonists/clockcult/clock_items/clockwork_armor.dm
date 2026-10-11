@@ -8,7 +8,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACE|HIDESNOUT
 	mutantrace_variation = STYLE_MUZZLE
-	armor_type = /datum/armor/profiles/clothing/head/helmet/clockwork
+	armor_type = /datum/armor/head_clockwork
 
 /obj/item/clothing/head/helmet/clockwork/Initialize(mapload)
 	. = ..()
@@ -69,7 +69,7 @@
 	heat_protection = CHEST|GROIN|LEGS
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDETAUR|HIDETAIL
-	armor_type = /datum/armor/profiles/clothing/suit/armor/clockwork
+	armor_type = /datum/armor/suit_clockwork
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	allowed = list(/obj/item/clockwork, /obj/item/clothing/glasses/wraith_spectacles, /obj/item/clothing/glasses/judicial_visor, /obj/item/mmi/posibrain/soul_vessel, /obj/item/reagent_containers/food/drinks/bottle/holyoil)
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC
@@ -137,7 +137,7 @@
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	armor_type = /datum/armor/profiles/clothing/gloves/clockwork
+	armor_type = /datum/armor/glove_clockwork
 
 /obj/item/clothing/gloves/clockwork/Initialize(mapload)
 	. = ..()

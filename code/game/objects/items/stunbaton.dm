@@ -13,7 +13,7 @@
 	throwforce = 7
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("beaten")
-	armor_type = /datum/armor/profiles/melee/baton
+	armor_type = /datum/armor/baton
 	attack_speed = CLICK_CD_MELEE
 
 	var/stamina_loss_amount = 35

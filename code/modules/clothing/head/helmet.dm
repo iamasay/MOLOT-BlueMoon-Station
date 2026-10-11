@@ -3,7 +3,7 @@
 	desc = "Standard Security gear. Protects the head from impacts."
 	icon_state = "helmet"
 	item_state = "helmet"
-	armor_type = /datum/armor/profiles/shared/clothing/head/beret_sec__brigdoc__helmet
+	armor_type = /datum/armor/beret_sec_and_brigdoc_and_helmet
 	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -127,7 +127,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	strip_delay = 80
 	dog_fashion = null
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_military__suit_armor_vest_knight_military
+	armor_type = /datum/armor/military
 	can_toggle = TRUE
 	toggle_message = "You pull the visor down on"
 	alt_toggle_message = "You push the visor up on"
@@ -237,7 +237,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	name = "golden barbute helmet"
 	desc = "There is no man behind the helmet, only a terrible thought."
 	icon_state = "warlord"
-	armor_type = /datum/armor/profiles/shared/clothing/knight_warlord
+	armor_type = /datum/armor/knight_warlord
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEMASK|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	slowdown = 0.2
@@ -265,7 +265,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	color_cutoffs = list(10, 25, 10)
 	mutantrace_variation = STYLE_MUZZLE
-	armor_type = /datum/armor/profiles/clothing/head/helmet/nvg/hecu
+	armor_type = /datum/armor/hecu
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -311,7 +311,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "A bulletproof combat helmet that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent."
 	icon_state = "helmetalt"
 	item_state = "helmetalt"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/alt
+	armor_type = /datum/armor/alt
 	can_flashlight = TRUE
 	dog_fashion = null
 	dynamic_hair_suffix = ""
@@ -368,7 +368,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	alt_toggle_message = "You push the visor up on"
 	can_toggle = 1
 	can_flashlight = TRUE
-	armor_type = /datum/armor/profiles/clothing/head/helmet/riot
+	armor_type = /datum/armor/head_riot
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	strip_delay = 80
 	actions_types = list(/datum/action/item_action/toggle)
@@ -452,7 +452,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	icon_state = "swatsyndie"
 	item_state = "swatsyndie"
 	can_flashlight = TRUE
-	armor_type = /datum/armor/profiles/clothing/head/helmet/swat
+	armor_type = /datum/armor/head_swat
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -553,7 +553,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	dynamic_fhair_suffix = ""
 	icon_state = "thunderdome"
 	item_state = "thunderdome"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/thunderdome
+	armor_type = /datum/armor/thunderdome
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -568,7 +568,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	flags_cover = HEADCOVERSEYES
 	dynamic_hair_suffix = ""
 	dynamic_fhair_suffix = ""
-	armor_type = /datum/armor/profiles/clothing/head/helmet/roman
+	armor_type = /datum/armor/roman
 	resistance_flags = FIRE_PROOF
 	clothing_flags = null
 	icon_state = "roman"
@@ -610,7 +610,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	dynamic_hair_suffix = ""
 	dynamic_fhair_suffix = ""
 	item_state = "redtaghelm"
-	armor_type = /datum/armor/profiles/shared/clothing/head/helmet/bluetaghelm__redtaghelm
+	armor_type = /datum/armor/bluetaghelm_and_redtaghelm
 	// Offer about the same protection as a hardhat.
 	dog_fashion = null
 
@@ -621,7 +621,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	clothing_flags = null
 	flags_cover = HEADCOVERSEYES
 	item_state = "bluetaghelm"
-	armor_type = /datum/armor/profiles/shared/clothing/head/helmet/bluetaghelm__redtaghelm
+	armor_type = /datum/armor/bluetaghelm_and_redtaghelm
 	// Offer about the same protection as a hardhat.
 	dog_fashion = null
 
@@ -630,7 +630,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "A classic metal helmet."
 	icon_state = "knight_green"
 	item_state = "knight_green"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/knight
+	armor_type = /datum/armor/head_knight
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	clothing_flags = null
@@ -662,7 +662,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "A classic medieval helmet, if you hold it upside down you could see that it's actually a bucket."
 	icon_state = "knight_greyscale"
 	item_state = "knight_greyscale"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/knight/greyscale
+	armor_type = /datum/armor/greyscale
 	material_flags = MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS //Can change color and add prefix
 
 /obj/item/clothing/head/helmet/skull
@@ -670,7 +670,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "An intimidating tribal helmet, it doesn't look very comfortable."
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	flags_cover = HEADCOVERSEYES
-	armor_type = /datum/armor/profiles/clothing/head/helmet/skull
+	armor_type = /datum/armor/skull
 	icon_state = "skull"
 	item_state = "skull"
 	dynamic_hair_suffix = ""
@@ -683,7 +683,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "An insidious armored combat helmet signed with Syndicate insignia. The visor is coated with a resistant paste guaranteed to withstand bright flashes perfectly."
 	icon_state = "infiltrator"
 	item_state = "infiltrator"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/infiltrator
+	armor_type = /datum/armor/head_infiltrator
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flash_protect = 2
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
@@ -789,7 +789,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	desc = "A hardhat with strips of leather and durathread for additional blunt protection."
 	icon_state = "durathread"
 	item_state = "durathread"
-	armor_type = /datum/armor/profiles/shared/clothing/head/beanie_durathread__helmet_durathread
+	armor_type = /datum/armor/durathread_headwear
 	clothing_flags = null
 
 /obj/item/clothing/head/helmet/rus_helmet
@@ -809,7 +809,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	icon_state = "ruscap"
 	item_state = "ruscap"
 	flags_inv = HIDEEARS
-	armor_type = /datum/armor/profiles/clothing/head/helmet/rus_cap
+	armor_type = /datum/armor/rus_cap
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small/rushelmet
 	unique_reskin = list(
 		"Basic" = list(
@@ -833,7 +833,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	cold_protection = HEAD
 	flags_inv = HIDEEARS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/clothing/head/helmet/rus_ushanka
+	armor_type = /datum/armor/rus_ushanka
 
 /obj/item/clothing/head/helmet/police
 	name = "police officer's hat"
@@ -851,7 +851,7 @@ GLOBAL_PROTECT(aventail_pride_colors)
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/head/helmet_teshari.dmi'
 	icon_state = "h2helmet"
 	item_state = "h2_helmet"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_elder_atmosian__suit_armor_elder_atmosian
+	armor_type = /datum/armor/elder_atmosian
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	cold_protection = HEAD

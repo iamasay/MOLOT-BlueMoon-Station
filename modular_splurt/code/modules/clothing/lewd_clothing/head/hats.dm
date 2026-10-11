@@ -5,7 +5,7 @@
 	item_state = "beret_blueshield"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
+	armor_type = /datum/armor/command_and_security
 	strip_delay = 80
 	dynamic_hair_suffix = ""
 	dog_fashion = null
@@ -17,7 +17,7 @@
 	soft_type = "blueshield"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
+	armor_type = /datum/armor/command_and_security
 	strip_delay = 80
 	dog_fashion = null
 
@@ -34,7 +34,7 @@
 	item_state = "beret_brigdoc"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/head/beret_sec__brigdoc__helmet
+	armor_type = /datum/armor/beret_sec_and_brigdoc_and_helmet
 	strip_delay = 60
 	dog_fashion = null
 
@@ -43,7 +43,7 @@
 	desc = "The helmet of the Blueshield. You can't keep the thought of that cat out of your mind."
 	icon_state = "blueshieldhelm"
 	item_state = "blueshieldhelm"
-	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
+	armor_type = /datum/armor/command_and_security
 	strip_delay = 80
 	can_flashlight = TRUE
 
@@ -52,7 +52,7 @@
 	desc = "Reinforced Blueshield Security gear. Protects the head from impacts. You where this because you are boring."
 	icon_state = "barney_helm"
 	item_state = "barney_helm"
-	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
+	armor_type = /datum/armor/command_and_security
 	strip_delay = 80
 	can_flashlight = TRUE
 

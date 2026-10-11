@@ -10,7 +10,7 @@
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	hoodtype = /obj/item/clothing/head/hooded/explorer
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/explorer
+	armor_type = /datum/armor/suit_explorer
 	flags_inv = HIDEJUMPSUIT|HIDETAUR|HIDETAIL
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/pickaxe, /obj/item/device/cooler/lavaland) // BLUEMOON ADD - добавлен лавалендовский ПОУ
 	resistance_flags = FIRE_PROOF
@@ -25,7 +25,7 @@
 	hoodtype = /obj/item/clothing/head/hooded/explorer/standard/improved
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/explorer/standard/improved
+	armor_type = /datum/armor/suit_improved
 
 /obj/item/clothing/suit/hooded/explorer/standard/improved/upgrade_icon(datum/source, amount, maxamount)
 	if(amount)
@@ -61,7 +61,7 @@
 	flags_inv = HIDEHAIR|HIDEFACE|HIDEEARS
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 	cold_protection = HEAD
-	armor_type = /datum/armor/profiles/clothing/head/hooded/explorer
+	armor_type = /datum/armor/head_explorer
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/head/hooded/explorer/standard/improved
@@ -72,7 +72,7 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list(/datum/action/item_action/toggle_helmet_light)
-	armor_type = /datum/armor/profiles/clothing/head/hooded/explorer/standard/improved
+	armor_type = /datum/armor/head_improved
 
 /obj/item/clothing/head/hooded/explorer/standard/improved/upgrade_icon(datum/source, amount, maxamount)
 	if(amount)
@@ -145,7 +145,7 @@
 	visor_flags_inv = HIDEFACIALHAIR
 	visor_flags_cover = MASKCOVERSMOUTH
 	actions_types = list(/datum/action/item_action/adjust)
-	armor_type = /datum/armor/profiles/shared/clothing/mask/gas/exo__explorer
+	armor_type = /datum/armor/exo_and_explorer
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/mask/gas/explorer/attack_self(mob/user)
@@ -171,7 +171,7 @@
 	resistance_flags = FIRE_PROOF | LAVA_PROOF | ACID_PROOF | GOLIATH_RESISTANCE
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC|STYLE_PAW_TAURIC
 	slowdown = 0
-	armor_type = /datum/armor/profiles/clothing/suit/space/hostile_environment
+	armor_type = /datum/armor/hostile_environment_suit
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/pickaxe)
 
@@ -213,7 +213,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	clothing_flags = THICKMATERIAL // no space protection
-	armor_type = /datum/armor/profiles/clothing/head/helmet/space/hostile_environment
+	armor_type = /datum/armor/hostile_environment_helmet
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 
 /obj/item/clothing/head/helmet/space/hostile_environment/Initialize(mapload)
@@ -246,7 +246,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	hoodtype = /obj/item/clothing/head/hooded/explorer/heva
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/explorer/heva
+	armor_type = /datum/armor/suit_heva
 	resistance_flags = FIRE_PROOF | GOLIATH_WEAKNESS
 
 /obj/item/clothing/head/hooded/explorer/heva
@@ -256,7 +256,7 @@
 	icon_state = "heva"
 	item_state = "heva"
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	armor_type = /datum/armor/profiles/clothing/head/hooded/explorer/heva
+	armor_type = /datum/armor/head_heva
 	resistance_flags = FIRE_PROOF | GOLIATH_WEAKNESS
 	mutantrace_variation = STYLE_MUZZLE
 
@@ -277,7 +277,7 @@
 	icon_state = "heva"
 	item_state = "heva"
 	flags_inv = HIDEFACIALHAIR|HIDEFACE|HIDEEYES|HIDEEARS|HIDEHAIR
-	armor_type = /datum/armor/profiles/clothing/mask/gas/heva
+	armor_type = /datum/armor/mask_heva
 
 /****************Exo-Suit and Mask****************/
 
@@ -292,7 +292,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	hoodtype = /obj/item/clothing/head/hooded/explorer/exo
-	armor_type = /datum/armor/profiles/shared/clothing/head_hooded_explorer_exo__suit_hooded_explorer_exo
+	armor_type = /datum/armor/exo
 	resistance_flags = FIRE_PROOF | GOLIATH_RESISTANCE
 
 /obj/item/clothing/head/hooded/explorer/exo
@@ -303,7 +303,7 @@
 	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/head_muzzled.dmi'
 	icon_state = "exo"
 	item_state = "exo"
-	armor_type = /datum/armor/profiles/shared/clothing/head_hooded_explorer_exo__suit_hooded_explorer_exo
+	armor_type = /datum/armor/exo
 	resistance_flags = FIRE_PROOF | GOLIATH_RESISTANCE
 
 /obj/item/clothing/mask/gas/exo
@@ -312,4 +312,4 @@
 	icon_state = "exo"
 	item_state = "exo"
 	resistance_flags = FIRE_PROOF
-	armor_type = /datum/armor/profiles/shared/clothing/mask/gas/exo__explorer
+	armor_type = /datum/armor/exo_and_explorer

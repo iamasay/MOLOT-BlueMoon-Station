@@ -4,7 +4,7 @@
 	icon = 'icons/obj/turnstile.dmi'
 	icon_state = "turnstile_map"
 	density = FALSE
-	armor_type = /datum/armor/profiles/shared/machinery/button__turnstile
+	armor_type = /datum/armor/button_and_turnstile
 	anchored = TRUE
 	use_power = FALSE
 	idle_power_usage = 2

@@ -6,7 +6,7 @@
 	layer = PROJECTILE_HIT_THRESHHOLD_LAYER
 	plane = FLOOR_PLANE
 	max_integrity = 200
-	armor_type = /datum/armor/profiles/machinery/ai_slipper
+	armor_type = /datum/armor/ai_slipper
 
 	var/uses = 20
 	var/cooldown = 0

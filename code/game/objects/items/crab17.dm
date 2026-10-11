@@ -31,7 +31,7 @@
 	icon = 'icons/obj/money_machine.dmi'
 	icon_state = "bogdanoff"
 	layer = LARGE_MOB_LAYER
-	armor_type = /datum/armor/profiles/structure/checkoutmachine
+	armor_type = /datum/armor/checkoutmachine
 	density = TRUE
 	pixel_z = -8
 	max_integrity = 5000

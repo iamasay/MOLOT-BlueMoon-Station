@@ -3,7 +3,7 @@
 	icon = 'icons/obj/atmos.dmi'
 	use_power = NO_POWER_USE
 	max_integrity = 250
-	armor_type = /datum/armor/profiles/machinery/portable_atmospherics
+	armor_type = /datum/armor/portable_atmospherics
 	anchored = FALSE
 
 	var/datum/gas_mixture/air_contents

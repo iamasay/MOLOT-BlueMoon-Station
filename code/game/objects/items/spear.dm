@@ -18,7 +18,7 @@
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	sharpness = SHARP_EDGED
 	max_integrity = 200
-	armor_type = /datum/armor/profiles/shared/tools_and_misc
+	armor_type = /datum/armor/tools_and_misc
 	var/obj/item/grenade/explosive = null
 	var/war_cry = "AAAAARGH!!!"
 	var/icon_prefix = "spearglass"

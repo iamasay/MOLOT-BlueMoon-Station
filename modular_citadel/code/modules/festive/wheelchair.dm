@@ -45,7 +45,7 @@
 	icon_state = "wheelchair"
 	layer = OBJ_LAYER
 	max_integrity = 100
-	armor_type = /datum/armor/profiles/shared/vehicle/ridden_wheelchair__sealed_vectorcraft_rideable_wheelchair	//Wheelchairs aren't super tough yo
+	armor_type = /datum/armor/wheelchairs	//Wheelchairs aren't super tough yo
 	canmove = TRUE
 	density = FALSE		//Thought I couldn't fix this one easily, phew
 

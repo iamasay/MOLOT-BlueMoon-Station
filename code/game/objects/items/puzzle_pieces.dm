@@ -39,7 +39,7 @@
 	explosion_block = 3
 	heat_proof = TRUE
 	max_integrity = 600
-	armor_type = /datum/armor/profiles/shared/secure_and_special_objects
+	armor_type = /datum/armor/secure_and_special_objects
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | LAVA_PROOF
 	damage_deflection = 70
 	/// Make sure that the key has the same puzzle_id as the keycard door!

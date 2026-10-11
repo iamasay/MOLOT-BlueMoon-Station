@@ -7,7 +7,7 @@
 	base_pixel_x = -16
 	base_pixel_y = -16
 	max_integrity = 2000
-	armor_type = /datum/armor/profiles/vehicle/sealed/tank
+	armor_type = /datum/armor/vehicle_tank
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	generic_canpass = FALSE

@@ -258,7 +258,7 @@ GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 	custom_materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT, /datum/material/plasma=MINERAL_MATERIAL_AMOUNT)
 	throwforce = 10
 	flags_1 = CONDUCT_1
-	armor_type = /datum/armor/profiles/stack/sheet/plasteel
+	armor_type = /datum/armor/plasteel
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/plasteel
 	grind_results = list(/datum/reagent/iron = 20, /datum/reagent/toxin/plasma = 20)
@@ -402,7 +402,7 @@ GLOBAL_LIST_INIT(bamboo_recipes, list ( \
 	))
 
 /obj/item/stack/sheet/mineral/bamboo
-	armor_type = /datum/armor/profiles/shared/wood_and_bamboo
+	armor_type = /datum/armor/wood_and_bamboo
 	name = "bamboo cuttings"
 	desc = "Finely cut bamboo sticks."
 	singular_name = "cut bamboo"

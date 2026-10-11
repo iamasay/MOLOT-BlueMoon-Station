@@ -11,7 +11,7 @@
 	integrity_failure = 0.5
 	max_integrity = 100
 	rad_flags = RAD_PROTECT_CONTENTS
-	armor_type = /datum/armor/profiles/modular_computer
+	armor_type = /datum/armor/modular_computer
 
 	var/enabled = 0 // Whether the computer is turned on.
 	var/screen_on = 1 // Whether the computer is active/opened/it's screen is on.

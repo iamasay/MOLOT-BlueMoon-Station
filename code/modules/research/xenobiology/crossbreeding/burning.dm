@@ -480,7 +480,7 @@ Burning extracts:
 	icon_state = "adamshield"
 	item_state = "adamshield"
 	w_class = WEIGHT_CLASS_HUGE
-	armor_type = /datum/armor/profiles/shared/shield/base__adamantineshield
+	armor_type = /datum/armor/base_and_adamantineshield
 	slot_flags = ITEM_SLOT_BACK
 	block_chance = 75
 	force = 0

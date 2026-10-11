@@ -16,7 +16,7 @@
 	blood_overlay_type = "armor"
 
 /obj/item/clothing/head/helmet/skull/ftu
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_skull_ftu__suit_armor_vest_ftu
+	armor_type = /datum/armor/clothing_ftu
 
 /obj/item/clothing/suit/armor/vest/dragoncora
 	name = "FTU Security Armor"
@@ -28,7 +28,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	cold_protection = CHEST|GROIN|ARMS
 	heat_protection = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/secjacket__vest_dragoncora
+	armor_type = /datum/armor/secjacket_and_vest_dragoncora
 
 /obj/item/clothing/gloves/color/black/dragoncora
 	name = "SpecOps Guerrilla Gloves"

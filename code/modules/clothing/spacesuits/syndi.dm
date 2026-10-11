@@ -4,7 +4,7 @@
 	icon_state = "syndicate"
 	item_state = "syndicate"
 	desc = "Has a tag on it: Totally not property of an enemy corporation, honest!"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_syndicate__suit_space_syndicate
+	armor_type = /datum/armor/spacesuit_syndicate
 
 /obj/item/clothing/suit/space/syndicate
 	name = "red space suit"
@@ -14,7 +14,7 @@
 	desc = "Has a tag on it: Totally not property of an enemy corporation, honest!"
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_syndicate__suit_space_syndicate
+	armor_type = /datum/armor/spacesuit_syndicate
 	brc_mitigation_bonus = BRC_MITIGATION_15  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC|STYLE_PAW_TAURIC
 	slowdown = 0.3

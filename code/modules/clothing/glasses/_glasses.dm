@@ -134,7 +134,7 @@
 	actions_types = list(/datum/action/item_action/toggle_research_scanner)
 	glass_colour_type = /datum/client_colour/glass_colour/purple
 	resistance_flags = ACID_PROOF
-	armor_type = /datum/armor/profiles/shared/clothing_and_stack_and_structure/fire80_acid100
+	armor_type = /datum/armor/fire80_acid100
 	glasses_type = "sci"
 
 /obj/item/clothing/glasses/science/item_action_slot_check(slot, mob/user, datum/action/A)

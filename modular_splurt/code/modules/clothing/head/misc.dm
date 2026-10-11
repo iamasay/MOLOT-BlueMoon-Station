@@ -44,7 +44,7 @@
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/head.dmi'
 	flags_inv = HIDEHAIR
-	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
+	armor_type = /datum/armor/armored_headgear
 
 //CBRN/MOPP helmets
 
@@ -55,7 +55,7 @@
 	item_state = "cbrnhoodciv"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/head.dmi'
-	armor_type = /datum/armor/profiles/shared/clothing/cbrn
+	armor_type = /datum/armor/cbrn
 	w_class = WEIGHT_CLASS_NORMAL
 	gas_transfer_coefficient = 0.5
 	permeability_coefficient = 0.5
@@ -79,14 +79,14 @@
 	item_state = "cbrnhoodeng"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
-	armor_type = /datum/armor/profiles/shared/clothing/cbrn_engineering
+	armor_type = /datum/armor/cbrn_engineering
 	desc = "Chemical, Biological, Radiological and Nuclear. A hood design for harsh environmental conditions short of no atmosphere and for engineer squads fireproof."
 
 /obj/item/clothing/head/helmet/cbrn/sec
 	name = "CBRN hood Security"
 	icon_state = "cbrnhoodsec"
 	item_state = "cbrnhoodsec"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/cbrn/sec
+	armor_type = /datum/armor/cbrn_head_sec
 	desc = "Chemical, Biological, Radiological and Nuclear. A hood design for harsh environmental conditions short of no atmosphere and for security squads was armor padded."
 
 /obj/item/clothing/head/helmet/cbrn/med
@@ -98,13 +98,13 @@
 	name = "CBRN hood Science"
 	icon_state = "cbrnhoodsci"
 	item_state = "cbrnhoodsci"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_cbrn_sci__suit_cbrn_science
+	armor_type = /datum/armor/science
 
 /obj/item/clothing/head/helmet/cbrn/cargo
 	name = "CBRN hood Cargo"
 	icon_state = "cbrnhoodcargo"
 	item_state = "cbrnhoodcargo"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_cbrn_cargo__suit_cbrn_cargo
+	armor_type = /datum/armor/cargo
 	desc = "Chemical, Biological, Radiological and Nuclear. A hood design for harsh environmental conditions short of no atmosphere and for cargo some a bit defend from attacks."
 
 
@@ -116,7 +116,7 @@
 	can_flashlight = 1
 	mutantrace_variation = STYLE_MUZZLE
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/head_muzzled.dmi'
-	armor_type = /datum/armor/profiles/clothing/head/helmet/cbrn/mopp
+	armor_type = /datum/armor/head_mopp
 	is_edible = 0
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
 	max_heat_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
@@ -142,7 +142,7 @@
 	name = "advance MOPP hood"
 	desc = "Mission Oriented Protective Posture. A hood design for harsh combat conditions short of no atmosphere. This is an advance versoin for ERT units and Central Command Staff."
 	can_flashlight = 1
-	armor_type = /datum/armor/profiles/clothing/head/helmet/cbrn/mopp/advance
+	armor_type = /datum/armor/head_advance
 // 	clothing_flags = NONE // BLUEMOON COMMENTED OUT led to loss of parental clothing flags = no space protection
 	is_edible = 0
 

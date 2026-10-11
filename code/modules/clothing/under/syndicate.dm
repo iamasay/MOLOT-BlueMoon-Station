@@ -4,7 +4,7 @@
 	icon_state = "syndicate"
 	item_state = "bl_suit"
 	has_sensor = NO_SENSORS
-	armor_type = /datum/armor/profiles/shared/clothing/under/inteq__syndicate__syndicate_skirt
+	armor_type = /datum/armor/inteq_and_syndicate
 	alt_covers_chest = TRUE
 
 /obj/item/clothing/under/syndicate/skirt
@@ -14,7 +14,7 @@
 	item_state = "bl_suit"
 	has_sensor = NO_SENSORS
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/under/inteq__syndicate__syndicate_skirt
+	armor_type = /datum/armor/inteq_and_syndicate
 	alt_covers_chest = TRUE
 	fitted = FEMALE_UNIFORM_TOP
 	mutantrace_variation = STYLE_DIGITIGRADE
@@ -25,7 +25,7 @@
 	desc = "An insidious armored jumpsuit lined with Syndicate nanofibers and prototype platings, slightly resistant to most forms of damage, but is far too bulky to have anything attached to it. It still counts as stealth if there are no witnesses."
 	icon_state = "bloodred_pajamas"
 	item_state = "bl_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/tactical
+	armor_type = /datum/armor/tactical
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	can_adjust = FALSE
 
@@ -35,7 +35,7 @@
 	icon_state = "bloodred_pajamas"
 	item_state = "bl_suit"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	armor_type = /datum/armor/profiles/clothing/under/syndicate/bloodred/sleepytime
+	armor_type = /datum/armor/sleepytime
 
 /obj/item/clothing/under/syndicate/tacticool
 	name = "tacticool turtleneck"
@@ -43,7 +43,7 @@
 	icon_state = "tactifool"
 	item_state = "bl_suit"
 	has_sensor = HAS_SENSORS //BLUEMOON CHANGE красота не должна требовать жертв
-	armor_type = /datum/armor/profiles/shared/clothing/under/syndicate_civil
+	armor_type = /datum/armor/syndicate_civil
 
 /obj/item/clothing/under/syndicate/tacticool/skirt
 	name = "tacticool skirtleneck"
@@ -51,7 +51,7 @@
 	icon_state = "tactifool_skirt"
 	item_state = "bl_suit"
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor_type = /datum/armor/profiles/shared/clothing/under/syndicate_civil
+	armor_type = /datum/armor/syndicate_civil
 	fitted = FEMALE_UNIFORM_TOP
 	mutantrace_variation = STYLE_DIGITIGRADE
 	alternate_worn_layer = DRESS_LAYER
@@ -81,7 +81,7 @@
 	alternate_screams = RUSSIAN_SCREAMS
 	icon_state = "trackpants"
 	can_adjust = FALSE
-	armor_type = /datum/armor/profiles/clothing/under/syndicate/soviet
+	armor_type = /datum/armor/under_soviet
 	resistance_flags = NONE
 
 /obj/item/clothing/under/syndicate/combat
@@ -100,7 +100,7 @@
 	alternate_screams = RUSSIAN_SCREAMS
 	icon_state = "rus_under"
 	can_adjust = FALSE
-	armor_type = /datum/armor/profiles/shared/clothing/under/enclave_and_russian_army
+	armor_type = /datum/armor/enclave_and_russian_army
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 
@@ -110,7 +110,7 @@
 	alternate_screams = RUSSIAN_SCREAMS
 	icon_state = "rus_under_alt"
 	can_adjust = FALSE
-	armor_type = /datum/armor/profiles/shared/clothing/under/enclave_and_russian_army
+	armor_type = /datum/armor/enclave_and_russian_army
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 
@@ -124,7 +124,7 @@
 	name = "neo american sergeant uniform"
 	desc = "Throughout the stars, rumors of mad scientists and angry drill sergeant run rampent, of creatures in armor black as night being led by men or women wearing this uniform, they share one thing, a deep, natonalistic zeal of the dream of America."
 	icon_state = "enclave"
-	armor_type = /datum/armor/profiles/shared/clothing/under/enclave_and_russian_army
+	armor_type = /datum/armor/enclave_and_russian_army
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 
@@ -132,7 +132,7 @@
 	name = "neo american officer uniform"
 	desc = "Throughout the stars, rumors of mad scientists and angry drill sergeant run rampent, of creatures in armor black as night being led by men or women wearing this uniform, they share one thing, a deep, natonalistic zeal of the dream of America."
 	icon_state = "enclaveo"
-	armor_type = /datum/armor/profiles/shared/clothing/under/enclave_and_russian_army
+	armor_type = /datum/armor/enclave_and_russian_army
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 
@@ -142,7 +142,7 @@
 	icon_state = "syndicatebaseball"
 	item_state = "syndicatebaseball"
 	has_sensor = NO_SENSORS
-	armor_type = /datum/armor/profiles/clothing/under/syndicate/baseball
+	armor_type = /datum/armor/syndicate_under_baseball
 	alt_covers_chest = TRUE
 	mutantrace_variation = USE_TAUR_CLIP_MASK
 
@@ -155,4 +155,4 @@
 	icon_state = "scrubswine"
 	item_state = "scrubswine"
 	can_adjust = TRUE
-	armor_type = /datum/armor/profiles/shared/clothing/under/command_and_syndicate_utility
+	armor_type = /datum/armor/command_and_syndicate_utility

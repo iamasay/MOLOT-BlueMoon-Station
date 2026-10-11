@@ -11,7 +11,7 @@
 	var/health = 70
 	var/maxhealth = 70
 	resistance_flags = ACID_PROOF
-	armor_type = /datum/armor/profiles/shared/clothing_and_stack_and_structure/fire80_acid100
+	armor_type = /datum/armor/fire80_acid100
 	CanAtmosPass = ATMOS_PASS_PROC
 	var/breaksound = "shatter"
 	var/hitsound = 'sound/effects/Glasshit.ogg'

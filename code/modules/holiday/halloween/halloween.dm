@@ -41,7 +41,7 @@
 
 //Spookoween variables
 /obj/structure/closet
-	armor_type = /datum/armor/profiles/structure/closet
+	armor_type = /datum/armor/closet
 	var/trapped = 0
 	var/mob/trapped_mob
 

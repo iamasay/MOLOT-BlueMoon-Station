@@ -82,13 +82,13 @@
 	clothing_flags = THICKMATERIAL
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
-	armor_type = /datum/armor/profiles/shared/clothing/cbrn
+	armor_type = /datum/armor/cbrn
 	is_edible = 0
 
 /obj/item/clothing/shoes/jackboots/cbrn/mopp
 	name = "MOPP boots"
 	desc = "Mission Oriented Protective Posture. Thick black boots design for working in hazardous combat environments."
-	armor_type = /datum/armor/profiles/shared/clothing/cbrn_mopp
+	armor_type = /datum/armor/cbrn_mopp
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
 	max_heat_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	cold_protection = FEET
@@ -97,7 +97,7 @@
 /obj/item/clothing/shoes/jackboots/cbrn/mopp/advance
 	name = "advance MOPP boots"
 	desc = "Mission Oriented Protective Posture. Thick black boots design for working in hazardous combat environments. Used by CentCom Officer and ERT staff."
-	armor_type = /datum/armor/profiles/shared/clothing/cbrn_mopp
+	armor_type = /datum/armor/cbrn_mopp
 	clothing_flags = NOSLIP | STOPSPRESSUREDAMAGE | THICKMATERIAL
 
 //research nods

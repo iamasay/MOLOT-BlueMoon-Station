@@ -1,14 +1,4 @@
-// Armor-only migration baseline: 2adb5057517d582402686140b63c11a10e2f55c2
-// Deliberate exceptions: ordinary kitchen forks and spoons have no armor.
-// Identical profiles share a datum; similar profiles remain separate.
-// Consumers list explicit armor assignments; descendants without overrides inherit them.
-
-// Category: items/other. Mixed categories use shared.dm.
-
-// Используется (и наследниками без собственного armor):
-//   /obj/item/electronic_assembly — code/modules/integrated_electronics/core/assemblies.dm
-// (Схожая броня: /datum/armor/profiles/structure/grille; другой профиль, не объединять.)
-/datum/armor/profiles/electronic_assembly
+/datum/armor/electronic_assembly
 	melee = 50
 	bullet = 70
 	laser = 70
@@ -21,10 +11,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/modular_computer — code/modules/modular_computers/computers/item/computer.dm
-// (Схожая броня: /datum/armor/profiles/machinery/meter; другой профиль, не объединять.)
-/datum/armor/profiles/modular_computer
+/datum/armor/modular_computer
 	melee = 0
 	bullet = 20
 	laser = 20
@@ -37,11 +24,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/reagent_containers/glass/bucket — code/modules/reagents/reagent_containers/glass.dm
-//   /obj/item/reagent_containers/glass/bucket — modular_bluemoon/code/modules/reagents/reagent_containers.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/gloves/combat_and_martial_arts; другой профиль, не объединять.)
-/datum/armor/profiles/reagent_containers/glass/bucket
+/datum/armor/bucket
 	melee = 10
 	bullet = 0
 	laser = 0
@@ -54,10 +37,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/reagent_containers/rag/towel/syndicate — code/modules/reagents/reagent_containers/rags.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing_and_general_objects; другой профиль, не объединять.)
-/datum/armor/profiles/reagent_containers/rag/towel/syndicate
+/datum/armor/item_syndicate
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -70,10 +50,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/tank — code/game/objects/items/tanks/tanks.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing_gloves_botanic_leather__vending_refill; другой профиль, не объединять.)
-/datum/armor/profiles/tank
+/datum/armor/item_tank
 	melee = 0
 	bullet = 0
 	laser = 0

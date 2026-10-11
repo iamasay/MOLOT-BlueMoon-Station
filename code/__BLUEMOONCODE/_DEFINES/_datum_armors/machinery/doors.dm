@@ -1,14 +1,4 @@
-// Armor-only migration baseline: 2adb5057517d582402686140b63c11a10e2f55c2
-// Deliberate exceptions: ordinary kitchen forks and spoons have no armor.
-// Identical profiles share a datum; similar profiles remain separate.
-// Consumers list explicit armor assignments; descendants without overrides inherit them.
-
-// Category: machinery/doors. Mixed categories use shared.dm.
-
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door — code/game/machinery/doors/door.dm
-// (Схожая броня: /datum/armor/profiles/machinery/door/firedoor; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door
+/datum/armor/door
 	melee = 30
 	bullet = 30
 	laser = 20
@@ -21,10 +11,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door/firedoor — code/game/machinery/doors/firedoor.dm
-// (Схожая броня: /datum/armor/profiles/machinery/door; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door/firedoor
+/datum/armor/firedoor
 	melee = 30
 	bullet = 30
 	laser = 20
@@ -37,10 +24,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door/poddoor — code/game/machinery/doors/poddoor.dm
-// (Схожая броня: /datum/armor/profiles/shared/secure_and_special_objects; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door/poddoor
+/datum/armor/poddoor
 	melee = 50
 	bullet = 100
 	laser = 100
@@ -53,10 +37,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door/poddoor/shutters — code/game/machinery/doors/shutters.dm
-// (Схожая броня: /datum/armor/profiles/machinery/door/poddoor/shutters/old; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door/poddoor/shutters
+/datum/armor/shutters
 	melee = 20
 	bullet = 20
 	laser = 20
@@ -69,10 +50,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door/poddoor/shutters/old — code/game/machinery/doors/shutters.dm
-// (Схожая броня: /datum/armor/profiles/machinery/door/poddoor/shutters; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door/poddoor/shutters/old
+/datum/armor/old
 	melee = 30
 	bullet = 30
 	laser = 30
@@ -85,10 +63,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/machinery/door/window — code/game/machinery/doors/windowdoor.dm
-// (Схожая броня: /datum/armor/profiles/shared/machinery/button__turnstile; другой профиль, не объединять.)
-/datum/armor/profiles/machinery/door/window
+/datum/armor/window
 	melee = 20
 	bullet = 50
 	laser = 50

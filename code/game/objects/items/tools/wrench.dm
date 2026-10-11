@@ -19,7 +19,7 @@
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
 	tool_behaviour = TOOL_WRENCH
 	toolspeed = 1
-	armor_type = /datum/armor/profiles/shared/tools_and_misc
+	armor_type = /datum/armor/tools_and_misc
 
 	wound_bonus = 5
 	bare_wound_bonus = 6

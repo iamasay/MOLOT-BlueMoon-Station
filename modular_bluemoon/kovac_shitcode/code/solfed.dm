@@ -72,7 +72,7 @@
 	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/obj_sol.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/nri_coat__nri_vest__solfed_coat
+	armor_type = /datum/armor/nri_and_solfed
 	brc_mitigation_bonus = BRC_MITIGATION_20  // BLUEMOON ADD
 
 // Cloaks
@@ -103,7 +103,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol_head.dmi'
 
 /obj/item/clothing/head/HoS/beret/sol/security
-	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
+	armor_type = /datum/armor/armored_headgear
 
 /obj/item/clothing/head/HoS/beret/sol/plain
 	name = "solfed beret"
@@ -163,7 +163,7 @@
 	icon_state = "hardsuit0-solfed"
 	item_state = "hardsuit0-solfed"
 	hardsuit_type = "solfed"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
+	armor_type = /datum/armor/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list()
@@ -178,7 +178,7 @@
 	item_state = "hardsuit0-solfed"
 	hardsuit_type = "solfed"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/sol
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
+	armor_type = /datum/armor/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	//mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
@@ -195,7 +195,7 @@
 	item_state = "hardsuit0-solfeds"
 	hardsuit_type = "solfeds"
 	tail_state = "ert-alert"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/sol/adv/helmet__suit
+	armor_type = /datum/armor/sol_hardsuit_adv
 
 /obj/item/clothing/suit/space/hardsuit/ert/alert/sol/adv
 	name = "FCS-B SolFed hardsuit"
@@ -204,7 +204,7 @@
 	item_state = "hardsuit0-solfeds"
 	hardsuit_type = "solfeds"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/sol/adv
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/sol/adv/helmet__suit
+	armor_type = /datum/armor/sol_hardsuit_adv
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 
 /// Outfits (ERT military suits were stored in ert.dm)

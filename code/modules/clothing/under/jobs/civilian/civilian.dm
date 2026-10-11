@@ -189,7 +189,7 @@
 	desc = "It's the official uniform of the station's janitor. It has minor protection from biohazards."
 	name = "janitor's jumpsuit"
 	icon_state = "janitor"
-	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
+	armor_type = /datum/armor/bio10_wound5
 
 /obj/item/clothing/under/rank/civilian/janitor/skirt
 	name = "janitor's jumpskirt"

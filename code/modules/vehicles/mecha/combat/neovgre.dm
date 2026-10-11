@@ -5,7 +5,7 @@
 	icon_state = "neovgre"
 	max_integrity = 500
 	deflect_chance = 40
-	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/neovgre
+	armor_type = /datum/armor/neovgre
 	max_temperature = 60000
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	force = 50 //SMASHY SMASHY!!

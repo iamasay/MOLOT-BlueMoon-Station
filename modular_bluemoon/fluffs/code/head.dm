@@ -388,7 +388,7 @@
 ///////////////////////////////////////////////
 
 /obj/item/clothing/head/helmet/sec/empire_head
-	armor_type = /datum/armor/profiles/clothing/head/helmet/sec/empire_head
+	armor_type = /datum/armor/empire_head
 	name = "Katzen Steel Helmet"
 	desc = "Полиморфический шлем. На внутренней стороне этикетка - Furui.tm, свыше присутствуют застёжки для высвобождения ушей."
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'

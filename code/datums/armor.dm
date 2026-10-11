@@ -74,6 +74,28 @@ GLOBAL_LIST_INIT(armor_by_type, generate_armor_type_cache())
 	var/list/armor_types = list(/datum/armor/none)
 	armor_types |= subtypesof(/datum/armor)
 	for(var/datum/armor/armor_type as anything in armor_types)
+		resolve_armor_profile(armor_type, armor_cache, list())
+	return armor_cache
+
+/// Resolve linked profiles before interning them, independently of declaration order.
+/proc/resolve_armor_profile(datum/armor/armor_type, list/armor_cache, list/resolving)
+	if(armor_cache[armor_type])
+		return armor_cache[armor_type]
+	if(armor_type in resolving)
+		CRASH("Cyclic armor profile dependency: [armor_type]")
+	resolving += armor_type
+	var/datum/armor/source_type = initial(armor_type.base_armor_type)
+	if(source_type)
+		if(!ispath(source_type, /datum/armor))
+			CRASH("Invalid base armor profile [source_type] on [armor_type]")
+		var/datum/armor/source_armor = resolve_armor_profile(source_type, armor_cache, resolving)
+		var/datum/armor/derived_armor = source_armor.setRating(\
+			bullet = max(0, source_armor.bullet - 15),\
+			laser = max(0, source_armor.laser - 15))
+		armor_cache[armor_type] = derived_armor
+		resolving -= armor_type
+		return derived_armor
+	else
 		// Inspect defaults before allocation: equivalent types need no new datum.
 		var/melee = initial(armor_type.melee)
 		var/bullet = initial(armor_type.bullet)
@@ -91,7 +113,8 @@ GLOBAL_LIST_INIT(armor_by_type, generate_armor_type_cache())
 			shared_armor = new armor_type
 			shared_armor.GenerateTag()
 		armor_cache[armor_type] = shared_armor
-	return armor_cache
+		resolving -= armor_type
+		return shared_armor
 
 /datum/armor/GenerateTag()
 	..()
@@ -100,6 +123,8 @@ GLOBAL_LIST_INIT(armor_by_type, generate_armor_type_cache())
 
 /datum/armor
 	datum_flags = DF_USE_TAG
+	/// Linked hardsuit profile. MOD armor inherits it with bullet and laser reduced by 15, down to zero.
+	var/base_armor_type
 	var/melee = 0
 	var/bullet = 0
 	var/laser = 0

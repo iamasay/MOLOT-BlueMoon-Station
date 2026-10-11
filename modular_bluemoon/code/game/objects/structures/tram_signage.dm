@@ -28,7 +28,7 @@
 	icon = 'modular_bluemoon/icons/obj/tram/tram_signs.dmi'
 	icon_state = "tram_plate"
 	max_integrity = 150
-	armor_type = /datum/armor/profiles/shared/transport
+	armor_type = /datum/armor/transport
 	buildable_sign = FALSE
 	is_editable = FALSE
 	/// The tram we have info about

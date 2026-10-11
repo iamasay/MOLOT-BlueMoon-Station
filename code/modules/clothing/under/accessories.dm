@@ -529,7 +529,7 @@
 /obj/item/clothing/accessory/medal/gold/captain/family
 	name = "old medal of captaincy"
 	desc = "A rustic badge pure gold, has been through hell and back by the looks, the syndcate have been after these by the looks of it for generations..."
-	armor_type = /datum/armor/profiles/clothing/accessory/medal/gold/captain/family
+	armor_type = /datum/armor/family
 	custom_materials = list(/datum/material/gold=2000)
 	icon_state = "gold_c"
 
@@ -543,7 +543,7 @@
 	desc = "An eccentric medal made of plasma."
 	icon_state = "plasma"
 	medaltype = "medal-plasma"
-	armor_type = /datum/armor/profiles/clothing/accessory/medal/plasma
+	armor_type = /datum/armor/accessorie_plasma
 	custom_materials = list(/datum/material/plasma=1000)
 
 /obj/item/clothing/accessory/medal/plasma/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
@@ -665,7 +665,7 @@
 	name = "bone talisman"
 	desc = "A hunter's talisman, some say the old gods smile on those who wear it."
 	icon_state = "talisman"
-	armor_type = /datum/armor/profiles/shared/clothing/accessory/skullcodpiece__talisman
+	armor_type = /datum/armor/skullcodpiece_and_talisman
 	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece
@@ -673,7 +673,7 @@
 	desc = "A skull shaped ornament, intended to protect the important things in life."
 	icon_state = "skull"
 	above_suit = TRUE
-	armor_type = /datum/armor/profiles/shared/clothing/accessory/skullcodpiece__talisman
+	armor_type = /datum/armor/skullcodpiece_and_talisman
 	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
 /obj/item/clothing/accessory/skullcodpiece/fake
@@ -692,7 +692,7 @@
 	name = "protective padding"
 	desc = "A soft padding meant to cushion the wearer from melee harm."
 	icon_state = "padding"
-	armor_type = /datum/armor/profiles/clothing/accessory/padding // BLUEMOON CHANGE нёрф защиты в два раза
+	armor_type = /datum/armor/padding // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY //hidden from indiscrete mob examines.
 	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
@@ -700,7 +700,7 @@
 	name = "kevlar padding"
 	desc = "A layered kevlar padding meant to cushion the wearer from ballistic harm."
 	icon_state = "padding"
-	armor_type = /datum/armor/profiles/clothing/accessory/kevlar // BLUEMOON CHANGE нёрф защиты в два раза
+	armor_type = /datum/armor/kevlar // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
 	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 
@@ -708,7 +708,7 @@
 	name = "ablative padding"
 	desc = "A thin ultra-refractory composite padding meant to cushion the wearer from energy lasers harm."
 	icon_state = "plastics"
-	armor_type = /datum/armor/profiles/clothing/accessory/plastics // BLUEMOON CHANGE нёрф защиты в два раза
+	armor_type = /datum/armor/plastics // BLUEMOON CHANGE нёрф защиты в два раза
 	flags_inv = HIDEACCESSORY
 	restricted_accessory = TRUE // BLUEMOON EDIT - изменение аксессуаров
 

@@ -171,7 +171,7 @@
 	anchored = TRUE
 	max_integrity = 150
 	integrity_failure = 0.75
-	armor_type = /datum/armor/profiles/shared/transport
+	armor_type = /datum/armor/transport
 	layer = TRAM_FLOOR_LAYER
 	plane = GAME_PLANE
 	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_OUT_UP

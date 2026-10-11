@@ -74,7 +74,7 @@ GLOBAL_LIST_INIT(marker_beacon_colors, list(
 		update_icon()
 
 /obj/structure/marker_beacon
-	armor_type = /datum/armor/profiles/structure/marker_beacon
+	armor_type = /datum/armor/marker_beacon
 	name = "marker beacon"
 	desc = "A Prism-brand path illumination device. It is anchored in place and glowing steadily."
 	icon = 'icons/obj/lighting.dmi'

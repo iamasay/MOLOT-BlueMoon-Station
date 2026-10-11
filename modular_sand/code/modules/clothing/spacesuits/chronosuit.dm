@@ -6,7 +6,7 @@
 	icon_state = "chronohelmet"
 	item_state = "chronohelmet"
 	slowdown = 0
-	armor_type = /datum/armor/profiles/clothing/head/helmet/space/chronos
+	armor_type = /datum/armor/head_helmet_space_spacesuit_chronos
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/obj/item/clothing/suit/space/chronos/suit = null
 
@@ -27,7 +27,7 @@
 	icon_state = "chronosuit"
 	item_state = "chronosuit"
 	actions_types = list(/datum/action/item_action/toggle)
-	armor_type = /datum/armor/profiles/clothing/suit/space/chronos
+	armor_type = /datum/armor/suit_space_spacesuit_chronos
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	mutantrace_variation = STYLE_DIGITIGRADE
 	slowdown = 0

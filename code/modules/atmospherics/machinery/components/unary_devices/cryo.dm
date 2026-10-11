@@ -4,7 +4,7 @@
 	icon_state = "pod-off"
 	density = TRUE
 	max_integrity = 350
-	armor_type = /datum/armor/profiles/machinery/atmospherics/components/unary/cryo_cell
+	armor_type = /datum/armor/cryo_cell
 	layer = ABOVE_WINDOW_LAYER
 	plane = GAME_PLANE
 	state_open = FALSE

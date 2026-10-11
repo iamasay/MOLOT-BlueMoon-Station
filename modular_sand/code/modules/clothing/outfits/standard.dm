@@ -19,18 +19,18 @@
 	icon_state = "darkcarapace"
 	item_state = "darkcarapace"
 	blood_overlay_type = "armor"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/darkcarapace/debug
+	armor_type = /datum/armor/suit_debug
 	brc_mitigation_bonus = 30  // BLUEMOON ADD
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/debug
 	name = "Bluespace Tech Helmet"
 	desc = "A specialised helmet for Bluespace agents."
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/debug/helmet__suit
+	armor_type = /datum/armor/hardsuit_debug
 
 /obj/item/clothing/suit/space/hardsuit/ert/alert/debug
 	name = "Bluespace Tech Hardsuit"
 	desc = "A specialised hardsuit for Bluespace agents."
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/debug/helmet__suit
+	armor_type = /datum/armor/hardsuit_debug
 	brc_mitigation_bonus = 30  // BLUEMOON ADD
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/debug
 

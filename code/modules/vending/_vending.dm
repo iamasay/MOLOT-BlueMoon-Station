@@ -88,7 +88,7 @@ GLOBAL_LIST_EMPTY(vending_machines_to_restock)
 	verb_exclaim = "beeps"
 	max_integrity = 300
 	integrity_failure = 0.33
-	armor_type = /datum/armor/profiles/shared/machinery/mailmat__vending
+	armor_type = /datum/armor/mailmat_and_vending
 	circuit = /obj/item/circuitboard/machine/vendor
 	payment_department = ACCOUNT_SRV
 	light_power = 0.5

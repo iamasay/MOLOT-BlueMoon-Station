@@ -57,7 +57,7 @@
 	desc = "An expensive piece of plasmaman envirosuit fashion. guaranteed to keep you cool while the station goes down in fierceful fires."
 	icon_state = "captain_envirosuit"
 	item_state = "captain_envirosuit"
-	armor_type = /datum/armor/profiles/clothing/under/plasmaman/captain
+	armor_type = /datum/armor/under_captain
 	sensor_mode = SENSOR_COORDS
 	sensor_flags = NONE
 

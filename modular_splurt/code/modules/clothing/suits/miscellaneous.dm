@@ -173,7 +173,7 @@
 	name = "Enforcer Voidsuit"
 	desc = "Deluxe issue armored voidsuit. Let the middle class bask in your grofit!"
 	icon_state = "corpuss"
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/corpus/s
+	armor_type = /datum/armor/s
 	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/corpus/s //Enjoy this nice red outfit Nanotrasen! There is NO NEED for a pink one! xoxo -VivI Fanteriso
 
@@ -246,7 +246,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
-	armor_type = /datum/armor/profiles/clothing/suit/goner // Det's armor value + 5 BOMB&BIO&RAD&FIRE
+	armor_type = /datum/armor/suit_goner // Det's armor value + 5 BOMB&BIO&RAD&FIRE
 
 /obj/item/clothing/suit/goner/Initialize(mapload)
 	. = ..()
@@ -295,7 +295,7 @@
 	name = "Strange Voidsuit"
 	desc = "An odd Voidsuit that looks strangely familiar. Has the name 'John' stenciled on it. The shielding module is also intact!"
 	icon_state = "corpus_jp"
-	armor_type = /datum/armor/profiles/clothing/suit/hooded/corpus/jp
+	armor_type = /datum/armor/jp
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/corpus/jp
 

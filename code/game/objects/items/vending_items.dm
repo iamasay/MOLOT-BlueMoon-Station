@@ -2,7 +2,7 @@
 	Vending machine refills can be found at /code/modules/vending/ within each vending machine's respective file
 */
 /obj/item/vending_refill
-	armor_type = /datum/armor/profiles/shared/clothing_gloves_botanic_leather__vending_refill
+	armor_type = /datum/armor/leather_and_refills
 	name = "resupply canister"
 	var/machine_name = "Generic"
 

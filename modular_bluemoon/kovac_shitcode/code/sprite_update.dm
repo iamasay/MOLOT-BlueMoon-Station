@@ -35,7 +35,7 @@
 	icon_state = "agent"
 	item_state = "agent"
 	dog_fashion = null
-	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/agent
+	armor_type = /datum/armor/agent
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 /obj/item/clothing/head/helmet/flakhelm	//Actually the M1 Helmet
@@ -145,7 +145,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	allowed = list(/obj/item/gun, /obj/item/melee, /obj/item/restraints, /obj/item/tank)
 	slowdown = 0.7
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox__suit_space_vox
+	armor_type = /datum/armor/spacesuit_vox
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
@@ -165,7 +165,7 @@
 		brc_worn = FALSE
 
 /obj/item/clothing/head/helmet/space/vox
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox__suit_space_vox
+	armor_type = /datum/armor/spacesuit_vox
 	flags_cover = NONE
 	species_restricted = list("Vox")
 
@@ -179,7 +179,7 @@
 	item_state = "vox-stealth"
 	desc = "A smoothly contoured, matte-black alien helmet."
 
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox_stealth__suit_space_vox_stealth
+	armor_type = /datum/armor/stealth
 
 /obj/item/clothing/suit/space/vox/stealth
 	name = "alien stealth suit"
@@ -187,7 +187,7 @@
 	item_state = "vox-stealth"
 	desc = "A sleek black suit. it seems to be rather heavy."
 
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox_stealth__suit_space_vox_stealth
+	armor_type = /datum/armor/stealth
 
 	slowdown = 1.4
 	actions_types = list(/datum/action/item_action/vox_stealth)
@@ -342,7 +342,7 @@
 	icon_state = "vox-medic"
 	item_state = "vox-medic"
 	desc = "An alien helmet with enormous lenseю"
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox_medic__suit_space_vox_medic
+	armor_type = /datum/armor/medic
 
 /obj/item/clothing/suit/space/vox/medic
 	name = "alien medical armor"
@@ -351,7 +351,7 @@
 	desc = "A nonhuman pressure suit."
 	slowdown = 0.5
 	var/mob/living/carbon/human/wearer
-	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_vox_medic__suit_space_vox_medic
+	armor_type = /datum/armor/medic
 
 /obj/item/clothing/suit/space/vox/medic/equipped(mob/user, slot)
 	..()
@@ -396,7 +396,7 @@
 	icon_state = "hardsuit0-voxcarapace"
 	item_state = "hardsuit0-voxcarapace"
 	hardsuit_type = "voxcarapace"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/syndi/vox/helmet__suit
+	armor_type = /datum/armor/hardsuit_vox
 
 /obj/item/clothing/suit/space/hardsuit/syndi/vox
 	name = "alien carapace hardsuit"
@@ -405,7 +405,7 @@
 	item_state = "hardsuit0-voxcarapace"
 	hardsuit_type = "voxcarapace"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/vox
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/syndi/vox/helmet__suit
+	armor_type = /datum/armor/hardsuit_vox
 	species_restricted = list("Vox")
 	tail_state = ""
 

@@ -1,14 +1,4 @@
-// Armor-only migration baseline: 2adb5057517d582402686140b63c11a10e2f55c2
-// Deliberate exceptions: ordinary kitchen forks and spoons have no armor.
-// Identical profiles share a datum; similar profiles remain separate.
-// Consumers list explicit armor assignments; descendants without overrides inherit them.
-
-// Category: items/weapons. Mixed categories use shared.dm.
-
-// Используется (и наследниками без собственного armor):
-//   /obj/item/kitchen/knife/shiv/plastitanium — code/game/objects/items/kitchen.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/crusader_plate; другой профиль, не объединять.)
-/datum/armor/profiles/kitchen/knife/shiv/plastitanium
+/datum/armor/plastitanium
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -21,10 +11,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/melee/baton — code/game/objects/items/stunbaton.dm
-// (Схожая броня: /datum/armor/profiles/shared/disk_and_hand_tele_and_storage/bomb30_fire100_acid100; другой профиль, не объединять.)
-/datum/armor/profiles/melee/baton
+/datum/armor/baton
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -37,10 +24,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/melee/powerfist — code/game/objects/items/powerfist.dm
-// (Схожая броня: /datum/armor/profiles/shared/fireproof_tools_and_weapons; другой профиль, не объединять.)
-/datum/armor/profiles/melee/powerfist
+/datum/armor/powerfist
 	melee = 0
 	bullet = 0
 	laser = 0
@@ -53,11 +37,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/kitchen/knife/shiv/plasma — code/game/objects/items/kitchen.dm
-//   /obj/item/kitchen/knife/shiv/titanium — code/game/objects/items/kitchen.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/suit/armor/secjacket__vest_dragoncora; другой профиль, не объединять.)
-/datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium
+/datum/armor/plasma_and_titanium
 	melee = 25
 	bullet = 25
 	laser = 25
@@ -70,11 +50,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield — code/game/objects/items/shields.dm
-//   /obj/item/shield/adamantineshield — code/modules/research/xenobiology/crossbreeding/burning.dm
-// (Схожая броня: /datum/armor/profiles/vehicle/sealed/car/clowncar; другой профиль, не объединять.)
-/datum/armor/profiles/shared/shield/base__adamantineshield
+/datum/armor/base_and_adamantineshield
 	melee = 50
 	bullet = 50
 	laser = 50
@@ -87,10 +63,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield/makeshift — code/game/objects/items/shields.dm
-// (Схожая броня: /datum/armor/profiles/structure/closet; другой профиль, не объединять.)
-/datum/armor/profiles/shield/makeshift
+/datum/armor/makeshift
 	melee = 25
 	bullet = 25
 	laser = 5
@@ -103,10 +76,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield/riot/energy_proof — code/game/objects/items/shields.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/suit/curator__det_suit; другой профиль, не объединять.)
-/datum/armor/profiles/shield/riot/energy_proof
+/datum/armor/energy_proof
 	melee = 30
 	bullet = -10
 	laser = 80
@@ -119,10 +89,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield/riot/kinetic_proof — code/game/objects/items/shields.dm
-// (Схожая броня: /datum/armor/profiles/clothing/head/helmet/knight; другой профиль, не объединять.)
-/datum/armor/profiles/shield/riot/kinetic_proof
+/datum/armor/kinetic_proof
 	melee = 30
 	bullet = 80
 	laser = 0
@@ -135,10 +102,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield/riot/ratvarian — code/modules/antagonists/clockcult/clock_items/clock_weapons/ratvarian_shield.dm
-// (Схожая броня: /datum/armor/profiles/singularityhammer; другой профиль, не объединять.)
-/datum/armor/profiles/shield/riot/ratvarian
+/datum/armor/ratvarian
 	melee = 80
 	bullet = 70
 	laser = -10
@@ -151,10 +115,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/shield/riot/tower — code/game/objects/items/shields.dm
-// (Схожая броня: /datum/armor/profiles/shared/clothing/head_helmet_juggernaut__suit_armor_heavy_juggernaut; другой профиль, не объединять.)
-/datum/armor/profiles/shield/riot/tower
+/datum/armor/tower
 	melee = 95
 	bullet = 95
 	laser = 75
@@ -167,10 +128,7 @@
 	magic = 0
 	wound = 0
 
-// Используется (и наследниками без собственного armor):
-//   /obj/item/singularityhammer — code/game/objects/items/singularityhammer.dm
-// (Схожая броня: /datum/armor/profiles/shared/shield/base__adamantineshield; другой профиль, не объединять.)
-/datum/armor/profiles/singularityhammer
+/datum/armor/singularityhammer
 	melee = 50
 	bullet = 50
 	laser = 50

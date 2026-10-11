@@ -12,7 +12,7 @@
 	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	max_integrity = 300
-	armor_type = /datum/armor/profiles/shared/machinery/atmospherics/thermal_devices
+	armor_type = /datum/armor/thermal_devices
 	circuit = /obj/item/circuitboard/machine/crystallizer
 	pipe_flags = PIPING_ONE_PER_TURF | PIPING_DEFAULT_LAYER_ONLY
 

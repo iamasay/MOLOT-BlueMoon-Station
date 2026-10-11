@@ -9,7 +9,7 @@
 	item_state = "hardsuit0-powerarmor-1"
 	hardsuit_type = "powerarmor"
 	clothing_flags = THICKMATERIAL //Ouchie oofie my bones
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/powerarmor/helmet__suit
+	armor_type = /datum/armor/powerarmor
 	resistance_flags = ACID_PROOF
 	mutantrace_variation = STYLE_MUZZLE
 
@@ -67,7 +67,7 @@
 	item_state = "hardsuit-powerarmor-1"
 	slowdown = -0.1
 	clothing_flags = THICKMATERIAL //Not spaceproof. No, it isn't Spaceproof in Rimworld either.
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/powerarmor/helmet__suit
+	armor_type = /datum/armor/powerarmor
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	resistance_flags = ACID_PROOF
 	var/explodioprobemp = 1

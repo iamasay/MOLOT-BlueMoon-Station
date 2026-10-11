@@ -1,5 +1,5 @@
 /obj/item/pitchfork
-	armor_type = /datum/armor/profiles/shared/fireproof_tools_and_weapons
+	armor_type = /datum/armor/fireproof_tools_and_weapons
 	icon_state = "pitchfork0"
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'

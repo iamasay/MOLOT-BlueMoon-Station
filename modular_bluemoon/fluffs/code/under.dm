@@ -270,7 +270,7 @@
 	name = "Lotos skirt"
 	desc = "Black kitten`s black dress"
 	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
-	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
+	armor_type = /datum/armor/clothing_and_general_objects
 	always_reskinnable = TRUE
 	icon_state = "Lotos"
 	unique_reskin = list(

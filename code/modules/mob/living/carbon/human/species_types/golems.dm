@@ -739,7 +739,7 @@
 	..()
 
 /obj/structure/cloth_pile
-	armor_type = /datum/armor/profiles/structure/cloth_pile
+	armor_type = /datum/armor/cloth_pile
 	name = "pile of bandages"
 	desc = "It emits a strange aura, as if there was still life within it..."
 	max_integrity = 50

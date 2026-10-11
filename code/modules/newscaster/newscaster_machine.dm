@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	verb_say = "beeps"
 	verb_ask = "beeps"
 	verb_exclaim = "beeps"
-	armor_type = /datum/armor/profiles/machinery/newscaster
+	armor_type = /datum/armor/newscaster
 	max_integrity = 200
 	integrity_failure = 0.25
 	var/screen = 0

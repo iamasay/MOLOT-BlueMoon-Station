@@ -10,7 +10,7 @@
 	power_channel = ENVIRON
 	max_integrity = 350
 	damage_deflection = 10
-	armor_type = /datum/armor/profiles/machinery/door
+	armor_type = /datum/armor/door
 	CanAtmosPass = ATMOS_PASS_DENSITY
 	flags_1 = PREVENT_CLICK_UNDER_1|DEFAULT_RICOCHET_1
 	ricochet_chance_mod = 0.8

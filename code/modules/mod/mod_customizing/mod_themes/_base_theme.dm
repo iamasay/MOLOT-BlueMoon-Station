@@ -20,7 +20,7 @@
 	/// Default skin of the MOD.
 	var/default_skin = "standard"
 	/// Initial armor profile type path shared across the MOD pieces.
-	var/armor_type = /datum/armor/profiles/modsuit/standard
+	var/armor_type = /datum/armor/modsuit_standard
 	/// Resistance flags shared across the MOD pieces.
 	var/resistance_flags = NONE
 	/// Max heat protection shared across the MOD pieces.

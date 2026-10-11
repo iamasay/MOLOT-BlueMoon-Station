@@ -5,7 +5,7 @@
 	lefthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_lefthand.dmi'
 	righthand_file = 'modular_bluemoon/icons/mob/inhands/items/items_righthand.dmi'
 	icon_state = "dmolotred_0"
-	armor_type = /datum/armor/profiles/shared/fireproof_and_acidproof_misc
+	armor_type = /datum/armor/fireproof_and_acidproof_misc
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	w_class = WEIGHT_CLASS_BULKY
 	sharpness = SHARP_NONE	// Blunt damage exclusive.

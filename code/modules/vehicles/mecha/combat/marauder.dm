@@ -5,7 +5,7 @@
 	movedelay = 5
 	max_integrity = 500
 	deflect_chance = 25
-	armor_type = /datum/armor/profiles/shared/vehicle/sealed/mecha/combat/durand__marauder
+	armor_type = /datum/armor/durand_and_marauder
 	max_temperature = 60000
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	operation_req_access = list(ACCESS_CENT_SPECOPS)

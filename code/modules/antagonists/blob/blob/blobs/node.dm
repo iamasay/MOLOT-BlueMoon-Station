@@ -4,7 +4,7 @@
 	icon_state = "blank_blob"
 	desc = "A large, pulsating yellow mass."
 	max_integrity = 200
-	armor_type = /datum/armor/profiles/structure/blob/node
+	armor_type = /datum/armor/node
 	health_regen = 3
 	point_return = 25
 

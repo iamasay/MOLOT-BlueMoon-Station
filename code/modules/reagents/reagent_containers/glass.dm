@@ -342,7 +342,7 @@
 	flags_inv = HIDEHAIR
 	slot_flags = ITEM_SLOT_HEAD
 	resistance_flags = NONE
-	armor_type = /datum/armor/profiles/reagent_containers/glass/bucket //Weak melee protection, because you can wear it on your head
+	armor_type = /datum/armor/bucket //Weak melee protection, because you can wear it on your head
 	slot_equipment_priority = list( \
 		ITEM_SLOT_BACK, ITEM_SLOT_ID,\
 		ITEM_SLOT_UNDERWEAR,\

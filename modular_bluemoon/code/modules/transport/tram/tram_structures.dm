@@ -16,7 +16,7 @@
 	anchored = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	pass_flags_self = PASSGLASS
-	armor_type = /datum/armor/profiles/shared/transport
+	armor_type = /datum/armor/transport
 	CanAtmosPass = ATMOS_PASS_DENSITY
 	explosion_block = 3
 	ricochet_chance_mod = 1.2

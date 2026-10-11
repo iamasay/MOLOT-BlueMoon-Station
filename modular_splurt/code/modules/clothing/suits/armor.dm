@@ -6,7 +6,7 @@
 	mutantrace_variation = NONE
 	icon_state = "armorstripper"
 	item_state = "armorstripper"
-	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/stripper
+	armor_type = /datum/armor/stripper
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 	dog_fashion = null
 

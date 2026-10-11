@@ -5,7 +5,7 @@
 	icon_state = "hardsuit0-engineering"
 	item_state = "eng_helm"
 	max_integrity = 300
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/standard/helmet__suit
+	armor_type = /datum/armor/hardsuit_standard
 	var/basestate = "hardsuit"
 	var/brightness_on = 4 //luminosity when on
 	var/on = FALSE
@@ -115,7 +115,7 @@
 	item_state = "eng_hardsuit"
 	tail_state = "atmos"
 	max_integrity = 300
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/standard/helmet__suit
+	armor_type = /datum/armor/hardsuit_standard
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/t_scanner, /obj/item/construction/rcd, /obj/item/pipe_dispenser)
 	siemens_coefficient = 0
 	var/obj/item/clothing/head/helmet/space/hardsuit/helmet
@@ -196,7 +196,7 @@
 	desc = "A special helmet designed for work in a hazardous, low-pressure environment. Has radiation shielding."
 	icon_state = "hardsuit0-engineering"
 	item_state = "eng_helm"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/helmet__suit
+	armor_type = /datum/armor/engine
 	hardsuit_type = "engineering"
 	resistance_flags = FIRE_PROOF
 
@@ -207,7 +207,7 @@
 	item_state = "eng_hardsuit"
 	tail_state = "engineer"
 	slowdown = 0.25
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/helmet__suit
+	armor_type = /datum/armor/engine
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
 	resistance_flags = FIRE_PROOF
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
@@ -219,7 +219,7 @@
 	icon_state = "hardsuit0-atmospherics"
 	item_state = "atmo_helm"
 	hardsuit_type = "atmospherics"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/atmos/helmet__suit
+	armor_type = /datum/armor/hardsuit_atmos
 	heat_protection = HEAD												//Uncomment to enable firesuit protection
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
@@ -229,7 +229,7 @@
 	icon_state = "hardsuit-atmospherics"
 	item_state = "atmo_hardsuit"
 	tail_state = "atmos"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/atmos/helmet__suit
+	armor_type = /datum/armor/hardsuit_atmos
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS					//Uncomment to enable firesuit protection
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine/atmos
@@ -241,7 +241,7 @@
 	icon_state = "hardsuit0-white"
 	item_state = "ce_helm"
 	hardsuit_type = "white"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/elite/helmet__suit
+	armor_type = /datum/armor/elite
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
@@ -252,7 +252,7 @@
 	item_state = "ce_hardsuit"
 	tail_state = "ce"
 	slowdown = 0
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/elite/helmet__suit
+	armor_type = /datum/armor/elite
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine/elite
@@ -269,7 +269,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
 	heat_protection = HEAD
-	armor_type = /datum/armor/profiles/clothing/hardsuit/mining/helmet
+	armor_type = /datum/armor/mining_helmet
 	brightness_on = 7
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator)
 
@@ -302,7 +302,7 @@
 	flags_inv = HIDEGLOVES | HIDEJUMPSUIT | HIDESHOES | HIDETAUR | HIDETAIL
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
-	armor_type = /datum/armor/profiles/clothing/hardsuit/mining/suit
+	armor_type = /datum/armor/mining_suit
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/storage/bag/ore, /obj/item/pickaxe, /obj/item/resonator, /obj/item/gun/energy/kinetic_accelerator)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/mining
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -337,7 +337,7 @@
 	icon_state = "hardsuit1-syndi"
 	item_state = "syndie_helm"
 	hardsuit_type = "syndi"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/syndi/helmet__suit
+	armor_type = /datum/armor/hardsuit_syndi
 	on = FALSE
 	var/obj/item/clothing/suit/space/hardsuit/syndi/linkedsuit = null
 	actions_types = list(/datum/action/item_action/toggle_helmet_mode)
@@ -421,7 +421,7 @@
 	tail_state = "syndicate-blood"
 	hardsuit_type = "syndi"
 	w_class = WEIGHT_CLASS_NORMAL
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/syndi/helmet__suit
+	armor_type = /datum/armor/hardsuit_syndi
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/gun, /obj/item/ammo_box,/obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
@@ -435,7 +435,7 @@
 	alt_desc = "An elite version of the syndicate helmet, with improved armour and fireproofing. It is in combat mode. Property of Gorlex Marauders."
 	icon_state = "hardsuit0-syndielite"
 	hardsuit_type = "syndielite"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/carp_and_syndicate_elite
+	armor_type = /datum/armor/carp_and_syndicate_elite
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -454,7 +454,7 @@
 	tail_state = "syndicate-elite"
 	hardsuit_type = "syndielite"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/elite
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/carp_and_syndicate_elite
+	armor_type = /datum/armor/carp_and_syndicate_elite
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -529,7 +529,7 @@
 	item_state = "wiz_helm"
 	hardsuit_type = "wiz"
 	resistance_flags = FIRE_PROOF | ACID_PROOF //No longer shall our kind be foiled by lone chemists with spray bottles!
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/wizard/helmet__suit
+	armor_type = /datum/armor/wizard
 	var/magic_flags = SPELL_WIZARD_HAT|SPELL_CULT_HELMET
 
 	heat_protection = HEAD
@@ -549,7 +549,7 @@
 	tail_state = "wizard"
 	slowdown = -0.5
 	w_class = WEIGHT_CLASS_NORMAL
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/wizard/helmet__suit
+	armor_type = /datum/armor/wizard
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/teleportation_scroll, /obj/item/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/wizard
@@ -573,7 +573,7 @@
 	item_state = "medical_helm"
 	hardsuit_type = "medical"
 	flash_protect = 0
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/medical/helmet__suit
+	armor_type = /datum/armor/hardsuit_medical
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | ALLOWINTERNALS | SCAN_REAGENTS
 
@@ -597,7 +597,7 @@
 	tail_state = "syndicate-winter"
 	slowdown = 0.25
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/storage/firstaid, /obj/item/healthanalyzer, /obj/item/stack/medical, /obj/item/gun/medbeam)
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/medical/helmet__suit
+	armor_type = /datum/armor/hardsuit_medical
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/medical
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
 
@@ -609,7 +609,7 @@
 	hardsuit_type = "rd"
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/rd/helmet__suit
+	armor_type = /datum/armor/hardsuit_rd
 	var/obj/machinery/doppler_array/integrated/bomb_radar
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | ALLOWINTERNALS | SCAN_REAGENTS
 	actions_types = list(/datum/action/item_action/toggle_helmet_light, /datum/action/item_action/toggle_research_scanner)
@@ -645,7 +645,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT //Same as an emergency firesuit. Not ideal for extended exposure.
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/gun/energy/wormhole_projector,
 	/obj/item/hand_tele, /obj/item/aicard)
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/rd/helmet__suit
+	armor_type = /datum/armor/hardsuit_rd
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/rd
 
 	//Blue Shield hardsuit
@@ -655,7 +655,7 @@
 	icon_state = "hardsuit0-blueshield"
 	item_state = "hardsuit0-blueshield"
 	hardsuit_type = "blueshield"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/blueshield_and_captain
+	armor_type = /datum/armor/hardsuit_blueshield_and_captain
 	unique_reskin = null
 
 /obj/item/clothing/suit/space/hardsuit/blue_shield
@@ -668,7 +668,7 @@
 	slowdown = 0.5
 	w_class = WEIGHT_CLASS_NORMAL
 	jetpack = /obj/item/tank/jetpack/suit
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/blueshield_and_captain
+	armor_type = /datum/armor/hardsuit_blueshield_and_captain
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/blue_shield
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
@@ -685,7 +685,7 @@
 	icon_state = "hardsuit0-sec"
 	item_state = "sec_helm"
 	hardsuit_type = "sec"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/security/helmet__suit
+	armor_type = /datum/armor/hardsuit_security
 	// BLUEMOON ADD START - RESKINS-ICON-FILE-ADDITION - ACRADORS - версия шлема для ушей акрадоров
 	unique_reskin = list(
 		"Acrador/Long-Eared" = list(
@@ -708,7 +708,7 @@
 	desc = "A special suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
 	item_state = "sec_hardsuit"
 	tail_state = "sec"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/security/helmet__suit
+	armor_type = /datum/armor/hardsuit_security
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
@@ -745,7 +745,7 @@
 	desc = "A special bulky helmet designed for work in a hazardous, low pressure environment. Has an additional layer of armor."
 	icon_state = "hardsuit0-hos"
 	hardsuit_type = "hos"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_and_hos
+	armor_type = /datum/armor/hardsuit_ert_and_hos
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
 /obj/item/clothing/suit/space/hardsuit/security/hos
@@ -753,7 +753,7 @@
 	desc = "A special bulky suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
 	icon_state = "hardsuit-hos"
 	tail_state = "hos"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_and_hos
+	armor_type = /datum/armor/hardsuit_ert_and_hos
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/hos
 	jetpack = /obj/item/tank/jetpack/suit
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
@@ -784,7 +784,7 @@
 	icon_state = "capspace"
 	item_state = "capspacehelmet"
 	desc = "A tactical SWAT helmet MK.II boasting better protection and a horrible fashion sense."
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/blueshield_and_captain
+	armor_type = /datum/armor/hardsuit_blueshield_and_captain
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR //we want to see the mask
 	heat_protection = HEAD
@@ -800,7 +800,7 @@
 	icon_state = "caparmor"
 	item_state = "capspacesuit"
 	tail_state = "captain"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/blueshield_and_captain
+	armor_type = /datum/armor/hardsuit_blueshield_and_captain
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -817,7 +817,7 @@
 	desc = "A special helmet designed for work in a hazardous, low-humor environment. Has radiation shielding."
 	icon_state = "hardsuit0-clown"
 	item_state = "hardsuit0-clown"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/clown/helmet__suit
+	armor_type = /datum/armor/clown
 	hardsuit_type = "clown"
 
 /obj/item/clothing/suit/space/hardsuit/clown
@@ -827,7 +827,7 @@
 	item_state = "clown_hardsuit"
 	tail_state = "wizard"
 	slowdown = 0.25
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/clown/helmet__suit
+	armor_type = /datum/armor/clown
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/clown
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
 
@@ -845,7 +845,7 @@
 	desc = "Early prototype RIG hardsuit helmet, designed to quickly shift over a user's head. Design constraints of the helmet mean it has no inbuilt cameras, thus it restricts the users visability."
 	icon_state = "hardsuit0-ancient"
 	item_state = "anc_helm"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ancient/helmet__suit
+	armor_type = /datum/armor/ancient
 	hardsuit_type = "ancient"
 	resistance_flags = FIRE_PROOF
 
@@ -855,7 +855,7 @@
 	icon_state = "hardsuit-ancient"
 	item_state = "anc_hardsuit"
 	tail_state = "atmos"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ancient/helmet__suit
+	armor_type = /datum/armor/ancient
 	slowdown = 1
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ancient
 	resistance_flags = FIRE_PROOF
@@ -869,7 +869,7 @@
 	icon_state = "hardsuit-ancient"
 	item_state = "anc_hardsuit"
 	tail_state = "atmos"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ancient/mason/helmet__suit
+	armor_type = /datum/armor/mason
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 	slowdown = 2
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/storage, /obj/item/construction/rcd, /obj/item/pipe_dispenser)
@@ -883,7 +883,7 @@
 	desc = "The M.A.S.O.N RIG helmet is complimentary to the rest of the armor. It features a very large, high powered flood lamp and robust flash protection."
 	icon_state = "hardsuit0-ancient"
 	item_state = "anc_helm"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ancient/mason/helmet__suit
+	armor_type = /datum/armor/mason
 	hardsuit_type = "ancient"
 	brightness_on = 16
 	flash_protect = 5 //We will not be flash by bombs
@@ -953,7 +953,7 @@
 	item_state = "rig0-soviet"
 	hardsuit_type = "soviet"
 	icon_state = "rig0-soviet"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/soviet/helmet__suit
+	armor_type = /datum/armor/hardsuit_soviet
 	mutantrace_variation = STYLE_MUZZLE
 
 /obj/item/clothing/suit/space/hardsuit/soviet
@@ -963,7 +963,7 @@
 	icon_state = "rig-soviet"
 	tail_state = "syndicate-blood" // Этот костюм вообще не используется на самом деле в игре, ну да ладно
 	slowdown = 0.25
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/soviet/helmet__suit
+	armor_type = /datum/armor/hardsuit_soviet
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/soviet
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_ALL_TAURIC
@@ -980,7 +980,7 @@
 	icon_state = "hardsuit-hos"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/hos
 	allowed = null
-	armor_type = /datum/armor/profiles/clothing/hardsuit/shielded/suit
+	armor_type = /datum/armor/shielded_suit
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/max_charges = 3 //How many charges total the shielding has
@@ -1011,7 +1011,7 @@
 	tail_state = "ert_medical"
 	hardsuit_type = "ert_gmedical"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/ctf
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/shielded/ctf/helmet__suit
+	armor_type = /datum/armor/ctf
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	slowdown = 0
 	max_charges = 5
@@ -1043,7 +1043,7 @@
 	icon_state = "hardsuit0-ert_medical"
 	item_state = "hardsuit0-ert_medical"
 	hardsuit_type = "ert_medical"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/shielded/ctf/helmet__suit
+	armor_type = /datum/armor/ctf
 
 /obj/item/clothing/head/helmet/space/hardsuit/shielded/ctf/red
 	icon_state = "hardsuit0-ert_security"
@@ -1066,7 +1066,7 @@
 	item_state = "syndie_hardsuit"
 	tail_state = "syndicate-blood"
 	hardsuit_type = "syndi"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/shielded/syndi/helmet__suit
+	armor_type = /datum/armor/shielded_hardsuit_syndi
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi
@@ -1084,7 +1084,7 @@
 	icon_state = "hardsuit1-syndi"
 	item_state = "syndie_helm"
 	hardsuit_type = "syndi"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/shielded/syndi/helmet__suit
+	armor_type = /datum/armor/shielded_hardsuit_syndi
 
 ///SWAT version
 /obj/item/clothing/suit/space/hardsuit/shielded/swat
@@ -1096,7 +1096,7 @@
 	hardsuit_type = "syndi"
 	max_charges = 4
 	recharge_delay = 15
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/deathsquad_and_shielded
+	armor_type = /datum/armor/deathsquad_and_shielded
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -1109,7 +1109,7 @@
 	icon_state = "deathsquad"
 	item_state = "deathsquad"
 	hardsuit_type = "syndi"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/deathsquad_and_shielded
+	armor_type = /datum/armor/deathsquad_and_shielded
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list()
@@ -1127,7 +1127,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	heat_protection = HEAD
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/lavaknight/helmet__suit
+	armor_type = /datum/armor/lavaknight
 	brightness_on = 7
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator)
 	var/energy_color = "#35FFF0"
@@ -1173,7 +1173,7 @@
 	slowdown = 0.25
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/lavaknight/helmet__suit
+	armor_type = /datum/armor/lavaknight
 	brc_mitigation_bonus = 5  // BLUEMOON ADD
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/storage/bag/ore, /obj/item/pickaxe)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/lavaknight

@@ -8,5 +8,5 @@
 	item_state = "radkini"
 	can_adjust = FALSE
 	body_parts_covered = CHEST|GROIN
-	armor_type = /datum/armor/profiles/clothing/under/radkini
+	armor_type = /datum/armor/radkini
 	fitted = FEMALE_UNIFORM_TOP

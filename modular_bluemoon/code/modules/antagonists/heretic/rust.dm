@@ -542,7 +542,7 @@ GLOBAL_LIST_INIT(heretic_rust_wave_sounds, list(
 	opacity = TRUE
 	anchored = TRUE
 	max_integrity = HERETIC_RUST_FORMATION_INTEGRITY
-	armor_type = /datum/armor/profiles/shared/heretic_rust
+	armor_type = /datum/armor/heretic_rust
 	var/prying = FALSE
 
 /obj/structure/heretic_rust_formation/Initialize(mapload)
@@ -676,7 +676,7 @@ GLOBAL_LIST_INIT(heretic_rust_wave_sounds, list(
 	anchored = TRUE
 	density = FALSE
 	max_integrity = HERETIC_RUST_HEART_INTEGRITY
-	armor_type = /datum/armor/profiles/shared/heretic_rust_reinforced
+	armor_type = /datum/armor/heretic_rust_reinforced
 	appearance_flags = PIXEL_SCALE
 	var/obj/effect/abstract/heretic_particle_holder/flakes
 	COOLDOWN_DECLARE(wound_cooldown)

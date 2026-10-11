@@ -6,7 +6,7 @@
 	icon_state = "yellow"
 	density = TRUE
 	volume = 1000
-	armor_type = /datum/armor/profiles/machinery/portable_atmospherics/canister
+	armor_type = /datum/armor/canister
 	max_integrity = 250
 	integrity_failure = 0.4
 	pressure_resistance = 7 * ONE_ATMOSPHERE

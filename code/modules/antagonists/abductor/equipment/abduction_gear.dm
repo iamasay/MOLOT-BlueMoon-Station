@@ -13,7 +13,7 @@
 	icon_state = "vest_stealth"
 	item_state = "armor"
 	blood_overlay_type = "armor"
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/abductor/vest/base__stealth_armor
+	armor_type = /datum/armor/base_and_stealth_armor
 	actions_types = list(/datum/action/item_action/hands_free/activate)
 	allowed = list(
 		/obj/item/abductor,
@@ -27,8 +27,8 @@
 	var/stealth_active = 0
 	var/combat_cooldown = 10
 	var/datum/icon_snapshot/disguise
-	var/stealth_armor_type = /datum/armor/profiles/shared/clothing/suit/armor/abductor/vest/base__stealth_armor
-	var/combat_armor_type = /datum/armor/profiles/clothing/suit/armor/abductor/vest/combat_armor
+	var/stealth_armor_type = /datum/armor/base_and_stealth_armor
+	var/combat_armor_type = /datum/armor/combat_armor
 	var/datum/armor/stealth_armor_datum
 	var/datum/armor/combat_armor_datum
 
@@ -902,5 +902,5 @@
 	name = "alien jumpsuit"
 	icon_state = "abductor"
 	item_state = "bl_suit"
-	armor_type = /datum/armor/profiles/clothing/under/abductor
+	armor_type = /datum/armor/abductor
 	can_adjust = 0

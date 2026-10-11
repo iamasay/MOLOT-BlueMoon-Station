@@ -28,7 +28,7 @@
 	contraband = list(
 		/obj/item/reagent_containers/glass/bottle/wizarditis = 1
 	) //No one can get to the machine to hack it anyways; for the lulz - Microwave
-	armor_type = /datum/armor/profiles/machinery/vending/magivend
+	armor_type = /datum/armor/magivend
 	resistance_flags = FIRE_PROOF
 	default_price = 0 //Just in case, since its primary use is storage.
 	extra_price = PRICE_ABOVE_EXPENSIVE

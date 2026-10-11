@@ -3,12 +3,12 @@
 	name = "captain's jumpsuit"
 	icon_state = "captain"
 	item_state = "b_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
+	armor_type = /datum/armor/light_duty
 	sensor_mode = SENSOR_COORDS
 	sensor_flags = NONE
 
 /obj/item/clothing/under/rank/captain/utility/syndicate
-	armor_type = /datum/armor/profiles/shared/clothing/under/command_and_syndicate_utility
+	armor_type = /datum/armor/command_and_syndicate_utility
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/rank/captain/util
@@ -16,7 +16,7 @@
 	desc = "A utility uniform for command personnel."
 	icon_state = "utilcom"
 	item_state = "utilcom"
-	armor_type = /datum/armor/profiles/shared/clothing/under/command_and_syndicate_utility
+	armor_type = /datum/armor/command_and_syndicate_utility
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/captain/skirt
@@ -71,7 +71,7 @@
 	desc = "The uniform of a bridge officer. It makes you feel extremely important, even if you are not."
 	icon_state = "bridgesec"
 	item_state = "bridgesec"
-	armor_type = /datum/armor/profiles/clothing/under/rank/bridgeofficer
+	armor_type = /datum/armor/bridgeofficer
 	alt_covers_chest = TRUE
 	can_adjust = FALSE
 	sensor_flags = NONE

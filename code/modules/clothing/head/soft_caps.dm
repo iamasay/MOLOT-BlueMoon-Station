@@ -119,7 +119,7 @@
 	desc = "It's a robust baseball hat in tasteful red colour."
 	icon_state = "secsoft"
 	soft_type = "sec"
-	armor_type = /datum/armor/profiles/clothing/head/soft/sec
+	armor_type = /datum/armor/soft_head_sec
 	strip_delay = 60
 	dog_fashion = null
 
@@ -137,6 +137,6 @@
 	soft_type = "baseball"
 	item_state = "baseballsoft"
 	flags_inv = HIDEEYES|HIDEFACE
-	armor_type = /datum/armor/profiles/shared/clothing/head/soft/baseball__inteq_baseball
+	armor_type = /datum/armor/baseball_and_inteq_baseball
 	strip_delay = 90 //You dont take a Major Leage cap
 	dog_fashion = null

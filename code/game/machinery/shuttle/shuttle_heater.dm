@@ -22,7 +22,7 @@
 
 	density = TRUE
 	max_integrity = 400
-	armor_type = /datum/armor/profiles/machinery/atmospherics/components/unary/shuttle/heater
+	armor_type = /datum/armor/heater
 	layer = OBJ_LAYER
 	showpipe = TRUE
 

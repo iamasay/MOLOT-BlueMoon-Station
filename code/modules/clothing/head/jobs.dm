@@ -33,7 +33,7 @@
 	icon_state = "captain"
 	item_state = "that"
 	flags_inv = 0
-	armor_type = /datum/armor/profiles/shared/clothing/head/captain
+	armor_type = /datum/armor/head_captain
 	strip_delay = 60
 
 	dog_fashion = /datum/dog_fashion/head/captain
@@ -65,7 +65,7 @@
 	name = "head of personnel's cap"
 	icon_state = "hopcap"
 	desc = "The symbol of true bureaucratic micromanagement."
-	armor_type = /datum/armor/profiles/clothing/head/hopcap
+	armor_type = /datum/armor/hopcap
 	dog_fashion = /datum/dog_fashion/head/hop
 
 /obj/item/clothing/head/hopcap/beret
@@ -93,7 +93,7 @@
 /obj/item/clothing/head/fedora/det_hat
 	name = "detective's fedora"
 	desc = "There's only one man who can sniff out the dirty stench of crime, and he's likely wearing this hat."
-	armor_type = /datum/armor/profiles/clothing/head/fedora/det_hat
+	armor_type = /datum/armor/det_hat
 	icon_state = "detective"
 	var/candy_cooldown = 0
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small/detective
@@ -157,7 +157,7 @@
 	name = "head of security cap"
 	desc = "The robust standard-issue cap of the Head of Security. For showing the officers who's in charge."
 	icon_state = "hoscap"
-	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
+	armor_type = /datum/armor/command_and_security
 	strip_delay = 80
 	dynamic_hair_suffix = ""
 
@@ -183,7 +183,7 @@
 	name = "warden's police hat"
 	desc = "It's a special armored hat issued to the Warden of a security force. Protects the head from impacts."
 	icon_state = "policehelm"
-	armor_type = /datum/armor/profiles/clothing/head/warden
+	armor_type = /datum/armor/warden
 	strip_delay = 60
 	dog_fashion = /datum/dog_fashion/head/warden
 
@@ -265,7 +265,7 @@
 	name = "security beret"
 	desc = "A robust beret with the security insignia emblazoned on it. Uses reinforced fabric to offer sufficient protection."
 	icon_state = "beret_badge"
-	armor_type = /datum/armor/profiles/shared/clothing/head/beret_sec__brigdoc__helmet
+	armor_type = /datum/armor/beret_sec_and_brigdoc_and_helmet
 	strip_delay = 60
 	dog_fashion = null
 
@@ -284,7 +284,7 @@
 	desc = "Surprisingly stylish, if you lived in a silent impressionist film."
 	color = "#353535"
 	icon_state = "beret_badge"
-	armor_type = /datum/armor/profiles/clothing/head/beret/sec/navywarden/syndicate
+	armor_type = /datum/armor/head_syndicate
 	strip_delay = 60
 
 /obj/item/clothing/head/beret/sec/corporatewarden
@@ -394,7 +394,7 @@
 	name = "durathread beret"
 	desc =  "A beret made from durathread, its resilient fibres provide some protection to the wearer."
 	icon_state = "beretdurathread"
-	armor_type = /datum/armor/profiles/clothing/head/beret/durathread
+	armor_type = /datum/armor/beret_head_durathread
 
 #undef DRILL_DEFAULT
 #undef DRILL_SHOUTING

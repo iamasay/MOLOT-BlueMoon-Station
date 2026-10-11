@@ -3,7 +3,7 @@
 	name = "\improper Tank"
 	icon = 'icons/mecha/mecha_96x96.dmi'
 	icon_state = "five_stars"
-	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/five_stars
+	armor_type = /datum/armor/five_stars
 	dir_in = 1 //Facing North.
 	max_integrity = 800
 	pixel_x = -32

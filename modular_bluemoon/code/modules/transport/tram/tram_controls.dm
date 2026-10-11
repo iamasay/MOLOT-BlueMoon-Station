@@ -12,7 +12,7 @@
 	integrity_failure = 0.1
 	power_channel = ENVIRON
 	idle_power_usage = 25
-	armor_type = /datum/armor/profiles/shared/transport
+	armor_type = /datum/armor/transport
 	circuit = /obj/item/circuitboard/computer/tram_controls
 	light_color = COLOR_BLUE_LIGHT
 	brightness_on = 0 //we dont want to spam SSlighting with source updates every movement

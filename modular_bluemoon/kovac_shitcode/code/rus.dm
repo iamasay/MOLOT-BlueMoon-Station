@@ -26,7 +26,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/rus/mob_rus.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	alternate_screams = RUSSIAN_SCREAMS
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/nri_coat__nri_vest__solfed_coat
+	armor_type = /datum/armor/nri_and_solfed
 	brc_mitigation_bonus = BRC_MITIGATION_20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/nri_vest
@@ -35,7 +35,7 @@
 	icon_state = "warden_jacket_newtg"
 	item_state = "warden_jacket_newtg"
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/nri_coat__nri_vest__solfed_coat
+	armor_type = /datum/armor/nri_and_solfed
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/nri_coat/armorless
@@ -72,7 +72,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/rus/mob_rus.dmi'
 
 /obj/item/clothing/head/HoS/beret/nri/security
-	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
+	armor_type = /datum/armor/armored_headgear
 
 /obj/item/clothing/head/HoS/beret/nri/cap
 	name = "nri cap"
@@ -123,7 +123,7 @@
 	icon_state = "hardsuit0-russian"
 	item_state = "hardsuit0-russian"
 	hardsuit_type = "russiansuit"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
+	armor_type = /datum/armor/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list()
@@ -136,7 +136,7 @@
 	item_state = "russiansuit"
 	alternate_screams = RUSSIAN_SCREAMS
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/nri
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
+	armor_type = /datum/armor/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
@@ -146,14 +146,14 @@
 	icon_state = "hardsuit0-russians"
 	item_state = "hardsuit0-russians"
 	hardsuit_type = "russiansuits"
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/nri/adv/helmet__suit
+	armor_type = /datum/armor/nri_hardsuit_adv
 
 /obj/item/clothing/suit/space/hardsuit/ert/alert/nri/adv
 	name = "Ratnik-4M 'Voskhod' hardsuit"
 	icon_state = "russiansuits"
 	item_state = "russiansuits"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/nri/adv
-	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/nri/adv/helmet__suit
+	armor_type = /datum/armor/nri_hardsuit_adv
 	var/mob/living/carbon/human/wearer
 
 /obj/item/clothing/suit/space/hardsuit/ert/alert/nri/adv/equipped(mob/user, slot)

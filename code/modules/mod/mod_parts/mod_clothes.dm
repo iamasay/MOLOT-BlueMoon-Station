@@ -1,5 +1,5 @@
 /obj/item/clothing/mod_part/head
-	armor_type = /datum/armor/profiles/shared/modsuit_parts_and_control
+	armor_type = /datum/armor/modsuit_parts_and_control
 	name = "MOD helmet"
 	desc = "Шлем для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -50,7 +50,7 @@
 
 //Дать на альт-клик отображать глаза поверх шлема.
 /obj/item/clothing/mod_part/suit
-	armor_type = /datum/armor/profiles/shared/modsuit_parts_and_control
+	armor_type = /datum/armor/modsuit_parts_and_control
 	name = "MOD chestplate"
 	desc = "Нагрудник для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -85,7 +85,7 @@
 	mod?.wearer?.update_inv_w_uniform()
 
 /obj/item/clothing/mod_part/gloves
-	armor_type = /datum/armor/profiles/shared/modsuit_parts_and_control
+	armor_type = /datum/armor/modsuit_parts_and_control
 	name = "MOD gauntlets"
 	desc = "Пара рукавиц для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'
@@ -150,7 +150,7 @@
 	return FALSE // return TRUE to cancel attack_hand()
 
 /obj/item/clothing/mod_part/shoes
-	armor_type = /datum/armor/profiles/shared/modsuit_parts_and_control
+	armor_type = /datum/armor/modsuit_parts_and_control
 	name = "MOD boots"
 	desc = "Пара ботинок для MOD-костюма."
 	icon = 'modular_bluemoon/icons/obj/clothing/modsuit/mod_clothing.dmi'

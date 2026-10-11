@@ -31,7 +31,7 @@
 	slot_flags = ITEM_SLOT_ID | ITEM_SLOT_BELT
 	actions_types = list(/datum/action/item_action/toggle_light/pda)
 	has_light = TRUE //LED flashlight!
-	armor_type = /datum/armor/profiles/shared/fireproof_and_acidproof_misc
+	armor_type = /datum/armor/fireproof_and_acidproof_misc
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	comp_light_luminosity = 2.3
 	comp_light_color = "#FFCC66"

@@ -84,7 +84,7 @@ Class Procs:
 */
 
 /obj/machinery
-	armor_type = /datum/armor/profiles/shared/machinery/standard
+	armor_type = /datum/armor/machinery_standard
 	name = "machinery"
 	icon = 'icons/obj/stationobjs.dmi'
 	desc = "Какого-то рода машинерия."

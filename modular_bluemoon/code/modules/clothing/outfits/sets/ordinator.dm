@@ -6,7 +6,7 @@
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/uniforms.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE|USE_TAUR_CLIP_MASK|STYLE_NO_ANTHRO_ICON
 	icon_state = "ordinator"
-	armor_type = /datum/armor/profiles/clothing/under/syndicate/ordinator
+	armor_type = /datum/armor/under_ordinator
 	alt_covers_chest = FALSE
 	can_adjust = FALSE
 
@@ -16,7 +16,7 @@
 	icon = 'modular_bluemoon/icons/obj/clothing/uniforms.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/uniforms.dmi'
 	icon_state = "ordinatorLT"
-	armor_type = /datum/armor/profiles/clothing/under/syndicate/ordinator/leader
+	armor_type = /datum/armor/under_leader
 
 
 /obj/item/clothing/suit/armor/hos/ordinator
@@ -30,7 +30,7 @@
 	body_parts_covered = CHEST|GROIN
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
-	armor_type = /datum/armor/profiles/clothing/suit/armor/hos/ordinator
+	armor_type = /datum/armor/suit_ordinator
 
 /obj/item/clothing/suit/armor/hos/ordinator/leader
 	name = "coat flak jacket"
@@ -41,7 +41,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
-	armor_type = /datum/armor/profiles/clothing/suit/armor/hos/ordinator/leader
+	armor_type = /datum/armor/suit_leader
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/mask/gas/atmos/lfwb
@@ -69,4 +69,4 @@
 	mutantrace_variation = STYLE_MUZZLE|STYLE_NO_ANTHRO_ICON
 	icon_state = "ordinator_helmet"
 	item_state = "ordinator_helmet"
-	armor_type = /datum/armor/profiles/clothing/head/helmet/knight/ordinator
+	armor_type = /datum/armor/head_ordinator

@@ -3,7 +3,7 @@
 	name = "research director's vest suit"
 	icon_state = "director"
 	item_state = "lb_suit"
-	armor_type = /datum/armor/profiles/clothing/under/rank/rnd/research_director
+	armor_type = /datum/armor/research_director
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/rnd/research_director/skirt
@@ -21,7 +21,7 @@
 	name = "research director's tan suit"
 	icon_state = "rdwhimsy"
 	item_state = "rdwhimsy"
-	armor_type = /datum/armor/profiles/shared/clothing/under/rank/rnd/research_director/alt__turtleneck
+	armor_type = /datum/armor/alt_and_turtleneck
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -41,7 +41,7 @@
 	name = "research director's turtleneck"
 	icon_state = "rdturtle"
 	item_state = "p_suit"
-	armor_type = /datum/armor/profiles/shared/clothing/under/rank/rnd/research_director/alt__turtleneck
+	armor_type = /datum/armor/alt_and_turtleneck
 	can_adjust = TRUE
 	alt_covers_chest = TRUE
 
@@ -62,11 +62,11 @@
 	icon_state = "toxins"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor_type = /datum/armor/profiles/clothing/under/rank/rnd/scientist
+	armor_type = /datum/armor/scientist
 
 /obj/item/clothing/under/rank/rnd/scientist/utility/syndicate
 	desc = "A utility uniform worn by Science staff."
-	armor_type = /datum/armor/profiles/shared/clothing/under/command_and_syndicate_utility
+	armor_type = /datum/armor/command_and_syndicate_utility
 	has_sensor = NO_SENSORS
 
 /obj/item/clothing/under/rank/rnd/scientist/util

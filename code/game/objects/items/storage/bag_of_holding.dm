@@ -7,7 +7,7 @@
 	item_state = "holdingpack"
 	resistance_flags = FIRE_PROOF
 	item_flags = NO_MAT_REDEMPTION
-	armor_type = /datum/armor/profiles/shared/pneumatic_cannon__storage_backpack_holding
+	armor_type = /datum/armor/cannons_and_holding_backpacks
 	component_type = /datum/component/storage/concrete/bluespace/bag_of_holding
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	verb_say = "states"

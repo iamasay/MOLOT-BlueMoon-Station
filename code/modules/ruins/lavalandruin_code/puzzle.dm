@@ -295,7 +295,7 @@
 
 //Some armor so it's harder to kill someone by mistake.
 /obj/structure/puzzle_element/prison
-	armor_type = /datum/armor/profiles/shared/admiral_uniform_and_prison
+	armor_type = /datum/armor/admiral_uniform_and_prison
 
 /obj/structure/puzzle_element/prison/relaymove(mob/user)
 	return

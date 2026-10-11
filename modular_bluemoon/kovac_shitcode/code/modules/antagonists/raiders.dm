@@ -221,7 +221,7 @@
 /obj/machinery/porta_turret/syndicate/energy/pirate/inteq
 	max_integrity = 260
 	integrity_failure = 0.08
-	armor_type = /datum/armor/profiles/shared/machinery/porta_turret/syndicate/energy/pirate/base__inteq
+	armor_type = /datum/armor/base_and_inteq
 	faction = list("InteQ")
 
 /obj/machinery/porta_turret/syndicate/energy/pirate/inteq/assess_perp(mob/living/carbon/human/perp)

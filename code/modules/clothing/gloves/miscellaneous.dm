@@ -117,7 +117,7 @@
 	icon_state = "narsiearmwraps"
 	item_state = "narsiearmwraps"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	armor_type = /datum/armor/profiles/clothing/gloves/fingerless/pugilist/hungryghost
+	armor_type = /datum/armor/hungryghost
 	enhancement = 3
 	secondary_trait = TRAIT_KI_VAMPIRE
 
@@ -127,7 +127,7 @@
 	icon_state = "ratvararmwraps"
 	item_state = "ratvararmwraps"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	armor_type = /datum/armor/profiles/clothing/gloves/fingerless/pugilist/brassmountain
+	armor_type = /datum/armor/brassmountain
 	enhancement = 4 //The artifice of Ratvar is unmatched except when it is.
 	secondary_trait = TRAIT_STRONG_GRABBER
 
@@ -255,7 +255,7 @@
 	cold_protection = ARMS|HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
-	armor_type = /datum/armor/profiles/clothing/gloves/fingerless/pugilist/mauler
+	armor_type = /datum/armor/mauler
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	strip_delay = 80
@@ -338,7 +338,7 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
-	armor_type = /datum/armor/profiles/shared/clothing_gloves_botanic_leather__vending_refill
+	armor_type = /datum/armor/leather_and_refills
 	strip_mod = 0.9
 
 /obj/item/clothing/gloves/combat
@@ -354,7 +354,7 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
-	armor_type = /datum/armor/profiles/shared/clothing/gloves/combat_and_martial_arts
+	armor_type = /datum/armor/combat_and_martial_arts
 	strip_mod = 1.5
 
 /obj/item/clothing/gloves/combat/centcom
@@ -376,7 +376,7 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
-	armor_type = /datum/armor/profiles/clothing/gloves/bracer
+	armor_type = /datum/armor/bracer
 
 /obj/item/clothing/gloves/thief
 	name = "black gloves"

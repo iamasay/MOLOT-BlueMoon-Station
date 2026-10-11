@@ -1,5 +1,5 @@
 /obj/structure
-	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
+	armor_type = /datum/armor/clothing_and_general_objects
 	icon = 'icons/obj/structures.dmi'
 	pressure_resistance = 8
 	max_integrity = 300

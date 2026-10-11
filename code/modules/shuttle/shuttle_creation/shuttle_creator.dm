@@ -8,7 +8,7 @@ GLOBAL_LIST_EMPTY(custom_shuttle_machines)		//Machines that require updating (He
 
 //============ Shuttle Creator Object ============
 /obj/item/shuttle_creator
-	armor_type = /datum/armor/profiles/shared/weapons_and_construction_tools
+	armor_type = /datum/armor/weapons_and_construction_tools
 	name = "Rapid Shuttle Designator"
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "rsd"
