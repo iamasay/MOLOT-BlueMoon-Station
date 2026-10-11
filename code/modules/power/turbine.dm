@@ -24,7 +24,7 @@
 
 /obj/machinery/power/compressor
 	name = "compressor"
-	desc = "Компрессорная ступень газотурбинного генератора."
+	desc = "The compressor stage of a gas turbine generator."
 	icon = 'icons/obj/atmospherics/pipes/simple.dmi'
 	icon_state = "compressor"
 	density = TRUE
@@ -64,7 +64,7 @@
 
 /obj/machinery/power/turbine
 	name = "gas turbine generator"
-	desc = "Газовая турбина для резервной выработки энергии."
+	desc = "A gas turbine used for backup power generation."
 	icon = 'icons/obj/atmospherics/pipes/simple.dmi'
 	icon_state = "turbine"
 	density = TRUE
@@ -119,8 +119,10 @@
 		E += M.rating
 	efficiency = E / 6
 
-/obj/machinery/power/compressor/examine_display_content(mob/user)
-	. += "– Эффективность: <b>[efficiency*100]%</b>."
+/obj/machinery/power/compressor/examine(mob/user)
+	. = ..()
+	if(in_range(user, src) || isobserver(user))
+		. += "<span class='notice'>The status display reads: Efficiency at <b>[efficiency*100]%</b>.</span>"
 
 /obj/machinery/power/compressor/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, initial(icon_state), initial(icon_state), I))
@@ -131,10 +133,10 @@
 		inturf = get_step(src, dir)
 		locate_machinery()
 		if(turbine)
-			to_chat(user, span_notice("Турбина подключена."))
+			to_chat(user, "<span class='notice'>Turbine connected.</span>")
 			set_machine_stat(machine_stat & ~BROKEN)
 		else
-			to_chat(user, span_alert("Турбина не подключена."))
+			to_chat(user, "<span class='alert'>Turbine not connected.</span>")
 			obj_break()
 		return
 
@@ -201,8 +203,10 @@
 		P += C.rating
 	productivity = P / 6
 
-/obj/machinery/power/turbine/examine_display_content(mob/user)
-	. += "– Производительность: <b>[productivity*100]%</b>."
+/obj/machinery/power/turbine/examine(mob/user)
+	. = ..()
+	if(in_range(user, src) || isobserver(user))
+		. += "<span class='notice'>The status display reads: Productivity at <b>[productivity*100]%</b>.</span>"
 
 /obj/machinery/power/turbine/locate_machinery()
 	if(compressor)
@@ -257,10 +261,10 @@
 		outturf = get_step(src, dir)
 		locate_machinery()
 		if(compressor)
-			to_chat(user, span_notice("Компрессор подключён."))
+			to_chat(user, "<span class='notice'>Compressor connected.</span>")
 			set_machine_stat(machine_stat & ~BROKEN)
 		else
-			to_chat(user, span_alert("Компрессор не подключён."))
+			to_chat(user, "<span class='alert'>Compressor not connected.</span>")
 			obj_break()
 		return
 
@@ -304,7 +308,7 @@
 
 /obj/machinery/computer/turbine_computer
 	name = "gas turbine control computer"
-	desc = "Компьютер для удалённого управления газовой турбиной."
+	desc = "A computer to remotely control a gas turbine."
 	icon_screen = "turbinecomp"
 	icon_keyboard = "tech_key"
 	circuit = /obj/item/circuitboard/computer/turbine_computer
