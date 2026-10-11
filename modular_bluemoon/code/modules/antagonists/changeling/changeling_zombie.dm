@@ -281,8 +281,8 @@
 		COOLDOWN_START(src, sound_cooldown, 3 SECONDS)
 
 /obj/item/clothing/suit/armor/changeling/weak
-	armor = /datum/armor/changerling_armors
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_changeling_weak__suit_armor_changeling_weak
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 
 /obj/item/clothing/head/helmet/changeling/weak
-	armor = /datum/armor/changerling_armors
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_changeling_weak__suit_armor_changeling_weak

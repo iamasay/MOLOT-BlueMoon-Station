@@ -9,7 +9,7 @@
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/head.dmi'
 	icon_state = "goner_helmet"
 	flags_inv = HIDEHAIR
-	armor = /datum/armor/head/goner // Normal helmet's + BIO&RAD
+	armor_type = /datum/armor/profiles/clothing/head/helmet/goner // Normal helmet's + BIO&RAD
 
 /obj/item/clothing/head/helmet/goner/fake
 	name = "trencher helmet replica"

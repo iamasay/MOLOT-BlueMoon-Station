@@ -648,7 +648,7 @@
 	flags_1 = CONDUCT_1
 	turf_type = /turf/open/floor/plasteel
 	mineralType = "metal"
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/banhammer__dualsaber__plasmascythe__stack_tile_plasteel
 	resistance_flags = FIRE_PROOF
 
 /obj/item/stack/tile/plasteel/cyborg

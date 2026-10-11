@@ -5,7 +5,7 @@
 	name = "EVA plasma envirosuit"
 	desc = "A special plasma containment suit designed to be space-worthy, as well as worn over other clothing. Like its smaller counterpart, it can automatically extinguish the wearer in a crisis, and holds twice as many charges."
 	allowed = list(/obj/item/gun, /obj/item/ammo_casing, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword, /obj/item/restraints/handcuffs, /obj/item/tank)
-	armor = /datum/armor/hardsuit/plasmaman
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_plasmaman__suit_space_eva_plasmaman
 	resistance_flags = FIRE_PROOF
 	icon_state = "plasmaman_suit"
 	item_state = "plasmaman_suit"
@@ -42,7 +42,7 @@
 	strip_delay = 80
 	flash_protect = 2
 	tint = 2
-	armor = /datum/armor/hardsuit/plasmaman
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_plasmaman__suit_space_eva_plasmaman
 	resistance_flags = FIRE_PROOF
 	var/brightness_on = 4 //luminosity when the light is on
 	var/helmet_on = FALSE
@@ -187,7 +187,7 @@
 	desc = "A plasmaman containment helmet designed for security officers, protecting them from being flashed and burning alive, along-side other undesirables."
 	icon_state = "security_envirohelm"
 	item_state = "security_envirohelm"
-	armor = /datum/armor/hardsuit/plasmaman/security
+	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
 
 /obj/item/clothing/head/helmet/space/plasmaman/security/warden
 	name = "warden's plasma envirosuit helmet"
@@ -246,7 +246,7 @@
 	desc = "A sturdier plasmaman envirohelmet designed for research directors."
 	icon_state = "rd_envirohelm"
 	item_state = "rd_envirohelm"
-	armor = /datum/armor/hardsuit/plasmaman/rd
+	armor_type = /datum/armor/profiles/clothing/head/helmet/space/plasmaman/rd
 
 /obj/item/clothing/head/helmet/space/plasmaman/robotics
 	name = "robotics plasma envirosuit helmet"
@@ -259,7 +259,7 @@
 	desc = "A space-worthy helmet specially designed for engineer plasmamen, the usual purple stripes being replaced by engineering's orange."
 	icon_state = "engineer_envirohelm"
 	item_state = "engineer_envirohelm"
-	armor = /datum/armor/hardsuit/plasmaman/engineering
+	armor_type = /datum/armor/profiles/clothing/head/helmet/space/plasmaman/engineering
 
 /obj/item/clothing/head/helmet/space/plasmaman/engineering/ce
 	name = "chief engineer's plasma envirosuit helmet"
@@ -309,7 +309,7 @@
 	desc = "A blue and gold envirohelm designed for the station's captain, nonetheless. Made of superior materials to protect them from the station hazards and more."
 	icon_state = "captain_envirohelm"
 	item_state = "captain_envirohelm"
-	armor = /datum/armor/hardsuit/plasmaman/captain
+	armor_type = /datum/armor/profiles/clothing/head/helmet/space/plasmaman/captain
 
 /obj/item/clothing/head/helmet/space/plasmaman/curator
 	name = "curator's plasma envirosuit helmet"

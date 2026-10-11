@@ -52,7 +52,7 @@
 		/obj/item/bedsheet/patriot = 5,
 		/obj/item/reagent_containers/food/snacks/burger/superbite = 3,
 	) //U S A
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/machinery/vending_durable
 
 	resistance_flags = FIRE_PROOF
 	default_price = PRICE_ABOVE_NORMAL
@@ -248,7 +248,7 @@
 			)
 		),
 	)
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/machinery/vending_durable
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | UNACIDABLE | LAVA_PROOF
 	default_price = PRICE_ABOVE_NORMAL
 	extra_price = PRICE_ABOVE_EXPENSIVE

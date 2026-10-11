@@ -2,6 +2,7 @@
 //Clothes made from FermiChem
 
 /obj/item/clothing/head/hattip	//I wonder if anyone else has played cryptworlds
+	armor_type = /datum/armor/none
 	name = "Synthetic hat"
 	icon = 'icons/obj/clothing/hats.dmi'
 	icon_state = "cowboy"

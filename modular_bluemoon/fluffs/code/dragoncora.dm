@@ -1,4 +1,5 @@
 /obj/item/clothing/head/helmet/dragoncora
+	armor_type = /datum/armor/none
 	name = "Agent Headgear"
 	desc = "Abduct with style - spiky style."
 	icon_state = "alienhelmet"
@@ -6,6 +7,7 @@
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 
 /obj/item/clothing/suit/armor/dragoncora
+	armor_type = /datum/armor/none
 	name = "Agent Vest"
 	desc = "A vest outfitted with advanced stealth technology. It has two modes - combat and stealth."
 	icon = 'icons/obj/abductor.dmi'
@@ -14,7 +16,7 @@
 	blood_overlay_type = "armor"
 
 /obj/item/clothing/head/helmet/skull/ftu
-	armor = /datum/armor/helmet
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_skull_ftu__suit_armor_vest_ftu
 
 /obj/item/clothing/suit/armor/vest/dragoncora
 	name = "FTU Security Armor"
@@ -26,7 +28,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	cold_protection = CHEST|GROIN|ARMS
 	heat_protection = CHEST|GROIN|ARMS
-	armor = /datum/armor/ftu_security
+	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/secjacket__vest_dragoncora
 
 /obj/item/clothing/gloves/color/black/dragoncora
 	name = "SpecOps Guerrilla Gloves"
@@ -50,7 +52,7 @@
 	icon_state = "ert_engineering"
 
 /obj/item/clothing/suit/det_suit/lanyard/dragoncora
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 
 /obj/item/radio/headset/dragoncora
 	name = "Alien Headset"

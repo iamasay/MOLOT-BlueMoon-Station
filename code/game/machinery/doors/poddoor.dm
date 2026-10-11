@@ -13,7 +13,7 @@
 	heat_proof = TRUE
 	safe = FALSE
 	max_integrity = 600
-	armor = /datum/armor/door_firedoor
+	armor_type = /datum/armor/profiles/machinery/door/poddoor
 	resistance_flags = FIRE_PROOF
 	damage_deflection = 70
 	can_open_with_hands = FALSE

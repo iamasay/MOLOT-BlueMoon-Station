@@ -220,7 +220,7 @@
 	if(istype(cl, /obj/item/clothing/under))
 		var/obj/item/clothing/under/u = cl
 		u.can_adjust = FALSE
-	cl.armor = /datum/armor/none
+	cl.set_armor_type(/datum/armor/none)
 	cl.body_parts_covered = NONE
 	user.visible_message(span_warning("[user] modifies [cl], now it not have armor and not covering anything!"),span_warning("You modify the [cl], now it not have armor and not covering anything!"))
 	uses--

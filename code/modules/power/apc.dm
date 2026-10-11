@@ -122,7 +122,7 @@
 	integrity_failure = 0.17
 	damage_deflection = 10
 	resistance_flags = FIRE_PROOF
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/machinery/power/apc
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON
 

@@ -281,7 +281,7 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	icon_state = "ipai"
 	item_state = "ipai"
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	clothing_flags = ALLOWINTERNALS
@@ -308,7 +308,7 @@
 	icon_state = "pz_grenadierhelmet"
 	item_state = "pz_grenadierhelmet"
 	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
-	armor = null
+	armor_type = /datum/armor/none
 	flags_inv = HIDEHAIR|HIDEEARS
 	var/adjusted = FALSE
 
@@ -388,6 +388,7 @@
 ///////////////////////////////////////////////
 
 /obj/item/clothing/head/helmet/sec/empire_head
+	armor_type = /datum/armor/profiles/clothing/head/helmet/sec/empire_head
 	name = "Katzen Steel Helmet"
 	desc = "Полиморфический шлем. На внутренней стороне этикетка - Furui.tm, свыше присутствуют застёжки для высвобождения ушей."
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'
@@ -431,6 +432,7 @@
 ///////////////////////////////////////////////
 
 /obj/item/clothing/head/helmet/sec/gosei
+	armor_type = /datum/armor/none
 	name = "Gosei.H.mk27"
 	desc = "Безымянный шлем покрывающий лицо, предназначенный для защиты от внешних био-химических угроз, оснащённый внутривстроенным интерфейсом, съёмными батарейками, IFF опознавательными знаками"
 	icon = 'modular_bluemoon/fluffs/icons/obj/clothing/head.dmi'

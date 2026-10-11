@@ -4,7 +4,7 @@
 	icon_state = "cmo"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/suit/chief_medical
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 
 /obj/item/clothing/under/rank/medical/chief_medical_officer/skirt
 	name = "chief medical officer's jumpskirt"
@@ -31,7 +31,7 @@
 	icon_state = "genetics"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/suit/chief_medical
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 
 /obj/item/clothing/under/rank/medical/geneticist/skirt
 	name = "geneticist's jumpskirt"
@@ -50,7 +50,7 @@
 	icon_state = "virology"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/suit/chief_medical
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 
 /obj/item/clothing/under/rank/medical/virologist/skirt
 	name = "virologist's jumpskirt"
@@ -69,7 +69,7 @@
 	icon_state = "chemistry"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/chemist
+	armor_type = /datum/armor/profiles/clothing/under/rank/medical/chemist
 
 /obj/item/clothing/under/rank/medical/chemist/skirt
 	name = "chemist's jumpskirt"
@@ -88,7 +88,7 @@
 	icon_state = "paramedic-dark"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/paramedic
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 
 /obj/item/clothing/under/rank/medical/paramedic/red
 	name = "red paramedic jumpsuit"
@@ -125,7 +125,7 @@
 	item_state = "w_suit"
 	mob_overlay_icon = 'icons/mob/clothing/uniform.dmi'
 	permeability_coefficient = 0.5
-	armor = /datum/armor/medical
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 	body_parts_covered = CHEST|GROIN|ARMS
 	fitted = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
@@ -138,7 +138,7 @@
 	icon_state = "medical"
 	item_state = "w_suit"
 	permeability_coefficient = 0.5
-	armor = /datum/armor/medical
+	armor_type = /datum/armor/profiles/shared/clothing/under/rank/civilian_and_medical/bio10_wound5
 	//unique_reskin = list(
 	//	"Alt" = list("icon_state" = "med_alt")
 	//)

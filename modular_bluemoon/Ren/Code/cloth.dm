@@ -51,7 +51,7 @@
 	desc = "Костюм данной модели, выполнен на основе классической модели Горка. Изготавливается из особо прочной ткани Рип Стоп с водоотталкивающей пропиткой и высоким содержанием хлопка и полиэфирных нитей. Идеально подогнан под пропорции клиента и прекрасно подходит для грязной работы."
 	icon_state = "infiltrator_u"
 	item_state = "infiltrator_u"
-	armor = /datum/armor/syndie_lawyer
+	armor_type = /datum/armor/profiles/clothing/under/inteq/tactical_gorka
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	can_adjust = FALSE
 	icon = 'modular_bluemoon/Ren/Icons/Obj/infiltrator.dmi'
@@ -77,7 +77,7 @@
 	item_state = "hardsuit0-iron_tombstone"
 	icon_state = "hardsuit0-iron_tombstone"
 	hardsuit_type = "iron_tombstone"
-	armor = /datum/armor/suit/iron_tombstone
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/iron_tombstone/helmet__suit
 	flash_protect = 2
 	strip_delay = 90
 	equip_delay_self = 15
@@ -94,7 +94,7 @@
 	icon_state = "hardsuit-iron_tombstone"
 	tail_state = "syndicate-elite"
 	hardsuit_type = "iron_tombstone"
-	armor = /datum/armor/suit/iron_tombstone
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/iron_tombstone/helmet__suit
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	allowed = list(/obj/item/gun, /obj/item/ammo_box,/obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
 	strip_delay = 120
@@ -142,7 +142,7 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	alternate_screams = SPASEMAR_SCREAMS
-	armor = /datum/armor/space/darktemplar
+	armor_type = /datum/armor/profiles/shared/clothing/darktemplar_spacesuit
 	equip_sound = 'modular_bluemoon/Ren/Sound/equp1.ogg'
 	mutantrace_variation = NONE
 	unique_reskin = list("Dark Power Armour helmet holy patern" = list(RESKIN_ICON_STATE = "darktemplar_chaplai_helm"), "Dark Power Armour helmet InteQ patern MKI" = list(RESKIN_ICON_STATE = "darktemplar_helm_inteq"), "Dark Power Armour helmet InteQ patern MKII" = list(RESKIN_ICON_STATE = "darktemplar_helm_inteq_alt"))
@@ -172,7 +172,7 @@
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	alternate_screams = SPASEMAR_SCREAMS
-	armor = /datum/armor/space/darktemplar
+	armor_type = /datum/armor/profiles/shared/clothing/darktemplar_spacesuit
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	equip_sound = 'modular_bluemoon/Ren/Sound/equp.ogg'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC
@@ -194,7 +194,7 @@
 	desc = "Тяжёлые латные ботинки созданные, что бы ходить по трупам поверженных врагов."
 	clothing_flags = NOSLIP
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	armor = /datum/armor/boots
+	armor_type = /datum/armor/profiles/clothing/shoes/jackboots/powerbots
 
 /obj/item/clothing/shoes/jackboots/powerbots/Initialize(mapload)
 	. = ..()
@@ -253,7 +253,7 @@
 	item_state = "hank_m"
 	mob_overlay_icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
 	icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
-	armor = /datum/armor/hank
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_hank__suit_armor_hank
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -276,7 +276,7 @@
 	item_state = "hank"
 	mob_overlay_icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
 	icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
-	armor = /datum/armor/hank
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_hank__suit_armor_hank
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	mutantrace_variation = NONE
 
@@ -400,7 +400,7 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/Ren/Icons/Mob/clothing_digi.dmi'
 	icon_state = "ghostbaseball"
 	item_state = "ghostbaseball"
-	armor = /datum/armor/baseball_syndie
+	armor_type = /datum/armor/profiles/clothing/under/inteq/baseball
 
 /obj/item/clothing/head/soft/inteq/baseball
 	name = "Baseball cap"
@@ -411,7 +411,7 @@
 	icon = 'modular_bluemoon/Ren/Icons/Obj/cloth.dmi'
 	mob_overlay_icon = 'modular_bluemoon/Ren/Icons/Mob/clothing.dmi'
 	flags_inv = HIDEEYES|HIDEFACE
-	armor = /datum/armor/baseball_syndie
+	armor_type = /datum/armor/profiles/shared/clothing/head/soft/baseball__inteq_baseball
 	strip_delay = 90 //You dont take a Major Leage cap
 	dog_fashion = null
 
@@ -459,7 +459,7 @@
 	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/head_muzzled.dmi'
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	armor = /datum/armor/engine/ftu
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/ftu/helmet__suit
 
 /obj/item/clothing/suit/space/hardsuit/engine/ftu
 	name = "Ship engineering hardsuit"
@@ -473,7 +473,7 @@
 	anthro_mob_worn_overlay = 'modular_sand/icons/mob/clothing/suit_digi.dmi'
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	armor = /datum/armor/engine/ftu
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/engine/ftu/helmet__suit
 	unique_reskin = list()
 	jetpack = /obj/item/tank/jetpack/suit
 
@@ -487,7 +487,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	cold_protection = CHEST|GROIN|ARMS
 	heat_protection = CHEST|GROIN|ARMS
-	armor = /datum/armor/ftu
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_skull_ftu__suit_armor_vest_ftu
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/vest/ftu/ComponentInitialize()
@@ -497,14 +497,14 @@
 
 /obj/item/clothing/under/inteq/tactical_gorka/ftu
 	name = "Cargo gorka"
-	armor = list()
+	armor_type = /datum/armor/none
 
 /obj/item/clothing/head/helmet/skull/ftu
 	name = "FTU Combat Skull"
 	desc = "Бронированная маска из полимеров стилизованная под череп. Вселяет страх в каждого пирата."
 	anthro_mob_worn_overlay = 'modular_bluemoon/Ren/Icons/Mob/clothing_digi.dmi'
 	flash_protect = 2
-	armor = /datum/armor/ftu
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_skull_ftu__suit_armor_vest_ftu
 	flags_inv = HIDEEYES | HIDEFACE | HIDEMASK
 
 /obj/item/card/id/away/ftu

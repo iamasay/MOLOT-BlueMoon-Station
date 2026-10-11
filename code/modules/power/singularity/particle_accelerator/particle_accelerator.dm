@@ -27,7 +27,7 @@
 	anchored = FALSE
 	density = TRUE
 	max_integrity = 500
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/particle_accelerator
 
 	var/obj/machinery/particle_accelerator/control_box/master = null
 	var/construction_state = PA_CONSTRUCTION_UNSECURED

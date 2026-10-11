@@ -22,7 +22,7 @@ Contains:
 	desc = "An advanced tactical space helmet."
 	icon_state = "deathsquad"
 	item_state = "deathsquad"
-	armor = /datum/armor/hardsuit/shielded_swat
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/deathsquad_and_shielded
 	strip_delay = 130
 	actions_types = list()
 
@@ -40,7 +40,7 @@ Contains:
 	item_state = "swat_suit"
 	tail_state = "deathsquad"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = /datum/armor/hardsuit/shielded_swat
+	armor_type = /datum/armor/profiles/shared/clothing/deathsquad_and_officer
 	brc_mitigation_bonus = BRC_MITIGATION_25  // BLUEMOON ADD
 	strip_delay = 130
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/deathsquad
@@ -59,7 +59,7 @@ Contains:
 	item_state = "swat_suit"
 	tail_state = "atmos"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = /datum/armor/hardsuit/mkI_swat
+	armor_type = /datum/armor/profiles/clothing/suit/space/swat
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	strip_delay = 120
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -131,7 +131,7 @@ Contains:
 	dynamic_hair_suffix = "+generic"
 	dynamic_fhair_suffix = "+generic"
 	flags_inv = 0
-	armor = /datum/armor/hardsuit/centcomm_officer
+	armor_type = /datum/armor/profiles/shared/clothing/deathsquad_and_officer
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -147,7 +147,7 @@ Contains:
 	flags_inv = 0
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = /datum/armor/hardsuit/centcomm_officer
+	armor_type = /datum/armor/profiles/shared/clothing/deathsquad_and_officer
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -224,7 +224,7 @@ Contains:
 	desc = "A thick, space-proof tricorne from the royal Space Queen. It's lined with a layer of reflective kevlar."
 	icon_state = "pirate"
 	item_state = "pirate"
-	armor = /datum/armor/hardsuit/pirate
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_pirate__suit_space_pirate
 	flags_inv = HIDEHAIR
 	strip_delay = 40
 	equip_delay_other = 20
@@ -247,7 +247,7 @@ Contains:
 	flags_inv = 0
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/melee/transforming/energy/sword/pirate, /obj/item/clothing/glasses/cover/eyepatch, /obj/item/reagent_containers/food/drinks/bottle/rum)
 	slowdown = 0
-	armor = /datum/armor/hardsuit/pirate
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_pirate__suit_space_pirate
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	strip_delay = 40
 	equip_delay_other = 20
@@ -273,7 +273,7 @@ Contains:
 	icon_state = "hardsuit0-ert_commander"
 	item_state = "hardsuit0-ert_commander"
 	hardsuit_type = "ert_commander"
-	armor = /datum/armor/hardsuit/ert
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_and_hos
 	strip_delay = 130
 	brightness_on = 16
 
@@ -293,7 +293,7 @@ Contains:
 	tail_state = "ert-commander"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = /datum/armor/hardsuit/ert
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_and_hos
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	slowdown = 0
 	strip_delay = 130
@@ -323,7 +323,7 @@ Contains:
 	icon_state = "hardsuit0-ert_engineer"
 	item_state = "hardsuit0-ert_engineer"
 	hardsuit_type = "ert_engineer"
-	armor = /datum/armor/hardsuit/ert/engi // BLUEMOON CHANGE rig rebalance
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/engi/helmet__suit // BLUEMOON CHANGE rig rebalance
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT // BLUEMOON CHANGE rig rebalance
 
 /obj/item/clothing/suit/space/hardsuit/ert/engi
@@ -332,7 +332,7 @@ Contains:
 	item_state = "ert_engineer"
 	tail_state = "ert-engineer"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/engi
-	armor = /datum/armor/hardsuit/ert/engi // BLUEMOON CHANGE rig rebalance
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/engi/helmet__suit // BLUEMOON CHANGE rig rebalance
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT // BLUEMOON CHANGE rig rebalance
 
@@ -373,7 +373,7 @@ Contains:
 	icon_state = "hardsuit0-ert_commander-alert"
 	item_state = "hardsuit0-ert_commander-alert"
 	hardsuit_type = "ert_commander-alert"
-	armor = /datum/armor/hardsuit/ert/red
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
 	brightness_on = 12
 
 	heat_protection = HEAD
@@ -387,7 +387,7 @@ Contains:
 	item_state = "ert_command-alert"
 	tail_state = "ert-alert"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert
-	armor = /datum/armor/hardsuit/ert/red
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC|STYLE_PAW_TAURIC
 
@@ -443,7 +443,7 @@ Contains:
 	item_state = "s_suit"
 	tail_state = "syndicate-winter"
 	desc = "A lightweight space suit with the basic ability to protect the wearer from the vacuum of space during emergencies."
-	armor = /datum/armor/suit/heva
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_eva__suit_space_eva
 
 /obj/item/clothing/head/helmet/space/eva
 	name = "EVA helmet"
@@ -451,7 +451,7 @@ Contains:
 	item_state = "space"
 	desc = "A lightweight space helmet with the basic ability to protect the wearer from the vacuum of space during emergencies."
 	flash_protect = 0
-	armor = /datum/armor/suit/heva
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_eva__suit_space_eva
 
 //Radiation
 /obj/item/clothing/head/helmet/space/rad
@@ -459,7 +459,7 @@ Contains:
 	desc = "A special helmet that protects against radiation and space. Not much else unfortunately."
 	icon_state = "cespace_helmet"
 	item_state = "nothing"
-	armor = /datum/armor/hardsuit/rad_eva
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_rad__suit_space_rad
 	resistance_flags = FIRE_PROOF
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	actions_types = list()
@@ -470,7 +470,7 @@ Contains:
 	icon_state = "hardsuit-rad"
 	item_state = "nothing"
 	tail_state = "ert-engineer"
-	armor = /datum/armor/hardsuit/rad_eva
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_rad__suit_space_rad
 	resistance_flags = FIRE_PROOF
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	mutantrace_variation = NONE
@@ -480,7 +480,7 @@ Contains:
 	desc = "An advanced, space-proof helmet. It appears to be modeled after an old-world eagle."
 	icon_state = "griffinhat"
 	item_state = "griffinhat"
-	armor = /datum/armor/hardsuit/eagle_freedom
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_freedom__suit_space_freedom
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = ACID_PROOF | FIRE_PROOF
@@ -493,7 +493,7 @@ Contains:
 	item_state = "freedom"
 	tail_state = "ert-commander"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = /datum/armor/hardsuit/eagle_freedom
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_freedom__suit_space_freedom
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -519,7 +519,7 @@ Contains:
 	desc = "Spaceworthy and it looks like a space carp's head, smells like one too."
 	icon_state = "carp_helm"
 	item_state = "syndicate"
-	armor = /datum/armor/hardsuit/syndi // same as elite InteQ / syndi elite
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/carp_and_syndicate_elite // same as elite InteQ / syndi elite
 	brightness_on = 0 //luminosity when on
 	actions_types = list()
 	heat_protection = HEAD
@@ -556,7 +556,7 @@ Contains:
 	item_state = "space_suit_syndicate"
 	tail_state = "carp"
 	slowdown = 0	//Space carp magic, never stop believing
-	armor = /datum/armor/hardsuit/syndi // same as elite InteQ / syndi elite
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/carp_and_syndicate_elite // same as elite InteQ / syndi elite
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	allowed = list(/obj/item/tank/internals, /obj/item/gun/ballistic/automatic/speargun)	//I'm giving you a hint here
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/carp
@@ -581,7 +581,7 @@ Contains:
 	item_state = "hardsuit0-prt"
 	hardsuit_type = "knight_grey"
 	actions_types = list()
-	armor =	/datum/armor/hardsuit/ert/paranormal
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/paranormal/helmet__suit
 	mutantrace_variation = STYLE_MUZZLE
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -606,7 +606,7 @@ Contains:
 	item_state = "knight_grey"
 	tail_state = "syndicate-winter"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
-	armor =	/datum/armor/hardsuit/ert/paranormal
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/paranormal/helmet__suit
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC|STYLE_PAW_TAURIC
 
@@ -640,7 +640,7 @@ Contains:
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/inquisitor/old
 	desc = "Powerful wards are built into this hardsuit, protecting the user from all manner of paranormal threats. Alas, this one looks pretty worn out and rusted."
-	armor = /datum/armor/hardsuit/old_inquisitor
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/paranormal_old
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	slowdown = 0.8
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/inquisitor/old
@@ -648,7 +648,7 @@ Contains:
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/inquisitor/old
 	desc = "A helmet worn by those who deal with paranormal threats for a living. Alas, this one looks pretty worn out and rusted."
-	armor = /datum/armor/hardsuit/old_inquisitor
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/paranormal_old
 	charges = 12
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/beserker
@@ -668,7 +668,7 @@ Contains:
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/beserker/old
 	desc = "Voices echo from the hardsuit, driving the user insane. This one is pretty battle-worn, but still fearsome."
-	armor = /datum/armor/hardsuit/paranormal_old
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/paranormal_old
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	slowdown = 0.8
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/beserker/old
@@ -676,7 +676,7 @@ Contains:
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/beserker/old
 	desc = "Peering into the eyes of the helmet is enough to seal damnation. This one is pretty battle-worn, but still fearsome."
-	armor = /datum/armor/hardsuit/paranormal_old
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/paranormal_old
 	charges = 6
 
 /obj/item/clothing/head/helmet/space/fragile
@@ -684,7 +684,7 @@ Contains:
 	desc = "A bulky, air-tight helmet meant to protect the user during emergency situations. It doesn't look very durable."
 	icon_state = "syndicate-helm-orange"
 	item_state = "syndicate-helm-orange"
-	armor = /datum/armor/hardsuit/emergency_fragile
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_fragile__suit_space_fragile
 	strip_delay = 65
 
 /obj/item/clothing/suit/space/fragile
@@ -695,7 +695,7 @@ Contains:
 	item_state = "syndicate-orange"
 	tail_state = "orange"
 	slowdown = 2
-	armor = /datum/armor/hardsuit/emergency_fragile
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_space_fragile__suit_space_fragile
 	strip_delay = 65
 
 /obj/item/clothing/suit/space/fragile/run_block(mob/living/owner, atom/object, damage, attack_text, attack_type, armour_penetration, mob/attacker, def_zone, final_block_chance, list/block_return)
@@ -730,7 +730,7 @@ Contains:
 	item_state = "swat_suit"
 	tail_state = "contractor"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = /datum/armor/hardsuit/space_hunter
+	armor_type = /datum/armor/profiles/clothing/suit/space/hunter
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	strip_delay = 130
 	resistance_flags = FIRE_PROOF | ACID_PROOF

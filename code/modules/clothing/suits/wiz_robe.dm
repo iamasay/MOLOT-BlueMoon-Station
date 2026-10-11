@@ -4,7 +4,7 @@
 	icon_state = "wizard"
 	gas_transfer_coefficient = 0.01 // IT'S MAGICAL OKAY JEEZ +1 TO NOT DIE
 	permeability_coefficient = 0.01
-	armor = /datum/armor/wizard
+	armor_type = /datum/armor/profiles/shared/clothing/head_wizard__suit_wizrobe
 	strip_delay = 50
 	equip_delay_other = 50
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -41,7 +41,7 @@
 	icon_state = "wizard-fake"
 	gas_transfer_coefficient = 1
 	permeability_coefficient = 1
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 	resistance_flags = FLAMMABLE
 	magic_flags = NONE
 
@@ -76,7 +76,7 @@
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	body_parts_covered = CHEST|ARMS|LEGS
-	armor = /datum/armor/wizard
+	armor_type = /datum/armor/profiles/shared/clothing/head_wizard__suit_wizrobe
 	allowed = list(/obj/item/teleportation_scroll)
 	flags_inv = HIDEJUMPSUIT
 	strip_delay = 50
@@ -140,21 +140,21 @@
 	icon_state = "wizard-fake"
 	gas_transfer_coefficient = 1
 	permeability_coefficient = 1
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 	resistance_flags = FLAMMABLE
 	magic_flags = NONE
 
 /obj/item/clothing/head/wizard/marisa/fake
 	gas_transfer_coefficient = 1
 	permeability_coefficient = 1
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 	resistance_flags = FLAMMABLE
 	magic_flags = NONE
 
 /obj/item/clothing/suit/wizrobe/marisa/fake
 	gas_transfer_coefficient = 1
 	permeability_coefficient = 1
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/none
 	resistance_flags = FLAMMABLE
 	magic_flags = NONE
 
@@ -311,7 +311,7 @@
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/wizard
-	armor = /datum/armor/wizard_shielded
+	armor_type = /datum/armor/profiles/clothing/hardsuit/shielded/wizard/suit
 	slowdown = 0
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	allowed = list(/obj/item/teleportation_scroll, /obj/item/tank/internals)
@@ -330,7 +330,7 @@
 	item_state = "battlemage"
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
-	armor = /datum/armor/wizard_shielded
+	armor_type = /datum/armor/profiles/clothing/hardsuit/shielded/wizard/helmet
 	actions_types = null //No inbuilt light
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/magic_flags = SPELL_WIZARD_HAT|SPELL_CULT_HELMET

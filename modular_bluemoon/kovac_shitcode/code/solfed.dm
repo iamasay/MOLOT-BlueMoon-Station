@@ -13,7 +13,7 @@
 	unique_reskin = list()
 
 /obj/item/clothing/under/rank/security/officer/formal/sol/armorless
-	armor = /datum/armor/none
+	armor_type = /datum/armor/none
 
 /obj/item/clothing/under/rank/security/officer/solfed_military
 	name = "solfed military uniform"
@@ -72,7 +72,7 @@
 	icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/obj_sol.dmi'
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	armor = /datum/armor/solfed
+	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/nri_coat__nri_vest__solfed_coat
 	brc_mitigation_bonus = BRC_MITIGATION_20  // BLUEMOON ADD
 
 // Cloaks
@@ -103,7 +103,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol_head.dmi'
 
 /obj/item/clothing/head/HoS/beret/sol/security
-	armor = /datum/armor/solfed/beret
+	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
 
 /obj/item/clothing/head/HoS/beret/sol/plain
 	name = "solfed beret"
@@ -113,7 +113,7 @@
 
 /obj/item/clothing/head/HoS/beret/sol/plain/armorless
 	desc = "A blue beret made in SolFed style."
-	armor = /datum/armor/none
+	armor_type = /datum/armor/none
 
 /obj/item/clothing/head/HoS/beret/sol/cap
 	name = "solfed cap"
@@ -123,7 +123,7 @@
 
 /obj/item/clothing/head/HoS/beret/sol/cap/armorless
 	desc = "A blue SolFed Cap without any protection."
-	armor = /datum/armor/none
+	armor_type = /datum/armor/none
 
 /obj/item/radio/headset/sol
 	name = "SolFed Headset"
@@ -163,7 +163,7 @@
 	icon_state = "hardsuit0-solfed"
 	item_state = "hardsuit0-solfed"
 	hardsuit_type = "solfed"
-	armor = /datum/armor/hardsuit/ert/red
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list()
@@ -178,7 +178,7 @@
 	item_state = "hardsuit0-solfed"
 	hardsuit_type = "solfed"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/sol
-	armor = /datum/armor/hardsuit/ert/red
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert_alert
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	//mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
@@ -195,7 +195,7 @@
 	item_state = "hardsuit0-solfeds"
 	hardsuit_type = "solfeds"
 	tail_state = "ert-alert"
-	armor = /datum/armor/solfed/adv
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/sol/adv/helmet__suit
 
 /obj/item/clothing/suit/space/hardsuit/ert/alert/sol/adv
 	name = "FCS-B SolFed hardsuit"
@@ -204,7 +204,7 @@
 	item_state = "hardsuit0-solfeds"
 	hardsuit_type = "solfeds"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/alert/sol/adv
-	armor = /datum/armor/solfed/adv
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/ert/alert/sol/adv/helmet__suit
 	brc_mitigation_bonus = 25  // BLUEMOON ADD
 
 /// Outfits (ERT military suits were stored in ert.dm)

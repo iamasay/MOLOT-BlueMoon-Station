@@ -201,7 +201,7 @@
 	use_power = ACTIVE_POWER_USE
 	active_power_usage = 2000
 
-	armor = /datum/armor/warping_machine
+	armor_type = /datum/armor/profiles/shared/fireproof_and_acidproof_misc
 
 	density = TRUE
 	anchored = TRUE

@@ -120,7 +120,7 @@
 	desc = "Base armor vest designed for ordinary expeditors. With cool speedy violet vertical line."
 	icon_state = "vest_exp"
 	item_state = "vest_exp"
-	armor = /datum/armor/suit/expeditor_vest
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_exp__suit_armor_vest_exp
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	unique_reskin = list(
 		"Standart" = list(
@@ -147,7 +147,7 @@
 	desc = "Sturdy ballistic helmet with violet protective glass."
 	icon_state = "helmet_exp"
 	item_state = "helmet_exp"
-	armor = /datum/armor/suit/expeditor_vest
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_exp__suit_armor_vest_exp
 	unique_reskin = list(
 		"Standart" = list(
 			"icon_state" = "helmet_exp",

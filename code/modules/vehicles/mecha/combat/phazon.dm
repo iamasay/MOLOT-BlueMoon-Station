@@ -7,7 +7,7 @@
 	normal_step_energy_drain = 3
 	max_integrity = 100
 	deflect_chance = 30
-	armor = /datum/armor/vehicle/mecha/combat/phazon
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/phazon
 	max_temperature = 25000
 	wreckage = /obj/structure/mecha_wreckage/phazon
 	internal_damage_threshold = 25

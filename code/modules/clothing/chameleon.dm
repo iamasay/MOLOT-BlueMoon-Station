@@ -327,7 +327,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/under/chameleon)
 	sensor_flags = NONE
 	resistance_flags = NONE
 	can_adjust = FALSE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
@@ -363,7 +363,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/suit/chameleon)
 	blood_overlay_type = "armor"
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
@@ -391,7 +391,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/glasses/chameleon)
 	icon_state = "meson"
 	item_state = "meson"
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
@@ -420,7 +420,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/gloves/chameleon)
 	item_state = "ygloves"
 
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
@@ -451,7 +451,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/head/chameleon)
 	icon_state = "greysoft"
 
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/head_chameleon__mask_chameleon
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
@@ -476,7 +476,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/head/chameleon)
 /obj/item/clothing/head/chameleon/drone
 	// The camohat, I mean, holographic hat projection, is part of the
 	// drone itself.
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/none
 	// which means it offers no protection, it's just air and light
 
 /obj/item/clothing/head/chameleon/drone/Initialize(mapload)
@@ -494,7 +494,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/mask/chameleon)
 	icon_state = "gas_alt"
 	item_state = "gas_alt"
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/head_chameleon__mask_chameleon
 	clothing_flags = BLOCK_GAS_SMOKE_EFFECT | ALLOWINTERNALS
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR
 	gas_transfer_coefficient = 0.01
@@ -529,7 +529,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/mask/chameleon)
 
 /obj/item/clothing/mask/chameleon/drone
 	//Same as the drone chameleon hat, undroppable and no protection
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/none
 	// Can drones use the voice changer part? Let's not find out.
 	voice_change = 0
 
@@ -551,7 +551,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/shoes/chameleon)
 	desc = "A pair of black shoes."
 	permeability_coefficient = 0.05
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing/chameleon
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
@@ -682,7 +682,7 @@ CHAMELEON_CLOTHING_DEFINE(/obj/item/clothing/neck/cloak/chameleon)
 	icon = 'icons/obj/clothing/neck.dmi'
 	icon_state = "blacktie"
 	resistance_flags = NONE
-	armor = /datum/armor/suit/chameleon
+	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
 
 /obj/item/clothing/neck/cloak/chameleon
 	var/datum/action/item_action/chameleon/change/chameleon_action

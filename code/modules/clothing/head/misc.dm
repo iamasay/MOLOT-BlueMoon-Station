@@ -6,7 +6,7 @@
 	desc = "It's good to be emperor."
 	item_state = "that"
 	flags_inv = 0
-	armor = /datum/armor/head/centcomm_hat
+	armor_type = /datum/armor/profiles/clothing/head/centhat
 	strip_delay = 80
 
 
@@ -318,7 +318,7 @@
 	name = "crown"
 	desc = "A crown fit for a king, a petty king maybe."
 	icon_state = "crown"
-	armor = /datum/armor/head/crown
+	armor_type = /datum/armor/profiles/clothing/head/crown
 	resistance_flags = FIRE_PROOF
 	dynamic_hair_suffix = ""
 
@@ -456,7 +456,7 @@
 	desc = "A security cowboy hat, perfect for any true lawman"
 	icon_state = "cowboyhat_sec"
 	item_state= "cowboyhat_sec"
-	armor = /datum/armor/head/head_of_sec
+	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/head/cowboyhat/polychromic
@@ -489,7 +489,7 @@
 	desc = "Ain't nobody gonna cheat the hangman in my town."
 	icon_state = "hunter"
 	item_state = "hunter"
-	armor = /datum/armor/head/bounty_hunting_hat
+	armor_type = /datum/armor/profiles/clothing/head/hunter
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/head/kepi

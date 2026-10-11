@@ -16,7 +16,7 @@
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/stock_parts/cell)
 	slowdown = 1
 	resistance_flags = LAVA_PROOF | ACID_PROOF
-	armor = /datum/armor/head/space_ninja
+	armor_type = /datum/armor/profiles/shared/clothing/ninja_gear
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	tail_state = ""
 
@@ -265,7 +265,7 @@
 //////////////////////
 
 /obj/item/clothing/suit/space/space_ninja/ronin // Yokai red ninja suit
-	armor = /datum/armor/space_ninja/ronin
+	armor_type = /datum/armor/profiles/clothing/suit/space/space_ninja/ronin
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	s_delay = 20
 	s_longdelay = 100
@@ -340,7 +340,7 @@
 ///////////////////////////////
 
 /obj/item/clothing/suit/space/space_ninja/wisdom // Wisdom tan ninja suit
-	armor = /datum/armor/space_ninja/wisdom
+	armor_type = /datum/armor/profiles/clothing/suit/space/space_ninja/wisdom
 	s_cost = 1
 	s_acost = 5
 	s_delay = 60

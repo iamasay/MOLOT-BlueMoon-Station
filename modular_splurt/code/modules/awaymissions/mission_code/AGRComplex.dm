@@ -948,7 +948,7 @@
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/suit_digi.dmi'
 	icon_state = "hardsuit-gear"
 	item_state = "rig-suit"
-	armor = /datum/armor/space/hardsuit/gearsuit
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/gearsuit/helmet__suit
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	slowdown = 1
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/gearsuit
@@ -964,7 +964,7 @@
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/head_muzzled.dmi'
 	icon_state = "hardsuit0-gear"
 	item_state = "hardsuit-gear"
-	armor = /datum/armor/space/hardsuit/gearsuit
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/gearsuit/helmet__suit
 	hardsuit_type = "gear"
 	brightness_on = 12
 	flash_protect = 5
@@ -1074,7 +1074,7 @@
 	item_state = "flagellantcuirass"
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	armor = /datum/armor/flagellantcuirass
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/cultrobes/flagellantcuirass
 	slowdown = -0.25
 	hoodtype = /obj/item/clothing/head/hooded/flagellantcuirass
 
@@ -1088,7 +1088,7 @@
 	item_state = "flagellanthood"
 	body_parts_covered = HEAD
 	flags_inv = HIDEHAIR|HIDEFACE|HIDEEARS
-	armor = /datum/armor/head/utilcover // Not necessary to use the helmet for the robes to function, so might as well make the helmet worth using.
+	armor_type = /datum/armor/profiles/shared/clothing/head/armored_headgear // Not necessary to use the helmet for the robes to function, so might as well make the helmet worth using.
 
 /datum/design/crystalwire // Beartrap that causes wounds on top of damage.
 	name = "Crystalline Wire"

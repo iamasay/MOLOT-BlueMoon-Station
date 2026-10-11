@@ -9,7 +9,7 @@
 	desc = "Completely cuts off the wearer from the outside world."
 	icon_state = "dephelmet"
 	item_state = "dephelmet"
-	armor = /datum/armor/none
+	armor_type = /datum/armor/profiles/clothing/head/helmet/space/deprivation_helmet
 	icon = 'modular_splurt/icons/obj/clothing/lewd_clothes/head/lewd_hats.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/lewd_clothing/head/lewd_hats.dmi'
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/lewd_clothing/head/lewd_hats.dmi'

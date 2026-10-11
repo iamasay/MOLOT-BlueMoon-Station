@@ -74,6 +74,7 @@
 #include "anchored_mobs.dm"
 #include "airalarm_mode_cutoff.dm"
 #include "airalarm_thresholds.dm"
+#include "armor_migration.dm"
 #include "atmos_engineering_fixes.dm"
 #include "atmos_exposure_consumers.dm"
 #include "atmos_frozen_vapor_pin.dm"

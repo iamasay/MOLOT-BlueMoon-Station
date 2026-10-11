@@ -17,7 +17,7 @@
 	item_state = "greatcoat"
 
 /obj/item/clothing/head/donator/bm/cerberus_helmet/armored
-	armor = /datum/armor/head/security_officer
+	armor_type = /datum/armor/profiles/shared/clothing/cerberus_armored
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -27,7 +27,7 @@
 
 /obj/item/clothing/suit/donator/bm/cerberus_suit/armored
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	armor = /datum/armor/security_vest
+	armor_type = /datum/armor/profiles/shared/clothing/cerberus_armored
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
@@ -108,7 +108,7 @@
 	permeability_coefficient = 0.01
 	clothing_flags = THICKMATERIAL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = /datum/armor/bio_suit
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/plaguedoc_new
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAUR
 	strip_delay = 70
 	equip_delay_other = 70

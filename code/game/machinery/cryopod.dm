@@ -33,7 +33,7 @@ GLOBAL_LIST_EMPTY(ghost_records)
 
 	max_integrity = 10000
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	armor = /datum/armor/computer_cryopod
+	armor_type = /datum/armor/profiles/shared/machinery/computer_cryopod__cryopod
 
 
 	// Used for logging people entering cryosleep and important items they are carrying.
@@ -166,7 +166,7 @@ GLOBAL_LIST_EMPTY(ghost_records)
 
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	max_integrity = 500
-	armor = /datum/armor/computer_cryopod
+	armor_type = /datum/armor/profiles/shared/machinery/computer_cryopod__cryopod
 	flags_1 = NODECONSTRUCT_1
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_SET_MACHINE | INTERACT_MACHINE_OFFLINE
 

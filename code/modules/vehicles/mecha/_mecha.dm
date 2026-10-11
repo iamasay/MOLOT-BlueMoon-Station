@@ -24,7 +24,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_1 = HEAR_1
 	max_integrity = 300
-	armor = /datum/armor/vehicle/mecha
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha
 	movedelay = 1 SECONDS
 	/// Cooldown between in-place rotations. Kept shorter than movedelay so turning stays responsive and isn't blocked by inability to move, but slow enough not to spin on the spot.
 	var/turn_delay = 0.4 SECONDS

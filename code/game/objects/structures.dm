@@ -1,4 +1,5 @@
 /obj/structure
+	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
 	icon = 'icons/obj/structures.dmi'
 	pressure_resistance = 8
 	max_integrity = 300
@@ -17,8 +18,6 @@
 	pass_flags_self = PASSSTRUCTURE
 
 /obj/structure/Initialize(mapload)
-	if (!armor)
-		armor = /datum/armor/structure_default
 	. = ..()
 	if(smooth)
 		queue_smooth(src)

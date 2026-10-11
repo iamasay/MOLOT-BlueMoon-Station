@@ -6,7 +6,7 @@
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/suit_digi.dmi'
 	icon_state = "blastwave_suit"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	armor = /datum/armor/suit/blastware
+	armor_type = /datum/armor/profiles/clothing/suit/armor/blastwave
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS

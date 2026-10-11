@@ -12,7 +12,7 @@
 	item_state = "jackboots"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
-	armor = /datum/armor/shoes/combat
+	armor_type = /datum/armor/profiles/shared/clothing/shoes/combat
 	strip_delay = 70
 	resistance_flags = NONE
 	permeability_coefficient = 0.05 //Thick soles, and covers the ankle
@@ -41,7 +41,7 @@
 	desc = "High speed, no drag combat boots."
 	permeability_coefficient = 0.01
 	clothing_flags = NOSLIP | NOSLIP_ICE
-	armor = /datum/armor/shoes/swat
+	armor_type = /datum/armor/profiles/clothing/shoes/combat/swat
 
 /obj/item/clothing/shoes/combat/swat/knife
 
@@ -80,7 +80,7 @@
 	strip_delay = 50
 	equip_delay_other = 50
 	resistance_flags = NONE
-	armor = /datum/armor/shoes/galoshes
+	armor_type = /datum/armor/profiles/clothing/shoes/galoshes
 	custom_price = PRICE_ABOVE_EXPENSIVE
 	can_be_tied = FALSE
 
@@ -177,7 +177,7 @@
 	name = "Security Jackboots"
 	desc = "Nanotrasen-issue Security combat boots for combat scenarios or combat situations. All combat, all the time."
 	icon_state = "jackboots_sec"
-	armor = /datum/armor/shoes/jacboots_sec// BLUEMOON ADD no armor = applying bare wound bonus. These boots now are between CBRN and MOPP
+	armor_type = /datum/armor/profiles/clothing/shoes/jackboots/sec// BLUEMOON ADD no armor = applying bare wound bonus. These boots now are between CBRN and MOPP
 
 /obj/item/clothing/shoes/jackboots/black
 	name = "dark jackboots"

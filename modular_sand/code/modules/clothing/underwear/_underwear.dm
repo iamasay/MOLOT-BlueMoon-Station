@@ -9,7 +9,7 @@
 	permeability_coefficient = 0.9
 	block_priority = BLOCK_PRIORITY_UNDERWEAR
 	slot_flags = ITEM_SLOT_UNDERWEAR
-	armor = /datum/armor/none
+	armor_type = /datum/armor/none
 	mutantrace_variation = STYLE_DIGITIGRADE
 	w_class = WEIGHT_CLASS_SMALL
 	var/under_type = /obj/item/clothing/underwear //i don't know what i'm gonna use this for

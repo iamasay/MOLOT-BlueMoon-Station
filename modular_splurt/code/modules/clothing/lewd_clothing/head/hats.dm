@@ -5,7 +5,7 @@
 	item_state = "beret_blueshield"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor = /datum/armor/head/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80
 	dynamic_hair_suffix = ""
 	dog_fashion = null
@@ -17,7 +17,7 @@
 	soft_type = "blueshield"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor = /datum/armor/head/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80
 	dog_fashion = null
 
@@ -34,7 +34,7 @@
 	item_state = "beret_brigdoc"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mobs/head.dmi'
-	armor = /datum/armor/brigdoc
+	armor_type = /datum/armor/profiles/shared/clothing/head/beret_sec__brigdoc__helmet
 	strip_delay = 60
 	dog_fashion = null
 
@@ -44,7 +44,7 @@
 	icon_state = "blueshieldhelm"
 	item_state = "blueshieldhelm"
 	can_flashlight = 1
-	armor = /datum/armor/head/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80
 
 /obj/item/clothing/head/helmet/sec/blueshield
@@ -53,5 +53,5 @@
 	icon_state = "barney_helm"
 	item_state = "barney_helm"
 	can_flashlight = 1
-	armor = /datum/armor/head/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 	strip_delay = 80

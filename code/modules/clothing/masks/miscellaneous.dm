@@ -77,7 +77,7 @@
 	visor_flags_cover = MASKCOVERSMOUTH
 	gas_transfer_coefficient = 0.9
 	permeability_coefficient = 0.01
-	armor = /datum/armor/mask/gas/bio_proof
+	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
 	actions_types = list(/datum/action/item_action/adjust)
 	mutantrace_variation = STYLE_MUZZLE
 
@@ -89,7 +89,7 @@
 	visor_flags_inv = null
 	visor_flags_cover = null
 	permeability_coefficient = 1
-	armor = /datum/armor/mask/gas/bio_proof
+	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
 
 /obj/item/clothing/mask/surgical/attack_self(mob/user)
 	adjustmask(user)

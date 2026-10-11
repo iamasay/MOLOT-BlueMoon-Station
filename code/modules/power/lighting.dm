@@ -44,7 +44,7 @@
 	anchored = TRUE
 	layer = WALL_OBJ_LAYER
 	max_integrity = 200
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/light_construct
 
 	var/stage = 1
 	var/fixture_type = "tube"

@@ -146,7 +146,7 @@
 	icon_state = "secslutskirt"
 	item_state = "secslutskirt"
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor = /datum/armor/under/sec_slut
+	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
 	can_adjust = FALSE
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/uniform.dmi'
 	mutantrace_variation = NONE
@@ -180,7 +180,7 @@
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/uniform.dmi'
 	icon_state = "brigphys"
 	item_state = "brigphys"
-	armor = /datum/armor/under/brigdoc
+	armor_type = /datum/armor/profiles/clothing/under/rank/brigdoc
 	can_adjust = FALSE
 	strip_delay = 50
 	alt_covers_chest = TRUE
@@ -203,7 +203,7 @@
 	desc = "The uniform of the Blueshield. It makes you feel protected"
 	icon_state = "hosalt_blue"
 	item_state = "hosalt_blue"
-	armor = /datum/armor/under/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/under/blueshield
 	can_adjust = TRUE
 	strip_delay = 50
 	alt_covers_chest = TRUE
@@ -246,7 +246,7 @@
 	item_state = "bs_envirosuit"
 	icon = 'modular_splurt/icons/obj/clothing/uniforms.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/uniform.dmi'
-	armor = /datum/armor/under/blueshied
+	armor_type = /datum/armor/profiles/shared/clothing/under/blueshield
 
 /obj/item/clothing/head/helmet/space/plasmaman/security/blueshield
 	name = "blueshield plasma envirosuit helmet"
@@ -255,7 +255,7 @@
 	item_state = "bs_envirohelm"
 	icon = 'modular_splurt/icons/obj/clothing/head.dmi'
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/head.dmi'
-	armor = /datum/armor/space/blueshield_plasmaman
+	armor_type = /datum/armor/profiles/clothing/head/helmet/space/plasmaman/security/blueshield
 
 /obj/item/clothing/under/cyberpunksleek
 	name = "modern sweater"
@@ -302,7 +302,7 @@
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/uniform_digi.dmi'
 	icon_state = "goner_uniform"
 	can_adjust = FALSE
-	armor = /datum/armor/under/goner // Security uniform's + BIO&RAD
+	armor_type = /datum/armor/profiles/clothing/under/goner // Security uniform's + BIO&RAD
 
 /obj/item/clothing/under/goner/fake
 	name = "trencher uniform replica"

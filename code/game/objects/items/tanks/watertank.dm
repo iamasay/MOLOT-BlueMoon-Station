@@ -10,7 +10,7 @@
 	slowdown = 1
 	actions_types = list(/datum/action/item_action/toggle_mister)
 	max_integrity = 200
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/fireproof_tools_and_weapons
 	resistance_flags = FIRE_PROOF
 
 	var/obj/item/noz

@@ -5,7 +5,7 @@
 	mob_overlay_icon = 'modular_splurt/icons/mobs/suits.dmi'
 	icon_state = "brigphysicianvest"
 	item_state = "brigphysicianvest"
-	armor = /datum/armor/suit/brigdoc
+	armor_type = /datum/armor/profiles/shared/clothing/suit/brigdoc__fakearmor_press
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD
 
@@ -50,7 +50,7 @@
 	desc = "A lightweight vest with a blueshield on it."
 	icon_state = "guard_armor"
 	item_state = "guard_armor"
-	armor = /datum/armor/suit/blueshied
+	armor_type = /datum/armor/profiles/clothing/suit/armor/vest/blueshield
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/vest/blueshield/spacecoat
@@ -81,7 +81,7 @@
 	desc = "A lightweight vest for reporting on breaking news. It makes you feel protected."
 	icon_state = "press_armor"
 	item_state = "press_armor"
-	armor = /datum/armor/suit/press
+	armor_type = /datum/armor/profiles/shared/clothing/suit/brigdoc__fakearmor_press
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	dog_fashion = null
 

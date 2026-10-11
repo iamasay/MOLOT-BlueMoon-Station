@@ -10,7 +10,7 @@
 	var/base_state = "left"
 	max_integrity = 150 //If you change this, consider changing ../door/window/brigdoor/ max_integrity at the bottom of this .dm file
 	integrity_failure = 0
-	armor = /datum/armor/default_door
+	armor_type = /datum/armor/profiles/machinery/door/window
 	visible = FALSE
 	flags_1 = ON_BORDER_1|DEFAULT_RICOCHET_1
 	pass_flags_self = PASSGLASS

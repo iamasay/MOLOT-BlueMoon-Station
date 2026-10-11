@@ -2,7 +2,7 @@
 	hitsound_on = 'sound/weapons/blade1.ogg'
 	heat = 3500
 	max_integrity = 200
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/fireproof_tools_and_weapons
 	resistance_flags = FIRE_PROOF
 	var/brightness_on = 3
 	var/sword_color

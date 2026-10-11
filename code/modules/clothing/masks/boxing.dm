@@ -58,7 +58,7 @@
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	visor_flags_inv = HIDEFACE|HIDEFACIALHAIR
 	w_class = WEIGHT_CLASS_SMALL
-	armor = /datum/armor/mask/infiltrator
+	armor_type = /datum/armor/profiles/clothing/mask/infiltrator
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	mutantrace_variation = STYLE_MUZZLE
 	var/voice_unknown = TRUE ///This makes it so that your name shows up as unknown when wearing the mask.

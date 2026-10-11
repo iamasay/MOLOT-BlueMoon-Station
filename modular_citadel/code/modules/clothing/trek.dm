@@ -11,6 +11,7 @@
 //DS9
 
 /obj/item/clothing/suit/storage/trek/ds9
+	armor_type = /datum/armor/none
 	name = "Padded Overcoat"
 	desc = "The overcoat worn by all officers of the 2380s."
 	icon = 'modular_citadel/icons/obj/clothing/trek_item_icon.dmi'
@@ -48,7 +49,7 @@
 	icon_state = "trek_ds9_coat_adm"
 	item_state = "trek_ds9_coat_adm"
 	permeability_coefficient = 0.01
-	armor = /datum/armor/admiral_ds9
+	armor_type = /datum/armor/profiles/shared/admiral_uniform_and_prison
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 //MODERN ish Joan sqrl sprites. I think
@@ -80,7 +81,7 @@
 		/obj/item/reagent_containers/glass/beaker,
 		/obj/item/storage/pill_bottle,
 		/obj/item/taperecorder)
-	armor = /datum/armor/fedcoat
+	armor_type = /datum/armor/profiles/shared/clothing/security_and_syndicate_basic
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	var/unbuttoned = FALSE
 
@@ -122,17 +123,17 @@
 /obj/item/clothing/suit/storage/fluff/fedcoat/medsci
 	icon_state = "fedblue"
 	item_state = "fedblue"
-	armor = /datum/armor/fedcoat/medsci
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/eng
 	icon_state = "fedeng"
 	item_state = "fedeng"
-	armor = /datum/armor/fedcoat/eng
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/capt
 	icon_state = "fedcapt"
 	item_state = "fedcapt"
-	armor = /datum/armor/fedcoat/capt
+	armor_type = /datum/armor/profiles/shared/clothing/suit/command
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 //"modern" ones for fancy
@@ -162,7 +163,7 @@
 		/obj/item/reagent_containers/glass/beaker,
 		/obj/item/storage/pill_bottle,
 		/obj/item/taperecorder)
-	armor = /datum/armor/fedcoat/capt
+	armor_type = /datum/armor/profiles/shared/clothing/suit/command
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/equipped(mob/user, slot)  // BLUEMOON ADD
@@ -181,23 +182,23 @@
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/medsci
 	icon_state = "fedmodernblue"
 	item_state = "fedmodernblue"
-	armor = /datum/armor/labcoat/med
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/eng
 	icon_state = "fedmoderneng"
 	item_state = "fedmoderneng"
-	armor = /datum/armor/labcoat/eng
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/sec
 	icon_state = "fedmodernsec"
 	item_state = "fedmodernsec"
-	armor = /datum/armor/labcoat/sec
+	armor_type = /datum/armor/profiles/clothing/suit/storage/fluff/modernfedcoat/sec
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 
 /obj/item/clothing/head/caphat/formal/fedcover
 	name = "Federation Officer's Cap"
-	armor = /datum/armor/fedcover/black
+	armor_type = /datum/armor/profiles/shared/clothing/head/captain
 	desc = "An officer's cap that demands discipline from the one who wears it."
 	icon = 'modular_citadel/icons/obj/clothing/trek_item_icon.dmi'
 	icon_state = "fedcapofficer"
@@ -208,22 +209,22 @@
 /obj/item/clothing/head/caphat/formal/fedcover/medsci
 	icon_state = "fedcapsci"
 	item_state = "fedcapsci"
-	armor = /datum/armor/fedcover/medsci
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 
 /obj/item/clothing/head/caphat/formal/fedcover/eng
 	icon_state = "fedcapeng"
 	item_state = "fedcapeng"
-	armor = /datum/armor/fedcover/eng
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 
 /obj/item/clothing/head/caphat/formal/fedcover/sec
 	icon_state = "fedcapsec"
 	item_state = "fedcapsec"
-	armor = /datum/armor/fedcover/sec
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 
 /obj/item/clothing/head/caphat/formal/fedcover/black
 	icon_state = "fedcapblack"
 	item_state = "fedcapblack"
-	armor = /datum/armor/fedcover/black
+	armor_type = /datum/armor/profiles/shared/clothing/head/captain
 
 //orvilike caps
 /obj/item/clothing/head/kepi/orvi
@@ -233,19 +234,19 @@
 
 /obj/item/clothing/head/kepi/orvi/command
 	icon_state = "kepi_com"
-	armor = /datum/armor/fedcover/black
+	armor_type = /datum/armor/profiles/shared/clothing/head/captain
 
 /obj/item/clothing/head/kepi/orvi/sec
 	icon_state = "kepi_sec"
-	armor = /datum/armor/head/head_of_sec
+	armor_type = /datum/armor/profiles/shared/clothing/head/command_and_security
 
 /obj/item/clothing/head/kepi/orvi/eng
 	icon_state = "kepi_eng"
-	armor = /datum/armor/fedcover/eng
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 
 /obj/item/clothing/head/kepi/orvi/medsci
 	icon_state = "kepi_medsci"
-	armor = /datum/armor/fedcover/medsci
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 
 /obj/item/clothing/head/kepi/orvi/service
 	icon_state = "kepi_srv"

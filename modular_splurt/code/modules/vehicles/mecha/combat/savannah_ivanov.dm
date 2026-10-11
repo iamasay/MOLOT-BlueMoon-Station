@@ -22,7 +22,7 @@
 	mecha_flags = ADDING_ACCESS_POSSIBLE | CANSTRAFE | IS_ENCLOSED | HAS_LIGHTS
 	movedelay = 3
 	max_integrity = 450 //really tanky, like damn
-	armor = /datum/armor/vehicle/mecha/savannah_ivanov
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/savannah_ivanov
 	deflect_chance = 20
 	max_temperature = 30000
 	wreckage = /obj/structure/mecha_wreckage/savannah_ivanov

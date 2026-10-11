@@ -8,5 +8,5 @@
 /obj/item/clothing/under/costume/gamberson/military
 	name = "swordsman's gambeson"
 	desc = "A padded medieval gambeson. Has enough woolen layers to dull a strike from any small weapon."
-	armor = /datum/armor/under/gamberson_military
+	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
 	has_sensor = NO_SENSORS

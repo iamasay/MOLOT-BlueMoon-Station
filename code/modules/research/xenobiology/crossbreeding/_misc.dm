@@ -71,7 +71,7 @@
 	icon_state = "frozen"
 	density = TRUE
 	max_integrity = 100
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/ice_stasis
 
 /obj/structure/ice_stasis/Initialize(mapload)
 	. = ..()

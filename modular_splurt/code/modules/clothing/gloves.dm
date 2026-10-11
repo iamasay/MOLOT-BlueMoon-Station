@@ -14,7 +14,7 @@
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	clothing_flags = THICKMATERIAL
-	armor = /datum/armor/gloves/cbrn
+	armor_type = /datum/armor/profiles/shared/clothing/cbrn
 	strip_mod = 1.5
 	is_edible = 0
 
@@ -27,7 +27,7 @@
 	name = "MOPP gloves"
 	desc = "Mission Oriented Protective Posture. Thick black gloves design for working in hazardous combat environments. Still not shock proof"
 //	icon_state = "combat" // BLUEMOON COMMENTED OUT using own states in module
-	armor = /datum/armor/gloves/mopp
+	armor_type = /datum/armor/profiles/shared/clothing/cbrn_mopp
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
 
 /obj/item/clothing/gloves/cbrn/mopp/advance
@@ -35,7 +35,7 @@
 	desc = "Mission Oriented Protective Posture. Thick black gloves design for working in hazardous combat environments. Advance variants for Central Command staff and ERT team. Insulated."
 //	icon_state = "combat" // BLUEMOON COMMENTED OUT using own states in module
 	siemens_coefficient = 0
-	armor = /datum/armor/gloves/mopp/advance
+	armor_type = /datum/armor/profiles/clothing/gloves/cbrn/mopp/advance
 
 // research nods
 /datum/design/cbrn/cbrngloves

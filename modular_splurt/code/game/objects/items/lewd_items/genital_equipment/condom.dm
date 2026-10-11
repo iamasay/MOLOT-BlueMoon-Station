@@ -178,6 +178,7 @@
 	reagents.add_reagent(/datum/reagent/consumable/semen, rand(5, max_volume))
 
 /obj/item/clothing/head/condom //p
+	armor_type = /datum/armor/profiles/clothing/head/condom
 	name = "condom"
 	icon = 'modular_splurt/icons/obj/condom.dmi'
 	desc = "Looks like someone had abit of some fun!"

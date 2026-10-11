@@ -15,7 +15,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/doubleoxygen, /obj/item/tank/internals/oxygen, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/geiger_counter, /obj/item/tank/internals/emergency_nitrogen_ext)
 	slowdown = 0.6
-	armor = /datum/armor/suit/cbrn
+	armor_type = /datum/armor/profiles/shared/clothing/cbrn
 	strip_delay = 60
 	equip_delay_other = 60
 	flags_inv = HIDEJUMPSUIT
@@ -39,7 +39,7 @@
 /obj/item/clothing/suit/cbrn/engineering
 	name = "engineering CBRN suit"
 	desc = "Chemical, Biological, Radiological and Nuclear. A suit design for harsh environmental conditions short of no atmosphere. This one has engineering colors and protects from fire."
-	armor = /datum/armor/suit/cbrn/engineering
+	armor_type = /datum/armor/profiles/shared/clothing/cbrn_engineering
 	icon_state = "cbrnsuiteng"
 	item_state = "cbrnsuiteng"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
@@ -49,7 +49,7 @@
 /obj/item/clothing/suit/cbrn/security
 	name = "security CBRN suit"
 	desc = "Chemical, Biological, Radiological and Nuclear. A suit design for harsh environmental conditions short of no atmosphere. This one has security colors and protects a little bit better."
-	armor = /datum/armor/suit/cbrn/security
+	armor_type = /datum/armor/profiles/clothing/suit/cbrn/security
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	icon_state = "cbrnsuitsec"
 	item_state = "cbrnsuitsec"
@@ -68,13 +68,13 @@
 	desc = "Chemical, Biological, Radiological and Nuclear. A suit design for harsh environmental conditions short of no atmosphere. This one has cargo colors and slows the wearer less and defend a bit."
 	icon_state = "cbrnsuitcargo"
 	item_state = "cbrnsuitcargo"
-	armor = /datum/armor/suit/cbrn/cargo
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_cbrn_cargo__suit_cbrn_cargo
 	slowdown = 0.3
 
 /obj/item/clothing/suit/cbrn/science
 	name = "science CBRN suit"
 	desc = "Chemical, Biological, Radiological and Nuclear. A suit design for harsh environmental conditions short of no atmosphere. This one has science colors and has soft padding."
-	armor = /datum/armor/suit/science
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_cbrn_sci__suit_cbrn_science
 	icon_state = "cbrnsuitsci"
 	item_state = "cbrnsuitsci"
 	slowdown = 0.4
@@ -95,7 +95,7 @@
 	item_state = "moppsuit"
 	allowed = list(/obj/item/flashlight, /obj/item/gun/ballistic/revolver, /obj/item/gun/ballistic/automatic, /obj/item/gun/ballistic/automatic/pistol, /obj/item/gun/energy, /obj/item/gun/ballistic/shotgun,  /obj/item/tank/internals/doubleoxygen, /obj/item/tank/internals/oxygen, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/geiger_counter)
 	slowdown = 0.2
-	armor = /datum/armor/suit/cbrn/mopp
+	armor_type = /datum/armor/profiles/clothing/suit/cbrn/mopp
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
 	heat_protection = CHEST|GROIN|LEGS|ARMS
@@ -112,7 +112,7 @@
 	name = "advance MOPP suit"
 	desc = "Mission Oriented Protective Posture. A suit design for harsh combat conditions short of no atmosphere. This is an advance version for Non-ERT Central Command Staff."
 	slowdown = 0 // This is suppose to be advance, hopefully not too OP
-	armor = /datum/armor/suit/cbrn/mopp/adv //Scale with standard MOPP suits as this effects all ERT suits
+	armor_type = /datum/armor/profiles/clothing/suit/cbrn/mopp/advance //Scale with standard MOPP suits as this effects all ERT suits
 	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/cbrn/mopp/advance/commander

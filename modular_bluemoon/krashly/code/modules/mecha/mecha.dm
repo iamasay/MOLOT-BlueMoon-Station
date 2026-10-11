@@ -6,7 +6,7 @@
 	icon_state = "ares"
 	operation_req_access = list(ACCESS_INTEQ)
 	internals_req_access = list(ACCESS_INTEQ)
-	armor = /datum/armor/vehicle/mecha/combat/ares
+	armor_type = /datum/armor/profiles/shared/mecha/durand_tu802_and_ares
 	wreckage = /obj/structure/mecha_wreckage/ares
 
 /obj/vehicle/sealed/mecha/combat/marauder/mauler/ares/generate_actions()
@@ -33,7 +33,7 @@
 	icon_state = "hermes"
 	operation_req_access = list(ACCESS_INTEQ)
 	internals_req_access = list(ACCESS_INTEQ)
-	armor = /datum/armor/vehicle/mecha/combat/hermes
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/gygax/dark/loaded/hermes
 	max_temperature = 60000
 	wreckage = /obj/structure/mecha_wreckage/hermes
 

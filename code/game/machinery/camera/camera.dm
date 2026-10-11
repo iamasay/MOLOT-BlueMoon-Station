@@ -15,7 +15,7 @@
 
 	resistance_flags = FIRE_PROOF
 
-	armor = /datum/armor/camera
+	armor_type = /datum/armor/profiles/machinery/camera
 	max_integrity = 100
 	integrity_failure = 0.5
 	var/list/network = list("ss13")

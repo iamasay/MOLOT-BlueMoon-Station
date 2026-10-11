@@ -2,7 +2,7 @@
 	force = 30
 	internals_req_access = list(ACCESS_ROBOTICS, ACCESS_SECURITY)
 	internal_damage_threshold = 50
-	armor = /datum/armor/vehicle/mecha/combat
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat
 	mouse_pointer = 'icons/mecha/mecha_mouse.dmi'
 	destruction_sleep_duration = 40
 	exit_delay = 40

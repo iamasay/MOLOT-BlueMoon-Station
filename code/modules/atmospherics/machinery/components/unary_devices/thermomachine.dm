@@ -7,7 +7,7 @@
 
 	density = TRUE
 	max_integrity = 300
-	armor = /datum/armor/default_machinery
+	armor_type = /datum/armor/profiles/shared/machinery/atmospherics/thermal_devices
 	layer = OBJ_LAYER
 	plane = GAME_PLANE
 	circuit = /obj/item/circuitboard/machine/thermomachine

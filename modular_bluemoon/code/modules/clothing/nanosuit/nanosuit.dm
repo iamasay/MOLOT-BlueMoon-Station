@@ -43,7 +43,7 @@
 	desc = "Boots part of a nanosuit. Slip resistant. Property of CryNet Systems."
 	clothing_flags = NOSLIP
 	gas_transfer_coefficient = 0.01
-	armor = /datum/armor/mask/gas/bio_proof
+	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | FREEZE_PROOF
 	item_flags = DROPDEL
 
@@ -57,7 +57,7 @@
 	desc = "CryNet-issue guerrilla tackling gloves built into the nanosuit. Fireproof, shock resistant, and tuned for devastating rushes."
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | FREEZE_PROOF
 	gas_transfer_coefficient = 0.01
-	armor = /datum/armor/mask/gas/bio_proof
+	armor_type = /datum/armor/profiles/shared/clothing/gloves_and_hardsuit_and_mask_and_shoes/bio100
 	item_flags = DROPDEL
 	tackle_stam_cost = 35
 	base_knockdown = 1.5 SECONDS
@@ -176,7 +176,7 @@
 	item_state = "nanosuit"
 	name = "nanosuit"
 	desc = "Some sort of alien future suit. It looks very robust. Property of CryNet Systems."
-	armor = /datum/armor/nano_suit
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/nano/helmet__suit
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/gun, /obj/item/melee, /obj/item/grenade, /obj/item/nullrod, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/tank/internals)
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS					//Uncomment to enable firesuit protection
@@ -598,7 +598,7 @@
 	//item_color = "nano"
 	siemens_coefficient = 0
 	gas_transfer_coefficient = 0.01
-	armor = /datum/armor/nano_suit
+	armor_type = /datum/armor/profiles/shared/clothing/hardsuit/nano/helmet__suit
 	resistance_flags = INDESTRUCTIBLE | FIRE_PROOF | ACID_PROOF | FREEZE_PROOF //No longer shall our kind be foiled by lone chemists with spray bottles!
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT

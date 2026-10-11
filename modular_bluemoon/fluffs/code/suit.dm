@@ -795,7 +795,7 @@
 	blood_overlay_type = "coat"
 	icon_state = "officerian_coat"
 	item_state = "officerian_coat"
-	armor = /datum/armor/hernya
+	armor_type = /datum/armor/profiles/shared/clothing/suit/miner_and_officer_coats
 	var/list/poly_colors = list("#2A2A2A", "#A52F29")
 
 /obj/item/clothing/suit/toggle/captains_parade/hos_formal/officerian_coat/ComponentInitialize()
@@ -813,7 +813,7 @@
 	blood_overlay_type = "coat"
 	icon_state = "officerian_coat_oversized"
 	item_state = "officerian_coat_oversized"
-	armor = /datum/armor/hernya
+	armor_type = /datum/armor/profiles/shared/clothing/suit/miner_and_officer_coats
 	var/list/poly_colors = list("#2A2A2A", "#A52F29")
 
 /obj/item/clothing/suit/toggle/captains_parade/hos_formal/officerian_coat_oversized/ComponentInitialize()

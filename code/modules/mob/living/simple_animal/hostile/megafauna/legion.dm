@@ -329,6 +329,7 @@ SHITCODE AHEAD. BE ADVISED. Also comment extravaganza
 
 ///A basic turret that shoots at nearby mobs. Intended to be used for the legion megafauna.
 /obj/structure/legionturret
+	armor_type = /datum/armor/profiles/structure/legionturret
 	name = "\improper Legion sentinel"
 	desc = "The eye pierces your soul."
 	icon = 'icons/mob/lavaland/lavaland_monsters.dmi'

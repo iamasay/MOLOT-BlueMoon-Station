@@ -29,7 +29,7 @@
 		/obj/item/gun/medbeam,
 		)
 
-	armor = /datum/armor/labcoat
+	armor_type = /datum/armor/profiles/shared/clothing/suit/medical_coats
 	togglename = "buttons"
 	species_exception = list(/datum/species/golem)
 
@@ -98,7 +98,7 @@
 	icon_state = "sci_dep_jacket"
 	item_state = "sci_dep_jacket"
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-	armor = /datum/armor/labcoat/sci
+	armor_type = /datum/armor/profiles/shared/clothing/suit/science_coats
 
 /obj/item/clothing/suit/toggle/labcoat/depjacket/med
 	name = "medical jacket"
@@ -106,14 +106,14 @@
 	icon_state = "med_dep_jacket"
 	item_state = "med_dep_jacket"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/labcoat/med
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 
 /obj/item/clothing/suit/toggle/labcoat/depjacket/sec
 	name = "Security Jacket"
 	desc = "Комфортная охранно-красная куртка."
 	icon_state = "sec_dep_jacket"
 	item_state = "sec_dep_jacket"
-	armor = /datum/armor/labcoat/sec
+	armor_type = /datum/armor/profiles/shared/clothing/suit/security_coats
 	allowed = list(/obj/item/gun/energy, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 
 /obj/item/clothing/suit/toggle/labcoat/depjacket/sup
@@ -133,7 +133,7 @@
 	desc = "Комфортная инженерно-жёлтая куртка."
 	icon_state = "engi_dep_jacket"
 	item_state = "engi_dep_jacket"
-	armor = /datum/armor/labcoat/eng
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman,
 		/obj/item/t_scanner, /obj/item/construction/rcd, /obj/item/pipe_dispenser, /obj/item/toy,
 		/obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/device/cooler
@@ -146,7 +146,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/mob/clothing/suit.dmi'
 	icon_state = "chiefengi_dep_jacket"
 	item_state = "labcoat"
-	armor = /datum/armor/labcoat/chief_engineer
+	armor_type = /datum/armor/profiles/clothing/suit/toggle/labcoat/depjacket/eng/chief_engineer
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/clothing/suit/toggle/labcoat/depjacket/eng/chief_engineer/Initialize(mapload)

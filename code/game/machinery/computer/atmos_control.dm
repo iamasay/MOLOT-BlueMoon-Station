@@ -6,7 +6,7 @@
 	name = "gas sensor"
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "gsensor1"
-	armor = /datum/armor/air_sensor
+	armor_type = /datum/armor/profiles/shared/machinery/air_sensor/base__tarkon
 
 	var/on = TRUE
 

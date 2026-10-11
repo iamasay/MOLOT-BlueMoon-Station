@@ -101,7 +101,7 @@
 	light_color = "#FF3900"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	max_integrity = 200
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/banhammer__dualsaber__plasmascythe__stack_tile_plasteel
 	resistance_flags = FIRE_PROOF
 	wound_bonus = 7
 	bare_wound_bonus = 13

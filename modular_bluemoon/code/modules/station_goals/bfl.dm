@@ -455,7 +455,7 @@
 	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	anchored = FALSE
-	armor = /datum/armor/machinery/bfl_lens
+	armor_type = /datum/armor/profiles/machinery/bfl_lens
 	throwforce = 10 // when lens falls down through the floor
 	var/step_count = 0
 	var/state = FALSE

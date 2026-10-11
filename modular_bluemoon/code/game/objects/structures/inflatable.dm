@@ -1,6 +1,7 @@
 //ВНИМАНИЕ!!! У ЭТИХ НАДУВНЫХ СИЛЬНО ПОРЕЗАН КОД ИЗ-ЗА ВЫЗОВА НЕАДЕКВАТНОГО КОЛИЧЕСТВА РАНТАЙМОВ!!! РЕКОМЕНДУЕТСЯ ИСПОЛЬЗОВАТЬ ИСКЛЮЧИТЕЛЬНО В КОСМЕТИЧЕСКИХ ЦЕЛЯХ
 
 /obj/structure/inflatable
+	armor_type = /datum/armor/profiles/structure/inflatable
 	name = "inflatable wall"
 	desc = "An inflated membrane. Do not puncture."
 	anchored = TRUE

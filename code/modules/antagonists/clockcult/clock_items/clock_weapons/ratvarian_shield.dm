@@ -7,7 +7,7 @@
 	item_state = "ratvarian_shield"
 	desc = "Прочный щит из латуни... На ощупь - теплый."
 	var/clockwork_desc = "Мощный щит, изготовленный в Ратварии. Он поглощает отраженные атаки, накапливая энергию для нанесения сокрушительных ударов."
-	armor = /datum/armor/shield_default/tower/ratvarian
+	armor_type = /datum/armor/profiles/shield/riot/ratvarian
 	shield_flags = SHIELD_FLAGS_DEFAULT | SHIELD_KINETIC_STRONG | SHIELD_ENERGY_WEAK
 	max_integrity = 300 //High integrity, extremely strong against melee / bullets, but still quite easy to destroy with lasers and energy
 	repair_material = /obj/item/stack/tile/brass

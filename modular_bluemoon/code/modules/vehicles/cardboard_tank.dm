@@ -112,6 +112,7 @@
 	foodtype = GRAIN | SUGAR
 
 /obj/vehicle/sealed/cardboard_tank
+	armor_type = /datum/armor/none
 	name = "cardboard tank"
 	desc = "Шедевр инженерной мысли из гофрокартона. Внутри тесно, но зато есть «пушка»."
 	icon = CARDBOARD_TANK_ICON

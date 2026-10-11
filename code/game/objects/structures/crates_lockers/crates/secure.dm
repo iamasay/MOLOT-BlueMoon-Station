@@ -5,7 +5,7 @@
 	secure = TRUE
 	locked = TRUE
 	max_integrity = 500
-	armor = /datum/armor/closet/secure
+	armor_type = /datum/armor/profiles/shared/structure/closet/crate_secure__secure_closet
 	var/tamperproof = 0
 
 /obj/structure/closet/crate/secure/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir)

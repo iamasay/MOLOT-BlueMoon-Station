@@ -9,7 +9,7 @@
 	active_power_usage = 300
 	max_integrity = 200
 	integrity_failure = 0.5
-	armor = /datum/armor/machinery_computer
+	armor_type = /datum/armor/profiles/machinery/computer
 	var/brightness_on = 1
 	var/icon_keyboard = "generic_key"
 	var/icon_screen = "generic"

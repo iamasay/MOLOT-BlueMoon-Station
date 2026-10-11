@@ -22,7 +22,7 @@
 	custom_materials = list(/datum/material/iron=1750, /datum/material/glass=400)
 	flash_protect = 2
 	tint = 2
-	armor = /datum/armor/head/welding_hat
+	armor_type = /datum/armor/profiles/clothing/head/welding
 	actions_types = list(/datum/action/item_action/toggle)
 	flags_inv = HIDEMASK|HIDEEYES|HIDEFACE
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
@@ -167,6 +167,7 @@
  * Pumpkin head
  */
 /obj/item/clothing/head/hardhat/pumpkinhead
+	armor_type = /datum/armor/none
 	name = "carved pumpkin"
 	desc = "A jack o' lantern! Believed to ward off evil spirits."
 	icon_state = "hardhat0_pumpkin"
@@ -206,6 +207,7 @@
 
 
 /obj/item/clothing/head/hardhat/reindeer
+	armor_type = /datum/armor/none
 	name = "novelty reindeer hat"
 	desc = "Some fake antlers and a very fake red nose."
 	icon_state = "hardhat0_reindeer"
@@ -288,14 +290,14 @@
 	icon = 'icons/obj/clothing/clockwork_garb.dmi'
 	icon_state = "clockwork_helmet_old"
 	flags_inv = HIDEEARS|HIDEHAIR
-	armor = /datum/armor/bronze
+	armor_type = /datum/armor/profiles/shared/clothing/head_bronze__suit_bronze
 
 /obj/item/clothing/head/foilhat
 	name = "tinfoil hat"
 	desc = "Thought control rays, psychotronic scanning. Don't mind that, I'm protected cause I made this hat."
 	icon_state = "foilhat"
 	item_state = "foilhat"
-	armor = /datum/armor/head/tinfoil_hat
+	armor_type = /datum/armor/profiles/clothing/head/foilhat
 	equip_delay_other = 140
 	var/datum/brain_trauma/mild/phobia/conspiracies/paranoia
 	var/warped = FALSE

@@ -1,4 +1,5 @@
 /obj/item/clothing/suit/armor/riot/chaplain/hospitaller/loadout
+	armor_type = /datum/armor/none
 	name = "crusader costume"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 	cold_protection = NONE

@@ -84,6 +84,7 @@ Class Procs:
 */
 
 /obj/machinery
+	armor_type = /datum/armor/profiles/shared/machinery/standard
 	name = "machinery"
 	icon = 'icons/obj/stationobjs.dmi'
 	desc = "Какого-то рода машинерия."
@@ -167,8 +168,6 @@ Class Procs:
 	var/sleep_static_power_channel
 
 /obj/machinery/Initialize(mapload)
-	if(!armor)
-		armor = /datum/armor/default_machinery
 	. = ..()
 	set_is_operational(!(machine_stat & (NOPOWER|BROKEN|MAINT)))
 	SSmachines.register_machine(src)

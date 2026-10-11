@@ -11,6 +11,7 @@
 #define PIPE_HIDDEN_LEVEL 1
 
 /obj/machinery/atmospherics
+	armor_type = /datum/armor/profiles/machinery/atmospherics/standard
 	anchored = TRUE
 	move_resist = INFINITY				//Moving a connected machine without actually doing the normal (dis)connection things will probably cause a LOT of issues.
 	idle_power_usage = 0
@@ -121,8 +122,6 @@
 	if(pipe_flags & PIPING_CARDINAL_AUTONORMALIZE)
 		normalize_cardinal_directions()
 	nodes = new(device_type)
-	if (!armor)
-		armor = /datum/armor/default_machinery
 	..()
 	if(process)
 		SSair.start_processing_machine(src)

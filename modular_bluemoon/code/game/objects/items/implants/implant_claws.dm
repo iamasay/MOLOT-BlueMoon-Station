@@ -24,7 +24,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("slashed", "sliced", "cut", "clawed", "ripped")
 	sharpness = SHARP_EDGED
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/fireproof_and_acidproof_misc
 
 	wound_bonus = CLAW_WOUND_BONUS
 	bare_wound_bonus = CLAW_BARE_WOUND_BONUS
@@ -244,7 +244,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("slashed", "sliced", "cut", "clawed", "ripped")
 	sharpness = SHARP_EDGED
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/fireproof_and_acidproof_misc
 
 	wound_bonus = CLAW_WOUND_BONUS
 	bare_wound_bonus = 5

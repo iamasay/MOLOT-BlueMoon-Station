@@ -31,7 +31,7 @@
 		/obj/item/cartridge/cmo = 10,
 		/obj/item/cartridge/rd = 10,
 	)
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/machinery/vending_durable
 	refill_canister = /obj/item/vending_refill/cart
 	default_price = PRICE_ALMOST_EXPENSIVE
 	extra_price = PRICE_ALMOST_ONE_GRAND

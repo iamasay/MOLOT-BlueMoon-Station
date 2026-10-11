@@ -33,6 +33,7 @@
 	return ..()
 
 /obj/item/clothing/head/festive
+	armor_type = /datum/armor/none
 	name = "festive paper hat"
 	icon_state = "xmashat"
 	desc = "A crappy paper hat that you are REQUIRED to wear."

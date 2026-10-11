@@ -5,7 +5,7 @@
 	icon = 'icons/obj/doors/shutters.dmi'
 	layer = SHUTTER_LAYER
 	closingLayer = SHUTTER_LAYER
-	armor = /datum/armor/default_door
+	armor_type = /datum/armor/profiles/machinery/door/poddoor/shutters
 	damage_deflection = 20
 	max_integrity = 100
 	recipe_type = /datum/crafting_recipe/shutters
@@ -25,7 +25,7 @@
 	desc = "These shutters have an armoured frame; it looks like plasteel. These shutters look robust enough to survive explosions."
 	icon = 'icons/obj/doors/shutters_old.dmi'
 	icon_state = "closed"
-	armor = /datum/armor/default_door
+	armor_type = /datum/armor/profiles/machinery/door/poddoor/shutters/old
 	max_integrity = 300
 
 /obj/machinery/door/poddoor/shutters/old/preopen

@@ -6,7 +6,7 @@
 	plane = ABOVE_WALL_PLANE
 	anchored = TRUE
 	density = FALSE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/fireaxecabinet
 	max_integrity = 150
 	integrity_failure = 0.33
 	var/locked = TRUE

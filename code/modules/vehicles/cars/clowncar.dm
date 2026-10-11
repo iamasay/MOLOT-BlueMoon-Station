@@ -3,7 +3,7 @@
 	desc = "How someone could even fit in there is byond me."
 	icon_state = "clowncar"
 	max_integrity = 150
-	armor = /datum/armor/vehicle/clown_machine
+	armor_type = /datum/armor/profiles/vehicle/sealed/car/clowncar
 	enter_delay = 20
 	max_occupants = 50
 	movedelay = 0.6

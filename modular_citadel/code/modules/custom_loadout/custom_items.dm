@@ -65,7 +65,7 @@
 	item_state = "darkcarapace"
 	blood_overlay_type = "armor"
 	dog_fashion = /datum/dog_fashion/back
-	armor = /datum/armor/none
+	armor_type = /datum/armor/none
 
 /obj/item/clothing/neck/scarf/zomb
 	name = "A special scarf"
@@ -153,6 +153,7 @@
 	item_state = "lucharzigfie"
 
 /obj/item/clothing/head/hardhat/reindeer/fluff
+	armor_type = /datum/armor/none
 	name = "novelty reindeer hat"
 	desc = "Some fake antlers and a very fake red nose - Sponsored by PWR Game(tm)"
 	icon_state = "hardhat0_reindeer"

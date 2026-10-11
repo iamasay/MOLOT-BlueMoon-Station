@@ -29,7 +29,7 @@
 		/obj/item/dualsaber/toy = 5,
 		/obj/item/toy/cards/deck/syndicate = 10
 	)
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/machinery/vending_durable
 
 	resistance_flags = FIRE_PROOF
 	refill_canister = /obj/item/vending_refill/donksoft

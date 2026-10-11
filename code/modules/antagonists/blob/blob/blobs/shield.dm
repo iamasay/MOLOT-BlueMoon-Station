@@ -11,7 +11,7 @@
 	atmosblock = TRUE
 	flags_1 = DEFAULT_RICOCHET_1
 	flags_ricochet = RICOCHET_HARD
-	armor = /datum/armor/blob/shield
+	armor_type = /datum/armor/profiles/structure/blob/shield
 	var/weakened
 
 /obj/structure/blob/shield/scannerreport()
@@ -75,7 +75,7 @@
 	max_integrity = 100
 	brute_resist = 1
 	explosion_block = 2
-	armor = /datum/armor/blob/reflective
+	armor_type = /datum/armor/profiles/structure/blob/shield/reflective
 
 /obj/structure/blob/shield/reflective/check_projectile_ricochet(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/xray) || (P.flag in list(LASER, ENERGY) && is_energy_reflectable_projectile(P)))

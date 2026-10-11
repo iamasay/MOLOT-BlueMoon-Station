@@ -22,7 +22,7 @@
 	item_state = "beekeeper_hat"
 	item_flags = DROPDEL
 	flags_inv = HIDEEARS|HIDEHAIR|HIDEEYES|HIDEFACIALHAIR|HIDEFACE
-	armor = /datum/armor/changeling_hivehead
+	armor_type = /datum/armor/profiles/clothing/head/helmet/changeling_hivehead
 	actions_types = list(/datum/action/item_action/hivehead_release)
 	var/next_release = 0
 

@@ -6,7 +6,7 @@
 	density = TRUE
 	anchored = TRUE
 	resistance_flags = ACID_PROOF
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/displaycase
 	max_integrity = 200
 	integrity_failure = 0.25
 	attack_hand_speed = CLICK_CD_MELEE

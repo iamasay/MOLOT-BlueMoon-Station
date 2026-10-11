@@ -13,7 +13,7 @@
 	icon_state = "vest_stealth"
 	item_state = "armor"
 	blood_overlay_type = "armor"
-	armor = /datum/armor/abductor/vest
+	armor_type = /datum/armor/profiles/shared/clothing/suit/armor/abductor/vest/base__stealth_armor
 	actions_types = list(/datum/action/item_action/hands_free/activate)
 	allowed = list(
 		/obj/item/abductor,
@@ -27,13 +27,15 @@
 	var/stealth_active = 0
 	var/combat_cooldown = 10
 	var/datum/icon_snapshot/disguise
-	var/stealth_armor = /datum/armor/abductor/vest/stealth
-	var/combat_armor = /datum/armor/abductor/vest/combat
+	var/stealth_armor_type = /datum/armor/profiles/shared/clothing/suit/armor/abductor/vest/base__stealth_armor
+	var/combat_armor_type = /datum/armor/profiles/clothing/suit/armor/abductor/vest/combat_armor
+	var/datum/armor/stealth_armor_datum
+	var/datum/armor/combat_armor_datum
 
 /obj/item/clothing/suit/armor/abductor/vest/Initialize(mapload)
 	. = ..()
-	stealth_armor = new /datum/armor/abductor/vest/stealth()
-	combat_armor = new /datum/armor/abductor/vest/combat() //ПЕРЕПРОВЕРИТЬ МОЖЕТ СЛОМАТЬСЯ
+	stealth_armor_datum = new_tg_get_armor_by_type(stealth_armor_type)
+	combat_armor_datum = new_tg_get_armor_by_type(combat_armor_type)
 
 /obj/item/clothing/suit/armor/abductor/vest/proc/toggle_nodrop()
 	if(HAS_TRAIT_FROM(src, TRAIT_NODROP, ABDUCTOR_VEST_TRAIT))
@@ -48,11 +50,11 @@
 		if(VEST_STEALTH)
 			mode = VEST_COMBAT
 			DeactivateStealth()
-			armor = combat_armor
+			normal_set_armor(combat_armor_datum)
 			icon_state = "vest_combat"
 		if(VEST_COMBAT)// TO STEALTH
 			mode = VEST_STEALTH
-			armor = stealth_armor
+			normal_set_armor(stealth_armor_datum)
 			icon_state = "vest_stealth"
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
@@ -900,5 +902,5 @@
 	name = "alien jumpsuit"
 	icon_state = "abductor"
 	item_state = "bl_suit"
-	armor = /datum/armor/suit/abductor
+	armor_type = /datum/armor/profiles/clothing/under/abductor
 	can_adjust = 0

@@ -20,7 +20,7 @@
 	plane = ABOVE_WALL_PLANE
 	max_integrity = 250
 	integrity_failure = 0.4
-	armor = /datum/armor/firealarm
+	armor_type = /datum/armor/profiles/machinery/firealarm
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2

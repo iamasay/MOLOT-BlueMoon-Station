@@ -10,7 +10,7 @@
 	level = 1		// underfloor
 	layer = WIRE_TERMINAL_LAYER
 	max_integrity = 500
-	armor = /datum/armor/navbeacon
+	armor_type = /datum/armor/profiles/machinery/navbeacon
 
 	var/open = FALSE		// true if cover is open
 	var/locked = TRUE		// true if controls are locked

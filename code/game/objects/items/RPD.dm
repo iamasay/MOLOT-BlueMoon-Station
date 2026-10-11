@@ -226,7 +226,7 @@ GLOBAL_LIST_INIT(fluid_duct_recipes, list(
 	throw_range = 5
 	w_class = WEIGHT_CLASS_NORMAL
 	custom_materials = list(/datum/material/iron=75000, /datum/material/glass=37500)
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/weapons_and_construction_tools
 	resistance_flags = FIRE_PROOF
 	var/datum/effect_system/spark_spread/spark_system
 	var/p_dir = NORTH

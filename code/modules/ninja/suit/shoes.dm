@@ -16,7 +16,7 @@
 	slowdown = -0.5
 	clothing_flags = NOSLIP
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
-	armor = /datum/armor/head/space_ninja
+	armor_type = /datum/armor/profiles/shared/clothing/ninja_gear
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET

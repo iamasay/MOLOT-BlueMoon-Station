@@ -44,5 +44,5 @@
 	mob_overlay_icon = 'modular_bluemoon/phenyamomota/icon/mob/clothing/suits.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE | STYLE_NO_ANTHRO_ICON
 	icon_state = "labcoat_rd"
-	armor = /datum/armor/labcoat/research_director
+	armor_type = /datum/armor/profiles/clothing/suit/toggle/labcoat/rd
 	body_parts_covered = CHEST|ARMS|LEGS

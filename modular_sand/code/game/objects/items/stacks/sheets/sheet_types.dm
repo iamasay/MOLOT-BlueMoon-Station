@@ -32,7 +32,7 @@
 	item_state = "sheet-wood"
 	icon = 'icons/obj/stack_objects.dmi'
 	sheettype = "wood"
-	armor = /datum/armor/none
+	armor_type = /datum/armor/profiles/shared/wood_and_bamboo
 	resistance_flags = FLAMMABLE
 	merge_type = /obj/item/stack/sheet/mineral/wood
 	grind_results = list(/datum/reagent/cellulose = 20)

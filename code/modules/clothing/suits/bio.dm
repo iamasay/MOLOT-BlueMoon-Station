@@ -6,7 +6,7 @@
 	dynamic_hair_suffix = ""
 	permeability_coefficient = 0.01
 	clothing_flags = THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT
-	armor = /datum/armor/bio_suit
+	armor_type = /datum/armor/profiles/shared/clothing/head_bio_hood__suit_bio_suit
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR|HIDEFACE|HIDESNOUT
 	resistance_flags = ACID_PROOF
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
@@ -25,7 +25,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	slowdown = 1
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/pen, /obj/item/flashlight/pen, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray)
-	armor = /datum/armor/bio_suit
+	armor_type = /datum/armor/profiles/shared/clothing/head_bio_hood__suit_bio_suit
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAUR
 	strip_delay = 70
 	equip_delay_other = 70
@@ -50,11 +50,11 @@
 
 //Security biosuit, grey with red stripe across the chest
 /obj/item/clothing/head/bio_hood/security
-	armor = /datum/armor/bio_suit/security
+	armor_type = /datum/armor/profiles/shared/clothing/head_bio_hood_security__suit_bio_suit_security
 	icon_state = "bio_security"
 
 /obj/item/clothing/suit/bio_suit/security
-	armor = /datum/armor/bio_suit/security
+	armor_type = /datum/armor/profiles/shared/clothing/head_bio_hood_security__suit_bio_suit_security
 	icon_state = "bio_security"
 	tail_state = "syndicate-winter"
 

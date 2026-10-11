@@ -5,7 +5,7 @@
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/uniform.dmi'
 	anthro_mob_worn_overlay = 'modular_bluemoon/icons/mob/clothing/uniform_digi.dmi'
 	icon_state = "blastwave_uniform"
-	armor = /datum/armor/under/blastware
+	armor_type = /datum/armor/profiles/shared/clothing/under/blueshield
 	can_adjust = FALSE
 	strip_delay = 50
 	alt_covers_chest = TRUE

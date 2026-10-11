@@ -107,7 +107,7 @@
 	throw_speed = 3
 	throw_range = 5
 	custom_materials = list(/datum/material/iron=10000)
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/disk_and_hand_tele_and_storage/bomb30_fire100_acid100
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/list/active_portal_pairs
 	var/max_portal_pairs = 3

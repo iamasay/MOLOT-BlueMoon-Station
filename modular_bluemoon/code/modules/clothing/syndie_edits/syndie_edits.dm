@@ -199,7 +199,7 @@
 	mob_overlay_icon = 'icons/mob/clothing/suit.dmi'
 	icon_state = "coatsyndie"
 	item_state = "coatwinter"
-	armor = /datum/armor/wintercoat/syndicate
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/syndicate
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/syndicate
 
 /obj/item/clothing/suit/hooded/wintercoat/syndicate/Initialize(mapload)
@@ -223,7 +223,7 @@
 	icon = 'icons/obj/clothing/hats.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/head.dmi'
 	icon_state = "hood_syndie"
-	armor = /datum/armor/wintercoat/syndicate
+	armor_type = /datum/armor/profiles/shared/clothing/security_and_syndicate_basic
 
 /obj/item/clothing/suit/armor/vest/infiltrator/gorlex_harness
 	name = "Engine Technician Harness"

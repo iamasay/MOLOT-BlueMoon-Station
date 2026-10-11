@@ -19,7 +19,7 @@
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
 	tool_behaviour = TOOL_CROWBAR
 	toolspeed = 1
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/tools_and_misc
 
 	wound_bonus = 7
 	bare_wound_bonus = 8

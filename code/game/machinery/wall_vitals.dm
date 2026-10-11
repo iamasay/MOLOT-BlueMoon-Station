@@ -37,7 +37,7 @@
 	active_power_usage = 10
 	max_integrity = 150
 	payment_department = ACCOUNT_MED
-	armor = /datum/armor/vitals_reader
+	armor_type = /datum/armor/profiles/machinery/vitals_reader
 	light_range = 1.5
 	light_power = 0.75
 	light_color = LIGHT_COLOR_CYAN

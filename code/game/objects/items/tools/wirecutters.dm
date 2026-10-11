@@ -22,7 +22,7 @@
 	tool_behaviour = TOOL_WIRECUTTER
 	toolspeed = 1
 	used_skills = list(/datum/skill/level/job/wiring) //BLUEMOON ADD
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/tools_and_misc
 	var/random_color = TRUE
 	var/static/list/wirecutter_colors = list(
 		"blue" = rgb(24, 97, 213),

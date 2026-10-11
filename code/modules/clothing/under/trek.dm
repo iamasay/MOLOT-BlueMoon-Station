@@ -108,7 +108,7 @@
 
 /obj/item/clothing/under/trek/sec/orv
 	desc = "An uniform worn by security officers since 2420s."
-	armor = /datum/armor/syndie_lawyer
+	armor_type = /datum/armor/profiles/shared/clothing/under/light_duty
 	icon_state = "orv_sec"
 
 /obj/item/clothing/under/trek/medsci/orv
@@ -129,7 +129,7 @@
 
 /obj/item/clothing/under/trek/command/orv/sec
 	name = "security command uniform"
-	armor = /datum/armor/syndie_lawyer
+	armor_type = /datum/armor/profiles/shared/clothing/under/hos_and_orville_security
 	desc = "An uniform worn by Heads of Security since 2550s."
 	icon_state = "orv_com_sec"
 

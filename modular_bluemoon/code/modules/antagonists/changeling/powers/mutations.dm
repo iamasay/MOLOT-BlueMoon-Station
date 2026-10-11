@@ -32,7 +32,7 @@
 	cold_protection = ARMS|HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
-	armor = /datum/armor/gloves/changerling_bone_gaunglets
+	armor_type = /datum/armor/profiles/shared/clothing/gloves/martial_arts_extended
 
 /obj/item/clothing/gloves/krav_maga/combatglovesplus/extended/Initialize(mapload)
 	. = ..()

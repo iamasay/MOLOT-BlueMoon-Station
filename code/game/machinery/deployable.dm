@@ -149,7 +149,7 @@
 	anchored = FALSE
 	max_integrity = 180
 	proj_pass_rate = 20
-	armor = /datum/armor/barricade_security
+	armor_type = /datum/armor/profiles/structure/barricade/security
 
 	var/deploy_time = 40
 	var/deploy_message = TRUE

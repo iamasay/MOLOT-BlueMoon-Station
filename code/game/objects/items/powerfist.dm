@@ -12,7 +12,7 @@
 	throwforce = 10
 	throw_range = 7
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/melee/powerfist
 	resistance_flags = FIRE_PROOF
 	attack_speed = CLICK_CD_MELEE * 1.5
 	var/fisto_setting = 1

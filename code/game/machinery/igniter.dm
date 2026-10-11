@@ -8,7 +8,7 @@
 	idle_power_usage = 2
 	active_power_usage = 4
 	max_integrity = 300
-	armor = /datum/armor/igniter
+	armor_type = /datum/armor/profiles/machinery/igniter
 	resistance_flags = FIRE_PROOF
 	var/id = null
 	var/on = FALSE

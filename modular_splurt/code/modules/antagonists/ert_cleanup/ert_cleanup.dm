@@ -10,11 +10,11 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
-	armor = /datum/armor/nuclear
+	armor_type = /datum/armor/profiles/clothing/gloves/color/yellow/nuclear_sanitation
 
 /obj/item/clothing/shoes/jackboots/nuclear_sanitation
 	desc = "A pair of jackboots, sewn with special material to help protect from radiation."
-	armor = /datum/armor/nuclear
+	armor_type = /datum/armor/profiles/clothing/shoes/jackboots/nuclear_sanitation
 
 /obj/item/clothing/suit/space/hardsuit/rd/hev/no_sound/nuclear_sanitation
 	name = "improved radiation suit"

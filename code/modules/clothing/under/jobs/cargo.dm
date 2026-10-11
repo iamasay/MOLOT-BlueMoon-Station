@@ -55,7 +55,7 @@
 /obj/item/clothing/under/rank/cargo/miner
 	name = "shaft miner's jumpsuit"
 	desc = "It's a snappy jumpsuit with a sturdy set of overalls. It is very dirty."
-	armor = /datum/armor/cargo_miner
+	armor_type = /datum/armor/profiles/clothing/under/rank/cargo/miner
 	icon_state = "miner"
 	item_state = "miner"
 

@@ -52,7 +52,7 @@
 /obj/item/clothing/head/helmet/biker
 	name = "biker helmet"
 	desc = "A durable biker helmet. You suddenly get unusual subtle neon retrowave vibes with a smell of blood."
-	armor = /datum/armor/head/biker
+	armor_type = /datum/armor/profiles/clothing/head/helmet/biker
 	icon = 'modular_bluemoon/icons/obj/clothing/hats.dmi'
 	mob_overlay_icon = 'modular_bluemoon/icons/mob/clothing/hats.dmi'
 	icon_state = "biker"

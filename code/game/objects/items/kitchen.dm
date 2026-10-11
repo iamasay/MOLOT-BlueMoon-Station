@@ -15,6 +15,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
 
 /obj/item/kitchen/fork
+	armor_type = /datum/armor/none
 	name = "fork"
 	desc = "Pointy."
 	icon_state = "fork"
@@ -64,6 +65,7 @@
 	sharpness = SHARP_EDGED
 
 /obj/item/kitchen/spoon
+	armor_type = /datum/armor/none
 	name = "spoon"
 	desc = "Just be careful your food doesn't melt the spoon first."
 	icon_state = "spoon"
@@ -92,7 +94,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -129,7 +131,7 @@
 	custom_materials = list(/datum/material/iron=12000)
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_POINTY
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/clothing_and_general_objects
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	wound_bonus = 6
 	bare_wound_bonus = 10
@@ -293,7 +295,7 @@
 	force = 8
 	throwforce = 12//fuck git
 	attack_verb = list("shanked", "shivved")
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/none
 	custom_materials = list(/datum/material/glass=400)
 
 /obj/item/kitchen/knife/shiv/carrot
@@ -305,6 +307,7 @@
 	custom_materials = null
 
 /obj/item/kitchen/knife/shiv/plasma
+	armor_type = /datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium
 	name = "plasma shiv"
 	icon_state = "plasmashiv"
 	item_state = "plasmashiv"
@@ -314,6 +317,7 @@
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT *4, /datum/material/plasma=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/titanium
+	armor_type = /datum/armor/profiles/shared/kitchen/knife/shiv/plasma__titanium
 	name = "titanium shiv"
 	icon_state = "titaniumshiv"
 	item_state = "titaniumshiv"
@@ -324,6 +328,7 @@
 	custom_materials = list(/datum/material/glass=SHEET_MATERIAL_AMOUNT * 4, /datum/material/titanium=SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/kitchen/knife/shiv/plastitanium
+	armor_type = /datum/armor/profiles/kitchen/knife/shiv/plastitanium
 	name = "plastitanium shiv"
 	icon_state = "plastitaniumshiv"
 	item_state = "plastitaniumshiv"

@@ -33,7 +33,7 @@ field_generator power level display
 	use_power = NO_POWER_USE
 	max_integrity = 500
 	//100% immune to lasers and energy projectiles since it absorbs their energy.
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/machinery/field/generator
 	var/obj/item/radio/radio
 	var/const/num_power_levels = 6	// Total number of power level icon has
 	var/power_level = 0

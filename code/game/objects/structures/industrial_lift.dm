@@ -140,7 +140,7 @@ GLOBAL_LIST_EMPTY(lifts)
 	icon_state = "catwalk"
 	density = FALSE
 	anchored = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/industrial_lift__lattice
 	max_integrity = 50
 	layer = LATTICE_LAYER //under pipes
 	plane = FLOOR_PLANE

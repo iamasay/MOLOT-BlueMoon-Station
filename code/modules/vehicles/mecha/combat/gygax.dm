@@ -7,7 +7,7 @@
 	dir_in = 1 //Facing North.
 	max_integrity = 250
 	deflect_chance = 5
-	armor = /datum/armor/vehicle/mecha/combat/gygax
+	armor_type = /datum/armor/profiles/shared/mecha/gygax_reticence_and_medigax
 	max_temperature = 25000
 	leg_overload_coeff = 30
 	overload_step_energy_drain_min = 30
@@ -23,7 +23,7 @@
 	icon_state = "darkgygax"
 	max_integrity = 300
 	deflect_chance = 20
-	armor = /datum/armor/vehicle/mecha/combat/gygax/dark
+	armor_type = /datum/armor/profiles/vehicle/sealed/mecha/combat/gygax/dark
 	max_temperature = 35000
 	leg_overload_coeff = 10
 	overload_step_energy_drain_min = 10

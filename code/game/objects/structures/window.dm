@@ -34,7 +34,7 @@
 	var/glass_amount = 1
 	can_be_unanchored = TRUE
 	resistance_flags = ACID_PROOF
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/clothing_and_stack_and_structure/fire80_acid100
 	CanAtmosPass = ATMOS_PASS_PROC
 	var/real_explosion_block	//ignore this, just use explosion_block
 	var/breaksound = "shatter"
@@ -645,7 +645,7 @@
 	icon_state = "rwindow"
 	reinf = TRUE
 	heat_resistance = 1600
-	armor = /datum/armor/structure_default/window/reinforced
+	armor_type = /datum/armor/profiles/structure/window/reinforced
 	max_integrity = 50
 	explosion_block = 1
 	wave_explosion_block = EXPLOSION_BLOCK_REINFORCED_WINDOW
@@ -673,7 +673,7 @@
 	icon_state = "plasmawindow"
 	reinf = FALSE
 	heat_resistance = 25000
-	armor = /datum/armor/structure_default/window/plasma
+	armor_type = /datum/armor/profiles/structure/window/plasma
 	max_integrity = 150
 	explosion_block = 1
 	wave_explosion_block = EXPLOSION_BLOCK_BOROSILICATE_WINDOW
@@ -718,7 +718,7 @@
 	reinf = TRUE
 	extra_reinforced = TRUE
 	heat_resistance = 50000
-	armor = /datum/armor/structure_default/window/plasma/reinforced
+	armor_type = /datum/armor/profiles/structure/window/plasma/reinforced
 	max_integrity = 500
 	explosion_block = 2
 	wave_explosion_block = EXPLOSION_BLOCK_EXTREME
@@ -934,7 +934,7 @@
 	flags_1 = PREVENT_CLICK_UNDER_1
 	reinf = TRUE
 	heat_resistance = 1600
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/window/plastitanium__shuttle
 	smooth = SMOOTH_MORE|SMOOTH_TRUE
 	canSmoothWith = list(/turf/closed/wall/mineral/titanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/shuttle, /obj/structure/shuttle/engine/heater, /obj/structure/falsewall/titanium, /turf/closed/indestructible/riveted)
 	explosion_block = 3
@@ -972,7 +972,7 @@
 	reinf = TRUE
 	extra_reinforced = TRUE
 	heat_resistance = 1600
-	armor = /datum/armor/structure_default/window/reinforced/plastitanium
+	armor_type = /datum/armor/profiles/shared/structure/window/plastitanium__shuttle
 	smooth = SMOOTH_MORE|SMOOTH_TRUE
 	canSmoothWith = list(/turf/closed/wall/r_wall/syndicate, /turf/closed/wall/mineral/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/plastitanium, /obj/structure/shuttle/engine, /obj/structure/falsewall/plastitanium, /turf/closed/indestructible/riveted)
 	explosion_block = 3
@@ -1003,7 +1003,7 @@
 	icon_state = "clockwork_window_single"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_integrity = 80
-	armor = /datum/armor/structure_default/window/reinforced/plastitanium
+	armor_type = /datum/armor/profiles/structure/window/reinforced/clockwork
 	explosion_block = 2 //fancy AND hard to destroy. the most useful combination.
 	wave_explosion_block = EXPLOSION_BLOCK_BOROSILICATE_WINDOW
 	wave_explosion_multiply = EXPLOSION_DAMPEN_BOROSILICATE_WINDOW
@@ -1072,6 +1072,7 @@
 	anchored = FALSE
 
 /obj/structure/window/paperframe
+	armor_type = /datum/armor/none
 	name = "paper frame"
 	desc = "A fragile separator made of thin wood and paper."
 	icon = 'icons/obj/smooth_structures/paperframes.dmi'

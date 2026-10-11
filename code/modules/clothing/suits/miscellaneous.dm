@@ -366,7 +366,7 @@
 	mob_overlay_icon = 'modular_bluemoon/fluffs/icons/mob/clothing/head.dmi'
 	icon_state = "juggernauthelm"
 	item_state = "juggernauthelm"
-	armor = /datum/armor/juggernaut
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_juggernaut__suit_armor_heavy_juggernaut
 	strip_delay = 120
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
@@ -386,7 +386,7 @@
 	tail_state = "juggernaut"
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_SNEK_TAURIC
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|FEET
-	armor = /datum/armor/juggernaut
+	armor_type = /datum/armor/profiles/shared/clothing/head_helmet_juggernaut__suit_armor_heavy_juggernaut
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	cold_protection = CHEST|GROIN|LEGS|ARMS|FEET
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
@@ -589,7 +589,7 @@
 	icon_state = "pufferjacket"
 	item_state = "hostrench"
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/profiles/clothing/suit/jacket/puffer
 
 /obj/item/clothing/suit/jacket/puffer/vest
 	name = "puffer vest"
@@ -599,7 +599,7 @@
 	body_parts_covered = CHEST|GROIN
 	cold_protection = CHEST|GROIN
 	heat_protection = CHEST|GROIN
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/profiles/shared/clothing/suit/hooded_wintercoat_viro__jacket_puffer_vest
 
 /obj/item/clothing/suit/jacket/miljacket
 	name = "military jacket"
@@ -686,7 +686,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	body_parts_covered = CHEST|GROIN
 	attack_verb = list("warned", "cautioned", "smashed")
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/profiles/clothing/suit/caution
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
 /obj/item/clothing/suit/petharness
@@ -721,7 +721,7 @@
 	heat_protection = CHEST|GROIN|ARMS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = COAT_MAX_TEMP_PROTECT
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/profiles/shared/clothing/suit/hooded/teshari_beltcloak_jobs_service__wintercoat
 	brc_mitigation_bonus = 0  // BLUEMOON ADD
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter)
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
@@ -754,7 +754,7 @@
 	name = "centcom winter coat"
 	icon_state = "coatcentcom"
 	item_state = "coatcentcom"
-	armor = /datum/armor/wintercoat/centcom
+	armor_type = /datum/armor/profiles/shared/clothing/centcom_winter
 	brc_mitigation_bonus = BRC_MITIGATION_15  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/centcom
 
@@ -764,14 +764,14 @@
 
 /obj/item/clothing/head/hooded/winterhood/centcom
 	icon_state = "hood_centcom"
-	armor = /datum/armor/wintercoat/centcom
+	armor_type = /datum/armor/profiles/shared/clothing/centcom_winter
 
 /obj/item/clothing/suit/hooded/wintercoat/captain
 	name = "captain's winter coat"
 	desc = "A luxurious winter coat, stuffed with the down of the endangered Uka bird and trimmed with genuine sable. The fabric is an indulgently soft micro-fiber, and the deep ultramarine color is only one that could be achieved with minute amounts of crystalline bluespace dust woven into the thread between the plectrums. Extremely lavish, and extremely durable. The tiny flakes of protective material make it nothing short of extremely light lamellar armor."
 	icon_state = "coatcaptain"
 	item_state = "coatcaptain"
-	armor = /datum/armor/wintercoat/captain
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/captain
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/captain
 
@@ -788,7 +788,7 @@
 	desc = "A cozy winter coat, covered in thick fur. The breast features a proud yellow chevron, reminding everyone that you're the second banana."
 	icon_state = "coathop"
 	item_state = "coathop"
-	armor = /datum/armor/suit
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/hop
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/hop
 
 /obj/item/clothing/head/hooded/winterhood/hop
@@ -800,7 +800,7 @@
 	desc = "A red, armor-padded winter coat. It glitters with a mild ablative coating and a robust air of authority.  The zipper tab is a pair of jingly little handcuffs that get annoying after the first ten seconds."
 	icon_state = "coatsecurity"
 	item_state = "coatsecurity"
-	armor = /datum/armor/labcoat/sec
+	armor_type = /datum/armor/profiles/shared/clothing/suit/security_coats
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/security
 
 /obj/item/clothing/suit/hooded/wintercoat/security/Initialize(mapload)
@@ -808,7 +808,7 @@
 	allowed = GLOB.security_wintercoat_allowed
 
 /obj/item/clothing/suit/hooded/wintercoat/security/no_armor
-	armor = /datum/armor/wintercoat
+	armor_type = /datum/armor/none
 
 /obj/item/clothing/head/hooded/winterhood/security
 	desc = "A red, armor-padded winter hood."
@@ -819,7 +819,7 @@
 	desc = "A red, armor-padded winter coat, lovingly woven with a Kevlar interleave and reinforced with semi-ablative polymers and a silver azide fill material. The zipper tab looks like a tiny replica of Beepsky."
 	icon_state = "coathos"
 	item_state = "coathos"
-	armor = /datum/armor/wintercoat/hos
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/hos
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/hos
 
@@ -837,7 +837,7 @@
 	icon_state = "coatmedical"
 	item_state = "coatmedical"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/wintercoat/medical
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/medical
 
 /obj/item/clothing/head/hooded/winterhood/medical
@@ -850,7 +850,7 @@
 	icon_state = "coatcmo"
 	item_state = "coatcmo"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/wintercoat/medical/cmo
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/cmo
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/cmo
 
 /obj/item/clothing/head/hooded/winterhood/cmo
@@ -863,7 +863,7 @@
 	icon_state = "coatchemistry"
 	item_state = "coatchemistry"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/wintercoat/chemistry
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/chemistry
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/chemistry
 
 /obj/item/clothing/head/hooded/winterhood/chemistry
@@ -876,7 +876,7 @@
 	icon_state = "coatviro"
 	item_state = "coatviro"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/wintercoat/viro
+	armor_type = /datum/armor/profiles/shared/clothing/suit/hooded_wintercoat_viro__jacket_puffer_vest
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/viro
 
 /obj/item/clothing/head/hooded/winterhood/viro
@@ -889,7 +889,7 @@
 	icon_state = "coatparamed"
 	item_state = "coatparamed"
 	allowed = list(/obj/item/analyzer, /obj/item/sensor_device, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/gun/medbeam)
-	armor = /datum/armor/wintercoat/paramedic
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/bio50_acid45
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/paramedic
 
 /obj/item/clothing/head/hooded/winterhood/paramedic
@@ -902,7 +902,7 @@
 	icon_state = "coatscience"
 	item_state = "coatscience"
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-	armor = /datum/armor/wintercoat/science
+	armor_type = /datum/armor/profiles/shared/clothing/suit/science_coats
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/science
 
 /obj/item/clothing/head/hooded/winterhood/science
@@ -915,7 +915,7 @@
 	icon_state = "coatrobotics"
 	item_state = "coatrobotics"
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/screwdriver, /obj/item/crowbar, /obj/item/wrench, /obj/item/stack/cable_coil, /obj/item/weldingtool, /obj/item/multitool)
-	armor = /datum/armor/wintercoat/robotics
+	armor_type = /datum/armor/profiles/shared/clothing/suit/science_coats
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/robotics
 
 /obj/item/clothing/head/hooded/winterhood/robotics
@@ -940,7 +940,7 @@
 	icon_state = "coatrd"
 	item_state = "coatrd"
 	allowed = list(/obj/item/analyzer, /obj/item/stack/medical, /obj/item/dnainjector, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/hypospray, /obj/item/healthanalyzer, /obj/item/flashlight/pen, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/pill, /obj/item/storage/pill_bottle, /obj/item/paper, /obj/item/melee/classic_baton/telescopic, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-	armor = /datum/armor/wintercoat/researc_director
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/rd
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/rd
 
 /obj/item/clothing/head/hooded/winterhood/rd
@@ -952,7 +952,7 @@
 	desc = "A white winter coat with reflective green and yellow stripes. Stuffed with asbestos, treated with fire retardant PBDE, lined with a micro thin sheet of lead foil and snugly fitted to your body's measurements. This baby's ready to save you from anything except the thyroid cancer and systemic fibrosis you'll get from wearing it. The zipper tab is a tiny golden wrench."
 	icon_state = "coatce"
 	item_state = "coatce"
-	armor = /datum/armor/wintercoat/chief_engineer
+	armor_type = /datum/armor/profiles/shared/clothing/suit/hooded/teshari_beltcloak_jobs_ce__wintercoat_ce
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/t_scanner, /obj/item/construction/rcd, /obj/item/pipe_dispenser, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/ce
 
@@ -965,7 +965,7 @@
 	desc = "A surprisingly heavy yellow winter coat with reflective orange stripes. It has a small wrench for its zipper tab, and the inside layer is covered with a radiation-resistant silver-nylon blend. Because you're worth it."
 	icon_state = "coatengineer"
 	item_state = "coatengineer"
-	armor = /datum/armor/wintercoat/engineering
+	armor_type = /datum/armor/profiles/shared/clothing/head_and_suit/rad20_fire30_acid45
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/t_scanner, /obj/item/construction/rcd, /obj/item/pipe_dispenser, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/engineering
 
@@ -1072,7 +1072,7 @@
 	icon_state = "coatminer"
 	item_state = "coatminer"
 	allowed = list(/obj/item/pickaxe, /obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter)
-	armor = /datum/armor/wintercoat/miner
+	armor_type = /datum/armor/profiles/shared/clothing/suit/miner_and_officer_coats
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/miner
 
 /obj/item/clothing/head/hooded/winterhood/miner
@@ -1084,7 +1084,7 @@
 	desc = "A brass-plated button up winter coat. Instead of a zipper tab, it has a brass cog with a tiny red gemstone inset."
 	icon_state = "coatratvar"
 	item_state = "coatratvar"
-	armor = /datum/armor/wintercoat/ratvar
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/ratvar
 	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/clockwork/replica_fabricator, /obj/item/clockwork/integration_cog, /obj/item/clockwork/slab, /obj/item/clockwork/weapon/ratvarian_spear)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/ratvar
@@ -1114,7 +1114,7 @@
 	desc = "A somber button-up in tones of grey entropy and a wicked crimson zipper. When pulled all the way up, the zipper looks like a bloody gash. The zipper pull looks like a single drop of blood."
 	icon_state = "coatnarsie"
 	item_state = "coatnarsie"
-	armor = /datum/armor/wintercoat/narsie
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/narsie
 	brc_mitigation_bonus = 10  // BLUEMOON ADD
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/toy, /obj/item/storage/fancy/cigarettes, /obj/item/lighter, /obj/item/restraints/legcuffs/bola/cult,/obj/item/melee/cultblade,/obj/item/melee/cultblade/dagger,/obj/item/reagent_containers/glass/beaker/unholywater,/obj/item/cult_shift,/obj/item/flashlight/flare/culttorch,/obj/item/cult_spear)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/narsie
@@ -1137,6 +1137,7 @@
 	icon_state = "hood_narsie"
 
 /obj/item/clothing/suit/hooded/wintercoat/ratvar/fake
+	armor_type = /datum/armor/none
 	name = "brass winter coat"
 	desc = "A brass-plated button up winter coat. Instead of a zipper tab, it has a brass cog with a tiny red piece of plastic as an inset."
 	icon_state = "coatratvar"
@@ -1147,6 +1148,7 @@
 	real = FALSE
 
 /obj/item/clothing/suit/hooded/wintercoat/narsie/fake
+	armor_type = /datum/armor/none
 	name = "runed winter coat"
 	desc = "A dusty button up winter coat in the tones of oblivion and ash. The zipper pull looks like a single drop of blood."
 	icon_state = "coatnarsie"
@@ -1161,7 +1163,7 @@
 	desc = "The one coat to rule them all. Extremely durable while providing the utmost comfort."
 	icon_state = "coatdurathread"
 	item_state = "coatdurathread"
-	armor = /datum/armor/wintercoat/durathread
+	armor_type = /datum/armor/profiles/clothing/suit/hooded/wintercoat/durathread
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/durathread
 
 /obj/item/clothing/suit/hooded/wintercoat/durathread/Initialize(mapload)
@@ -1170,7 +1172,7 @@
 
 /obj/item/clothing/head/hooded/winterhood/durathread
 	icon_state = "winterhood_durathread"
-	armor = /datum/armor/wintercoat/durathread
+	armor_type = /datum/armor/profiles/clothing/head/hooded/winterhood/durathread
 
 /obj/item/clothing/suit/spookyghost
 	name = "spooky ghost"
@@ -1187,7 +1189,7 @@
 	icon = 'icons/obj/clothing/clockwork_garb.dmi'
 	icon_state = "clockwork_cuirass_old"
 	body_parts_covered = CHEST|GROIN|LEGS
-	armor = /datum/armor/bronze
+	armor_type = /datum/armor/profiles/shared/clothing/head_bronze__suit_bronze
 
 /obj/item/clothing/suit/ghost_sheet
 	name = "ghost sheet"
@@ -1227,7 +1229,7 @@
 	blood_overlay_type = "armor"
 	body_parts_covered = CHEST
 	resistance_flags = NONE
-	armor = /datum/armor/suit/flakjack
+	armor_type = /datum/armor/profiles/clothing/suit/flakjack
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 
 /obj/item/clothing/suit/assu_suit

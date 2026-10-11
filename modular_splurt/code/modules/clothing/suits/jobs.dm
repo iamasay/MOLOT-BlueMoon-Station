@@ -27,7 +27,7 @@
 	mob_overlay_icon = 'modular_splurt/icons/mob/clothing/suit.dmi'
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/suit.dmi'
 	body_parts_covered = CHEST|ARMS
-	armor = /datum/armor/suit/hop_formal
+	armor_type = /datum/armor/profiles/clothing/suit/toggle/captains_parade/hop_formal
 	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD
 	togglename = "buttons"
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON

@@ -33,7 +33,7 @@
 	icon = 'modular_bluemoon/icons/obj/urbanism/urbanism.dmi'
 	icon_state = "oldfloodlight"
 	anchored = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/urbanism_lights_and_barrels
 
 /obj/machinery/power/floodlight/urbanismlight/mesaspec
 	icon_state = "oldfloodlight_on"
@@ -65,7 +65,7 @@
 	icon_state = "drumfire"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/urbanism_lights_and_barrels
 
 /obj/structure/reagent_dispensers/urbanismbarrel
 	name = "Barrel"
@@ -73,7 +73,7 @@
 	icon = 'modular_bluemoon/icons/obj/urbanism/urbanism.dmi'
 	icon_state = "barrel"
 	anchored = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/reagent_dispensers/urbanismbarrel
 
 /obj/structure/reagent_dispensers/urbanismbarrel/red
 	icon_state = "redbarrel"
@@ -106,7 +106,7 @@
 	max_integrity = 280
 	proj_pass_rate = 20
 	climbable = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/barricade/urbanism
 
 /obj/structure/barricade/urbanism/roadblock
 	resistance_flags = INDESTRUCTIBLE
@@ -128,7 +128,7 @@
 	icon_state = "shina"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/urbanismtire
 
 /obj/structure/urbanismpower
 	name = "Power Line"
@@ -137,7 +137,7 @@
 	icon_state = "powerline"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 	layer = SPACEVINE_LAYER
 
 /obj/structure/urbanismpower/transformer
@@ -153,7 +153,7 @@
 	icon_state = "crate"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 	layer = SPACEVINE_LAYER
 
 /obj/structure/urbanismbigcrate/alt
@@ -169,7 +169,7 @@
 	icon_state = "car_wreck"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/urbanismcars
 	layer = SPACEVINE_LAYER
 
 /obj/structure/urbanismradio
@@ -179,7 +179,7 @@
 	icon_state = "radio"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 	layer = SPACEVINE_LAYER
 
 
@@ -190,7 +190,7 @@
 	icon_state = "display_broken"
 	anchored = TRUE
 	density = FALSE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 	light_range = 5
 	light_color = "#2652e2"
 	max_integrity = 9999999
@@ -203,7 +203,7 @@
 	icon_state = "chalkboard"
 	anchored = TRUE
 	density = FALSE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 	light_range = FALSE
 	light_color = FALSE
 	max_integrity = 9999999
@@ -216,7 +216,7 @@
 	icon_state = "server_desrtoyed"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanismmachines__urbanismmounted
 
 /obj/structure/urbanismmachines/server
 
@@ -232,7 +232,7 @@
 	icon_state = "terminal_broken"
 	anchored = TRUE
 	density = FALSE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanismmachines__urbanismmounted
 
 
 /obj/structure/urbanismbillboard
@@ -242,7 +242,7 @@
 	icon_state = "bilboard1"
 	anchored = TRUE
 	density = TRUE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/structure/urbanismbillboard
 	light_range = FALSE
 	light_color = FALSE
 	max_integrity = 9999999
@@ -285,7 +285,7 @@
 	icon_state = "deadhecu"
 	anchored = TRUE
 	density = FALSE
-	armor = /datum/armor/structure_default
+	armor_type = /datum/armor/profiles/shared/structure/urbanism_reinforced
 
 /obj/structure/deadmesa/hecughost
 	name = "Призрак лидера отряда HECU"

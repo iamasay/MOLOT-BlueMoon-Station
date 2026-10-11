@@ -14,7 +14,7 @@
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 10
 	active_power_usage = 100
-	armor = /datum/armor/machinery_computer
+	armor_type = /datum/armor/profiles/shared/machinery/standard
 	var/obj/item/stored
 
 /obj/machinery/blackbox_recorder/Initialize(mapload)

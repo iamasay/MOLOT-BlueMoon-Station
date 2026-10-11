@@ -6,7 +6,7 @@
 	anthro_mob_worn_overlay = 'modular_splurt/icons/mob/clothing/mask_muzzle.dmi'
 	icon_state = "plaguedoctor_red"
 	item_state = "plaguedoctor_red"
-	armor = /datum/armor/mask/plaguedoctor
+	armor_type = /datum/armor/profiles/clothing/mask/gas/plaguedoctor/red
 
 /obj/item/retractor/plague
 	name = "plague doctor's retractors"

@@ -6,7 +6,7 @@
 	dir_in = 1 //Facing North.
 	max_integrity = 500
 	deflect_chance = 30
-	armor = /datum/armor/vehicle/mecha/combat/durand
+	armor_type = /datum/armor/profiles/shared/vehicle/sealed/mecha/combat/durand__marauder
 	max_temperature = 50000
 	force = 40
 	wreckage = /obj/structure/mecha_wreckage/durand

@@ -669,7 +669,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	icon_state = "nucleardisk"
 	persistence_replacement = /obj/item/disk/nuclear/fake
 	max_integrity = 250
-	armor = /datum/armor/fireacid_proof
+	armor_type = /datum/armor/profiles/shared/disk_and_hand_tele_and_storage/bomb30_fire100_acid100
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/fake = FALSE
 	var/stationloving = TRUE
@@ -816,7 +816,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	desc = "How anyone could mistake this for the real thing is beyond you."
 	stationloving = FALSE
 	resistance_flags = FLAMMABLE
-	armor = null
+	armor_type = /datum/armor/none
 
 /obj/item/disk/nuclear/fake/obvious/mail
 	name = "nuclearning auth disk"

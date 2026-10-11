@@ -37,7 +37,7 @@ GLOBAL_DATUM_INIT(spare_id_safe, /obj/structure/safe/spare_id, null)
 	icon_state = "spare_safe_locked"
 	density = FALSE
 	number_of_tumblers = 3
-	armor = /datum/armor/admin
+	armor_type = /datum/armor/profiles/shared/secure_and_special_objects
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF | UNACIDABLE | FREEZE_PROOF
 
 /obj/structure/safe/spare_id/Initialize(mapload)

@@ -279,4 +279,4 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
-	armor = /datum/armor/combatglovesplus
+	armor_type = /datum/armor/profiles/shared/clothing/gloves/combat_and_martial_arts
