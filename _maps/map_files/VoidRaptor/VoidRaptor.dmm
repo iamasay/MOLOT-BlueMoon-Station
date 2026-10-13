@@ -939,11 +939,15 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "ajX" = (
-/obj/structure/chair/plastic{
-	dir = 4
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
 	},
-/turf/open/floor/wood/wood_large,
-/area/commons/fitness/recreation/entertainment)
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/security/brig)
 "akl" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/lootdrop/maintenance/two,
@@ -1320,16 +1324,22 @@
 /turf/open/floor/plasteel/rivets/large,
 /area/cargo/lobby)
 "apm" = (
-/obj/effect/spawner/structure/window/reinforced/tinted,
+/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating,
-/area/security/courtroom)
+/area/security/execution/transfer)
 "apv" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
@@ -2464,6 +2474,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/security/execution/education)
 "aEn" = (
@@ -3084,12 +3097,12 @@
 /turf/open/floor/plasteel/rivets,
 /area/engineering/atmos/pumproom)
 "aLj" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
+/obj/structure/table,
+/obj/item/camera{
+	pixel_y = 4
 	},
-/obj/effect/spawner/structure/window/reinforced/tinted,
-/turf/open/floor/plating,
-/area/security/courtroom)
+/turf/open/floor/wood/wood_large,
+/area/commons/fitness/recreation/entertainment)
 "aLs" = (
 /obj/effect/landmark/event_spawn,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
@@ -4547,6 +4560,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/prison/work)
 "aZP" = (
@@ -4979,14 +4995,14 @@
 /turf/open/floor/plasteel/smooth/large,
 /area/service/hydroponics)
 "bfa" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
 /obj/machinery/door/poddoor/preopen{
 	id = "brigwindows";
 	name = "Brig Front Blast Door"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating/airless,
 /area/security/brig)
 "bfe" = (
@@ -6314,6 +6330,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
@@ -7655,6 +7674,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/security/holding_cell)
 "bPn" = (
@@ -8308,6 +8330,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/security/prison/garden)
@@ -12938,6 +12963,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/command)
 "dep" = (
@@ -12948,6 +12976,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating/airless,
 /area/command/heads_quarters/rd)
@@ -13299,6 +13330,9 @@
 	dir = 1
 	},
 /obj/effect/landmark/event_spawn,
+/obj/structure/chair/plastic{
+	dir = 4
+	},
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "dib" = (
@@ -14921,6 +14955,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
@@ -16621,6 +16658,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/security/courtroom)
 "dSP" = (
@@ -17912,6 +17952,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/command)
 "ehC" = (
@@ -18099,6 +18142,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -19162,20 +19208,13 @@
 /turf/closed/wall,
 /area/medical/storage)
 "evH" = (
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
 /obj/effect/turf_decal/trimline/blue/filled/warning{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 10
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 9
 	},
-/obj/machinery/clonepod,
+/obj/machinery/dna_scannernew,
 /turf/open/floor/plasteel/white,
 /area/medical/exam_room)
 "ewb" = (
@@ -19337,6 +19376,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -21093,6 +21135,9 @@
 "eSg" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/bot,
+/obj/structure/chair/plastic{
+	dir = 4
+	},
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "eSj" = (
@@ -21238,16 +21283,17 @@
 	},
 /area/cargo/miningdock)
 "eTI" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /obj/machinery/light/cold/directional/south,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
+	dir = 6
 	},
 /turf/open/floor/plasteel/white/smooth/edge{
 	dir = 1
@@ -21301,12 +21347,15 @@
 	},
 /area/engineering/atmos/storage/gas)
 "eUk" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
 /obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/security/checkpoint/engineering)
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating/airless,
+/area/security/brig)
 "eUr" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -22057,9 +22106,6 @@
 "fdg" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4{
 	dir = 8
@@ -26126,6 +26172,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
 "fVq" = (
@@ -26217,6 +26266,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -26594,6 +26646,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
 "gas" = (
@@ -26882,6 +26937,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
@@ -27413,6 +27471,9 @@
 /obj/machinery/door/poddoor/preopen{
 	id = "brigprison";
 	name = "Prison Blast Door"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating,
 /area/security/pk)
@@ -28570,7 +28631,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/access/any/supply/general,
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
 /turf/open/floor/plasteel/rivets/large,
 /area/cargo/sorting)
 "gvD" = (
@@ -32032,7 +32093,7 @@
 /area/command/heads_quarters/hop)
 "hlm" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "0-8"
 	},
 /obj/effect/spawner/structure/window/reinforced/tinted,
 /turf/open/floor/plating,
@@ -33258,7 +33319,6 @@
 /turf/open/floor/plasteel/smooth/large,
 /area/science/lab)
 "hyM" = (
-/obj/machinery/dna_scannernew,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 5
 	},
@@ -33267,6 +33327,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 10
 	},
+/obj/machinery/clonepod,
 /turf/open/floor/plasteel/white,
 /area/medical/exam_room)
 "hyQ" = (
@@ -33456,6 +33517,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/prison/work)
@@ -34078,6 +34142,9 @@
 "hJK" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/bot,
+/obj/machinery/autolathe/secure{
+	name = "public autolathe"
+	},
 /turf/open/floor/plasteel/smooth/large,
 /area/commons/storage/primary)
 "hJL" = (
@@ -34136,6 +34203,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/security/prison/work)
@@ -34580,6 +34650,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/prison/work)
@@ -35039,6 +35112,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "medsecprivacy";
 	name = "Privacy Shutters"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/medical)
@@ -36989,7 +37065,10 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
 	},
-/obj/machinery/vending/clothing,
+/obj/structure/chair/plastic{
+	dir = 8
+	},
+/obj/effect/landmark/start/assistant,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "ioL" = (
@@ -38530,6 +38609,9 @@
 /obj/machinery/door/poddoor/preopen{
 	id = "brigwindows";
 	name = "Brig Front Blast Door"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -41829,6 +41911,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/prison/work)
 "juS" = (
@@ -42131,6 +42216,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
@@ -43830,6 +43918,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/command/heads_quarters/rd)
 "jSH" = (
@@ -43899,7 +43990,6 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 5
 	},
-/obj/machinery/vending/autodrobe,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "jTr" = (
@@ -44643,6 +44733,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -45706,6 +45799,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/command/bridge)
@@ -48038,6 +48134,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/science/research)
 "kTo" = (
@@ -48258,7 +48357,8 @@
 /mob/living/simple_animal/hostile/carp/pet_carp{
 	name = "Lia";
 	real_name = "Lia";
-	desc = "A failed experiment of Nanotrasen to create weaponised carp technology. This less than intimidating carp now serves as the Head of Security's pet."
+	desc = "A failed experiment of Nanotrasen to create weaponised carp technology. This less than intimidating carp now serves as the Head of Security's pet.";
+	AIStatus = 3
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/plasteel/rivets/large,
@@ -48621,15 +48721,16 @@
 /area/science/research/abandoned)
 "kZZ" = (
 /obj/effect/turf_decal/siding/wood,
-/obj/structure/chair/plastic{
-	dir = 4
-	},
+/obj/machinery/vending/autodrobe,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "lah" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
@@ -49434,6 +49535,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/external/starboard)
@@ -50426,6 +50530,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/security/prison/garden)
 "lvi" = (
@@ -50883,14 +50990,13 @@
 "lAx" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
-	icon_state = "2-8"
+	icon_state = "4-8"
 	},
-/obj/machinery/door/poddoor/preopen{
-	id = "brigwindows";
-	name = "Brig Front Blast Door"
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
-/turf/open/floor/plating/airless,
-/area/security/brig)
+/turf/open/floor/plating,
+/area/maintenance/department/security/brig)
 "lAC" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
@@ -52108,6 +52214,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating/airless,
 /area/command/heads_quarters/rd)
@@ -54156,6 +54265,9 @@
 	id = "brigprison";
 	name = "Prison Blast Door"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/pk)
 "mmE" = (
@@ -55992,6 +56104,9 @@
 	color = "#A01010";
 	alpha = 255
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/command/blueshieldoffice)
 "mIE" = (
@@ -56274,25 +56389,24 @@
 /turf/open/floor/grass,
 /area/hallway/secondary/exit/departure_lounge)
 "mLh" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer2{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer2{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/central)
 "mLl" = (
@@ -56643,6 +56757,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "medsecprivacy";
 	name = "Privacy Shutters"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/medical)
@@ -57885,6 +58002,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "medsecprivacy";
 	name = "Privacy Shutters"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/medical)
@@ -62060,6 +62180,9 @@
 	id = "brigwindows";
 	name = "Brig Front Blast Door"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating/airless,
 /area/security/brig)
 "nYw" = (
@@ -62590,15 +62713,19 @@
 /turf/open/floor/plasteel/rivets,
 /area/maintenance/starboard/fore)
 "oex" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "bridgespace";
+	name = "Bridge External Shutters"
 	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "4-8"
 	},
-/obj/effect/spawner/structure/window/reinforced/tinted,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating,
-/area/security/courtroom)
+/area/command/bridge)
 "ofc" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -63172,16 +63299,6 @@
 	},
 /turf/open/floor/plating/asteroid,
 /area/engineering/atmos/storage/gas)
-"ooD" = (
-/obj/effect/spawner/structure/window/reinforced/tinted,
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plating,
-/area/security/courtroom)
 "ooH" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/electrical{
@@ -63847,6 +63964,9 @@
 	icon_state = "2-4"
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/checkpoint/supply)
 "ovN" = (
@@ -63872,6 +63992,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -64523,6 +64646,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "medsecprivacy";
 	name = "Privacy Shutters"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/medical)
@@ -66276,10 +66402,13 @@
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/maintenance/solars/port/fore)
 "oZE" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "bridgespace";
 	name = "Bridge External Shutters"
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
@@ -66689,13 +66818,13 @@
 	},
 /area/hallway/secondary/command)
 "pew" = (
-/obj/effect/spawner/structure/window/reinforced/tinted,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "0-1"
 	},
+/obj/effect/spawner/structure/window/reinforced/tinted,
 /turf/open/floor/plating,
 /area/security/courtroom)
 "pey" = (
@@ -66722,6 +66851,9 @@
 	id = "medsecprivacy";
 	name = "Privacy Shutters";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating/airless,
 /area/security/checkpoint/medical)
@@ -67478,13 +67610,6 @@
 /obj/machinery/air_sensor/atmos/toxin_tank,
 /turf/open/floor/engine/plasma,
 /area/engineering/atmos)
-"poE" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/security/checkpoint/engineering)
 "poS" = (
 /obj/structure/flora/tree/jungle/small,
 /turf/open/floor/grass,
@@ -68227,20 +68352,10 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai)
 "pxr" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/autolathe/secure{
-	name = "public autolathe"
-	},
-/turf/open/floor/plasteel/smooth/large,
-/area/commons/storage/primary)
+/obj/effect/turf_decal/siding/wood,
+/obj/machinery/vending/clothing,
+/turf/open/floor/wood/wood_large,
+/area/commons/fitness/recreation/entertainment)
 "pxs" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/bot,
@@ -68651,8 +68766,8 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
 	},
-/obj/structure/chair/plastic{
-	dir = 8
+/obj/structure/chair/stool/directional/west{
+	dir = 2
 	},
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/wood/wood_large,
@@ -70380,17 +70495,12 @@
 /turf/open/space/basic,
 /area/solars/port/aft)
 "pWn" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 4
-	},
+/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "0-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 9
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/maintenance/department/medical/central)
@@ -71740,6 +71850,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/engineering/transit_tube)
@@ -75280,6 +75393,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/external/port)
@@ -79410,6 +79526,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
 "rXO" = (
@@ -79907,21 +80026,15 @@
 /turf/open/floor/pod/dark,
 /area/service/chapel/funeral)
 "sdF" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4{
-	dir = 1
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
-/obj/item/kirbyplants/random,
-/obj/machinery/status_display/evac{
-	pixel_y = -32
-	},
-/obj/machinery/light/directional/south,
-/turf/open/floor/plasteel/rivets/edge{
-	dir = 1
-	},
-/area/hallway/secondary/entry)
+/turf/open/floor/plating,
+/area/hallway/secondary/command)
 "sdH" = (
 /obj/structure/table/reinforced,
 /obj/item/stack/sheet/plasteel/twenty,
@@ -80555,6 +80668,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "skO" = (
@@ -80941,13 +81057,15 @@
 /turf/open/floor/pod/dark,
 /area/service/chapel/office)
 "spk" = (
-/obj/effect/turf_decal/siding/wood,
-/obj/structure/table,
-/obj/item/camera{
-	pixel_y = 4
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/open/floor/wood/wood_large,
-/area/commons/fitness/recreation/entertainment)
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plating,
+/area/security/execution/transfer)
 "spp" = (
 /obj/structure/window/reinforced,
 /obj/structure/table,
@@ -81843,10 +81961,10 @@
 /turf/open/floor/plasteel/rivets,
 /area/maintenance/aft/lesser)
 "sBe" = (
-/obj/effect/spawner/structure/window/reinforced/tinted,
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "0-1"
 	},
+/obj/effect/spawner/structure/window/reinforced/tinted,
 /turf/open/floor/plating,
 /area/security/courtroom)
 "sBf" = (
@@ -82256,6 +82374,9 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 4
 	},
+/obj/structure/chair/plastic{
+	dir = 8
+	},
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "sEY" = (
@@ -82588,6 +82709,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -84199,6 +84323,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
 "tbX" = (
@@ -84621,6 +84748,9 @@
 	icon_state = "1-8"
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/checkpoint/supply)
 "tgC" = (
@@ -84911,13 +85041,13 @@
 	},
 /area/hallway/primary/fore)
 "tkb" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "bridgespace";
 	name = "Bridge External Shutters"
 	},
+/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/command/bridge)
@@ -85418,6 +85548,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating,
 /area/security/courtroom)
 "trc" = (
@@ -85504,16 +85637,16 @@
 	},
 /area/engineering/storage/tcomms)
 "trR" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Exam Room Maintenance"
-	},
-/obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/medical/general,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/maintenance{
+	name = "Exam Room Maintenance"
+	},
 /turf/open/floor/catwalk_floor/iron_smooth,
 /area/maintenance/department/medical/central)
 "tsG" = (
@@ -85717,12 +85850,15 @@
 	},
 /area/cargo/drone_bay)
 "tve" = (
+/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
-	icon_state = "2-8"
+	icon_state = "1-2"
 	},
-/obj/effect/spawner/structure/window/reinforced/tinted,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
-/area/security/courtroom)
+/area/maintenance/department/security)
 "tvk" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -86599,13 +86735,8 @@
 /turf/open/floor/plasteel/rivets,
 /area/cargo/sorting)
 "tFT" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow,
 /turf/open/floor/plating,
 /area/security/checkpoint/engineering)
 "tFW" = (
@@ -88564,6 +88695,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
 	dir = 4
 	},
+/obj/machinery/status_display/evac{
+	pixel_y = -32
+	},
+/obj/item/kirbyplants/random,
+/obj/machinery/light/directional/south,
 /turf/open/floor/plasteel/rivets/edge{
 	dir = 1
 	},
@@ -88628,9 +88764,8 @@
 	},
 /area/hallway/primary/aft)
 "ufh" = (
-/obj/structure/chair/stool/directional/west,
 /obj/effect/turf_decal/siding/wood,
-/obj/effect/landmark/start/assistant,
+/obj/machinery/vending/wardrobe/syndie_wardrobe/civil,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "ufm" = (
@@ -88756,6 +88891,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/command/bridge)
@@ -89472,8 +89610,6 @@
 /turf/open/floor/pod/dark,
 /area/service/chapel/office)
 "uoO" = (
-/obj/structure/table,
-/obj/structure/showcase/machinery/tv,
 /obj/effect/turf_decal/siding/wood{
 	dir = 10
 	},
@@ -89482,6 +89618,7 @@
 	pixel_y = -27
 	},
 /obj/machinery/light/warm/directional/west,
+/obj/machinery/gear_painter,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "uoX" = (
@@ -90999,6 +91136,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/security/holding_cell)
@@ -94303,6 +94443,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/engineering/transit_tube)
 "vqS" = (
@@ -95357,7 +95500,8 @@
 	name = "Shorki";
 	real_name = "Shorki";
 	desc = "A not so ferocious, fang bearing creature that resembles a shark. This one seems a little big for its tank.";
-	gender = "male"
+	gender = "male";
+	AIStatus = 3
 	},
 /turf/open/floor/plating/asteroid,
 /area/commons/dorms)
@@ -95588,6 +95732,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
@@ -96190,6 +96337,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/command)
 "vJX" = (
@@ -96240,14 +96390,14 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "vKr" = (
-/obj/machinery/computer/cloning{
-	dir = 8
-	},
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/machinery/vending/wallmed/directional/east,
+/obj/machinery/computer/cloning{
+	dir = 8
+	},
 /turf/open/floor/plasteel/white/smooth/edge{
 	dir = 8
 	},
@@ -97937,10 +98087,10 @@
 /turf/open/floor/plasteel/dark/smooth/large,
 /area/engineering/atmos)
 "weV" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/checkpoint/supply)
 "weY" = (
@@ -98199,6 +98349,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plating,
 /area/security/prison)
@@ -99354,10 +99507,9 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 6
 	},
-/obj/structure/chair/plastic{
-	dir = 8
-	},
 /obj/structure/extinguisher_cabinet/directional/south,
+/obj/structure/showcase/machinery/tv,
+/obj/structure/table,
 /turf/open/floor/wood/wood_large,
 /area/commons/fitness/recreation/entertainment)
 "wye" = (
@@ -99611,6 +99763,9 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
@@ -102559,6 +102714,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating,
 /area/security/execution/transfer)
 "xjr" = (
@@ -103627,7 +103785,6 @@
 /obj/machinery/door/airlock/mining/glass{
 	name = "Cargo Office"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/supply/general,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
@@ -103641,6 +103798,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/navigate_destination/cargo,
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining,
 /turf/open/floor/plasteel/rivets/large,
 /area/cargo/office)
 "xwc" = (
@@ -103740,6 +103898,9 @@
 /obj/machinery/door/poddoor/preopen{
 	id = "brigwindows";
 	name = "Brig Front Blast Door"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating,
 /area/security/holding_cell)
@@ -105448,6 +105609,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/security/prison)
 "xQf" = (
@@ -106773,6 +106937,9 @@
 	icon_state = "2-8"
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating,
 /area/security/checkpoint/engineering)
 "yfx" = (
@@ -107172,6 +107339,9 @@
 	icon_state = "1-8"
 	},
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "0-1"
+	},
 /turf/open/floor/plating,
 /area/security/checkpoint/supply)
 "ykr" = (
@@ -128267,7 +128437,7 @@ vUl
 nkw
 nwe
 pZk
-sdF
+kni
 mte
 kTH
 fHX
@@ -129849,7 +130019,7 @@ ljI
 tlU
 niX
 eTI
-wfb
+trR
 mLh
 rhj
 rhj
@@ -130106,7 +130276,7 @@ ljI
 hyM
 vKr
 evH
-trR
+wfb
 pWn
 xHv
 bDF
@@ -138346,7 +138516,7 @@ aMQ
 fHk
 qgu
 vLA
-eUk
+tFT
 avj
 hWs
 pXr
@@ -138860,7 +139030,7 @@ aMQ
 tYM
 qgu
 vLA
-poE
+tFT
 avj
 hWs
 trv
@@ -138994,7 +139164,7 @@ qZS
 nzY
 nzY
 nzY
-kqd
+oex
 gFQ
 ohp
 qlo
@@ -139251,7 +139421,7 @@ qmz
 ezv
 ezv
 ezv
-kqd
+oex
 jww
 qdO
 wgP
@@ -139265,7 +139435,7 @@ xZX
 sFF
 dGc
 dGc
-ehz
+sdF
 cds
 oNf
 aqp
@@ -139522,7 +139692,7 @@ xZX
 qDd
 dGc
 iJM
-ehz
+sdF
 nYw
 lrs
 vbo
@@ -139779,7 +139949,7 @@ cua
 dGc
 dGc
 dGc
-ehz
+sdF
 jpT
 oNf
 aqp
@@ -140535,7 +140705,7 @@ ydI
 nzY
 ezv
 ezv
-kqd
+oex
 lMf
 wOY
 dyr
@@ -141327,12 +141497,12 @@ ciZ
 aqp
 wui
 xdV
-tve
+hlm
 hlm
 xdV
 mji
 xdV
-tve
+hlm
 hlm
 sEY
 vnG
@@ -141583,7 +141753,7 @@ eCX
 tZC
 vTT
 awJ
-aLj
+sBe
 oDJ
 pRm
 aVn
@@ -141821,7 +141991,7 @@ dUP
 ezv
 ezv
 ydI
-kqd
+oex
 hXa
 bCV
 vFv
@@ -141840,7 +142010,7 @@ gzE
 oNf
 aqp
 aVO
-oex
+sBe
 fow
 qBi
 oru
@@ -141936,7 +142106,7 @@ dNh
 ufh
 aOP
 fWN
-pxr
+tiV
 irM
 tzl
 mBy
@@ -142097,7 +142267,7 @@ bys
 oNf
 sXw
 aVO
-hlm
+sBe
 fow
 qBi
 oru
@@ -142190,7 +142360,7 @@ pUd
 wRe
 dfF
 oPG
-mVh
+pxr
 aOP
 lPE
 aBC
@@ -142446,7 +142616,7 @@ gom
 dhX
 eSg
 eQj
-ajX
+dNh
 kZZ
 aOP
 wXS
@@ -142700,11 +142870,11 @@ cId
 rsj
 xum
 uCk
-dNh
-dNh
-dwq
 xDF
-spk
+aLj
+dwq
+dNh
+mVh
 aOP
 vEH
 tiV
@@ -142868,7 +143038,7 @@ kvY
 rYN
 aqp
 aVO
-ooD
+sBe
 iLL
 bIx
 oru
@@ -143125,7 +143295,7 @@ kvY
 nal
 hqS
 aVO
-apm
+sBe
 iLL
 goG
 oru
@@ -143410,7 +143580,7 @@ wNL
 ttG
 qeE
 hHS
-lAx
+bfa
 pTH
 xKj
 fzT
@@ -143665,7 +143835,7 @@ ooi
 nPC
 kyO
 jWJ
-dkd
+eUk
 lny
 rpd
 kYs
@@ -143896,7 +144066,7 @@ sIY
 xGp
 aqp
 aVO
-ooD
+sBe
 sHW
 loH
 vGi
@@ -144181,7 +144351,7 @@ wNL
 mZN
 qeE
 xFy
-lAx
+bfa
 ssm
 xKj
 fzT
@@ -144436,7 +144606,7 @@ hsF
 xma
 dbi
 jWJ
-dkd
+eUk
 lny
 rpd
 iYE
@@ -144692,7 +144862,7 @@ dva
 naA
 ukI
 qMQ
-dkd
+eUk
 jlu
 jrE
 bfa
@@ -144952,7 +145122,7 @@ cSN
 sAf
 qeE
 bRe
-lAx
+bfa
 jUx
 xKj
 fzT
@@ -147491,11 +147661,11 @@ cmg
 igZ
 iGy
 ovU
-kcz
-kcz
+tve
+tve
 ewT
-kcz
-kcz
+tve
+tve
 sIK
 rRz
 sAT
@@ -148546,7 +148716,7 @@ dAq
 icQ
 sxW
 tbU
-gdJ
+ajX
 icQ
 vvk
 mop
@@ -149052,7 +149222,7 @@ xIT
 xIT
 xIT
 xIT
-fVk
+spk
 gca
 gca
 xhd
@@ -149309,7 +149479,7 @@ xIT
 xIT
 xIT
 xIT
-fVk
+spk
 gca
 gca
 hKZ
@@ -149566,7 +149736,7 @@ xIT
 xIT
 xIT
 xIT
-fVk
+spk
 gca
 dIm
 hKZ
@@ -149656,7 +149826,7 @@ dld
 cGY
 kpo
 oJn
-ovG
+weV
 kzg
 qbk
 epq
@@ -149823,7 +149993,7 @@ agl
 xIT
 xIT
 xIT
-fVk
+spk
 lxi
 gca
 pbg
@@ -150071,16 +150241,16 @@ iGy
 xIT
 xIT
 qLe
-jya
+apm
 bAK
 xjp
 xIT
-jya
+apm
 iPm
 xjp
 xIT
 xIT
-fVk
+spk
 gca
 kro
 hKZ
@@ -151112,7 +151282,7 @@ gca
 gca
 fvU
 icQ
-dAq
+lAx
 icQ
 gaf
 tbU
