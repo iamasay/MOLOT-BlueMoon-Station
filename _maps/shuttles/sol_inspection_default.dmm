@@ -305,7 +305,7 @@
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 5
 	},
-/obj/machinery/cryopod,
+/obj/structure/bed/roller/stasis,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)
 "gw" = (
@@ -407,19 +407,19 @@
 	dir = 1
 	},
 /obj/structure/table/reinforced,
-/obj/structure/fluff{
-	density = 1;
-	desc = "Материалы служебной проверки.";
-	icon = 'icons/obj/stack_objects.dmi';
-	icon_state = "sheet-gold_3";
-	name = "изъятый золотой запас"
-	},
 /obj/structure/window/reinforced{
 	dir = 2
 	},
 /obj/machinery/door/window{
 	dir = 1;
 	req_access_txt = "20"
+	},
+/obj/item/storage/bag/money/c5000{
+	pixel_x = 6
+	},
+/obj/item/storage/bag/money/c5000,
+/obj/item/storage/bag/money/c5000{
+	pixel_x = -6
 	},
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)
@@ -728,7 +728,7 @@
 /obj/effect/turf_decal/trimline/dark_blue/filled/line{
 	dir = 4
 	},
-/obj/machinery/cryopod,
+/obj/structure/bed/roller/stasis,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)
 "qj" = (
@@ -1077,7 +1077,7 @@
 	dir = 8
 	},
 /obj/structure/mirror/directional/north,
-/obj/structure/sink/directional/south,
+/obj/structure/sink/directional/north,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)
 "BC" = (
@@ -1253,6 +1253,7 @@
 "EJ" = (
 /obj/machinery/light/small/directional/north,
 /obj/structure/table/reinforced,
+/obj/item/storage/secure/briefcase/syndie,
 /turf/open/floor/pod/dark,
 /area/shuttle/sol_inspection)
 "Ff" = (
@@ -1536,10 +1537,7 @@
 	dir = 4
 	},
 /obj/machinery/light/small/directional/east,
-/obj/machinery/computer/cryopod{
-	pixel_x = 32
-	},
-/obj/machinery/cryopod,
+/obj/structure/bed/roller/stasis,
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)
 "LB" = (
@@ -1919,6 +1917,13 @@
 	},
 /obj/structure/window/reinforced{
 	dir = 2
+	},
+/obj/structure/fluff{
+	density = 1;
+	desc = "Материалы служебной проверки.";
+	icon = 'icons/obj/stack_objects.dmi';
+	icon_state = "sheet-gold_3";
+	name = "изъятый золотой запас"
 	},
 /turf/open/floor/plasteel/dark,
 /area/shuttle/sol_inspection)

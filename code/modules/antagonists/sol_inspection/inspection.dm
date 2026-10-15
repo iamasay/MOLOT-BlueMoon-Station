@@ -255,8 +255,8 @@
 	if(!length(spawners))
 		fail_inspection("the vessel has no crew spawners")
 		return
-	priority_announce("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, а также боевые мехи. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
-	print_command_report("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, а также боевые мехи. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", FALSE)
+	priority_announce("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, боевые мехи, а также слиперы с управлением внутри капсулы. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
+	print_command_report("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, боевые мехи, а также слиперы с управлением внутри капсулы. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", FALSE)
 	for(var/obj/effect/mob_spawn/human/sol_inspector/spawner as anything in spawners)
 		spawner.director_source_action = control
 		spawner.director_intensity = control ? control.intensity / length(spawners) : 0
@@ -329,7 +329,6 @@
 		priority_announce("Инспекция Всеобщего Бюро Контроля завершена. Инспекционный шаттл вернулся в сектор ЦК.", "Транс-Солнечная Федерация")
 
 /obj/machinery/computer/shuttle/sol_inspection
-	name = "управление инспекционным шаттлом"
 	desc = "Консоль полётов Всеобщего Бюро Контроля. Возврат на ЦК разрешён через 90 минут после прибытия в сектор станции."
 	shuttleId = "sol_inspection"
 	possible_destinations = "sol_inspection_custom;sol_inspection_home"
@@ -349,7 +348,6 @@
 		. += span_notice("До разрешения вернуться на ЦК: [DisplayTimeText(max(0, team.return_available_at - world.time))].")
 
 /obj/machinery/computer/camera_advanced/shuttle_docker/sol_inspection
-	name = "навигация инспекционного шаттла"
 	desc = "Выбирает безопасную точку посадки в секторе станции."
 	shuttleId = "sol_inspection"
 	shuttlePortId = "sol_inspection_custom"
