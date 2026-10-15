@@ -1,0 +1,4 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - bugfix: Меню спавнеров гостов больше не перестаёт открываться посреди раунда.
