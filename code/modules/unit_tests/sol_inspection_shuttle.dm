@@ -27,7 +27,8 @@
 /datum/unit_test/sol_inspection_shuttle/Run()
 	var/polls_before = SSpolling.total_polls
 	event = new(FALSE)
-	event.start()
+	// start() only asks the crew for a bribe; the vessel is loaded once the demand is refused or expires.
+	event.launch_inspection()
 	TEST_ASSERT_EQUAL(SSpolling.total_polls, polls_before, "Sol inspection must announce capsule availability without starting recruitment polls.")
 	var/datum/team/sol_inspection/team = event.inspection_team
 	TEST_ASSERT(team, "The event must load the inspection vessel at CentCom.")
