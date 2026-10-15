@@ -166,7 +166,7 @@
 		payoff = max(SOL_INSPECTION_DEMAND_MIN, FLOOR(cargo.account_balance * SOL_INSPECTION_DEMAND_CARGO_SHARE, 1000))
 	var/initial_send_time = world.time
 
-	priority_announce("Входящая подпространственная передача данных. Открыт защищенный канал связи на всех коммуникационных консолях.", "Требование Всеобщего Бюро Контроля", SSstation.announcer.get_rand_report_sound(), has_important_message = TRUE)
+	priority_announce("Входящая подпространственная передача данных. Открыт защищенный канал связи на всех коммуникационных консолях.", "Требование Всеобщего Бюро Контроля", SSstation.announcer.get_rand_report_sound(), has_important_message = TRUE, sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
 	demand_msg.title = "Требование об откупе от инспекции"
 	demand_msg.content = "Внимание, экипаж станции. Всеобщее Бюро Контроля Транс-Солнечной Федерации составило предварительный список нарушений и готовит инспекционный рейд. Если вы перечислите [payoff] кредитов на счёт Бюро, инспекция будет отменена и останется в секторе ЦК. Средства списываются с отделения Карго. У вас ровно пять минут с момента получения сообщения."
 	demand_msg.possible_answers = list("Мы заплатим.", "Мы заплатим, но на самом деле нет.")
@@ -178,7 +178,7 @@
 	if(inspection_launched)
 		return
 	if(world.time >= initial_send_time + SOL_INSPECTION_DEMAND_TIME)
-		priority_announce("Слишком поздно. Инспекционный шаттл покидает сектор ЦК.", "Всеобщее Бюро Контроля")
+		priority_announce("Слишком поздно. Инспекционный шаттл уже приближается к [GLOB.station_name].", "Всеобщее Бюро Контроля", sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
 		launch_inspection(demand_msg, TRUE)
 		return
 	if(demand_msg?.answered == 1)
@@ -191,7 +191,7 @@
 		priority_announce("Заявленная сумма не поступила на счёт Бюро. Инспекционный шаттл покидает сектор ЦК.", "Всеобщее Бюро Контроля")
 		launch_inspection(demand_msg, TRUE)
 		return
-	priority_announce("Откуп отклонён. Инспекционный шаттл приближается к [GLOB.station_name].", "Всеобщее Бюро Контроля")
+	priority_announce("Откуп отклонён. Инспекционный шаттл приближается к [GLOB.station_name].", "Всеобщее Бюро Контроля", sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
 	launch_inspection(demand_msg, TRUE)
 
 /// The crew bought the inspection off: no vessel is ever loaded, the money stays on the team account.
@@ -255,7 +255,7 @@
 	if(!length(spawners))
 		fail_inspection("the vessel has no crew spawners")
 		return
-	priority_announce("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, а также боевые мехи. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля")
+	priority_announce("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, а также боевые мехи. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", sound = 'modular_bluemoon/kovac_shitcode/sound/lambda_code.ogg')
 	print_command_report("Внимание, экипаж. Транс-Солнечная Федерация направляет на вашу станцию инспекцию Всеобщего Бюро Контроля. Проверке подлежат БС-майнеры, криптомайнеры, а также боевые мехи. Подготовьте оборудование и обеспечьте инспекторам доступ в помещения.", "Всеобщее Бюро Контроля", FALSE)
 	for(var/obj/effect/mob_spawn/human/sol_inspector/spawner as anything in spawners)
 		spawner.director_source_action = control
