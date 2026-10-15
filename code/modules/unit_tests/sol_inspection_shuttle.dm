@@ -125,11 +125,32 @@
 	TEST_ASSERT_EQUAL(vessel.dir, landing_direction, "The flight must exercise a 90-degree shuttle rotation.")
 	TEST_ASSERT_EQUAL(cryo_console.dir, cryo_console_direction, "The cryo console must retain its readable orientation when the shuttle rotates.")
 	TEST_ASSERT(team.visited_station, "The first station arrival must start the return timer.")
-	TEST_ASSERT(team.return_available_at > world.time + 89 MINUTES, "The return delay must be 90 minutes.")
+	TEST_ASSERT(team.return_available_at > world.time + 29 MINUTES, "The return delay must be 30 minutes.")
+	TEST_ASSERT(team.return_time_left() <= 30 MINUTES && team.return_time_left() > 29 MINUTES, "The console must report the whole mandatory stay.")
 	TEST_ASSERT_EQUAL(vessel.canDock(vessel.home_dock), SHUTTLE_NOT_A_DOCKING_PORT, "Early return must remain blocked.")
 	TEST_ASSERT(!home_destination_visible(flight_console), "The console must hide the CentCom berth during the inspection period.")
+
+	team.account._adjust_money(99999)
+	TEST_ASSERT(!team.return_unlocked(), "A haul just under the threshold must not shorten the stay.")
+	team.account._adjust_money(1)
+	TEST_ASSERT(team.return_unlocked(), "A 100,000 credit haul must buy out the rest of the mandatory stay.")
+	TEST_ASSERT_EQUAL(vessel.canDock(vessel.home_dock), SHUTTLE_CAN_DOCK, "A rich haul must let the vessel dock at CentCom.")
+	TEST_ASSERT(home_destination_visible(flight_console), "The console must offer the CentCom berth as soon as the haul unlocks it.")
+	TEST_ASSERT(flight_console.ui_data()["status_note"] == null, "An unlocked console must not claim to be locked.")
+
+	vessel.check_return()
+	TEST_ASSERT(team.departure_scheduled_at > world.time + 2 MINUTES, "The unlocked vessel must hold its berth for a grace period before leaving.")
+	TEST_ASSERT(isnull(vessel.destination), "Unlocking the berth must not launch the shuttle on the spot.")
+	TEST_ASSERT_EQUAL(vessel.mode, SHUTTLE_IDLE, "The vessel must stay docked through the grace period.")
+
+	// The grace period lapses: the vessel finally leaves for CentCom without anyone touching a console.
+	team.departure_scheduled_at = world.time
+	vessel.check_return()
+	TEST_ASSERT(vessel.destination == vessel.home_dock, "The grace period must lapse into a CentCom departure.")
+	TEST_ASSERT_EQUAL(vessel.mode, SHUTTLE_IGNITING, "The unattended departure must start the engines.")
+	team.account._adjust_money(-100000)
 	team.return_available_at = world.time
-	TEST_ASSERT(home_destination_visible(flight_console), "The console must automatically offer the CentCom berth when the 90-minute lock expires.")
+	TEST_ASSERT(home_destination_visible(flight_console), "The console must automatically offer the CentCom berth when the 30-minute lock expires.")
 	TEST_ASSERT_EQUAL(vessel.initiate_docking(vessel.home_dock), DOCKING_SUCCESS, "The vessel must return once the inspection period expires.")
 	TEST_ASSERT(team.returned_home, "Returning to CentCom must finish the inspection.")
 	TEST_ASSERT_EQUAL(cryo_console.dir, cryo_console_direction, "The cryo console must retain its orientation on the return flight too.")

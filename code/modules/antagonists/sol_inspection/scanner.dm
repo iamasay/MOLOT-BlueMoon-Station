@@ -97,6 +97,7 @@
 
 	print_receipt(user, target, reason, fine_amount)
 	inspector.inspection_team.report_violation("Взыскан штраф [fine_amount] кредитов за [reason]. Объект: [target] в [get_area(target)]. Техника изъята.")
+	inspector.inspection_team.announce_early_return_if_unlocked()
 	confiscate_target(target)
 	to_chat(user, span_notice("Инспекция завершена. Штраф взыскан, техника изъята."))
 	return TRUE
