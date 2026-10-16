@@ -1,0 +1,4 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - qol: упоминание и подсветка [должности] в чатике по радиосвязи
