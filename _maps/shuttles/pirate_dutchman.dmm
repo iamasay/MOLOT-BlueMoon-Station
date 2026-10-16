@@ -171,6 +171,7 @@
 /obj/item/restraints/legcuffs/bola,
 /obj/item/restraints/legcuffs/bola,
 /obj/item/restraints/legcuffs/bola,
+/obj/item/storage/backpack/duffelbag/syndie/inteq/c4,
 /turf/open/floor/wood/airless,
 /area/shuttle/pirate/flying_dutchman)
 "bn" = (
@@ -456,6 +457,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/turf/open/floor/plasteel/airless/solarpanel,
 /area/shuttle/pirate/flying_dutchman)
 "vt" = (
 /obj/structure/chair/comfy/shuttle{
@@ -516,12 +518,13 @@
 	},
 /obj/machinery/light/floor,
 /obj/docking_port/stationary{
+	dheight = 7;
 	dir = 8;
-	dwidth = 11;
-	height = 16;
+	dwidth = 18;
+	height = 21;
 	shuttle_id = "pirateship_home";
 	name = "Deep Space";
-	width = 17
+	width = 25
 	},
 /obj/docking_port/mobile/pirate{
 	dir = 8;
@@ -664,6 +667,7 @@
 	pixel_y = -1
 	},
 /obj/item/storage/bag/money,
+/obj/item/storage/backpack/duffelbag/syndie/inteq/c4,
 /turf/open/floor/wood/airless,
 /area/shuttle/pirate/flying_dutchman)
 "EU" = (
@@ -814,13 +818,6 @@
 	},
 /turf/open/floor/wood/airless,
 /area/shuttle/pirate/flying_dutchman)
-"Qp" = (
-/obj/machinery/power/tracker{
-	dir = 8
-	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/airless/solarpanel,
-/area/shuttle/pirate/flying_dutchman)
 "QM" = (
 /obj/structure/festivus{
 	anchored = 1;
@@ -927,6 +924,7 @@
 /obj/item/melee/chainofcommand/tailwhip/kitty,
 /obj/item/gun/energy/taser/bolestrel/censor,
 /obj/item/melee/transforming/energy/sword/pirate,
+/obj/item/storage/backpack/duffelbag/syndie/inteq/x4,
 /turf/open/floor/carpet/royalblack/airless,
 /area/shuttle/pirate/flying_dutchman)
 "Ys" = (
@@ -1530,7 +1528,7 @@ af
 af
 af
 af
-Qp
+uR
 af
 af
 af
