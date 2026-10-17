@@ -21,7 +21,7 @@
 	layer = BELOW_OPEN_DOOR_LAYER
 	closingLayer = CLOSED_FIREDOOR_LAYER
 	assemblytype = /obj/structure/firelock_frame
-	armor = list(MELEE = 30, BULLET = 30, LASER = 20, ENERGY = 20, BOMB = 10, BIO = 100, RAD = 100, FIRE = 95, ACID = 70)
+	armor_type = /datum/armor/firedoor
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
 	air_tight = TRUE
 	attack_hand_is_action = TRUE
@@ -579,10 +579,13 @@
 		return TRUE
 	// Ручное управление, пусть и силиконовое: автоматика в его решение не лезет.
 	auto_closed = FALSE
+	var/was_closed = density
 	if(density)
 		open()
 	else
 		close()
+	if(density != was_closed)
+		log_remote_use(user, was_closed ? "opened" : "closed", "firelock interface")
 	return TRUE
 
 /obj/machinery/door/firedoor/attack_robot(mob/user)
