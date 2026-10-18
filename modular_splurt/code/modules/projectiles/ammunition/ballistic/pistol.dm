@@ -30,8 +30,8 @@
 
 /obj/item/projectile/bullet/a357/rubber
 	name = ".357 Rubber bullet"
-	damage = 5
-	stamina = 40
+	damage = 15
+	stamina = 90
 	armour_penetration = BULLET_BR0
 	sharpness = SHARP_NONE
 	embedding = null
