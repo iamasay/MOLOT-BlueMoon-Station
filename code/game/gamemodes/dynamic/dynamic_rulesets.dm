@@ -246,7 +246,7 @@
 				effective_weight = max(effective_weight-repeatable_weight_decrease,1)
 	return effective_weight
 
-proc/note_family_fired()
+/datum/dynamic_ruleset/proc/note_family_fired()
 	if(isnull(family))
 		return
 	SSdirector.family_fired_counts[family] = (SSdirector.family_fired_counts[family] || 0) + 1
