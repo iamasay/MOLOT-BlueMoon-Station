@@ -18,6 +18,16 @@
 
 /obj/machinery/computer/shuttle_flight/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
+	//WHITE-STEEL FIX: раньше Initialize/Destroy были объявлены ДВАЖДЫ - здесь и в
+	//shuttle_console.dm. DreamMaker оставляет только последнее объявление (а файл
+	//shuttle_console.dm подключается ВЫШЕ в tgstation.dme), поэтому валидные док-порты
+	//и shuttlePortId не инициализировались. Теперь объявление одно, здесь.
+	valid_docks = params2list(possible_destinations)
+	if(shuttleId)
+		shuttlePortId = "[shuttleId]_custom"
+	else
+		var/static/i = 0
+		shuttlePortId = "unlinked_shuttle_console_[i++]"
 	GLOB.navigation_computers += src
 	whitelist_turfs = typecacheof(whitelist_turfs)
 
@@ -31,6 +41,10 @@
 	if(eyeobj)
 		QDEL_NULL(eyeobj)
 	actions = list()
+	SSorbits.open_orbital_maps -= SStgui.get_all_open_uis(src)
+	if(shuttleObject)
+		shuttleObject.controlling_computer = null
+		shuttleObject = null
 	. = ..()
 	GLOB.navigation_computers -= src
 
@@ -107,6 +121,12 @@
 		user.client.view_size.setTo(view_range)
 
 /obj/machinery/computer/shuttle_flight/remove_eye_control(mob/user)
+	//WHITE-STEEL FIX: обнуляем оператора ДО unset_machine().
+	//Иначе user.unset_machine() зовёт on_unset_machine(), тот видит M == current_user
+	//и снова вызывает remove_eye_control() - бесконечная рекурсия ("Maximum recursion
+	//level reached"), из-за которой консоль зависает, стыковка не завершается,
+	//а сама консоль перестаёт удаляться (qdel loop).
+	current_user = null
 	if(user && !QDELETED(user))
 		for(var/V in actions)
 			var/datum/action/A = V
@@ -129,7 +149,6 @@
 		if(user.remote_control == eyeobj)
 			user.remote_control = null
 		user.unset_machine()
-	current_user = null
 	playsound(src, 'sound/machines/terminal_off.ogg', 25, FALSE)
 	if(user && !QDELETED(user) && user.client && eyeobj)
 		var/mob/camera/aiEye/remote/supercruise_docker/the_eye = eyeobj
