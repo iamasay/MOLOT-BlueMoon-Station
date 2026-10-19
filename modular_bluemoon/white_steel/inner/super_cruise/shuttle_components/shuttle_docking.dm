@@ -3,7 +3,10 @@
 	var/mob/camera/aiEye/remote/eyeobj
 	var/mob/living/current_user = null
 	var/list/actions = list()
-	var/datum/action/innate/camera_off/off_action = new
+	//WHITE-STEEL FIX: кастомный off-экшен - базовый /datum/action/innate/camera_off
+	//жёстко кастит origin к /obj/machinery/computer/camera_advanced, а наша консоль
+	///- /shuttle_flight к нему не относится, поэтому кнопка "отключиться" падала бы в рантайм.
+	var/datum/action/innate/camera_off/supercruise/off_action = new
 	var/datum/action/innate/supercruise_docker_rotate/rotate_action = new
 	var/datum/action/innate/supercruise_docker_place/place_action = new
 	var/shuttlePortId = ""
@@ -40,7 +43,8 @@
 		remove_eye_control(current_user)
 	if(eyeobj)
 		QDEL_NULL(eyeobj)
-	actions = list()
+	QDEL_LIST(actions)
+	current_user = null
 	SSorbits.open_orbital_maps -= SStgui.get_all_open_uis(src)
 	if(shuttleObject)
 		shuttleObject.controlling_computer = null
@@ -102,7 +106,15 @@
 	current_user = user
 	eyeobj.eye_user = user
 	eyeobj.name = "Camera Eye ([user.name])"
-	user.set_machine(src)
+	//WHITE-STEEL FIX: set_machine() сам зовёт unset_machine(), если машина уже была этой
+	//консолью, а тот - on_unset_machine() -> remove_eye_control(). Так как current_user
+	//выставлен чуть выше, remove_eye_control() снимал ТОЛЬКО ЧТО выданные экшены и
+	//обнулял оператора: игрок оставался в камере без единой кнопки (в том числе
+	//"отключиться") и не мог выйти, а место стыковки не ставилось, т.к.
+	//placeLandingSpot() выходит по `!current_user`. Взаимодействие с консолью
+	//(INTERACT_MACHINE_SET_MACHINE) уже сделало machine == src - не дёргаем повторно.
+	if(user.machine != src)
+		user.set_machine(src)
 	user.remote_control = eyeobj
 	user.reset_perspective(eyeobj)
 	eyeobj.setLoc(eyeobj.loc)
@@ -386,6 +398,23 @@
 	var/mob/camera/aiEye/remote/remote_eye = C.remote_control
 	var/obj/machinery/computer/shuttle_flight/origin = remote_eye.origin
 	origin.placeLandingSpot(target)
+
+//WHITE-STEEL FIX: рабочая кнопка "отключиться от камер" для консоли /shuttle_flight.
+//Наследник базового camera_off, но без каста origin к /camera_advanced (наша консоль -
+///obj/machinery/computer/shuttle_flight, а не камера-адвансед), иначе Activate() падал.
+/datum/action/innate/camera_off/supercruise
+	name = "Отключиться от камер"
+
+/datum/action/innate/camera_off/supercruise/Activate()
+	if(QDELETED(target) || !isliving(target))
+		return
+	var/mob/living/C = target
+	var/mob/camera/aiEye/remote/supercruise_docker/eye = C.remote_control
+	if(!istype(eye))
+		return
+	var/obj/machinery/computer/shuttle_flight/console = eye.origin
+	if(istype(console))
+		console.remove_eye_control(C)
 
 //WHITE-STEEL PORT: уникальный путь - нельзя переиспользовать /datum/action/innate/camera_jump/shuttle_docker,
 //иначе мы затирали рабочее действие базовой консоли навигации (navigation_computer.dm).
