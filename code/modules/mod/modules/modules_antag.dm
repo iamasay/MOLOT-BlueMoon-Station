@@ -67,22 +67,18 @@
 	Позволяет увеличить размер встроенного рюкзака до уровня БС сумки."
 	icon_state = "storage_updater"
 	incompatible_modules = list(/obj/item/mod/module/storage_upgrader)
-	var/datum/component/storage/storage_module_datum
-	var/old_max_volume
 
 /obj/item/mod/module/storage_upgrader/on_install()
 	. = ..()
-	storage_module_datum = mod.GetComponent(/datum/component/storage)
-	if(!storage_module_datum)
-		return
-	old_max_volume = storage_module_datum.max_volume
-	storage_module_datum.max_volume = STORAGE_VOLUME_MOD_UPLINK_UPDATER
+	update_storage()
 
 /obj/item/mod/module/storage_upgrader/on_uninstall()
 	. = ..()
-	if(!storage_module_datum || !old_max_volume)
-		return
-	storage_module_datum.max_volume = old_max_volume
+	update_storage()
+
+/obj/item/mod/module/storage_upgrader/proc/update_storage()
+	for(var/obj/item/mod/module/storage/storage in mod.modules)
+		storage.update_capacity()
 
 /obj/item/mod/module/power_kick
 	name = "MOD PowerKick Module"
@@ -190,3 +186,80 @@
 	desc = ""
 	icon_state = "jump_jet_inteq"
 	incompatible_modules = list()
+
+/obj/item/mod/module/launch_kick
+	name = "MOD launch kick module"
+	desc = "Усиленные приводы разгоняют носителя для удара ногой с прыжка."
+	icon_state = "power_kick"
+	module_type = MODULE_ACTIVE
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
+	cooldown_time = 5 SECONDS
+	required_modpart_index = MOD_PART_FEET
+	have_shortcut_activation = TRUE
+	incompatible_modules = list(/obj/item/mod/module/launch_kick)
+	var/mob/living/kicker
+	var/matrix/initial_transform
+	var/initial_height
+	var/damage = MOD_KICK_DAMAGE
+	var/wounding_power = MOD_KICK_WOUND_BONUS
+	var/knockdown_time = 2 SECONDS
+
+/obj/item/mod/module/launch_kick/on_select_use(atom/target)
+	if(kicker || !..())
+		return FALSE
+	kicker = mod.wearer
+	initial_height = kicker.pixel_z
+	initial_transform = matrix(kicker.transform)
+	RegisterSignal(kicker, COMSIG_PARENT_QDELETING, PROC_REF(on_kicker_deleted))
+	playsound(mod, 'sound/items/modsuit/loader_charge.ogg', MOD_KICK_VOLUME, TRUE)
+	animate(kicker, 0.3 SECONDS, pixel_z = initial_height + MOD_KICK_HEIGHT, easing = SINE_EASING | EASE_OUT)
+	if(!do_after(kicker, 1 SECONDS, target = mod))
+		finish_kick()
+		return FALSE
+	if(!kicker || QDELETED(target) || !active || mod?.wearer != kicker || !check_required_modpart() || !drain_power(use_power_cost))
+		finish_kick()
+		return FALSE
+	playsound(mod, 'sound/items/modsuit/loader_launch.ogg', MOD_KICK_VOLUME, TRUE)
+	kicker.transform = matrix(initial_transform).Turn(Get_Angle(kicker, target) + MOD_KICK_TURN)
+	RegisterSignal(kicker, COMSIG_MOVABLE_IMPACT, PROC_REF(on_impact))
+	if(!kicker.throw_at(target, range = MOD_KICK_RANGE, speed = MOD_KICK_SPEED, thrower = kicker, spin = FALSE, gentle = TRUE, callback = CALLBACK(src, PROC_REF(finish_kick))))
+		finish_kick()
+	return TRUE
+
+/obj/item/mod/module/launch_kick/proc/on_impact(mob/living/source, atom/target, datum/thrownthing/thrownthing)
+	SIGNAL_HANDLER
+	UnregisterSignal(source, COMSIG_MOVABLE_IMPACT)
+	if(!active || mod?.wearer != source)
+		return
+	if(isliving(target))
+		var/mob/living/victim = target
+		victim.apply_damage(damage, BRUTE, source.zone_selected, wound_bonus = wounding_power)
+		victim.Knockdown(knockdown_time)
+	else if(isobj(target))
+		var/obj/obstacle = target
+		obstacle.take_damage(damage, BRUTE, MELEE)
+	source.do_attack_animation(target, ATTACK_EFFECT_SMASH)
+
+/obj/item/mod/module/launch_kick/proc/on_kicker_deleted(datum/source)
+	SIGNAL_HANDLER
+	finish_kick()
+
+/obj/item/mod/module/launch_kick/proc/finish_kick()
+	if(kicker)
+		UnregisterSignal(kicker, list(COMSIG_MOVABLE_IMPACT, COMSIG_PARENT_QDELETING))
+		kicker.transform = initial_transform
+		kicker.pixel_z = initial_height
+	kicker = null
+	initial_transform = null
+
+/obj/item/mod/module/launch_kick/on_deactivation()
+	finish_kick()
+	return ..()
+
+/obj/item/mod/module/launch_kick/on_uninstall(deleting, user)
+	finish_kick()
+	return ..()
+
+/obj/item/mod/module/launch_kick/Destroy()
+	finish_kick()
+	return ..()

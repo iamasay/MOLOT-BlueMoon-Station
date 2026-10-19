@@ -9,6 +9,13 @@
 /datum/supply_pack/misc
 	group = "Miscellaneous Supplies"
 
+/datum/supply_pack/misc/modsuit
+	name = "Стандартный MOD"
+	desc = "Один стандартный MOD с батареей и установленными штатными модулями."
+	cost = MOD_CARGO_COST
+	contains = list(/obj/item/mod/control/pre_equipped/standard)
+	crate_name = "стандартный MOD"
+
 //////////////////////////////////////////////////////////////////////////////
 //////////////////// Paperwork and Writing Supplies //////////////////////////
 //////////////////////////////////////////////////////////////////////////////

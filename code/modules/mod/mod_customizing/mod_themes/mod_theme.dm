@@ -58,6 +58,7 @@
 		заставляя его требовать больше энергии взамен."
 	default_skin = "mining"
 	armor_type = /datum/armor/modsuit_mining
+	inbuilt_modules = list(/obj/item/mod/module/ash_accretion, /obj/item/mod/module/sphere_transform)
 	skins = list(
 		"mining" = MOD_PRESET_DEFAULT,
 		"asteroid" = MOD_PRESET_DEFAULT,
@@ -217,6 +218,7 @@
 	)
 
 /datum/mod_theme/antagonist/syndicate
+	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate, /obj/item/mod/module/night, /obj/item/mod/module/hearing_protection)
 	name = "syndicate"
 	desc = "Костюм, разработанный Gorlex Marauders, с бронёй, запрещённой в большей части Spinward Stellar."
 	extended_desc = "Продвинутый боевой костюм в зловещей багрово-красной цветовой гамме, произведённый и изготовленный \
@@ -238,6 +240,7 @@
 	)
 
 /datum/mod_theme/antagonist/elite
+	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate, /obj/item/mod/module/night, /obj/item/mod/module/hearing_protection)
 	name = "elite"
 	desc = "Элитный костюм, модернизированный Cybersun Industries, с улучшенными показателями брони."
 	extended_desc = "Эволюция синдикатного костюма, отличающийся более массивной конструкцией и матовой чёрной цветовой гаммой, \
@@ -293,6 +296,22 @@
 		"inquisitory" = MOD_PRESET_DEFAULT,
 		"marine"      = MOD_PRESET_DEFAULT,
 	)
+
+/datum/mod_theme/centcom/responsory/marine
+	name = "marine"
+	default_skin = "marine"
+
+/datum/mod_theme/centcom/responsory/traitor
+	name = "dark paladin"
+	desc = "Захваченный Синдикатом скоростной костюм Nanotrasen, приспособленный для саботажа и штурма."
+	default_skin = "inquisitory"
+	armor_type = /datum/armor/syndicate_elite_and_inteq
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	complexity_max = ANTAG_MAX_COMPLEXITY
+	ui_theme = "syndicate"
+	hardlight_color = MOD_SYNDICATE_COLOR
+	allow_hot_swap = TRUE
+	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate)
 
 /datum/mod_theme/centcom/apocryphal
 	name = "apocryphal"
@@ -385,6 +404,7 @@
 	)
 
 /datum/mod_theme/antagonist/infiltrator
+	inbuilt_modules = list(/obj/item/mod/module/night, /obj/item/mod/module/hearing_protection, /obj/item/mod/module/demoralizer)
 	name = "Infiltrator"
 	desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. "
 	extended_desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
@@ -419,6 +439,14 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	ui_theme = "ninja"
 	hardlight_color = MOD_NINJA_COLOR
+	inbuilt_modules = list(
+		/obj/item/mod/module/welding/camera_vision,
+		/obj/item/mod/module/hacker,
+		/obj/item/mod/module/weapon_recall,
+		/obj/item/mod/module/adrenaline_boost,
+		/obj/item/mod/module/energy_net,
+		/obj/item/mod/module/hearing_protection,
+	)
 	skins = list(
 		"ninja" = MOD_PRESET_DEFAULT,
 	)
@@ -456,3 +484,27 @@
 		//НЕ защищает от космоса. Он НЕ герметичный. Это просто рама для тягания тяжестей.
 		"loader" = MOD_PRESET_WITHOUT_PRESSURE_PROTECT_NO_JUMSUIT_HIDE,
 	)
+
+/datum/mod_theme/chrono
+	name = "Chrono"
+	desc = "Костюм для перемещения между временными линиями и исправления их хода."
+	extended_desc = "Технология вне времени, защищающая носителя при работе с временными парадоксами."
+	default_skin = "chrono"
+	armor_type = /datum/armor/mod_chrono
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
+	complexity_max = MOD_CHRONO_COMPLEXITY
+	inbuilt_modules = list(/obj/item/mod/module/hearing_protection)
+	allowed = list(/obj/item/restraints/handcuffs)
+	skins = list("chrono" = MOD_PRESET_DEFAULT)
+
+/datum/armor/mod_chrono
+	melee = MOD_CHRONO_ARMOR
+	bullet = MOD_CHRONO_ARMOR
+	laser = MOD_CHRONO_ARMOR
+	energy = MOD_CHRONO_ARMOR
+	bomb = MOD_CHRONO_BOMB_ARMOR
+	bio = MOD_CHRONO_HAZARD_ARMOR
+	fire = MOD_CHRONO_HAZARD_ARMOR
+	acid = MOD_CHRONO_HAZARD_ARMOR
+	wound = MOD_CHRONO_WOUND_ARMOR

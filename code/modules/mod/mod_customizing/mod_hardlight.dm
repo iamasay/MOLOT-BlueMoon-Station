@@ -1,9 +1,11 @@
 /obj/item/mod/control/proc/update_hardlight()
-	if(!is_active() || !all_parts_deployed())
+	if(!wearer || !hardlight_effect)
 		return
 	wearer.apply_bodypart_overlays(need_to_conseal, update = TRUE, effect_datum = hardlight_effect)
 
 /obj/item/mod/control/proc/remove_hardlight(index, need_update = TRUE)
+	if(!wearer)
+		return FALSE
 	if(isnull(index))
 		wearer.clear_bodypart_overlays(update = need_update)
 		return TRUE
@@ -19,8 +21,10 @@
 	var/modsuit_color
 
 /datum/action/item_action/mod/hardlight_deploy/chooce_color/Trigger(trigger_flags)
+	if(!..() || !mod?.wearer)
+		return FALSE
 	var/chosen_colour = input(mod.wearer, "", "Choose Color", modsuit_color) as color|null
-	if(!chosen_colour)
+	if(!chosen_colour || QDELETED(mod) || mod.wearer != owner)
 		return
 
 	modsuit_color = chosen_colour
@@ -88,20 +92,25 @@
 	if(name in mod.need_to_conseal)
 		return
 	mod.need_to_conseal += name
-	if(!mod.is_active())
-		mod.wearer.balloon_alert(mod.wearer, "Защитный слой активируется вместе с костюмом!")
-		return
 	if(need_update)
 		mod.update_hardlight()
 
 /datum/action/item_action/mod/hardlight_deploy/Trigger(trigger_flags)
-	. = ..()
+	if(!..() || !mod?.wearer)
+		return FALSE
 	if(CHECK_BITFIELD(trigger_flags, TRIGGER_RIGHT_CLICK))
 		toggle_all()
 		return
 	var/choice = show_radial_menu(mod.wearer, mod.wearer, get_radial_menu_choices(),)
 
+	if(!choice || QDELETED(mod) || mod.wearer != owner)
+		return FALSE
 	if(choice in mod.need_to_conseal)
 		return conseal_hardlight(choice)
 
 	deploy_hardlight(choice)
+
+/datum/action/item_action/mod/hardlight_deploy/Destroy()
+	standart_overlay_choices = null
+	genital_overlay_choices = null
+	return ..()

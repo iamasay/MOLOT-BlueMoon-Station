@@ -71,3 +71,29 @@
 	stock_max = 6
 	availability_prob = 100
 
+/datum/blackmarket_item/misc/mod_tanner
+	name = "MOD Tanning Module"
+	desc = "Для тех, кто хочет загорать, не покидая рабочего места."
+	item = /obj/item/mod/module/tanner
+	price_min = MOD_MARKET_MIN_PRICE
+	price_max = MOD_MARKET_MAX_PRICE
+	stock_max = MOD_MARKET_STOCK
+	availability_prob = MOD_MARKET_TANNER_CHANCE
+
+/datum/blackmarket_item/misc/mod_hat_stabilizer
+	name = "MOD Hat Stabilizer Module"
+	desc = "Крепление для любимой шляпы на шлеме MOD. Шляпа продаётся отдельно."
+	item = /obj/item/mod/module/hat_stabilizer
+	price_min = MOD_MARKET_MIN_PRICE
+	price_max = MOD_MARKET_MAX_PRICE
+	stock_max = MOD_MARKET_STOCK
+	availability_prob = MOD_MARKET_HAT_CHANCE
+
+/datum/blackmarket_item/misc/mod_shove_blocker
+	name = "MOD Bulwark Module"
+	desc = "Снять этот модуль с охранного MOD оказалось непросто."
+	item = /obj/item/mod/module/shove_blocker
+	price_min = MOD_MARKET_BULWARK_MIN_PRICE
+	price_max = MOD_MARKET_BULWARK_MAX_PRICE
+	stock_max = 1
+	availability_prob = MOD_MARKET_BULWARK_CHANCE

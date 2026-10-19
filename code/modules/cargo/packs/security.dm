@@ -12,6 +12,13 @@
 	crate_type = /obj/structure/closet/crate/secure/gear
 	can_private_buy = FALSE
 
+/datum/supply_pack/security/modsuit
+	name = "Охранный MOD"
+	desc = "Один охранный MOD с батареей и установленными штатными модулями."
+	cost = MOD_CARGO_COST
+	contains = list(/obj/item/mod/control/pre_equipped/security)
+	crate_name = "охранный MOD"
+
 /datum/supply_pack/security/ammo
 	name = "Ammo Crate - General Purpose"
 	desc = "Содержит два магазина на 20 патронов для автоматической винтовки WT550, три коробки картечи, три коробки резиновых патронов и специальные скорострельные патроны 38 калибра. Для открытия требуется доступ СБ."

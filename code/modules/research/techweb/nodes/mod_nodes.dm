@@ -13,7 +13,11 @@
 		"mod_plating_standard",
 		"mod_paint_kit",
 		"mod_storage",
+		"mod_plasma",
+		"modlink_scryer",
 		"mod_longfall",
+		"mod_thermal_regulator",
+		"mod_sign_radio",
 		"mod_welding",
 		"mod_mouthhole",
 		"mod_flashlight",
@@ -30,11 +34,14 @@
 		"mod_plating_cargo_worker",
 		"mod_visor_diaghud",
 		"mod_gps",
+		"mod_mister_janitor",
+		"mod_safety",
 		"mod_reagent_scanner",
 		"mod_clamp",
 		"mod_drill",
 		"mod_orebag",
 		"mod_storage_extended",
+		"mod_circuit_adapter",
 		"mod_armor",
 		"pai_module",
 	)
@@ -83,6 +90,9 @@
 		"mod_plating_medical",
 		"mod_visor_medhud",
 		"mod_health_analyzer",
+		"mod_injector",
+		"mod_organizer",
+		"mod_patienttransport",
 		"mod_quick_carry",
 		"mod_dna_lock",
 	)
@@ -96,6 +106,8 @@
 	prereq_ids = list("mod_medical", "adv_biotech")
 	design_ids = list(
 		"mod_defib",
+		"mod_threadripper",
+		"mod_statusreadout",
 		"mod_surgicalprocessor",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
@@ -112,6 +124,11 @@
 		"mod_stealth",
 		"mod_mag_harness",
 		"mod_holster",
+		"mod_pathfinder",
+		"mod_sonar",
+		"mod_projectile_dampener",
+		"mod_criminalcapture",
+		"mod_mirage_grenade",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -124,6 +141,7 @@
 	design_ids = list(
 		"mod_plating_cosmohonk",
 		"mod_bikehorn",
+		"mod_waddle",
 		"mod_microwave_beam",
 		"mod_bananagen",
 	)
@@ -138,6 +156,7 @@
 	design_ids = list(
 		"mod_antigrav",
 		"mod_teleporter",
+		"mod_kinesis",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 

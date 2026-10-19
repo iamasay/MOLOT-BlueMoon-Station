@@ -365,7 +365,7 @@
 
 /datum/antagonist/ert/marine/engineer
 	name = "Marine Engineer"
-	outfit = /datum/outfit/ert/engineer/alert
+	outfit = /datum/outfit/ert/engineer/alert/marine
 	role = "Engineer"
 
 /datum/antagonist/ert/marine/medic

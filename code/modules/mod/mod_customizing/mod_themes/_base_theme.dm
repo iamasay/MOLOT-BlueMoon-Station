@@ -54,6 +54,7 @@
 	var/need_block_storage_when_not_active = FALSE
 	var/compatible_with_armor_modules = TRUE
 	var/overwrite_desc = FALSE
+	var/allow_hot_swap = FALSE
 	/// List of skins with their appropriate clothing flags.
 	var/list/skins = list(
 		"standard" = MOD_PRESET_DEFAULT,
@@ -72,11 +73,10 @@
 		piece.permeability_coefficient = permeability_coefficient
 		piece.siemens_coefficient = siemens_coefficient
 
-	var/obj/item/clothing/mod_part/suit/chestplate = modsuit.get_chestplate()
 	modsuit.max_armor_module_count = max_armor_module_count
 	modsuit.slowdown_inactive = slowdown_inactive
 	modsuit.slowdown_active = slowdown_active
-	chestplate.allowed += allowed
+	modsuit.update_storage_allowed()
 
 /datum/mod_theme/proc/apply_theme_skin(obj/item/mod/control/modsuit, new_skin)
 	modsuit.skin = new_skin || default_skin
@@ -145,6 +145,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 
 /datum/mod_theme/antagonist
+	allow_hot_swap = TRUE
 	complexity_max = ANTAG_MAX_COMPLEXITY
 	siemens_coefficient = 0
 	allowed = ALLOWED_ANTAG

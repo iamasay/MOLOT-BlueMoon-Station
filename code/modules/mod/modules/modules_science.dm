@@ -72,11 +72,37 @@
 	accepted_anomalies = list(/obj/item/assembly/signaler/anomaly/grav)
 	mod_module_flags = MOD_MODULE_SCIENCE // BLUEMOON ADD
 
-/obj/item/mod/module/proc/check_lying_down()
-	if(mod.wearer.body_position == LYING_DOWN)
-		on_deactivation()
+/obj/item/mod/module/anomaly_locked/antigrav
+	var/resume_on_standing = FALSE
 
-/obj/item/mod/module/antigrav/on_select(atom/target)
+/obj/item/mod/module/anomaly_locked/antigrav/on_equip()
+	. = ..()
+	RegisterSignal(mod.wearer, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(check_lying_down))
+
+/obj/item/mod/module/anomaly_locked/antigrav/on_unequip()
+	UnregisterSignal(mod.wearer, COMSIG_LIVING_SET_BODY_POSITION)
+	resume_on_standing = FALSE
+	if(active)
+		on_deactivation()
+	return ..()
+
+/obj/item/mod/module/anomaly_locked/antigrav/on_suit_deactivation()
+	resume_on_standing = FALSE
+	return ..()
+
+/obj/item/mod/module/anomaly_locked/antigrav/proc/check_lying_down(datum/source)
+	SIGNAL_HANDLER
+	if(mod.wearer.body_position == LYING_DOWN)
+		if(active)
+			on_deactivation()
+			resume_on_standing = TRUE
+		return
+	if(resume_on_standing && mod.is_active() && !mod.is_activating())
+		on_activation()
+
+/obj/item/mod/module/anomaly_locked/antigrav/on_select(atom/target)
+	if(!mod?.wearer)
+		return FALSE
 	if(mod.wearer.body_position == LYING_DOWN)
 		balloon_alert(mod.wearer, "Модуль сбоит!")
 		to_chat(mod.wearer, span_boldwarning("Антиграв нельзя использовать лёжа!"))
@@ -84,10 +110,12 @@
 	. = ..()
 
 /obj/item/mod/module/anomaly_locked/antigrav/on_activation()
+	if(!mod?.wearer || mod.wearer.body_position == LYING_DOWN)
+		return FALSE
 	. = ..()
 	if(!.)
 		return
-	RegisterSignal(mod.wearer, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(check_lying_down))
+	resume_on_standing = FALSE
 	if(mod.wearer.has_gravity())
 		new /obj/effect/temp_visual/mook_dust(get_turf(mod))
 	mod.wearer.AddElement(/datum/element/forced_gravity, 0)
@@ -98,7 +126,7 @@
 	. = ..()
 	if(!.)
 		return
-	UnregisterSignal(mod.wearer, COMSIG_LIVING_SET_BODY_POSITION)
+	resume_on_standing = FALSE
 	mod.wearer.RemoveElement(/datum/element/forced_gravity, 0)
 	mod.wearer.refresh_gravity()
 	if(deleting)
@@ -122,31 +150,65 @@
 	accepted_anomalies = list(/obj/item/assembly/signaler/anomaly/bluespace)
 	/// Time it takes to teleport
 	var/teleport_time = 3 SECONDS
+	var/mob/living/carbon/human/teleporting_user
+	var/matrix/teleport_transform
+	var/teleport_color
 	mod_module_flags = MOD_MODULE_SCIENCE // BLUEMOON ADD
 	have_shortcut_activation = TRUE
 
 /obj/item/mod/module/anomaly_locked/teleporter/on_select_use(atom/target)
-	. = ..()
-	if(!.)
-		return
+	if(teleporting_user || !..())
+		return FALSE
 	var/turf/open/target_turf = get_turf(target)
 	if(!istype(target_turf) || is_blocked_turf(target_turf) || !(target_turf in view(mod.wearer)))
 		mod.balloon_alert(mod.wearer, "неверная цель!")
-		return
-	mod.balloon_alert(mod.wearer, "телепортируем...")
-	var/matrix/pre_matrix = matrix()
-	pre_matrix.Scale(4, 0.25)
-	var/matrix/post_matrix = matrix()
-	post_matrix.Scale(0.25, 4)
-	animate(mod.wearer, teleport_time, color = COLOR_CYAN, transform = pre_matrix.Multiply(mod.wearer.transform), easing = SINE_EASING|EASE_OUT)
-	if(!do_after(mod.wearer, teleport_time, target = mod))
-		mod.balloon_alert(mod.wearer, "прервано!")
-		animate(mod.wearer, teleport_time*0.1, color = null, transform = post_matrix.Multiply(mod.wearer.transform), easing = SINE_EASING|EASE_IN)
-		return
-	animate(mod.wearer, teleport_time*0.1, color = null, transform = post_matrix.Multiply(mod.wearer.transform), easing = SINE_EASING|EASE_IN)
-	if(!do_teleport(mod.wearer, target_turf, asoundin = 'sound/effects/phasein.ogg'))
-		return
+		return FALSE
+	var/mob/living/carbon/human/user = mod.wearer
+	mod.balloon_alert(user, "телепортируем...")
+	begin_teleport(user)
+	var/ready = do_after(user, teleport_time, target = mod)
+	if(teleporting_user != user)
+		return FALSE
+	end_teleport()
+	if(!ready || !active || mod?.wearer != user || !check_required_modpart() || QDELETED(core))
+		return FALSE
+	if(!check_power(use_power_cost) || is_blocked_turf(target_turf) || !(target_turf in view(user)))
+		return FALSE
+	if(!do_teleport(user, target_turf, asoundin = 'sound/effects/phasein.ogg'))
+		return FALSE
 	drain_power(use_power_cost)
+	return TRUE
+
+/obj/item/mod/module/anomaly_locked/teleporter/proc/begin_teleport(mob/living/carbon/human/user)
+	teleporting_user = user
+	teleport_transform = matrix(user.transform)
+	teleport_color = user.color
+	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_teleport_user_deleted))
+	var/matrix/stretch = matrix(teleport_transform)
+	stretch.Scale(MOD_TELEPORT_STRETCH, 1 / MOD_TELEPORT_STRETCH)
+	animate(user, teleport_time, color = COLOR_CYAN, transform = stretch, easing = SINE_EASING | EASE_OUT)
+
+/obj/item/mod/module/anomaly_locked/teleporter/proc/end_teleport()
+	if(teleporting_user)
+		UnregisterSignal(teleporting_user, COMSIG_PARENT_QDELETING)
+		animate(teleporting_user)
+		teleporting_user.transform = teleport_transform
+		teleporting_user.color = teleport_color
+	teleporting_user = null
+	teleport_transform = null
+	teleport_color = null
+
+/obj/item/mod/module/anomaly_locked/teleporter/proc/on_teleport_user_deleted(datum/source)
+	SIGNAL_HANDLER
+	end_teleport()
+
+/obj/item/mod/module/anomaly_locked/teleporter/on_deactivation(display_message = TRUE, deleting = FALSE)
+	end_teleport()
+	return ..()
+
+/obj/item/mod/module/anomaly_locked/teleporter/Destroy()
+	end_teleport()
+	return ..()
 
 /obj/item/mod/module/anomaly_locked/teleporter/prebuilt
 	prebuilt = TRUE

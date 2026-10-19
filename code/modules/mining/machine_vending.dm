@@ -43,6 +43,7 @@
 		new /datum/data/mining_equipment("Lazarus Injector",			/obj/item/lazarus_injector,											1000,			"Medical & Rescue"),
 		new /datum/data/mining_equipment("Silver Pickaxe",				/obj/item/pickaxe/silver,											1000,			"Mining Tools"),
 		new /datum/data/mining_equipment("Mining Conscription Kit",		/obj/item/storage/backpack/duffelbag/mining/conscript,				1000,			"Mining Gear"),
+		new /datum/data/mining_equipment("Шахтёрский MOD",				/obj/item/mod/control/pre_equipped/mining,							MOD_MINING_POINT_COST,	"Mining Gear"),
 		new /datum/data/mining_equipment("Jetpack Upgrade",				/obj/item/tank/jetpack/suit,										2000),
 		new /datum/data/mining_equipment("Space Cash",					/obj/item/stack/spacecash/c1000,									2000),
 		new /datum/data/mining_equipment("Diamond Pickaxe",				/obj/item/pickaxe/diamond,											2000,			"Mining Tools"),

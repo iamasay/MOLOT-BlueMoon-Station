@@ -60,7 +60,6 @@
 	if(new_location == null)//чтобы не путать со штатным свертыванием
 		return
 	INVOKE_ASYNC(mod, TYPE_PROC_REF(/obj/item/mod/control, conceal), null, item, TRUE)
-	INVOKE_ASYNC(mod, TYPE_PROC_REF(/obj/item/mod/control, remove_hardlight))
 
 /obj/item/clothing/mod_part/proc/link_modpart_with_module(module)
 	if(istype(module, /obj/item/mod/module) && (module in linked_modules))
@@ -116,8 +115,10 @@
 	for(var/type in overslot_blacklist)
 		if(istype(item, type))
 			return FALSE
+	if(!mod.wearer.transferItemToLoc(item, src, force = TRUE))
+		return FALSE
 	overslot = item
-	return mod.wearer.transferItemToLoc(overslot, item, force = TRUE)
+	return TRUE
 
 /obj/item/clothing/mod_part/proc/use_clothing_features_through_overslot()
 	return

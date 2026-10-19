@@ -19,6 +19,10 @@
 	var/powergen_cooldown_time = 5 SECONDS
 
 //MARK: Базовые проки
+/obj/item/mod/module/power/Destroy()
+	mod_cell = null
+	return ..()
+
 /obj/item/mod/module/power/examine(mob/user)
 	. = ..()
 	if(use_fuel)
@@ -139,9 +143,7 @@
 /obj/item/mod/module/power/proc/can_generate_power()
 	if(QDELETED(mod) || !mod.wearer || !COOLDOWN_FINISHED(src, power_generation_cooldown))
 		return FALSE
-	//пробуем найти батарейку, если она вдруг пропала(замена, вставка модуля в мод без батарейки)
-	if(!mod_cell)
-		mod_cell = mod.get_cell()
+	mod_cell = mod.get_cell()
 	if(!mod_cell)
 		return FALSE
 
@@ -179,6 +181,8 @@
 
 	to_chat(mod.wearer, span_nicegreen("Модуль [name] перезарядил батарею в [mod.name], её новый заряд составляет: [mod_cell.percent()]%"))
 
+	if(use_fuel)
+		to_chat(mod.wearer, span_notice("Осталось топлива: [current_fuel_amount]/[max_fuel_amount]."))
 	if(!current_fuel_amount && use_fuel)
 		//playsound
 		to_chat(mod.wearer, span_alertwarning("Модуль [name] с тихим жужжанием отключился, из-за недостатка топлива."))

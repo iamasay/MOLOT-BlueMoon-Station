@@ -16,18 +16,14 @@
 
 /obj/item/mod/module/backpack_harness/on_install()
 	. = ..()
-	var/obj/item/clothing/mod_part/suit/chestplate = mod.get_chestplate()
-	chestplate.allowed += allowed_items
+	mod.update_storage_allowed()
 
 /obj/item/mod/module/backpack_harness/on_uninstall()
 	. = ..()
-	var/obj/item/clothing/mod_part/suit/chestplate = mod.get_chestplate()
-	var/mob/living/carbon/human/wearer = mod.wearer
-	var/obj/item/item_to_drop
-	if(/obj/item/storage/backpack in chestplate.allowed) //тут надо будет заменить backpack на проверку по list/allowed_items, я просто не знаю как правильнее.
-		chestplate.allowed -= allowed_items
-		item_to_drop = wearer.s_store
-		wearer.dropItemToGround(item_to_drop)
+	mod.update_storage_allowed()
+
+/obj/item/mod/module/backpack_harness/get_storage_allowed()
+	return allowed_items
 
 /obj/item/mod/module/storage
 	name = "MOD storage containment module"
@@ -71,6 +67,7 @@
 		storage_flags = STORAGE_FLAGS_VOLUME_DEFAULT
 		max_volume = STORAGE_VOLUME_MOD_BLUESPACE
 		qdel(I)
+		update_capacity()
 
 /obj/item/mod/module/storage/syndicate
 	name = "MOD Blood-red storage module"
@@ -96,10 +93,18 @@
 	mod_storage?.silent = silent
 	if(mod.theme.need_block_storage_when_not_active && !mod.is_active())
 		mod.toggle_storage(mod.is_active())
-	var/datum/component/storage/Storage = mod.GetComponent(/datum/component/storage)
-	Storage.storage_flags = storage_flags
-	Storage.max_volume = max_volume
-	Storage.max_w_class = max_w_class
+	update_capacity()
+
+/obj/item/mod/module/storage/proc/update_capacity()
+	if(QDELETED(mod_storage))
+		return
+	mod_storage.storage_flags = storage_flags
+	mod_storage.max_volume = max_volume
+	mod_storage.max_w_class = max_w_class
+	if(locate(/obj/item/mod/module/storage_upgrader) in mod.modules)
+		mod_storage.max_volume = max(max_volume, STORAGE_VOLUME_MOD_UPLINK_UPDATER)
+		mod_storage.max_w_class = max(max_w_class, MAX_WEIGHT_CLASS_BAG_OF_HOLDING)
+	mod_storage.allow_big_nesting = mod_storage.max_w_class >= MAX_WEIGHT_CLASS_BAG_OF_HOLDING
 
 /obj/item/mod/module/storage/on_uninstall()
 	. = ..()
@@ -375,14 +380,23 @@
 	. = ..()
 	if(!.)
 		return
-	mod.set_light(light_range, light_power, light_color)
+	apply_light()
 	active_power_cost = base_power * light_range
+
+/obj/item/mod/module/flashlight/proc/apply_light()
+	mod.set_light_range(light_range)
+	mod.set_light_power(light_power)
+	mod.set_light_color(light_color)
+	mod.set_light_on(TRUE)
 
 /obj/item/mod/module/flashlight/on_deactivation(display_message = TRUE, deleting = FALSE)
 	. = ..()
 	if(!.)
 		return
-	mod.set_light(0, 0)
+	clear_light()
+
+/obj/item/mod/module/flashlight/proc/clear_light()
+	mod.set_light_on(FALSE)
 
 /obj/item/mod/module/flashlight/on_process(delta_time)
 	active_power_cost = base_power * light_range
@@ -550,6 +564,8 @@
 /obj/item/mod/module/dna_lock/proc/dna_check(mob/user)
 	if(!iscarbon(user))
 		return FALSE
+	if(istype(mod, /obj/item/mod/control/pre_equipped/protean))
+		return TRUE
 	var/mob/living/carbon/carbon_user = user
 	if(!dna  || (carbon_user.has_dna() && carbon_user.dna.unique_enzymes == dna))
 		return TRUE

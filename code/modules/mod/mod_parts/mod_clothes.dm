@@ -69,7 +69,7 @@
 	visor_flags_inv = HIDEJUMPSUIT
 	item_flags = IMMUTABLE_SLOW
 	can_be_reinforced = FALSE
-	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/device/cooler)
+	allowed = MOD_BASE_ALLOWED
 	resistance_flags = NONE
 	mutantrace_variation = STYLE_DIGITIGRADE
 	theme_category = CHESTPLATE_FLAGS
