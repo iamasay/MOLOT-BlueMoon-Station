@@ -129,7 +129,7 @@
 
 /datum/action/cooldown/module_action/Trigger(trigger_flags, atom/target)
 	var/obj/item/mod/module/target_module = src.target
-	if(QDELETED(target_module) || (target_module.mod?.wearer != owner && target_module.mod?.ai != owner))
+	if(QDELETED(target_module) || QDELETED(target_module.mod) || (target_module.mod.wearer != owner && target_module.mod.ai != owner))
 		to_chat(owner, span_danger("Модуль изъят!"))
 		return qdel(src)
 	if(CHECK_BITFIELD(trigger_flags, TRIGGER_RIGHT_CLICK))

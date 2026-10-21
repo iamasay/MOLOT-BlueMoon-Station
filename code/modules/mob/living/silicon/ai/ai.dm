@@ -61,6 +61,9 @@
 
 	var/obj/machinery/power/apc/malfhack
 	var/explosive = FALSE		//does the AI explode when it dies?
+	/// BLUEMOON ADD: переключаемый стелс АПЦ (APC Camouflage) + его энергия 0-3000
+	var/apc_stealth_on = FALSE
+	var/apc_stealth_energy = 3000
 
 	var/mob/living/silicon/ai/parent
 	var/camera_light_on = FALSE
@@ -331,6 +334,9 @@
     if(isturf(loc))
         . += "Backup Power: [battery * 0.5]%"
 
+    if(malf_picker)
+        . += "APC Camouflage: [apc_stealth_on ? "ON" : "OFF"] | Charge: [apc_stealth_energy]/3000 kW"
+
     // КИБОРГИ
     . += "Connected cyborgs: [length(connected_robots)]"
     for(var/mob/living/silicon/robot/R in connected_robots)
@@ -489,7 +495,7 @@
 		unset_machine()
 		src << browse(null, t1)
 	if (href_list["switchcamera"])
-		switchCamera(locate(href_list["switchcamera"])) in GLOB.cameranet.cameras
+		switchCamera(locate(href_list["switchcamera"]) in GLOB.cameranet.cameras)
 	if (href_list["showalerts"])
 		alert_control.ui_interact(src)
 #ifdef AI_VOX
@@ -504,7 +510,7 @@
 	//Carn: holopad requests
 	if(href_list["jumptoholopad"])
 		var/obj/machinery/holopad/H = locate(href_list["jumptoholopad"])
-		if(H)
+		if(istype(H))
 			H.attack_ai(src) //may as well recycle
 		else
 			to_chat(src, "<span class='notice'>Unable to locate the holopad.</span>")
@@ -1164,7 +1170,11 @@
 
 		playsound(get_turf(src), 'sound/machines/ding.ogg', 50, TRUE, ignore_walls = FALSE)
 		to_chat(src, "Hack complete. \The [apc] is now under your exclusive control.")
-		apc.update_icon()
+		// BLUEMOON ADD: включённый камуфляж маскирует и будущие взломы (метка 5 сек, дальше продлевает тик)
+		var/mob/living/silicon/ai/base = parent || src
+		if(base.apc_stealth_on && base.apc_stealth_energy > 0)
+			apc.activate_stealth(5 SECONDS, silent = TRUE)
+		apc.update_appearance() // BLUEMOON FIX: update_icon() не пересчитывает update_state, синий экран не появлялся
 
 /mob/living/silicon/ai/verb/deploy_to_shell(var/mob/living/silicon/robot/target)
 	set category = "AI Commands"
