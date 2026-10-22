@@ -358,7 +358,7 @@
 	.["disposal_tag"] = add_ui_configuration("Disposal Tag", "list", GLOB.TAGGERLOCATIONS[disposal_tag], GLOB.TAGGERLOCATIONS)
 
 /obj/item/mod/module/disposal_connector/configure_edit(key, value)
-	if(key == "disposal_tag" && value in GLOB.TAGGERLOCATIONS)
+	if(key == "disposal_tag" && (value in GLOB.TAGGERLOCATIONS))
 		disposal_tag = GLOB.TAGGERLOCATIONS.Find(value)
 
 /obj/item/mod/module/disposal_connector/proc/on_disposing(datum/source, obj/structure/disposalholder/holder)
@@ -529,6 +529,10 @@
 	cooldown_time = 0.5 SECONDS
 	required_modpart_index = MOD_PART_GLOVES
 
+/obj/item/mod/module/scorpion_hook/infiltrator
+	complexity = 0
+	removable = FALSE
+
 /obj/item/gun/magic/hook/contractor
 	name = "SCORPION hook"
 	desc = "A hardlight hook used to non-lethally pull targets closer."
@@ -554,27 +558,70 @@
 
 /obj/item/mod/module/flamethrower
 	name = "MOD flamethrower module"
-	desc = "A custom-manufactured flamethrower for clearing a path."
+	desc = "Выдвижной огнемёт с питанием от MOD-костюма."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "flamethrower"
 	module_type = MODULE_ACTIVE
-	have_shortcut_activation = TRUE
+	device = /obj/item/gun/magic/mod_flamethrower
 	complexity = MOD_COMPLEXITY_LARGE
 	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_FLAME_POWER
 	incompatible_modules = list(/obj/item/mod/module/flamethrower)
-	cooldown_time = 2.5 SECONDS
+	cooldown_time = MOD_FLAME_FIRE_DELAY
 	required_modpart_index = MOD_PART_CHEST
 
-/obj/item/mod/module/flamethrower/on_select_use(atom/target)
-	if(!..() || !get_turf(target))
+/obj/item/mod/module/flamethrower/on_install()
+	. = ..()
+	var/obj/item/gun/magic/mod_flamethrower/gun = device
+	gun.power_module = src
+
+/obj/item/mod/module/flamethrower/on_uninstall(deleting = FALSE, user)
+	var/obj/item/gun/magic/mod_flamethrower/gun = device
+	if(gun)
+		gun.power_module = null
+	return ..()
+
+/obj/item/mod/module/flamethrower/Destroy()
+	var/obj/item/gun/magic/mod_flamethrower/gun = device
+	if(gun)
+		gun.power_module = null
+	return ..()
+
+/obj/item/gun/magic/mod_flamethrower
+	name = "MOD flamethrower"
+	desc = "Выдвижной огнемёт с питанием от MOD-костюма."
+	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
+	icon_state = "flamethrower"
+	item_state = "flamethrower_1"
+	lefthand_file = 'icons/mob/inhands/weapons/flamethrower_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/flamethrower_righthand.dmi'
+	fire_sound = 'sound/items/modsuit/flamethrower.ogg'
+	fire_delay = MOD_FLAME_FIRE_DELAY
+	checks_antimagic = FALSE
+	max_charges = INFINITY
+	can_charge = FALSE
+	no_den_usage = FALSE
+	pin = /obj/item/firing_pin
+	ammo_type = /obj/item/ammo_casing/magic/mod_flame
+	var/obj/item/mod/module/flamethrower/power_module
+
+/obj/item/gun/magic/mod_flamethrower/Destroy()
+	power_module = null
+	return ..()
+
+/obj/item/gun/magic/mod_flamethrower/can_shoot()
+	return power_module?.active && power_module.mod?.is_active() && !power_module.mod.is_activating() && power_module.check_required_modpart() && power_module.check_power(power_module.use_power_cost)
+
+/obj/item/gun/magic/mod_flamethrower/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, stam_cost = 0)
+	if(!user || user != power_module?.mod?.wearer || !user.is_holding(src) || !can_shoot())
 		return FALSE
-	var/obj/item/projectile/bullet/mod_flame/flame = new(get_turf(mod.wearer))
-	flame.firer = mod.wearer
-	flame.preparePixelProjectile(target, mod.wearer)
-	playsound(src, 'sound/items/modsuit/flamethrower.ogg', MOD_KICK_VOLUME, TRUE)
-	INVOKE_ASYNC(flame, TYPE_PROC_REF(/obj/item/projectile, fire))
-	drain_power(use_power_cost)
-	return TRUE
+	if(!power_module.allowed_in_phaseout && istype(user.loc, /obj/effect/dummy/phased_mob))
+		return FALSE
+	. = ..()
+	if(.)
+		power_module.drain_power(power_module.use_power_cost)
+
+/obj/item/ammo_casing/magic/mod_flame
+	projectile_type = /obj/item/projectile/bullet/mod_flame
 
 /obj/item/projectile/bullet/mod_flame
 	damage = MOD_FLAME_DAMAGE
@@ -643,7 +690,7 @@
 /obj/item/mod/module/adrenaline_boost/proc/refill(obj/item/item, mob/user)
 	if(!item.is_open_container() || !item.reagents || reagents.total_volume >= reagent_max_amount)
 		return FALSE
-	if(!item.reagents.trans_to(src, reagent_required_amount, target_id = reagent_required))
+	if(!item.reagents.trans_id_to(src, reagent_required, reagent_required_amount))
 		return FALSE
 	balloon_alert(user, "charge reloaded")
 	return TRUE
@@ -812,7 +859,8 @@
 /obj/item/mod/module/recycler/Initialize(mapload)
 	. = ..()
 	if(!accepted_materials)
-		accepted_materials = SSmaterials.materialtypes_by_category[MAT_CATEGORY_RIGID].Copy()
+		var/list/material_types = SSmaterials.materialtypes_by_category[MAT_CATEGORY_RIGID]
+		accepted_materials = material_types.Copy()
 	container = AddComponent(/datum/component/material_container, accepted_materials, MOD_RECYCLER_CAPACITY * MINERAL_MATERIAL_AMOUNT, TRUE, _disable_attackby = TRUE)
 
 /obj/item/mod/module/recycler/Destroy()
@@ -1059,6 +1107,8 @@
 	mod.wearer.update_sight()
 
 /obj/item/mod/module/magnet
+	custom_price = PRICE_EXPENSIVE
+	mod_module_flags = MOD_MODULE_SUPPLY
 	name = "MOD loader hydraulic magnet module"
 	desc = "Электромагнит притягивает шкафы, удерживает их закрытыми и позволяет бросать их."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
@@ -1261,6 +1311,7 @@
 	return ..()
 
 /obj/item/mod/module/selfcleaner
+	mod_module_flags = MOD_MODULE_GENERAL
 	icon = 'icons/obj/clothing/modsuit/mod_modules_nova.dmi'
 	name = "MOD perfumer module"
 	desc = "Встроенный распылитель смывает грязь с носителя и его наружной одежды."
@@ -1718,6 +1769,7 @@
 	complexity = 0
 
 /obj/item/mod/module/pepper_shoulders
+	custom_price = PRICE_ALMOST_EXPENSIVE
 	name = "MOD pepper shoulders module"
 	desc = "Плечевые распылители выпускают облако перцового аэрозоля при атаке на носителя или по его команде."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
@@ -1769,6 +1821,10 @@
 	playsound(mod.wearer, 'sound/effects/spray.ogg', MOD_PEPPER_VOLUME, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	return TRUE
 
+/obj/item/mod/module/pepper_shoulders/security
+	complexity = 0
+	removable = FALSE
+
 /obj/item/mod/module/hat_stabilizer
 	name = "MOD hat stabilizer module"
 	desc = "Держатель позволяет надевать шляпу поверх шлема MOD. При отключении крепления шляпа держится свободно и может упасть."
@@ -1792,7 +1848,7 @@
 
 /obj/item/mod/module/hat_stabilizer/on_uninstall(deleting = FALSE, user)
 	on_unequip()
-	remove_hat(user)
+	remove_hat_to_hands(user)
 	UnregisterSignal(required_modpart, list(COMSIG_PARENT_ATTACKBY, COMSIG_CLICK_ALT, COMSIG_ITEM_WORN_OVERLAYS, COMSIG_ATOM_UPDATE_OVERLAYS, COMSIG_PARENT_EXAMINE))
 	return ..()
 
@@ -1840,7 +1896,7 @@
 	update_hat()
 	return TRUE
 
-/obj/item/mod/module/hat_stabilizer/proc/remove_hat(mob/user)
+/obj/item/mod/module/hat_stabilizer/proc/remove_hat()
 	var/obj/item/clothing/head/hat = attached_hat
 	if(!hat)
 		return
@@ -1854,9 +1910,13 @@
 	added_visor_cover = NONE
 	if(!QDELETED(hat) && hat.loc == required_modpart)
 		hat.forceMove(mod?.drop_location() || drop_location())
-		user?.put_in_hands(hat)
 	update_hat()
 	return hat
+
+/obj/item/mod/module/hat_stabilizer/proc/remove_hat_to_hands(mob/user)
+	var/obj/item/clothing/head/hat = remove_hat()
+	if(!QDELETED(hat) && !QDELETED(user))
+		user.put_in_hands(hat)
 
 /obj/item/mod/module/hat_stabilizer/proc/update_hat()
 	if(attached_hat && required_modpart)
@@ -1869,7 +1929,7 @@
 /obj/item/mod/module/hat_stabilizer/proc/on_alt_click(datum/source, mob/user)
 	SIGNAL_HANDLER
 	if(attached_hat && user.canUseTopic(required_modpart, BE_CLOSE))
-		remove_hat(user)
+		INVOKE_ASYNC(src, PROC_REF(remove_hat_to_hands), user)
 
 /obj/item/mod/module/hat_stabilizer/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
@@ -1915,6 +1975,7 @@
 
 /obj/item/mod/module/hat_stabilizer/syndicate
 	name = "MOD elite hat stabilizer module"
+	complexity = 0
 	removable = FALSE
 
 /obj/item/mod/module/criminalcapture
@@ -2254,7 +2315,7 @@
 	return location && center && location.z == center.z && get_dist(location, center) <= current_range
 
 /datum/proximity_monitor/advanced/peaceborg_dampener/mod_field/capture_projectile(obj/item/projectile/bullet, track_projectile = TRUE)
-	if(QDELETED(bullet) || bullet in tracked || !contains_projectile(bullet))
+	if(QDELETED(bullet) || (bullet in tracked) || !contains_projectile(bullet))
 		return
 	tracked += bullet
 	ADD_TRAIT(bullet, TRAIT_MOD_DAMPENED, REF(src))

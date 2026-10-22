@@ -1,16 +1,21 @@
 /obj/item/mod/control/proc/get_helmet()
+	RETURN_TYPE(/obj/item/clothing/mod_part/head)
 	return mod_parts[MOD_PART_HEAD]
 
 /obj/item/mod/control/proc/get_chestplate()
+	RETURN_TYPE(/obj/item/clothing/mod_part/suit)
 	return mod_parts[MOD_PART_CHEST]
 
 /obj/item/mod/control/proc/get_gauntlets()
+	RETURN_TYPE(/obj/item/clothing/mod_part/gloves)
 	return mod_parts[MOD_PART_GLOVES]
 
 /obj/item/mod/control/proc/get_boots()
+	RETURN_TYPE(/obj/item/clothing/mod_part/shoes)
 	return mod_parts[MOD_PART_FEET]
 
 /obj/item/mod/control/get_cell()
+	RETURN_TYPE(/obj/item/stock_parts/cell)
 	return mod_parts[MOD_PART_CELL]
 
 /obj/item/mod/control/proc/is_malfunctioning()
@@ -161,7 +166,7 @@
 		if(user)
 			balloon_alert(user, "[new_module] превышает вместимость [src]!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
-			return FALSE
+		return FALSE
 	return TRUE
 
 /obj/item/mod/control/proc/handle_attack_cell(obj/item/stock_parts/cell/new_cell, obj/item/stock_parts/cell/cell, mob/user)

@@ -40,13 +40,14 @@
 		В комплекте предустановлены магнитные ботинки с продвинутой системой автоматического включения и выключения при ходьбе."
 	default_skin = "advanced"
 	armor_type = /datum/armor/advanced
-	complexity_max = COMMAND_MAX_COMPLEXITY
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	hardlight_color = MOD_COMMAND_COLOR
 	skins = list(
 		"advanced" = MOD_PRESET_DEFAULT,
 		)
 
 /datum/mod_theme/cargo_default/mining
+	complexity_max = STATION_COMBAT_MAX_COMPLEXITY
 	name = "mining"
 	desc = "Высокомощный шахтёрский костюм Nanotrasen, поддерживающий больше модулей при большем расходе энергии."
 	extended_desc = "Высокомощный костюм, разработанный Nanotrasen на основе работ Nakamura Engineering. \
@@ -97,6 +98,7 @@
 	)
 
 /datum/mod_theme/research
+	complexity_max = COMMAND_MAX_COMPLEXITY
 	name = "research"
 	desc = "Частный военный сапёрный костюм от Aussec Armory, предназначенный для исследования взрывчатки. Громоздкий, но ёмкий."
 	extended_desc = "Частный военный сапёрный костюм от Aussec Armory, созданный на основе работ Nakamura Engineering. \
@@ -118,6 +120,7 @@
 	)
 
 /datum/mod_theme/station_combat/security
+	inbuilt_modules = list(/obj/item/mod/module/pepper_shoulders/security)
 	name = "security"
 	desc = "Костюм безопасности от Apadyne Technologies, обеспечивающий защиту от ударов и большую скорость за счёт грузоподъёмности."
 	extended_desc = "Классика от Apadyne Technologies, эта модель костюма MOD была разработана для быстрого реагирования на \
@@ -144,6 +147,7 @@
 	)
 
 /datum/mod_theme/station_combat/security/blueshied
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	name = "Blueshied"
 	desc = "Прототип костюма класса Magnate, выданный для использования станционными синими щитами"
 	extended_desc = "Прототип костюма класса Magnate, выданный для использования станционными синими щитами, \
@@ -180,12 +184,13 @@
 	default_skin = "safeguard"
 	armor_type = /datum/armor/modsuit_ert_and_hos
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	complexity_max = STATION_COMBAT_MAX_COMPLEXITY
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	skins = list(
 		"safeguard" = MOD_PRESET_DEFAULT,
 	)
 
 /datum/mod_theme/centcom/magnate
+	complexity_max = COMMAND_MAX_COMPLEXITY
 	name = "magnate"
 	desc = "Шикарный, высокозащитный костюм для капитанов Nanotrasen. Ударо-, огне- и кислотостойкий, при этом имеющий большую ёмкость и высокую скорость."
 	extended_desc = "Говорят, стоимость работы этого костюма MOD составляет четыреста тысяч кредитов... на двенадцать секунд. \
@@ -240,6 +245,7 @@
 	)
 
 /datum/mod_theme/antagonist/elite
+	complexity_max = ELITE_MAX_COMPLEXITY
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate, /obj/item/mod/module/night, /obj/item/mod/module/hearing_protection)
 	name = "elite"
 	desc = "Элитный костюм, модернизированный Cybersun Industries, с улучшенными показателями брони."
@@ -263,6 +269,7 @@
 	)
 
 /datum/mod_theme/cargo_default/prototype
+	complexity_max = COMMAND_MAX_COMPLEXITY
 	name = "prototype"
 	desc = "Прототип модульного костюма с приводом от локомотивов. Хоть он и комфортен и имеет большую ёмкость, он остаётся очень громоздким и энерго-неэффективным."
 	extended_desc = "Это прототип силового экзоскелета, дизайн, который не видели сотни лет, первый \
@@ -298,6 +305,7 @@
 	)
 
 /datum/mod_theme/centcom/responsory/marine
+	complexity_max = CENTCOM_COMBAT_MAX_COMPLEXITY
 	name = "marine"
 	default_skin = "marine"
 
@@ -314,6 +322,7 @@
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate)
 
 /datum/mod_theme/centcom/apocryphal
+	complexity_max = CENTCOM_COMBAT_MAX_COMPLEXITY
 	name = "apocryphal"
 	desc = "Высокотехнологичный, лишь формально легальный бронированный костюм, созданный совместными усилиями Nanotrasen и Apadyne Technologies."
 	extended_desc = "Громоздкий и лишь формально легальный костюм, этот зловещий чёрно-красный MOD-костюм носят только \
@@ -364,6 +373,7 @@
 	)
 
 /datum/mod_theme/debug/administrative
+	complexity_max = ADMINISTRATIVE_MAX_COMPLEXITY
 	name = "administrative"
 	desc = "Костюм из админиума. Кто придумывает эти тупые названия минералов?"
 	extended_desc = "Да, ладно, думаю, это можно назвать ивентом. Но то, что я считаю ивентом, — это что-то на самом деле \
@@ -404,7 +414,8 @@
 	)
 
 /datum/mod_theme/antagonist/infiltrator
-	inbuilt_modules = list(/obj/item/mod/module/night, /obj/item/mod/module/hearing_protection, /obj/item/mod/module/demoralizer)
+	complexity_max = DEFAULT_MAX_COMPLEXITY
+	inbuilt_modules = list(/obj/item/mod/module/hearing_protection, /obj/item/mod/module/demoralizer, /obj/item/mod/module/scorpion_hook/infiltrator, /obj/item/mod/module/storage/extended/syndicate/infiltrator)
 	name = "Infiltrator"
 	desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. "
 	extended_desc = "Высокотехнологичный боевой костюм, изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
@@ -431,6 +442,7 @@
 	)
 
 /datum/mod_theme/antagonist/spider_clan
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	name = "Ninja"
 	desc = "Уникальный, защищенный от вакуума и температур модулярный костюм, разработанный специально для убийц из клана Паука."
 	extended_desc = "Уникальный, защищенный от вакуума и температур модулярный костюм, разработанный специально для убийц из клана Паука"
@@ -452,6 +464,7 @@
 	)
 
 /datum/mod_theme/antagonist/mage
+	complexity_max = DEFAULT_MAX_COMPLEXITY
 	name = "Enchanted"
 	desc = "Странный, инкрустированный самоцветами модулярный костюм, излучающий магическую энергию."
 	extended_desc = "Экспериментальный модулярный костюм, созданный Федерацией магов.\
@@ -479,7 +492,7 @@
 		костюм оснащён гидравлическими усилителями конечностей и усиленной рамой, \
 		способной выдерживать экстремальные нагрузки при перемещении ящиков, паллет и оборудования."
 	default_skin = "loader"
-	complexity_max = COMMAND_MAX_COMPLEXITY
+	complexity_max = LOADER_MAX_COMPLEXITY
 	skins = list(
 		//НЕ защищает от космоса. Он НЕ герметичный. Это просто рама для тягания тяжестей.
 		"loader" = MOD_PRESET_WITHOUT_PRESSURE_PROTECT_NO_JUMSUIT_HIDE,

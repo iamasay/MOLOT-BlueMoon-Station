@@ -17,6 +17,7 @@
 	moveToNullspace()
 
 /obj/item/mod/core/proc/charge_source()
+	RETURN_TYPE(/obj/item)
 	return null
 
 /obj/item/mod/core/proc/charge_amount()

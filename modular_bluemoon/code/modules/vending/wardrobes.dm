@@ -279,6 +279,7 @@
 		/obj/item/radio/headset/headset_cargo = 3,
 		/obj/item/mailmat_deployer = 3,
 		/obj/item/mod/control/pre_equipped/cargo = 3,
+		/obj/item/mod/module/magnet = MOD_MODULE_VENDOR_STOCK,
 	)
 	premium = list(
 		/obj/item/clothing/head/mailman = 1,

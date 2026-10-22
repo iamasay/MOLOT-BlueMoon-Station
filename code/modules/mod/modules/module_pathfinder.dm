@@ -31,7 +31,8 @@
 
 /obj/item/mod/module/pathfinder/examine(mob/user)
 	. = ..()
-	. += span_notice(implant?.loc == src ? "Примените модуль к человеку, чтобы вживить маяк." : "Маяк находится вне модуля.")
+	var/list/examine_text = .
+	examine_text.Insert(length(examine_text), span_notice(implant?.loc == src ? "Примените модуль к человеку, чтобы вживить маяк." : "Маяк находится вне модуля."))
 
 /obj/item/mod/module/pathfinder/attack(mob/living/target, mob/living/user)
 	if(!ishuman(target) || implant?.loc != src)

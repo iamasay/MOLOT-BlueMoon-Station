@@ -49,6 +49,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 	var/datum/mod_theme/theme = /datum/mod_theme
 
 	var/skin = "standard"
+	var/visual_skin
 	var/ui_theme = "ntos"
 	var/have_emp_special = FALSE
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
@@ -408,7 +409,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 	. = ..()
 	if(!is_active())
 		return
-	if(istype(theme, /datum/mod_theme/station_combat/security/melatonin) || istype(theme, /datum/mod_theme/antagonist/syndicate/melatonin_syndicate)) // сделано, чтобы модули не рисовались на данной теме. Иного способа отключить я не нашёл.
+	if(get_visual_skin() == "luna")
 		return
 	for(var/obj/item/mod/module/module as anything in modules)
 		var/list/module_icons = module.generate_worn_overlay()
@@ -508,6 +509,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 /obj/item/mod/control/proc/set_mod_skin(new_skin)
 	if(is_active())
 		CRASH("[src] tried to set skin while active!")
+	visual_skin = null
 	skin = new_skin
 	var/list/used_skin = theme.skins[new_skin]
 	if(used_skin[CONTROL_LAYER])
@@ -518,9 +520,25 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 			continue
 		var/obj/item/clothing/mod_part/piece = skin_updating[index]
 		piece.icon_state = "[skin]-[initial(piece.icon_state)]"
+		piece.item_state = "[skin]-[initial(piece.item_state)]"
 	src.icon_state = "[skin]-[initial(src.icon_state)]"
 	update_flags()
 	wearer?.regenerate_icons()
+
+/obj/item/mod/control/proc/get_visual_skin()
+	return visual_skin || skin
+
+/obj/item/mod/control/proc/set_visual_skin(new_skin)
+	if(!istext(new_skin) || !length(new_skin))
+		return FALSE
+	visual_skin = new_skin
+	for(var/obj/item/part in get_mod_parts(include_cell = FALSE, include_mod = TRUE))
+		var/sealed_suffix = findtext(part.icon_state, "-sealed") ? "-sealed" : ""
+		part.icon_state = "[visual_skin]-[initial(part.icon_state)][sealed_suffix]"
+		part.item_state = "[visual_skin]-[initial(part.item_state)][sealed_suffix]"
+	update_icon_state()
+	wearer?.regenerate_icons()
+	return TRUE
 
 /obj/item/mod/control/proc/shock(mob/living/user)
 	var/obj/item/stock_parts/cell/cell = get_cell()

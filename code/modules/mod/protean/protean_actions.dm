@@ -212,11 +212,14 @@
 	icon_state = "protean_lowpower"
 
 /datum/status_effect/protean_low_power_mode/on_apply()
+	if(!..())
+		return FALSE
 	owner.add_movespeed_modifier(/datum/movespeed_modifier/protean_low_power)
 	return TRUE
 
 /datum/status_effect/protean_low_power_mode/on_remove()
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/protean_low_power)
+	return ..()
 
 /datum/movespeed_modifier/protean_low_power
 	multiplicative_slowdown = PROTEAN_LOW_POWER_SLOWDOWN
@@ -384,6 +387,8 @@
 	var/list/held = list()
 
 /datum/status_effect/protean_servo_movement/on_apply()
+	if(!..())
+		return FALSE
 	owner.add_movespeed_modifier(/datum/movespeed_modifier/protean_servo)
 	for(var/obj/item/item in owner.held_items)
 		held += item
@@ -398,6 +403,7 @@
 	for(var/obj/item/item in held.Copy())
 		release_item(item)
 	held = null
+	return ..()
 
 /datum/status_effect/protean_servo_movement/proc/release_item(obj/item/item)
 	SIGNAL_HANDLER
@@ -415,6 +421,8 @@
 	alert_type = /atom/movable/screen/alert/status_effect/protean_servo/medical
 
 /datum/status_effect/protean_servo_medical/on_apply()
+	if(!..())
+		return FALSE
 	ADD_TRAIT(owner, TRAIT_QUICKER_CARRY, PROTEAN_SERVO_TRAIT)
 	ADD_TRAIT(owner, TRAIT_FASTMED, PROTEAN_SERVO_TRAIT)
 	ADD_TRAIT(owner, TRAIT_PROTEAN_SURGERY, PROTEAN_SERVO_TRAIT)
@@ -424,6 +432,7 @@
 	REMOVE_TRAIT(owner, TRAIT_QUICKER_CARRY, PROTEAN_SERVO_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_FASTMED, PROTEAN_SERVO_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_PROTEAN_SURGERY, PROTEAN_SERVO_TRAIT)
+	return ..()
 
 /datum/status_effect/protean_servo_engineer
 	id = "protean_servo_engineer"
@@ -431,6 +440,8 @@
 	alert_type = /atom/movable/screen/alert/status_effect/protean_servo/engineer
 
 /datum/status_effect/protean_servo_engineer/on_apply()
+	if(!..())
+		return FALSE
 	owner.add_actionspeed_modifier(/datum/actionspeed_modifier/protean_servo)
 	ADD_TRAIT(owner, TRAIT_QUICK_BUILD, PROTEAN_SERVO_TRAIT)
 	return TRUE
@@ -438,6 +449,7 @@
 /datum/status_effect/protean_servo_engineer/on_remove()
 	owner.remove_actionspeed_modifier(/datum/actionspeed_modifier/protean_servo)
 	REMOVE_TRAIT(owner, TRAIT_QUICK_BUILD, PROTEAN_SERVO_TRAIT)
+	return ..()
 
 /datum/actionspeed_modifier/protean_servo
 	multiplicative_slowdown = PROTEAN_SERVO_ENGINEERING_BONUS

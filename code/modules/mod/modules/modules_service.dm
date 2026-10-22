@@ -27,7 +27,7 @@
 		позволяя готовить еду на расстоянии с наибольшей лёгкостью. Не рекомендуется использовать против винограда."
 	icon_state = "microwave_beam"
 	module_type = MODULE_ACTIVE
-	complexity = 2
+	complexity = MOD_COMPLEXITY_SMALL
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	incompatible_modules = list(/obj/item/mod/module/microwave_beam)
 	have_shortcut_activation = TRUE
@@ -70,6 +70,7 @@
 //Waddle
 
 /obj/item/mod/module/waddle
+	complexity = MOD_COMPLEXITY_SMALL
 	mod_module_flags = MOD_MODULE_GENERAL
 	name = "MOD waddle module"
 	desc = "Some of the most primitive technology in use by HonkCo. This module works off an automatic intention system, \

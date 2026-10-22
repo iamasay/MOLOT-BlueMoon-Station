@@ -63,6 +63,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 	return cell?.charge > 0
 
 /datum/mod_link/proc/get_other()
+	RETURN_TYPE(/datum/mod_link)
 	if(!link_call)
 		return
 	return link_call.link_caller == src ? link_call.receiver : link_call.link_caller

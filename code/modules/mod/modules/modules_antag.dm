@@ -6,7 +6,7 @@
 	desc = "Скрывает ваше лицо от трекинга ИИ и чужих глаз, делая полностью неузнаваемым."
 	icon_state = "infiltrator"
 	module_type = MODULE_TOGGLE
-	complexity = 1
+	complexity = 0
 	idle_power_cost = 0
 	removable = FALSE
 	required_modpart_index = MOD_PART_HEAD
@@ -80,30 +80,6 @@
 	for(var/obj/item/mod/module/storage/storage in mod.modules)
 		storage.update_capacity()
 
-/obj/item/mod/module/power_kick
-	name = "MOD PowerKick Module"
-	desc = "Модуль, устанавливающийся в ботинки костюма и позволяющий пинать цель \
-			с силой, отправляющей ту в полёт."
-	icon_state = "power_kick"
-	module_type = MODULE_ACTIVE
-	cooldown_time = 30 SECONDS
-	device = /obj/item/melee/baseball_bat/powerkick
-
-/obj/item/melee/baseball_bat/powerkick
-	name = "Powerkick Boots"
-	desc = "Отправьте кого-нибудь в полёт!"
-	icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
-	lefthand_file = null //не должно отображаться в руках
-	righthand_file = null
-	icon_state = "power_kick"
-	force = 35
-	armour_penetration = MELEE_AP_EXCLUSIVE  //за 5 ТК норм.
-	wound_bonus = 20
-
-/obj/item/melee/baseball_bat/powerkick/attack(mob/living/target, mob/living/user)
-	. = ..()
-	doMove(drop_location()) //чтобы после одного использования уйти на кулдаун.
-
 /obj/item/mod/module/anti_magic/wizard
 	name = "Magic Neutralizer"
 	desc = "Свиток защищающий носителя от магии, при условии, что тот вставлен в костюм. Имеет печать Федерации магов."
@@ -153,39 +129,27 @@
 	need_drain_power = FALSE
 	max_charges = 3
 
-/obj/item/mod/module/stealth/adv
-	name = "Improved Cloaking module"
-	desc = "Улучшенная версия прототипа модуля визуальной маскировки для модулярного костюма, которая \
-	, к сожалению, не обрела массового производства. Маскировка этого модуля более стабильная и не сбивается \
-	при столкновениях, но атака, касание, удар или попавший в вас снаряд всё так же её снимают."
-	icon_state = "cloak_traitor"
-	bumpoff = FALSE
-	stealth_alpha = 35
-
 /obj/item/mod/module/jump_jet/ninja
 	name = "Spider Clan Jump Module"
-	desc = "Идейное продолжение прыжкового модуля, но уже под началом специалистов из клана Паука.\
-	Скорость прыжков этого модуля настолько быстра, что сравнима с телепортацией и пользователь способен \
-	выбирать несколько целей одновременно, дабы прыгнуть дальше обычного."
+	desc = "Прыжковый модуль клана Паука. После активации позволяет за три секунды выбрать кликами до четырёх \
+	отслеживаемых целей, затем последовательно перемещает носителя к ним с атакой предметом в активной руке. Перезарядка — 30 секунд."
 	icon_state = "jump_jet_ninja"
-	beam_icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
-	beam_state = "net_beam"
 	incompatible_modules = list()
-
-/obj/item/mod/module/stealth/adv/ninja
-	name = "Spider Clan stealth module"
-	desc = "Улучшенная версия прототипа модуля визуальной маскировки для модулярного костюма, которая \
-	, к сожалению, не обрела массового производства. Маскировка этого модуля более стабильная и не сбивается \
-	при столкновениях, но атака, касание, удар или попавший в вас снаряд всё так же её снимают."
-	icon_state = "cloak_ninja"
-	bumpoff = FALSE
-	stealth_alpha = 10
+	target_limit = MOD_JUMP_TARGET_LIMIT
+	attack_targets = TRUE
+	mark_targets = TRUE
+	cooldown_time = MOD_JUMP_NINJA_COOLDOWN
 
 /obj/item/mod/module/jump_jet/inteq
 	name = "InteQ Jump Jet Module"
-	desc = ""
+	desc = "Продвинутый прыжковый модуль InteQ. После активации позволяет за три секунды выбрать кликами до четырёх \
+	отслеживаемых целей, затем последовательно перемещает носителя к ним без атаки. Перезарядка — 60 секунд."
 	icon_state = "jump_jet_inteq"
 	incompatible_modules = list()
+	target_limit = MOD_JUMP_TARGET_LIMIT
+	cooldown_time = MOD_JUMP_INTEQ_COOLDOWN
+	jump_color = list(COLOR_YELLOW, COLOR_YELLOW, COLOR_YELLOW)
+	trail_type = /obj/effect/ebeam/mod_jump_inteq
 
 /obj/item/mod/module/launch_kick
 	name = "MOD launch kick module"

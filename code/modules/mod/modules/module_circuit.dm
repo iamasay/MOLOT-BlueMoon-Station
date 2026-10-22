@@ -116,9 +116,21 @@
 /obj/item/electronic_assembly/large/mod_circuit/get_object()
 	return module || src
 
+/obj/item/electronic_assembly/large/mod_circuit/ui_host(mob/user)
+	return get_object()
+
+/obj/item/electronic_assembly/large/mod_circuit/ui_status(mob/user, datum/ui_state/state)
+	if(!check_interactivity(user))
+		return UI_CLOSE
+	if(module?.mod)
+		return GLOB.conscious_state.can_use_topic(src, user)
+	return ..()
+
 /obj/item/electronic_assembly/large/mod_circuit/check_interactivity(mob/user)
+	if(!user)
+		return FALSE
 	if(!module?.mod)
-		return user.canUseTopic(module, BE_CLOSE)
+		return user.canUseTopic(get_object(), BE_CLOSE)
 	if(user == module.mod.wearer)
 		return user.canUseTopic(module.mod, BE_CLOSE)
 	return FALSE
@@ -256,7 +268,7 @@
 	return ..()
 
 /datum/action/cooldown/mod_circuit_action/IsAvailable()
-	return ..() && module?.mod?.is_active() && module.mod.wearer == owner && chip in module.assembly?.assembly_components
+	return ..() && module?.mod?.is_active() && module.mod.wearer == owner && (chip in module.assembly?.assembly_components)
 
 /datum/action/cooldown/mod_circuit_action/Trigger(trigger_flags)
 	if(!IsAvailable())

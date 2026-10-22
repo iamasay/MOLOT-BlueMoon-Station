@@ -150,7 +150,7 @@
 /obj/item/mod/module/clamp/loader
 	name = "MOD loader hydraulic clamp module"
 	icon_state = "clamp_loader"
-	complexity = 2
+	complexity = 0
 	overlay_state_inactive = null
 	overlay_state_active = "module_clamp_loader"
 	load_time = 1 SECONDS

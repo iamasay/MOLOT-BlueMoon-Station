@@ -97,7 +97,7 @@
 		эти работают только в условиях невесомости, что является благословением для некоторых инженеров."
 	icon_state = "tether"
 	module_type = MODULE_ACTIVE
-	complexity = 3
+	complexity = MOD_COMPLEXITY_MEDIUM
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/tether)
 	cooldown_time = 1.5 SECONDS

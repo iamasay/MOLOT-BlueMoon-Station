@@ -55,6 +55,9 @@
 	var/compatible_with_armor_modules = TRUE
 	var/overwrite_desc = FALSE
 	var/allow_hot_swap = FALSE
+	var/hide_worn_sprites = FALSE
+	var/body_hardlight = FALSE
+	var/locked_hardlight = FALSE
 	/// List of skins with their appropriate clothing flags.
 	var/list/skins = list(
 		"standard" = MOD_PRESET_DEFAULT,
@@ -86,8 +89,8 @@
 		piece.desc = "[piece.desc] [desc]"
 		if(overwrite_desc) //Если кого-то из донатеров будет корёжить, что их "особое" описание совмещается с дефолтным, от куска МОДа.
 			piece.desc = "[desc]"
-		piece.icon_state = "[modsuit.skin]-[initial(piece.icon_state)]"
-		piece.item_state = "[modsuit.skin]-[initial(piece.item_state)]"
+		piece.icon_state = "[modsuit.get_visual_skin()]-[initial(piece.icon_state)]"
+		piece.item_state = "[modsuit.get_visual_skin()]-[initial(piece.item_state)]"
 
 /datum/mod_theme/proc/setup_theme(obj/item/mod/control/modsuit, new_skin, need_update_stat = TRUE)
 	apply_theme_skin(modsuit, new_skin)
@@ -151,3 +154,8 @@
 	allowed = ALLOWED_ANTAG
 	compatible_with_armor_modules = FALSE
 	hardlight_effect = /datum/overlay_effect/mod_effect/white_noize
+
+/datum/mod_theme/antagonist/New()
+	. = ..()
+	inbuilt_modules = inbuilt_modules.Copy()
+	inbuilt_modules |= /obj/item/mod/module/hat_stabilizer/syndicate

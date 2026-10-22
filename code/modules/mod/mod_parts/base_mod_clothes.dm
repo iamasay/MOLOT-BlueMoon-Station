@@ -45,8 +45,7 @@
 		return
 	ADD_TRAIT(src, TRAIT_NODROP, MOD_TRAIT)
 	toggle_all_linked_modules(MODPART_DEPLOYED)
-	if(mod.need_to_conseal && mod.is_active() && mod.all_parts_deployed())
-		mod.update_hardlight()
+	mod.update_hardlight()
 	// override: повторный equipped на том же носителе (смена слота, повторное
 	// развёртывание) иначе ловит stack_trace "already registered".
 	use_clothing_features_through_overslot()
@@ -57,6 +56,7 @@
 	if(!istype(item, /obj/item/clothing/mod_part) || item != src || !mod?.wearer)
 		return
 	UnregisterSignal(mod.wearer, COMSIG_MOB_UNEQUIPPED_ITEM)
+	mod.update_hardlight()
 	if(new_location == null)//чтобы не путать со штатным свертыванием
 		return
 	INVOKE_ASYNC(mod, TYPE_PROC_REF(/obj/item/mod/control, conceal), null, item, TRUE)
@@ -138,8 +138,8 @@
 		cold_protection = NONE
 	if(!mod)
 		return
-	icon_state = "[mod.skin]-[initial(icon_state)][seal ? "-sealed" : ""]"
-	item_state = "[mod.skin]-[initial(item_state)][seal ? "-sealed" : ""]"
+	icon_state = "[mod.get_visual_skin()]-[initial(icon_state)][seal ? "-sealed" : ""]"
+	item_state = "[mod.get_visual_skin()]-[initial(item_state)][seal ? "-sealed" : ""]"
 
 /obj/item/clothing/mod_part/proc/equip_item_from_overslot()
 	REMOVE_TRAIT(src, TRAIT_NODROP, MOD_TRAIT)

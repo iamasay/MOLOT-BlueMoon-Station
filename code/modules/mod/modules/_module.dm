@@ -79,8 +79,28 @@
 
 /obj/item/mod/module/examine(mob/user)
 	. = ..()
-	if(user.hud_list[DIAG_HUD] && user.client.images & user.hud_list[DIAG_HUD])
+	if(user.client && user.hud_list[DIAG_HUD] && user.client.images & user.hud_list[DIAG_HUD])
 		. += span_notice("Использовано места: [complexity]")
+	. += span_notice("Видно <a href='?src=[REF(src)];mod_specification=1'>шильдик</a> технической спецификации")
+
+/obj/item/mod/module/Topic(href, list/href_list)
+	. = ..()
+	if(href_list["mod_specification"] && usr)
+		to_chat(usr, examine_block(get_specification()))
+
+/obj/item/mod/module/proc/get_specification()
+	var/list/parameters = list(
+		"Вместимость (complexity)" = complexity,
+		"Расход в ожидании, ед. заряда/с" = idle_power_cost,
+		"Расход при работе, ед. заряда/с" = active_power_cost,
+		"Расход за применение, ед. заряда" = use_power_cost,
+		"Перезарядка, с" = cooldown_time / (1 SECONDS),
+	)
+	var/list/readout = list(span_notice("<b>Техническая спецификация: [html_encode(name)]</b>"), "<table>")
+	for(var/parameter in parameters)
+		readout += "<tr><td>[parameter]</td><td>[parameters[parameter]]</td></tr>"
+	readout += "</table>"
+	return readout.Join()
 
 /obj/item/mod/module/proc/check_required_modpart()
 	if(!mod || !mod?.wearer)
@@ -369,14 +389,15 @@
 	. = ..()
 	if(!length(accepted_anomalies))
 		return
+	var/list/examine_text = .
 	if(core)
-		. += span_notice(core_removable ? "Установлено ядро [core.name]. Его можно извлечь отвёрткой." : "Ядро [core.name] встроено в модуль и не извлекается.")
+		examine_text.Insert(length(examine_text), span_notice(core_removable ? "Установлено ядро [core.name]. Его можно извлечь отвёрткой." : "Ядро [core.name] встроено в модуль и не извлекается."))
 	else
 		var/list/core_list = list()
 		for(var/path in accepted_anomalies)
 			var/atom/core_path = path
 			core_list += initial(core_path.name)
-		. += span_notice("You need to insert \a [english_list(core_list, and_text = " or ")] for this module to function.")
+		examine_text.Insert(length(examine_text), span_notice("You need to insert \a [english_list(core_list, and_text = " or ")] for this module to function."))
 
 /obj/item/mod/module/anomaly_locked/on_select()
 	if(!core)

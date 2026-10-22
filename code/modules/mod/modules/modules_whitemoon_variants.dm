@@ -6,7 +6,7 @@
 	light_power = MOD_FLASHDARK_POWER
 	min_range = MOD_FLASHDARK_MIN_RANGE
 	max_range = MOD_FLASHDARK_MAX_RANGE
-	var/obj/effect/dummy/lighting_obj/mod_darkness/darkness
+	var/obj/item/flashlight/flashdark/mod_internal/darkness
 
 /obj/item/mod/module/flashlight/darkness/Destroy()
 	QDEL_NULL(darkness)
@@ -14,9 +14,11 @@
 
 /obj/item/mod/module/flashlight/darkness/apply_light()
 	if(!darkness)
-		darkness = new(mod.wearer, COLOR_WHITE, light_range, light_power)
-	else
-		darkness.set_light_range(light_range)
+		darkness = new(mod.wearer)
+	darkness.brightness_on = light_range
+	darkness.flashlight_power = light_power
+	darkness.on = TRUE
+	darkness.update_brightness(mod.wearer)
 
 /obj/item/mod/module/flashlight/darkness/clear_light()
 	QDEL_NULL(darkness)
@@ -32,8 +34,8 @@
 	if(active)
 		apply_light()
 
-/obj/effect/dummy/lighting_obj/mod_darkness
-	light_system = COMPLEX_LIGHT
+/obj/item/flashlight/flashdark/mod_internal
+	actions_types = list()
 
 /obj/item/mod/module/emp_shield/pulse
 	name = "MOD EMP pulse module"
@@ -273,8 +275,9 @@
 		mod.wearer.add_atom_colour(MOD_BITE_BODY_COLOR, FIXED_COLOUR_PRIORITY)
 
 /obj/item/mod/module/stealth/ninja
-	parent_type = /obj/item/mod/module/stealth/adv/ninja
 	name = "MOD advanced cloaking module"
+	icon_state = "cloak_ninja"
+	bumpoff = FALSE
 	desc = "Система маскировки клана Паука скрывает носителя и заглушает его шаги. Поле сохраняется при столкновениях."
 	stealth_alpha = MOD_NINJA_CLOAK_ALPHA
 	active_power_cost = DEFAULT_CHARGE_DRAIN

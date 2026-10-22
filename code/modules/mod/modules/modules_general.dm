@@ -53,7 +53,7 @@
 			Является улучшенной версией, по сравнению с обычным модулем рюкзака и равноценна спортивной сумке. \
 			Может быть улучшена с помощью БС ядра, путём вставки вручную в специальное отверстие."
 	max_volume = STORAGE_VOLUME_MOD_EXTENDED
-	complexity = 2
+	complexity = MOD_COMPLEXITY_LARGE
 
 /obj/item/mod/module/storage/extended/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
@@ -74,15 +74,19 @@
 	desc = "Набор встроенных отделений для хранения и специализированных карманов, установленных по всей \
 		поверхности костюма, полезных для хранения различных мелочей и штучек. Имеет модный кроваво-красный окрас."
 	icon_state = "storage_syndi"
-	complexity = 0
+	complexity = MOD_COMPLEXITY_LARGE
 	silent = TRUE
 
 /obj/item/mod/module/storage/extended/syndicate
 	name = "MOD Blood-red Extended storage module"
 	desc = "Компактный расширенный модуль хранилища с лого Синдиката и модной кроваво-красной расцвекой."
 	icon_state = "storage_case"
-	complexity = 1
+	complexity = MOD_COMPLEXITY_LARGE
 	silent = TRUE
+
+/obj/item/mod/module/storage/extended/syndicate/infiltrator
+	complexity = 0
+	removable = FALSE
 
 /obj/item/mod/module/storage/on_install()
 	. = ..()
@@ -251,7 +255,8 @@
 
 /obj/item/mod/module/jetpack/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Режим: [stabilizers ? "стабилизация - гасит дрейф, заряд тратится на каждый шаг" : "свободный полёт - разгон до крейсерской скорости, дальше накат бесплатно"].</span>"
+	var/list/examine_text = .
+	examine_text.Insert(length(examine_text), "<span class='notice'>Режим: [stabilizers ? "стабилизация - гасит дрейф, заряд тратится на каждый шаг" : "свободный полёт - разгон до крейсерской скорости, дальше накат бесплатно"].</span>")
 
 /obj/item/mod/module/jetpack/advanced
 	name = "MOD advanced ion jetpack module"
@@ -513,7 +518,7 @@
 		однако этот невероятно чувствительный модуль выходит из строя под воздействием ЭМИ. К счастью, клонирование было запрещено."
 	icon_state = "dnalock"
 	module_type = MODULE_USABLE
-	complexity = 2
+	complexity = MOD_COMPLEXITY_SMALL
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	incompatible_modules = list(/obj/item/mod/module/dna_lock)
 	cooldown_time = 0.5 SECONDS

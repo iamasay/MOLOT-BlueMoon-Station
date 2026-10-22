@@ -7,14 +7,17 @@
 	var/datum/client_colour/mod_rave/rave_screen
 	var/mob/living/carbon/human/rave_user
 	var/datum/track/selection
+	var/datum/track/fallback_track
 	var/music_channel
 	var/music_client_ref
+	var/music_volume
 	var/rave_number = MOD_RAVE_FIRST_COLOR
 	var/static/list/rainbow_order = list(COLOR_RED, "#ff8000", COLOR_YELLOW, "#00ff00", "#0080ff", "#ff00ff")
 
 /obj/item/mod/module/visor/rave/Destroy()
 	clear_rave()
 	selection = null
+	QDEL_NULL(fallback_track)
 	return ..()
 
 /obj/item/mod/module/visor/rave/on_activation()
@@ -61,27 +64,45 @@
 	update_color()
 	if(music_channel && music_client_ref != REF(rave_user.client))
 		stop_music()
-	if(!SSjukeboxes.jukebox_sound_enabled(rave_user, TRUE))
+	if(!SSjukeboxes.jukebox_sound_enabled(rave_user, TRUE) || !get_music_volume())
 		stop_music()
 	else if(!music_channel)
 		start_music()
+	else if(music_volume != get_music_volume())
+		music_volume = get_music_volume()
+		var/sound/update = sound(null, channel = music_channel, volume = music_volume)
+		update.status = SOUND_UPDATE
+		SEND_SOUND(rave_user, update)
+
+/obj/item/mod/module/visor/rave/proc/get_music_tracks()
+	if(length(SSjukeboxes.songs))
+		return SSjukeboxes.songs
+	if(!fallback_track)
+		fallback_track = new("Tintin on the Moon", 'sound/ambience/title3.ogg')
+	return list(fallback_track)
+
+/obj/item/mod/module/visor/rave/proc/get_music_volume()
+	return MOD_RAVE_VOLUME * (rave_user?.client?.prefs?.get_sound_volume("personal_jukeboxes") || 0) / JUKEBOX_MAX_VOLUME
 
 /obj/item/mod/module/visor/rave/proc/start_music()
-	if(!rave_user || music_channel || !SSjukeboxes.jukebox_sound_enabled(rave_user, TRUE))
+	if(!rave_user || music_channel || !SSjukeboxes.jukebox_sound_enabled(rave_user, TRUE) || !get_music_volume())
 		return FALSE
-	if(!selection && length(SSjukeboxes.songs))
-		selection = SSjukeboxes.songs[1]
+	if(!selection)
+		var/list/tracks = get_music_tracks()
+		selection = tracks[1]
 	if(!selection?.song_path)
 		return FALSE
 	music_channel = SSsounds.reserve_sound_channel(src)
 	if(!music_channel)
 		return FALSE
 	music_client_ref = REF(rave_user.client)
-	SEND_SOUND(rave_user, sound(selection.song_path, repeat = TRUE, channel = music_channel, volume = MOD_RAVE_VOLUME))
+	music_volume = get_music_volume()
+	SEND_SOUND(rave_user, sound(selection.song_path, repeat = TRUE, channel = music_channel, volume = music_volume))
 	return TRUE
 
 /obj/item/mod/module/visor/rave/proc/stop_music()
 	music_client_ref = null
+	music_volume = null
 	if(!music_channel)
 		return
 	if(rave_user)
@@ -92,17 +113,18 @@
 /obj/item/mod/module/visor/rave/get_configuration()
 	. = ..()
 	var/list/songs = list()
-	for(var/datum/track/song in SSjukeboxes.songs)
+	var/list/tracks = get_music_tracks()
+	for(var/datum/track/song in tracks)
 		songs += song.song_name
-	if(!selection && length(SSjukeboxes.songs))
-		selection = SSjukeboxes.songs[1]
+	if(!selection)
+		selection = tracks[1]
 	if(length(songs))
 		.["selection"] = add_ui_configuration("Музыка", "list", selection?.song_name, songs)
 
 /obj/item/mod/module/visor/rave/configure_edit(key, value)
 	if(key != "selection" || active)
 		return
-	for(var/datum/track/song in SSjukeboxes.songs)
+	for(var/datum/track/song in get_music_tracks())
 		if(song.song_name == value)
 			selection = song
 			return
@@ -112,7 +134,7 @@
 	if(!active || !check_required_modpart())
 		return
 	var/static/list/states = icon_states('icons/mob/clothing/modsuit/mod_visor_whitemoon.dmi')
-	var/state = "[mod.skin]-helmet-visor"
+	var/state = "[mod.get_visual_skin()]-helmet-visor"
 	if(!(state in states))
 		state = "standard-helmet-visor"
 	var/mutable_appearance/visor = mutable_appearance('icons/mob/clothing/modsuit/mod_visor_whitemoon.dmi', state)

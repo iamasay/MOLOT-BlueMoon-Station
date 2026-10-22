@@ -13,11 +13,11 @@
 	can_private_buy = FALSE
 
 /datum/supply_pack/security/modsuit
-	name = "Охранный MOD"
-	desc = "Один охранный MOD с батареей и установленными штатными модулями."
+	name = "Security MOD"
+	desc = "Один MOD СБ с батареей и установленными штатными модулями."
 	cost = MOD_CARGO_COST
 	contains = list(/obj/item/mod/control/pre_equipped/security)
-	crate_name = "охранный MOD"
+	crate_name = "Security MOD"
 
 /datum/supply_pack/security/ammo
 	name = "Ammo Crate - General Purpose"

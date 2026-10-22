@@ -114,6 +114,34 @@
 	cost = 3
 	purchasable_from = UPLINK_SYNDICATE | UPLINK_NUKE_OPS | UPLINK_TRAITORS
 
+/datum/uplink_item/mod/emp_pulse
+	name = "MOD EMP pulse module"
+	desc = "Создаёт электромагнитный импульс вокруг носителя, защищая его от собственного разряда."
+	item = /obj/item/mod/module/emp_shield/pulse
+	cost = MOD_EMP_PULSE_UPLINK_COST
+	purchasable_from = ALL
+
+/datum/uplink_item/mod/flamethrower
+	name = "MOD flamethrower module"
+	desc = "Выдвижной огнемёт с питанием от MOD. Активируйте модуль и стреляйте оружием в руке."
+	item = /obj/item/mod/module/flamethrower
+	cost = MOD_FLAMETHROWER_UPLINK_COST
+	purchasable_from = ALL
+
+/datum/uplink_item/mod/jaeger_sprint
+	name = "MOD Jaeger sprint module"
+	desc = "Усиленные приводы временно повышают скорость движения носителя."
+	item = /obj/item/mod/module/jaeger_sprint
+	cost = MOD_JAEGER_UPLINK_COST
+	purchasable_from = ALL
+
+/datum/uplink_item/mod/quick_cuff
+	name = "MOD quick cuff module"
+	desc = "Приводы ускоряют надевание наручников на цель."
+	item = /obj/item/mod/module/quick_cuff
+	cost = MOD_QUICK_CUFF_UPLINK_COST
+	purchasable_from = ALL
+
 /datum/uplink_item/mod/plate_compression
 	name = "MOD Plate Compression Module"
 	desc = "Сжимает костюм до обычного размера. Несовместим с модулем хранилища."

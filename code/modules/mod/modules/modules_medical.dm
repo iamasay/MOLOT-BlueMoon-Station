@@ -13,7 +13,7 @@
 		но что с ними делать — зависит от вас."
 	icon_state = "health"
 	module_type = MODULE_ACTIVE
-	complexity = 2
+	complexity = MOD_COMPLEXITY_SMALL
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/health_analyzer)
 	have_shortcut_activation = TRUE

@@ -16,6 +16,20 @@
 	contains = list(/obj/item/mod/control/pre_equipped/standard)
 	crate_name = "стандартный MOD"
 
+/datum/supply_pack/misc/mod_mirage
+	name = "MOD-диспенсер гранат Mirage"
+	desc = "Один MOD-модуль, создающий гранаты с голографическими копиями владельца."
+	cost = MOD_MIRAGE_CARGO_COST
+	contains = list(/obj/item/mod/module/dispenser/mirage)
+	crate_name = "MOD-диспенсер гранат Mirage"
+
+/datum/supply_pack/misc/mod_jaeger_sprint
+	name = "MOD-модуль Jaeger Sprint"
+	desc = "Один модуль ускорения сервоприводов MOD-костюма."
+	cost = MOD_JAEGER_CARGO_COST
+	contains = list(/obj/item/mod/module/jaeger_sprint)
+	crate_name = "MOD-модуль Jaeger Sprint"
+
 //////////////////////////////////////////////////////////////////////////////
 //////////////////// Paperwork and Writing Supplies //////////////////////////
 //////////////////////////////////////////////////////////////////////////////

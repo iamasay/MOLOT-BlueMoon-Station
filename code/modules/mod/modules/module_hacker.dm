@@ -89,7 +89,7 @@
 /obj/item/mod/module/hacker/proc/drain_cell(mob/living/carbon/human/user, atom/target, obj/item/stock_parts/cell/cell, delay = MOD_HACK_DRAIN_DELAY)
 	var/total = 0
 	while(can_hack(user, target) && cell?.charge > 0)
-		if(!do_after(user, delay, target = target, hidden = TRUE) || !can_hack(user, target) || QDELETED(cell))
+		if(!do_after(user, delay, target = target) || !can_hack(user, target) || QDELETED(cell))
 			break
 		var/amount = min(cell.charge, rand(MOD_HACK_MIN_DRAIN, MOD_HACK_MAX_DRAIN))
 		var/received = receive_power(amount)
@@ -117,7 +117,7 @@
 /obj/item/mod/module/hacker/proc/drain_smes(mob/living/carbon/human/user, obj/machinery/power/smes/target)
 	var/total = 0
 	while(can_hack(user, target) && target.charge > 0)
-		if(!do_after(user, MOD_HACK_DRAIN_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+		if(!do_after(user, MOD_HACK_DRAIN_DELAY, target = target) || !can_hack(user, target))
 			break
 		var/amount = min(target.charge, rand(MOD_HACK_MIN_DRAIN, MOD_HACK_MAX_DRAIN))
 		var/received = receive_power(amount)
@@ -130,7 +130,7 @@
 /obj/item/mod/module/hacker/proc/drain_cable(mob/living/carbon/human/user, obj/structure/cable/target)
 	var/total = 0
 	while(can_hack(user, target))
-		if(!do_after(user, MOD_HACK_DRAIN_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+		if(!do_after(user, MOD_HACK_DRAIN_DELAY, target = target) || !can_hack(user, target))
 			break
 		var/amount = min(target.delayed_surplus(), rand(MOD_HACK_MIN_DRAIN, MOD_HACK_MAX_DRAIN))
 		var/received = receive_power(amount)
@@ -209,7 +209,7 @@
 	visible_message(span_danger("[user] поражает [src] электрическим разрядом!"))
 	Knockdown(MOD_HACK_SHOCK_TIME)
 	Jitter(MOD_HACK_SHOCK_TIME)
-	do_sparks(number = 3, cardinal_only = FALSE, source = src)
+	do_sparks(3, FALSE, src)
 	return TRUE
 
 /obj/machinery/camera/mod_hack_act(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
@@ -225,7 +225,7 @@
 	return TRUE
 
 /obj/machinery/vending/proc/mod_hack_inventory(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
-	if(shoot_inventory || !wires || !do_after(user, MOD_HACK_VEND_DELAY, target = src, hidden = TRUE) || !module.can_hack(user, src))
+	if(shoot_inventory || !wires || !do_after(user, MOD_HACK_VEND_DELAY, target = src) || !module.can_hack(user, src))
 		return
 	if(!module.pay_power(MOD_HACK_DOOR_POWER))
 		return
@@ -248,7 +248,7 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_robot(mob/living/carbon/human/user, mob/living/silicon/robot/target)
-	if(!do_after(user, MOD_HACK_ROBOT_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_ROBOT_DELAY, target = target) || !can_hack(user, target))
 		return
 	target.faction = list(ROLE_NINJA)
 	target.bubble_icon = "syndibot"
@@ -276,7 +276,7 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_security_console(mob/living/carbon/human/user, obj/machinery/computer/secure_data/target)
-	if(!do_after(user, MOD_HACK_CONSOLE_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_CONSOLE_DELAY, target = target) || !can_hack(user, target))
 		return
 	target.AI_notify_hack()
 	for(var/datum/data/record/security_record in GLOB.data_core.security)
@@ -295,7 +295,7 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_communications(mob/living/carbon/human/user, obj/machinery/computer/communications/target)
-	if(!do_after(user, MOD_HACK_CONSOLE_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_CONSOLE_DELAY, target = target) || !can_hack(user, target))
 		return
 	target.AI_notify_hack()
 	switch(rand(MOD_HACK_EVENT_LONE, MOD_HACK_EVENT_METEORS))
@@ -324,7 +324,7 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_research(mob/living/carbon/human/user, obj/machinery/rnd/server/target)
-	if(!do_after(user, MOD_HACK_RESEARCH_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_RESEARCH_DELAY, target = target) || !can_hack(user, target))
 		return
 	target.AI_notify_hack()
 	target.stored_research?.modify_points_all(0)
@@ -335,11 +335,11 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_bot(mob/living/carbon/human/user, mob/living/simple_animal/bot/target)
-	if(!do_after(user, MOD_HACK_BOT_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_BOT_DELAY, target = target) || !can_hack(user, target))
 		return
 	if(!pay_power(MOD_HACK_BOT_POWER))
 		return
-	do_sparks(number = 3, cardinal_only = FALSE, source = target)
+	do_sparks(3, source = target)
 	balloon_alert(user, "отойдите!")
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(explosion), target,
 		MOD_HACK_BOT_DEVASTATION, MOD_HACK_BOT_HEAVY, MOD_HACK_BOT_LIGHT, MOD_HACK_BOT_FLASH), MOD_HACK_BOT_EXPLOSION_DELAY)
@@ -350,6 +350,6 @@
 	return TRUE
 
 /obj/item/mod/module/hacker/proc/hack_recycler(mob/living/carbon/human/user, obj/machinery/recycler/target)
-	if(!do_after(user, MOD_HACK_RECYCLER_DELAY, target = target, hidden = TRUE) || !can_hack(user, target))
+	if(!do_after(user, MOD_HACK_RECYCLER_DELAY, target = target) || !can_hack(user, target))
 		return
 	target.emag_act(user)

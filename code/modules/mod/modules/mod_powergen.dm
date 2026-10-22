@@ -25,8 +25,9 @@
 
 /obj/item/mod/module/power/examine(mob/user)
 	. = ..()
+	var/list/examine_text = .
 	if(use_fuel)
-		. += span_danger("Чтобы модуль работал, нужно вставить в него топливо, нажав на МОД Ctrl+Shift и левая кнопка мыши, держа нужный тип топлива в руках!")
+		examine_text.Insert(length(examine_text), span_danger("Чтобы модуль работал, нужно вставить в него топливо, нажав на МОД Ctrl+Shift и левая кнопка мыши, держа нужный тип топлива в руках!"))
 	return .
 
 /obj/item/mod/module/power/on_install()

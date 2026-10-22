@@ -78,7 +78,7 @@
 		current.zFall(inverted_user)
 		return
 	if(!above && current.planetary_atmos)
-		fly_away()
+		INVOKE_ASYNC(src, PROC_REF(fly_away))
 		return
 	if(forced || HAS_TRAIT_NOT_FROM(inverted_user, TRAIT_SILENT_STEP, REF(src)))
 		return

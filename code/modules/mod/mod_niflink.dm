@@ -32,6 +32,7 @@
 /obj/item/organ/cyberimp/brain/nif/Destroy()
 	deltimer(recovery_timer)
 	QDEL_LIST(loaded_nifsofts)
+	linked_mob = null
 	return ..()
 
 /obj/item/organ/cyberimp/brain/nif/Insert(mob/living/carbon/human/receiver, special = FALSE, drop_if_replaced = TRUE)
@@ -60,7 +61,7 @@
 /obj/item/organ/cyberimp/brain/nif/process(delta_time)
 	if(!linked_mob)
 		return ..()
-	if(broken || IS_IN_STASIS(linked_mob))
+	if(broken || durability <= 0 || linked_mob.stat == DEAD || IS_IN_STASIS(linked_mob))
 		return
 	if(calibrating)
 		calibrate()
@@ -85,6 +86,8 @@
 					linked_mob.adjust_disgust(NIF_CALIBRATION_DISGUST)
 				if(NIF_CALIBRATION_FATIGUE)
 					linked_mob.adjustStaminaLoss(NIF_CALIBRATION_STAMINA)
+				else
+					return
 		return
 	calibrating = FALSE
 	is_calibrated = TRUE
@@ -116,11 +119,8 @@
 	return TRUE
 
 /obj/item/organ/cyberimp/brain/nif/proc/install_nifsoft(datum/nifsoft/program)
-	if(broken || calibrating || !linked_mob || length(loaded_nifsofts) >= max_nifsofts)
+	if(installation_error(program.type))
 		return FALSE
-	for(var/datum/nifsoft/other in loaded_nifsofts)
-		if(other.type == program.type)
-			return FALSE
 	loaded_nifsofts += program
 	program.parent_nif = WEAKREF(src)
 	program.linked_mob = linked_mob
@@ -172,10 +172,15 @@
 	var/program_desc
 	var/datum/weakref/parent_nif
 	var/mob/living/carbon/human/linked_mob
-	var/purchase_price = NIF_SOFTWARE_PRICE
+	var/purchase_price = NIF_PROGRAM_PRICE
 	var/active = FALSE
 	var/active_cost = 0
 	var/activation_cost = 0
+	var/active_mode = TRUE
+	var/category = "Общее"
+	var/compatible_nif = /obj/item/organ/cyberimp/brain/nif
+	var/exclusive_group
+	COOLDOWN_DECLARE(use_cooldown)
 
 /datum/nifsoft/New(obj/item/organ/cyberimp/brain/nif/implant)
 	. = ..()
@@ -195,19 +200,25 @@
 	if(active)
 		deactivate()
 		return TRUE
-	var/obj/item/organ/cyberimp/brain/nif/implant = parent_nif?.resolve()
-	if(!implant || implant.broken || implant.durability <= 0 || !linked_mob || linked_mob.incapacitated())
+	if(!can_activate())
 		return FALSE
+	var/obj/item/organ/cyberimp/brain/nif/implant = parent_nif.resolve()
 	if(!implant.change_power_level(activation_cost))
+		to_chat(linked_mob, span_warning("NIF: недостаточно энергии для запуска [name]."))
 		return FALSE
-	active = TRUE
+	active = active_mode
 	return TRUE
+
+/datum/nifsoft/proc/can_activate()
+	var/obj/item/organ/cyberimp/brain/nif/implant = parent_nif?.resolve()
+	return !QDELETED(src) && implant && !implant.calibrating && !implant.broken && implant.durability > 0 && (src in implant.loaded_nifsofts) && linked_mob && !linked_mob.incapacitated() && COOLDOWN_FINISHED(src, use_cooldown)
 
 /datum/nifsoft/proc/deactivate()
 	active = FALSE
 
 /datum/nifsoft/scryer
 	name = "NIFLink Holocaller"
+	purchase_price = NIF_SOFTWARE_PRICE
 	program_desc = "Project a wearable terminal for holographic calls with MODlink devices."
 	active_cost = NIF_SCRYER_DRAIN
 	activation_cost = NIF_SCRYER_ACTIVATION
@@ -342,17 +353,22 @@
 	return GLOB.conscious_state
 
 /obj/item/organ/cyberimp/brain/nif/ui_status(mob/user, datum/ui_state/state)
-	return user == linked_mob ? ..() : UI_CLOSE
+	if(!linked_mob || user != linked_mob || owner != user)
+		return UI_CLOSE
+	return GLOB.conscious_state.can_use_topic(src, user)
 
 /obj/item/organ/cyberimp/brain/nif/ui_data(mob/user)
 	var/list/programs = list()
 	for(var/datum/nifsoft/program in loaded_nifsofts)
-		programs += list(list("name" = program.name, "description" = program.program_desc, "active" = program.active, "ref" = REF(program)))
+		programs += list(list("name" = program.name, "description" = program.program_desc, "active" = program.active,
+			"toggle" = program.active_mode, "ready" = program.can_activate(), "ref" = REF(program)))
 	return list("power" = power_level, "maximum" = max_power_level, "durability" = durability, "max_durability" = max_durability, "calibrating" = calibrating,
-		"broken" = broken, "nutrition" = nutrition_drain, "blood" = blood_drain, "price" = NIF_SOFTWARE_PRICE, "programs" = programs)
+		"calibration_remaining" = calibrating ? clamp(calibration_end - world.time, 0, calibration_time) / (1 SECONDS) : 0,
+		"broken" = broken, "nutrition" = nutrition_drain, "blood" = blood_drain, "programs" = programs,
+		"catalog" = program_catalog(), "slots" = max_nifsofts, "balance" = linked_mob?.get_bank_account()?.account_balance)
 
 /obj/item/organ/cyberimp/brain/nif/ui_act(action, params)
-	if(..() || usr != linked_mob || calibrating || broken || durability <= 0)
+	if(..() || usr != linked_mob || owner != linked_mob)
 		return FALSE
 	switch(action)
 		if("nutrition")
@@ -368,13 +384,7 @@
 			else
 				qdel(program)
 		if("purchase")
-			var/obj/item/card/id/card = linked_mob.get_idcard()
-			var/datum/bank_account/account = card?.registered_account
-			if(!account || !account.adjust_money(-NIF_SOFTWARE_PRICE))
-				return FALSE
-			var/datum/nifsoft/program = new /datum/nifsoft/scryer(src)
-			if(QDELETED(program))
-				account.adjust_money(NIF_SOFTWARE_PRICE)
+			return purchase_program(text2path(params["program"]))
 	return TRUE
 
 /obj/item/autosurgeon/nif
@@ -451,5 +461,5 @@
 	name = "NIF Holocalling Kit"
 	desc = "A NIF autosurgeon, holocaller program and maintenance tools."
 	cost = CARGO_CRATE_VALUE * 5
-	contains = list(/obj/item/autosurgeon/nif, /obj/item/disk/nifsoft_uploader/scryer, /obj/item/nif_repair_kit, /obj/item/nifsoft_remover)
+	contains = list(/obj/item/autosurgeon/nif, /obj/item/disk/nifsoft_uploader/scryer, /obj/item/nif_repair_kit, /obj/item/nifsoft_remover, /obj/item/nif_hud_adapter)
 	crate_name = "NIF holocalling kit"

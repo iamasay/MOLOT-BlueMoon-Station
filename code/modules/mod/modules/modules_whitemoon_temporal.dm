@@ -198,12 +198,21 @@
 	module_type = MODULE_USABLE
 	removable = FALSE
 	allowed_in_phaseout = TRUE
+	hands_free_use = TRUE
 	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TEMPORAL_POWER
 	cooldown_time = 5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/timeline_jumper)
 	var/obj/effect/dummy/phased_mob/spell_jaunt/mod_chrono/phased_mob
+	var/datum/action/mod_timeline_return/return_action
+
+/obj/item/mod/module/timeline_jumper/on_select()
+	if(phased_mob)
+		return return_to_timeline()
+	return ..()
 
 /obj/item/mod/module/timeline_jumper/on_use()
+	if(phased_mob)
+		return return_to_timeline()
 	if(!mod?.is_active() || !..())
 		return FALSE
 	var/turf/location = get_turf(mod.wearer)
@@ -211,14 +220,9 @@
 	if(!location || area.area_flags & NOTELEPORT || location.flags_1 & NOJAUNT_1)
 		to_chat(mod.wearer, span_warning("Местное поле блокирует переход между временными линиями."))
 		return FALSE
-	if(!phased_mob && !isturf(mod.wearer.loc))
+	if(!isturf(mod.wearer.loc))
 		return FALSE
 	if(!drain_power(use_power_cost))
-		return FALSE
-	if(phased_mob)
-		clear_phase()
-		return TRUE
-	if(!isturf(mod.wearer.loc))
 		return FALSE
 	mod.wearer.SetAllImmobility(0)
 	mod.wearer.setStaminaLoss(0)
@@ -226,6 +230,15 @@
 	RegisterSignal(phased_mob, COMSIG_PARENT_QDELETING, PROC_REF(on_phase_end))
 	RegisterSignal(mod, COMSIG_MOD_ACTIVATE, PROC_REF(block_shutdown))
 	mod.wearer.forceMove(phased_mob)
+	return_action = new(src)
+	return_action.Grant(mod.wearer)
+	playsound(src, 'sound/items/modsuit/time_anchor_set.ogg', MOD_TEMPORAL_VOLUME, TRUE)
+	return TRUE
+
+/obj/item/mod/module/timeline_jumper/proc/return_to_timeline()
+	if(!phased_mob || !mod?.wearer || mod.wearer.loc != phased_mob)
+		return FALSE
+	clear_phase()
 	playsound(src, 'sound/items/modsuit/time_anchor_set.ogg', MOD_TEMPORAL_VOLUME, TRUE)
 	return TRUE
 
@@ -239,11 +252,13 @@
 	UnregisterSignal(phased_mob, COMSIG_PARENT_QDELETING)
 	UnregisterSignal(mod, COMSIG_MOD_ACTIVATE)
 	phased_mob = null
+	QDEL_NULL(return_action)
 
 /obj/item/mod/module/timeline_jumper/proc/clear_phase()
 	UnregisterSignal(phased_mob, COMSIG_PARENT_QDELETING)
 	UnregisterSignal(mod, COMSIG_MOD_ACTIVATE)
 	QDEL_NULL(phased_mob)
+	QDEL_NULL(return_action)
 
 /obj/item/mod/module/timeline_jumper/on_suit_deactivation()
 	clear_phase()
@@ -258,6 +273,27 @@
 /obj/item/mod/module/timeline_jumper/Destroy()
 	clear_phase()
 	return ..()
+
+/datum/action/mod_timeline_return
+	name = "Вернуться в поток времени"
+	desc = "Выйти из фазового перехода без расхода энергии и ожидания перезарядки."
+	background_icon_state = "bg_tech_blue"
+	icon_icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
+	button_icon_state = "timeline_jumper"
+	required_mobility_flags = NONE
+	check_flags = AB_CHECK_ALIVE
+
+/datum/action/mod_timeline_return/IsAvailable(silent = FALSE)
+	if(!..())
+		return FALSE
+	var/obj/item/mod/module/timeline_jumper/module = target
+	return !QDELETED(module) && module.phased_mob && module.mod?.wearer == owner && owner.loc == module.phased_mob
+
+/datum/action/mod_timeline_return/Trigger(trigger_flags)
+	if(!..())
+		return FALSE
+	var/obj/item/mod/module/timeline_jumper/module = target
+	return module.return_to_timeline()
 
 /obj/effect/dummy/phased_mob/spell_jaunt/mod_chrono
 	name = "помехи реальности"

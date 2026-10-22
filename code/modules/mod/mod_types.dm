@@ -62,7 +62,6 @@
 /obj/item/mod/control/pre_equipped/mining
 	theme = /datum/mod_theme/cargo_default/mining
 	equip_cell = /obj/item/stock_parts/cell/high/plus
-	complexity_max = ANTAG_MAX_COMPLEXITY
 	initial_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/welding,
@@ -371,8 +370,6 @@
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/jetpack/advanced,
-		/obj/item/mod/module/armor/prebuild/bullet,
-		/obj/item/mod/module/armor/prebuild/laser,
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/holster,
 	)
@@ -397,7 +394,6 @@
 	equip_cell = /obj/item/stock_parts/cell/bluespace
 	theme = /datum/mod_theme/antagonist/infiltrator
 	initial_modules = list(
-		/obj/item/mod/module/storage/extended/syndicate,
 		/obj/item/mod/module/welding,
 		/obj/item/mod/module/noslip,
 		/obj/item/mod/module/stealth,
@@ -408,12 +404,6 @@
 		/obj/item/mod/module/infiltrator,
 		/obj/item/mod/module/dna_lock/antag,
 	)
-
-/obj/item/mod/control/pre_equipped/infiltrator_inteq/compact/Initialize(mapload, new_theme, new_skin)
-	initial_modules = initial_modules.Copy()
-	initial_modules -= /obj/item/mod/module/storage/extended/syndicate
-	initial_modules.Insert(1, /obj/item/mod/module/storage/belt)
-	return ..()
 
 /obj/item/mod/control/pre_equipped/traitor/inteq
 	equip_cell = /obj/item/stock_parts/cell/bluespace
@@ -444,12 +434,10 @@
 	name = "Blueshield souless MODsuit theme Kit"
 	// icon_state = "souless"
 	new_theme = /datum/mod_theme/station_combat/security/blueshied/souless
-	from_theme = /datum/mod_theme/station_combat/security/blueshied
 
 /obj/item/modsuit_modkit/blacksec
 	name = "Blueshield blacksec MODsuit theme Kit"
 	new_theme = /datum/mod_theme/station_combat/security/blueshied/blacksec
-	from_theme = /datum/mod_theme/station_combat/security/blueshied
 
 /obj/item/choice_beacon/blueshied_suit
 	name = "blueshied Suit Beacon"

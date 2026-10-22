@@ -1,6 +1,6 @@
 /obj/item/mod/module/stealth/wraith
 	name = "MOD Wraith cloaking module"
-	desc = "Пассивная маскировка скрывает владельца. Активный излучатель перегружает свет и электронику, пополняя заряд костюма. Несовместим с бронеплитами."
+	desc = "Включённый модуль скрывает владельца и позволяет перегружать свет и электронику, пополняя заряд костюма. После срыва маскировка восстанавливается с задержкой, пока модуль включён. Несовместим с бронеплитами."
 	icon_state = "cloak_traitor"
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
@@ -23,8 +23,17 @@
 		return FALSE
 	return ..()
 
-/obj/item/mod/module/stealth/wraith/on_suit_activation()
-	start_stealth()
+/obj/item/mod/module/stealth/wraith/on_activation()
+	if(!cloak_ready())
+		mod?.balloon_alert(mod.wearer, "разверните костюм полностью")
+		return FALSE
+	. = ..()
+	if(.)
+		start_stealth()
+
+/obj/item/mod/module/stealth/wraith/on_deactivation(display_message = TRUE, deleting = FALSE)
+	stop_stealth()
+	return ..()
 
 /obj/item/mod/module/stealth/wraith/on_suit_deactivation()
 	stop_stealth()
@@ -32,40 +41,57 @@
 /obj/item/mod/module/stealth/wraith/on_unequip()
 	stop_stealth()
 
+/obj/item/mod/module/stealth/wraith/on_uninstall(deleting = FALSE, user)
+	stop_stealth()
+	return ..()
+
 /obj/item/mod/module/stealth/wraith/on_process(delta_time)
 	. = ..()
-	if(!. || !mod?.is_active() || !mod.all_parts_deployed())
+	if(!. || !active || !cloak_ready())
 		stop_stealth()
 		return
-	if(stealth_active && !active && !drain_power(active_power_cost * delta_time))
-		unstealth()
+	if(cloak_user && cloak_user != mod.wearer)
+		stop_stealth()
 	if(!stealth_active)
 		start_stealth()
 
 /obj/item/mod/module/stealth/wraith/proc/start_stealth()
-	if(stealth_active || !mod?.wearer || !mod.is_active() || !mod.all_parts_deployed() || !COOLDOWN_FINISHED(src, recloak_timer) || !check_power(use_power_cost))
+	if(!active || stealth_active || !cloak_ready() || !COOLDOWN_FINISHED(src, recloak_timer) || !check_power(use_power_cost))
 		return FALSE
 	cloak_user = mod.wearer
 	RegisterSignal(cloak_user, COMSIG_PARENT_QDELETING, PROC_REF(on_cloak_user_deleted))
+	RegisterSignal(cloak_user, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_cloak_part_removed))
 	enable_cloak()
 	RegisterSignal(cloak_user, list(COMSIG_ATOM_BUMPED, COMSIG_LIVING_GUN_PROCESS_FIRE), PROC_REF(unstealth))
 	stealth_active = TRUE
 	return TRUE
 
+/obj/item/mod/module/stealth/wraith/proc/cloak_ready()
+	if(!mod?.wearer || !mod.is_active())
+		return FALSE
+	for(var/obj/item/clothing/mod_part/part in mod.get_mod_parts(include_cell = FALSE))
+		if(!part.check_module_ready())
+			return FALSE
+	return TRUE
+
 /obj/item/mod/module/stealth/wraith/proc/stop_stealth()
+	stealth_active = FALSE
 	if(!cloak_user)
 		return
-	UnregisterSignal(cloak_user, list(COMSIG_PARENT_QDELETING, COMSIG_ATOM_BUMPED, COMSIG_LIVING_GUN_PROCESS_FIRE))
+	UnregisterSignal(cloak_user, list(COMSIG_PARENT_QDELETING, COMSIG_ATOM_BUMPED, COMSIG_LIVING_GUN_PROCESS_FIRE, COMSIG_MOB_UNEQUIPPED_ITEM))
 	disable_cloak(cloak_user)
 	cloak_user = null
-	stealth_active = FALSE
+
+/obj/item/mod/module/stealth/wraith/proc/on_cloak_part_removed(mob/source, obj/item/item)
+	SIGNAL_HANDLER
+	if(item in mod.get_mod_parts(include_cell = FALSE))
+		stop_stealth()
 
 /obj/item/mod/module/stealth/wraith/proc/on_cloak_user_deleted()
 	SIGNAL_HANDLER
 	stop_stealth()
 
 /obj/item/mod/module/stealth/wraith/unstealth()
-	SIGNAL_HANDLER
 	if(!stealth_active)
 		return
 	stop_stealth()

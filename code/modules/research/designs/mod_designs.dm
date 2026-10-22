@@ -364,6 +364,24 @@
 	build_path = /obj/item/mod/module/drill
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
+/datum/design/module/mod_loader_clamp
+	name = "Loader Clamp Module"
+	id = "mod_loader_clamp"
+	build_path = /obj/item/mod/module/clamp/loader
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/module/mod_magnet
+	name = "Magnet Module"
+	id = "mod_magnet"
+	build_path = /obj/item/mod/module/magnet
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/module/mod_selfcleaner
+	name = "Self-cleaning Module"
+	id = "mod_selfcleaner"
+	build_path = /obj/item/mod/module/selfcleaner
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
+
 /datum/design/module/mod_orebag
 	name = "Ore Bag Module"
 	id = "mod_orebag"

@@ -38,12 +38,10 @@
 	return ..()
 
 /datum/proximity_monitor/mod_demoralizer/on_entered(atom/source, atom/movable/arrived)
-	SIGNAL_HANDLER
 	if(isliving(arrived) && (host in view(current_range, arrived)))
 		apply_mood(arrived)
 
 /datum/proximity_monitor/mod_demoralizer/on_moved(atom/movable/source, atom/old_loc)
-	SIGNAL_HANDLER
 	last_host_loc = host?.loc
 	for(var/mob/living/viewer in view(current_range, host))
 		apply_mood(viewer)

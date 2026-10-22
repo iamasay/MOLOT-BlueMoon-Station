@@ -56,8 +56,9 @@
 	return ..()
 
 /obj/item/mod/remote/proc/get_suit()
+	RETURN_TYPE(/obj/item/mod/control)
 	var/obj/item/mod/module/remote_control/module = module_ref?.resolve()
-	if(module && module in module.mod?.modules)
+	if(module && (module in module.mod?.modules))
 		return module.mod
 	return null
 

@@ -80,6 +80,7 @@
 	piece.toggle_all_linked_modules(MODPART_CONSEALED)
 	piece.restore_normal_features()
 	update_control_overlay()
+	update_hardlight()
 	if(user)
 		piece.notify_user(TRUE, wearer)
 
@@ -193,7 +194,7 @@
 	wearer?.update_inv_back()
 
 /obj/item/mod/control/update_icon_state()
-	icon_state = "[skin]-control[is_active() && all_parts_deployed() ? "-sealed" : ""]"
+	icon_state = "[get_visual_skin()]-control[is_active() && all_parts_deployed() ? "-sealed" : ""]"
 	return ..()
 
 /obj/item/mod/control/proc/quick_activation()
