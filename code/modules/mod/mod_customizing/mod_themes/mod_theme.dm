@@ -120,7 +120,7 @@
 	)
 
 /datum/mod_theme/station_combat/security
-	inbuilt_modules = list(/obj/item/mod/module/pepper_shoulders/security)
+	inbuilt_modules = list(/obj/item/mod/module/pepper_shoulders/security, /obj/item/mod/module/quick_cuff)
 	name = "security"
 	desc = "Костюм безопасности от Apadyne Technologies, обеспечивающий защиту от ударов и большую скорость за счёт грузоподъёмности."
 	extended_desc = "Классика от Apadyne Technologies, эта модель костюма MOD была разработана для быстрого реагирования на \

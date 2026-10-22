@@ -86,9 +86,10 @@
 				REMOVE_TRAIT(H, TRAIT_IMMOBILIZED, SLIMEPUDDLE_TRAIT)
 
 				//set the puddle overlay up
-				var/mutable_appearance/puddle_overlay = mutable_appearance(icon = puddle_icon, icon_state = puddle_state)
+				var/puddle_sprite = get_puddle_icon()
+				var/mutable_appearance/puddle_overlay = mutable_appearance(icon = puddle_sprite, icon_state = puddle_state)
 				if (H.dna.features["puddle_slime_fea"] == TRUE)
-					puddle_overlay = mutable_appearance(icon = puddle_icon, icon_state = puddle_state_alt)
+					puddle_overlay = mutable_appearance(icon = puddle_sprite, icon_state = puddle_state_alt)
 				puddle_overlay.color = mutcolor
 				tracked_overlay = puddle_overlay
 				owner.add_overlay(puddle_overlay)
@@ -124,6 +125,9 @@
 
 /datum/action/innate/ability/slime_blobform/proc/get_puddle_color(mob/living/carbon/human/human)
 	return human.get_ability_property(INNATE_ABILITY_SLIME_BLOBFORM, PROPERTY_BLOBFORM_COLOR) || ("#" + human.dna.features["mcolor"])
+
+/datum/action/innate/ability/slime_blobform/proc/get_puddle_icon()
+	return puddle_icon
 
 /datum/action/innate/ability/slime_blobform/proc/reset_form()
 	transformation_cycle++

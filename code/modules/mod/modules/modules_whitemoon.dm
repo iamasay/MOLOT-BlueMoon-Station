@@ -320,6 +320,7 @@
 /obj/item/mod/module/quick_cuff
 	name = "MOD restraint assist module"
 	desc = "Enhanced gauntlet grip pads help the wearer apply restraints more quickly."
+	complexity = 0
 	removable = FALSE
 	required_modpart_index = MOD_PART_GLOVES
 	incompatible_modules = list(/obj/item/mod/module/quick_cuff)
@@ -1719,6 +1720,7 @@
 
 /obj/item/mod/module/shove_blocker
 	name = "MOD bulwark module"
+	custom_price = PRICE_REALLY_EXPENSIVE
 	desc = "Амортизирующие пластины защищают от толчков, потери равновесия и отбрасывания брошенными предметами."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "bulwark"

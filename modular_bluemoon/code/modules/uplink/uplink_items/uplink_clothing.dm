@@ -135,13 +135,6 @@
 	cost = MOD_JAEGER_UPLINK_COST
 	purchasable_from = ALL
 
-/datum/uplink_item/mod/quick_cuff
-	name = "MOD quick cuff module"
-	desc = "Приводы ускоряют надевание наручников на цель."
-	item = /obj/item/mod/module/quick_cuff
-	cost = MOD_QUICK_CUFF_UPLINK_COST
-	purchasable_from = ALL
-
 /datum/uplink_item/mod/plate_compression
 	name = "MOD Plate Compression Module"
 	desc = "Сжимает костюм до обычного размера. Несовместим с модулем хранилища."

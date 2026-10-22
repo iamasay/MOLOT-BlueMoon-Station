@@ -9,6 +9,7 @@
 	req_access = list(ACCESS_SECURITY)
 	products = list(
 		/obj/item/mod/module/pepper_shoulders = MOD_MODULE_VENDOR_STOCK,
+		/obj/item/mod/module/shove_blocker = MOD_MODULE_VENDOR_STOCK,
 		/obj/item/restraints/handcuffs = 6,
 		/obj/item/restraints/handcuffs/kinky = 6,
 		/obj/item/restraints/handcuffs/cable/zipties = 6,

@@ -52,6 +52,32 @@
 /datum/action/innate/ability/slime_blobform/protean/get_puddle_color(mob/living/carbon/human/human)
 	return BLOOD_COLOR_IRON
 
+/datum/action/innate/ability/slime_blobform/protean/get_puddle_icon()
+	var/static/icon/puddle_sprite
+	if(!puddle_sprite)
+		puddle_sprite = build_puddle_icon()
+	return puddle_sprite
+
+/datum/action/innate/ability/slime_blobform/protean/proc/build_puddle_icon()
+	var/icon/animation = icon(PROTEAN_ORGAN_SPRITE, PROTEAN_PUDDLE_STATE)
+	var/list/palette = get_puddle_palette()
+	for(var/original_color in palette)
+		animation.SwapColor(original_color, palette[original_color])
+	var/icon/puddle_sprite = new()
+	puddle_sprite.Insert(animation, PROTEAN_PUDDLE_STATE)
+	return puddle_sprite
+
+/datum/action/innate/ability/slime_blobform/protean/proc/get_puddle_palette()
+	var/icon/original = icon(PROTEAN_ORGAN_SPRITE, PROTEAN_PUDDLE_STATE, frame = 1)
+	var/icon/nanites = icon(PROTEAN_ORGAN_SPRITE, "puddle")
+	var/list/palette = list()
+	for(var/x in 1 to original.Width())
+		for(var/y in 1 to original.Height())
+			var/original_color = original.GetPixel(x, y)
+			if(original_color)
+				palette[original_color] = nanites.GetPixel(x, y)
+	return palette
+
 /obj/item/mod/control/pre_equipped/protean/relaymove(mob/living/carbon/human/user, direction)
 	if(user != get_protean() || user.loc != src || !isturf(loc) || wearer || anchored || !direction || user.stat != CONSCIOUS)
 		return FALSE
