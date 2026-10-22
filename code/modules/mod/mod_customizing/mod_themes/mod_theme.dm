@@ -245,6 +245,7 @@
 	)
 
 /datum/mod_theme/antagonist/elite
+	brc_mitigation_bonus = BRC_MITIGATION_20
 	complexity_max = ELITE_MAX_COMPLEXITY
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate, /obj/item/mod/module/night, /obj/item/mod/module/hearing_protection)
 	name = "elite"
@@ -310,6 +311,7 @@
 	default_skin = "marine"
 
 /datum/mod_theme/centcom/responsory/traitor
+	brc_mitigation_bonus = BRC_MITIGATION_20
 	name = "dark paladin"
 	desc = "Захваченный Синдикатом скоростной костюм Nanotrasen, приспособленный для саботажа и штурма."
 	default_skin = "inquisitory"
@@ -322,6 +324,7 @@
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate)
 
 /datum/mod_theme/centcom/apocryphal
+	brc_mitigation_bonus = BRC_MITIGATION_25
 	complexity_max = CENTCOM_COMBAT_MAX_COMPLEXITY
 	name = "apocryphal"
 	desc = "Высокотехнологичный, лишь формально легальный бронированный костюм, созданный совместными усилиями Nanotrasen и Apadyne Technologies."
@@ -338,6 +341,7 @@
 	)
 
 /datum/mod_theme/corporate
+	brc_mitigation_bonus = BRC_MITIGATION_25
 	name = "corporate"
 	desc = "Шикарный высокотехнологичный костюм для высокопоставленных офицеров Nanotrasen."
 	extended_desc = "Ещё более дорогая версия модели Magnate, корпоративный костюм — это термоизолированный, \
@@ -357,6 +361,7 @@
 	)
 
 /datum/mod_theme/debug
+	brc_mitigation_bonus = BRC_MITIGATION_25
 	name = "debug"
 	desc = "Странно ностальгический."
 	extended_desc = "Продвинутый костюм с двумя ионными двигателями, достаточно мощными, чтобы дать гуманоиду полёт. \
@@ -389,6 +394,7 @@
 	)
 
 /datum/mod_theme/antagonist/inteq_nuclear
+	brc_mitigation_bonus = BRC_MITIGATION_20
 	name = "InteQ"
 	desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. "
 	extended_desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
@@ -499,6 +505,7 @@
 	)
 
 /datum/mod_theme/chrono
+	brc_mitigation_bonus = BRC_MITIGATION_15
 	name = "Chrono"
 	desc = "Костюм для перемещения между временными линиями и исправления их хода."
 	extended_desc = "Технология вне времени, защищающая носителя при работе с временными парадоксами."

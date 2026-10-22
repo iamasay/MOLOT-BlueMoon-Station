@@ -21,6 +21,7 @@
 	var/default_skin = "standard"
 	/// Initial armor profile type path shared across the MOD pieces.
 	var/armor_type = /datum/armor/modsuit_standard
+	var/brc_mitigation_bonus = 0
 	/// Resistance flags shared across the MOD pieces.
 	var/resistance_flags = NONE
 	/// Max heat protection shared across the MOD pieces.
@@ -76,6 +77,8 @@
 		piece.permeability_coefficient = permeability_coefficient
 		piece.siemens_coefficient = siemens_coefficient
 
+	var/obj/item/clothing/mod_part/suit/chest = modsuit.get_chestplate()
+	chest.set_brc_bonus(brc_mitigation_bonus)
 	modsuit.max_armor_module_count = max_armor_module_count
 	modsuit.slowdown_inactive = slowdown_inactive
 	modsuit.slowdown_active = slowdown_active
@@ -125,6 +128,7 @@
 	allowed = ALLOWED_CARGO
 
 /datum/mod_theme/centcom
+	brc_mitigation_bonus = BRC_MITIGATION_15
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -133,6 +137,7 @@
 	hardlight_color = MOD_COMMAND_COLOR
 
 /datum/mod_theme/station_combat
+	brc_mitigation_bonus = BRC_MITIGATION_15
 	siemens_coefficient = 0
 	allowed = ALLOWED_SECURITY
 	hardlight_color = MOD_SEC_COLOR
@@ -148,6 +153,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 
 /datum/mod_theme/antagonist
+	brc_mitigation_bonus = BRC_MITIGATION_15
 	allow_hot_swap = TRUE
 	complexity_max = ANTAG_MAX_COMPLEXITY
 	siemens_coefficient = 0
