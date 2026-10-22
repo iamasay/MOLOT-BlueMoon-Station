@@ -222,10 +222,10 @@
 	return ..()
 
 /datum/movespeed_modifier/protean_low_power
-	multiplicative_slowdown = PROTEAN_LOW_POWER_SLOWDOWN
+	multiplicative_slowdown = 5
 
 /datum/status_effect/protean_low_power_mode/reform
-	duration = PROTEAN_REFORM_TIME
+	duration = 7 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/protean_low_power_mode/reform
 
 /atom/movable/screen/alert/status_effect/protean_low_power_mode/reform
@@ -382,7 +382,7 @@
 
 /datum/status_effect/protean_servo_movement
 	id = "protean_servo_movement"
-	duration = PROTEAN_REFORM_TIME
+	duration = 7 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/protean_servo/movement
 	var/list/held = list()
 
@@ -412,7 +412,7 @@
 	held -= item
 
 /datum/movespeed_modifier/protean_servo
-	multiplicative_slowdown = PROTEAN_SERVO_MOVEMENT_BONUS
+	multiplicative_slowdown = -0.4
 	blacklisted_movetypes = FLYING | FLOATING
 
 /datum/status_effect/protean_servo_medical
@@ -452,7 +452,7 @@
 	return ..()
 
 /datum/actionspeed_modifier/protean_servo
-	multiplicative_slowdown = PROTEAN_SERVO_ENGINEERING_BONUS
+	multiplicative_slowdown = -0.35
 
 /atom/movable/screen/alert/status_effect/protean_servo
 	icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'

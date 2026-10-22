@@ -761,7 +761,7 @@
 	icon_state = "coatcentcom"
 	item_state = "coatcentcom"
 	armor_type = /datum/armor/centcom_winter
-	brc_mitigation_bonus = BRC_MITIGATION_15  // BLUEMOON ADD
+	brc_mitigation_bonus = 15  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/centcom
 
 /obj/item/clothing/suit/hooded/wintercoat/centcom/Initialize(mapload)

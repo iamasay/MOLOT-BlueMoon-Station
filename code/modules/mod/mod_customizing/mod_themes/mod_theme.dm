@@ -245,7 +245,7 @@
 	)
 
 /datum/mod_theme/antagonist/elite
-	brc_mitigation_bonus = BRC_MITIGATION_20
+	brc_mitigation_bonus = 20
 	complexity_max = ELITE_MAX_COMPLEXITY
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate, /obj/item/mod/module/night, /obj/item/mod/module/hearing_protection)
 	name = "elite"
@@ -311,7 +311,7 @@
 	default_skin = "marine"
 
 /datum/mod_theme/centcom/responsory/traitor
-	brc_mitigation_bonus = BRC_MITIGATION_20
+	brc_mitigation_bonus = 20
 	name = "dark paladin"
 	desc = "Захваченный Синдикатом скоростной костюм Nanotrasen, приспособленный для саботажа и штурма."
 	default_skin = "inquisitory"
@@ -324,7 +324,7 @@
 	inbuilt_modules = list(/obj/item/mod/module/welding/syndicate)
 
 /datum/mod_theme/centcom/apocryphal
-	brc_mitigation_bonus = BRC_MITIGATION_25
+	brc_mitigation_bonus = 25
 	complexity_max = CENTCOM_COMBAT_MAX_COMPLEXITY
 	name = "apocryphal"
 	desc = "Высокотехнологичный, лишь формально легальный бронированный костюм, созданный совместными усилиями Nanotrasen и Apadyne Technologies."
@@ -341,7 +341,7 @@
 	)
 
 /datum/mod_theme/corporate
-	brc_mitigation_bonus = BRC_MITIGATION_25
+	brc_mitigation_bonus = 25
 	name = "corporate"
 	desc = "Шикарный высокотехнологичный костюм для высокопоставленных офицеров Nanotrasen."
 	extended_desc = "Ещё более дорогая версия модели Magnate, корпоративный костюм — это термоизолированный, \
@@ -361,7 +361,7 @@
 	)
 
 /datum/mod_theme/debug
-	brc_mitigation_bonus = BRC_MITIGATION_25
+	brc_mitigation_bonus = 25
 	name = "debug"
 	desc = "Странно ностальгический."
 	extended_desc = "Продвинутый костюм с двумя ионными двигателями, достаточно мощными, чтобы дать гуманоиду полёт. \
@@ -394,7 +394,7 @@
 	)
 
 /datum/mod_theme/antagonist/inteq_nuclear
-	brc_mitigation_bonus = BRC_MITIGATION_20
+	brc_mitigation_bonus = 20
 	name = "InteQ"
 	desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. "
 	extended_desc = "Высокотехнологичный боевой костюм, выполненный в зловещих тёмно-синих тонах и изготовленный специально для наёмников, участвующих в специальных операциях. Конструкция представляет собой обтекаемую многослойную систему из формованного пласталя и композитной керамики, а нижний слой выполнен из лёгкого кевлара и гибридной ткани «дуратри». На костюме висит небольшая бирка с надписью: «Изготовлено в сотрудничестве компаний Fox и Ghost. Все права защищены. Несанкционированное изменение конструкции костюма приведёт к его немедленному уничтожению»."
@@ -505,7 +505,7 @@
 	)
 
 /datum/mod_theme/chrono
-	brc_mitigation_bonus = BRC_MITIGATION_15
+	brc_mitigation_bonus = 15
 	name = "Chrono"
 	desc = "Костюм для перемещения между временными линиями и исправления их хода."
 	extended_desc = "Технология вне времени, защищающая носителя при работе с временными парадоксами."
@@ -513,18 +513,18 @@
 	armor_type = /datum/armor/mod_chrono
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	complexity_max = MOD_CHRONO_COMPLEXITY
+	complexity_max = 5
 	inbuilt_modules = list(/obj/item/mod/module/hearing_protection)
 	allowed = list(/obj/item/restraints/handcuffs)
 	skins = list("chrono" = MOD_PRESET_DEFAULT)
 
 /datum/armor/mod_chrono
-	melee = MOD_CHRONO_ARMOR
-	bullet = MOD_CHRONO_ARMOR
-	laser = MOD_CHRONO_ARMOR
-	energy = MOD_CHRONO_ARMOR
-	bomb = MOD_CHRONO_BOMB_ARMOR
-	bio = MOD_CHRONO_HAZARD_ARMOR
-	fire = MOD_CHRONO_HAZARD_ARMOR
-	acid = MOD_CHRONO_HAZARD_ARMOR
-	wound = MOD_CHRONO_WOUND_ARMOR
+	melee = 60
+	bullet = 60
+	laser = 60
+	energy = 60
+	bomb = 30
+	bio = 100
+	fire = 100
+	acid = 100
+	wound = 15

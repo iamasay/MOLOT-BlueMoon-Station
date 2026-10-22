@@ -10,8 +10,8 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "kinesis"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_LARGE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_KINESIS_POWER
+	complexity = 3
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	incompatible_modules = list(/obj/item/mod/module/anomaly_locked/kinesis)
 	cooldown_time = 0.5 SECONDS
 	overlay_icon_file = 'icons/mob/clothing/modsuit/mod_modules_whitemoon.dmi'
@@ -20,7 +20,7 @@
 	accepted_anomalies = list(/obj/item/assembly/signaler/anomaly/grav)
 	required_modpart_index = MOD_PART_GLOVES
 	have_shortcut_activation = TRUE
-	var/grab_range = MOD_KINESIS_RANGE
+	var/grab_range = 8
 	var/stat_required = DEAD
 	var/atom/movable/grabbed_atom
 	var/mob/living/carbon/human/grab_user
@@ -252,10 +252,10 @@
 /datum/looping_sound/mod_kinesis
 	start_sound = 'sound/items/modsuit/kinesis_start.ogg'
 	start_length = 1 SECONDS
-	mid_sounds = list('sound/items/modsuit/kinesis_mid1.ogg' = MOD_KINESIS_SOUND_WEIGHT, 'sound/items/modsuit/kinesis_mid2.ogg' = 1)
+	mid_sounds = list('sound/items/modsuit/kinesis_mid1.ogg' = 12, 'sound/items/modsuit/kinesis_mid2.ogg' = 1)
 	mid_length = 1.1 SECONDS
 	end_sound = 'sound/items/modsuit/kinesis_end.ogg'
-	volume = MOD_KINESIS_HUM_VOLUME
+	volume = 20
 
 /obj/item/mod/module/anomaly_locked/kinesis/prebuilt
 	prebuilt = TRUE
@@ -267,7 +267,7 @@
 	name = "MOD prototype kinesis module"
 	prebuilt = TRUE
 	complexity = 0
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_KINESIS_PROTOTYPE_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	removable = FALSE
 	core_removable = FALSE
 

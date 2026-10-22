@@ -13,7 +13,7 @@
 /datum/supply_pack/science/modsuit
 	name = "Научный MOD"
 	desc = "Один научный MOD с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	access = ACCESS_RESEARCH
 	contains = list(/obj/item/mod/control/pre_equipped/research)
 	crate_name = "научный MOD"

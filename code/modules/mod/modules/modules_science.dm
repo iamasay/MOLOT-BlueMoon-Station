@@ -66,7 +66,7 @@
 	desc = "Модуль, использующий гравитационное ядро для полного обнуления веса пользователя. К сожалению, не способен работать когда пользователь лежит."
 	icon_state = "antigrav"
 	module_type = MODULE_TOGGLE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.7
 	incompatible_modules = list(/obj/item/mod/module/anomaly_locked)
 	cooldown_time = 0.5 SECONDS
@@ -215,7 +215,7 @@
 	prebuilt = TRUE
 
 /obj/item/mod/module/jump_jet
-	complexity = MOD_COMPLEXITY_LARGE
+	complexity = 3
 	name = "Jump Jet Module"
 	icon_state = "jump_jet"
 	desc = "Специализированный нагнетатель газа, которы при наборе нужного давления способен \

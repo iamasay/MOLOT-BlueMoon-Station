@@ -11,7 +11,7 @@
 	tail_state = "none"
 	armor_type = /datum/armor/security_and_syndicate_basic
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD - BRC бонус брони
+	brc_mitigation_bonus = 10  // BLUEMOON ADD - BRC бонус брони
 
 /obj/item/clothing/suit/armor/equipped(mob/user, slot)
 	. = ..()

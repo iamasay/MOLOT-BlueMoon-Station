@@ -4,7 +4,7 @@
 	extended_desc = "Проекторы создают герметичную оболочку по форме тела носителя. Во включённом состоянии голограммы нельзя скрыть. Для дыхания нужен отдельный источник кислорода."
 	default_skin = "standard"
 	armor_type = /datum/armor/none
-	complexity_max = MOD_HOLOGRAPHIC_COMPLEXITY
+	complexity_max = 4
 	min_cold_protection_temperature = null
 	max_heat_protection_temperature = null
 	hide_worn_sprites = TRUE

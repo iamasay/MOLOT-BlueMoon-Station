@@ -3,7 +3,7 @@
 	desc = "Развлекательный визор переливается цветами радуги и воспроизводит музыку только своему владельцу."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_maint_whitemoon.dmi'
 	icon_state = "rave_visor"
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	var/datum/client_colour/mod_rave/rave_screen
 	var/mob/living/carbon/human/rave_user
 	var/datum/track/selection
@@ -11,7 +11,7 @@
 	var/music_channel
 	var/music_client_ref
 	var/music_volume
-	var/rave_number = MOD_RAVE_FIRST_COLOR
+	var/rave_number = 1
 	var/static/list/rainbow_order = list(COLOR_RED, "#ff8000", COLOR_YELLOW, "#00ff00", "#0080ff", "#ff00ff")
 
 /obj/item/mod/module/visor/rave/Destroy()
@@ -60,7 +60,7 @@
 /obj/item/mod/module/visor/rave/on_active_process(delta_time)
 	if(!rave_user)
 		return
-	rave_number = rave_number % length(rainbow_order) + MOD_RAVE_FIRST_COLOR
+	rave_number = rave_number % length(rainbow_order) + 1
 	update_color()
 	if(music_channel && music_client_ref != REF(rave_user.client))
 		stop_music()
@@ -143,4 +143,4 @@
 	. += visor
 
 /datum/client_colour/mod_rave
-	priority = MOD_RAVE_PRIORITY
+	priority = 2

@@ -135,10 +135,10 @@
 	отслеживаемых целей, затем последовательно перемещает носителя к ним с атакой предметом в активной руке. Перезарядка — 30 секунд."
 	icon_state = "jump_jet_ninja"
 	incompatible_modules = list()
-	target_limit = MOD_JUMP_TARGET_LIMIT
+	target_limit = 4
 	attack_targets = TRUE
 	mark_targets = TRUE
-	cooldown_time = MOD_JUMP_NINJA_COOLDOWN
+	cooldown_time = 30 SECONDS
 
 /obj/item/mod/module/jump_jet/inteq
 	name = "InteQ Jump Jet Module"
@@ -146,8 +146,8 @@
 	отслеживаемых целей, затем последовательно перемещает носителя к ним без атаки. Перезарядка — 60 секунд."
 	icon_state = "jump_jet_inteq"
 	incompatible_modules = list()
-	target_limit = MOD_JUMP_TARGET_LIMIT
-	cooldown_time = MOD_JUMP_INTEQ_COOLDOWN
+	target_limit = 4
+	cooldown_time = 60 SECONDS
 	jump_color = list(COLOR_YELLOW, COLOR_YELLOW, COLOR_YELLOW)
 	trail_type = /obj/effect/ebeam/mod_jump_inteq
 
@@ -164,8 +164,8 @@
 	var/mob/living/kicker
 	var/matrix/initial_transform
 	var/initial_height
-	var/damage = MOD_KICK_DAMAGE
-	var/wounding_power = MOD_KICK_WOUND_BONUS
+	var/damage = 20
+	var/wounding_power = 35
 	var/knockdown_time = 2 SECONDS
 
 /obj/item/mod/module/launch_kick/on_select_use(atom/target)

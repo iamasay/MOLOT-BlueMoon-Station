@@ -3,7 +3,7 @@
 	desc = "Штурмовой режим ускоряет стрельбу ценой точности. Снайперский режим повышает точность и даёт дополнительный рикошет, но замедляет движение. Оба режима отключают стрельбу с двух рук."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "shooting_assistant"
-	complexity = MOD_COMPLEXITY_LARGE
+	complexity = 3
 	required_modpart_index = MOD_PART_GLOVES
 	mod_module_flags = MOD_MODULE_SECURITY
 	incompatible_modules = list(/obj/item/mod/module/shooting_assistant)
@@ -100,7 +100,7 @@
 	return ..()
 
 /datum/movespeed_modifier/mod_shooting_assistant
-	multiplicative_slowdown = MOD_SHOOT_SLOWDOWN
+	multiplicative_slowdown = 0.5
 
 /obj/item/mod/module/weapon_recall
 	name = "MOD weapon recall module"
@@ -109,7 +109,7 @@
 	icon_state = "recall"
 	module_type = MODULE_USABLE
 	removable = FALSE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_RECALL_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 2
 	cooldown_time = 0.5 SECONDS
 	required_modpart_index = MOD_PART_GLOVES
 	mod_module_flags = MOD_MODULE_SECURITY
@@ -232,7 +232,7 @@
 	name = "MOD reinforced DNA lock module"
 	desc = "Усиленный ДНК-замок клана Паука, защищённый от ЭМИ. Попытка включить костюм с чужой ДНК уничтожит нарушителя."
 	icon_state = "dnalock_ninja"
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_REINFORCED_DNA_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	individual_protect_from_emp = TRUE
 
 /obj/item/mod/module/dna_lock/reinforced/on_mod_activation(datum/source, mob/user)

@@ -2,10 +2,10 @@
 	name = "MOD flashdark module"
 	desc = "Пара излучателей создаёт область темноты вокруг носителя костюма."
 	light_color = COLOR_BLACK
-	light_range = MOD_FLASHDARK_RANGE
-	light_power = MOD_FLASHDARK_POWER
-	min_range = MOD_FLASHDARK_MIN_RANGE
-	max_range = MOD_FLASHDARK_MAX_RANGE
+	light_range = 2
+	light_power = -2
+	min_range = 1
+	max_range = 3
 	var/obj/item/flashlight/flashdark/mod_internal/darkness
 
 /obj/item/mod/module/flashlight/darkness/Destroy()
@@ -43,7 +43,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "emp_pulse"
 	module_type = MODULE_USABLE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_EMP_PULSE_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 10
 	cooldown_time = 8 SECONDS
 	var/emitting_pulse = FALSE
 
@@ -253,7 +253,7 @@
 		mod_storage.storage_flags = STORAGE_FLAGS_VOLUME_DEFAULT
 
 /obj/item/mod/module/springlock/bite_of_87
-	speed_bootup_bonus = MOD_BITE_BOOTUP_BONUS
+	speed_bootup_bonus = 10
 
 /obj/item/mod/module/springlock/bite_of_87/Initialize(mapload)
 	. = ..()
@@ -279,9 +279,9 @@
 	icon_state = "cloak_ninja"
 	bumpoff = FALSE
 	desc = "Система маскировки клана Паука скрывает носителя и заглушает его шаги. Поле сохраняется при столкновениях."
-	stealth_alpha = MOD_NINJA_CLOAK_ALPHA
+	stealth_alpha = 20
 	active_power_cost = DEFAULT_CHARGE_DRAIN
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_NINJA_CLOAK_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 3 SECONDS
 
 /obj/item/mod/module/stealth/ninja/on_activation()

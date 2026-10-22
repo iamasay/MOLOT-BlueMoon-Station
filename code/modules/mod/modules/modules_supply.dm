@@ -166,11 +166,11 @@
 	module_type = MODULE_ACTIVE
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/drill)
-	cooldown_time = MOD_DRILL_COOLDOWN
+	cooldown_time = 0.2 SECONDS
 	required_modpart_index = MOD_PART_GLOVES
 	have_shortcut_activation = TRUE
 	overlay_state_active = "module_drill"
-	toolspeed = MOD_DRILL_SPEED
+	toolspeed = 0.25
 	usesound = 'sound/weapons/drill.ogg'
 	mod_module_flags = MOD_MODULE_SUPPLY
 	var/sphere_mode = FALSE

@@ -5,7 +5,7 @@
 	extended_desc = "Костюм подразделения защиты активов Nanotrasen сочетает броню, термостойкий корпус и усовершенствованные приводы. Он уступает Apocryphal в защите, но позволяет телохранителю свободно двигаться и пользоваться специализированными модулями."
 	default_skin = "asset_protection"
 	armor_type = /datum/armor/modsuit_asset_protection
-	brc_mitigation_bonus = BRC_MITIGATION_20
+	brc_mitigation_bonus = 20
 	complexity_max = DEFAULT_MAX_COMPLEXITY
 	skins = list(
 		"asset_protection" = list(
@@ -39,7 +39,7 @@
 
 /datum/armor/modsuit_asset_protection
 	melee = 50
-	bullet = BULLET_BR8
+	bullet = 40
 	laser = 50
 	energy = 50
 	bomb = 50

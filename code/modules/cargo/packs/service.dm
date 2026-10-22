@@ -12,7 +12,7 @@
 /datum/supply_pack/service/modsuit_cargo
 	name = "Грузовой MOD"
 	desc = "Один грузовой MOD с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	access = ACCESS_CARGO
 	contains = list(/obj/item/mod/control/pre_equipped/cargo)
 	crate_name = "грузовой MOD"
@@ -21,7 +21,7 @@
 /datum/supply_pack/service/modsuit_mining
 	name = "Шахтёрский MOD"
 	desc = "Один шахтёрский MOD с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	access = ACCESS_MINING
 	contains = list(/obj/item/mod/control/pre_equipped/mining)
 	crate_name = "шахтёрский MOD"
@@ -30,7 +30,7 @@
 /datum/supply_pack/service/modsuit_clown
 	name = "Клоунский MOD Cosmohonk"
 	desc = "Один MOD Cosmohonk с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	contains = list(/obj/item/mod/control/pre_equipped/cosmohonk)
 	crate_name = "клоунский MOD"
 

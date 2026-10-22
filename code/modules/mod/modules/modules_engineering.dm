@@ -15,7 +15,7 @@
 
 /obj/item/mod/module/welding/on_suit_activation()
 	var/obj/item/clothing/mod_part/head/helmet = mod.get_helmet()
-	helmet.flash_protect = MOD_WELDING_FLASH_PROTECTION
+	helmet.flash_protect = 2
 
 /obj/item/mod/module/welding/on_suit_deactivation(deleting = FALSE)
 	if(deleting)
@@ -97,7 +97,7 @@
 		эти работают только в условиях невесомости, что является благословением для некоторых инженеров."
 	icon_state = "tether"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/tether)
 	cooldown_time = 1.5 SECONDS

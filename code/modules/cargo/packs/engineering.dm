@@ -29,7 +29,7 @@
 /datum/supply_pack/engineering/modsuit
 	name = "Инженерный MOD"
 	desc = "Один инженерный MOD с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	access = ACCESS_ENGINE_EQUIP
 	contains = list(/obj/item/mod/control/pre_equipped/engineering)
 	crate_name = "инженерный MOD"
@@ -38,7 +38,7 @@
 /datum/supply_pack/engineering/modsuit_atmos
 	name = "Атмосферный MOD"
 	desc = "Один атмосферный MOD с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	access = ACCESS_ATMOSPHERICS
 	contains = list(/obj/item/mod/control/pre_equipped/atmospheric)
 	crate_name = "атмосферный MOD"

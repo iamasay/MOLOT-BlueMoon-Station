@@ -6,7 +6,7 @@
 	complexity = 1
 	module_type = MODULE_USABLE
 	allowed_inactive = TRUE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_PATHFINDER_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 10
 	incompatible_modules = list(/obj/item/mod/module/pathfinder)
 	mod_module_flags = MOD_MODULE_SECURITY
 	var/obj/item/implant/mod/implant

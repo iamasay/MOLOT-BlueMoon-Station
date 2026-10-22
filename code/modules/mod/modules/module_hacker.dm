@@ -153,13 +153,13 @@
 	return FALSE
 
 /obj/machinery/door/airlock/mod_hack_act(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
-	if(!operating && density && hasPower() && !(obj_flags & EMAGGED) && module.pay_power(MOD_HACK_DOOR_POWER))
+	if(!operating && density && hasPower() && !(obj_flags & EMAGGED) && module.pay_power(DEFAULT_CHARGE_DRAIN * 5))
 		emag_act(user)
 		module.door_hacked(user)
 	return TRUE
 
 /obj/machinery/door/window/mod_hack_act(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
-	if(!operating && density && hasPower() && !(obj_flags & EMAGGED) && module.pay_power(MOD_HACK_DOOR_POWER))
+	if(!operating && density && hasPower() && !(obj_flags & EMAGGED) && module.pay_power(DEFAULT_CHARGE_DRAIN * 5))
 		emag_act(user)
 		module.door_hacked(user)
 	return TRUE
@@ -204,7 +204,7 @@
 	return TRUE
 
 /mob/living/carbon/mod_hack_act(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
-	if(!module.pay_power(MOD_HACK_SHOCK_POWER))
+	if(!module.pay_power(DEFAULT_CHARGE_DRAIN * 10))
 		return TRUE
 	visible_message(span_danger("[user] поражает [src] электрическим разрядом!"))
 	Knockdown(MOD_HACK_SHOCK_TIME)
@@ -216,7 +216,7 @@
 	if(isEmpProof())
 		module.balloon_alert(user, "камера защищена")
 		return TRUE
-	if(module.pay_power(MOD_HACK_DOOR_POWER))
+	if(module.pay_power(DEFAULT_CHARGE_DRAIN * 5))
 		emp_act(MOD_HACK_CAMERA_EMP_STRENGTH)
 	return TRUE
 
@@ -227,7 +227,7 @@
 /obj/machinery/vending/proc/mod_hack_inventory(mob/living/carbon/human/user, obj/item/mod/module/hacker/module)
 	if(shoot_inventory || !wires || !do_after(user, MOD_HACK_VEND_DELAY, target = src) || !module.can_hack(user, src))
 		return
-	if(!module.pay_power(MOD_HACK_DOOR_POWER))
+	if(!module.pay_power(DEFAULT_CHARGE_DRAIN * 5))
 		return
 	wires.on_pulse(WIRE_THROW)
 	module.balloon_alert(user, "автомат перегружен")
@@ -337,7 +337,7 @@
 /obj/item/mod/module/hacker/proc/hack_bot(mob/living/carbon/human/user, mob/living/simple_animal/bot/target)
 	if(!do_after(user, MOD_HACK_BOT_DELAY, target = target) || !can_hack(user, target))
 		return
-	if(!pay_power(MOD_HACK_BOT_POWER))
+	if(!pay_power(DEFAULT_CHARGE_DRAIN * 7))
 		return
 	do_sparks(3, source = target)
 	balloon_alert(user, "отойдите!")

@@ -12,14 +12,14 @@
 	var/calibrating = FALSE
 	var/calibration_end
 	var/calibration_time = 3 MINUTES
-	var/max_power_level = NIF_MAX_POWER
-	var/power_level = NIF_MAX_POWER
+	var/max_power_level = 1000
+	var/power_level = 1000
 	var/nutrition_drain = FALSE
 	var/blood_drain = FALSE
-	var/max_durability = NIF_MAX_DURABILITY
-	var/durability = NIF_MAX_DURABILITY
+	var/max_durability = 100
+	var/durability = 100
 	var/broken = FALSE
-	var/max_nifsofts = NIF_MAX_PROGRAMS
+	var/max_nifsofts = 5
 	var/list/loaded_nifsofts = list()
 	var/recovery_timer
 	COOLDOWN_DECLARE(damage_grace)
@@ -156,10 +156,10 @@
 
 /obj/item/organ/cyberimp/brain/nif/roleplay_model
 	name = "Econo-Deck Type NIF"
-	max_power_level = NIF_MAX_POWER / 2
-	max_nifsofts = NIF_ECONO_PROGRAMS
+	max_power_level = 1000 / 2
+	max_nifsofts = 3
 	calibration_time = 1 MINUTES
-	max_durability = NIF_MAX_DURABILITY / 2
+	max_durability = 100 / 2
 
 /obj/item/organ/cyberimp/brain/nif/roleplay_model/cheap
 	name = "Trial-Lite Type NIF"
@@ -172,7 +172,7 @@
 	var/program_desc
 	var/datum/weakref/parent_nif
 	var/mob/living/carbon/human/linked_mob
-	var/purchase_price = NIF_PROGRAM_PRICE
+	var/purchase_price = 300
 	var/active = FALSE
 	var/active_cost = 0
 	var/activation_cost = 0
@@ -218,10 +218,10 @@
 
 /datum/nifsoft/scryer
 	name = "NIFLink Holocaller"
-	purchase_price = NIF_SOFTWARE_PRICE
+	purchase_price = 200
 	program_desc = "Project a wearable terminal for holographic calls with MODlink devices."
-	active_cost = NIF_SCRYER_DRAIN
-	activation_cost = NIF_SCRYER_ACTIVATION
+	active_cost = 1
+	activation_cost = 20
 	var/obj/item/clothing/neck/link_scryer/loaded/nifsoft/linked_scryer
 
 /datum/nifsoft/scryer/New(obj/item/organ/cyberimp/brain/nif/implant)
@@ -412,7 +412,7 @@
 	icon = 'icons/obj/clothing/modsuit/nif_devices.dmi'
 	icon_state = "repair_paste"
 	w_class = WEIGHT_CLASS_SMALL
-	var/uses = NIF_REPAIR_USES
+	var/uses = 5
 
 /obj/item/nif_repair_kit/attack(mob/living/carbon/human/target, mob/living/user)
 	if(!istype(target) || !uses)

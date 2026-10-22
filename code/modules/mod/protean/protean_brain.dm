@@ -1,5 +1,5 @@
 #define TRANSFORM_TRAITS list(TRAIT_RESISTLOWPRESSURE, TRAIT_RESISTHIGHPRESSURE, TRAIT_RESISTHEAT, TRAIT_RESISTCOLD)
-#define SUIT_TRANSFORMATION_DURATION PROTEAN_TRANSFORM_ANIMATION
+#define SUIT_TRANSFORMATION_DURATION (1.2 SECONDS)
 
 /obj/item/organ/brain/protean
 	name = "protean core"
@@ -16,9 +16,9 @@
 	var/obj/item/mod/control/pre_equipped/protean/transform_suit
 	var/user_invisibility
 	var/suit_invisibility
-	var/transform_delay = PROTEAN_TRANSFORM_DELAY
-	var/transform_animation = PROTEAN_TRANSFORM_ANIMATION
-	var/rebuild_time = PROTEAN_REBUILD_TIME
+	var/transform_delay = 5 SECONDS
+	var/transform_animation = 1.2 SECONDS
+	var/rebuild_time = 30 SECONDS
 	var/rebuilding = FALSE
 
 	var/revive_timer_id
@@ -194,7 +194,7 @@
 		owner.adjustBruteLoss(PROTEAN_MISSING_STOMACH_DAMAGE, forced = TRUE, only_organic = FALSE)
 		if(COOLDOWN_FINISHED(src, refactory_cooldown))
 			to_chat(owner, span_warning("Your mass is slowly degrading without your refactory!"))
-			COOLDOWN_START(src, refactory_cooldown, PROTEAN_REBUILD_TIME)
+			COOLDOWN_START(src, refactory_cooldown, (30 SECONDS))
 
 /obj/item/organ/brain/protean/proc/handle_orchestrator(obj/item/organ)
 	var/obj/item/mod/control/pre_equipped/protean/suit = get_protean_modsuit(owner)
@@ -210,7 +210,7 @@
 	else
 		owner.remove_movespeed_modifier(/datum/movespeed_modifier/protean_slowdown)
 
-	COOLDOWN_START(src, orchestrator_cooldown, PROTEAN_REBUILD_TIME)
+	COOLDOWN_START(src, orchestrator_cooldown, (30 SECONDS))
 
 /datum/movespeed_modifier/protean_slowdown
 	variable = TRUE

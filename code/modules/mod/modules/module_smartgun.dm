@@ -7,8 +7,8 @@
 	overlay_state_inactive = "module_smartgun_off"
 	overlay_state_active = "module_smartgun_on"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_SMARTGUN_COMPLEXITY
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_SMARTGUN_IDLE_POWER
+	complexity = 3
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	device = /obj/item/gun/ballistic/automatic/smart_machine_gun
 	required_modpart_index = MOD_PART_GLOVES
 	incompatible_modules = list(/obj/item/mod/module/smartgun)
@@ -46,10 +46,10 @@
 	weapon_weight = WEAPON_HEAVY
 	slot_flags = ITEM_SLOT_BACK
 	w_class = WEIGHT_CLASS_HUGE
-	spread = MOD_SMARTGUN_SPREAD
+	spread = 18
 	mag_type = /obj/item/ammo_box/magazine/smartgun_drum
 	can_suppress = FALSE
-	fire_delay = MOD_SMARTGUN_FIRE_DELAY
+	fire_delay = 0.15
 	burst_size = 1
 	actions_types = list()
 	pin = /obj/item/firing_pin/implant/mindshield
@@ -135,7 +135,7 @@
 	icon_state = "smartgun_drum"
 	ammo_type = /obj/item/ammo_casing/smart/a10x28
 	caliber = "a10x28"
-	max_ammo = MOD_SMARTGUN_DRUM_CAPACITY
+	max_ammo = 500
 	multiple_sprites = 0
 	w_class = WEIGHT_CLASS_NORMAL
 
@@ -170,6 +170,6 @@
 
 /obj/item/projectile/bullet/smart/a10x28
 	name = "10x28mm bullet"
-	damage = MOD_SMARTGUN_BULLET_DAMAGE
-	wound_bonus = MOD_SMARTGUN_WOUND_BONUS
-	wound_falloff_tile = MOD_SMARTGUN_WOUND_FALLOFF
+	damage = 9
+	wound_bonus = -5
+	wound_falloff_tile = -1

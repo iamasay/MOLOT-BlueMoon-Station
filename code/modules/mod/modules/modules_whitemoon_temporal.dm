@@ -40,7 +40,7 @@
 	icon_state = "rewinder"
 	module_type = MODULE_USABLE
 	removable = FALSE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TEMPORAL_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 20 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/rewinder)
 	var/datum/component/dejavu/timeline/snapshot
@@ -129,7 +129,7 @@
 	icon_state = "timestop"
 	module_type = MODULE_USABLE
 	removable = FALSE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TEMPORAL_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 60 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/timestopper)
 	var/obj/effect/timestop/channelled/timestop
@@ -199,7 +199,7 @@
 	removable = FALSE
 	allowed_in_phaseout = TRUE
 	hands_free_use = TRUE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TEMPORAL_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/timeline_jumper)
 	var/obj/effect/dummy/phased_mob/spell_jaunt/mod_chrono/phased_mob
@@ -306,7 +306,7 @@
 	icon_state = "eradicationlock"
 	module_type = MODULE_USABLE
 	removable = FALSE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_ERADICATION_LOCK_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	cooldown_time = 0.5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/eradication_lock, /obj/item/mod/module/dna_lock)
 	var/true_owner_ckey
@@ -357,7 +357,7 @@
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
 	removable = FALSE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TEMPORAL_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 0.5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/tem)
 	var/obj/structure/mod_chrono_field/field
@@ -399,7 +399,7 @@
 /obj/item/mod/module/tem/proc/field_check(obj/structure/mod_chrono_field/checking)
 	if(checking != field || !checking || !active || !mod?.is_active() || !mod.wearer)
 		return FALSE
-	if(get_turf(mod.wearer) == startpos && !mod.wearer.lying && !mod.wearer.incapacitated() && (checking in view(MOD_CHRONO_RANGE, mod.wearer)))
+	if(get_turf(mod.wearer) == startpos && !mod.wearer.lying && !mod.wearer.incapacitated() && (checking in view(3, mod.wearer)))
 		return TRUE
 	field_disconnect(checking)
 	return FALSE
@@ -422,7 +422,7 @@
 /obj/item/projectile/energy/mod_chrono_beam
 	name = "луч стирания"
 	icon_state = "chronobolt"
-	range = MOD_CHRONO_RANGE
+	range = 3
 	nodamage = TRUE
 	var/datum/weakref/module_ref
 
@@ -450,7 +450,7 @@
 	var/mob/living/captured
 	var/datum/weakref/module_ref
 	var/attached = FALSE
-	var/time_left = MOD_CHRONO_ERASE_TIME
+	var/time_left = 3 SECONDS
 	var/mutable_appearance/mob_underlay
 	var/current_frame
 
@@ -477,7 +477,7 @@
 	update_icon()
 
 /obj/structure/mod_chrono_field/update_icon()
-	var/frame = clamp(CEILING((1 - time_left / MOD_CHRONO_ERASE_TIME) * MOD_CHRONO_FRAMES, 1), 1, MOD_CHRONO_FRAMES)
+	var/frame = clamp(CEILING((1 - time_left / (3 SECONDS)) * MOD_CHRONO_FRAMES, 1), 1, MOD_CHRONO_FRAMES)
 	if(frame == current_frame || !mob_underlay)
 		return
 	current_frame = frame
@@ -488,7 +488,7 @@
 	if(QDELETED(captured))
 		qdel(src)
 		return
-	if(time_left > MOD_CHRONO_ERASE_TIME)
+	if(time_left > (3 SECONDS))
 		qdel(src)
 		return
 	if(time_left <= 0)
@@ -507,7 +507,7 @@
 		time_left += delta_time * 1 SECONDS
 	if(time_left <= 0)
 		erase_captured()
-	else if(time_left > MOD_CHRONO_ERASE_TIME)
+	else if(time_left > (3 SECONDS))
 		qdel(src)
 
 /obj/structure/mod_chrono_field/proc/erase_captured()

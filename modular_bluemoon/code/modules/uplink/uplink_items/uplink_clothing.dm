@@ -118,47 +118,47 @@
 	name = "MOD EMP pulse module"
 	desc = "Создаёт электромагнитный импульс вокруг носителя, защищая его от собственного разряда."
 	item = /obj/item/mod/module/emp_shield/pulse
-	cost = MOD_EMP_PULSE_UPLINK_COST
+	cost = 2
 	purchasable_from = ALL
 
 /datum/uplink_item/mod/flamethrower
 	name = "MOD flamethrower module"
 	desc = "Выдвижной огнемёт с питанием от MOD. Активируйте модуль и стреляйте оружием в руке."
 	item = /obj/item/mod/module/flamethrower
-	cost = MOD_FLAMETHROWER_UPLINK_COST
+	cost = 3
 	purchasable_from = ALL
 
 /datum/uplink_item/mod/jaeger_sprint
 	name = "MOD Jaeger sprint module"
 	desc = "Усиленные приводы временно повышают скорость движения носителя."
 	item = /obj/item/mod/module/jaeger_sprint
-	cost = MOD_JAEGER_UPLINK_COST
+	cost = 5
 	purchasable_from = ALL
 
 /datum/uplink_item/mod/plate_compression
 	name = "MOD Plate Compression Module"
 	desc = "Сжимает костюм до обычного размера. Несовместим с модулем хранилища."
 	item = /obj/item/mod/module/plate_compression
-	cost = MOD_COMPRESSION_COST
+	cost = 1
 	purchasable_from = UPLINK_SYNDICATE | UPLINK_TRAITORS | UPLINK_NUKE_OPS
 
 /datum/uplink_item/mod/medbeam
 	name = "MOD Medical Beamgun Module"
 	desc = "Встроенный медицинский луч для лечения союзников."
 	item = /obj/item/mod/module/medbeam
-	cost = MOD_MEDBEAM_COST
+	cost = 15
 	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS
 
 /datum/uplink_item/mod/chameleon
 	name = "MOD Chameleon Module"
 	desc = "Маскирует выключенный MOD под рюкзак или пояс. Внешний вид выбирается в настройках модуля."
 	item = /obj/item/mod/module/chameleon
-	cost = MOD_CHAMELEON_COST
+	cost = 1
 	purchasable_from = UPLINK_SYNDICATE | UPLINK_TRAITORS | UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS
 
 /datum/uplink_item/mod/shock_absorber
 	name = "MOD Shock Absorber Module"
 	desc = "Защищает носителя включённого MOD от оглушающих ударов дубинкой, расходуя энергию."
 	item = /obj/item/mod/module/shock_absorber
-	cost = MOD_SHOCK_ABSORBER_COST
+	cost = 1
 	purchasable_from = UPLINK_SYNDICATE | UPLINK_TRAITORS | UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS

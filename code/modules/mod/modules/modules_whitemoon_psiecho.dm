@@ -4,7 +4,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "brain_hurties"
 	removable = FALSE
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_DEMORALIZER_POWER
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.1
 	incompatible_modules = list(/obj/item/mod/module/demoralizer)
 	var/datum/proximity_monitor/mod_demoralizer/demoralizer
 
@@ -70,14 +70,14 @@
 
 /datum/mood_event/mod_demoralized
 	description = "Они на станции! Я знаю! Они идут за мной!"
-	mood_change = MOD_DEMORALIZER_CREW_MOOD
+	mood_change = -4
 	timeout = 2 MINUTES
 	hidden = TRUE
 
 /datum/mood_event/mod_demoralized/antag
 	description = "Самое время доставить неприятности."
-	mood_change = MOD_DEMORALIZER_ANTAG_MOOD
+	mood_change = 1
 
 /datum/mood_event/mod_demoralized/authority
 	description = "Здесь никто не на моей стороне, а врагом может оказаться кто угодно. Нужно действовать решительнее!"
-	mood_change = MOD_DEMORALIZER_AUTH_MOOD
+	mood_change = -5

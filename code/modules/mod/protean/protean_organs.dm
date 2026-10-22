@@ -32,7 +32,7 @@
 	name = "sensory nanites"
 	icon_state = "ears-c"
 	status = ORGAN_ROBOTIC
-	damage_multiplier = PROTEAN_EAR_SENSITIVITY
+	damage_multiplier = 1.2
 	desc = "Nanites designed to collect audio feedback from the surrounding world."
 	organ_flags = ORGAN_SYNTHETIC | ORGAN_NANOMACHINE
 
@@ -56,8 +56,8 @@
 	icon_state = "refactory"
 	status = ORGAN_ROBOTIC
 	organ_flags = ORGAN_SYNTHETIC | ORGAN_NANOMACHINE
-	var/metal_max = PROTEAN_STOMACH_FULL
-	var/metal = PROTEAN_STOMACH_FULL
+	var/metal_max = 10
+	var/metal = 10
 	var/metabolism_modifier = 1
 	var/feeding_time = 1 SECONDS
 	COOLDOWN_DECLARE(starving_message)
@@ -65,7 +65,7 @@
 
 /obj/item/organ/stomach/protean/Initialize(mapload)
 	. = ..()
-	metal = rand(PROTEAN_STOMACH_FULL / 2, PROTEAN_STOMACH_FULL)
+	metal = rand(10 / 2, 10)
 
 /obj/item/organ/stomach/protean/Insert(mob/living/carbon/receiver, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
@@ -99,7 +99,7 @@
 	var/hunger = metabolism_modifier
 	if(metal > PROTEAN_REGEN_THRESHOLD)
 		hunger = regenerate_mass(seconds_per_tick, hunger)
-	metal = max(0, metal - PROTEAN_STOMACH_FULL / PROTEAN_METABOLISM_RATE * hunger * seconds_per_tick)
+	metal = max(0, metal - 10 / PROTEAN_METABOLISM_RATE * hunger * seconds_per_tick)
 
 /obj/item/organ/stomach/protean/proc/regenerate_mass(seconds_per_tick, hunger)
 	if(seconds_per_tick <= 0)

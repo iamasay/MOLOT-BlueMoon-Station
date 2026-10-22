@@ -27,7 +27,7 @@
 		позволяя готовить еду на расстоянии с наибольшей лёгкостью. Не рекомендуется использовать против винограда."
 	icon_state = "microwave_beam"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	incompatible_modules = list(/obj/item/mod/module/microwave_beam)
 	have_shortcut_activation = TRUE
@@ -70,7 +70,7 @@
 //Waddle
 
 /obj/item/mod/module/waddle
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	mod_module_flags = MOD_MODULE_GENERAL
 	name = "MOD waddle module"
 	desc = "Some of the most primitive technology in use by HonkCo. This module works off an automatic intention system, \
@@ -79,8 +79,8 @@
 		miniaturized etheric blasts of space-time beneath the user's feet, this enables them to... \
 		to waddle around, bouncing to and fro with a pep in their step."
 	icon_state = "waddle"
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_WADDLE_POWER
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_WADDLE_POWER
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.2
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.2
 	module_type = MODULE_TOGGLE
 	removable = FALSE
 	incompatible_modules = list(/obj/item/mod/module/waddle)

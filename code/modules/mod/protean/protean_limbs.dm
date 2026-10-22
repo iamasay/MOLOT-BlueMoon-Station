@@ -27,11 +27,11 @@
 		limb.vars[key] = descriptions[key]
 	switch(limb.body_zone)
 		if(BODY_ZONE_HEAD)
-			limb.max_damage = PROTEAN_HEAD_HEALTH
+			limb.max_damage = 120
 		if(BODY_ZONE_CHEST)
-			limb.max_damage = PROTEAN_CHEST_HEALTH
+			limb.max_damage = 250
 		else
-			limb.max_damage = PROTEAN_LIMB_HEALTH
+			limb.max_damage = 40
 
 /datum/component/protean_limb/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_PROTEAN_LIMB_DAMAGE, PROC_REF(on_damage))

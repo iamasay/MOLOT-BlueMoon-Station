@@ -12,7 +12,7 @@
 /datum/supply_pack/materials/bileworm
 	name = "Кожа желчного червя"
 	desc = "Два куска кожи желчного червя для усиления сферы шахтёрского MOD и защиты от лавы."
-	cost = MOD_BILEWORM_CARGO_COST
+	cost = 1000
 	contains = list(
 		/obj/item/stack/sheet/animalhide/bileworm,
 		/obj/item/stack/sheet/animalhide/bileworm,

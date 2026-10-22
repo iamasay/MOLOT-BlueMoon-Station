@@ -4,7 +4,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_maint_whitemoon.dmi'
 	icon_state = "atrocinator"
 	module_type = MODULE_TOGGLE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	active_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/atrocinator, /obj/item/mod/module/magboot, /obj/item/mod/module/anomaly_locked/antigrav)
 	overlay_icon_file = 'icons/mob/clothing/modsuit/mod_modules_maint_whitemoon.dmi'

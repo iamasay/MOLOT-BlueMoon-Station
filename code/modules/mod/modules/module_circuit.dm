@@ -2,7 +2,7 @@
 	name = "MOD circuit adapter module"
 	desc = "Переходник для программируемых схем, подключающий их к системам MOD-костюма."
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_CIRCUIT_IDLE_MULTIPLIER
 	incompatible_modules = list(/obj/item/mod/module/circuit)
 	cooldown_time = 0.5 SECONDS

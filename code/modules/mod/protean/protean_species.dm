@@ -4,7 +4,7 @@
 	id = SPECIES_PROTEAN
 	limbs_id = SPECIES_MAMMAL
 	species_category = SPECIES_CATEGORY_ROBOT
-	siemens_coeff = PROTEAN_ELECTRIC_MOD
+	siemens_coeff = 1.5
 	exotic_bloodtype = "FE"
 	exotic_blood = /datum/reagent/iron
 	exotic_blood_color = BLOOD_COLOR_IRON

@@ -4,12 +4,12 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "regulator"
 	module_type = MODULE_TOGGLE
-	complexity = MOD_COMPLEXITY_SMALL
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 1
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	incompatible_modules = list(/obj/item/mod/module/thermal_regulator)
 	var/temperature_setting = BODYTEMP_NORMAL
 	var/min_temp = T20C
-	var/max_temp = T0C + MOD_REGULATOR_MAX_CELSIUS
+	var/max_temp = T0C + 45
 
 /obj/item/mod/module/thermal_regulator/get_configuration()
 	. = ..()
@@ -28,8 +28,8 @@
 	desc = "Датчики перчаток передают жестовую речь по рации."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "signlang_radio"
-	complexity = MOD_COMPLEXITY_SMALL
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 1
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	required_modpart_index = MOD_PART_GLOVES
 	incompatible_modules = list(/obj/item/mod/module/signlang_radio)
 
@@ -45,9 +45,9 @@
 	desc = "Генератор заряжает батарею за счёт движения суставов при ходьбе. Не работает в невесомости."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "joint_torsion"
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	required_modpart_index = MOD_PART_FEET
-	var/power_per_step = DEFAULT_CHARGE_DRAIN * MOD_TORSION_POWER
+	var/power_per_step = DEFAULT_CHARGE_DRAIN * 0.45
 
 /obj/item/mod/module/joint_torsion/on_suit_activation()
 	if(check_required_modpart())
@@ -87,7 +87,7 @@
 	desc = "Плотно складывает костюм до обычного размера. Несовместим с хранилищами."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "plate_compression"
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	incompatible_modules = list(/obj/item/mod/module/plate_compression, /obj/item/mod/module/storage)
 	var/new_size = WEIGHT_CLASS_NORMAL
 	var/old_size
@@ -111,7 +111,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "chronogun"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	active_power_cost = DEFAULT_CHARGE_DRAIN
 	device = /obj/item/gun/medbeam/mod
 	incompatible_modules = list(/obj/item/mod/module/medbeam)
@@ -126,8 +126,8 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "injector"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_SMALL
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 1
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	device = /obj/item/reagent_containers/syringe/mod
 	incompatible_modules = list(/obj/item/mod/module/injector)
 	cooldown_time = 0.5 SECONDS
@@ -136,9 +136,9 @@
 /obj/item/reagent_containers/syringe/mod
 	name = "MOD injector syringe"
 	desc = "Шприц увеличенной ёмкости, способный проникать через броню."
-	volume = MOD_INJECTOR_VOLUME
-	amount_per_transfer_from_this = MOD_INJECTOR_VOLUME
-	possible_transfer_amounts = list(MOD_INJECTOR_STEP, MOD_INJECTOR_STEP * 2, MOD_INJECTOR_STEP * 3, MOD_INJECTOR_STEP * 4, MOD_INJECTOR_VOLUME)
+	volume = 30
+	amount_per_transfer_from_this = 30
+	possible_transfer_amounts = list(5, 5 * 2, 5 * 3, 5 * 4, 30)
 	proj_piercing = SYRINGE_PIERCE_ALL
 
 /obj/item/mod/module/status_readout
@@ -151,15 +151,15 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "status"
 	mod_module_flags = MOD_MODULE_GENERAL
-	complexity = MOD_COMPLEXITY_SMALL
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_READOUT_POWER
+	complexity = 1
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 0.1
 	incompatible_modules = list(/obj/item/mod/module/status_readout)
 	tgui_id = "status_readout"
 	var/display_detailed_vitals = TRUE
 	var/display_dna = FALSE
 	var/display_time = FALSE
 	var/death_sound = 'sound/effects/flatline3.ogg'
-	var/death_sound_volume = MOD_READOUT_VOLUME
+	var/death_sound_volume = 50
 	var/sensor_boost = TRUE
 
 /obj/item/mod/module/status_readout/add_ui_data()
@@ -241,7 +241,7 @@
 	desc = "Absorbs the disabling shock of stun batons."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "no_baton"
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	mod_module_flags = MOD_MODULE_SECURITY
 	incompatible_modules = list(/obj/item/mod/module/shock_absorber)
@@ -265,8 +265,8 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "tanning"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_SMALL
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_TANNER_POWER
+	complexity = 1
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	incompatible_modules = list(/obj/item/mod/module/tanner)
 	cooldown_time = 30 SECONDS
 	required_modpart_index = MOD_PART_CHEST
@@ -275,7 +275,7 @@
 /obj/item/mod/module/tanner/on_use()
 	if(!drain_power(use_power_cost))
 		return FALSE
-	playsound(mod.wearer, 'sound/machines/microwave/microwave-end.ogg', MOD_READOUT_VOLUME, TRUE)
+	playsound(mod.wearer, 'sound/machines/microwave/microwave-end.ogg', 50, TRUE)
 	var/datum/reagents/holder = new(MOD_TANNER_VOLUME)
 	holder.add_reagent(/datum/reagent/spraytan, MOD_TANNER_VOLUME)
 	holder.reaction(mod.wearer, VAPOR)
@@ -289,7 +289,7 @@
 	name = "MOD safety-first head protection module"
 	desc = "Helmet dampeners protect the brain from blunt impacts."
 	icon_state = "welding"
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	required_modpart_index = MOD_PART_HEAD
 	incompatible_modules = list(/obj/item/mod/module/headprotector, /obj/item/mod/module/infiltrator)
 	mod_module_flags = MOD_MODULE_ENGINEERING
@@ -306,8 +306,8 @@
 	desc = "Maintains an oxygen-free atmosphere around a plasmaman's head, even with the helmet retracted."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "plasma_stabilizer"
-	complexity = MOD_COMPLEXITY_SMALL
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 1
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	incompatible_modules = list(/obj/item/mod/module/plasma_stabilizer)
 	mod_module_flags = MOD_MODULE_GENERAL
 
@@ -338,8 +338,8 @@
 	desc = "Selects a destination while travelling through the disposal pipeline."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "disposal"
-	complexity = MOD_COMPLEXITY_MEDIUM
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 2
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	incompatible_modules = list(/obj/item/mod/module/disposal_connector)
 	mod_module_flags = MOD_MODULE_SUPPLY
 	var/disposal_tag
@@ -373,7 +373,7 @@
 	icon_state = "thread_ripper"
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/thread_ripper)
 	cooldown_time = 1.5 SECONDS
@@ -442,7 +442,7 @@
 	icon_state = "organizer"
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/organizer, /obj/item/mod/module/microwave_beam)
 	cooldown_time = 0.5 SECONDS
@@ -523,8 +523,8 @@
 	icon = 'icons/obj/clothing/modsuit/contractor_modules.dmi'
 	icon_state = "hook"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_LARGE
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_LIGHT_POWER
+	complexity = 3
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	device = /obj/item/gun/magic/hook/contractor
 	incompatible_modules = list(/obj/item/mod/module/scorpion_hook)
 	cooldown_time = 0.5 SECONDS
@@ -548,7 +548,7 @@
 /obj/item/projectile/hook/contractor
 	icon = 'icons/obj/clothing/modsuit/contractor_hook_projectile.dmi'
 	damage = 0
-	stamina = MOD_HOOK_STAMINA
+	stamina = 25
 
 /obj/item/projectile/hook/contractor/fire(setAngle)
 	. = ..()
@@ -564,10 +564,10 @@
 	icon_state = "flamethrower"
 	module_type = MODULE_ACTIVE
 	device = /obj/item/gun/magic/mod_flamethrower
-	complexity = MOD_COMPLEXITY_LARGE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_FLAME_POWER
+	complexity = 3
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	incompatible_modules = list(/obj/item/mod/module/flamethrower)
-	cooldown_time = MOD_FLAME_FIRE_DELAY
+	cooldown_time = 2.5 SECONDS
 	required_modpart_index = MOD_PART_CHEST
 
 /obj/item/mod/module/flamethrower/on_install()
@@ -596,7 +596,7 @@
 	lefthand_file = 'icons/mob/inhands/weapons/flamethrower_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/flamethrower_righthand.dmi'
 	fire_sound = 'sound/items/modsuit/flamethrower.ogg'
-	fire_delay = MOD_FLAME_FIRE_DELAY
+	fire_delay = 2.5 SECONDS
 	checks_antimagic = FALSE
 	max_charges = INFINITY
 	can_charge = FALSE
@@ -625,8 +625,8 @@
 	projectile_type = /obj/item/projectile/bullet/mod_flame
 
 /obj/item/projectile/bullet/mod_flame
-	damage = MOD_FLAME_DAMAGE
-	range = MOD_FLAME_RANGE
+	damage = 15
+	range = 6
 	alpha = 0
 	pass_flags = PASSTABLE | PASSMOB
 	sharpness = SHARP_NONE
@@ -635,12 +635,12 @@
 	suppressed = SUPPRESSED_VERY
 	damage_type = BURN
 	flag = BOMB
-	pixels_per_second = MOD_FLAME_SPEED
-	wound_bonus = MOD_FLAME_WOUND_BONUS
-	bare_wound_bonus = MOD_FLAME_WOUND_BONUS
-	var/fire_stacks = MOD_FLAME_STACKS
+	pixels_per_second = TILES_TO_PIXELS(8)
+	wound_bonus = 30
+	bare_wound_bonus = 30
+	var/fire_stacks = 3
 	shrapnel_type = null
-	wound_falloff_tile = MOD_FLAME_WOUND_FALLOFF
+	wound_falloff_tile = -4
 
 /obj/item/projectile/bullet/mod_flame/on_hit(atom/target, blocked = FALSE)
 	. = ..()
@@ -664,8 +664,8 @@
 	incompatible_modules = list(/obj/item/mod/module/adrenaline_boost, /obj/item/mod/module/auto_doc)
 	cooldown_time = 12 SECONDS
 	var/reagent_required = /datum/reagent/radium
-	var/reagent_required_amount = MOD_BOOST_REAGENT_COST
-	var/reagent_max_amount = MOD_BOOST_REAGENT_COST
+	var/reagent_required_amount = 20
+	var/reagent_max_amount = 20
 
 /obj/item/mod/module/adrenaline_boost/Initialize(mapload)
 	. = ..()
@@ -741,11 +741,11 @@
 	module_type = MODULE_TOGGLE
 	removable = TRUE
 	allowed_incapacitated = FALSE
-	complexity = MOD_COMPLEXITY_HEAVY
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_AUTODOC_POWER
+	complexity = 4
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 20
 	cooldown_time = 0
 	reagent_required = /datum/reagent/cryptobiolin
-	reagent_max_amount = MOD_AUTODOC_CAPACITY
+	reagent_max_amount = 120
 	var/treatment_timer
 	COOLDOWN_DECLARE(heal_timer)
 
@@ -809,8 +809,8 @@
 	name = "Maintenance Sludge"
 	description = "Half-refined sludge that increases wound resistance and suppresses pain while poisoning the body."
 	color = "#203d2c"
-	metabolization_rate = MOD_SLUDGE_METABOLISM * REAGENTS_METABOLISM
-	overdose_threshold = MOD_SLUDGE_OVERDOSE
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	overdose_threshold = 25
 
 /datum/reagent/drug/maint/sludge/on_mob_metabolize(mob/living/user)
 	. = ..()
@@ -847,8 +847,8 @@
 	icon_state = "recycler"
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_RECYCLER_POWER
-	complexity = MOD_COMPLEXITY_MEDIUM
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
+	complexity = 2
 	incompatible_modules = list(/obj/item/mod/module/recycler)
 	mod_module_flags = MOD_MODULE_GENERAL
 	var/efficiency = 1
@@ -944,10 +944,10 @@
 	name = "MOD riot foam dart recycler module"
 	desc = "Recycles garbage and spent darts into half-size boxes of riot foam darts."
 	icon_state = "donk_recycler"
-	efficiency = MOD_DONK_EFFICIENCY
+	efficiency = 0.7
 	accepted_materials = list(/datum/material/iron)
 	var/ammobox_type = /obj/item/ammo_box/foambox/riot/mini
-	var/required_amount = MINERAL_MATERIAL_AMOUNT * MOD_DONK_SHEETS
+	var/required_amount = MINERAL_MATERIAL_AMOUNT * 12.5
 
 /obj/item/mod/module/recycler/donk/dispense(turf/location)
 	if(!container.use_amount_mat(required_amount, /datum/material/iron))
@@ -959,23 +959,23 @@
 	name = "MOD foam dart recycler module"
 	desc = "Recycles spent foam darts into half-size boxes of harmless foam darts."
 	icon_state = "donk_safe_recycler"
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	efficiency = 1
 	allowed_item_types = list(/obj/item/ammo_casing/caseless/foam_dart)
 	ammobox_type = /obj/item/ammo_box/foambox/mini
-	required_amount = MOD_DONK_SAFE_MATERIAL
+	required_amount = 250
 
 /obj/item/ammo_box/foambox/mini
 	icon = 'icons/obj/clothing/modsuit/foam_boxes.dmi'
 	icon_state = "foambox_mini"
-	max_ammo = MOD_DONK_AMMO
-	custom_materials = list(/datum/material/iron = MOD_DONK_SAFE_MATERIAL)
+	max_ammo = 20
+	custom_materials = list(/datum/material/iron = 250)
 
 /obj/item/ammo_box/foambox/riot/mini
 	icon = 'icons/obj/clothing/modsuit/foam_boxes.dmi'
 	icon_state = "foambox_riot_mini"
-	max_ammo = MOD_DONK_AMMO
-	custom_materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT * MOD_DONK_SHEETS)
+	max_ammo = 20
+	custom_materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT * 12.5)
 
 /obj/item/mod/module/energy_net
 	name = "MOD energy net module"
@@ -985,7 +985,7 @@
 	removable = FALSE
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_NET_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 6
 	incompatible_modules = list(/obj/item/mod/module/energy_net)
 	cooldown_time = 5 SECONDS
 	required_modpart_index = MOD_PART_GLOVES
@@ -1035,7 +1035,7 @@
 	icon_state = "net_projectile"
 	icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
 	damage = 0
-	range = MOD_NET_RANGE
+	range = 9
 	hitsound = 'sound/items/modsuit/net_deploy.ogg'
 	var/datum/beam/line
 	var/datum/weakref/module_ref
@@ -1088,7 +1088,7 @@
 	icon_state = "night_visor"
 	module_type = MODULE_TOGGLE
 	removable = FALSE
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_NIGHT_POWER
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.1
 	incompatible_modules = list(/obj/item/mod/module/night, /obj/item/mod/module/visor/night)
 	required_modpart_index = MOD_PART_HEAD
 	mod_module_flags = MOD_MODULE_VISOR
@@ -1117,7 +1117,7 @@
 	module_type = MODULE_ACTIVE
 	removable = FALSE
 	have_shortcut_activation = TRUE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_MAGNET_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	incompatible_modules = list(/obj/item/mod/module/magnet)
 	cooldown_time = 1.5 SECONDS
 	overlay_state_active = "module_magnet"
@@ -1216,7 +1216,7 @@
 	module_type = MODULE_ACTIVE
 	removable = FALSE
 	have_shortcut_activation = TRUE
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_HYDRAULIC_POWER
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 10
 	cooldown_time = 4 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/hydraulic)
 	overlay_state_inactive = "module_hydraulic"
@@ -1318,8 +1318,8 @@
 	desc = "Встроенный распылитель смывает грязь с носителя и его наружной одежды."
 	icon_state = "cleaner"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_SMALL
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_PERFUMER_POWER
+	complexity = 1
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	cooldown_time = 10 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/selfcleaner)
 
@@ -1341,7 +1341,7 @@
 	module_type = MODULE_TOGGLE
 	removable = FALSE
 	required_modpart_index = MOD_PART_FEET
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_JAEGER_POWER
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 2
 	incompatible_modules = list(/obj/item/mod/module/jaeger_sprint)
 
 /obj/item/mod/module/jaeger_sprint/on_activation()
@@ -1362,8 +1362,8 @@
 	icon = 'icons/obj/clothing/modsuit/mod_contractor.dmi'
 	icon_state = "holster"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_LARGE
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_BATON_POWER
+	complexity = 3
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	cooldown_time = 0.5 SECONDS
 	allowed_inactive = TRUE
 	required_modpart_index = MOD_PART_GLOVES
@@ -1556,9 +1556,9 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "active_sonar"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_MEDIUM
-	idle_power_cost = DEFAULT_CHARGE_DRAIN * MOD_SONAR_IDLE_POWER
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_SONAR_USE_POWER
+	complexity = 2
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	cooldown_time = 15 SECONDS
 	required_modpart_index = MOD_PART_HEAD
 	incompatible_modules = list(/obj/item/mod/module/active_sonar)
@@ -1724,7 +1724,7 @@
 	desc = "Амортизирующие пластины защищают от толчков, потери равновесия и отбрасывания брошенными предметами."
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "bulwark"
-	complexity = MOD_COMPLEXITY_LARGE
+	complexity = 3
 	required_modpart_index = MOD_PART_CHEST
 	incompatible_modules = list(/obj/item/mod/module/shove_blocker)
 	var/mob/living/carbon/human/protected_user
@@ -1779,7 +1779,7 @@
 	overlay_state_inactive = "module_pepper"
 	overlay_state_use = "module_pepper_used"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_SMALL
+	complexity = 1
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	cooldown_time = 5 SECONDS
 	required_modpart_index = MOD_PART_CHEST
@@ -1987,8 +1987,8 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "criminal_capture"
 	module_type = MODULE_ACTIVE
-	complexity = MOD_COMPLEXITY_MEDIUM
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_CAPTURE_POWER
+	complexity = 2
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	cooldown_time = 0.5 SECONDS
 	have_shortcut_activation = TRUE
 	incompatible_modules = list(/obj/item/mod/module/criminalcapture)
@@ -2218,7 +2218,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "projectile_dampener"
 	module_type = MODULE_TOGGLE
-	complexity = MOD_COMPLEXITY_LARGE
+	complexity = 3
 	active_power_cost = DEFAULT_CHARGE_DRAIN
 	cooldown_time = 1.5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/projectile_dampener)
@@ -2360,7 +2360,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "chameleon"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	allowed_inactive = TRUE
 	cooldown_time = 0.5 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/chameleon)
@@ -2485,7 +2485,7 @@
 /obj/item/mod/module/mister/cleaner
 	name = "MOD janitorial mister module"
 	desc = "Опрыскиватель космическим очистителем. Восполняет запас реагента, пока модуль активен."
-	volume = MOD_CLEANER_CAPACITY
+	volume = 100
 	watertank_type = /obj/item/watertank/mod_cleaner
 	active_power_cost = DEFAULT_CHARGE_DRAIN
 	mod_module_flags = MOD_MODULE_GENERAL
@@ -2497,7 +2497,7 @@
 
 /obj/item/watertank/mod_cleaner
 	name = "MOD cleaning tank"
-	volume = MOD_CLEANER_CAPACITY
+	volume = 100
 
 /obj/item/watertank/mod_cleaner/Initialize(mapload)
 	. = ..()

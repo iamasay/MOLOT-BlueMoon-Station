@@ -1,9 +1,9 @@
 /datum/nifsoft/hud
 	name = "Scrying Lens"
 	program_desc = "Выводит данные на очки с адаптером NIF. Одновременно можно установить только одну рабочую HUD-программу."
-	purchase_price = NIF_PROGRAM_PRICE
+	purchase_price = 300
 	category = "HUD"
-	active_cost = NIF_HUD_DRAIN
+	active_cost = 0.5
 	compatible_nif = /obj/item/organ/cyberimp/brain/nif/standard
 	var/hud_type
 	var/list/vision_traits = list()
@@ -98,7 +98,7 @@
 /datum/nifsoft/hud/thermal
 	name = "Thermal Lens"
 	program_desc = "Военная NIFSoft для теплового зрения. Требует очки с адаптером NIF HUD."
-	active_cost = NIF_ACTION_DRAIN
+	active_cost = 1
 	vision_traits = list(TRAIT_THERMAL_VISION)
 
 /obj/item/nif_hud_adapter
@@ -106,7 +106,7 @@
 	desc = "Одноразовый адаптер очков для работы с HUD-программами NIF."
 	icon = 'icons/obj/clothing/modsuit/nif_devices.dmi'
 	icon_state = "nifsoft_remover"
-	var/uses = NIF_HUD_ADAPTER_USES
+	var/uses = 1
 
 /obj/item/nif_hud_adapter/afterattack(obj/item/clothing/glasses/glasses, mob/user, proximity)
 	. = ..()
@@ -120,8 +120,8 @@
 /datum/nifsoft/money_sense
 	name = "Automatic Appraisal"
 	program_desc = "При осмотре предмета показывает его экспортную стоимость вместе с содержимым. Не продаёт предмет."
-	purchase_price = NIF_PROGRAM_PRICE
-	active_cost = NIF_HUD_DRAIN
+	purchase_price = 300
+	active_cost = 0.5
 	category = "Утилиты"
 	compatible_nif = /obj/item/organ/cyberimp/brain/nif/standard
 
@@ -155,8 +155,8 @@
 	return price
 
 /datum/nifsoft/action_granter
-	activation_cost = NIF_ACTION_ACTIVATION
-	active_cost = NIF_ACTION_DRAIN
+	activation_cost = 10
+	active_cost = 1
 	var/action_type
 	var/datum/action/granted_action
 
@@ -177,7 +177,7 @@
 /datum/nifsoft/action_granter/shapeshifter
 	name = "Polymorph"
 	program_desc = "Позволяет менять внешность текущего тела с помощью способности «Изменить тело». Раса не меняется."
-	purchase_price = NIF_POLYMORPH_PRICE
+	purchase_price = 350
 	category = "Внешность"
 	compatible_nif = /obj/item/organ/cyberimp/brain/nif/standard
 	action_type = /datum/action/innate/ability/humanoid_customization/nif
@@ -193,8 +193,8 @@
 /datum/nifsoft/action_granter/hypnosis
 	name = "Libidine Eye"
 	program_desc = "Даёт способность гипнотизировать гуманоида в усиленном захвате. Работает только на предрасположенных к гипнозу."
-	purchase_price = NIF_HYPNOSIS_PRICE
-	active_cost = NIF_HYPNOSIS_DRAIN
+	purchase_price = 150
+	active_cost = 0.1
 	category = "Развлечения"
 	action_type = /datum/action/cooldown/hypnotize/nif
 

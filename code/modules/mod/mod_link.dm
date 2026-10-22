@@ -326,7 +326,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 
 /obj/item/clothing/neck/link_scryer
 	name = "MODlink scryer"
-	custom_price = MODLINK_SCRYER_PRICE
+	custom_price = 550
 	desc = "Носимый голографический терминал для звонков на устройства MODlink."
 	icon = 'icons/obj/clothing/modsuit/modlink.dmi'
 	mob_overlay_icon = 'icons/mob/clothing/modsuit/modlink.dmi'

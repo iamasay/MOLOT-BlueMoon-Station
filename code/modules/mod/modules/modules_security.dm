@@ -82,7 +82,7 @@
 	name = "MOD magnetic harness module"
 	desc = "Основано на старых комплектах подвесок TerraGov, эта магнитная система автоматически возвращает упавшее оружие к носителю."
 	icon_state = "mag_harness"
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/magnetic_harness)
 	required_modpart_index = MOD_PART_CHEST
@@ -148,7 +148,7 @@
 		некоторые представители правопорядка предпочитают, чтобы кобура выдвигалась из бедра."
 	icon_state = "holster"
 	module_type = MODULE_USABLE
-	complexity = MOD_COMPLEXITY_MEDIUM
+	complexity = 2
 	incompatible_modules = list(/obj/item/mod/module/holster)
 	cooldown_time = 0.5 SECONDS
 	allowed_inactive = TRUE
@@ -232,7 +232,7 @@
 	Более старшие модели, обычно, имеют встроенный реактор, способный компенсировать перепады напряжения, однако, \
 	это крайне дефицитная деталь, поэтому энергополе будет отключено как только заряд батареи упадёт ниже 50%."
 	icon_state = "bad_energy_shield"
-	complexity = MOD_COMPLEXITY_LARGE
+	complexity = 3
 	module_type = MODULE_TOGGLE
 	need_full_deploy = TRUE
 	minimum_cell_charge = MOD_MINIMUM_CELL_CHARGE_SHIELD

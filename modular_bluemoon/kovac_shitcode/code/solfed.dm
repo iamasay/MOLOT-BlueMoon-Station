@@ -73,7 +73,7 @@
 	mob_overlay_icon = 'modular_bluemoon/kovac_shitcode/icons/solfed/mob_sol.dmi'
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	armor_type = /datum/armor/nri_and_solfed
-	brc_mitigation_bonus = BRC_MITIGATION_20  // BLUEMOON ADD
+	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 // Cloaks
 /obj/item/clothing/neck/cloak/cape

@@ -4,7 +4,7 @@
 	icon_state = "cloak_traitor"
 	module_type = MODULE_ACTIVE
 	have_shortcut_activation = TRUE
-	stealth_alpha = MOD_WRAITH_ALPHA
+	stealth_alpha = 30
 	passive_cloak = TRUE
 	cooldown_time = 2 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/stealth, /obj/item/mod/module/welding/syndicate)
@@ -119,7 +119,7 @@
 		if(!device.mod_disrupt(MOD_WRAITH_DURATION))
 			continue
 		success = TRUE
-		mod.core.add_charge(MOD_WRAITH_RECHARGE)
+		mod.core.add_charge((DEFAULT_CHARGE_DRAIN * 250))
 	return success
 
 /atom/proc/mod_disrupt(duration)

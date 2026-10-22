@@ -5,8 +5,8 @@
 	icon_state = "sphere"
 	module_type = MODULE_ACTIVE
 	removable = FALSE
-	active_power_cost = DEFAULT_CHARGE_DRAIN * MOD_SPHERE_IDLE_POWER
-	use_power_cost = DEFAULT_CHARGE_DRAIN * MOD_SPHERE_BOMB_POWER
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	cooldown_time = 1 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/sphere_transform)
 	need_full_deploy = TRUE
@@ -174,7 +174,7 @@
 	return TRUE
 
 /datum/movespeed_modifier/mod_sphere
-	multiplicative_slowdown = MOD_SPHERE_SPEED
+	multiplicative_slowdown = -0.5
 
 /obj/item/stack/sheet/animalhide/bileworm
 	name = "bileworm skin"
@@ -190,7 +190,7 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules.dmi'
 	icon_state = "mine_bomb"
 	damage = 0
-	range = MOD_SPHERE_BOMB_RANGE
+	range = 6
 	suppressed = SUPPRESSED_VERY
 	flag = BOMB
 	var/dropped_bomb = FALSE
@@ -255,7 +255,7 @@
 /obj/effect/temp_visual/mod_mining_explosion
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "judicial_explosion"
-	pixel_x = MOD_SPHERE_EFFECT_OFFSET
-	pixel_y = MOD_SPHERE_EFFECT_OFFSET
+	pixel_x = -32
+	pixel_y = -32
 	layer = ABOVE_MOB_LAYER
-	duration = MOD_SPHERE_EXPLOSION_TIME
+	duration = 1.35 SECONDS

@@ -15,7 +15,7 @@
 /datum/supply_pack/security/modsuit
 	name = "Security MOD"
 	desc = "Один MOD СБ с батареей и установленными штатными модулями."
-	cost = MOD_CARGO_COST
+	cost = 2500
 	contains = list(/obj/item/mod/control/pre_equipped/security)
 	crate_name = "Security MOD"
 

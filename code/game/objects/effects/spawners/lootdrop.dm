@@ -4,7 +4,7 @@
 #define ILLEGAL_LOOT_DELAY_CHANCE 25 // С каким шансом лут будет доступен раундстарт
 
 /obj/effect/spawner/lootdrop/mod_bite
-	loot = list(/obj/item/mod/module/springlock/bite_of_87 = MOD_RARE_LOOT_WEIGHT, "" = MOD_BITE_LOOT_EMPTY_WEIGHT)
+	loot = list(/obj/item/mod/module/springlock/bite_of_87 = 1, "" = 9)
 
 /obj/effect/spawner/lootdrop
 	icon = 'icons/effects/landmarks_static.dmi'

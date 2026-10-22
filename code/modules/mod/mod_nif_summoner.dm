@@ -1,11 +1,11 @@
 /datum/nifsoft/summoner
 	name = "Grimoire Caeruleam"
 	program_desc = "Создаёт голографические игрушки, трости, игральные кости, карты и зажигалку. Созданные предметы можно развеять; при удалении программы они исчезают."
-	purchase_price = NIF_GRIMOIRE_PRICE
+	purchase_price = 175
 	category = "Гримуары"
 	active_mode = FALSE
-	activation_cost = NIF_SUMMON_COST
-	var/max_summoned_items = NIF_SUMMON_LIMIT
+	activation_cost = 100
+	var/max_summoned_items = 5
 	var/list/summoned_items = list()
 	var/list/summonable_items = list(/obj/item/toy/katana, /obj/item/toy/foamblade, /obj/item/cane, /obj/item/storage/dice, /obj/item/toy/cards/deck, /obj/item/toy/cards/deck/tarot, /obj/item/lighter)
 	var/working = FALSE
@@ -118,7 +118,7 @@
 	name = "Grimoire Akasha"
 	program_desc = "Создаёт голографические справочники из библиотеки BlueMoon. Программа бесплатна; создание книги расходует энергию."
 	purchase_price = 0
-	max_summoned_items = NIF_TOOL_SUMMON_LIMIT
+	max_summoned_items = 2
 	summonable_items = list()
 
 /datum/nifsoft/summoner/book/New(obj/item/organ/cyberimp/brain/nif/implant)
@@ -129,13 +129,13 @@
 /datum/nifsoft/summoner/dorms
 	name = "Grimoire Libidine"
 	program_desc = "Создаёт голографические версии игрушек и аксессуаров KinkMate. Одновременно доступны пять предметов."
-	purchase_price = NIF_HYPNOSIS_PRICE
+	purchase_price = 150
 	summonable_items = list(/obj/item/dildo/custom, /obj/item/buttplug/small, /obj/item/buttplug/med, /obj/item/clothing/mask/muzzle/ballgag, /obj/item/clothing/neck/petcollar, /obj/item/restraints/handcuffs/fake/kinky, /obj/item/clothing/glasses/sunglasses/blindfold, /obj/item/clothing/gloves/evening)
 
 /datum/nifsoft/summoner/job
-	max_summoned_items = NIF_TOOL_SUMMON_LIMIT
-	activation_cost = NIF_TOOL_SUMMON_COST
-	tool_speed = NIF_SUMMON_TOOLSPEED
+	max_summoned_items = 2
+	activation_cost = 150
+	tool_speed = 1.5
 
 /datum/nifsoft/summoner/job/tools
 	name = "Grimoire Opera"
@@ -145,8 +145,8 @@
 /datum/nifsoft/summoner/job/service
 	name = "Grimoire Hestia"
 	program_desc = "Создаёт голографические инструменты для кухни, уборки и садоводства. Одновременно доступны три предмета."
-	max_summoned_items = NIF_SERVICE_SUMMON_LIMIT
-	activation_cost = NIF_SUMMON_COST
+	max_summoned_items = 3
+	activation_cost = 100
 	tool_speed = null
 	summonable_items = list(/obj/item/storage/bag/tray, /obj/item/reagent_containers/food/drinks/shaker, /obj/item/reagent_containers/rag, /obj/item/kitchen/knife, /obj/item/kitchen/rollingpin, /obj/item/cultivator, /obj/item/shovel/spade, /obj/item/hatchet, /obj/item/mop)
 
@@ -158,7 +158,7 @@
 /datum/nifsoft/summoner/job/detective
 	name = "Grimoire Vacholiere"
 	program_desc = "Создаёт криминалистический сканер, папку, бинокль или белый мелок. Одновременно доступны два предмета."
-	activation_cost = NIF_DETECTIVE_SUMMON_COST
+	activation_cost = 200
 	tool_speed = null
 	summonable_items = list(/obj/item/detective_scanner, /obj/item/folder/yellow, /obj/item/binoculars, /obj/item/toy/crayon/white)
 

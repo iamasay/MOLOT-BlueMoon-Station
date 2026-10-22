@@ -85,7 +85,7 @@
 	. = ..()
 	qdel(getorganslot(ORGAN_SLOT_HEART))
 	qdel(getorganslot(ORGAN_SLOT_BRAIN))
-	adjustBruteLoss(PROTEAN_CHEST_HEALTH, forced = TRUE, only_organic = FALSE)
+	adjustBruteLoss(250, forced = TRUE, only_organic = FALSE)
 
 /datum/supply_pack/science/protean_organs
 	name = "Protean Organs"
@@ -98,7 +98,7 @@
 /datum/supply_pack/science/protean_vessel
 	name = "Protean Vessel"
 	desc = "A blank Protean body ready to receive a core and an orchestrator module."
-	cost = CARGO_CRATE_VALUE * PROTEAN_VESSEL_COST
+	cost = CARGO_CRATE_VALUE * 5
 	contains = list(/mob/living/carbon/human/protean/empty)
 	crate_name = "protean vessel"
 	access = ACCESS_ROBOTICS

@@ -47,7 +47,7 @@
 	return stomach.metal
 
 /obj/item/mod/core/protean/max_charge_amount()
-	return PROTEAN_STOMACH_FULL
+	return 10
 
 /obj/item/mod/core/protean/add_charge(amount)
 	return FALSE

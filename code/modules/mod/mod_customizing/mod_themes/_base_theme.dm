@@ -128,7 +128,7 @@
 	allowed = ALLOWED_CARGO
 
 /datum/mod_theme/centcom
-	brc_mitigation_bonus = BRC_MITIGATION_15
+	brc_mitigation_bonus = 15
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -137,7 +137,7 @@
 	hardlight_color = MOD_COMMAND_COLOR
 
 /datum/mod_theme/station_combat
-	brc_mitigation_bonus = BRC_MITIGATION_15
+	brc_mitigation_bonus = 15
 	siemens_coefficient = 0
 	allowed = ALLOWED_SECURITY
 	hardlight_color = MOD_SEC_COLOR
@@ -153,7 +153,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 
 /datum/mod_theme/antagonist
-	brc_mitigation_bonus = BRC_MITIGATION_15
+	brc_mitigation_bonus = 15
 	allow_hot_swap = TRUE
 	complexity_max = ANTAG_MAX_COMPLEXITY
 	siemens_coefficient = 0

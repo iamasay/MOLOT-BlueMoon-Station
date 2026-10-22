@@ -27,7 +27,7 @@
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
 	alternate_screams = RUSSIAN_SCREAMS
 	armor_type = /datum/armor/nri_and_solfed
-	brc_mitigation_bonus = BRC_MITIGATION_20  // BLUEMOON ADD
+	brc_mitigation_bonus = 20  // BLUEMOON ADD
 
 /obj/item/clothing/suit/armor/nri_vest
 	name = "NRI Officer Vest"

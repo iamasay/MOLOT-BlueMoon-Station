@@ -511,126 +511,126 @@
 /datum/design/module/mod_thermal_regulator
 	name = "Thermal Regulator Module"
 	id = "mod_thermal_regulator"
-	materials = list(/datum/material/iron = MOD_RESEARCH_SMALL, /datum/material/glass = MOD_RESEARCH_GLASS)
+	materials = list(/datum/material/iron = 500, /datum/material/glass = 1000)
 	build_path = /obj/item/mod/module/thermal_regulator
 
 /datum/design/module/mod_injector
 	name = "Injector Module"
 	id = "mod_injector"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/diamond = MOD_RESEARCH_SMALL)
+	materials = list(/datum/material/iron = 1000, /datum/material/diamond = 500)
 	build_path = /obj/item/mod/module/injector
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/module/mod_glove_translator
 	name = "Glove Translator Module"
 	id = "mod_sign_radio"
-	materials = list(/datum/material/iron = MOD_RESEARCH_TRANSLATOR_IRON, /datum/material/glass = MOD_RESEARCH_SMALL)
+	materials = list(/datum/material/iron = 750, /datum/material/glass = 500)
 	build_path = /obj/item/mod/module/signlang_radio
 
 /datum/design/module/joint_torsion
 	name = "Joint Torsion Ratchet Module"
 	id = "mod_joint_torsion"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/gold = MOD_RESEARCH_TRACE, /datum/material/titanium = MOD_RESEARCH_TITANIUM)
+	materials = list(/datum/material/iron = 1000, /datum/material/gold = 250, /datum/material/titanium = 100)
 	build_path = /obj/item/mod/module/joint_torsion
 
 /datum/design/module/statusreadout
 	name = "Status Readout Module"
 	id = "mod_statusreadout"
-	materials = list(/datum/material/iron = MOD_RESEARCH_TRANSLATOR_IRON, /datum/material/glass = MOD_RESEARCH_SMALL, /datum/material/titanium = MOD_RESEARCH_TRACE)
+	materials = list(/datum/material/iron = 750, /datum/material/glass = 500, /datum/material/titanium = 250)
 	build_path = /obj/item/mod/module/status_readout
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/module/mod_head_protection
 	name = "Safety-First Head Protection Module"
 	id = "mod_safety"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/glass = MOD_RESEARCH_GLASS)
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 1000)
 	build_path = /obj/item/mod/module/headprotector
 
 /datum/design/module/mod_plasma_stabilizer
 	name = "Plasma Stabilizer Module"
 	id = "mod_plasma"
-	materials = list(/datum/material/plasma = MOD_RESEARCH_IRON, /datum/material/glass = MOD_RESEARCH_GLASS)
+	materials = list(/datum/material/plasma = 1000, /datum/material/glass = 1000)
 	build_path = /obj/item/mod/module/plasma_stabilizer
 
 /datum/design/module/mod_organizer
 	name = "Organizer Module"
 	id = "mod_organizer"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/glass = MOD_RESEARCH_GLASS)
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 1000)
 	build_path = /obj/item/mod/module/organizer
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/module/threadripper
 	name = "Thread Ripper Module"
 	id = "mod_threadripper"
-	materials = list(/datum/material/titanium = MOD_RESEARCH_SMALL, /datum/material/plastic = MOD_RESEARCH_IRON, /datum/material/silver = MOD_THREAD_SILVER)
+	materials = list(/datum/material/titanium = 500, /datum/material/plastic = 1000, /datum/material/silver = 1500)
 	build_path = /obj/item/mod/module/thread_ripper
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/module/disposal
 	name = "Disposal Connector Module"
 	id = "mod_disposal"
-	materials = list(/datum/material/iron = MOD_DISPOSAL_IRON, /datum/material/titanium = MOD_RESEARCH_IRON)
+	materials = list(/datum/material/iron = 2500, /datum/material/titanium = 1000)
 	build_path = /obj/item/mod/module/disposal_connector
 
 /datum/design/module/recycler
 	name = "Recycler Module"
 	id = "mod_recycler"
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/glass = MOD_RESEARCH_GLASS, /datum/material/plastic = MOD_RECYCLER_PLASTIC)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/glass = 1000, /datum/material/plastic = 400)
 	build_path = /obj/item/mod/module/recycler
 
 /datum/design/module/mod_waddle
 	name = "Waddle Module"
 	id = "mod_waddle"
-	materials = list(/datum/material/plastic = MOD_RESEARCH_IRON, /datum/material/iron = MOD_RESEARCH_IRON)
+	materials = list(/datum/material/plastic = 1000, /datum/material/iron = 1000)
 	build_path = /obj/item/mod/module/waddle
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
 /datum/design/module/mod_sonar
 	name = "Active Sonar Module"
 	id = "mod_sonar"
-	materials = list(/datum/material/titanium = MOD_RESEARCH_TRACE, /datum/material/glass = MOD_RESEARCH_GLASS, /datum/material/gold = MOD_RESEARCH_SMALL, /datum/material/uranium = MOD_RESEARCH_TRACE)
+	materials = list(/datum/material/titanium = 250, /datum/material/glass = 1000, /datum/material/gold = 500, /datum/material/uranium = 250)
 	build_path = /obj/item/mod/module/active_sonar
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/module/patienttransport
 	name = "Patient Transport Module"
 	id = "mod_patienttransport"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/bluespace = MOD_RESEARCH_IRON)
+	materials = list(/datum/material/iron = 1000, /datum/material/bluespace = 1000)
 	build_path = /obj/item/mod/module/criminalcapture/patienttransport
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
 /datum/design/module/criminalcapture
 	name = "Criminal Capture Module"
 	id = "mod_criminalcapture"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/bluespace = MOD_RESEARCH_IRON)
+	materials = list(/datum/material/iron = 1000, /datum/material/bluespace = 1000)
 	build_path = /obj/item/mod/module/criminalcapture
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/module/projectile_dampener
 	name = "Projectile Dampener Module"
 	id = "mod_projectile_dampener"
-	materials = list(/datum/material/iron = MOD_RESEARCH_IRON, /datum/material/bluespace = MOD_RESEARCH_SMALL)
+	materials = list(/datum/material/iron = 1000, /datum/material/bluespace = 500)
 	build_path = /obj/item/mod/module/projectile_dampener
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/module/mister_janitor
 	name = "Cleaning Mister Module"
 	id = "mod_mister_janitor"
-	materials = list(/datum/material/glass = MOD_RESEARCH_GLASS, /datum/material/titanium = MOD_RESEARCH_IRON)
+	materials = list(/datum/material/glass = 1000, /datum/material/titanium = 1000)
 	build_path = /obj/item/mod/module/mister/cleaner
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE
 
 /datum/design/module/shooting_assistant
 	name = "Shooting Assistant Module"
 	id = "mod_shooting"
-	materials = list(/datum/material/iron = MOD_SHOOT_RESEARCH_IRON, /datum/material/silver = MOD_SHOOT_RESEARCH_SILVER, /datum/material/gold = MOD_RESEARCH_TITANIUM, /datum/material/diamond = MOD_RESEARCH_TITANIUM)
+	materials = list(/datum/material/iron = 2000, /datum/material/silver = 200, /datum/material/gold = 100, /datum/material/diamond = 100)
 	build_path = /obj/item/mod/module/shooting_assistant
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/module/pathfinder
 	name = "Pathfinder Module"
 	id = "mod_pathfinder"
-	materials = list(/datum/material/uranium = MOD_PATHFINDER_MATERIAL, /datum/material/iron = MOD_PATHFINDER_MATERIAL)
+	materials = list(/datum/material/uranium = MINERAL_MATERIAL_AMOUNT / 2, /datum/material/iron = MINERAL_MATERIAL_AMOUNT / 2)
 	build_path = /obj/item/mod/module/pathfinder
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
@@ -649,13 +649,13 @@
 /datum/design/module/mirage
 	name = "Mirage Grenade Dispenser Module"
 	id = "mod_mirage_grenade"
-	materials = list(/datum/material/iron = MOD_MIRAGE_MATERIAL, /datum/material/bluespace = MOD_MIRAGE_MATERIAL)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT / 2, /datum/material/bluespace = MINERAL_MATERIAL_AMOUNT / 2)
 	build_path = /obj/item/mod/module/dispenser/mirage
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/module/mod_kinesis
 	name = "Kinesis Module"
 	id = "mod_kinesis"
-	materials = list(/datum/material/iron = MOD_KINESIS_IRON_MATERIAL, /datum/material/glass = SHEET_MATERIAL_AMOUNT, /datum/material/uranium = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/bluespace = HALF_SHEET_MATERIAL_AMOUNT)
+	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 1.25, /datum/material/glass = SHEET_MATERIAL_AMOUNT, /datum/material/uranium = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/bluespace = HALF_SHEET_MATERIAL_AMOUNT)
 	build_path = /obj/item/mod/module/anomaly_locked/kinesis
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
