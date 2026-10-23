@@ -12,6 +12,7 @@
 	data["open"] = is_open()
 	data["active"] = is_active()
 	data["link_id"] = mod_link.id
+	data["link_name"] = mod_link.get_display_name()
 	data["link_freq"] = mod_link.frequency
 	data["link_call"] = mod_link.get_other()?.id
 	data["complexity"] = complexity
@@ -75,6 +76,8 @@
 			if(user != wearer)
 				return FALSE
 			mod_link.choose_call(user)
+		if("rename_link")
+			return mod_link.rename(user)
 		if("activate")
 			toggle_activate(user)
 		if("select")

@@ -4,6 +4,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 /datum/mod_link
 	var/name = "MODlink"
 	var/id
+	var/display_name
 	var/frequency
 	var/atom/movable/holder
 	var/datum/mod_link_call/link_call
@@ -68,6 +69,20 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 		return
 	return link_call.link_caller == src ? link_call.receiver : link_call.link_caller
 
+/datum/mod_link/proc/get_display_name()
+	return display_name || id
+
+/datum/mod_link/proc/rename(mob/user)
+	if(user != get_user())
+		return FALSE
+	var/new_name = stripped_input(user, "Имя устройства. Пустая строка вернёт номер.", "MODlink", display_name, MAX_NAME_LEN)
+	if(QDELETED(src) || isnull(new_name) || user != get_user())
+		return FALSE
+	display_name = new_name
+	if(visual)
+		visual.name = "[user] ([get_display_name()])"
+	return TRUE
+
 /datum/mod_link/proc/can_connect(datum/mod_link/other)
 	if(QDELETED(other) || other == src || !frequency || frequency != other.frequency)
 		return FALSE
@@ -87,7 +102,10 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 	for(var/id in GLOB.mod_link_ids)
 		var/datum/mod_link/other = GLOB.mod_link_ids[id]
 		if(can_connect(other))
-			choices["[other.holder] ([id])"] = id
+			var/label = "[other.holder] ([other.get_display_name()])"
+			if(label in choices)
+				label += " #[id]"
+			choices[label] = id
 	if(!length(choices))
 		holder.balloon_alert(user, "нет доступных устройств!")
 		return
@@ -102,7 +120,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 	var/mob/living/user = other.get_user()
 	playsound(other.holder, 'sound/weapons/ring.ogg', MODLINK_RING_VOLUME, TRUE)
 	var/atom/movable/screen/alert/modlink_call/alert = user.throw_alert("[REF(src)]_modlink", /atom/movable/screen/alert/modlink_call)
-	alert.desc = "[holder] ([id]) вызывает вас. ЛКМ — принять, ПКМ — отклонить."
+	alert.desc = "[holder] ([get_display_name()]) вызывает вас. ЛКМ — принять, ПКМ — отклонить."
 	alert.caller_ref = WEAKREF(src)
 	alert.receiver_ref = WEAKREF(other)
 	return TRUE
@@ -116,7 +134,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 	user_ref = WEAKREF(user)
 	ADD_TRAIT(user, TRAIT_MODLINK_CALL, REF(src))
 	visual = new()
-	visual.name = "[user] ([id])"
+	visual.name = "[user] ([get_display_name()])"
 	visual_overlays = user.overlays.Copy()
 	visual.add_overlay(visual_overlays)
 	RegisterSignal(user, COMSIG_ATOM_DIR_CHANGE, PROC_REF(on_direction_changed))
@@ -377,7 +395,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 
 /obj/item/clothing/neck/link_scryer/examine(mob/user)
 	. = ..()
-	. += span_notice("MODlink ID: [mod_link.id]. Частота: [mod_link.frequency || "не задана"]. Батарея: [cell ? "[cell.percent()]%" : "отсутствует"].")
+	. += span_notice("MODlink: [mod_link.get_display_name()]. Частота: [mod_link.frequency || "не задана"]. Батарея: [cell ? "[cell.percent()]%" : "отсутствует"].")
 	. += span_notice("Мультитул копирует частоту. Используйте в руке для переименования.")
 	if(removable_cell)
 		. += span_notice("Alt-клик извлекает батарею.")
@@ -387,6 +405,7 @@ GLOBAL_LIST_INIT(mod_link_digits, list("0", "1", "2", "3", "4", "5", "6", "7", "
 	if(!new_label || !user.is_holding(src))
 		return
 	label = new_label
+	mod_link.display_name = new_label
 	name = "[initial(name)] - [label]"
 
 /obj/item/clothing/neck/link_scryer/attackby(obj/item/item, mob/user, params)

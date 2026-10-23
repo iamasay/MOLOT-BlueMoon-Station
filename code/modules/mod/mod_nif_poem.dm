@@ -1,3 +1,6 @@
+/datum/mind
+	var/list/nif_poem_senders
+
 /datum/nifsoft/soul_poem
 	name = "Poem of Communal Souls"
 	program_desc = "Обменивается короткими визитками с другими NIF поблизости. Сообщения хранятся только в текущей программе до конца раунда."
@@ -10,6 +13,7 @@
 	var/transmitted_message
 	var/transmitted_identifier
 	var/list/messages = list()
+	var/list/notified_senders = list()
 
 /datum/nifsoft/soul_poem/New(obj/item/organ/cyberimp/brain/nif/implant)
 	. = ..()
@@ -17,13 +21,14 @@
 		return
 	transmitted_name = linked_mob.real_name
 	transmitted_message = "Привет! Рад знакомству."
-	transmitted_identifier = linked_mob.ckey || REF(linked_mob)
+	transmitted_identifier = text_ref(linked_mob.mind || linked_mob)
 	RegisterSignal(linked_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 
 /datum/nifsoft/soul_poem/Destroy()
 	if(linked_mob)
 		UnregisterSignal(linked_mob, COMSIG_MOVABLE_MOVED)
 	messages.Cut()
+	notified_senders = null
 	return ..()
 
 /datum/nifsoft/soul_poem/activate()
@@ -78,7 +83,20 @@
 	if(!(identifier in messages) && length(messages) >= NIF_POEM_LIMIT)
 		messages.Cut(1, 2)
 	messages[identifier] = list("sender" = sender, "text" = text)
+	notify_sender(identifier, sender)
 	return TRUE
+
+/datum/nifsoft/soul_poem/proc/notify_sender(identifier, sender)
+	if(!linked_mob)
+		return
+	var/list/notified = notified_senders
+	if(linked_mob.mind)
+		LAZYINITLIST(linked_mob.mind.nif_poem_senders)
+		notified = linked_mob.mind.nif_poem_senders
+	if(identifier in notified)
+		return
+	notified[identifier] = TRUE
+	to_chat(linked_mob, span_notice("NIF: Poem of Communal Souls получил новую визитку от [html_encode(sender)]."))
 
 /datum/nifsoft/soul_poem/proc/show_messages()
 	var/list/options = list()

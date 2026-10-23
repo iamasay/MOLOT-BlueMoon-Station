@@ -11,13 +11,18 @@
 	var/list/pinned_chips = list()
 	var/list/pin_actions = list()
 
-/obj/item/mod/module/circuit/Initialize(mapload)
+/obj/item/mod/module/circuit/Initialize(mapload, obj/item/electronic_assembly/large/mod_circuit/printed_assembly)
 	. = ..()
-	assembly = new(src)
+	assembly = printed_assembly || new /obj/item/electronic_assembly/large/mod_circuit(src)
+	assembly.forceMove(src)
 	assembly.module = src
-	core = new
+	for(var/obj/item/integrated_circuit/chip as anything in assembly.assembly_components)
+		chip.forceMove(src)
+	core = locate() in assembly.assembly_components
+	if(!core)
+		core = new
+		assembly.add_component(core)
 	core.module = src
-	assembly.add_component(core)
 
 /obj/item/mod/module/circuit/Destroy()
 	clear_pin_actions()
@@ -116,6 +121,11 @@
 /obj/item/electronic_assembly/large/mod_circuit/get_object()
 	return module || src
 
+/obj/item/electronic_assembly/large/mod_circuit/get_printed_item()
+	if(!module)
+		module = new /obj/item/mod/module/circuit(drop_location(), src)
+	return module
+
 /obj/item/electronic_assembly/large/mod_circuit/ui_host(mob/user)
 	return get_object()
 
@@ -142,7 +152,8 @@
 	name = "MOD circuit adapter core"
 	desc = "Предоставляет схеме состояние MOD и входы управления."
 	removable = FALSE
-	spawn_flags = NONE
+	spawn_flags = IC_SPAWN_RESEARCH
+	limit_per_assembly = 1
 	inputs = list("Module to Select" = IC_PINTYPE_STRING)
 	outputs = list(
 		"Wearer" = IC_PINTYPE_REF,

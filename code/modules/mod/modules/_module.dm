@@ -129,9 +129,8 @@
 	if(my_retract_component)
 		my_retract_component?.snap_back()
 		QDEL_NULL(my_retract_component)
-	if(required_modpart)
-		required_modpart.linked_modules -= src
-		required_modpart = null
+	required_modpart?.linked_modules?.Remove(src)
+	required_modpart = null
 	return
 
 /// Called when the MODsuit is activated

@@ -1825,7 +1825,6 @@
 
 /obj/item/mod/module/pepper_shoulders/security
 	complexity = 0
-	removable = FALSE
 
 /obj/item/mod/module/hat_stabilizer
 	name = "MOD hat stabilizer module"

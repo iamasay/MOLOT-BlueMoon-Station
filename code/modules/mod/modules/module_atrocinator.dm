@@ -6,6 +6,7 @@
 	module_type = MODULE_TOGGLE
 	complexity = 2
 	active_power_cost = DEFAULT_CHARGE_DRAIN
+	cooldown_time = 10 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/atrocinator, /obj/item/mod/module/magboot, /obj/item/mod/module/anomaly_locked/antigrav)
 	overlay_icon_file = 'icons/mob/clothing/modsuit/mod_modules_whitemoon.dmi'
 	overlay_state_inactive = "module_atrocinator"
@@ -32,16 +33,22 @@
 	return TRUE
 
 /obj/item/mod/module/atrocinator/on_deactivation()
+	var/was_active = active
 	if(flying_away && inverted_user)
 		to_chat(inverted_user, span_danger("Уже слишком поздно."))
 	clear_effects()
+	if(was_active)
+		COOLDOWN_START(src, cooldown_current_timer, cooldown_time)
 	if(mod?.wearer)
 		return ..()
 	active = FALSE
 	return TRUE
 
 /obj/item/mod/module/atrocinator/on_unequip()
-	clear_effects()
+	if(active)
+		on_deactivation()
+	else
+		clear_effects()
 
 /obj/item/mod/module/atrocinator/on_uninstall(deleting = FALSE, user)
 	clear_effects()

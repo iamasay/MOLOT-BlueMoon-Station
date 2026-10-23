@@ -116,7 +116,7 @@
 
 /datum/nifsoft/summoner/book
 	name = "Grimoire Akasha"
-	program_desc = "Создаёт голографические справочники из библиотеки BlueMoon. Программа бесплатна; создание книги расходует энергию."
+	program_desc = "Создаёт голографические справочники из библиотеки. Программа бесплатна; создание книги расходует энергию."
 	purchase_price = 0
 	max_summoned_items = 2
 	summonable_items = list()

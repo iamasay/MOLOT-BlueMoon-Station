@@ -48,6 +48,9 @@
 		return
 	gravity_inverted = inverted
 	var/matrix/flipped = matrix(transform)
+	if(is_tilted)
+		flipped.Turn(-is_tilted)
+		is_tilted = 0
 	flipped.Scale(1, -1)
 	animate(src, transform = flipped, time = GRAVITY_INVERSION_TIME, easing = SINE_EASING|EASE_OUT, flags = ANIMATION_PARALLEL)
 	update_small_sprite()

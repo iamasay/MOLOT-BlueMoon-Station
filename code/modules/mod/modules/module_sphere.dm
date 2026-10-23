@@ -18,6 +18,7 @@
 	var/mob/living/carbon/human/sphere_user
 	var/list/armored_parts
 	var/matrix/old_transform
+	var/old_gravity_inverted
 	var/steps = 0
 	var/static/list/user_traits = list(TRAIT_FORCED_STANDING, TRAIT_HANDS_BLOCKED, TRAIT_NOSLIPALL, TRAIT_SILENT_STEP)
 
@@ -92,11 +93,11 @@
 
 /obj/item/mod/module/sphere_transform/proc/apply_visuals()
 	old_transform = matrix(sphere_user.transform)
+	old_gravity_inverted = sphere_user.gravity_inverted
 	sphere_user.add_filter("mod_ball", 1, alpha_mask_filter(icon = icon(overlay_icon_file, "ball_mask"), flags = MASK_INVERSE))
 	sphere_user.add_filter("mod_blur", 2, angular_blur_filter(size = MOD_SPHERE_BLUR))
 	sphere_user.add_filter("mod_outline", 3, outline_filter(color = "#000000AA"))
 	sphere_user.pixel_y += MOD_SPHERE_OFFSET
-	sphere_user.SpinAnimation(MOD_SPHERE_SPIN, tag = "mod_sphere")
 
 /obj/item/mod/module/sphere_transform/on_deactivation()
 	clear_sphere()
@@ -112,7 +113,10 @@
 	UnregisterSignal(sphere_user, list(COMSIG_MOVABLE_MOVED, COMSIG_MOB_STATCHANGE, COMSIG_MOB_UNEQUIPPED_ITEM, COMSIG_PARENT_QDELETING))
 	sphere_user.remove_filter(list("mod_ball", "mod_blur", "mod_outline"))
 	sphere_user.pixel_y -= MOD_SPHERE_OFFSET
-	animate(sphere_user, transform = old_transform, time = 0, flags = ANIMATION_END_NOW, tag = "mod_sphere")
+	var/matrix/restored = matrix(old_transform)
+	if(old_gravity_inverted != sphere_user.gravity_inverted)
+		restored.Scale(1, -1)
+	animate(sphere_user, transform = restored, time = 0, flags = ANIMATION_END_NOW, tag = "mod_sphere")
 	for(var/trait in user_traits)
 		REMOVE_TRAIT(sphere_user, trait, REF(src))
 	REMOVE_TRAIT(sphere_user, TRAIT_LAVA_IMMUNE, REF(src))
@@ -121,6 +125,7 @@
 	sphere_user.update_mobility()
 	sphere_user = null
 	old_transform = null
+	old_gravity_inverted = null
 	steps = 0
 
 /obj/item/mod/module/sphere_transform/proc/change_armor(amount)
@@ -137,6 +142,7 @@
 	if(!sphere_user.has_gravity())
 		on_deactivation()
 		return
+	sphere_user.SpinAnimation(MOD_SPHERE_SPIN, loops = 1, tag = "mod_sphere")
 	if(forced || HAS_TRAIT_NOT_FROM(sphere_user, TRAIT_SILENT_STEP, REF(src)))
 		return
 	steps++

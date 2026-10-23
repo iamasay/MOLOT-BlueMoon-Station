@@ -508,14 +508,17 @@ const ParametersSection = (props) => {
         <LabeledList.Item
           label="MODlink"
           buttons={
-            <Button
-              icon={data.link_call ? 'phone-slash' : 'phone'}
-              content={data.link_call ? 'Завершить' : 'Позвонить'}
-              disabled={!data.link_freq}
-              onClick={() => act('call')}
-            />
+            <>
+              <Button icon="pen" tooltip="Имя MODlink" onClick={() => act('rename_link')} />
+              <Button
+                icon={data.link_call ? 'phone-slash' : 'phone'}
+                content={data.link_call ? 'Завершить' : 'Позвонить'}
+                disabled={!data.link_freq}
+                onClick={() => act('call')}
+              />
+            </>
           }>
-          {data.link_id} / {data.link_freq || 'Частота не задана'}
+          {data.link_name} / {data.link_freq || 'Частота не задана'}
         </LabeledList.Item>
         <LabeledList.Item label="Cover">
           {open ? 'Open' : 'Closed'}
