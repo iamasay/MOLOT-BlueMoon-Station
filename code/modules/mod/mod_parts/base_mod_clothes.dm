@@ -21,6 +21,16 @@
 	)
 	var/list/linked_modules = list()
 	var/theme_category
+	var/paint_skin
+
+/obj/item/clothing/mod_part/proc/get_visual_skin()
+	return paint_skin || mod?.get_visual_skin()
+
+/obj/item/clothing/mod_part/proc/set_paint_skin(new_skin)
+	paint_skin = new_skin == mod?.get_visual_skin() ? null : new_skin
+	var/sealed_suffix = findtext(icon_state, "-sealed") ? "-sealed" : ""
+	icon_state = "[get_visual_skin()]-[initial(icon_state)][sealed_suffix]"
+	item_state = "[get_visual_skin()]-[initial(item_state)][sealed_suffix]"
 
 /obj/item/clothing/mod_part/proc/restore_normal_features()
 	return mod.wearer.get_item_by_slot(slot_flags)
@@ -138,8 +148,8 @@
 		cold_protection = NONE
 	if(!mod)
 		return
-	icon_state = "[mod.get_visual_skin()]-[initial(icon_state)][seal ? "-sealed" : ""]"
-	item_state = "[mod.get_visual_skin()]-[initial(item_state)][seal ? "-sealed" : ""]"
+	icon_state = "[get_visual_skin()]-[initial(icon_state)][seal ? "-sealed" : ""]"
+	item_state = "[get_visual_skin()]-[initial(item_state)][seal ? "-sealed" : ""]"
 
 /obj/item/clothing/mod_part/proc/equip_item_from_overslot()
 	REMOVE_TRAIT(src, TRAIT_NODROP, MOD_TRAIT)

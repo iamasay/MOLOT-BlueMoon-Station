@@ -134,7 +134,7 @@
 	if(!active || !check_required_modpart())
 		return
 	var/static/list/states = icon_states('icons/mob/clothing/modsuit/mod_visor_whitemoon.dmi')
-	var/state = "[mod.get_visual_skin()]-helmet-visor"
+	var/state = "[mod.get_helmet()?.get_visual_skin()]-helmet-visor"
 	if(!(state in states))
 		state = "standard-helmet-visor"
 	var/mutable_appearance/visor = mutable_appearance('icons/mob/clothing/modsuit/mod_visor_whitemoon.dmi', state)

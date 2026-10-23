@@ -11,7 +11,7 @@
 	return ..()
 
 /obj/item/clothing/mod_part/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state, style_flags = NONE, use_mob_overlay_icon = TRUE, alpha_mask)
-	if(!isinhands && mod?.theme?.hide_worn_sprites && !mod.visual_skin)
+	if(!isinhands && mod?.theme?.hide_worn_sprites && !mod.visual_skin && !paint_skin)
 		return mutable_appearance('icons/effects/effects.dmi', "nothing", layer = -default_layer)
 	return ..()
 

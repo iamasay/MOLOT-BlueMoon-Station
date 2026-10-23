@@ -509,6 +509,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 /obj/item/mod/control/proc/set_mod_skin(new_skin)
 	if(is_active())
 		CRASH("[src] tried to set skin while active!")
+	clear_part_skins()
 	visual_skin = null
 	skin = new_skin
 	var/list/used_skin = theme.skins[new_skin]
@@ -531,6 +532,7 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 /obj/item/mod/control/proc/set_visual_skin(new_skin)
 	if(!istext(new_skin) || !length(new_skin))
 		return FALSE
+	clear_part_skins()
 	visual_skin = new_skin
 	for(var/obj/item/part in get_mod_parts(include_cell = FALSE, include_mod = TRUE))
 		var/sealed_suffix = findtext(part.icon_state, "-sealed") ? "-sealed" : ""
@@ -539,6 +541,10 @@ GLOBAL_LIST_INIT(possible_modsuit_slot, list(ITEM_SLOT_BACK, ITEM_SLOT_BELT))
 	update_icon_state()
 	wearer?.regenerate_icons()
 	return TRUE
+
+/obj/item/mod/control/proc/clear_part_skins()
+	for(var/obj/item/clothing/mod_part/part as anything in get_mod_parts(include_cell = FALSE))
+		part.paint_skin = null
 
 /obj/item/mod/control/proc/shock(mob/living/user)
 	var/obj/item/stock_parts/cell/cell = get_cell()
