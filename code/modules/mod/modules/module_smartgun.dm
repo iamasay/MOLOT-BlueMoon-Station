@@ -42,7 +42,7 @@
 	item_state = "smartgun"
 	lefthand_file = 'icons/mob/inhands/mod_smartgun_left_whitemoon.dmi'
 	righthand_file = 'icons/mob/inhands/mod_smartgun_right_whitemoon.dmi'
-	fire_sound = 'sound/weapons/mod_smartgun_whitemoon.ogg'
+	fire_sound = 'modular_bluemoon/fluffs/sound/weapon/at41_fire.ogg'
 	weapon_weight = WEAPON_HEAVY
 	slot_flags = ITEM_SLOT_BACK
 	w_class = WEIGHT_CLASS_HUGE

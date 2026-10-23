@@ -1,13 +1,13 @@
 /obj/item/mod/module/atrocinator
 	name = "MOD atrocinator module"
 	desc = "Странный шар меняет направление гравитации для владельца МОДа."
-	icon = 'icons/obj/clothing/modsuit/mod_modules_maint_whitemoon.dmi'
+	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "atrocinator"
 	module_type = MODULE_TOGGLE
 	complexity = 2
 	active_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/atrocinator, /obj/item/mod/module/magboot, /obj/item/mod/module/anomaly_locked/antigrav)
-	overlay_icon_file = 'icons/mob/clothing/modsuit/mod_modules_maint_whitemoon.dmi'
+	overlay_icon_file = 'icons/mob/clothing/modsuit/mod_modules_whitemoon.dmi'
 	overlay_state_inactive = "module_atrocinator"
 	var/mob/living/carbon/human/inverted_user
 	var/step_count = 0

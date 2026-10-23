@@ -1359,7 +1359,7 @@
 /obj/item/mod/module/baton_holster
 	name = "MOD baton holster module"
 	desc = "Выдвижная кобура для дубинки контрактника. Вставьте дубинку в снятый модуль. Для извлечения достаточно развёрнутых перчаток и заряда MOD; включать костюм не требуется."
-	icon = 'icons/obj/clothing/modsuit/mod_contractor.dmi'
+	icon = 'icons/obj/clothing/modsuit/contractor_modules.dmi'
 	icon_state = "holster"
 	module_type = MODULE_ACTIVE
 	complexity = 3

@@ -1,26 +1,3 @@
-/datum/mod_theme/holographic
-	name = "Holographic MOD"
-	desc = "Герметичный голографический MOD без защиты от холода."
-	extended_desc = "Проекторы создают герметичную оболочку по форме тела носителя. Во включённом состоянии голограммы нельзя скрыть. Для дыхания нужен отдельный источник кислорода."
-	default_skin = "standard"
-	armor_type = /datum/armor/none
-	complexity_max = 4
-	min_cold_protection_temperature = null
-	max_heat_protection_temperature = null
-	hide_worn_sprites = TRUE
-	body_hardlight = TRUE
-	locked_hardlight = TRUE
-	hardlight_color = COLOR_CYAN
-	inbuilt_modules = list(/obj/item/mod/module/holographic)
-	skins = list("standard" = MOD_PRESET_DEFAULT)
-
-/datum/mod_theme/holographic/New()
-	. = ..()
-	var/list/preset = skins[default_skin]
-	preset[HELMET_FLAGS][UNSEALED_INVISIBILITY] = NONE
-	preset[HELMET_FLAGS][SEALED_INVISIBILITY] = NONE
-	preset[CHESTPLATE_FLAGS][SEALED_INVISIBILITY] = NONE
-
 /obj/item/mod/control/pre_equipped/holographic
 	theme = /datum/mod_theme/holographic
 

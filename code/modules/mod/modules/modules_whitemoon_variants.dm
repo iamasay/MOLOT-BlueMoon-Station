@@ -94,7 +94,7 @@
 /obj/item/grenade/mirage
 	name = "mirage grenade"
 	desc = "Создаёт временную голографическую копию того, кто взвёл гранату."
-	icon = 'icons/obj/clothing/modsuit/mirage_grenade_whitemoon.dmi'
+	icon = 'icons/obj/crystallizer_grenades.dmi'
 	icon_state = "mirage"
 	det_time = 3 SECONDS
 	var/datum/weakref/mirage_source

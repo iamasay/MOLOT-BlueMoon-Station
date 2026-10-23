@@ -1,7 +1,7 @@
 /obj/item/mod/module/visor/rave
 	name = "MOD rave visor module"
 	desc = "Развлекательный визор переливается цветами радуги и воспроизводит музыку только своему владельцу."
-	icon = 'icons/obj/clothing/modsuit/mod_modules_maint_whitemoon.dmi'
+	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "rave_visor"
 	complexity = 1
 	var/datum/client_colour/mod_rave/rave_screen

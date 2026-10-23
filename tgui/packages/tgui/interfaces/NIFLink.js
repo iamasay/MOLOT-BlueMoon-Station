@@ -49,7 +49,7 @@ export const NIFLink = () => {
           </Stack>
         </Section>
         <Section title="Каталог NIFSoft">
-          <Box mb={1}>{balance == null ? 'Для платных программ нужна ID с банковским счётом.' : `Баланс: ${balance} кр.`}</Box>
+          <Box mb={1}>{balance === null || balance === undefined ? 'Для платных программ нужна ID с банковским счётом.' : `Баланс: ${balance} кр.`}</Box>
           {catalog.map((program) => (
             <Box key={program.id} mb={2}>
               <Box bold>{program.name} — {program.category}</Box>
