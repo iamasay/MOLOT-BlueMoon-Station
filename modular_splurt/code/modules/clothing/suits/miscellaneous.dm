@@ -174,7 +174,7 @@
 	desc = "Deluxe issue armored voidsuit. Let the middle class bask in your grofit!"
 	icon_state = "corpuss"
 	armor_type = /datum/armor/s
-	brc_mitigation_bonus = 10  // BLUEMOON ADD
+	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD
 	hoodtype = /obj/item/clothing/head/hooded/corpus/s //Enjoy this nice red outfit Nanotrasen! There is NO NEED for a pink one! xoxo -VivI Fanteriso
 
 /obj/item/clothing/suit/hooded/corpus/s/Initialize(mapload)

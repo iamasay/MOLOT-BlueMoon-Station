@@ -7,7 +7,7 @@
 	item_state = "brigphysicianvest"
 	armor_type = /datum/armor/brigdoc_and_fakearmor_press
 	mutantrace_variation = STYLE_DIGITIGRADE|STYLE_NO_ANTHRO_ICON
-	brc_mitigation_bonus = 10  // BLUEMOON ADD
+	brc_mitigation_bonus = BRC_MITIGATION_10  // BLUEMOON ADD
 
 /obj/item/clothing/suit/brigdoc/equipped(mob/user, slot)
 	. = ..()
