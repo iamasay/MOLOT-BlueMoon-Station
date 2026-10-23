@@ -4505,7 +4505,7 @@
 /turf/open/floor/catwalk_floor/iron,
 /area/mine/xenoarch)
 "cFa" = (
-/obj/machinery/mineral/equipment_vendor,
+/obj/machinery/equipment_vendor,
 /turf/open/floor/plasteel/dark,
 /area/mine/production)
 "cFA" = (
@@ -37407,7 +37407,7 @@
 /obj/effect/turf_decal/siding/thinplating/dark{
 	dir = 8
 	},
-/obj/machinery/mineral/equipment_vendor{
+/obj/machinery/equipment_vendor{
 	pixel_x = 3;
 	pixel_y = 2
 	},
