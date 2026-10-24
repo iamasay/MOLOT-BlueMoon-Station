@@ -1,0 +1,6 @@
+author: RG-TRK
+delete-after: true
+changes:
+  - bugfix: fixed small pixel at corner of ACR sprite.
+  - bugfix: ACR description mentioned that ACR was bullpup rifle. Now it's not.
+  - bugfix: finnaly changed ACR mags to newer model as i intended in first PR.
