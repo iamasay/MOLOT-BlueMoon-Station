@@ -1,0 +1,4 @@
+author: FinkRLD
+delete-after: true
+changes:
+  - bugfix: Кастомные стоны сохраняются для каждого персонажа независимо.
