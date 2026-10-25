@@ -332,6 +332,13 @@
 	var/datum/space_level/level = SSmapping.z_list.len >= new_z ? SSmapping.z_list[new_z] : null
 	return level && !level.lighting_initialized
 
+/// Живой игрок видит сквозь дыры этажи под собой: посещение и подъём света считаем на всю видимую часть связки.
+/proc/request_visible_stack_lighting(new_z, reason)
+	for(var/z in SSmapping.get_levels_visible_from(new_z))
+		SSlighting.note_zlevel_visit(z)
+		if(should_ondemand_init_zlevel(z))
+			INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(create_lighting_for_zlevel), z, reason)
+
 /// Держит ли наблюдатель свет отложенного z-уровня. Со штатной альфой
 /// LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE неподнятый уровень для госта просто яркий, разницы
 /// он не увидит, а подъём стоит десятков МБ, которых снос не возвращает.
@@ -473,7 +480,7 @@
 	// Тот же инвариант: только in-place удаление, никаких переприсваиваний глобала.
 	for(var/turf/open/space/S in GLOB.lighting_deferred_starlight.Copy())
 		if(S.z == z_level)
-			GLOB.lighting_starlight_queue |= S
+			S.queue_starlight()
 			GLOB.lighting_deferred_starlight -= S
 		CHECK_TICK
 

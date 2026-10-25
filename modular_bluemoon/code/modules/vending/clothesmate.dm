@@ -147,8 +147,8 @@ GLOBAL_LIST_INIT(clothesmate_socks, list())
 				/obj/item/clothing/glasses/regular/jamjar = 2,
 				/obj/item/clothing/gloves/fingerless = 3,
 				/obj/item/clothing/mask/gas/driscoll = 5,
-				/obj/item/clothing/mask/kitsuneblk = 3,
-				/obj/item/clothing/mask/kitsunewhi = 3,
+				/obj/item/clothing/mask/kitsune/black = 3,
+				/obj/item/clothing/mask/kitsune = 3,
 				/obj/item/clothing/mask/transparent_mask = 3,
 				/obj/item/clothing/neck/cloak/cancloak/polychromic = 4,
 				/obj/item/clothing/neck/scarf = 3,
@@ -161,6 +161,7 @@ GLOBAL_LIST_INIT(clothesmate_socks, list())
 				/obj/item/clothing/neck/scarf/pink = 3,
 				/obj/item/clothing/neck/scarf/purple = 3,
 				/obj/item/clothing/neck/scarf/red = 3,
+				/obj/item/clothing/neck/scarf/shadekin = 3, // BLUEMOON ADD - шарф из меха шейдкина
 				/obj/item/clothing/neck/scarf/yellow = 3,
 				/obj/item/clothing/neck/scarf/zebra = 3,
 				/obj/item/clothing/neck/stripedbluescarf = 3,

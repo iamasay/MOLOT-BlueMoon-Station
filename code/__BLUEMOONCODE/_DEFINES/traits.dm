@@ -26,6 +26,8 @@
 #define TRAIT_RETRACTABLE_CLAWS				"claws"
 #define TRAIT_CHAMELEON_QUIRK				"chameleon_quirk"
 #define TRAIT_KNOWS_RESEARCH 				"parchment_knowledge"
+/// Тело ждёт игрока в капсуле полигона: dusts_on_catatonia его не трогает.
+#define TRAIT_TRAINING_DREAMER				"training_dreamer"
 #define BLUEMOON_TRAIT_NAME_PHOBIA			"Фобия"
 
 // Трейты для рас
@@ -64,3 +66,5 @@
 #define TRAIT_WEAK_INVISIBILITY "internal_invisibility"
 /// Запрет попиксельного смещения
 #define TRAIT_NO_PIXEL_SHIFT "no_pixel_shift"
+/// Дыра в полу: сквозь неё падают и по ней не ходят. Лежит здесь, потому что is_helpers.dm подключается раньше __DEFINES/traits.dm.
+#define TURF_Z_OPENSPACE_TRAIT "turf_z_openspace"

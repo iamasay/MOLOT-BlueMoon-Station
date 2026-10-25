@@ -21,6 +21,8 @@
 	var/mob_trait
 	/// should we immediately call on_spawn or add a timer to trigger
 	var/on_spawn_immediate = TRUE
+	// Разрешена ли выдача стартового снаряжения.
+	var/spawn_items = TRUE
 	/// Reference to the mob currently tied to this quirk datum. Quirks are not singletons.
 	var/mob/living/quirk_holder
 	var/processing_quirk = FALSE
@@ -31,11 +33,12 @@
 	// Отвечает за то не пишется-ли данный квирк на медсканерах и худах (FALSE = пишется)
 	var/flavor_quirk = FALSE
 
-/datum/quirk/New(mob/living/quirk_mob, spawn_effects)
+/datum/quirk/New(mob/living/quirk_mob, spawn_effects, give_spawn_items = TRUE)
 	if(!quirk_mob || (human_only && !ishuman(quirk_mob)) || quirk_mob.has_quirk(type))
 		qdel(src)
 		return
 	quirk_holder = quirk_mob
+	spawn_items = give_spawn_items
 	SSquirks.quirk_objects += src
 	if(gain_text)
 		to_chat(quirk_holder, gain_text)
@@ -118,11 +121,6 @@
 		var/list/dat_sorted = sort_list(dat)
 		return dat_sorted.Join(" ; ")
 //BLUEMOON CHANGE END
-
-/mob/living/proc/cleanse_trait_datums() //removes all trait datums
-	for(var/V in roundstart_quirks)
-		var/datum/quirk/T = V
-		qdel(T)
 
 /mob/living/proc/transfer_trait_datums(mob/living/to_mob)
 	for(var/V in roundstart_quirks)

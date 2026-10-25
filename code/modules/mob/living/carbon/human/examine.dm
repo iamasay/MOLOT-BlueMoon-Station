@@ -162,9 +162,9 @@
 		. += "[t_on] носит на своих ушах [ears.get_examine_string(user)]."
 	if(ears_extra && !(ITEM_SLOT_EARS_RIGHT in obscured))
 		. += "[t_on] носит на своих ушах [ears_extra.get_examine_string(user)]."
-	//wearing two ear items makes you look like an idiot
-	if((istype(ears, /obj/item/radio/headset) && !(ITEM_SLOT_EARS_LEFT in obscured)) && (istype(ears_extra, /obj/item/radio/headset) && !(ITEM_SLOT_EARS_RIGHT in obscured)))
-		. += "<span class='warning'>[t_on] выглядит очень глупо ввиду того, что на [t_ego] голове находятся \an [ears.name] и \an [ears_extra.name] одновременно.</span>"
+	// //wearing two ear items makes you look like an idiot
+	// if((istype(ears, /obj/item/radio/headset) && !(ITEM_SLOT_EARS_LEFT in obscured)) && (istype(ears_extra, /obj/item/radio/headset) && !(ITEM_SLOT_EARS_RIGHT in obscured)))
+	// 	. += "<span class='warning'>[t_on] выглядит очень глупо ввиду того, что на [t_ego] голове находятся \an [ears.name] и \an [ears_extra.name] одновременно.</span>"
 
 	//ID
 	if(wear_id && !(wear_id.item_flags & EXAMINE_SKIP))
@@ -185,7 +185,8 @@
 				. += dicc.get_examine_string(user)
 				if((src == user || HAS_TRAIT(user, TRAIT_GFLUID_DETECT)) && ((dicc?.genital_flags & GENITAL_FUID_PRODUCTION) || ((dicc?.linked_organ?.genital_flags & GENITAL_FUID_PRODUCTION) && !dicc?.linked_organ?.is_exposed())))
 					var/datum/reagent/cummies = find_reagent_object_from_type(dicc?.get_fluid_id())
-					. += "Вы чувствуете, как от [t_ego] тела пахнет <b>'<span style='color:[cummies.color]';>[cummies.name]</span>'</b>..."
+					if(cummies)
+						. += "Вы чувствуете, как от [t_ego] тела пахнет <b>'<span style='color:[cummies.color]';>[cummies.name]</span>'</b>..."
 	if(user.client?.prefs.cit_toggles & VORE_EXAMINE)
 		var/cursed_stuff = attempt_vr(src,"examine_bellies",args) //vore Code
 		if(cursed_stuff)
@@ -586,7 +587,7 @@ BLUEMOON - mechanical_erp_verbs_examine - REMOVAL END*/
 		if(istype(H.glasses, /obj/item/clothing/glasses/hud) || CIH)
 			var/perpname = get_face_name(get_id_name(""))
 			if(perpname)
-				var/datum/data/record/R = GLOB.data_core.general_by_name[perpname]
+				var/datum/data/record/R = antag_training_station_record(GLOB.data_core.general_by_name, perpname, src)
 				if(R)
 					var/rank_tooltip = ""
 					if(R.fields["real_rank"] && R.fields["rank"] != R.fields["real_rank"])
@@ -605,7 +606,7 @@ BLUEMOON - mechanical_erp_verbs_examine - REMOVAL END*/
 						. += "<a href='?src=[REF(src)];hud=m;p_stat=1'>\[[health_r]\]</a>"
 						health_r = R.fields["m_stat"]
 						. += "<a href='?src=[REF(src)];hud=m;m_stat=1'>\[[health_r]\]</a>"
-					R = GLOB.data_core.medical_by_name[perpname]
+					R = antag_training_station_record(GLOB.data_core.medical_by_name, perpname, src)
 					if(R)
 						. += "<a href='?src=[REF(src)];hud=m;evaluation=1'>\[Medical evaluation\]</a>"
 					traitstring = get_trait_string(FALSE, TRUE)
@@ -619,7 +620,7 @@ BLUEMOON - mechanical_erp_verbs_examine - REMOVAL END*/
 					//|| !user.canmove || user.restrained()) Fluff: Sechuds have eye-tracking technology and sets 'arrest' to people that the wearer looks and blinks at.
 						var/criminal = "None"
 
-						R = GLOB.data_core.security_by_name[perpname]
+						R = antag_training_station_record(GLOB.data_core.security_by_name, perpname, src)
 						if(R)
 							criminal = R.fields["criminal"]
 

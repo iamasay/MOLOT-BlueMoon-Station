@@ -286,7 +286,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/area/A = get_area(user)
 
 	log_shuttle("[key_name(user)] has called the emergency shuttle.")
-	log_game("[key_name(src)] has called the emergency shuttl: [emergency_reason]")
+	log_game("[key_name(user)] has called the emergency shuttle: [emergency_reason]")
 	deadchat_broadcast(" has called the shuttle at [span_name("[A.name]")].", span_name("[user.real_name]"), user, message_type=DEADCHAT_ANNOUNCEMENT)
 	if(call_reason)
 		SSblackbox.record_feedback("text", "shuttle_reason", 1, "[call_reason]")
@@ -588,13 +588,10 @@ SUBSYSTEM_DEF(shuttle)
 	GLOB.lighting_defer_active = FALSE
 
 	// Expand deferred starlight into space turfs, queue for SSlighting Phase -1
-	var/list/starlight_batch = list()
 	for(var/turf/deferred_turf as anything in GLOB.lighting_deferred_starlight)
 		for(var/turf/open/space/space_tile in RANGE_TURFS(1, deferred_turf))
-			starlight_batch |= space_tile
+			space_tile.queue_starlight()
 	GLOB.lighting_deferred_starlight.Cut()
-	if(starlight_batch.len)
-		GLOB.lighting_starlight_queue |= starlight_batch
 
 	// Boost SSlighting processing cap to drain post-transit queues faster
 	SSlighting.temp_cap_boost = 50

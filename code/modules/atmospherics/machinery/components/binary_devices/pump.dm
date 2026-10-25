@@ -151,7 +151,8 @@
 	switch(action)
 		if("power")
 			on = !on
-			message_admins("Pump, [src.name], turned [on ? "on" : "off"] by [ADMIN_LOOKUPFLW(usr)] at [ADMIN_COORDJMP(T)], [A]")
+			if(!is_antag_training_atom(src))
+				message_admins("Pump, [src.name], turned [on ? "on" : "off"] by [ADMIN_LOOKUPFLW(usr)] at [ADMIN_COORDJMP(T)], [A]")
 			investigate_log("was turned [on ? "on" : "off"] by [key_name(usr)]", INVESTIGATE_ATMOS)
 			. = TRUE
 		if("pressure")
@@ -216,7 +217,8 @@
 		return FALSE
 	else
 		investigate_log("Pump, [src.name], was unwrenched by [key_name(usr)] at [x], [y], [z], [A]", INVESTIGATE_ATMOS)
-		message_admins("Pump, [src.name], was unwrenched by [ADMIN_LOOKUPFLW(user)] at [A]")
+		if(!is_antag_training_atom(src))
+			message_admins("Pump, [src.name], was unwrenched by [ADMIN_LOOKUPFLW(user)] at [A]")
 		return TRUE
 
 /obj/machinery/atmospherics/components/binary/pump/layer1
@@ -225,15 +227,15 @@
 
 /obj/machinery/atmospherics/components/binary/pump/layer2
 	piping_layer = 2
-	icon_state= "pump_map-1"
+	icon_state= "pump_map-2"
 
 /obj/machinery/atmospherics/components/binary/pump/layer4
 	piping_layer = 4
-	icon_state= "pump_map-3"
+	icon_state= "pump_map-4"
 
 /obj/machinery/atmospherics/components/binary/pump/layer5
 	piping_layer = 5
-	icon_state= "pump_map-3"
+	icon_state= "pump_map-5"
 
 /obj/machinery/atmospherics/components/binary/pump/on
 	on = TRUE
@@ -245,12 +247,12 @@
 
 /obj/machinery/atmospherics/components/binary/pump/on/layer2
 	piping_layer = 2
-	icon_state= "pump_on_map-1"
+	icon_state= "pump_on_map-2"
 
 /obj/machinery/atmospherics/components/binary/pump/on/layer4
 	piping_layer = 4
-	icon_state= "pump_on_map-3"
+	icon_state= "pump_on_map-4"
 
 /obj/machinery/atmospherics/components/binary/pump/on/layer5
 	piping_layer = 5
-	icon_state= "pump_on_map-3"
+	icon_state= "pump_on_map-5"

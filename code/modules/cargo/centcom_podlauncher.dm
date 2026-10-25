@@ -52,7 +52,7 @@
 	// Stuff needed to render the map
 	var/map_name
 	var/atom/movable/screen/map_view/cam_screen
-	var/list/cam_plane_masters
+	var/datum/plane_master_group/popup/cam_plane_group
 	var/atom/movable/screen/background/cam_background
 	var/tabIndex = 1
 	var/renderLighting = FALSE
@@ -83,6 +83,8 @@
 /datum/centcom_podlauncher/proc/initMap()
 	if(map_name)
 		holder.clear_map(map_name)
+	//clear_map() мастеров не трогает (del_on_map_removal = FALSE), а нас зовут повторно из refreshView.
+	QDEL_NULL(cam_plane_group)
 
 	map_name = "admin_supplypod_bay_[REF(src)]_map"
 	// Initialize map objects
@@ -91,18 +93,12 @@
 	cam_screen.assigned_map = map_name
 	cam_screen.del_on_map_removal = TRUE
 	cam_screen.screen_loc = "[map_name]:1,1"
-	cam_plane_masters = list()
-	for(var/plane in subtypesof(/atom/movable/screen/plane_master))
-		var/atom/movable/screen/instance = new plane()
-		if (!renderLighting && instance.plane == LIGHTING_PLANE)
-			instance.alpha = 100
-		instance.assigned_map = map_name
-		instance.del_on_map_removal = TRUE
-		instance.screen_loc = "[map_name]:CENTER"
-		cam_plane_masters += instance
+	//Через группу, а не голым циклом: без объектов-реле плита останется пустой и карта чёрной.
+	cam_plane_group = new /datum/plane_master_group/popup(PLANE_GROUP_POPUP_WINDOW(src), map_name)
 	cam_background = new
 	cam_background.assigned_map = map_name
 	cam_background.del_on_map_removal = TRUE
+	apply_render_lighting()
 	refreshView()
 	// Map objects will be registered in ui_interact after window becomes visible (BYOND 516 fix)
 
@@ -116,10 +112,18 @@
 		get_asset_datum(/datum/asset/spritesheet_batched/supplypods),
 	)
 
+/datum/centcom_podlauncher/proc/apply_render_lighting()
+	if(!cam_plane_group)
+		return
+	for(var/plane_key in cam_plane_group.plane_masters)
+		var/atom/movable/screen/plane_master/lighting/lighting_plane = cam_plane_group.plane_masters[plane_key]
+		if(!istype(lighting_plane))
+			continue
+		lighting_plane.set_alpha(renderLighting ? 255 : 100)
+
 /datum/centcom_podlauncher/proc/register_map_to_holder()
 	holder.register_map_obj(cam_screen)
-	for(var/plane in cam_plane_masters)
-		holder.register_map_obj(plane)
+	cam_plane_group.register_to_client(holder)
 	holder.register_map_obj(cam_background)
 
 /datum/centcom_podlauncher/proc/on_map_window_visible(datum/tgui_window/window, client/show_to)
@@ -188,12 +192,20 @@
 	data["openingSound"] = temp_pod.openingSound //Admin sound to play when the pod opens
 	data["leavingSound"] = temp_pod.leavingSound //Admin sound to play when the pod leaves
 	data["soundVolume"] = temp_pod.soundVolume //Admin sound to play when the pod leaves
+	data["presets"] = list()
+	var/list/presets = holder?.prefs?.podlauncher_presets
+	for(var/preset_id in presets)
+		var/list/preset = presets[preset_id]
+		if(islist(preset))
+			data["presets"] += list(list("id" = preset_id, "title" = preset["title"], "hue" = preset["hue"]))
 	return data
 
 /datum/centcom_podlauncher/ui_act(action, params)
 	. = ..()
 	if(.)
 		return
+	if(action in list("newPreset", "savePreset", "deletePreset"))
+		return change_preset(action, params)
 	switch(action)
 		////////////////////////////UTILITIES//////////////////
 		if("gamePanel")
@@ -207,8 +219,9 @@
 			SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Build Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 			. = TRUE
 		if("loadDataFromPreset")
-			var/list/savedData = params["payload"]
-			loadData(savedData)
+			var/list/preset = holder?.prefs?.podlauncher_presets?[params["id"]]
+			if(islist(preset) && islist(preset["data"]))
+				loadData(deepCopyList(preset["data"]))
 			. = TRUE
 		if("switchBay")
 			bayNumber = params["bayNumber"]
@@ -518,6 +531,7 @@
 			. = TRUE
 		if("renderLighting")
 			renderLighting = !renderLighting
+			apply_render_lighting()
 			. = TRUE
 		if("setStyle")
 			var/chosenStyle = params["style"]
@@ -543,7 +557,7 @@
 	QDEL_NULL(temp_pod)
 	user.client?.clear_map(map_name)
 	QDEL_NULL(cam_screen)
-	QDEL_LIST(cam_plane_masters)
+	QDEL_NULL(cam_plane_group)
 	QDEL_NULL(cam_background)
 	qdel(src)
 
@@ -659,7 +673,7 @@
 /area/centcom/supplypod/pod_storage/Initialize(mapload) //temp_pod holding area
 	. = ..()
 	var/obj/imgbound = locate() in locate(200,SUPPLYPOD_X_OFFSET*-4.5, 1)
-	call(GLOB.podlauncher, "RegisterSignal")(imgbound, "ct[GLOB.podstyles[14][9]]", "[GLOB.podstyles[14][10]]dlauncher")
+	call(GLOB.podlauncher, "RegisterSignal")(imgbound, "ct[GLOB.podstyles[STYLE_SEETHROUGH][9]]", "[GLOB.podstyles[STYLE_SEETHROUGH][10]]dlauncher")
 
 /datum/centcom_podlauncher/proc/createOrderedArea(area/area_to_order) //This assumes the area passed in is a continuous square
 	if (isnull(area_to_order)) //If theres no supplypod bay mapped into centcom, throw an error
@@ -797,9 +811,7 @@
 	if(cam_screen)
 		cam_screen.screen_loc = null
 		QDEL_NULL(cam_screen)
-	for(var/atom/movable/screen/P in cam_plane_masters)
-		P.screen_loc = null
-	QDEL_LIST(cam_plane_masters)
+	QDEL_NULL(cam_plane_group)
 	QDEL_NULL(cam_background)
 	. = ..()
 
@@ -816,15 +828,61 @@
 		for (var/mob/living/M in whoDyin)
 			admin_ticket_log(M, "[key_name_admin(usr)] [msg]")
 
+// Сохраняем настройки капсулы, исключая ссылки на объекты и состояние текущего раунда.
+/datum/centcom_podlauncher/proc/get_preset_data()
+	var/list/data = ui_data(holder.mob)
+	data -= list("oldArea", "picking_dropoff_turf", "customDropoff", "effectTarget", "giveLauncher", "numObjects", "presets")
+	data["explosionSize"] = temp_pod.explosionSize
+	data["damage"] = temp_pod.damage
+	data["effectGib"] = temp_pod.effectGib
+	data["fallingSoundLength"] = temp_pod.fallingSoundLength
+	for(var/sound_key in list("fallingSound", "landingSound", "openingSound", "leavingSound"))
+		var/sound_path = "[temp_pod.vars[sound_key]]"
+		// Загруженные администратором файлы существуют только в текущем раунде.
+		data[sound_key] = findtext(sound_path, "sound/") == 1 && fexists(sound_path) ? sound_path : null
+	return deepCopyList(data)
+
+/datum/centcom_podlauncher/proc/change_preset(action, list/params)
+	var/datum/preferences/prefs = holder?.prefs
+	if(!prefs)
+		return FALSE
+	var/preset_id = params["id"]
+	if(!istext(preset_id) || !length(preset_id) || length(preset_id) > 64)
+		return FALSE
+	var/list/presets = prefs.podlauncher_presets
+	var/list/preset = presets[preset_id]
+	switch(action)
+		if("newPreset")
+			if(preset || !istext(params["title"]))
+				return FALSE
+			var/preset_title = copytext_char(trim(params["title"]), 1, 65)
+			if(!length(preset_title))
+				return FALSE
+			presets[preset_id] = list("title" = preset_title, "hue" = sanitize_integer(params["hue"], 0, 360, 0), "data" = get_preset_data())
+		if("savePreset")
+			if(!islist(preset))
+				return FALSE
+			preset["data"] = get_preset_data()
+		if("deletePreset")
+			if(!islist(preset))
+				return FALSE
+			presets -= preset_id
+	if(!prefs.save_single_pref("podlauncher_presets", deepCopyList(presets), immediate = TRUE))
+		to_chat(holder, span_warning("Не удалось записать пресеты капсул в профиль пользователя."))
+	return TRUE
+
 /datum/centcom_podlauncher/proc/loadData(list/dataToLoad)
-	bayNumber = dataToLoad["bayNumber"]
-	customDropoff = dataToLoad["customDropoff"]
+	bayNumber = sanitize_integer(dataToLoad["bayNumber"], 1, length(GLOB.supplypod_loading_bays), bayNumber)
+	customDropoff = FALSE
 	renderLighting = dataToLoad["renderLighting"]
 	launchClone = dataToLoad["launchClone"] //Do we launch the actual items in the bay or just launch clones of them?
 	launchRandomItem = dataToLoad["launchRandomItem"] //Do we launch a single random item instead of everything on the turf?
 	launchChoice = dataToLoad["launchChoice"] //Launch turfs all at once (0), ordered (1), or randomly(1)
 	explosionChoice = dataToLoad["explosionChoice"] //An explosion that occurs when landing. Can be no explosion (0), custom explosion (1), or maxcap (2)
 	damageChoice = dataToLoad["damageChoice"] //Damage that occurs to any mob under the pod when it lands. Can be no damage (0), custom damage (1), or gib+5000dmg (2)
+	temp_pod.explosionSize = dataToLoad["explosionSize"]
+	temp_pod.damage = dataToLoad["damage"]
+	temp_pod.effectGib = dataToLoad["effectGib"]
 	temp_pod.delays = dataToLoad["delays"]
 	temp_pod.reverse_delays = dataToLoad["rev_delays"]
 	temp_pod.custom_rev_delay = dataToLoad["custom_rev_delay"]
@@ -843,20 +901,26 @@
 	effectBurst = dataToLoad["effectBurst"] //IOf true, launches five pods at once (with a very small delay between for added coolness), in a 3x3 area centered around the area
 	temp_pod.reversing = dataToLoad["effectReverse"] //If true, the pod will not send any items. Instead, after opening, it will close again (picking up items/mobs) and fly back to centcom
 	temp_pod.reverse_option_list = dataToLoad["reverse_option_list"]
-	specificTarget = dataToLoad["effectTarget"] //Launches the pod at the turf of a specific mob target, rather than wherever the user clicked. Useful for smites
+	specificTarget = null // Цель предыдущего раунда не переносится вместе с настройками капсулы.
 	temp_pod.adminNamed = dataToLoad["effectName"] //Determines whether or not the pod has been named by an admin. If true, the pod's name will not get overridden when the style of the pod changes (changing the style of the pod normally also changes the name+desc)
 	temp_pod.name = dataToLoad["podName"]
 	temp_pod.desc = dataToLoad["podDesc"]
 	effectAnnounce = dataToLoad["effectAnnounce"]
-	numTurfs = dataToLoad["numObjects"] //Counts the number of turfs that contain a launchable object in the centcom supplypod bay
-	temp_pod.fallingSound = dataToLoad["fallingSound"]//Admin sound to play as the pod falls
-	temp_pod.landingSound = dataToLoad["landingSound"]//Admin sound to play when the pod lands
-	temp_pod.openingSound = dataToLoad["openingSound"]//Admin sound to play when the pod opens
-	temp_pod.leavingSound = dataToLoad["leavingSound"]//Admin sound to play when the pod leaves
+	for(var/sound_key in list("fallingSound", "landingSound", "openingSound", "leavingSound"))
+		var/sound_path = dataToLoad[sound_key]
+		temp_pod.vars[sound_key] = istext(sound_path) && findtext(sound_path, "sound/") == 1 && fexists(sound_path) ? file(sound_path) : null
+	if(!temp_pod.fallingSound)
+		temp_pod.fallingSound = initial(temp_pod.fallingSound)
+		temp_pod.fallingSoundLength = initial(temp_pod.fallingSoundLength)
+	else
+		temp_pod.fallingSoundLength = dataToLoad["fallingSoundLength"]
 	temp_pod.soundVolume = dataToLoad["soundVolume"] //Admin sound to play when the pod leaves
 	picking_dropoff_turf = FALSE
 	launcherActivated = FALSE
 	updateCursor()
+	refreshBay()
+	setDropoff(bay)
+	apply_render_lighting()
 	refreshView()
 
 GLOBAL_DATUM_INIT(podlauncher, /datum/centcom_podlauncher, new)

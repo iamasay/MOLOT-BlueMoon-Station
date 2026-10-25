@@ -104,14 +104,11 @@
 				create_lighting_for_zlevel(dest_z, LIGHTING_INIT_REASON_DOCKING)
 
 	// Expand deferred starlight into space turfs, queue for SSlighting Phase -1
-	// (expansion is cheap list-building; actual update_starlight() runs in SSlighting's budget)
-	var/list/starlight_batch = list()
+	// (queueing is cheap; actual update_starlight() runs in SSlighting's budget)
 	for(var/turf/deferred_turf as anything in GLOB.lighting_deferred_starlight)
 		for(var/turf/open/space/space_tile in RANGE_TURFS(1, deferred_turf))
-			starlight_batch |= space_tile
+			space_tile.queue_starlight()
 	GLOB.lighting_deferred_starlight.Cut()
-	if(starlight_batch.len)
-		GLOB.lighting_starlight_queue |= starlight_batch
 
 	// Queue shadow + blend recalc for SSlighting Phase -0.5
 	// (deferred from Entered/Exited/ChangeTurf/change_area during shuttle move)
@@ -213,14 +210,10 @@
 		var/turf/old_turf = old_turfs[i]
 		var/turf/new_turf = new_turfs[i]
 		new_turf.afterShuttleMove(old_turf, rotation) //turfs
-		var/turf/new_ceiling = get_step_multiz(new_turf, UP) // check if a ceiling is needed
-		if(new_ceiling)
-			// generate ceiling
-			if(istype(new_ceiling, /turf/open/openspace)) // why is this needed? because we have 2 different typepaths for openspace
-				new_ceiling.ChangeTurf(/turf/open/floor/engine/hull/ceiling, list(/turf/open/openspace))
-			else if (istype(new_ceiling, /turf/open/space/transparent/openspace))
-				new_ceiling.ChangeTurf(/turf/open/floor/engine/hull/ceiling, list(/turf/open/space/transparent/openspace))
-		var/turf/old_ceiling = get_step_multiz(old_turf, UP)
+		var/turf/new_ceiling = GET_TURF_ABOVE(new_turf) // check if a ceiling is needed
+		if(new_ceiling && isopenspaceturf(new_ceiling)) // generate ceiling
+			new_ceiling.ChangeTurf(/turf/open/floor/engine/hull/ceiling, list(new_ceiling.type))
+		var/turf/old_ceiling = GET_TURF_ABOVE(old_turf)
 		if(old_ceiling && istype(old_ceiling, /turf/open/floor/engine/hull/ceiling)) // check if a ceiling was generated previously
 			// remove old ceiling
 			var/turf/open/floor/engine/hull/ceiling/old_shuttle_ceiling = old_ceiling

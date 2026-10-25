@@ -16,6 +16,8 @@
 	assemblytype = /obj/structure/door_assembly/door_assembly_sec
 	wiretypepath = /datum/wires/airlock/security
 	normal_integrity = 450
+	/// id таймера камеры (/obj/machinery/door_timer), который закрывает и открывает этот шлюз
+	var/id = null
 
 /obj/machinery/door/airlock/engineering
 	icon = 'icons/obj/doors/airlocks/station/engineering.dmi'
@@ -272,8 +274,7 @@
 
 /obj/machinery/door/airlock/plasma/attackby(obj/item/C, mob/user, params)
 	if(C.get_temperature() > 300)//If the temperature of the object is over 300, then ignite
-		message_admins("Plasma airlock ignited by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(src)]")
-		log_admin("Plasma airlock ignited by [key_name(user)] in [AREACOORD(src)]")
+		antag_training_admin_log(src, "Plasma airlock ignited by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(src)]", "Plasma airlock ignited by [key_name(user)] in [AREACOORD(src)]")
 		ignite(C.get_temperature())
 	else
 		return ..()
@@ -592,7 +593,7 @@
 	desc = "An airlock hastily corrupted by blood magic, it is unusually brittle in this state."
 	normal_integrity = 150
 	damage_deflection = 5
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
+	armor_type = /datum/armor/none
 
 //Pinion airlocks: Clockwork doors that only let servants of Ratvar through.
 /obj/machinery/door/airlock/clockwork

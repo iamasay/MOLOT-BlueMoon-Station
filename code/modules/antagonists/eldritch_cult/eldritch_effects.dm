@@ -751,7 +751,7 @@
 	for(var/obj/effect/reality_smash/influence in smashes)
 		influence.harvested_minds -= source
 		influence.harvesting_minds -= source
-	for(var/datum/antagonist/heretic/heretic in GLOB.antagonists)
+	for(var/datum/antagonist/heretic/heretic in GLOB.antagonists + GLOB.antag_training_unlisted_antagonists)
 		heretic.sacrificed_minds -= source
 		if(heretic.hunt_target == source)
 			heretic.set_hunt_target(null)
@@ -803,7 +803,7 @@
 	var/image/silicon_image = image('icons/effects/eldritch.dmi', src, null, OBJ_LAYER)
 	silicon_image.override = TRUE
 	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "pierced_reality", silicon_image)
-	add_overlay(emissive_appearance(icon, "rift_glow", src))
+	add_overlay(emissive_appearance(icon, "rift_glow", offset_spokesman = src))
 
 /obj/effect/broken_illusion/proc/show_presence()
 	animate(src, alpha = 255, time = 5 SECONDS)

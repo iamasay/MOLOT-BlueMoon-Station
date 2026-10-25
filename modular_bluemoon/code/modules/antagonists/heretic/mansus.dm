@@ -1,29 +1,3 @@
-#define HERETIC_MANSUS_DURATION (180 SECONDS)
-#define HERETIC_MANSUS_RECALL_TIME (2 SECONDS)
-#define HERETIC_MANSUS_MEMORIES 3
-#define HERETIC_MANSUS_WARNING_TIME (2 SECONDS)
-#define HERETIC_MANSUS_HAZARD_LIFETIME (3 SECONDS)
-#define HERETIC_MANSUS_HAZARD_LINE 5
-#define HERETIC_MANSUS_HIT_GRACE (4 SECONDS)
-#define HERETIC_MANSUS_HUNTER_GRACE (3 SECONDS)
-#define HERETIC_MANSUS_GATE_SAFETY 1
-#define HERETIC_MANSUS_TRAIL_LENGTH 3
-#define HERETIC_MANSUS_TRAIL_CARRY_LENGTH 2
-#define HERETIC_MANSUS_FINAL_PRESSURE 2
-#define HERETIC_MANSUS_HUNTER_STEP (1 SECONDS)
-#define HERETIC_MANSUS_HUNTER_FAST_STEP (0.5 SECONDS)
-#define HERETIC_MANSUS_HUNTER_DISTANCE 6
-#define HERETIC_MANSUS_SIGHT_RANGE 7
-#define HERETIC_MANSUS_SEARCH_RANGE 10
-#define HERETIC_MANSUS_DISPEL_DELAY (8 SECONDS)
-#define HERETIC_MANSUS_NAME_RANGE 5
-#define HERETIC_MANSUS_NAME_CLEAR_RANGE 2
-#define HERETIC_MANSUS_PENALTY_PER_MEMORY (60 SECONDS)
-#define HERETIC_MANSUS_ALERT "heretic_mansus"
-#define HERETIC_MANSUS_ECHO_TINT list(0.79, 0, 0, 0, 0.79, 0, 0, 0, 0.79, 0, 0, 0, 0.12, 0.12, 0.12)
-#define HERETIC_MANSUS_RULES_ICON 'modular_bluemoon/icons/obj/heretic_mansus_rules.dmi'
-#define HERETIC_MANSUS_GUIDANCE_ICON 'modular_bluemoon/icons/obj/heretic_mansus_guidance.dmi'
-
 GLOBAL_LIST_EMPTY(heretic_mansus_visits)
 GLOBAL_LIST_INIT(heretic_mansus_directions, list(
 	"1" = "на севере",
@@ -544,7 +518,9 @@ GLOBAL_LIST_INIT(heretic_mansus_themes, list(
 	music_channel = SSsounds.reserve_sound_channel(src)
 	music_listener = victim.client
 	if(music_channel && victim.client?.prefs.toggles & SOUND_AMBIENCE)
-		SEND_SOUND(victim, sound(theme["ambience"], repeat = TRUE, channel = music_channel, volume = 45))
+		var/sound/ambience = sound(theme["ambience"], repeat = TRUE, channel = music_channel, volume = 45)
+		ambience.status = SOUND_STREAM
+		SEND_SOUND(victim, ambience)
 	name_action = new(src)
 	name_action.Grant(victim)
 	to_chat(victim, span_userdanger("Верните себе имя, голос и дыхание. Доставьте три осколка на светящуюся печать перед вратами - и сможете вернуться домой."))
@@ -991,7 +967,7 @@ GLOBAL_LIST_INIT(heretic_mansus_themes, list(
 			next_steps[neighbor] = current
 			if(neighbor == origin)
 				if(hunter.Move(current, get_dir(origin, current), DELAY_TO_GLIDE_SIZE(step_delay)))
-					playsound(hunter, theme["step"], 40, FALSE)
+					playsound(hunter, theme["step"], 40, TRUE)
 					return TRUE
 				return FALSE
 			frontier += neighbor
@@ -1164,7 +1140,7 @@ GLOBAL_LIST_INIT(heretic_mansus_themes, list(
 			SEND_SIGNAL(victim, COMSIG_ADD_MOOD_EVENT, "heretic_mansus", hits_taken ? /datum/mood_event/heretic_mansus_returned : /datum/mood_event/heretic_mansus_returned/unscathed)
 		else if(exit_reason == "timeout")
 			to_chat(victim, span_notice("Время истекло. Дом выталкивает вас наружу: доставлено [memories_found]/[HERETIC_MANSUS_MEMORIES] осколков. Недоставленное осталось в Доме и ещё какое-то время будет звать вас обратно. На коже остался бледный след незнакомой двери."))
-			victim.apply_status_effect(/datum/status_effect/heretic_mansus_unreturned, (HERETIC_MANSUS_MEMORIES - memories_found) * HERETIC_MANSUS_PENALTY_PER_MEMORY)
+			victim.apply_status_effect(/datum/status_effect/heretic_mansus_unreturned, (HERETIC_MANSUS_MEMORIES - memories_found) * HERETIC_MANSUS_PENALTY_PER_MEMORY, theme["id"])
 		else
 			to_chat(victim, span_notice("Стены Дома смыкаются за спиной. На коже остался бледный след незнакомой двери."))
 		to_chat(victim, span_userdanger(amnesia_note))
@@ -1473,10 +1449,12 @@ GLOBAL_LIST_INIT(heretic_mansus_themes, list(
 	tick_interval = 15 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/heretic_mansus_unreturned
 
-/datum/status_effect/heretic_mansus_unreturned/on_creation(mob/living/new_owner, set_duration)
+/datum/status_effect/heretic_mansus_unreturned/on_creation(mob/living/new_owner, set_duration, theme_id)
 	if(set_duration)
 		duration = set_duration
-	return ..()
+	. = ..()
+	if(linked_alert && theme_id)
+		linked_alert.icon_state = "[theme_id]_memory"
 
 /datum/status_effect/heretic_mansus_unreturned/on_apply()
 	. = ..()

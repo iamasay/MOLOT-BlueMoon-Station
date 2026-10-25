@@ -47,7 +47,7 @@
 	if(placed && blob_core)
 		blob_core.forceMove(loc)
 	else
-		var/obj/structure/blob/core/core = new(get_turf(src), src, 1)
+		var/obj/structure/blob/core/core = new core_type(get_turf(src), src, 1)
 		core.overmind = src
 		blobs_legit += src
 		blob_core = core
@@ -67,15 +67,20 @@
 	set category = "Blob"
 	set name = "Jump to Node"
 	set desc = "Move your camera to a selected node."
-	if(GLOB.blob_nodes.len)
-		var/list/nodes = list()
-		for(var/i in 1 to GLOB.blob_nodes.len)
-			var/obj/structure/blob/node/B = GLOB.blob_nodes[i]
-			nodes["Blob Node #[i] ([get_area_name(B)])"] = B
+	var/list/nodes = node_choices()
+	if(length(nodes))
 		var/node_name = input(src, "Choose a node to jump to.", "Node Jump") in nodes
 		var/obj/structure/blob/node/chosen_node = nodes[node_name]
 		if(chosen_node)
 			forceMove(chosen_node.loc)
+
+/// Узлы, к которым может перейти этот разум: узлы блоба полигона и станции в общем списке не смешиваются.
+/mob/camera/blob/proc/node_choices()
+	. = list()
+	for(var/i in 1 to GLOB.blob_nodes.len)
+		var/obj/structure/blob/node/B = GLOB.blob_nodes[i]
+		if(B.training_origin == training_origin)
+			.["Blob Node #[i] ([get_area_name(B)])"] = B
 
 /mob/camera/blob/proc/createSpecial(price, blobstrain, nearEquals, needsNode, turf/T)
 	if(!T)
@@ -259,6 +264,9 @@
 	var/list/possibleblobs = list()
 	for(var/obj/structure/blob/AB in range(T, 1))
 		possibleblobs += AB
+	var/obj/structure/blob/vertical_blob = get_vertical_blob_expander(T)
+	if(vertical_blob)
+		possibleblobs += vertical_blob
 	if(!possibleblobs.len)
 		to_chat(src, "<span class='warning'>There is no blob adjacent to the target tile!</span>")
 		return
@@ -284,7 +292,7 @@
 		var/list/diagonalblobs = list()
 		for(var/I in possibleblobs)
 			var/obj/structure/blob/IB = I
-			if(get_dir(IB, T) in GLOB.cardinals)
+			if(IB.z != T.z || (get_dir(IB, T) in GLOB.cardinals))
 				cardinalblobs += IB
 			else
 				diagonalblobs += IB
@@ -376,6 +384,8 @@
 	to_chat(src, "<i>Node Blobs</i> are blobs which grow, like the core. Like the core it can activate resource and factory blobs.")
 	to_chat(src, "<b>In addition to the buttons on your HUD, there are a few click shortcuts to speed up expansion and defense.</b>")
 	to_chat(src, "<b>Shortcuts:</b> Click = Expand Blob <b>|</b> Middle Mouse Click = Rally Spores <b>|</b> Ctrl Click = Create Shield Blob <b>|</b> Alt Click = Remove Blob")
+	if(length(SSmapping.get_connected_levels(get_turf(src))) > 1)
+		to_chat(src, "<b>Этажи:</b> блоб прорастает сквозь дыры в полу - вниз из занятой дыры и вверх в дыру над собой. Сменить этаж разум может командами Move Upwards и Move Down, если там рядом ваш блоб или клетка, куда он прорастёт.")
 	to_chat(src, "Attempting to talk will send a message to all other overminds, allowing you to coordinate with them.")
 	if(!placed && autoplace_max_time <= world.time)
 		to_chat(src, "<span class='big'><font color=\"#EE4000\">You will automatically place your blob core in [DisplayTimeText(autoplace_max_time - world.time)].</font></span>")

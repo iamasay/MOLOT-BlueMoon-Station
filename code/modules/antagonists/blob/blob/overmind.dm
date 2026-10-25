@@ -39,6 +39,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 	var/blobwincount = 400
 	var/victory_in_progress = FALSE
 	var/rerolling = FALSE
+	var/core_type = /obj/structure/blob/core
 
 /mob/camera/blob/Initialize(mapload, starting_points = 60)
 	validate_location()
@@ -55,7 +56,8 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 	color = blobstrain.complementary_color
 	if(blob_core)
 		blob_core.update_icon()
-	SSshuttle.registerHostileEnvironment(src)
+	if(!SSmapping.level_trait(z, ZTRAIT_ANTAG_TRAINING))
+		SSshuttle.registerHostileEnvironment(src)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -246,9 +248,9 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 	var/rendered = "<span class='big'><font color=\"#EE4000\"><b>\[Blob Telepathy\] [name](<font color=\"[blobstrain.color]\">[blobstrain.name]</font>)</b> [message_a]</font></span>"
 
 	for(var/mob/M in GLOB.mob_list)
-		if(isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob))
+		if((isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob)) && M.training_origin == training_origin)
 			to_chat(M, rendered)
-		if(isobserver(M))
+		if(isobserver(M) && antag_training_observer_hears(M, src))
 			var/link = FOLLOW_LINK(M, src)
 			to_chat(M, "[link] [rendered]")
 
@@ -271,8 +273,9 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 /mob/camera/blob/Move(NewLoc, Dir = 0)
 	if(placed)
 		var/obj/structure/blob/B = locate() in range("3x3", NewLoc)
-		if(B)
+		if(B || get_vertical_blob_expander(NewLoc))
 			forceMove(NewLoc)
+			return TRUE
 		else
 			return FALSE
 	else
@@ -281,6 +284,16 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 			return FALSE
 		forceMove(NewLoc)
 		return TRUE
+
+/mob/camera/blob/move_vertically(direction)
+	var/turf/destination = can_z_move(direction, get_turf(src), null, ZMOVE_IGNORE_OBSTACLES|ZMOVE_FEEDBACK)
+	if(!destination)
+		return FALSE
+	if(Move(destination))
+		return TRUE
+	var/refusal = placed ? "Рядом с этой клеткой нет вашего блоба." : "Туда не пройти!"
+	to_chat(src, span_warning(refusal))
+	return FALSE
 
 /mob/camera/blob/mind_initialize()
 	. = ..()

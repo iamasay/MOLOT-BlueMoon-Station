@@ -67,6 +67,9 @@
 		return
 
 	bursting = TRUE
+	if(owner.training_origin)
+		antag_training_burst(kill_on_sucess)
+		return
 
 	var/list/candidates = pollGhostCandidates("Do you want to play as an alien larva that will burst out of [owner]?", ROLE_ALIEN, null, ROLE_ALIEN, 100, POLL_IGNORE_ALIEN_LARVA)
 
@@ -103,11 +106,12 @@
 
 	if(kill_on_sucess) //ITS TOO LATE
 		new_xeno.visible_message("<span class='danger'>[new_xeno] bursts out of [owner]!</span>", "<span class='userdanger'>You exit [owner], your previous host.</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
-		owner.apply_damage(rand(100,300),BRUTE,zone,FALSE) //Random high damage to torso so health sensors don't metagame.
-		var/obj/item/bodypart/B = owner.get_bodypart(zone)
-		owner.cut_overlay(overlay)
-		B.drop_organs(owner) //Lets still make the death gruesome and impossible to just simply defib someone.
-		owner.death(FALSE) //Just in case some freak occurance occurs where you somehow survive all your organs being removed from you and the 100-300 brute damage.
+		var/mob/living/carbon/host = owner
+		host.apply_damage(rand(100,300),BRUTE,zone,FALSE) //Random high damage to torso so health sensors don't metagame.
+		var/obj/item/bodypart/B = host.get_bodypart(zone)
+		host.cut_overlay(overlay)
+		B?.drop_organs(host) //Lets still make the death gruesome and impossible to just simply defib someone.
+		host.death(FALSE) //Just in case some freak occurance occurs where you somehow survive all your organs being removed from you and the 100-300 brute damage.
 	else //When it is removed via surgery at a late stage, rather than forced.
 		new_xeno.visible_message("<span class='danger'>[new_xeno] wriggles out of [owner]!</span>", "<span class='userdanger'>You exit [owner], your previous host.</span>")
 		owner.adjustBruteLoss(40)
@@ -120,8 +124,9 @@ Proc: AddInfectionImages(C)
 Des: Adds the infection image to all aliens for this embryo
 ----------------------------------------*/
 /obj/item/organ/body_egg/alien_embryo/AddInfectionImages(mob/living/carbon/C)
+	C ||= owner
 	for(var/mob/living/carbon/alien/alien in GLOB.player_list)
-		if(alien.client)
+		if(alien.client && alien.training_origin == C?.training_origin)
 			var/I = image('icons/mob/alien.dmi', loc = C, icon_state = "infected[stage]")
 			alien.client.images += I
 

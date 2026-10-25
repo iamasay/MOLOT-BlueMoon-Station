@@ -240,8 +240,7 @@
 /obj/structure/falsewall/plasma/attackby(obj/item/W, mob/user, params)
 	if(W.get_temperature() > 300)
 		var/turf/T = get_turf(src)
-		message_admins("Plasma falsewall ignited by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(T)]")
-		log_admin("Plasma falsewall ignited by [key_name(user)] in [AREACOORD(T)]")
+		antag_training_admin_log(src, "Plasma falsewall ignited by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(T)]", "Plasma falsewall ignited by [key_name(user)] in [AREACOORD(T)]")
 		burnbabyburn()
 	else
 		return ..()
@@ -331,7 +330,7 @@
 	mineral = /obj/item/stack/sheet/mineral/plastitanium
 	walltype = /turf/closed/wall/mineral/plastitanium
 	smooth = SMOOTH_MORE
-	canSmoothWith = list(/turf/closed/wall/mineral/plastitanium, /obj/structure/falsewall/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/shuttle, /obj/structure/shuttle/engine/heater)
+	canSmoothWith = list(/turf/closed/wall/mineral/plastitanium, /turf/closed/wall/r_wall/r_plastitanium, /turf/closed/wall/r_wall/syndicate, /obj/structure/falsewall/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/shuttle, /obj/structure/shuttle/engine/heater)
 
 /obj/structure/falsewall/brass
 	name = "clockwork wall"
