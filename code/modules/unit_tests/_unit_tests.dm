@@ -258,6 +258,7 @@
 #include "hk_droids_terminal.dm"
 #include "hk_droids_voice.dm"
 #include "holofan_charge.dm"
+#include "hud_sparse_images.dm"
 #include "immovable_rod_cleanup.dm"
 // #include "greyscale_config.dm"
 #include "heretic_knowledge.dm"
@@ -664,9 +665,12 @@
 #include "tile_pipe_placement.dm"
 #include "timestop_illusion.dm"
 #include "transport.dm"
+#include "turret_target_cache.dm"
 #include "update_icon_short_circuit.dm"
 #include "vent_label_numbering.dm"
 #include "weeds_growth.dm"
+#include "zclear_pool.dm"
+#include "zclear_wipe_order.dm"
 
 
 #ifdef AI_BEHAVIOR_SCENE_BENCH
