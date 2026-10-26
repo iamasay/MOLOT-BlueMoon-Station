@@ -1,0 +1,8 @@
+author: DuLL-FoX
+delete-after: true
+changes:
+  - code_imp: NanoMap не собирается в LOWMEMORYMODE и перерисовывает только изменённые
+      карты
+  - bugfix: смена дефайнов сборки и правка _basemap.dm теперь перекомпилируют игру
+  - bugfix: манифест NanoMap больше не появляется в git status после сборки
+  - code_imp: убраны неработающие и дублирующие варианты сборки VS Code
