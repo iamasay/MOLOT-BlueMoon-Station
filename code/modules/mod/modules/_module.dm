@@ -184,13 +184,17 @@
 	if(!check_required_modpart())
 		mod.balloon_alert(mod.wearer, "Выдвиньте [required_modpart.name]")
 		return
+	var/activated = FALSE
 	if(module_type != MODULE_USABLE)
 		if(active)
 			on_deactivation()
 		else
 			on_activation()
+			activated = active
 	else
-		on_use()
+		activated = on_use()
+	if(activated && module_type != MODULE_PASSIVE && module_type != MODULE_ARMOR)
+		to_chat(mod.wearer, span_notice("Модуль \"[name]\" активирован"))
 	SEND_SIGNAL(mod, COMSIG_MOD_MODULE_SELECTED, src)
 
 /// Called when the module is activated
