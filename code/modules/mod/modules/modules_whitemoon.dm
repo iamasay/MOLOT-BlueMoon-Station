@@ -321,7 +321,6 @@
 	name = "MOD restraint assist module"
 	desc = "Enhanced gauntlet grip pads help the wearer apply restraints more quickly."
 	complexity = 0
-	removable = FALSE
 	required_modpart_index = MOD_PART_GLOVES
 	incompatible_modules = list(/obj/item/mod/module/quick_cuff)
 	mod_module_flags = MOD_MODULE_SECURITY
@@ -1115,7 +1114,6 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "magnet_loader"
 	module_type = MODULE_ACTIVE
-	removable = FALSE
 	have_shortcut_activation = TRUE
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 3
 	incompatible_modules = list(/obj/item/mod/module/magnet)
@@ -1214,7 +1212,6 @@
 	icon = 'icons/obj/clothing/modsuit/mod_modules_whitemoon.dmi'
 	icon_state = "launch_loader"
 	module_type = MODULE_ACTIVE
-	removable = FALSE
 	have_shortcut_activation = TRUE
 	use_power_cost = DEFAULT_CHARGE_DRAIN * 10
 	cooldown_time = 4 SECONDS
@@ -1339,7 +1336,6 @@
 	icon = 'icons/obj/clothing/modsuit/mod_jaeger.dmi'
 	icon_state = "sprint"
 	module_type = MODULE_TOGGLE
-	removable = FALSE
 	required_modpart_index = MOD_PART_FEET
 	active_power_cost = DEFAULT_CHARGE_DRAIN * 2
 	incompatible_modules = list(/obj/item/mod/module/jaeger_sprint)
@@ -1439,7 +1435,6 @@
 	name = "MOD ash accretion module"
 	desc = "Собирает защитный слой пепла при движении по грунту. Полное покрытие ускоряет носителя; на обычном полу пепел постепенно осыпается. Защита действует только при полном развёртывании включённого MOD."
 	icon_state = "ash_accretion"
-	removable = FALSE
 	need_full_deploy = TRUE
 	incompatible_modules = list(/obj/item/mod/module/ash_accretion)
 	use_mod_colors = TRUE

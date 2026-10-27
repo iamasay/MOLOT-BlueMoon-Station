@@ -2,7 +2,6 @@
 	name = "MOD neural transference module"
 	desc = "Обменивает управление владельца МОДа и его бортового ИИ."
 	module_type = MODULE_ACTIVE
-	removable = FALSE
 	need_full_deploy = TRUE
 	cooldown_time = 30 SECONDS
 	incompatible_modules = list(/obj/item/mod/module/mind_swap)

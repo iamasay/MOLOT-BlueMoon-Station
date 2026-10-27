@@ -85,7 +85,6 @@
 
 /obj/item/mod/module/magboot/advanced
 	name = "MOD advanced magnetic stability module"
-	removable = FALSE
 	complexity = 0
 	slowdown_active = 0
 

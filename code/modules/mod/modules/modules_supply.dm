@@ -36,7 +36,6 @@
 
 /obj/item/mod/module/gps/vanguard
 	complexity = 0
-	removable = FALSE
 
 ///Hydraulic Clamp - Lets you pick up and drop crates.
 /obj/item/mod/module/clamp
